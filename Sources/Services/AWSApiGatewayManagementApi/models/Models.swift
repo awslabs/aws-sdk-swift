@@ -148,9 +148,8 @@ public enum GetConnectionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectedAt = output.connectedAt
             self.identity = output.identity
@@ -298,9 +297,8 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
 
 extension PayloadTooLargeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PayloadTooLargeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -362,9 +360,9 @@ public struct PostToConnectionInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let data = input.operationInput.data {
-            let datadata = data
-            let databody = ClientRuntime.HttpBody.data(datadata)
-            input.builder.withBody(databody)
+            let dataData = data
+            let dataBody = ClientRuntime.HttpBody.data(dataData)
+            input.builder.withBody(dataBody)
         }
         return try await next.handle(context: context, input: input)
     }

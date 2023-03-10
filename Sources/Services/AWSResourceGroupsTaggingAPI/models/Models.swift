@@ -83,9 +83,8 @@ extension ResourceGroupsTaggingAPIClientTypes {
 
 extension ConcurrentModificationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -135,9 +134,8 @@ extension ConcurrentModificationExceptionBody: Swift.Decodable {
 
 extension ConstraintViolationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConstraintViolationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -249,9 +247,8 @@ public enum DescribeReportCreationOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeReportCreationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeReportCreationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorMessage = output.errorMessage
             self.s3Location = output.s3Location
@@ -638,9 +635,8 @@ public enum GetComplianceSummaryOutputError: Swift.Error, Swift.Equatable {
 
 extension GetComplianceSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetComplianceSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.paginationToken = output.paginationToken
             self.summaryList = output.summaryList
@@ -909,9 +905,8 @@ public enum GetResourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.paginationToken = output.paginationToken
             self.resourceTagMappingList = output.resourceTagMappingList
@@ -1044,9 +1039,8 @@ public enum GetTagKeysOutputError: Swift.Error, Swift.Equatable {
 
 extension GetTagKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTagKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.paginationToken = output.paginationToken
             self.tagKeys = output.tagKeys
@@ -1192,9 +1186,8 @@ public enum GetTagValuesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetTagValuesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTagValuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.paginationToken = output.paginationToken
             self.tagValues = output.tagValues
@@ -1287,9 +1280,8 @@ extension ResourceGroupsTaggingAPIClientTypes {
 
 extension InternalServiceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServiceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1339,9 +1331,8 @@ extension InternalServiceExceptionBody: Swift.Decodable {
 
 extension InvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1401,9 +1392,8 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
 
 extension PaginationTokenExpiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PaginationTokenExpiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1908,9 +1898,8 @@ public enum TagResourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension TagResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TagResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedResourcesMap = output.failedResourcesMap
         } else {
@@ -1993,9 +1982,8 @@ extension ResourceGroupsTaggingAPIClientTypes {
 
 extension ThrottledException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottledExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2156,9 +2144,8 @@ public enum UntagResourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension UntagResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UntagResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedResourcesMap = output.failedResourcesMap
         } else {

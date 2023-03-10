@@ -4,7 +4,7 @@ import ClientRuntime
 
 extension APICallRateForCustomerExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<APICallRateForCustomerExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -215,9 +215,8 @@ public enum AddTagsToResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddTagsToResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
@@ -493,7 +492,7 @@ extension ElastiCacheClientTypes {
 
 extension AuthorizationAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AuthorizationAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -544,7 +543,7 @@ extension AuthorizationAlreadyExistsFaultBody: Swift.Decodable {
 
 extension AuthorizationNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AuthorizationNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -695,9 +694,8 @@ public enum AuthorizeCacheSecurityGroupIngressOutputError: Swift.Error, Swift.Eq
 
 extension AuthorizeCacheSecurityGroupIngressOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AuthorizeCacheSecurityGroupIngressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSecurityGroup = output.cacheSecurityGroup
         } else {
@@ -959,9 +957,8 @@ public enum BatchApplyUpdateActionOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchApplyUpdateActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchApplyUpdateActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.processedUpdateActions = output.processedUpdateActions
             self.unprocessedUpdateActions = output.unprocessedUpdateActions
@@ -1188,9 +1185,8 @@ public enum BatchStopUpdateActionOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchStopUpdateActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchStopUpdateActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.processedUpdateActions = output.processedUpdateActions
             self.unprocessedUpdateActions = output.unprocessedUpdateActions
@@ -1789,7 +1785,7 @@ extension ElastiCacheClientTypes {
 
 extension CacheClusterAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheClusterAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1840,7 +1836,7 @@ extension CacheClusterAlreadyExistsFaultBody: Swift.Decodable {
 
 extension CacheClusterNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheClusterNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2476,7 +2472,7 @@ extension ElastiCacheClientTypes {
 
 extension CacheParameterGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheParameterGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2527,7 +2523,7 @@ extension CacheParameterGroupAlreadyExistsFaultBody: Swift.Decodable {
 
 extension CacheParameterGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheParameterGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2578,7 +2574,7 @@ extension CacheParameterGroupNotFoundFaultBody: Swift.Decodable {
 
 extension CacheParameterGroupQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheParameterGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2817,7 +2813,7 @@ extension ElastiCacheClientTypes {
 
 extension CacheSecurityGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSecurityGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2913,7 +2909,7 @@ extension ElastiCacheClientTypes {
 
 extension CacheSecurityGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSecurityGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2964,7 +2960,7 @@ extension CacheSecurityGroupNotFoundFaultBody: Swift.Decodable {
 
 extension CacheSecurityGroupQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSecurityGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3156,7 +3152,7 @@ extension ElastiCacheClientTypes {
 
 extension CacheSubnetGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSubnetGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3207,7 +3203,7 @@ extension CacheSubnetGroupAlreadyExistsFaultBody: Swift.Decodable {
 
 extension CacheSubnetGroupInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSubnetGroupInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3258,7 +3254,7 @@ extension CacheSubnetGroupInUseBody: Swift.Decodable {
 
 extension CacheSubnetGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSubnetGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3309,7 +3305,7 @@ extension CacheSubnetGroupNotFoundFaultBody: Swift.Decodable {
 
 extension CacheSubnetGroupQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSubnetGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3360,7 +3356,7 @@ extension CacheSubnetGroupQuotaExceededFaultBody: Swift.Decodable {
 
 extension CacheSubnetQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CacheSubnetQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3478,7 +3474,7 @@ extension ElastiCacheClientTypes {
 
 extension ClusterQuotaForCustomerExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterQuotaForCustomerExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3611,9 +3607,8 @@ public enum CompleteMigrationOutputError: Swift.Error, Swift.Equatable {
 
 extension CompleteMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CompleteMigrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
         } else {
@@ -3934,9 +3929,8 @@ public enum CopySnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension CopySnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CopySnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
@@ -4625,9 +4619,8 @@ public enum CreateCacheClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCacheClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheCluster = output.cacheCluster
         } else {
@@ -4806,9 +4799,8 @@ public enum CreateCacheParameterGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCacheParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheParameterGroup = output.cacheParameterGroup
         } else {
@@ -4973,9 +4965,8 @@ public enum CreateCacheSecurityGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCacheSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCacheSecurityGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSecurityGroup = output.cacheSecurityGroup
         } else {
@@ -5186,9 +5177,8 @@ public enum CreateCacheSubnetGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCacheSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSubnetGroup = output.cacheSubnetGroup
         } else {
@@ -5330,9 +5320,8 @@ public enum CreateGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatabl
 
 extension CreateGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
@@ -6158,9 +6147,8 @@ public enum CreateReplicationGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
         } else {
@@ -6356,9 +6344,8 @@ public enum CreateSnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
@@ -6565,9 +6552,8 @@ public enum CreateUserGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateUserGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.engine = output.engine
@@ -6922,9 +6908,8 @@ public enum CreateUserOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessString = output.accessString
             self.arn = output.arn
@@ -7309,9 +7294,8 @@ public enum DecreaseNodeGroupsInGlobalReplicationGroupOutputError: Swift.Error, 
 
 extension DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DecreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
@@ -7550,9 +7534,8 @@ public enum DecreaseReplicaCountOutputError: Swift.Error, Swift.Equatable {
 
 extension DecreaseReplicaCountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DecreaseReplicaCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
         } else {
@@ -7592,7 +7575,7 @@ extension DecreaseReplicaCountOutputResponseBody: Swift.Decodable {
 
 extension DefaultUserAssociatedToUserGroupFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DefaultUserAssociatedToUserGroupFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -7643,7 +7626,7 @@ extension DefaultUserAssociatedToUserGroupFaultBody: Swift.Decodable {
 
 extension DefaultUserRequired {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DefaultUserRequiredBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -7785,9 +7768,8 @@ public enum DeleteCacheClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteCacheClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheCluster = output.cacheCluster
         } else {
@@ -8158,9 +8140,8 @@ public enum DeleteGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatabl
 
 extension DeleteGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
@@ -8304,9 +8285,8 @@ public enum DeleteReplicationGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
         } else {
@@ -8420,9 +8400,8 @@ public enum DeleteSnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
@@ -8535,9 +8514,8 @@ public enum DeleteUserGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteUserGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.engine = output.engine
@@ -8756,9 +8734,8 @@ public enum DeleteUserOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessString = output.accessString
             self.arn = output.arn
@@ -9024,9 +9001,8 @@ public enum DescribeCacheClustersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeCacheClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCacheClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheClusters = output.cacheClusters
             self.marker = output.marker
@@ -9220,9 +9196,8 @@ public enum DescribeCacheEngineVersionsOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeCacheEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCacheEngineVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheEngineVersions = output.cacheEngineVersions
             self.marker = output.marker
@@ -9383,9 +9358,8 @@ public enum DescribeCacheParameterGroupsOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeCacheParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCacheParameterGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheParameterGroups = output.cacheParameterGroups
             self.marker = output.marker
@@ -9558,9 +9532,8 @@ public enum DescribeCacheParametersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeCacheParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCacheParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheNodeTypeSpecificParameters = output.cacheNodeTypeSpecificParameters
             self.marker = output.marker
@@ -9748,9 +9721,8 @@ public enum DescribeCacheSecurityGroupsOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeCacheSecurityGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCacheSecurityGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSecurityGroups = output.cacheSecurityGroups
             self.marker = output.marker
@@ -9907,9 +9879,8 @@ public enum DescribeCacheSubnetGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeCacheSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCacheSubnetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSubnetGroups = output.cacheSubnetGroups
             self.marker = output.marker
@@ -10069,9 +10040,8 @@ public enum DescribeEngineDefaultParametersOutputError: Swift.Error, Swift.Equat
 
 extension DescribeEngineDefaultParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEngineDefaultParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.engineDefaults = output.engineDefaults
         } else {
@@ -10246,9 +10216,8 @@ public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.marker = output.marker
@@ -10419,9 +10388,8 @@ public enum DescribeGlobalReplicationGroupsOutputError: Swift.Error, Swift.Equat
 
 extension DescribeGlobalReplicationGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGlobalReplicationGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroups = output.globalReplicationGroups
             self.marker = output.marker
@@ -10595,9 +10563,8 @@ public enum DescribeReplicationGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeReplicationGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeReplicationGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.replicationGroups = output.replicationGroups
@@ -11003,9 +10970,8 @@ public enum DescribeReservedCacheNodesOfferingsOutputError: Swift.Error, Swift.E
 
 extension DescribeReservedCacheNodesOfferingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeReservedCacheNodesOfferingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.reservedCacheNodesOfferings = output.reservedCacheNodesOfferings
@@ -11098,9 +11064,8 @@ public enum DescribeReservedCacheNodesOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeReservedCacheNodesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeReservedCacheNodesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.reservedCacheNodes = output.reservedCacheNodes
@@ -11297,9 +11262,8 @@ public enum DescribeServiceUpdatesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeServiceUpdatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeServiceUpdatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.serviceUpdates = output.serviceUpdates
@@ -11505,9 +11469,8 @@ public enum DescribeSnapshotsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.snapshots = output.snapshots
@@ -11846,9 +11809,8 @@ public enum DescribeUpdateActionsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeUpdateActionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeUpdateActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.updateActions = output.updateActions
@@ -12007,9 +11969,8 @@ public enum DescribeUserGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeUserGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeUserGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.userGroups = output.userGroups
@@ -12216,9 +12177,8 @@ public enum DescribeUsersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeUsersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeUsersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.users = output.users
@@ -12459,9 +12419,8 @@ public enum DisassociateGlobalReplicationGroupOutputError: Swift.Error, Swift.Eq
 
 extension DisassociateGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
@@ -12503,7 +12462,7 @@ extension DisassociateGlobalReplicationGroupOutputResponseBody: Swift.Decodable 
 
 extension DuplicateUserNameFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DuplicateUserNameFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12933,9 +12892,8 @@ public enum FailoverGlobalReplicationGroupOutputError: Swift.Error, Swift.Equata
 
 extension FailoverGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FailoverGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
@@ -13304,7 +13262,7 @@ extension ElastiCacheClientTypes {
 
 extension GlobalReplicationGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<GlobalReplicationGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -13475,7 +13433,7 @@ extension ElastiCacheClientTypes {
 
 extension GlobalReplicationGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<GlobalReplicationGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -13658,9 +13616,8 @@ public enum IncreaseNodeGroupsInGlobalReplicationGroupOutputError: Swift.Error, 
 
 extension IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IncreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
@@ -13851,9 +13808,8 @@ public enum IncreaseReplicaCountOutputError: Swift.Error, Swift.Equatable {
 
 extension IncreaseReplicaCountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IncreaseReplicaCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
         } else {
@@ -13928,7 +13884,7 @@ extension ElastiCacheClientTypes {
 
 extension InsufficientCacheClusterCapacityFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientCacheClusterCapacityFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -13979,7 +13935,7 @@ extension InsufficientCacheClusterCapacityFaultBody: Swift.Decodable {
 
 extension InvalidARNFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidARNFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14030,7 +13986,7 @@ extension InvalidARNFaultBody: Swift.Decodable {
 
 extension InvalidCacheClusterStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidCacheClusterStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14081,7 +14037,7 @@ extension InvalidCacheClusterStateFaultBody: Swift.Decodable {
 
 extension InvalidCacheParameterGroupStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidCacheParameterGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14132,7 +14088,7 @@ extension InvalidCacheParameterGroupStateFaultBody: Swift.Decodable {
 
 extension InvalidCacheSecurityGroupStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidCacheSecurityGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14183,7 +14139,7 @@ extension InvalidCacheSecurityGroupStateFaultBody: Swift.Decodable {
 
 extension InvalidGlobalReplicationGroupStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidGlobalReplicationGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14234,7 +14190,7 @@ extension InvalidGlobalReplicationGroupStateFaultBody: Swift.Decodable {
 
 extension InvalidKMSKeyFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidKMSKeyFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14285,7 +14241,7 @@ extension InvalidKMSKeyFaultBody: Swift.Decodable {
 
 extension InvalidParameterCombinationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidParameterCombinationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14337,7 +14293,7 @@ extension InvalidParameterCombinationExceptionBody: Swift.Decodable {
 
 extension InvalidParameterValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidParameterValueExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14389,7 +14345,7 @@ extension InvalidParameterValueExceptionBody: Swift.Decodable {
 
 extension InvalidReplicationGroupStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidReplicationGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14440,7 +14396,7 @@ extension InvalidReplicationGroupStateFaultBody: Swift.Decodable {
 
 extension InvalidSnapshotStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSnapshotStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14491,7 +14447,7 @@ extension InvalidSnapshotStateFaultBody: Swift.Decodable {
 
 extension InvalidSubnet {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSubnetBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14542,7 +14498,7 @@ extension InvalidSubnetBody: Swift.Decodable {
 
 extension InvalidUserGroupStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidUserGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14593,7 +14549,7 @@ extension InvalidUserGroupStateFaultBody: Swift.Decodable {
 
 extension InvalidUserStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidUserStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14644,7 +14600,7 @@ extension InvalidUserStateFaultBody: Swift.Decodable {
 
 extension InvalidVPCNetworkStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidVPCNetworkStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14846,9 +14802,8 @@ public enum ListAllowedNodeTypeModificationsOutputError: Swift.Error, Swift.Equa
 
 extension ListAllowedNodeTypeModificationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAllowedNodeTypeModificationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.scaleDownModifications = output.scaleDownModifications
             self.scaleUpModifications = output.scaleUpModifications
@@ -15021,9 +14976,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
@@ -15867,9 +15821,8 @@ public enum ModifyCacheClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyCacheClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheCluster = output.cacheCluster
         } else {
@@ -16023,9 +15976,8 @@ public enum ModifyCacheParameterGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyCacheParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheParameterGroupName = output.cacheParameterGroupName
         } else {
@@ -16194,9 +16146,8 @@ public enum ModifyCacheSubnetGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyCacheSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSubnetGroup = output.cacheSubnetGroup
         } else {
@@ -16378,9 +16329,8 @@ public enum ModifyGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatabl
 
 extension ModifyGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
@@ -16981,9 +16931,8 @@ public enum ModifyReplicationGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
         } else {
@@ -17244,9 +17193,8 @@ public enum ModifyReplicationGroupShardConfigurationOutputError: Swift.Error, Sw
 
 extension ModifyReplicationGroupShardConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyReplicationGroupShardConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
         } else {
@@ -17441,9 +17389,8 @@ public enum ModifyUserGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyUserGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.engine = output.engine
@@ -17743,9 +17690,8 @@ public enum ModifyUserOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessString = output.accessString
             self.arn = output.arn
@@ -17949,7 +17895,7 @@ extension ElastiCacheClientTypes {
 
 extension NoOperationFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoOperationFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -18458,7 +18404,7 @@ extension ElastiCacheClientTypes {
 
 extension NodeGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NodeGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -18580,7 +18526,7 @@ extension ElastiCacheClientTypes {
 
 extension NodeGroupsPerReplicationGroupQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NodeGroupsPerReplicationGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -18631,7 +18577,7 @@ extension NodeGroupsPerReplicationGroupQuotaExceededFaultBody: Swift.Decodable {
 
 extension NodeQuotaForClusterExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NodeQuotaForClusterExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -18682,7 +18628,7 @@ extension NodeQuotaForClusterExceededFaultBody: Swift.Decodable {
 
 extension NodeQuotaForCustomerExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NodeQuotaForCustomerExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -19597,9 +19543,8 @@ public enum PurchaseReservedCacheNodesOfferingOutputError: Swift.Error, Swift.Eq
 
 extension PurchaseReservedCacheNodesOfferingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PurchaseReservedCacheNodesOfferingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reservedCacheNode = output.reservedCacheNode
         } else {
@@ -19722,9 +19667,8 @@ public enum RebalanceSlotsInGlobalReplicationGroupOutputError: Swift.Error, Swif
 
 extension RebalanceSlotsInGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RebalanceSlotsInGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
@@ -19874,9 +19818,8 @@ public enum RebootCacheClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension RebootCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RebootCacheClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheCluster = output.cacheCluster
         } else {
@@ -20173,9 +20116,8 @@ public enum RemoveTagsFromResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RemoveTagsFromResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
@@ -20688,7 +20630,7 @@ extension ElastiCacheClientTypes {
 
 extension ReplicationGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReplicationGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -20739,7 +20681,7 @@ extension ReplicationGroupAlreadyExistsFaultBody: Swift.Decodable {
 
 extension ReplicationGroupAlreadyUnderMigrationFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReplicationGroupAlreadyUnderMigrationFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -20790,7 +20732,7 @@ extension ReplicationGroupAlreadyUnderMigrationFaultBody: Swift.Decodable {
 
 extension ReplicationGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReplicationGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -20841,7 +20783,7 @@ extension ReplicationGroupNotFoundFaultBody: Swift.Decodable {
 
 extension ReplicationGroupNotUnderMigrationFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReplicationGroupNotUnderMigrationFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21243,7 +21185,7 @@ extension ElastiCacheClientTypes {
 
 extension ReservedCacheNodeAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedCacheNodeAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21294,7 +21236,7 @@ extension ReservedCacheNodeAlreadyExistsFaultBody: Swift.Decodable {
 
 extension ReservedCacheNodeNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedCacheNodeNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21345,7 +21287,7 @@ extension ReservedCacheNodeNotFoundFaultBody: Swift.Decodable {
 
 extension ReservedCacheNodeQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedCacheNodeQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21566,7 +21508,7 @@ extension ElastiCacheClientTypes {
 
 extension ReservedCacheNodesOfferingNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedCacheNodesOfferingNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21741,9 +21683,8 @@ public enum ResetCacheParameterGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension ResetCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResetCacheParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheParameterGroupName = output.cacheParameterGroupName
         } else {
@@ -21994,9 +21935,8 @@ public enum RevokeCacheSecurityGroupIngressOutputError: Swift.Error, Swift.Equat
 
 extension RevokeCacheSecurityGroupIngressOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RevokeCacheSecurityGroupIngressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheSecurityGroup = output.cacheSecurityGroup
         } else {
@@ -22087,7 +22027,7 @@ extension ElastiCacheClientTypes {
 
 extension ServiceLinkedRoleNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ServiceLinkedRoleNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -22283,7 +22223,7 @@ extension ElastiCacheClientTypes {
 
 extension ServiceUpdateNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ServiceUpdateNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -22893,7 +22833,7 @@ extension ElastiCacheClientTypes {
 
 extension SnapshotAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -22944,7 +22884,7 @@ extension SnapshotAlreadyExistsFaultBody: Swift.Decodable {
 
 extension SnapshotFeatureNotSupportedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotFeatureNotSupportedFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23002,7 +22942,7 @@ extension SnapshotFeatureNotSupportedFaultBody: Swift.Decodable {
 
 extension SnapshotNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23053,7 +22993,7 @@ extension SnapshotNotFoundFaultBody: Swift.Decodable {
 
 extension SnapshotQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23262,9 +23202,8 @@ public enum StartMigrationOutputError: Swift.Error, Swift.Equatable {
 
 extension StartMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartMigrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
         } else {
@@ -23395,7 +23334,7 @@ extension ElastiCacheClientTypes {
 
 extension SubnetInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubnetInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23446,7 +23385,7 @@ extension SubnetInUseBody: Swift.Decodable {
 
 extension SubnetNotAllowedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubnetNotAllowedFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23577,7 +23516,7 @@ extension ElastiCacheClientTypes {
 
 extension TagNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TagNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23628,7 +23567,7 @@ extension TagNotFoundFaultBody: Swift.Decodable {
 
 extension TagQuotaPerResourceExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TagQuotaPerResourceExceededBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23737,7 +23676,7 @@ extension TestFailoverInputBody: Swift.Decodable {
 
 extension TestFailoverNotAvailableFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TestFailoverNotAvailableFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23825,9 +23764,8 @@ public enum TestFailoverOutputError: Swift.Error, Swift.Equatable {
 
 extension TestFailoverOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TestFailoverOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
         } else {
@@ -24459,7 +24397,7 @@ extension ElastiCacheClientTypes {
 
 extension UserAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UserAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24666,7 +24604,7 @@ extension ElastiCacheClientTypes {
 
 extension UserGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UserGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24717,7 +24655,7 @@ extension UserGroupAlreadyExistsFaultBody: Swift.Decodable {
 
 extension UserGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UserGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24865,7 +24803,7 @@ extension ElastiCacheClientTypes {
 
 extension UserGroupQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UserGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -25013,7 +24951,7 @@ extension ElastiCacheClientTypes {
 
 extension UserNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UserNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -25064,7 +25002,7 @@ extension UserNotFoundFaultBody: Swift.Decodable {
 
 extension UserQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UserQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message

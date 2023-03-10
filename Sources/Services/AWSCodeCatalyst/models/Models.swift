@@ -259,9 +259,8 @@ extension CreateAccessTokenOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension CreateAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAccessTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessTokenId = output.accessTokenId
             self.expiresTime = output.expiresTime
@@ -515,9 +514,8 @@ public enum CreateDevEnvironmentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDevEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.projectName = output.projectName
@@ -667,9 +665,8 @@ public enum CreateProjectOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateProjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.displayName = output.displayName
@@ -838,9 +835,8 @@ public enum CreateSourceRepositoryBranchOutputError: Swift.Error, Swift.Equatabl
 
 extension CreateSourceRepositoryBranchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSourceRepositoryBranchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.headCommitId = output.headCommitId
             self.lastUpdatedTime = output.lastUpdatedTime
@@ -1037,9 +1033,8 @@ public enum DeleteDevEnvironmentOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteDevEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.projectName = output.projectName
@@ -2011,9 +2006,8 @@ public enum GetDevEnvironmentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDevEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alias = output.alias
             self.creatorId = output.creatorId
@@ -2259,9 +2253,8 @@ public enum GetProjectOutputError: Swift.Error, Swift.Equatable {
 
 extension GetProjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.displayName = output.displayName
@@ -2398,9 +2391,8 @@ public enum GetSourceRepositoryCloneUrlsOutputError: Swift.Error, Swift.Equatabl
 
 extension GetSourceRepositoryCloneUrlsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSourceRepositoryCloneUrlsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.https = output.https
         } else {
@@ -2491,9 +2483,8 @@ public enum GetSpaceOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSpaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSpaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.displayName = output.displayName
@@ -2615,9 +2606,8 @@ public enum GetSubscriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsAccountName = output.awsAccountName
             self.subscriptionType = output.subscriptionType
@@ -2734,9 +2724,8 @@ public enum GetUserDetailsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetUserDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetUserDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.displayName = output.displayName
             self.primaryEmail = output.primaryEmail
@@ -3022,9 +3011,8 @@ public enum ListAccessTokensOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAccessTokensOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAccessTokensOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -3202,9 +3190,8 @@ public enum ListDevEnvironmentsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDevEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDevEnvironmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -3388,9 +3375,8 @@ public enum ListEventLogsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListEventLogsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListEventLogsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -3560,9 +3546,8 @@ public enum ListProjectsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListProjectsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListProjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -3794,9 +3779,8 @@ public enum ListSourceRepositoriesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSourceRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSourceRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -4022,9 +4006,8 @@ public enum ListSourceRepositoryBranchesOutputError: Swift.Error, Swift.Equatabl
 
 extension ListSourceRepositoryBranchesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSourceRepositoryBranchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -4150,9 +4133,8 @@ public enum ListSpacesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSpacesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSpacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -4764,9 +4746,8 @@ public enum StartDevEnvironmentOutputError: Swift.Error, Swift.Equatable {
 
 extension StartDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartDevEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.projectName = output.projectName
@@ -4936,9 +4917,8 @@ extension StartDevEnvironmentSessionOutputResponse: Swift.CustomDebugStringConve
 
 extension StartDevEnvironmentSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartDevEnvironmentSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessDetails = output.accessDetails
             self.id = output.id
@@ -5088,9 +5068,8 @@ public enum StopDevEnvironmentOutputError: Swift.Error, Swift.Equatable {
 
 extension StopDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopDevEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.projectName = output.projectName
@@ -5484,9 +5463,8 @@ public enum UpdateDevEnvironmentOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateDevEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alias = output.alias
             self.clientToken = output.clientToken
@@ -5769,9 +5747,8 @@ public enum VerifySessionOutputError: Swift.Error, Swift.Equatable {
 
 extension VerifySessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: VerifySessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.identity = output.identity
         } else {

@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.error_description = output.error_description
@@ -65,9 +64,8 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
 
 extension AuthorizationPendingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AuthorizationPendingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.error_description = output.error_description
@@ -314,9 +312,8 @@ public enum CreateTokenOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessToken = output.accessToken
             self.expiresIn = output.expiresIn
@@ -395,9 +392,8 @@ extension CreateTokenOutputResponseBody: Swift.Decodable {
 
 extension ExpiredTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExpiredTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.error_description = output.error_description
@@ -456,9 +452,8 @@ extension ExpiredTokenExceptionBody: Swift.Decodable {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.error_description = output.error_description
@@ -517,9 +512,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension InvalidClientException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidClientExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.error_description = output.error_description
@@ -578,9 +572,8 @@ extension InvalidClientExceptionBody: Swift.Decodable {
 
 extension InvalidClientMetadataException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidClientMetadataExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.error_description = output.error_description
@@ -639,9 +632,8 @@ extension InvalidClientMetadataExceptionBody: Swift.Decodable {
 
 extension InvalidGrantException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidGrantExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.error_description = output.error_description
@@ -700,9 +692,8 @@ extension InvalidGrantExceptionBody: Swift.Decodable {
 
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.error_description = output.error_description
@@ -761,9 +752,8 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
 
 extension InvalidScopeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidScopeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.error_description = output.error_description
@@ -935,9 +925,8 @@ public enum RegisterClientOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterClientOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterClientOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authorizationEndpoint = output.authorizationEndpoint
             self.clientId = output.clientId
@@ -1026,9 +1015,8 @@ extension RegisterClientOutputResponseBody: Swift.Decodable {
 
 extension SlowDownException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SlowDownExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.error_description = output.error_description
@@ -1191,9 +1179,8 @@ public enum StartDeviceAuthorizationOutputError: Swift.Error, Swift.Equatable {
 
 extension StartDeviceAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartDeviceAuthorizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deviceCode = output.deviceCode
             self.expiresIn = output.expiresIn
@@ -1282,9 +1269,8 @@ extension StartDeviceAuthorizationOutputResponseBody: Swift.Decodable {
 
 extension UnauthorizedClientException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnauthorizedClientExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.error_description = output.error_description
@@ -1343,9 +1329,8 @@ extension UnauthorizedClientExceptionBody: Swift.Decodable {
 
 extension UnsupportedGrantTypeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedGrantTypeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.error_description = output.error_description

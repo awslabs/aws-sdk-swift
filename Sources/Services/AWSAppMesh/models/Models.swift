@@ -239,9 +239,8 @@ extension AppMeshClientTypes {
 
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -451,9 +450,8 @@ extension AppMeshClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -669,13 +667,9 @@ public enum CreateGatewayRouteOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGatewayRouteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
-                self.gatewayRoute = output
-            } else {
-                self.gatewayRoute = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
+            self.gatewayRoute = output
         } else {
             self.gatewayRoute = nil
         }
@@ -846,13 +840,9 @@ public enum CreateMeshOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateMeshOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
-                self.mesh = output
-            } else {
-                self.mesh = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
+            self.mesh = output
         } else {
             self.mesh = nil
         }
@@ -1058,13 +1048,9 @@ public enum CreateRouteOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRouteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
-                self.route = output
-            } else {
-                self.route = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
+            self.route = output
         } else {
             self.route = nil
         }
@@ -1261,13 +1247,9 @@ public enum CreateVirtualGatewayOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateVirtualGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
-                self.virtualGateway = output
-            } else {
-                self.virtualGateway = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
+            self.virtualGateway = output
         } else {
             self.virtualGateway = nil
         }
@@ -1464,13 +1446,9 @@ public enum CreateVirtualNodeOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateVirtualNodeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
-                self.virtualNode = output
-            } else {
-                self.virtualNode = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
+            self.virtualNode = output
         } else {
             self.virtualNode = nil
         }
@@ -1668,13 +1646,9 @@ public enum CreateVirtualRouterOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateVirtualRouterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
-                self.virtualRouter = output
-            } else {
-                self.virtualRouter = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
+            self.virtualRouter = output
         } else {
             self.virtualRouter = nil
         }
@@ -1872,13 +1846,9 @@ public enum CreateVirtualServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateVirtualServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
-                self.virtualService = output
-            } else {
-                self.virtualService = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
+            self.virtualService = output
         } else {
             self.virtualService = nil
         }
@@ -2047,13 +2017,9 @@ public enum DeleteGatewayRouteOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteGatewayRouteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
-                self.gatewayRoute = output
-            } else {
-                self.gatewayRoute = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
+            self.gatewayRoute = output
         } else {
             self.gatewayRoute = nil
         }
@@ -2157,13 +2123,9 @@ public enum DeleteMeshOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteMeshOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
-                self.mesh = output
-            } else {
-                self.mesh = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
+            self.mesh = output
         } else {
             self.mesh = nil
         }
@@ -2301,13 +2263,9 @@ public enum DeleteRouteOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteRouteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
-                self.route = output
-            } else {
-                self.route = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
+            self.route = output
         } else {
             self.route = nil
         }
@@ -2436,13 +2394,9 @@ public enum DeleteVirtualGatewayOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteVirtualGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
-                self.virtualGateway = output
-            } else {
-                self.virtualGateway = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
+            self.virtualGateway = output
         } else {
             self.virtualGateway = nil
         }
@@ -2571,13 +2525,9 @@ public enum DeleteVirtualNodeOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteVirtualNodeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
-                self.virtualNode = output
-            } else {
-                self.virtualNode = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
+            self.virtualNode = output
         } else {
             self.virtualNode = nil
         }
@@ -2707,13 +2657,9 @@ public enum DeleteVirtualRouterOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteVirtualRouterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
-                self.virtualRouter = output
-            } else {
-                self.virtualRouter = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
+            self.virtualRouter = output
         } else {
             self.virtualRouter = nil
         }
@@ -2843,13 +2789,9 @@ public enum DeleteVirtualServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteVirtualServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
-                self.virtualService = output
-            } else {
-                self.virtualService = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
+            self.virtualService = output
         } else {
             self.virtualService = nil
         }
@@ -2984,13 +2926,9 @@ public enum DescribeGatewayRouteOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeGatewayRouteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
-                self.gatewayRoute = output
-            } else {
-                self.gatewayRoute = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
+            self.gatewayRoute = output
         } else {
             self.gatewayRoute = nil
         }
@@ -3109,13 +3047,9 @@ public enum DescribeMeshOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeMeshOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
-                self.mesh = output
-            } else {
-                self.mesh = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
+            self.mesh = output
         } else {
             self.mesh = nil
         }
@@ -3251,13 +3185,9 @@ public enum DescribeRouteOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRouteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
-                self.route = output
-            } else {
-                self.route = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
+            self.route = output
         } else {
             self.route = nil
         }
@@ -3384,13 +3314,9 @@ public enum DescribeVirtualGatewayOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeVirtualGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
-                self.virtualGateway = output
-            } else {
-                self.virtualGateway = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
+            self.virtualGateway = output
         } else {
             self.virtualGateway = nil
         }
@@ -3517,13 +3443,9 @@ public enum DescribeVirtualNodeOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeVirtualNodeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
-                self.virtualNode = output
-            } else {
-                self.virtualNode = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
+            self.virtualNode = output
         } else {
             self.virtualNode = nil
         }
@@ -3651,13 +3573,9 @@ public enum DescribeVirtualRouterOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeVirtualRouterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
-                self.virtualRouter = output
-            } else {
-                self.virtualRouter = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
+            self.virtualRouter = output
         } else {
             self.virtualRouter = nil
         }
@@ -3785,13 +3703,9 @@ public enum DescribeVirtualServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeVirtualServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
-                self.virtualService = output
-            } else {
-                self.virtualService = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
+            self.virtualService = output
         } else {
             self.virtualService = nil
         }
@@ -4109,9 +4023,8 @@ extension AppMeshClientTypes {
 
 extension ForbiddenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6734,9 +6647,8 @@ extension AppMeshClientTypes {
 
 extension InternalServerErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6871,9 +6783,8 @@ extension AppMeshClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7027,9 +6938,8 @@ public enum ListGatewayRoutesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGatewayRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGatewayRoutesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayRoutes = output.gatewayRoutes
             self.nextToken = output.nextToken
@@ -7169,9 +7079,8 @@ public enum ListMeshesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMeshesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMeshesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.meshes = output.meshes
             self.nextToken = output.nextToken
@@ -7336,9 +7245,8 @@ public enum ListRoutesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRoutesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.routes = output.routes
@@ -7490,9 +7398,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -7648,9 +7555,8 @@ public enum ListVirtualGatewaysOutputError: Swift.Error, Swift.Equatable {
 
 extension ListVirtualGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVirtualGatewaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.virtualGateways = output.virtualGateways
@@ -7806,9 +7712,8 @@ public enum ListVirtualNodesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListVirtualNodesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVirtualNodesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.virtualNodes = output.virtualNodes
@@ -7965,9 +7870,8 @@ public enum ListVirtualRoutersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListVirtualRoutersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVirtualRoutersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.virtualRouters = output.virtualRouters
@@ -8124,9 +8028,8 @@ public enum ListVirtualServicesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListVirtualServicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVirtualServicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.virtualServices = output.virtualServices
@@ -9168,9 +9071,8 @@ extension AppMeshClientTypes {
 
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9409,9 +9311,8 @@ extension AppMeshClientTypes {
 
 extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9971,9 +9872,8 @@ extension AppMeshClientTypes {
 
 extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10706,9 +10606,8 @@ extension AppMeshClientTypes {
 
 extension TooManyRequestsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10758,9 +10657,8 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11071,13 +10969,9 @@ public enum UpdateGatewayRouteOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGatewayRouteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
-                self.gatewayRoute = output
-            } else {
-                self.gatewayRoute = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
+            self.gatewayRoute = output
         } else {
             self.gatewayRoute = nil
         }
@@ -11217,13 +11111,9 @@ public enum UpdateMeshOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateMeshOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
-                self.mesh = output
-            } else {
-                self.mesh = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
+            self.mesh = output
         } else {
             self.mesh = nil
         }
@@ -11400,13 +11290,9 @@ public enum UpdateRouteOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRouteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
-                self.route = output
-            } else {
-                self.route = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
+            self.route = output
         } else {
             self.route = nil
         }
@@ -11574,13 +11460,9 @@ public enum UpdateVirtualGatewayOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateVirtualGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
-                self.virtualGateway = output
-            } else {
-                self.virtualGateway = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
+            self.virtualGateway = output
         } else {
             self.virtualGateway = nil
         }
@@ -11748,13 +11630,9 @@ public enum UpdateVirtualNodeOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateVirtualNodeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
-                self.virtualNode = output
-            } else {
-                self.virtualNode = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
+            self.virtualNode = output
         } else {
             self.virtualNode = nil
         }
@@ -11923,13 +11801,9 @@ public enum UpdateVirtualRouterOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateVirtualRouterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
-                self.virtualRouter = output
-            } else {
-                self.virtualRouter = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
+            self.virtualRouter = output
         } else {
             self.virtualRouter = nil
         }
@@ -12098,13 +11972,9 @@ public enum UpdateVirtualServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateVirtualServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
-                self.virtualService = output
-            } else {
-                self.virtualService = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
+            self.virtualService = output
         } else {
             self.virtualService = nil
         }

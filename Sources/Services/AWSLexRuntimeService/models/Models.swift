@@ -119,9 +119,8 @@ extension LexRuntimeClientTypes {
 
 extension BadGatewayException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadGatewayExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -171,9 +170,8 @@ extension BadGatewayExceptionBody: Swift.Decodable {
 
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -305,9 +303,8 @@ extension LexRuntimeClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -463,9 +460,8 @@ public enum DeleteSessionOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botAlias = output.botAlias
             self.botName = output.botName
@@ -534,9 +530,8 @@ extension DeleteSessionOutputResponseBody: Swift.Decodable {
 
 extension DependencyFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DependencyFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1031,9 +1026,8 @@ extension GetSessionOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension GetSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activeContexts = output.activeContexts
             self.dialogAction = output.dialogAction
@@ -1307,9 +1301,8 @@ extension LexRuntimeClientTypes {
 
 extension InternalFailureException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalFailureExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1364,9 +1357,8 @@ extension LimitExceededException {
         } else {
             self.retryAfterSeconds = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1419,9 +1411,8 @@ extension LimitExceededExceptionBody: Swift.Decodable {
 
 extension LoopDetectedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LoopDetectedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1509,9 +1500,8 @@ extension LexRuntimeClientTypes {
 
 extension NotAcceptableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotAcceptableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1561,9 +1551,8 @@ extension NotAcceptableExceptionBody: Swift.Decodable {
 
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1625,9 +1614,8 @@ public struct PostContentInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let inputStream = input.operationInput.inputStream {
-            let inputStreamdata = inputStream
-            let inputStreambody = ClientRuntime.HttpBody.stream(inputStreamdata)
-            input.builder.withBody(inputStreambody)
+            let inputStreamBody = ClientRuntime.HttpBody(byteStream: inputStream)
+            input.builder.withBody(inputStreamBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -1650,7 +1638,7 @@ extension PostContentInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputStream = self.inputStream {
-            try encodeContainer.encode(inputStream.toBytes().getData(), forKey: .inputStream)
+            try encodeContainer.encode(inputStream, forKey: .inputStream)
         }
     }
 }
@@ -1951,9 +1939,12 @@ extension PostContentOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.slots = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.audioStream = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.audioStream = .data(data)
+        case .stream(let stream):
+            self.audioStream = .stream(stream)
+        case .none:
             self.audioStream = nil
         }
     }
@@ -2277,9 +2268,8 @@ extension PostTextOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension PostTextOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PostTextOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activeContexts = output.activeContexts
             self.alternativeIntents = output.alternativeIntents
@@ -2861,9 +2851,12 @@ extension PutSessionOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.slots = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.audioStream = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.audioStream = .data(data)
+        case .stream(let stream):
+            self.audioStream = .stream(stream)
+        case .none:
             self.audioStream = nil
         }
     }
@@ -2962,9 +2955,8 @@ extension PutSessionOutputResponseBody: Swift.Decodable {
 
 extension RequestTimeoutException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RequestTimeoutExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3126,9 +3118,8 @@ extension LexRuntimeClientTypes {
 
 extension UnsupportedMediaTypeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedMediaTypeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

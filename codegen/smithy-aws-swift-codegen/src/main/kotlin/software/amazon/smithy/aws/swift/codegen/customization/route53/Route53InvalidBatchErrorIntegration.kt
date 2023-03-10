@@ -69,7 +69,7 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
                 writer.write("self.messages = messages?.map(\\.message)")
             }
             writer.openBlock("static func makeFromHttpResponse(_ httpResponse: ClientRuntime.HttpResponse) -> CustomInvalidBatchError? {", "}") {
-                writer.openBlock("guard let data = httpResponse.body.toBytes()?.getData() else {", "}") {
+                writer.openBlock("guard let data = try httpResponse.body.toData() else {", "}") {
                     writer.write("return nil")
                 }
                 writer.write("return try? XMLDecoder().decode(CustomInvalidBatchError.self, from: data)")

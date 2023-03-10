@@ -95,9 +95,8 @@ public enum AcceptReservedNodeExchangeOutputError: Swift.Error, Swift.Equatable 
 
 extension AcceptReservedNodeExchangeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AcceptReservedNodeExchangeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exchangedReservedNode = output.exchangedReservedNode
         } else {
@@ -137,7 +136,7 @@ extension AcceptReservedNodeExchangeOutputResponseBody: Swift.Decodable {
 
 extension AccessToClusterDeniedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AccessToClusterDeniedFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -188,7 +187,7 @@ extension AccessToClusterDeniedFaultBody: Swift.Decodable {
 
 extension AccessToSnapshotDeniedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AccessToSnapshotDeniedFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -497,9 +496,8 @@ public enum AddPartnerOutputError: Swift.Error, Swift.Equatable {
 
 extension AddPartnerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddPartnerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.databaseName = output.databaseName
             self.partnerName = output.partnerName
@@ -766,9 +764,8 @@ public enum AssociateDataShareConsumerOutputError: Swift.Error, Swift.Equatable 
 
 extension AssociateDataShareConsumerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateDataShareConsumerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowPubliclyAccessibleConsumers = output.allowPubliclyAccessibleConsumers
             self.dataShareArn = output.dataShareArn
@@ -945,7 +942,7 @@ extension RedshiftClientTypes {
 
 extension AuthenticationProfileAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AuthenticationProfileAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -996,7 +993,7 @@ extension AuthenticationProfileAlreadyExistsFaultBody: Swift.Decodable {
 
 extension AuthenticationProfileNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AuthenticationProfileNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1047,7 +1044,7 @@ extension AuthenticationProfileNotFoundFaultBody: Swift.Decodable {
 
 extension AuthenticationProfileQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AuthenticationProfileQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1098,7 +1095,7 @@ extension AuthenticationProfileQuotaExceededFaultBody: Swift.Decodable {
 
 extension AuthorizationAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AuthorizationAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1149,7 +1146,7 @@ extension AuthorizationAlreadyExistsFaultBody: Swift.Decodable {
 
 extension AuthorizationNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AuthorizationNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1200,7 +1197,7 @@ extension AuthorizationNotFoundFaultBody: Swift.Decodable {
 
 extension AuthorizationQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AuthorizationQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1390,9 +1387,8 @@ public enum AuthorizeClusterSecurityGroupIngressOutputError: Swift.Error, Swift.
 
 extension AuthorizeClusterSecurityGroupIngressOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AuthorizeClusterSecurityGroupIngressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterSecurityGroup = output.clusterSecurityGroup
         } else {
@@ -1511,9 +1507,8 @@ public enum AuthorizeDataShareOutputError: Swift.Error, Swift.Equatable {
 
 extension AuthorizeDataShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AuthorizeDataShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowPubliclyAccessibleConsumers = output.allowPubliclyAccessibleConsumers
             self.dataShareArn = output.dataShareArn
@@ -1735,9 +1730,8 @@ public enum AuthorizeEndpointAccessOutputError: Swift.Error, Swift.Equatable {
 
 extension AuthorizeEndpointAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AuthorizeEndpointAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowedAllVPCs = output.allowedAllVPCs
             self.allowedVPCs = output.allowedVPCs
@@ -1988,9 +1982,8 @@ public enum AuthorizeSnapshotAccessOutputError: Swift.Error, Swift.Equatable {
 
 extension AuthorizeSnapshotAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AuthorizeSnapshotAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
@@ -2194,9 +2187,8 @@ public enum BatchDeleteClusterSnapshotsOutputError: Swift.Error, Swift.Equatable
 
 extension BatchDeleteClusterSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDeleteClusterSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.resources = output.resources
@@ -2280,7 +2272,7 @@ extension BatchDeleteClusterSnapshotsOutputResponseBody: Swift.Decodable {
 
 extension BatchDeleteRequestSizeExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<BatchDeleteRequestSizeExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2425,7 +2417,7 @@ extension BatchModifyClusterSnapshotsInputBody: Swift.Decodable {
 
 extension BatchModifyClusterSnapshotsLimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<BatchModifyClusterSnapshotsLimitExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2499,9 +2491,8 @@ public enum BatchModifyClusterSnapshotsOutputError: Swift.Error, Swift.Equatable
 
 extension BatchModifyClusterSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchModifyClusterSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.resources = output.resources
@@ -2585,7 +2576,7 @@ extension BatchModifyClusterSnapshotsOutputResponseBody: Swift.Decodable {
 
 extension BucketNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<BucketNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2709,9 +2700,8 @@ public enum CancelResizeOutputError: Swift.Error, Swift.Equatable {
 
 extension CancelResizeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CancelResizeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.avgResizeRateInMegaBytesPerSecond = output.avgResizeRateInMegaBytesPerSecond
             self.dataTransferProgressPercent = output.dataTransferProgressPercent
@@ -3764,7 +3754,7 @@ extension RedshiftClientTypes {
 
 extension ClusterAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4057,7 +4047,7 @@ extension RedshiftClientTypes {
 
 extension ClusterNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4108,7 +4098,7 @@ extension ClusterNotFoundFaultBody: Swift.Decodable {
 
 extension ClusterOnLatestRevisionFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterOnLatestRevisionFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4250,7 +4240,7 @@ extension RedshiftClientTypes {
 
 extension ClusterParameterGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterParameterGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4301,7 +4291,7 @@ extension ClusterParameterGroupAlreadyExistsFaultBody: Swift.Decodable {
 
 extension ClusterParameterGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterParameterGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4352,7 +4342,7 @@ extension ClusterParameterGroupNotFoundFaultBody: Swift.Decodable {
 
 extension ClusterParameterGroupQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterParameterGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4553,7 +4543,7 @@ extension RedshiftClientTypes {
 
 extension ClusterQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4757,7 +4747,7 @@ extension RedshiftClientTypes {
 
 extension ClusterSecurityGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterSecurityGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4853,7 +4843,7 @@ extension RedshiftClientTypes {
 
 extension ClusterSecurityGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterSecurityGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4904,7 +4894,7 @@ extension ClusterSecurityGroupNotFoundFaultBody: Swift.Decodable {
 
 extension ClusterSecurityGroupQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterSecurityGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4955,7 +4945,7 @@ extension ClusterSecurityGroupQuotaExceededFaultBody: Swift.Decodable {
 
 extension ClusterSnapshotAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterSnapshotAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5071,7 +5061,7 @@ extension RedshiftClientTypes {
 
 extension ClusterSnapshotNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterSnapshotNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5122,7 +5112,7 @@ extension ClusterSnapshotNotFoundFaultBody: Swift.Decodable {
 
 extension ClusterSnapshotQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterSnapshotQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5310,7 +5300,7 @@ extension RedshiftClientTypes {
 
 extension ClusterSubnetGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterSubnetGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5361,7 +5351,7 @@ extension ClusterSubnetGroupAlreadyExistsFaultBody: Swift.Decodable {
 
 extension ClusterSubnetGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterSubnetGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5412,7 +5402,7 @@ extension ClusterSubnetGroupNotFoundFaultBody: Swift.Decodable {
 
 extension ClusterSubnetGroupQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterSubnetGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5463,7 +5453,7 @@ extension ClusterSubnetGroupQuotaExceededFaultBody: Swift.Decodable {
 
 extension ClusterSubnetQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ClusterSubnetQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5693,9 +5683,8 @@ public enum CopyClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension CopyClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CopyClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
@@ -5735,7 +5724,7 @@ extension CopyClusterSnapshotOutputResponseBody: Swift.Decodable {
 
 extension CopyToRegionDisabledFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CopyToRegionDisabledFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5869,9 +5858,8 @@ public enum CreateAuthenticationProfileOutputError: Swift.Error, Swift.Equatable
 
 extension CreateAuthenticationProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAuthenticationProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authenticationProfileContent = output.authenticationProfileContent
             self.authenticationProfileName = output.authenticationProfileName
@@ -6553,9 +6541,8 @@ public enum CreateClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -6741,9 +6728,8 @@ public enum CreateClusterParameterGroupOutputError: Swift.Error, Swift.Equatable
 
 extension CreateClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterParameterGroup = output.clusterParameterGroup
         } else {
@@ -6915,9 +6901,8 @@ public enum CreateClusterSecurityGroupOutputError: Swift.Error, Swift.Equatable 
 
 extension CreateClusterSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateClusterSecurityGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterSecurityGroup = output.clusterSecurityGroup
         } else {
@@ -7108,9 +7093,8 @@ public enum CreateClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
@@ -7328,9 +7312,8 @@ public enum CreateClusterSubnetGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateClusterSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateClusterSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterSubnetGroup = output.clusterSubnetGroup
         } else {
@@ -7526,9 +7509,8 @@ public enum CreateEndpointAccessOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateEndpointAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateEndpointAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.address = output.address
             self.clusterIdentifier = output.clusterIdentifier
@@ -7928,9 +7910,8 @@ public enum CreateEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
@@ -8081,9 +8062,8 @@ public enum CreateHsmClientCertificateOutputError: Swift.Error, Swift.Equatable 
 
 extension CreateHsmClientCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateHsmClientCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hsmClientCertificate = output.hsmClientCertificate
         } else {
@@ -8294,9 +8274,8 @@ public enum CreateHsmConfigurationOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateHsmConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateHsmConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hsmConfiguration = output.hsmConfiguration
         } else {
@@ -8493,9 +8472,8 @@ public enum CreateScheduledActionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateScheduledActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateScheduledActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endTime = output.endTime
             self.iamRole = output.iamRole
@@ -8769,9 +8747,8 @@ public enum CreateSnapshotCopyGrantOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSnapshotCopyGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSnapshotCopyGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshotCopyGrant = output.snapshotCopyGrant
         } else {
@@ -8994,9 +8971,8 @@ public enum CreateSnapshotScheduleOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSnapshotScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associatedClusterCount = output.associatedClusterCount
             self.associatedClusters = output.associatedClusters
@@ -9461,9 +9437,8 @@ public enum CreateUsageLimitOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateUsageLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateUsageLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.amount = output.amount
             self.breachAction = output.breachAction
@@ -10053,9 +10028,8 @@ public enum DeauthorizeDataShareOutputError: Swift.Error, Swift.Equatable {
 
 extension DeauthorizeDataShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeauthorizeDataShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowPubliclyAccessibleConsumers = output.allowPubliclyAccessibleConsumers
             self.dataShareArn = output.dataShareArn
@@ -10357,9 +10331,8 @@ public enum DeleteAuthenticationProfileOutputError: Swift.Error, Swift.Equatable
 
 extension DeleteAuthenticationProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteAuthenticationProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authenticationProfileName = output.authenticationProfileName
         } else {
@@ -10522,9 +10495,8 @@ public enum DeleteClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -10855,9 +10827,8 @@ public enum DeleteClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
@@ -11054,9 +11025,8 @@ public enum DeleteEndpointAccessOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteEndpointAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteEndpointAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.address = output.address
             self.clusterIdentifier = output.clusterIdentifier
@@ -11551,9 +11521,8 @@ public enum DeletePartnerOutputError: Swift.Error, Swift.Equatable {
 
 extension DeletePartnerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeletePartnerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.databaseName = output.databaseName
             self.partnerName = output.partnerName
@@ -12038,7 +12007,7 @@ public struct DeleteUsageLimitOutputResponse: Swift.Equatable {
 
 extension DependentServiceRequestThrottlingFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DependentServiceRequestThrottlingFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12089,7 +12058,7 @@ extension DependentServiceRequestThrottlingFaultBody: Swift.Decodable {
 
 extension DependentServiceUnavailableFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DependentServiceUnavailableFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12230,9 +12199,8 @@ public enum DescribeAccountAttributesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAccountAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAccountAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountAttributes = output.accountAttributes
         } else {
@@ -12357,9 +12325,8 @@ public enum DescribeAuthenticationProfilesOutputError: Swift.Error, Swift.Equata
 
 extension DescribeAuthenticationProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAuthenticationProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authenticationProfiles = output.authenticationProfiles
         } else {
@@ -12506,9 +12473,8 @@ public enum DescribeClusterDbRevisionsOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeClusterDbRevisionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeClusterDbRevisionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterDbRevisions = output.clusterDbRevisions
             self.marker = output.marker
@@ -12740,9 +12706,8 @@ public enum DescribeClusterParameterGroupsOutputError: Swift.Error, Swift.Equata
 
 extension DescribeClusterParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeClusterParameterGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.parameterGroups = output.parameterGroups
@@ -12911,9 +12876,8 @@ public enum DescribeClusterParametersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeClusterParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeClusterParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.parameters = output.parameters
@@ -13146,9 +13110,8 @@ public enum DescribeClusterSecurityGroupsOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeClusterSecurityGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeClusterSecurityGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterSecurityGroups = output.clusterSecurityGroups
             self.marker = output.marker
@@ -13507,9 +13470,8 @@ public enum DescribeClusterSnapshotsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeClusterSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeClusterSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.snapshots = output.snapshots
@@ -13742,9 +13704,8 @@ public enum DescribeClusterSubnetGroupsOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeClusterSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeClusterSubnetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterSubnetGroups = output.clusterSubnetGroups
             self.marker = output.marker
@@ -13902,9 +13863,8 @@ public enum DescribeClusterTracksOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeClusterTracksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeClusterTracksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.maintenanceTracks = output.maintenanceTracks
             self.marker = output.marker
@@ -14075,9 +14035,8 @@ public enum DescribeClusterVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeClusterVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeClusterVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterVersions = output.clusterVersions
             self.marker = output.marker
@@ -14323,9 +14282,8 @@ public enum DescribeClustersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusters = output.clusters
             self.marker = output.marker
@@ -14492,9 +14450,8 @@ public enum DescribeDataSharesForConsumerOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeDataSharesForConsumerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDataSharesForConsumerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataShares = output.dataShares
             self.marker = output.marker
@@ -14660,9 +14617,8 @@ public enum DescribeDataSharesForProducerOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeDataSharesForProducerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDataSharesForProducerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataShares = output.dataShares
             self.marker = output.marker
@@ -14817,9 +14773,8 @@ public enum DescribeDataSharesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDataSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDataSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataShares = output.dataShares
             self.marker = output.marker
@@ -14974,9 +14929,8 @@ public enum DescribeDefaultClusterParametersOutputError: Swift.Error, Swift.Equa
 
 extension DescribeDefaultClusterParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDefaultClusterParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.defaultClusterParameters = output.defaultClusterParameters
         } else {
@@ -15141,9 +15095,8 @@ public enum DescribeEndpointAccessOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEndpointAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEndpointAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointAccessList = output.endpointAccessList
             self.marker = output.marker
@@ -15322,9 +15275,8 @@ public enum DescribeEndpointAuthorizationOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeEndpointAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEndpointAuthorizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointAuthorizationList = output.endpointAuthorizationList
             self.marker = output.marker
@@ -15456,9 +15408,8 @@ public enum DescribeEventCategoriesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEventCategoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventCategoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventCategoriesMapList = output.eventCategoriesMapList
         } else {
@@ -15681,9 +15632,8 @@ public enum DescribeEventSubscriptionsOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeEventSubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventSubscriptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscriptionsList = output.eventSubscriptionsList
             self.marker = output.marker
@@ -15898,9 +15848,8 @@ public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.marker = output.marker
@@ -16133,9 +16082,8 @@ public enum DescribeHsmClientCertificatesOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeHsmClientCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeHsmClientCertificatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hsmClientCertificates = output.hsmClientCertificates
             self.marker = output.marker
@@ -16368,9 +16316,8 @@ public enum DescribeHsmConfigurationsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeHsmConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeHsmConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hsmConfigurations = output.hsmConfigurations
             self.marker = output.marker
@@ -16506,9 +16453,8 @@ public enum DescribeLoggingStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeLoggingStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLoggingStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bucketName = output.bucketName
             self.lastFailureMessage = output.lastFailureMessage
@@ -16814,9 +16760,8 @@ public enum DescribeNodeConfigurationOptionsOutputError: Swift.Error, Swift.Equa
 
 extension DescribeNodeConfigurationOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeNodeConfigurationOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.nodeConfigurationOptionList = output.nodeConfigurationOptionList
@@ -16981,9 +16926,8 @@ public enum DescribeOrderableClusterOptionsOutputError: Swift.Error, Swift.Equat
 
 extension DescribeOrderableClusterOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeOrderableClusterOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.orderableClusterOptions = output.orderableClusterOptions
@@ -17154,9 +17098,8 @@ public enum DescribePartnersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribePartnersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePartnersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.partnerIntegrationInfoList = output.partnerIntegrationInfoList
         } else {
@@ -17316,9 +17259,8 @@ public enum DescribeReservedNodeExchangeStatusOutputError: Swift.Error, Swift.Eq
 
 extension DescribeReservedNodeExchangeStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeReservedNodeExchangeStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.reservedNodeExchangeStatusDetails = output.reservedNodeExchangeStatusDetails
@@ -17478,9 +17420,8 @@ public enum DescribeReservedNodeOfferingsOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeReservedNodeOfferingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeReservedNodeOfferingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.reservedNodeOfferings = output.reservedNodeOfferings
@@ -17639,9 +17580,8 @@ public enum DescribeReservedNodesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeReservedNodesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeReservedNodesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.reservedNodes = output.reservedNodes
@@ -17779,9 +17719,8 @@ public enum DescribeResizeOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeResizeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeResizeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.avgResizeRateInMegaBytesPerSecond = output.avgResizeRateInMegaBytesPerSecond
             self.dataTransferProgressPercent = output.dataTransferProgressPercent
@@ -18194,9 +18133,8 @@ public enum DescribeScheduledActionsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeScheduledActionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeScheduledActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.scheduledActions = output.scheduledActions
@@ -18428,9 +18366,8 @@ public enum DescribeSnapshotCopyGrantsOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeSnapshotCopyGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSnapshotCopyGrantsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.snapshotCopyGrants = output.snapshotCopyGrants
@@ -18669,9 +18606,8 @@ public enum DescribeSnapshotSchedulesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeSnapshotSchedulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSnapshotSchedulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.snapshotSchedules = output.snapshotSchedules
@@ -18776,9 +18712,8 @@ public enum DescribeStorageOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.totalBackupSizeInMegaBytes = output.totalBackupSizeInMegaBytes
             self.totalProvisionedStorageInMegaBytes = output.totalProvisionedStorageInMegaBytes
@@ -18930,9 +18865,8 @@ public enum DescribeTableRestoreStatusOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeTableRestoreStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTableRestoreStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.tableRestoreStatusDetails = output.tableRestoreStatusDetails
@@ -19199,9 +19133,8 @@ public enum DescribeTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.taggedResources = output.taggedResources
@@ -19455,9 +19388,8 @@ public enum DescribeUsageLimitsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeUsageLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeUsageLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.usageLimits = output.usageLimits
@@ -19594,9 +19526,8 @@ public enum DisableLoggingOutputError: Swift.Error, Swift.Equatable {
 
 extension DisableLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisableLoggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bucketName = output.bucketName
             self.lastFailureMessage = output.lastFailureMessage
@@ -19798,9 +19729,8 @@ public enum DisableSnapshotCopyOutputError: Swift.Error, Swift.Equatable {
 
 extension DisableSnapshotCopyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisableSnapshotCopyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -19942,9 +19872,8 @@ public enum DisassociateDataShareConsumerOutputError: Swift.Error, Swift.Equatab
 
 extension DisassociateDataShareConsumerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateDataShareConsumerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowPubliclyAccessibleConsumers = output.allowPubliclyAccessibleConsumers
             self.dataShareArn = output.dataShareArn
@@ -20343,9 +20272,8 @@ public enum EnableLoggingOutputError: Swift.Error, Swift.Equatable {
 
 extension EnableLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EnableLoggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bucketName = output.bucketName
             self.lastFailureMessage = output.lastFailureMessage
@@ -20606,9 +20534,8 @@ public enum EnableSnapshotCopyOutputError: Swift.Error, Swift.Equatable {
 
 extension EnableSnapshotCopyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EnableSnapshotCopyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -20880,7 +20807,7 @@ extension RedshiftClientTypes {
 
 extension EndpointAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EndpointAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21072,7 +20999,7 @@ extension RedshiftClientTypes {
 
 extension EndpointAuthorizationAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EndpointAuthorizationAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21123,7 +21050,7 @@ extension EndpointAuthorizationAlreadyExistsFaultBody: Swift.Decodable {
 
 extension EndpointAuthorizationNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EndpointAuthorizationNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21174,7 +21101,7 @@ extension EndpointAuthorizationNotFoundFaultBody: Swift.Decodable {
 
 extension EndpointAuthorizationsPerClusterLimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EndpointAuthorizationsPerClusterLimitExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21225,7 +21152,7 @@ extension EndpointAuthorizationsPerClusterLimitExceededFaultBody: Swift.Decodabl
 
 extension EndpointNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EndpointNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21276,7 +21203,7 @@ extension EndpointNotFoundFaultBody: Swift.Decodable {
 
 extension EndpointsPerAuthorizationLimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EndpointsPerAuthorizationLimitExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21327,7 +21254,7 @@ extension EndpointsPerAuthorizationLimitExceededFaultBody: Swift.Decodable {
 
 extension EndpointsPerClusterLimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EndpointsPerClusterLimitExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21878,7 +21805,7 @@ extension RedshiftClientTypes {
 
 extension EventSubscriptionQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EventSubscriptionQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -22116,9 +22043,8 @@ extension GetClusterCredentialsOutputResponse: Swift.CustomDebugStringConvertibl
 
 extension GetClusterCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetClusterCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbPassword = output.dbPassword
             self.dbUser = output.dbUser
@@ -22275,9 +22201,8 @@ extension GetClusterCredentialsWithIAMOutputResponse: Swift.CustomDebugStringCon
 
 extension GetClusterCredentialsWithIAMOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetClusterCredentialsWithIAMOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbPassword = output.dbPassword
             self.dbUser = output.dbUser
@@ -22472,9 +22397,8 @@ public enum GetReservedNodeExchangeConfigurationOptionsOutputError: Swift.Error,
 
 extension GetReservedNodeExchangeConfigurationOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetReservedNodeExchangeConfigurationOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.reservedNodeConfigurationOptionList = output.reservedNodeConfigurationOptionList
@@ -22641,9 +22565,8 @@ public enum GetReservedNodeExchangeOfferingsOutputError: Swift.Error, Swift.Equa
 
 extension GetReservedNodeExchangeOfferingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetReservedNodeExchangeOfferingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.reservedNodeOfferings = output.reservedNodeOfferings
@@ -22791,7 +22714,7 @@ extension RedshiftClientTypes {
 
 extension HsmClientCertificateAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HsmClientCertificateAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -22842,7 +22765,7 @@ extension HsmClientCertificateAlreadyExistsFaultBody: Swift.Decodable {
 
 extension HsmClientCertificateNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HsmClientCertificateNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -22893,7 +22816,7 @@ extension HsmClientCertificateNotFoundFaultBody: Swift.Decodable {
 
 extension HsmClientCertificateQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HsmClientCertificateQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23045,7 +22968,7 @@ extension RedshiftClientTypes {
 
 extension HsmConfigurationAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HsmConfigurationAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23096,7 +23019,7 @@ extension HsmConfigurationAlreadyExistsFaultBody: Swift.Decodable {
 
 extension HsmConfigurationNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HsmConfigurationNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23147,7 +23070,7 @@ extension HsmConfigurationNotFoundFaultBody: Swift.Decodable {
 
 extension HsmConfigurationQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HsmConfigurationQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23334,7 +23257,7 @@ extension RedshiftClientTypes {
 
 extension InProgressTableRestoreQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InProgressTableRestoreQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23385,7 +23308,7 @@ extension InProgressTableRestoreQuotaExceededFaultBody: Swift.Decodable {
 
 extension IncompatibleOrderableOptions {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<IncompatibleOrderableOptionsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23436,7 +23359,7 @@ extension IncompatibleOrderableOptionsBody: Swift.Decodable {
 
 extension InsufficientClusterCapacityFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientClusterCapacityFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23487,7 +23410,7 @@ extension InsufficientClusterCapacityFaultBody: Swift.Decodable {
 
 extension InsufficientS3BucketPolicyFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientS3BucketPolicyFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23538,7 +23461,7 @@ extension InsufficientS3BucketPolicyFaultBody: Swift.Decodable {
 
 extension InvalidAuthenticationProfileRequestFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidAuthenticationProfileRequestFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23589,7 +23512,7 @@ extension InvalidAuthenticationProfileRequestFaultBody: Swift.Decodable {
 
 extension InvalidAuthorizationStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidAuthorizationStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23640,7 +23563,7 @@ extension InvalidAuthorizationStateFaultBody: Swift.Decodable {
 
 extension InvalidClusterParameterGroupStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidClusterParameterGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23691,7 +23614,7 @@ extension InvalidClusterParameterGroupStateFaultBody: Swift.Decodable {
 
 extension InvalidClusterSecurityGroupStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidClusterSecurityGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23742,7 +23665,7 @@ extension InvalidClusterSecurityGroupStateFaultBody: Swift.Decodable {
 
 extension InvalidClusterSnapshotScheduleStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidClusterSnapshotScheduleStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23793,7 +23716,7 @@ extension InvalidClusterSnapshotScheduleStateFaultBody: Swift.Decodable {
 
 extension InvalidClusterSnapshotStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidClusterSnapshotStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23844,7 +23767,7 @@ extension InvalidClusterSnapshotStateFaultBody: Swift.Decodable {
 
 extension InvalidClusterStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidClusterStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23895,7 +23818,7 @@ extension InvalidClusterStateFaultBody: Swift.Decodable {
 
 extension InvalidClusterSubnetGroupStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidClusterSubnetGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23946,7 +23869,7 @@ extension InvalidClusterSubnetGroupStateFaultBody: Swift.Decodable {
 
 extension InvalidClusterSubnetStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidClusterSubnetStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -23997,7 +23920,7 @@ extension InvalidClusterSubnetStateFaultBody: Swift.Decodable {
 
 extension InvalidClusterTrackFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidClusterTrackFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24048,7 +23971,7 @@ extension InvalidClusterTrackFaultBody: Swift.Decodable {
 
 extension InvalidDataShareFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDataShareFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24099,7 +24022,7 @@ extension InvalidDataShareFaultBody: Swift.Decodable {
 
 extension InvalidElasticIpFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidElasticIpFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24150,7 +24073,7 @@ extension InvalidElasticIpFaultBody: Swift.Decodable {
 
 extension InvalidEndpointStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidEndpointStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24201,7 +24124,7 @@ extension InvalidEndpointStateFaultBody: Swift.Decodable {
 
 extension InvalidHsmClientCertificateStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidHsmClientCertificateStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24252,7 +24175,7 @@ extension InvalidHsmClientCertificateStateFaultBody: Swift.Decodable {
 
 extension InvalidHsmConfigurationStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidHsmConfigurationStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24303,7 +24226,7 @@ extension InvalidHsmConfigurationStateFaultBody: Swift.Decodable {
 
 extension InvalidNamespaceFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidNamespaceFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24354,7 +24277,7 @@ extension InvalidNamespaceFaultBody: Swift.Decodable {
 
 extension InvalidReservedNodeStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidReservedNodeStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24405,7 +24328,7 @@ extension InvalidReservedNodeStateFaultBody: Swift.Decodable {
 
 extension InvalidRestoreFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidRestoreFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24456,7 +24379,7 @@ extension InvalidRestoreFaultBody: Swift.Decodable {
 
 extension InvalidRetentionPeriodFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidRetentionPeriodFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24507,7 +24430,7 @@ extension InvalidRetentionPeriodFaultBody: Swift.Decodable {
 
 extension InvalidS3BucketNameFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidS3BucketNameFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24558,7 +24481,7 @@ extension InvalidS3BucketNameFaultBody: Swift.Decodable {
 
 extension InvalidS3KeyPrefixFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidS3KeyPrefixFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24609,7 +24532,7 @@ extension InvalidS3KeyPrefixFaultBody: Swift.Decodable {
 
 extension InvalidScheduleFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidScheduleFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24660,7 +24583,7 @@ extension InvalidScheduleFaultBody: Swift.Decodable {
 
 extension InvalidScheduledActionFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidScheduledActionFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24711,7 +24634,7 @@ extension InvalidScheduledActionFaultBody: Swift.Decodable {
 
 extension InvalidSnapshotCopyGrantStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSnapshotCopyGrantStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24762,7 +24685,7 @@ extension InvalidSnapshotCopyGrantStateFaultBody: Swift.Decodable {
 
 extension InvalidSubnet {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSubnetBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24813,7 +24736,7 @@ extension InvalidSubnetBody: Swift.Decodable {
 
 extension InvalidSubscriptionStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSubscriptionStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24864,7 +24787,7 @@ extension InvalidSubscriptionStateFaultBody: Swift.Decodable {
 
 extension InvalidTableRestoreArgumentFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidTableRestoreArgumentFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24915,7 +24838,7 @@ extension InvalidTableRestoreArgumentFaultBody: Swift.Decodable {
 
 extension InvalidTagFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidTagFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24966,7 +24889,7 @@ extension InvalidTagFaultBody: Swift.Decodable {
 
 extension InvalidUsageLimitFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidUsageLimitFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -25017,7 +24940,7 @@ extension InvalidUsageLimitFaultBody: Swift.Decodable {
 
 extension InvalidVPCNetworkStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidVPCNetworkStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -25068,7 +24991,7 @@ extension InvalidVPCNetworkStateFaultBody: Swift.Decodable {
 
 extension LimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -25346,9 +25269,8 @@ public enum ModifyAquaConfigurationOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyAquaConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyAquaConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aquaConfiguration = output.aquaConfiguration
         } else {
@@ -25471,9 +25393,8 @@ public enum ModifyAuthenticationProfileOutputError: Swift.Error, Swift.Equatable
 
 extension ModifyAuthenticationProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyAuthenticationProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authenticationProfileContent = output.authenticationProfileContent
             self.authenticationProfileName = output.authenticationProfileName
@@ -25606,9 +25527,8 @@ public enum ModifyClusterDbRevisionOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyClusterDbRevisionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyClusterDbRevisionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -25803,9 +25723,8 @@ public enum ModifyClusterIamRolesOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyClusterIamRolesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyClusterIamRolesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -26361,9 +26280,8 @@ public enum ModifyClusterMaintenanceOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyClusterMaintenanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyClusterMaintenanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -26460,9 +26378,8 @@ public enum ModifyClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -26610,9 +26527,8 @@ public enum ModifyClusterParameterGroupOutputError: Swift.Error, Swift.Equatable
 
 extension ModifyClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.parameterGroupName = output.parameterGroupName
             self.parameterGroupStatus = output.parameterGroupStatus
@@ -26756,9 +26672,8 @@ public enum ModifyClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
@@ -27028,9 +26943,8 @@ public enum ModifyClusterSubnetGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyClusterSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyClusterSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterSubnetGroup = output.clusterSubnetGroup
         } else {
@@ -27184,9 +27098,8 @@ public enum ModifyEndpointAccessOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyEndpointAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyEndpointAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.address = output.address
             self.clusterIdentifier = output.clusterIdentifier
@@ -27536,9 +27449,8 @@ public enum ModifyEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
@@ -27730,9 +27642,8 @@ public enum ModifyScheduledActionOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyScheduledActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyScheduledActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endTime = output.endTime
             self.iamRole = output.iamRole
@@ -27969,9 +27880,8 @@ public enum ModifySnapshotCopyRetentionPeriodOutputError: Swift.Error, Swift.Equ
 
 extension ModifySnapshotCopyRetentionPeriodOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifySnapshotCopyRetentionPeriodOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -28120,9 +28030,8 @@ public enum ModifySnapshotScheduleOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifySnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifySnapshotScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associatedClusterCount = output.associatedClusterCount
             self.associatedClusters = output.associatedClusters
@@ -28384,9 +28293,8 @@ public enum ModifyUsageLimitOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyUsageLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyUsageLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.amount = output.amount
             self.breachAction = output.breachAction
@@ -28769,7 +28677,7 @@ extension RedshiftClientTypes {
 
 extension NumberOfNodesPerClusterLimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NumberOfNodesPerClusterLimitExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -28820,7 +28728,7 @@ extension NumberOfNodesPerClusterLimitExceededFaultBody: Swift.Decodable {
 
 extension NumberOfNodesQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NumberOfNodesQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -29279,7 +29187,7 @@ extension RedshiftClientTypes {
 
 extension PartnerNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<PartnerNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -29436,9 +29344,8 @@ public enum PauseClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension PauseClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PauseClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -29698,9 +29605,8 @@ public enum PurchaseReservedNodeOfferingOutputError: Swift.Error, Swift.Equatabl
 
 extension PurchaseReservedNodeOfferingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PurchaseReservedNodeOfferingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reservedNode = output.reservedNode
         } else {
@@ -29810,9 +29716,8 @@ public enum RebootClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension RebootClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RebootClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -29964,9 +29869,8 @@ public enum RejectDataShareOutputError: Swift.Error, Swift.Equatable {
 
 extension RejectDataShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RejectDataShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowPubliclyAccessibleConsumers = output.allowPubliclyAccessibleConsumers
             self.dataShareArn = output.dataShareArn
@@ -30254,7 +30158,7 @@ extension RedshiftClientTypes {
 
 extension ReservedNodeAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedNodeAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -30305,7 +30209,7 @@ extension ReservedNodeAlreadyExistsFaultBody: Swift.Decodable {
 
 extension ReservedNodeAlreadyMigratedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedNodeAlreadyMigratedFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -30443,7 +30347,7 @@ extension RedshiftClientTypes {
 
 extension ReservedNodeExchangeNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedNodeExchangeNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -30653,7 +30557,7 @@ extension RedshiftClientTypes {
 
 extension ReservedNodeNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedNodeNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -30845,7 +30749,7 @@ extension RedshiftClientTypes {
 
 extension ReservedNodeOfferingNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedNodeOfferingNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -30928,7 +30832,7 @@ extension RedshiftClientTypes {
 
 extension ReservedNodeQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReservedNodeQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -31097,9 +31001,8 @@ public enum ResetClusterParameterGroupOutputError: Swift.Error, Swift.Equatable 
 
 extension ResetClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResetClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.parameterGroupName = output.parameterGroupName
             self.parameterGroupStatus = output.parameterGroupStatus
@@ -31408,9 +31311,8 @@ public enum ResizeClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension ResizeClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResizeClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -31495,7 +31397,7 @@ extension RedshiftClientTypes {
 
 extension ResizeNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResizeNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -31546,7 +31448,7 @@ extension ResizeNotFoundFaultBody: Swift.Decodable {
 
 extension ResourceNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -32173,9 +32075,8 @@ public enum RestoreFromClusterSnapshotOutputError: Swift.Error, Swift.Equatable 
 
 extension RestoreFromClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RestoreFromClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -32472,9 +32373,8 @@ public enum RestoreTableFromClusterSnapshotOutputError: Swift.Error, Swift.Equat
 
 extension RestoreTableFromClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RestoreTableFromClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableRestoreStatus = output.tableRestoreStatus
         } else {
@@ -32622,9 +32522,8 @@ public enum ResumeClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension ResumeClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResumeClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -32824,9 +32723,8 @@ public enum RevokeClusterSecurityGroupIngressOutputError: Swift.Error, Swift.Equ
 
 extension RevokeClusterSecurityGroupIngressOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RevokeClusterSecurityGroupIngressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterSecurityGroup = output.clusterSecurityGroup
         } else {
@@ -33003,9 +32901,8 @@ public enum RevokeEndpointAccessOutputError: Swift.Error, Swift.Equatable {
 
 extension RevokeEndpointAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RevokeEndpointAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowedAllVPCs = output.allowedAllVPCs
             self.allowedVPCs = output.allowedVPCs
@@ -33250,9 +33147,8 @@ public enum RevokeSnapshotAccessOutputError: Swift.Error, Swift.Equatable {
 
 extension RevokeSnapshotAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RevokeSnapshotAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
@@ -33364,9 +33260,8 @@ public enum RotateEncryptionKeyOutputError: Swift.Error, Swift.Equatable {
 
 extension RotateEncryptionKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RotateEncryptionKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -33406,7 +33301,7 @@ extension RotateEncryptionKeyOutputResponseBody: Swift.Decodable {
 
 extension SNSInvalidTopicFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SNSInvalidTopicFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -33457,7 +33352,7 @@ extension SNSInvalidTopicFaultBody: Swift.Decodable {
 
 extension SNSNoAuthorizationFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SNSNoAuthorizationFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -33508,7 +33403,7 @@ extension SNSNoAuthorizationFaultBody: Swift.Decodable {
 
 extension SNSTopicArnNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SNSTopicArnNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -33559,7 +33454,7 @@ extension SNSTopicArnNotFoundFaultBody: Swift.Decodable {
 
 extension ScheduleDefinitionTypeUnsupportedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ScheduleDefinitionTypeUnsupportedFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -33786,7 +33681,7 @@ extension RedshiftClientTypes {
 
 extension ScheduledActionAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ScheduledActionAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -33942,7 +33837,7 @@ extension RedshiftClientTypes {
 
 extension ScheduledActionNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ScheduledActionNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -33993,7 +33888,7 @@ extension ScheduledActionNotFoundFaultBody: Swift.Decodable {
 
 extension ScheduledActionQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ScheduledActionQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -34131,7 +34026,7 @@ extension RedshiftClientTypes {
 
 extension ScheduledActionTypeUnsupportedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ScheduledActionTypeUnsupportedFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -34701,7 +34596,7 @@ extension RedshiftClientTypes {
 
 extension SnapshotCopyAlreadyDisabledFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotCopyAlreadyDisabledFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -34752,7 +34647,7 @@ extension SnapshotCopyAlreadyDisabledFaultBody: Swift.Decodable {
 
 extension SnapshotCopyAlreadyEnabledFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotCopyAlreadyEnabledFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -34803,7 +34698,7 @@ extension SnapshotCopyAlreadyEnabledFaultBody: Swift.Decodable {
 
 extension SnapshotCopyDisabledFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotCopyDisabledFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -34935,7 +34830,7 @@ extension RedshiftClientTypes {
 
 extension SnapshotCopyGrantAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotCopyGrantAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -34986,7 +34881,7 @@ extension SnapshotCopyGrantAlreadyExistsFaultBody: Swift.Decodable {
 
 extension SnapshotCopyGrantNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotCopyGrantNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -35037,7 +34932,7 @@ extension SnapshotCopyGrantNotFoundFaultBody: Swift.Decodable {
 
 extension SnapshotCopyGrantQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotCopyGrantQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -35352,7 +35247,7 @@ extension RedshiftClientTypes {
 
 extension SnapshotScheduleAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotScheduleAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -35403,7 +35298,7 @@ extension SnapshotScheduleAlreadyExistsFaultBody: Swift.Decodable {
 
 extension SnapshotScheduleNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotScheduleNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -35454,7 +35349,7 @@ extension SnapshotScheduleNotFoundFaultBody: Swift.Decodable {
 
 extension SnapshotScheduleQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotScheduleQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -35505,7 +35400,7 @@ extension SnapshotScheduleQuotaExceededFaultBody: Swift.Decodable {
 
 extension SnapshotScheduleUpdateInProgressFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotScheduleUpdateInProgressFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -35634,7 +35529,7 @@ extension RedshiftClientTypes {
 
 extension SourceNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SourceNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -35781,7 +35676,7 @@ extension RedshiftClientTypes {
 
 extension SubnetAlreadyInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubnetAlreadyInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -35832,7 +35727,7 @@ extension SubnetAlreadyInUseBody: Swift.Decodable {
 
 extension SubscriptionAlreadyExistFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubscriptionAlreadyExistFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -35883,7 +35778,7 @@ extension SubscriptionAlreadyExistFaultBody: Swift.Decodable {
 
 extension SubscriptionCategoryNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubscriptionCategoryNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -35934,7 +35829,7 @@ extension SubscriptionCategoryNotFoundFaultBody: Swift.Decodable {
 
 extension SubscriptionEventIdNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubscriptionEventIdNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -35985,7 +35880,7 @@ extension SubscriptionEventIdNotFoundFaultBody: Swift.Decodable {
 
 extension SubscriptionNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubscriptionNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -36036,7 +35931,7 @@ extension SubscriptionNotFoundFaultBody: Swift.Decodable {
 
 extension SubscriptionSeverityNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubscriptionSeverityNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -36157,7 +36052,7 @@ extension RedshiftClientTypes {
 
 extension TableLimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TableLimitExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -36208,7 +36103,7 @@ extension TableLimitExceededFaultBody: Swift.Decodable {
 
 extension TableRestoreNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TableRestoreNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -36510,7 +36405,7 @@ extension RedshiftClientTypes {
 
 extension TagLimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TagLimitExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -36637,7 +36532,7 @@ extension RedshiftClientTypes {
 
 extension UnauthorizedOperation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UnauthorizedOperationBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -36688,7 +36583,7 @@ extension UnauthorizedOperationBody: Swift.Decodable {
 
 extension UnauthorizedPartnerIntegrationFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UnauthorizedPartnerIntegrationFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -36739,7 +36634,7 @@ extension UnauthorizedPartnerIntegrationFaultBody: Swift.Decodable {
 
 extension UnknownSnapshotCopyRegionFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UnknownSnapshotCopyRegionFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -36790,7 +36685,7 @@ extension UnknownSnapshotCopyRegionFaultBody: Swift.Decodable {
 
 extension UnsupportedOperationFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UnsupportedOperationFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -36841,7 +36736,7 @@ extension UnsupportedOperationFaultBody: Swift.Decodable {
 
 extension UnsupportedOptionFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UnsupportedOptionFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -37022,9 +36917,8 @@ public enum UpdatePartnerStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePartnerStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdatePartnerStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.databaseName = output.databaseName
             self.partnerName = output.partnerName
@@ -37292,7 +37186,7 @@ extension RedshiftClientTypes {
 
 extension UsageLimitAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UsageLimitAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -37445,7 +37339,7 @@ extension RedshiftClientTypes {
 
 extension UsageLimitNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UsageLimitNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message

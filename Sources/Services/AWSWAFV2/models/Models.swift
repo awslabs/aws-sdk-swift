@@ -1016,9 +1016,8 @@ public enum CheckCapacityOutputError: Swift.Error, Swift.Equatable {
 
 extension CheckCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CheckCapacityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capacity = output.capacity
         } else {
@@ -2294,9 +2293,8 @@ public enum CreateIPSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summary = output.summary
         } else {
@@ -2497,9 +2495,8 @@ public enum CreateRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summary = output.summary
         } else {
@@ -2755,9 +2752,8 @@ public enum CreateRuleGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summary = output.summary
         } else {
@@ -3067,9 +3063,8 @@ public enum CreateWebACLOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summary = output.summary
         } else {
@@ -3454,9 +3449,8 @@ public enum DeleteFirewallManagerRuleGroupsOutputError: Swift.Error, Swift.Equat
 
 extension DeleteFirewallManagerRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteFirewallManagerRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextWebACLLockToken = output.nextWebACLLockToken
         } else {
@@ -4337,9 +4331,8 @@ public enum DescribeManagedRuleGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeManagedRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeManagedRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availableLabels = output.availableLabels
             self.capacity = output.capacity
@@ -5230,9 +5223,8 @@ public enum GenerateMobileSdkReleaseUrlOutputError: Swift.Error, Swift.Equatable
 
 extension GenerateMobileSdkReleaseUrlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GenerateMobileSdkReleaseUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.url = output.url
         } else {
@@ -5441,9 +5433,8 @@ public enum GetIPSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ipSet = output.ipSet
             self.lockToken = output.lockToken
@@ -5568,9 +5559,8 @@ public enum GetLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
         } else {
@@ -5715,9 +5705,8 @@ public enum GetManagedRuleSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetManagedRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetManagedRuleSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lockToken = output.lockToken
             self.managedRuleSet = output.managedRuleSet
@@ -5855,9 +5844,8 @@ public enum GetMobileSdkReleaseOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMobileSdkReleaseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMobileSdkReleaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mobileSdkRelease = output.mobileSdkRelease
         } else {
@@ -5970,9 +5958,8 @@ public enum GetPermissionPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetPermissionPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -6142,9 +6129,8 @@ public enum GetRateBasedStatementManagedKeysOutputError: Swift.Error, Swift.Equa
 
 extension GetRateBasedStatementManagedKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRateBasedStatementManagedKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedKeysIPV4 = output.managedKeysIPV4
             self.managedKeysIPV6 = output.managedKeysIPV6
@@ -6299,9 +6285,8 @@ public enum GetRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lockToken = output.lockToken
             self.regexPatternSet = output.regexPatternSet
@@ -6465,9 +6450,8 @@ public enum GetRuleGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lockToken = output.lockToken
             self.ruleGroup = output.ruleGroup
@@ -6646,9 +6630,8 @@ public enum GetSampledRequestsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSampledRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSampledRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.populationSize = output.populationSize
             self.sampledRequests = output.sampledRequests
@@ -6804,9 +6787,8 @@ public enum GetWebACLForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension GetWebACLForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetWebACLForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.webACL = output.webACL
         } else {
@@ -6951,9 +6933,8 @@ public enum GetWebACLOutputError: Swift.Error, Swift.Equatable {
 
 extension GetWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationIntegrationURL = output.applicationIntegrationURL
             self.lockToken = output.lockToken
@@ -8221,9 +8202,8 @@ public enum ListAvailableManagedRuleGroupVersionsOutputError: Swift.Error, Swift
 
 extension ListAvailableManagedRuleGroupVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAvailableManagedRuleGroupVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.currentDefaultVersion = output.currentDefaultVersion
             self.nextMarker = output.nextMarker
@@ -8393,9 +8373,8 @@ public enum ListAvailableManagedRuleGroupsOutputError: Swift.Error, Swift.Equata
 
 extension ListAvailableManagedRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAvailableManagedRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedRuleGroups = output.managedRuleGroups
             self.nextMarker = output.nextMarker
@@ -8555,9 +8534,8 @@ public enum ListIPSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListIPSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListIPSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ipSets = output.ipSets
             self.nextMarker = output.nextMarker
@@ -8717,9 +8695,8 @@ public enum ListLoggingConfigurationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLoggingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLoggingConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfigurations = output.loggingConfigurations
             self.nextMarker = output.nextMarker
@@ -8879,9 +8856,8 @@ public enum ListManagedRuleSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListManagedRuleSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListManagedRuleSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedRuleSets = output.managedRuleSets
             self.nextMarker = output.nextMarker
@@ -9037,9 +9013,8 @@ public enum ListMobileSdkReleasesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMobileSdkReleasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMobileSdkReleasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.releaseSummaries = output.releaseSummaries
@@ -9199,9 +9174,8 @@ public enum ListRegexPatternSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRegexPatternSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRegexPatternSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.regexPatternSets = output.regexPatternSets
@@ -9347,9 +9321,8 @@ public enum ListResourcesForWebACLOutputError: Swift.Error, Swift.Equatable {
 
 extension ListResourcesForWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListResourcesForWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArns = output.resourceArns
         } else {
@@ -9499,9 +9472,8 @@ public enum ListRuleGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.ruleGroups = output.ruleGroups
@@ -9663,9 +9635,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.tagInfoForResource = output.tagInfoForResource
@@ -9816,9 +9787,8 @@ public enum ListWebACLsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListWebACLsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWebACLsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.webACLs = output.webACLs
@@ -11428,9 +11398,8 @@ public enum PutLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
 
 extension PutLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
         } else {
@@ -11626,9 +11595,8 @@ public enum PutManagedRuleSetVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension PutManagedRuleSetVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutManagedRuleSetVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
         } else {
@@ -14903,9 +14871,8 @@ public enum UpdateIPSetOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
         } else {
@@ -15091,9 +15058,8 @@ public enum UpdateManagedRuleSetVersionExpiryDateOutputError: Swift.Error, Swift
 
 extension UpdateManagedRuleSetVersionExpiryDateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateManagedRuleSetVersionExpiryDateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expiringVersion = output.expiringVersion
             self.expiryTimestamp = output.expiryTimestamp
@@ -15314,9 +15280,8 @@ public enum UpdateRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
         } else {
@@ -15559,9 +15524,8 @@ public enum UpdateRuleGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
         } else {
@@ -15869,9 +15833,8 @@ public enum UpdateWebACLOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
         } else {
@@ -16069,9 +16032,8 @@ extension WAFV2ClientTypes {
 
 extension WAFAssociatedItemException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFAssociatedItemExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16121,9 +16083,8 @@ extension WAFAssociatedItemExceptionBody: Swift.Decodable {
 
 extension WAFConfigurationWarningException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFConfigurationWarningExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16173,9 +16134,8 @@ extension WAFConfigurationWarningExceptionBody: Swift.Decodable {
 
 extension WAFDuplicateItemException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFDuplicateItemExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16225,9 +16185,8 @@ extension WAFDuplicateItemExceptionBody: Swift.Decodable {
 
 extension WAFExpiredManagedRuleGroupVersionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFExpiredManagedRuleGroupVersionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16277,9 +16236,8 @@ extension WAFExpiredManagedRuleGroupVersionExceptionBody: Swift.Decodable {
 
 extension WAFInternalErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFInternalErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16329,9 +16287,8 @@ extension WAFInternalErrorExceptionBody: Swift.Decodable {
 
 extension WAFInvalidOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFInvalidOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16381,9 +16338,8 @@ extension WAFInvalidOperationExceptionBody: Swift.Decodable {
 
 extension WAFInvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFInvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.field = output.field
             self.message = output.message
@@ -16471,9 +16427,8 @@ extension WAFInvalidParameterExceptionBody: Swift.Decodable {
 
 extension WAFInvalidPermissionPolicyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFInvalidPermissionPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16536,9 +16491,8 @@ extension WAFInvalidPermissionPolicyExceptionBody: Swift.Decodable {
 
 extension WAFInvalidResourceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFInvalidResourceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16588,9 +16542,8 @@ extension WAFInvalidResourceExceptionBody: Swift.Decodable {
 
 extension WAFLimitsExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFLimitsExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16640,9 +16593,8 @@ extension WAFLimitsExceededExceptionBody: Swift.Decodable {
 
 extension WAFLogDestinationPermissionIssueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFLogDestinationPermissionIssueExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16692,9 +16644,8 @@ extension WAFLogDestinationPermissionIssueExceptionBody: Swift.Decodable {
 
 extension WAFNonexistentItemException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFNonexistentItemExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16744,9 +16695,8 @@ extension WAFNonexistentItemExceptionBody: Swift.Decodable {
 
 extension WAFOptimisticLockException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFOptimisticLockExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16796,9 +16746,8 @@ extension WAFOptimisticLockExceptionBody: Swift.Decodable {
 
 extension WAFServiceLinkedRoleErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFServiceLinkedRoleErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16848,9 +16797,8 @@ extension WAFServiceLinkedRoleErrorExceptionBody: Swift.Decodable {
 
 extension WAFSubscriptionNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFSubscriptionNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16900,9 +16848,8 @@ extension WAFSubscriptionNotFoundExceptionBody: Swift.Decodable {
 
 extension WAFTagOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFTagOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16952,9 +16899,8 @@ extension WAFTagOperationExceptionBody: Swift.Decodable {
 
 extension WAFTagOperationInternalErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFTagOperationInternalErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17004,9 +16950,8 @@ extension WAFTagOperationInternalErrorExceptionBody: Swift.Decodable {
 
 extension WAFUnavailableEntityException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFUnavailableEntityExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

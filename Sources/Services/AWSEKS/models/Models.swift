@@ -66,9 +66,8 @@ extension EKSClientTypes {
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -807,9 +806,8 @@ public enum AssociateEncryptionConfigOutputError: Swift.Error, Swift.Equatable {
 
 extension AssociateEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateEncryptionConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.update = output.update
         } else {
@@ -972,9 +970,8 @@ public enum AssociateIdentityProviderConfigOutputError: Swift.Error, Swift.Equat
 
 extension AssociateIdentityProviderConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateIdentityProviderConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
             self.update = output.update
@@ -1067,9 +1064,8 @@ extension EKSClientTypes {
 
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1186,9 +1182,8 @@ extension EKSClientTypes {
 
 extension ClientException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ClientExceptionBody = try responseDecoder.decode(responseBody: data)
             self.addonName = output.addonName
             self.clusterName = output.clusterName
@@ -2246,9 +2241,8 @@ public enum CreateAddonOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAddonOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAddonOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addon = output.addon
         } else {
@@ -2503,9 +2497,8 @@ public enum CreateClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -2729,9 +2722,8 @@ public enum CreateFargateProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateFargateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateFargateProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fargateProfile = output.fargateProfile
         } else {
@@ -3114,9 +3106,8 @@ public enum CreateNodegroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateNodegroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateNodegroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nodegroup = output.nodegroup
         } else {
@@ -3241,9 +3232,8 @@ public enum DeleteAddonOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteAddonOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteAddonOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addon = output.addon
         } else {
@@ -3343,9 +3333,8 @@ public enum DeleteClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -3451,9 +3440,8 @@ public enum DeleteFargateProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteFargateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteFargateProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fargateProfile = output.fargateProfile
         } else {
@@ -3563,9 +3551,8 @@ public enum DeleteNodegroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteNodegroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteNodegroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nodegroup = output.nodegroup
         } else {
@@ -3667,9 +3654,8 @@ public enum DeregisterClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension DeregisterClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeregisterClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -3788,9 +3774,8 @@ public enum DescribeAddonConfigurationOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeAddonConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAddonConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addonName = output.addonName
             self.addonVersion = output.addonVersion
@@ -3934,9 +3919,8 @@ public enum DescribeAddonOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAddonOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAddonOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addon = output.addon
         } else {
@@ -4095,9 +4079,8 @@ public enum DescribeAddonVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAddonVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAddonVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addons = output.addons
             self.nextToken = output.nextToken
@@ -4229,9 +4212,8 @@ public enum DescribeClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -4352,9 +4334,8 @@ public enum DescribeFargateProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFargateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFargateProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fargateProfile = output.fargateProfile
         } else {
@@ -4479,9 +4460,8 @@ public enum DescribeIdentityProviderConfigOutputError: Swift.Error, Swift.Equata
 
 extension DescribeIdentityProviderConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeIdentityProviderConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.identityProviderConfig = output.identityProviderConfig
         } else {
@@ -4605,9 +4585,8 @@ public enum DescribeNodegroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeNodegroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeNodegroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nodegroup = output.nodegroup
         } else {
@@ -4738,9 +4717,8 @@ public enum DescribeUpdateOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeUpdateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeUpdateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.update = output.update
         } else {
@@ -4879,9 +4857,8 @@ public enum DisassociateIdentityProviderConfigOutputError: Swift.Error, Swift.Eq
 
 extension DisassociateIdentityProviderConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateIdentityProviderConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.update = output.update
         } else {
@@ -5501,9 +5478,8 @@ extension EKSClientTypes {
 
 extension InvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.addonName = output.addonName
             self.clusterName = output.clusterName
@@ -5592,9 +5568,8 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
 
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.addonName = output.addonName
             self.clusterName = output.clusterName
@@ -6052,9 +6027,8 @@ public enum ListAddonsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAddonsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAddonsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addons = output.addons
             self.nextToken = output.nextToken
@@ -6198,9 +6172,8 @@ public enum ListClustersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusters = output.clusters
             self.nextToken = output.nextToken
@@ -6342,9 +6315,8 @@ public enum ListFargateProfilesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFargateProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFargateProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fargateProfileNames = output.fargateProfileNames
             self.nextToken = output.nextToken
@@ -6488,9 +6460,8 @@ public enum ListIdentityProviderConfigsOutputError: Swift.Error, Swift.Equatable
 
 extension ListIdentityProviderConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListIdentityProviderConfigsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.identityProviderConfigs = output.identityProviderConfigs
             self.nextToken = output.nextToken
@@ -6634,9 +6605,8 @@ public enum ListNodegroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListNodegroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListNodegroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.nodegroups = output.nodegroups
@@ -6749,9 +6719,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -6899,9 +6868,8 @@ public enum ListUpdatesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListUpdatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListUpdatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.updateIds = output.updateIds
@@ -7798,9 +7766,8 @@ extension EKSClientTypes {
 
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8480,9 +8447,8 @@ public enum RegisterClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -8613,9 +8579,8 @@ extension EKSClientTypes {
 
 extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.addonName = output.addonName
             self.clusterName = output.clusterName
@@ -8694,9 +8659,8 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
 
 extension ResourceLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.clusterName = output.clusterName
             self.message = output.message
@@ -8766,9 +8730,8 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.addonName = output.addonName
             self.clusterName = output.clusterName
@@ -8857,9 +8820,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 
 extension ResourcePropagationDelayException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourcePropagationDelayExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8909,9 +8871,8 @@ extension ResourcePropagationDelayExceptionBody: Swift.Decodable {
 
 extension ServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.addonName = output.addonName
             self.clusterName = output.clusterName
@@ -8990,9 +8951,8 @@ extension ServerExceptionBody: Swift.Decodable {
 
 extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9234,9 +9194,8 @@ extension EKSClientTypes {
 
 extension UnsupportedAvailabilityZoneException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedAvailabilityZoneExceptionBody = try responseDecoder.decode(responseBody: data)
             self.clusterName = output.clusterName
             self.message = output.message
@@ -9670,9 +9629,8 @@ public enum UpdateAddonOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateAddonOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateAddonOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.update = output.update
         } else {
@@ -9822,9 +9780,8 @@ public enum UpdateClusterConfigOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateClusterConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateClusterConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.update = output.update
         } else {
@@ -9963,9 +9920,8 @@ public enum UpdateClusterVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateClusterVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateClusterVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.update = output.update
         } else {
@@ -10216,9 +10172,8 @@ public enum UpdateNodegroupConfigOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateNodegroupConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateNodegroupConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.update = output.update
         } else {
@@ -10400,9 +10355,8 @@ public enum UpdateNodegroupVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateNodegroupVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateNodegroupVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.update = output.update
         } else {

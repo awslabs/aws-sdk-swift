@@ -57,9 +57,12 @@ public enum GetRawMessageContentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRawMessageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.messageContent = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.messageContent = .data(data)
+        case .stream(let stream):
+            self.messageContent = .stream(stream)
+        case .none:
             self.messageContent = nil
         }
     }
@@ -96,9 +99,8 @@ extension GetRawMessageContentOutputResponseBody: Swift.Decodable {
 
 extension InvalidContentLocation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidContentLocationBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -154,9 +156,8 @@ extension InvalidContentLocationBody: Swift.Decodable {
 
 extension MessageFrozen {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MessageFrozenBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -206,9 +207,8 @@ extension MessageFrozenBody: Swift.Decodable {
 
 extension MessageRejected {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MessageRejectedBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -402,9 +402,8 @@ extension WorkMailMessageFlowClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

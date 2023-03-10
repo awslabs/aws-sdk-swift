@@ -1972,15 +1972,15 @@ public struct CompleteMultipartUploadInputBodyMiddleware: ClientRuntime.Middlewa
             let encoder = context.getEncoder()
             if let multipartUpload = input.operationInput.multipartUpload {
                 let xmlEncoder = encoder as! XMLEncoder
-                let multipartUploaddata = try xmlEncoder.encode(multipartUpload, withRootKey: "CompleteMultipartUpload")
-                let multipartUploadbody = ClientRuntime.HttpBody.data(multipartUploaddata)
-                input.builder.withBody(multipartUploadbody)
+                let multipartUploadData = try xmlEncoder.encode(multipartUpload, withRootKey: "CompleteMultipartUpload")
+                let multipartUploadBody = ClientRuntime.HttpBody.data(multipartUploadData)
+                input.builder.withBody(multipartUploadBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let multipartUploaddata = "{}".data(using: .utf8)!
-                    let multipartUploadbody = ClientRuntime.HttpBody.data(multipartUploaddata)
-                    input.builder.withBody(multipartUploadbody)
+                    let multipartUploadData = "{}".data(using: .utf8)!
+                    let multipartUploadBody = ClientRuntime.HttpBody.data(multipartUploadData)
+                    input.builder.withBody(multipartUploadBody)
                 }
             }
         } catch let err {
@@ -2230,9 +2230,8 @@ extension CompleteMultipartUploadOutputResponse: ClientRuntime.HttpResponseBindi
         } else {
             self.versionId = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CompleteMultipartUploadOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bucket = output.bucket
             self.checksumCRC32 = output.checksumCRC32
@@ -3082,13 +3081,9 @@ extension CopyObjectOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.versionId = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.CopyObjectResult = try responseDecoder.decode(responseBody: data)
-                self.copyObjectResult = output
-            } else {
-                self.copyObjectResult = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.CopyObjectResult = try responseDecoder.decode(responseBody: data)
+            self.copyObjectResult = output
         } else {
             self.copyObjectResult = nil
         }
@@ -3436,15 +3431,15 @@ public struct CreateBucketInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let createBucketConfiguration = input.operationInput.createBucketConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let createBucketConfigurationdata = try xmlEncoder.encode(createBucketConfiguration, withRootKey: "CreateBucketConfiguration")
-                let createBucketConfigurationbody = ClientRuntime.HttpBody.data(createBucketConfigurationdata)
-                input.builder.withBody(createBucketConfigurationbody)
+                let createBucketConfigurationData = try xmlEncoder.encode(createBucketConfiguration, withRootKey: "CreateBucketConfiguration")
+                let createBucketConfigurationBody = ClientRuntime.HttpBody.data(createBucketConfigurationData)
+                input.builder.withBody(createBucketConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let createBucketConfigurationdata = "{}".data(using: .utf8)!
-                    let createBucketConfigurationbody = ClientRuntime.HttpBody.data(createBucketConfigurationdata)
-                    input.builder.withBody(createBucketConfigurationbody)
+                    let createBucketConfigurationData = "{}".data(using: .utf8)!
+                    let createBucketConfigurationBody = ClientRuntime.HttpBody.data(createBucketConfigurationData)
+                    input.builder.withBody(createBucketConfigurationBody)
                 }
             }
         } catch let err {
@@ -3982,9 +3977,8 @@ extension CreateMultipartUploadOutputResponse: ClientRuntime.HttpResponseBinding
         } else {
             self.serverSideEncryption = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateMultipartUploadOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bucket = output.bucket
             self.key = output.key
@@ -5872,15 +5866,15 @@ public struct DeleteObjectsInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let delete = input.operationInput.delete {
                 let xmlEncoder = encoder as! XMLEncoder
-                let deletedata = try xmlEncoder.encode(delete, withRootKey: "Delete")
-                let deletebody = ClientRuntime.HttpBody.data(deletedata)
-                input.builder.withBody(deletebody)
+                let deleteData = try xmlEncoder.encode(delete, withRootKey: "Delete")
+                let deleteBody = ClientRuntime.HttpBody.data(deleteData)
+                input.builder.withBody(deleteBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let deletedata = "{}".data(using: .utf8)!
-                    let deletebody = ClientRuntime.HttpBody.data(deletedata)
-                    input.builder.withBody(deletebody)
+                    let deleteData = "{}".data(using: .utf8)!
+                    let deleteBody = ClientRuntime.HttpBody.data(deleteData)
+                    input.builder.withBody(deleteBody)
                 }
             }
         } catch let err {
@@ -6050,9 +6044,8 @@ extension DeleteObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.requestCharged = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deleted = output.deleted
             self.errors = output.errors
@@ -8265,9 +8258,8 @@ public enum GetBucketAccelerateConfigurationOutputError: Swift.Error, Swift.Equa
 
 extension GetBucketAccelerateConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketAccelerateConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -8384,9 +8376,8 @@ public enum GetBucketAclOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketAclOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketAclOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
             self.owner = output.owner
@@ -8542,13 +8533,9 @@ public enum GetBucketAnalyticsConfigurationOutputError: Swift.Error, Swift.Equat
 
 extension GetBucketAnalyticsConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.AnalyticsConfiguration = try responseDecoder.decode(responseBody: data)
-                self.analyticsConfiguration = output
-            } else {
-                self.analyticsConfiguration = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.AnalyticsConfiguration = try responseDecoder.decode(responseBody: data)
+            self.analyticsConfiguration = output
         } else {
             self.analyticsConfiguration = nil
         }
@@ -8663,9 +8650,8 @@ public enum GetBucketCorsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketCorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketCorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.corsRules = output.corsRules
         } else {
@@ -8798,13 +8784,9 @@ public enum GetBucketEncryptionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketEncryptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.ServerSideEncryptionConfiguration = try responseDecoder.decode(responseBody: data)
-                self.serverSideEncryptionConfiguration = output
-            } else {
-                self.serverSideEncryptionConfiguration = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.ServerSideEncryptionConfiguration = try responseDecoder.decode(responseBody: data)
+            self.serverSideEncryptionConfiguration = output
         } else {
             self.serverSideEncryptionConfiguration = nil
         }
@@ -8917,13 +8899,9 @@ public enum GetBucketIntelligentTieringConfigurationOutputError: Swift.Error, Sw
 
 extension GetBucketIntelligentTieringConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.IntelligentTieringConfiguration = try responseDecoder.decode(responseBody: data)
-                self.intelligentTieringConfiguration = output
-            } else {
-                self.intelligentTieringConfiguration = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.IntelligentTieringConfiguration = try responseDecoder.decode(responseBody: data)
+            self.intelligentTieringConfiguration = output
         } else {
             self.intelligentTieringConfiguration = nil
         }
@@ -9050,13 +9028,9 @@ public enum GetBucketInventoryConfigurationOutputError: Swift.Error, Swift.Equat
 
 extension GetBucketInventoryConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.InventoryConfiguration = try responseDecoder.decode(responseBody: data)
-                self.inventoryConfiguration = output
-            } else {
-                self.inventoryConfiguration = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.InventoryConfiguration = try responseDecoder.decode(responseBody: data)
+            self.inventoryConfiguration = output
         } else {
             self.inventoryConfiguration = nil
         }
@@ -9171,9 +9145,8 @@ public enum GetBucketLifecycleConfigurationOutputError: Swift.Error, Swift.Equat
 
 extension GetBucketLifecycleConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketLifecycleConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.rules = output.rules
         } else {
@@ -9306,9 +9279,8 @@ public enum GetBucketLocationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketLocationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketLocationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationConstraint = output.locationConstraint
         } else {
@@ -9425,9 +9397,8 @@ public enum GetBucketLoggingOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketLoggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingEnabled = output.loggingEnabled
         } else {
@@ -9556,13 +9527,9 @@ public enum GetBucketMetricsConfigurationOutputError: Swift.Error, Swift.Equatab
 
 extension GetBucketMetricsConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.MetricsConfiguration = try responseDecoder.decode(responseBody: data)
-                self.metricsConfiguration = output
-            } else {
-                self.metricsConfiguration = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.MetricsConfiguration = try responseDecoder.decode(responseBody: data)
+            self.metricsConfiguration = output
         } else {
             self.metricsConfiguration = nil
         }
@@ -9677,9 +9644,8 @@ public enum GetBucketNotificationConfigurationOutputError: Swift.Error, Swift.Eq
 
 extension GetBucketNotificationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketNotificationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventBridgeConfiguration = output.eventBridgeConfiguration
             self.lambdaFunctionConfigurations = output.lambdaFunctionConfigurations
@@ -9875,13 +9841,9 @@ public enum GetBucketOwnershipControlsOutputError: Swift.Error, Swift.Equatable 
 
 extension GetBucketOwnershipControlsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.OwnershipControls = try responseDecoder.decode(responseBody: data)
-                self.ownershipControls = output
-            } else {
-                self.ownershipControls = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.OwnershipControls = try responseDecoder.decode(responseBody: data)
+            self.ownershipControls = output
         } else {
             self.ownershipControls = nil
         }
@@ -9996,12 +9958,8 @@ public enum GetBucketPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let output = Swift.String(data: data, encoding: .utf8) {
-                self.policy = output
-            } else {
-                self.policy = nil
-            }
+        if let data = try httpResponse.body.toData(), let output = Swift.String(data: data, encoding: .utf8) {
+            self.policy = output
         } else {
             self.policy = nil
         }
@@ -10116,13 +10074,9 @@ public enum GetBucketPolicyStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketPolicyStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.PolicyStatus = try responseDecoder.decode(responseBody: data)
-                self.policyStatus = output
-            } else {
-                self.policyStatus = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.PolicyStatus = try responseDecoder.decode(responseBody: data)
+            self.policyStatus = output
         } else {
             self.policyStatus = nil
         }
@@ -10237,13 +10191,9 @@ public enum GetBucketReplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.ReplicationConfiguration = try responseDecoder.decode(responseBody: data)
-                self.replicationConfiguration = output
-            } else {
-                self.replicationConfiguration = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.ReplicationConfiguration = try responseDecoder.decode(responseBody: data)
+            self.replicationConfiguration = output
         } else {
             self.replicationConfiguration = nil
         }
@@ -10358,9 +10308,8 @@ public enum GetBucketRequestPaymentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketRequestPaymentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketRequestPaymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.payer = output.payer
         } else {
@@ -10477,9 +10426,8 @@ public enum GetBucketTaggingOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketTaggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagSet = output.tagSet
         } else {
@@ -10614,9 +10562,8 @@ public enum GetBucketVersioningOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketVersioningOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketVersioningOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mfaDelete = output.mfaDelete
             self.status = output.status
@@ -10743,9 +10690,8 @@ public enum GetBucketWebsiteOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketWebsiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketWebsiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorDocument = output.errorDocument
             self.indexDocument = output.indexDocument
@@ -10939,9 +10885,8 @@ extension GetObjectAclOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.requestCharged = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetObjectAclOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
             self.owner = output.owner
@@ -11184,9 +11129,8 @@ extension GetObjectAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.versionId = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetObjectAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checksum = output.checksum
             self.eTag = output.eTag
@@ -11887,13 +11831,9 @@ public enum GetObjectLegalHoldOutputError: Swift.Error, Swift.Equatable {
 
 extension GetObjectLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.ObjectLockLegalHold = try responseDecoder.decode(responseBody: data)
-                self.legalHold = output
-            } else {
-                self.legalHold = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.ObjectLockLegalHold = try responseDecoder.decode(responseBody: data)
+            self.legalHold = output
         } else {
             self.legalHold = nil
         }
@@ -12008,13 +11948,9 @@ public enum GetObjectLockConfigurationOutputError: Swift.Error, Swift.Equatable 
 
 extension GetObjectLockConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.ObjectLockConfiguration = try responseDecoder.decode(responseBody: data)
-                self.objectLockConfiguration = output
-            } else {
-                self.objectLockConfiguration = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.ObjectLockConfiguration = try responseDecoder.decode(responseBody: data)
+            self.objectLockConfiguration = output
         } else {
             self.objectLockConfiguration = nil
         }
@@ -12268,9 +12204,12 @@ extension GetObjectOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.metadata = [:]
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.body = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.body = .data(data)
+        case .stream(let stream):
+            self.body = .stream(stream)
+        case .none:
             self.body = nil
         }
     }
@@ -12555,13 +12494,9 @@ public enum GetObjectRetentionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetObjectRetentionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.ObjectLockRetention = try responseDecoder.decode(responseBody: data)
-                self.retention = output
-            } else {
-                self.retention = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.ObjectLockRetention = try responseDecoder.decode(responseBody: data)
+            self.retention = output
         } else {
             self.retention = nil
         }
@@ -12704,9 +12639,8 @@ extension GetObjectTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.versionId = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetObjectTaggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagSet = output.tagSet
         } else {
@@ -12865,9 +12799,12 @@ extension GetObjectTorrentOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.requestCharged = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.body = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.body = .data(data)
+        case .stream(let stream):
+            self.body = .stream(stream)
+        case .none:
             self.body = nil
         }
     }
@@ -12993,13 +12930,9 @@ public enum GetPublicAccessBlockOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPublicAccessBlockOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.PublicAccessBlockConfiguration = try responseDecoder.decode(responseBody: data)
-                self.publicAccessBlockConfiguration = output
-            } else {
-                self.publicAccessBlockConfiguration = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.PublicAccessBlockConfiguration = try responseDecoder.decode(responseBody: data)
+            self.publicAccessBlockConfiguration = output
         } else {
             self.publicAccessBlockConfiguration = nil
         }
@@ -14424,7 +14357,7 @@ extension S3ClientTypes {
 
 extension InvalidObjectState {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: InvalidObjectStateBody = try responseDecoder.decode(responseBody: data)
             self.accessTier = output.accessTier
@@ -15864,9 +15797,8 @@ public enum ListBucketAnalyticsConfigurationsOutputError: Swift.Error, Swift.Equ
 
 extension ListBucketAnalyticsConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBucketAnalyticsConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analyticsConfigurationList = output.analyticsConfigurationList
             self.continuationToken = output.continuationToken
@@ -16024,9 +15956,8 @@ public enum ListBucketIntelligentTieringConfigurationsOutputError: Swift.Error, 
 
 extension ListBucketIntelligentTieringConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBucketIntelligentTieringConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.continuationToken = output.continuationToken
             self.intelligentTieringConfigurationList = output.intelligentTieringConfigurationList
@@ -16198,9 +16129,8 @@ public enum ListBucketInventoryConfigurationsOutputError: Swift.Error, Swift.Equ
 
 extension ListBucketInventoryConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBucketInventoryConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.continuationToken = output.continuationToken
             self.inventoryConfigurationList = output.inventoryConfigurationList
@@ -16372,9 +16302,8 @@ public enum ListBucketMetricsConfigurationsOutputError: Swift.Error, Swift.Equat
 
 extension ListBucketMetricsConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBucketMetricsConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.continuationToken = output.continuationToken
             self.isTruncated = output.isTruncated
@@ -16505,9 +16434,8 @@ public enum ListBucketsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListBucketsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBucketsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.buckets = output.buckets
             self.owner = output.owner
@@ -16699,9 +16627,8 @@ public enum ListMultipartUploadsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMultipartUploadsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMultipartUploadsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`prefix` = output.`prefix`
             self.bucket = output.bucket
@@ -17008,9 +16935,8 @@ public enum ListObjectVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListObjectVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListObjectVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`prefix` = output.`prefix`
             self.commonPrefixes = output.commonPrefixes
@@ -17343,9 +17269,8 @@ public enum ListObjectsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`prefix` = output.`prefix`
             self.commonPrefixes = output.commonPrefixes
@@ -17649,9 +17574,8 @@ public enum ListObjectsV2OutputError: Swift.Error, Swift.Equatable {
 
 extension ListObjectsV2OutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListObjectsV2OutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`prefix` = output.`prefix`
             self.commonPrefixes = output.commonPrefixes
@@ -17993,9 +17917,8 @@ extension ListPartsOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.requestCharged = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPartsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bucket = output.bucket
             self.checksumAlgorithm = output.checksumAlgorithm
@@ -21221,15 +21144,15 @@ public struct PutBucketAccelerateConfigurationInputBodyMiddleware: ClientRuntime
             let encoder = context.getEncoder()
             if let accelerateConfiguration = input.operationInput.accelerateConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let accelerateConfigurationdata = try xmlEncoder.encode(accelerateConfiguration, withRootKey: "AccelerateConfiguration")
-                let accelerateConfigurationbody = ClientRuntime.HttpBody.data(accelerateConfigurationdata)
-                input.builder.withBody(accelerateConfigurationbody)
+                let accelerateConfigurationData = try xmlEncoder.encode(accelerateConfiguration, withRootKey: "AccelerateConfiguration")
+                let accelerateConfigurationBody = ClientRuntime.HttpBody.data(accelerateConfigurationData)
+                input.builder.withBody(accelerateConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let accelerateConfigurationdata = "{}".data(using: .utf8)!
-                    let accelerateConfigurationbody = ClientRuntime.HttpBody.data(accelerateConfigurationdata)
-                    input.builder.withBody(accelerateConfigurationbody)
+                    let accelerateConfigurationData = "{}".data(using: .utf8)!
+                    let accelerateConfigurationBody = ClientRuntime.HttpBody.data(accelerateConfigurationData)
+                    input.builder.withBody(accelerateConfigurationBody)
                 }
             }
         } catch let err {
@@ -21397,15 +21320,15 @@ public struct PutBucketAclInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let accessControlPolicy = input.operationInput.accessControlPolicy {
                 let xmlEncoder = encoder as! XMLEncoder
-                let accessControlPolicydata = try xmlEncoder.encode(accessControlPolicy, withRootKey: "AccessControlPolicy")
-                let accessControlPolicybody = ClientRuntime.HttpBody.data(accessControlPolicydata)
-                input.builder.withBody(accessControlPolicybody)
+                let accessControlPolicyData = try xmlEncoder.encode(accessControlPolicy, withRootKey: "AccessControlPolicy")
+                let accessControlPolicyBody = ClientRuntime.HttpBody.data(accessControlPolicyData)
+                input.builder.withBody(accessControlPolicyBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let accessControlPolicydata = "{}".data(using: .utf8)!
-                    let accessControlPolicybody = ClientRuntime.HttpBody.data(accessControlPolicydata)
-                    input.builder.withBody(accessControlPolicybody)
+                    let accessControlPolicyData = "{}".data(using: .utf8)!
+                    let accessControlPolicyBody = ClientRuntime.HttpBody.data(accessControlPolicyData)
+                    input.builder.withBody(accessControlPolicyBody)
                 }
             }
         } catch let err {
@@ -21621,15 +21544,15 @@ public struct PutBucketAnalyticsConfigurationInputBodyMiddleware: ClientRuntime.
             let encoder = context.getEncoder()
             if let analyticsConfiguration = input.operationInput.analyticsConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let analyticsConfigurationdata = try xmlEncoder.encode(analyticsConfiguration, withRootKey: "AnalyticsConfiguration")
-                let analyticsConfigurationbody = ClientRuntime.HttpBody.data(analyticsConfigurationdata)
-                input.builder.withBody(analyticsConfigurationbody)
+                let analyticsConfigurationData = try xmlEncoder.encode(analyticsConfiguration, withRootKey: "AnalyticsConfiguration")
+                let analyticsConfigurationBody = ClientRuntime.HttpBody.data(analyticsConfigurationData)
+                input.builder.withBody(analyticsConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let analyticsConfigurationdata = "{}".data(using: .utf8)!
-                    let analyticsConfigurationbody = ClientRuntime.HttpBody.data(analyticsConfigurationdata)
-                    input.builder.withBody(analyticsConfigurationbody)
+                    let analyticsConfigurationData = "{}".data(using: .utf8)!
+                    let analyticsConfigurationBody = ClientRuntime.HttpBody.data(analyticsConfigurationData)
+                    input.builder.withBody(analyticsConfigurationBody)
                 }
             }
         } catch let err {
@@ -21801,15 +21724,15 @@ public struct PutBucketCorsInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let corsConfiguration = input.operationInput.corsConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let corsConfigurationdata = try xmlEncoder.encode(corsConfiguration, withRootKey: "CORSConfiguration")
-                let corsConfigurationbody = ClientRuntime.HttpBody.data(corsConfigurationdata)
-                input.builder.withBody(corsConfigurationbody)
+                let corsConfigurationData = try xmlEncoder.encode(corsConfiguration, withRootKey: "CORSConfiguration")
+                let corsConfigurationBody = ClientRuntime.HttpBody.data(corsConfigurationData)
+                input.builder.withBody(corsConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let corsConfigurationdata = "{}".data(using: .utf8)!
-                    let corsConfigurationbody = ClientRuntime.HttpBody.data(corsConfigurationdata)
-                    input.builder.withBody(corsConfigurationbody)
+                    let corsConfigurationData = "{}".data(using: .utf8)!
+                    let corsConfigurationBody = ClientRuntime.HttpBody.data(corsConfigurationData)
+                    input.builder.withBody(corsConfigurationBody)
                 }
             }
         } catch let err {
@@ -21984,15 +21907,15 @@ public struct PutBucketEncryptionInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let serverSideEncryptionConfiguration = input.operationInput.serverSideEncryptionConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let serverSideEncryptionConfigurationdata = try xmlEncoder.encode(serverSideEncryptionConfiguration, withRootKey: "ServerSideEncryptionConfiguration")
-                let serverSideEncryptionConfigurationbody = ClientRuntime.HttpBody.data(serverSideEncryptionConfigurationdata)
-                input.builder.withBody(serverSideEncryptionConfigurationbody)
+                let serverSideEncryptionConfigurationData = try xmlEncoder.encode(serverSideEncryptionConfiguration, withRootKey: "ServerSideEncryptionConfiguration")
+                let serverSideEncryptionConfigurationBody = ClientRuntime.HttpBody.data(serverSideEncryptionConfigurationData)
+                input.builder.withBody(serverSideEncryptionConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let serverSideEncryptionConfigurationdata = "{}".data(using: .utf8)!
-                    let serverSideEncryptionConfigurationbody = ClientRuntime.HttpBody.data(serverSideEncryptionConfigurationdata)
-                    input.builder.withBody(serverSideEncryptionConfigurationbody)
+                    let serverSideEncryptionConfigurationData = "{}".data(using: .utf8)!
+                    let serverSideEncryptionConfigurationBody = ClientRuntime.HttpBody.data(serverSideEncryptionConfigurationData)
+                    input.builder.withBody(serverSideEncryptionConfigurationBody)
                 }
             }
         } catch let err {
@@ -22167,15 +22090,15 @@ public struct PutBucketIntelligentTieringConfigurationInputBodyMiddleware: Clien
             let encoder = context.getEncoder()
             if let intelligentTieringConfiguration = input.operationInput.intelligentTieringConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let intelligentTieringConfigurationdata = try xmlEncoder.encode(intelligentTieringConfiguration, withRootKey: "IntelligentTieringConfiguration")
-                let intelligentTieringConfigurationbody = ClientRuntime.HttpBody.data(intelligentTieringConfigurationdata)
-                input.builder.withBody(intelligentTieringConfigurationbody)
+                let intelligentTieringConfigurationData = try xmlEncoder.encode(intelligentTieringConfiguration, withRootKey: "IntelligentTieringConfiguration")
+                let intelligentTieringConfigurationBody = ClientRuntime.HttpBody.data(intelligentTieringConfigurationData)
+                input.builder.withBody(intelligentTieringConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let intelligentTieringConfigurationdata = "{}".data(using: .utf8)!
-                    let intelligentTieringConfigurationbody = ClientRuntime.HttpBody.data(intelligentTieringConfigurationdata)
-                    input.builder.withBody(intelligentTieringConfigurationbody)
+                    let intelligentTieringConfigurationData = "{}".data(using: .utf8)!
+                    let intelligentTieringConfigurationBody = ClientRuntime.HttpBody.data(intelligentTieringConfigurationData)
+                    input.builder.withBody(intelligentTieringConfigurationBody)
                 }
             }
         } catch let err {
@@ -22333,15 +22256,15 @@ public struct PutBucketInventoryConfigurationInputBodyMiddleware: ClientRuntime.
             let encoder = context.getEncoder()
             if let inventoryConfiguration = input.operationInput.inventoryConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let inventoryConfigurationdata = try xmlEncoder.encode(inventoryConfiguration, withRootKey: "InventoryConfiguration")
-                let inventoryConfigurationbody = ClientRuntime.HttpBody.data(inventoryConfigurationdata)
-                input.builder.withBody(inventoryConfigurationbody)
+                let inventoryConfigurationData = try xmlEncoder.encode(inventoryConfiguration, withRootKey: "InventoryConfiguration")
+                let inventoryConfigurationBody = ClientRuntime.HttpBody.data(inventoryConfigurationData)
+                input.builder.withBody(inventoryConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let inventoryConfigurationdata = "{}".data(using: .utf8)!
-                    let inventoryConfigurationbody = ClientRuntime.HttpBody.data(inventoryConfigurationdata)
-                    input.builder.withBody(inventoryConfigurationbody)
+                    let inventoryConfigurationData = "{}".data(using: .utf8)!
+                    let inventoryConfigurationBody = ClientRuntime.HttpBody.data(inventoryConfigurationData)
+                    input.builder.withBody(inventoryConfigurationBody)
                 }
             }
         } catch let err {
@@ -22513,15 +22436,15 @@ public struct PutBucketLifecycleConfigurationInputBodyMiddleware: ClientRuntime.
             let encoder = context.getEncoder()
             if let lifecycleConfiguration = input.operationInput.lifecycleConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let lifecycleConfigurationdata = try xmlEncoder.encode(lifecycleConfiguration, withRootKey: "LifecycleConfiguration")
-                let lifecycleConfigurationbody = ClientRuntime.HttpBody.data(lifecycleConfigurationdata)
-                input.builder.withBody(lifecycleConfigurationbody)
+                let lifecycleConfigurationData = try xmlEncoder.encode(lifecycleConfiguration, withRootKey: "LifecycleConfiguration")
+                let lifecycleConfigurationBody = ClientRuntime.HttpBody.data(lifecycleConfigurationData)
+                input.builder.withBody(lifecycleConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let lifecycleConfigurationdata = "{}".data(using: .utf8)!
-                    let lifecycleConfigurationbody = ClientRuntime.HttpBody.data(lifecycleConfigurationdata)
-                    input.builder.withBody(lifecycleConfigurationbody)
+                    let lifecycleConfigurationData = "{}".data(using: .utf8)!
+                    let lifecycleConfigurationBody = ClientRuntime.HttpBody.data(lifecycleConfigurationData)
+                    input.builder.withBody(lifecycleConfigurationBody)
                 }
             }
         } catch let err {
@@ -22688,15 +22611,15 @@ public struct PutBucketLoggingInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let bucketLoggingStatus = input.operationInput.bucketLoggingStatus {
                 let xmlEncoder = encoder as! XMLEncoder
-                let bucketLoggingStatusdata = try xmlEncoder.encode(bucketLoggingStatus, withRootKey: "BucketLoggingStatus")
-                let bucketLoggingStatusbody = ClientRuntime.HttpBody.data(bucketLoggingStatusdata)
-                input.builder.withBody(bucketLoggingStatusbody)
+                let bucketLoggingStatusData = try xmlEncoder.encode(bucketLoggingStatus, withRootKey: "BucketLoggingStatus")
+                let bucketLoggingStatusBody = ClientRuntime.HttpBody.data(bucketLoggingStatusData)
+                input.builder.withBody(bucketLoggingStatusBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let bucketLoggingStatusdata = "{}".data(using: .utf8)!
-                    let bucketLoggingStatusbody = ClientRuntime.HttpBody.data(bucketLoggingStatusdata)
-                    input.builder.withBody(bucketLoggingStatusbody)
+                    let bucketLoggingStatusData = "{}".data(using: .utf8)!
+                    let bucketLoggingStatusBody = ClientRuntime.HttpBody.data(bucketLoggingStatusData)
+                    input.builder.withBody(bucketLoggingStatusBody)
                 }
             }
         } catch let err {
@@ -22871,15 +22794,15 @@ public struct PutBucketMetricsConfigurationInputBodyMiddleware: ClientRuntime.Mi
             let encoder = context.getEncoder()
             if let metricsConfiguration = input.operationInput.metricsConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let metricsConfigurationdata = try xmlEncoder.encode(metricsConfiguration, withRootKey: "MetricsConfiguration")
-                let metricsConfigurationbody = ClientRuntime.HttpBody.data(metricsConfigurationdata)
-                input.builder.withBody(metricsConfigurationbody)
+                let metricsConfigurationData = try xmlEncoder.encode(metricsConfiguration, withRootKey: "MetricsConfiguration")
+                let metricsConfigurationBody = ClientRuntime.HttpBody.data(metricsConfigurationData)
+                input.builder.withBody(metricsConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let metricsConfigurationdata = "{}".data(using: .utf8)!
-                    let metricsConfigurationbody = ClientRuntime.HttpBody.data(metricsConfigurationdata)
-                    input.builder.withBody(metricsConfigurationbody)
+                    let metricsConfigurationData = "{}".data(using: .utf8)!
+                    let metricsConfigurationBody = ClientRuntime.HttpBody.data(metricsConfigurationData)
+                    input.builder.withBody(metricsConfigurationBody)
                 }
             }
         } catch let err {
@@ -23051,15 +22974,15 @@ public struct PutBucketNotificationConfigurationInputBodyMiddleware: ClientRunti
             let encoder = context.getEncoder()
             if let notificationConfiguration = input.operationInput.notificationConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let notificationConfigurationdata = try xmlEncoder.encode(notificationConfiguration, withRootKey: "NotificationConfiguration")
-                let notificationConfigurationbody = ClientRuntime.HttpBody.data(notificationConfigurationdata)
-                input.builder.withBody(notificationConfigurationbody)
+                let notificationConfigurationData = try xmlEncoder.encode(notificationConfiguration, withRootKey: "NotificationConfiguration")
+                let notificationConfigurationBody = ClientRuntime.HttpBody.data(notificationConfigurationData)
+                input.builder.withBody(notificationConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let notificationConfigurationdata = "{}".data(using: .utf8)!
-                    let notificationConfigurationbody = ClientRuntime.HttpBody.data(notificationConfigurationdata)
-                    input.builder.withBody(notificationConfigurationbody)
+                    let notificationConfigurationData = "{}".data(using: .utf8)!
+                    let notificationConfigurationBody = ClientRuntime.HttpBody.data(notificationConfigurationData)
+                    input.builder.withBody(notificationConfigurationBody)
                 }
             }
         } catch let err {
@@ -23227,15 +23150,15 @@ public struct PutBucketOwnershipControlsInputBodyMiddleware: ClientRuntime.Middl
             let encoder = context.getEncoder()
             if let ownershipControls = input.operationInput.ownershipControls {
                 let xmlEncoder = encoder as! XMLEncoder
-                let ownershipControlsdata = try xmlEncoder.encode(ownershipControls, withRootKey: "OwnershipControls")
-                let ownershipControlsbody = ClientRuntime.HttpBody.data(ownershipControlsdata)
-                input.builder.withBody(ownershipControlsbody)
+                let ownershipControlsData = try xmlEncoder.encode(ownershipControls, withRootKey: "OwnershipControls")
+                let ownershipControlsBody = ClientRuntime.HttpBody.data(ownershipControlsData)
+                input.builder.withBody(ownershipControlsBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let ownershipControlsdata = "{}".data(using: .utf8)!
-                    let ownershipControlsbody = ClientRuntime.HttpBody.data(ownershipControlsdata)
-                    input.builder.withBody(ownershipControlsbody)
+                    let ownershipControlsData = "{}".data(using: .utf8)!
+                    let ownershipControlsBody = ClientRuntime.HttpBody.data(ownershipControlsData)
+                    input.builder.withBody(ownershipControlsBody)
                 }
             }
         } catch let err {
@@ -23400,9 +23323,9 @@ public struct PutBucketPolicyInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let policy = input.operationInput.policy {
-            let policydata = policy.data(using: .utf8)
-            let policybody = ClientRuntime.HttpBody.data(policydata)
-            input.builder.withBody(policybody)
+            let policyData = policy.data(using: .utf8)
+            let policyBody = ClientRuntime.HttpBody.data(policyData)
+            input.builder.withBody(policyBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -23580,15 +23503,15 @@ public struct PutBucketReplicationInputBodyMiddleware: ClientRuntime.Middleware 
             let encoder = context.getEncoder()
             if let replicationConfiguration = input.operationInput.replicationConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let replicationConfigurationdata = try xmlEncoder.encode(replicationConfiguration, withRootKey: "ReplicationConfiguration")
-                let replicationConfigurationbody = ClientRuntime.HttpBody.data(replicationConfigurationdata)
-                input.builder.withBody(replicationConfigurationbody)
+                let replicationConfigurationData = try xmlEncoder.encode(replicationConfiguration, withRootKey: "ReplicationConfiguration")
+                let replicationConfigurationBody = ClientRuntime.HttpBody.data(replicationConfigurationData)
+                input.builder.withBody(replicationConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let replicationConfigurationdata = "{}".data(using: .utf8)!
-                    let replicationConfigurationbody = ClientRuntime.HttpBody.data(replicationConfigurationdata)
-                    input.builder.withBody(replicationConfigurationbody)
+                    let replicationConfigurationData = "{}".data(using: .utf8)!
+                    let replicationConfigurationBody = ClientRuntime.HttpBody.data(replicationConfigurationData)
+                    input.builder.withBody(replicationConfigurationBody)
                 }
             }
         } catch let err {
@@ -23770,15 +23693,15 @@ public struct PutBucketRequestPaymentInputBodyMiddleware: ClientRuntime.Middlewa
             let encoder = context.getEncoder()
             if let requestPaymentConfiguration = input.operationInput.requestPaymentConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let requestPaymentConfigurationdata = try xmlEncoder.encode(requestPaymentConfiguration, withRootKey: "RequestPaymentConfiguration")
-                let requestPaymentConfigurationbody = ClientRuntime.HttpBody.data(requestPaymentConfigurationdata)
-                input.builder.withBody(requestPaymentConfigurationbody)
+                let requestPaymentConfigurationData = try xmlEncoder.encode(requestPaymentConfiguration, withRootKey: "RequestPaymentConfiguration")
+                let requestPaymentConfigurationBody = ClientRuntime.HttpBody.data(requestPaymentConfigurationData)
+                input.builder.withBody(requestPaymentConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let requestPaymentConfigurationdata = "{}".data(using: .utf8)!
-                    let requestPaymentConfigurationbody = ClientRuntime.HttpBody.data(requestPaymentConfigurationdata)
-                    input.builder.withBody(requestPaymentConfigurationbody)
+                    let requestPaymentConfigurationData = "{}".data(using: .utf8)!
+                    let requestPaymentConfigurationBody = ClientRuntime.HttpBody.data(requestPaymentConfigurationData)
+                    input.builder.withBody(requestPaymentConfigurationBody)
                 }
             }
         } catch let err {
@@ -23953,15 +23876,15 @@ public struct PutBucketTaggingInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let tagging = input.operationInput.tagging {
                 let xmlEncoder = encoder as! XMLEncoder
-                let taggingdata = try xmlEncoder.encode(tagging, withRootKey: "Tagging")
-                let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
-                input.builder.withBody(taggingbody)
+                let taggingData = try xmlEncoder.encode(tagging, withRootKey: "Tagging")
+                let taggingBody = ClientRuntime.HttpBody.data(taggingData)
+                input.builder.withBody(taggingBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let taggingdata = "{}".data(using: .utf8)!
-                    let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
-                    input.builder.withBody(taggingbody)
+                    let taggingData = "{}".data(using: .utf8)!
+                    let taggingBody = ClientRuntime.HttpBody.data(taggingData)
+                    input.builder.withBody(taggingBody)
                 }
             }
         } catch let err {
@@ -24136,15 +24059,15 @@ public struct PutBucketVersioningInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let versioningConfiguration = input.operationInput.versioningConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let versioningConfigurationdata = try xmlEncoder.encode(versioningConfiguration, withRootKey: "VersioningConfiguration")
-                let versioningConfigurationbody = ClientRuntime.HttpBody.data(versioningConfigurationdata)
-                input.builder.withBody(versioningConfigurationbody)
+                let versioningConfigurationData = try xmlEncoder.encode(versioningConfiguration, withRootKey: "VersioningConfiguration")
+                let versioningConfigurationBody = ClientRuntime.HttpBody.data(versioningConfigurationData)
+                input.builder.withBody(versioningConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let versioningConfigurationdata = "{}".data(using: .utf8)!
-                    let versioningConfigurationbody = ClientRuntime.HttpBody.data(versioningConfigurationdata)
-                    input.builder.withBody(versioningConfigurationbody)
+                    let versioningConfigurationData = "{}".data(using: .utf8)!
+                    let versioningConfigurationBody = ClientRuntime.HttpBody.data(versioningConfigurationData)
+                    input.builder.withBody(versioningConfigurationBody)
                 }
             }
         } catch let err {
@@ -24326,15 +24249,15 @@ public struct PutBucketWebsiteInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let websiteConfiguration = input.operationInput.websiteConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let websiteConfigurationdata = try xmlEncoder.encode(websiteConfiguration, withRootKey: "WebsiteConfiguration")
-                let websiteConfigurationbody = ClientRuntime.HttpBody.data(websiteConfigurationdata)
-                input.builder.withBody(websiteConfigurationbody)
+                let websiteConfigurationData = try xmlEncoder.encode(websiteConfiguration, withRootKey: "WebsiteConfiguration")
+                let websiteConfigurationBody = ClientRuntime.HttpBody.data(websiteConfigurationData)
+                input.builder.withBody(websiteConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let websiteConfigurationdata = "{}".data(using: .utf8)!
-                    let websiteConfigurationbody = ClientRuntime.HttpBody.data(websiteConfigurationdata)
-                    input.builder.withBody(websiteConfigurationbody)
+                    let websiteConfigurationData = "{}".data(using: .utf8)!
+                    let websiteConfigurationBody = ClientRuntime.HttpBody.data(websiteConfigurationData)
+                    input.builder.withBody(websiteConfigurationBody)
                 }
             }
         } catch let err {
@@ -24509,15 +24432,15 @@ public struct PutObjectAclInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let accessControlPolicy = input.operationInput.accessControlPolicy {
                 let xmlEncoder = encoder as! XMLEncoder
-                let accessControlPolicydata = try xmlEncoder.encode(accessControlPolicy, withRootKey: "AccessControlPolicy")
-                let accessControlPolicybody = ClientRuntime.HttpBody.data(accessControlPolicydata)
-                input.builder.withBody(accessControlPolicybody)
+                let accessControlPolicyData = try xmlEncoder.encode(accessControlPolicy, withRootKey: "AccessControlPolicy")
+                let accessControlPolicyBody = ClientRuntime.HttpBody.data(accessControlPolicyData)
+                input.builder.withBody(accessControlPolicyBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let accessControlPolicydata = "{}".data(using: .utf8)!
-                    let accessControlPolicybody = ClientRuntime.HttpBody.data(accessControlPolicydata)
-                    input.builder.withBody(accessControlPolicybody)
+                    let accessControlPolicyData = "{}".data(using: .utf8)!
+                    let accessControlPolicyBody = ClientRuntime.HttpBody.data(accessControlPolicyData)
+                    input.builder.withBody(accessControlPolicyBody)
                 }
             }
         } catch let err {
@@ -24767,9 +24690,8 @@ public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let body = input.operationInput.body {
-            let bodydata = body
-            let bodybody = ClientRuntime.HttpBody.stream(bodydata)
-            input.builder.withBody(bodybody)
+            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
+            input.builder.withBody(bodyBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -25237,15 +25159,15 @@ public struct PutObjectLegalHoldInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let legalHold = input.operationInput.legalHold {
                 let xmlEncoder = encoder as! XMLEncoder
-                let legalHolddata = try xmlEncoder.encode(legalHold, withRootKey: "LegalHold")
-                let legalHoldbody = ClientRuntime.HttpBody.data(legalHolddata)
-                input.builder.withBody(legalHoldbody)
+                let legalHoldData = try xmlEncoder.encode(legalHold, withRootKey: "LegalHold")
+                let legalHoldBody = ClientRuntime.HttpBody.data(legalHoldData)
+                input.builder.withBody(legalHoldBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let legalHolddata = "{}".data(using: .utf8)!
-                    let legalHoldbody = ClientRuntime.HttpBody.data(legalHolddata)
-                    input.builder.withBody(legalHoldbody)
+                    let legalHoldData = "{}".data(using: .utf8)!
+                    let legalHoldBody = ClientRuntime.HttpBody.data(legalHoldData)
+                    input.builder.withBody(legalHoldBody)
                 }
             }
         } catch let err {
@@ -25454,15 +25376,15 @@ public struct PutObjectLockConfigurationInputBodyMiddleware: ClientRuntime.Middl
             let encoder = context.getEncoder()
             if let objectLockConfiguration = input.operationInput.objectLockConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let objectLockConfigurationdata = try xmlEncoder.encode(objectLockConfiguration, withRootKey: "ObjectLockConfiguration")
-                let objectLockConfigurationbody = ClientRuntime.HttpBody.data(objectLockConfigurationdata)
-                input.builder.withBody(objectLockConfigurationbody)
+                let objectLockConfigurationData = try xmlEncoder.encode(objectLockConfiguration, withRootKey: "ObjectLockConfiguration")
+                let objectLockConfigurationBody = ClientRuntime.HttpBody.data(objectLockConfigurationData)
+                input.builder.withBody(objectLockConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let objectLockConfigurationdata = "{}".data(using: .utf8)!
-                    let objectLockConfigurationbody = ClientRuntime.HttpBody.data(objectLockConfigurationdata)
-                    input.builder.withBody(objectLockConfigurationbody)
+                    let objectLockConfigurationData = "{}".data(using: .utf8)!
+                    let objectLockConfigurationBody = ClientRuntime.HttpBody.data(objectLockConfigurationData)
+                    input.builder.withBody(objectLockConfigurationBody)
                 }
             }
         } catch let err {
@@ -25832,15 +25754,15 @@ public struct PutObjectRetentionInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let retention = input.operationInput.retention {
                 let xmlEncoder = encoder as! XMLEncoder
-                let retentiondata = try xmlEncoder.encode(retention, withRootKey: "Retention")
-                let retentionbody = ClientRuntime.HttpBody.data(retentiondata)
-                input.builder.withBody(retentionbody)
+                let retentionData = try xmlEncoder.encode(retention, withRootKey: "Retention")
+                let retentionBody = ClientRuntime.HttpBody.data(retentionData)
+                input.builder.withBody(retentionBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let retentiondata = "{}".data(using: .utf8)!
-                    let retentionbody = ClientRuntime.HttpBody.data(retentiondata)
-                    input.builder.withBody(retentionbody)
+                    let retentionData = "{}".data(using: .utf8)!
+                    let retentionBody = ClientRuntime.HttpBody.data(retentionData)
+                    input.builder.withBody(retentionBody)
                 }
             }
         } catch let err {
@@ -26056,15 +25978,15 @@ public struct PutObjectTaggingInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let tagging = input.operationInput.tagging {
                 let xmlEncoder = encoder as! XMLEncoder
-                let taggingdata = try xmlEncoder.encode(tagging, withRootKey: "Tagging")
-                let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
-                input.builder.withBody(taggingbody)
+                let taggingData = try xmlEncoder.encode(tagging, withRootKey: "Tagging")
+                let taggingBody = ClientRuntime.HttpBody.data(taggingData)
+                input.builder.withBody(taggingBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let taggingdata = "{}".data(using: .utf8)!
-                    let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
-                    input.builder.withBody(taggingbody)
+                    let taggingData = "{}".data(using: .utf8)!
+                    let taggingBody = ClientRuntime.HttpBody.data(taggingData)
+                    input.builder.withBody(taggingBody)
                 }
             }
         } catch let err {
@@ -26274,15 +26196,15 @@ public struct PutPublicAccessBlockInputBodyMiddleware: ClientRuntime.Middleware 
             let encoder = context.getEncoder()
             if let publicAccessBlockConfiguration = input.operationInput.publicAccessBlockConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let publicAccessBlockConfigurationdata = try xmlEncoder.encode(publicAccessBlockConfiguration, withRootKey: "PublicAccessBlockConfiguration")
-                let publicAccessBlockConfigurationbody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationdata)
-                input.builder.withBody(publicAccessBlockConfigurationbody)
+                let publicAccessBlockConfigurationData = try xmlEncoder.encode(publicAccessBlockConfiguration, withRootKey: "PublicAccessBlockConfiguration")
+                let publicAccessBlockConfigurationBody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationData)
+                input.builder.withBody(publicAccessBlockConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let publicAccessBlockConfigurationdata = "{}".data(using: .utf8)!
-                    let publicAccessBlockConfigurationbody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationdata)
-                    input.builder.withBody(publicAccessBlockConfigurationbody)
+                    let publicAccessBlockConfigurationData = "{}".data(using: .utf8)!
+                    let publicAccessBlockConfigurationBody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationData)
+                    input.builder.withBody(publicAccessBlockConfigurationBody)
                 }
             }
         } catch let err {
@@ -27652,15 +27574,15 @@ public struct RestoreObjectInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let restoreRequest = input.operationInput.restoreRequest {
                 let xmlEncoder = encoder as! XMLEncoder
-                let restoreRequestdata = try xmlEncoder.encode(restoreRequest, withRootKey: "RestoreRequest")
-                let restoreRequestbody = ClientRuntime.HttpBody.data(restoreRequestdata)
-                input.builder.withBody(restoreRequestbody)
+                let restoreRequestData = try xmlEncoder.encode(restoreRequest, withRootKey: "RestoreRequest")
+                let restoreRequestBody = ClientRuntime.HttpBody.data(restoreRequestData)
+                input.builder.withBody(restoreRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let restoreRequestdata = "{}".data(using: .utf8)!
-                    let restoreRequestbody = ClientRuntime.HttpBody.data(restoreRequestdata)
-                    input.builder.withBody(restoreRequestbody)
+                    let restoreRequestData = "{}".data(using: .utf8)!
+                    let restoreRequestBody = ClientRuntime.HttpBody.data(restoreRequestData)
+                    input.builder.withBody(restoreRequestBody)
                 }
             }
         } catch let err {
@@ -28738,13 +28660,9 @@ public enum SelectObjectContentOutputError: Swift.Error, Swift.Equatable {
 
 extension SelectObjectContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.SelectObjectContentEventStream = try responseDecoder.decode(responseBody: data)
-                self.payload = output
-            } else {
-                self.payload = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.SelectObjectContentEventStream = try responseDecoder.decode(responseBody: data)
+            self.payload = output
         } else {
             self.payload = nil
         }
@@ -30433,13 +30351,9 @@ extension UploadPartCopyOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.serverSideEncryption = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ClientTypes.CopyPartResult = try responseDecoder.decode(responseBody: data)
-                self.copyPartResult = output
-            } else {
-                self.copyPartResult = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.CopyPartResult = try responseDecoder.decode(responseBody: data)
+            self.copyPartResult = output
         } else {
             self.copyPartResult = nil
         }
@@ -30516,9 +30430,8 @@ public struct UploadPartInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let body = input.operationInput.body {
-            let bodydata = body
-            let bodybody = ClientRuntime.HttpBody.stream(bodydata)
-            input.builder.withBody(bodybody)
+            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
+            input.builder.withBody(bodyBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -31112,9 +31025,8 @@ public struct WriteGetObjectResponseInputBodyMiddleware: ClientRuntime.Middlewar
     Self.Context == H.Context
     {
         if let body = input.operationInput.body {
-            let bodydata = body
-            let bodybody = ClientRuntime.HttpBody.stream(bodydata)
-            input.builder.withBody(bodybody)
+            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
+            input.builder.withBody(bodyBody)
         }
         return try await next.handle(context: context, input: input)
     }

@@ -105,9 +105,8 @@ public enum AddFlowMediaStreamsOutputError: Swift.Error, Swift.Equatable {
 
 extension AddFlowMediaStreamsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddFlowMediaStreamsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.mediaStreams = output.mediaStreams
@@ -165,9 +164,8 @@ extension AddFlowMediaStreamsOutputResponseBody: Swift.Decodable {
 
 extension AddFlowOutputs420Exception {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddFlowOutputs420ExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -322,9 +320,8 @@ public enum AddFlowOutputsOutputError: Swift.Error, Swift.Equatable {
 
 extension AddFlowOutputsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddFlowOutputsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.outputs = output.outputs
@@ -483,9 +480,8 @@ public enum AddFlowSourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension AddFlowSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddFlowSourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.sources = output.sources
@@ -644,9 +640,8 @@ public enum AddFlowVpcInterfacesOutputError: Swift.Error, Swift.Equatable {
 
 extension AddFlowVpcInterfacesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddFlowVpcInterfacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.vpcInterfaces = output.vpcInterfaces
@@ -1084,9 +1079,8 @@ extension MediaConnectClientTypes {
 
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1185,9 +1179,8 @@ extension MediaConnectClientTypes {
 
 extension CreateFlow420Exception {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateFlow420ExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1487,9 +1480,8 @@ public enum CreateFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flow = output.flow
         } else {
@@ -1591,9 +1583,8 @@ public enum DeleteFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.status = output.status
@@ -1722,9 +1713,8 @@ public enum DescribeFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flow = output.flow
             self.messages = output.messages
@@ -1834,9 +1824,8 @@ public enum DescribeOfferingOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeOfferingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeOfferingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.offering = output.offering
         } else {
@@ -1936,9 +1925,8 @@ public enum DescribeReservationOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeReservationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeReservationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reservation = output.reservation
         } else {
@@ -3072,9 +3060,8 @@ extension MediaConnectClientTypes {
 
 extension ForbiddenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3224,9 +3211,8 @@ extension MediaConnectClientTypes {
 
 extension GrantFlowEntitlements420Exception {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GrantFlowEntitlements420ExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3381,9 +3367,8 @@ public enum GrantFlowEntitlementsOutputError: Swift.Error, Swift.Equatable {
 
 extension GrantFlowEntitlementsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GrantFlowEntitlementsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entitlements = output.entitlements
             self.flowArn = output.flowArn
@@ -3618,9 +3603,8 @@ extension MediaConnectClientTypes {
 
 extension InternalServerErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3783,9 +3767,8 @@ public enum ListEntitlementsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListEntitlementsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListEntitlementsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entitlements = output.entitlements
             self.nextToken = output.nextToken
@@ -3919,9 +3902,8 @@ public enum ListFlowsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFlowsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFlowsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flows = output.flows
             self.nextToken = output.nextToken
@@ -4055,9 +4037,8 @@ public enum ListOfferingsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListOfferingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListOfferingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.offerings = output.offerings
@@ -4191,9 +4172,8 @@ public enum ListReservationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListReservationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListReservationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.reservations = output.reservations
@@ -4308,9 +4288,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -5239,9 +5218,8 @@ extension MediaConnectClientTypes {
 
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5762,9 +5740,8 @@ public enum PurchaseOfferingOutputError: Swift.Error, Swift.Equatable {
 
 extension PurchaseOfferingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PurchaseOfferingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reservation = output.reservation
         } else {
@@ -5909,9 +5886,8 @@ public enum RemoveFlowMediaStreamOutputError: Swift.Error, Swift.Equatable {
 
 extension RemoveFlowMediaStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RemoveFlowMediaStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.mediaStreamName = output.mediaStreamName
@@ -6031,9 +6007,8 @@ public enum RemoveFlowOutputOutputError: Swift.Error, Swift.Equatable {
 
 extension RemoveFlowOutputOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RemoveFlowOutputOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.outputArn = output.outputArn
@@ -6153,9 +6128,8 @@ public enum RemoveFlowSourceOutputError: Swift.Error, Swift.Equatable {
 
 extension RemoveFlowSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RemoveFlowSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.sourceArn = output.sourceArn
@@ -6275,9 +6249,8 @@ public enum RemoveFlowVpcInterfaceOutputError: Swift.Error, Swift.Equatable {
 
 extension RemoveFlowVpcInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RemoveFlowVpcInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.nonDeletedNetworkInterfaceIds = output.nonDeletedNetworkInterfaceIds
@@ -6697,9 +6670,8 @@ public enum RevokeFlowEntitlementOutputError: Swift.Error, Swift.Equatable {
 
 extension RevokeFlowEntitlementOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RevokeFlowEntitlementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entitlementArn = output.entitlementArn
             self.flowArn = output.flowArn
@@ -6783,9 +6755,8 @@ extension MediaConnectClientTypes {
 
 extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7363,9 +7334,8 @@ public enum StartFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension StartFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.status = output.status
@@ -7556,9 +7526,8 @@ public enum StopFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension StopFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.status = output.status
@@ -7765,9 +7734,8 @@ extension MediaConnectClientTypes {
 
 extension TooManyRequestsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8399,9 +8367,8 @@ public enum UpdateFlowEntitlementOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateFlowEntitlementOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFlowEntitlementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entitlement = output.entitlement
             self.flowArn = output.flowArn
@@ -8662,9 +8629,8 @@ public enum UpdateFlowMediaStreamOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateFlowMediaStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFlowMediaStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.mediaStream = output.mediaStream
@@ -9033,9 +8999,8 @@ public enum UpdateFlowOutputOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateFlowOutputOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFlowOutputOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.output = output.output
@@ -9084,9 +9049,8 @@ extension UpdateFlowOutputOutputResponseBody: Swift.Decodable {
 
 extension UpdateFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flow = output.flow
         } else {
@@ -9425,9 +9389,8 @@ public enum UpdateFlowSourceOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateFlowSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFlowSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.source = output.source

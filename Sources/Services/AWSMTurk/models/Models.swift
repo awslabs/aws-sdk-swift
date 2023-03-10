@@ -1021,9 +1021,8 @@ public enum CreateHITOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateHITOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateHITOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hit = output.hit
         } else {
@@ -1221,9 +1220,8 @@ public enum CreateHITTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateHITTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateHITTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hitTypeId = output.hitTypeId
         } else {
@@ -1455,9 +1453,8 @@ public enum CreateHITWithHITTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateHITWithHITTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateHITWithHITTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hit = output.hit
         } else {
@@ -1678,9 +1675,8 @@ public enum CreateQualificationTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateQualificationTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateQualificationTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.qualificationType = output.qualificationType
         } else {
@@ -2293,9 +2289,8 @@ public enum GetAccountBalanceOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAccountBalanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccountBalanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availableBalance = output.availableBalance
             self.onHoldBalance = output.onHoldBalance
@@ -2416,9 +2411,8 @@ public enum GetAssignmentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAssignmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAssignmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assignment = output.assignment
             self.hit = output.hit
@@ -2552,9 +2546,8 @@ public enum GetFileUploadURLOutputError: Swift.Error, Swift.Equatable {
 
 extension GetFileUploadURLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetFileUploadURLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileUploadURL = output.fileUploadURL
         } else {
@@ -2665,9 +2658,8 @@ public enum GetHITOutputError: Swift.Error, Swift.Equatable {
 
 extension GetHITOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetHITOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hit = output.hit
         } else {
@@ -2791,9 +2783,8 @@ public enum GetQualificationScoreOutputError: Swift.Error, Swift.Equatable {
 
 extension GetQualificationScoreOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetQualificationScoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.qualification = output.qualification
         } else {
@@ -2904,9 +2895,8 @@ public enum GetQualificationTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension GetQualificationTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetQualificationTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.qualificationType = output.qualificationType
         } else {
@@ -3472,9 +3462,8 @@ public enum ListAssignmentsForHITOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAssignmentsForHITOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAssignmentsForHITOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assignments = output.assignments
             self.nextToken = output.nextToken
@@ -3648,9 +3637,8 @@ public enum ListBonusPaymentsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListBonusPaymentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBonusPaymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bonusPayments = output.bonusPayments
             self.nextToken = output.nextToken
@@ -3814,9 +3802,8 @@ public enum ListHITsForQualificationTypeOutputError: Swift.Error, Swift.Equatabl
 
 extension ListHITsForQualificationTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListHITsForQualificationTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hiTs = output.hiTs
             self.nextToken = output.nextToken
@@ -3966,9 +3953,8 @@ public enum ListHITsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListHITsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListHITsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hiTs = output.hiTs
             self.nextToken = output.nextToken
@@ -4131,9 +4117,8 @@ public enum ListQualificationRequestsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListQualificationRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListQualificationRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.numResults = output.numResults
@@ -4321,9 +4306,8 @@ public enum ListQualificationTypesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListQualificationTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListQualificationTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.numResults = output.numResults
@@ -4535,9 +4519,8 @@ public enum ListReviewPolicyResultsForHITOutputError: Swift.Error, Swift.Equatab
 
 extension ListReviewPolicyResultsForHITOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListReviewPolicyResultsForHITOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assignmentReviewPolicy = output.assignmentReviewPolicy
             self.assignmentReviewReport = output.assignmentReviewReport
@@ -4733,9 +4716,8 @@ public enum ListReviewableHITsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListReviewableHITsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListReviewableHITsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hiTs = output.hiTs
             self.nextToken = output.nextToken
@@ -4885,9 +4867,8 @@ public enum ListWorkerBlocksOutputError: Swift.Error, Swift.Equatable {
 
 extension ListWorkerBlocksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWorkerBlocksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.numResults = output.numResults
@@ -5063,9 +5044,8 @@ public enum ListWorkersWithQualificationTypeOutputError: Swift.Error, Swift.Equa
 
 extension ListWorkersWithQualificationTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWorkersWithQualificationTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.numResults = output.numResults
@@ -5498,9 +5478,8 @@ public enum NotifyWorkersOutputError: Swift.Error, Swift.Equatable {
 
 extension NotifyWorkersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotifyWorkersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.notifyWorkersFailureStatuses = output.notifyWorkersFailureStatuses
         } else {
@@ -6374,9 +6353,8 @@ public struct RejectQualificationRequestOutputResponse: Swift.Equatable {
 
 extension RequestError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RequestErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.turkErrorCode = output.turkErrorCode
@@ -7082,9 +7060,8 @@ public struct SendTestEventNotificationOutputResponse: Swift.Equatable {
 
 extension ServiceFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.turkErrorCode = output.turkErrorCode
@@ -7705,9 +7682,8 @@ public enum UpdateQualificationTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateQualificationTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateQualificationTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.qualificationType = output.qualificationType
         } else {

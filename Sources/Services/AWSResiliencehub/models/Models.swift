@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -161,9 +160,8 @@ public enum AddDraftAppVersionResourceMappingsOutputError: Swift.Error, Swift.Eq
 
 extension AddDraftAppVersionResourceMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddDraftAppVersionResourceMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
@@ -1823,9 +1821,8 @@ extension ResiliencehubClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -2150,9 +2147,8 @@ public enum CreateAppOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAppOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.app = output.app
         } else {
@@ -2921,9 +2917,8 @@ public enum CreateRecommendationTemplateOutputError: Swift.Error, Swift.Equatabl
 
 extension CreateRecommendationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRecommendationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recommendationTemplate = output.recommendationTemplate
         } else {
@@ -3145,9 +3140,8 @@ public enum CreateResiliencyPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateResiliencyPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -3314,9 +3308,8 @@ public enum DeleteAppAssessmentOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteAppAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteAppAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessmentArn = output.assessmentArn
             self.assessmentStatus = output.assessmentStatus
@@ -3648,9 +3641,8 @@ public enum DeleteAppOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteAppOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
         } else {
@@ -4163,9 +4155,8 @@ public enum DeleteRecommendationTemplateOutputError: Swift.Error, Swift.Equatabl
 
 extension DeleteRecommendationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteRecommendationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recommendationTemplateArn = output.recommendationTemplateArn
             self.status = output.status
@@ -4308,9 +4299,8 @@ public enum DeleteResiliencyPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteResiliencyPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyArn = output.policyArn
         } else {
@@ -4428,9 +4418,8 @@ public enum DescribeAppAssessmentOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAppAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAppAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessment = output.assessment
         } else {
@@ -4548,9 +4537,8 @@ public enum DescribeAppOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAppOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.app = output.app
         } else {
@@ -5248,9 +5236,8 @@ public enum DescribeAppVersionResourcesResolutionStatusOutputError: Swift.Error,
 
 extension DescribeAppVersionResourcesResolutionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAppVersionResourcesResolutionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
@@ -5424,9 +5411,8 @@ public enum DescribeAppVersionTemplateOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeAppVersionTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAppVersionTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appTemplateBody = output.appTemplateBody
@@ -5634,9 +5620,8 @@ public enum DescribeDraftAppVersionResourcesImportStatusOutputError: Swift.Error
 
 extension DescribeDraftAppVersionResourcesImportStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDraftAppVersionResourcesImportStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
@@ -5797,9 +5782,8 @@ public enum DescribeResiliencyPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeResiliencyPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -6399,9 +6383,8 @@ public enum ImportResourcesToDraftAppVersionOutputError: Swift.Error, Swift.Equa
 
 extension ImportResourcesToDraftAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportResourcesToDraftAppVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
@@ -6520,9 +6503,8 @@ extension ImportResourcesToDraftAppVersionOutputResponseBody: Swift.Decodable {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6674,9 +6656,8 @@ public enum ListAlarmRecommendationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAlarmRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAlarmRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alarmRecommendations = output.alarmRecommendations
             self.nextToken = output.nextToken
@@ -6863,9 +6844,8 @@ public enum ListAppAssessmentsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAppAssessmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAppAssessmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessmentSummaries = output.assessmentSummaries
             self.nextToken = output.nextToken
@@ -7026,9 +7006,8 @@ public enum ListAppComponentCompliancesOutputError: Swift.Error, Swift.Equatable
 
 extension ListAppComponentCompliancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAppComponentCompliancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.componentCompliances = output.componentCompliances
             self.nextToken = output.nextToken
@@ -7189,9 +7168,8 @@ public enum ListAppComponentRecommendationsOutputError: Swift.Error, Swift.Equat
 
 extension ListAppComponentRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAppComponentRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.componentRecommendations = output.componentRecommendations
             self.nextToken = output.nextToken
@@ -7740,9 +7718,8 @@ public enum ListAppVersionResourceMappingsOutputError: Swift.Error, Swift.Equata
 
 extension ListAppVersionResourceMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAppVersionResourceMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resourceMappings = output.resourceMappings
@@ -7930,9 +7907,8 @@ public enum ListAppVersionResourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAppVersionResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAppVersionResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.physicalResources = output.physicalResources
@@ -8102,9 +8078,8 @@ public enum ListAppVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAppVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAppVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appVersions = output.appVersions
             self.nextToken = output.nextToken
@@ -8255,9 +8230,8 @@ public enum ListAppsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAppsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAppsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appSummaries = output.appSummaries
             self.nextToken = output.nextToken
@@ -8437,9 +8411,8 @@ public enum ListRecommendationTemplatesOutputError: Swift.Error, Swift.Equatable
 
 extension ListRecommendationTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRecommendationTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recommendationTemplates = output.recommendationTemplates
@@ -8583,9 +8556,8 @@ public enum ListResiliencyPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListResiliencyPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListResiliencyPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resiliencyPolicies = output.resiliencyPolicies
@@ -8748,9 +8720,8 @@ public enum ListSopRecommendationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSopRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSopRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sopRecommendations = output.sopRecommendations
@@ -8887,9 +8858,8 @@ public enum ListSuggestedResiliencyPoliciesOutputError: Swift.Error, Swift.Equat
 
 extension ListSuggestedResiliencyPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSuggestedResiliencyPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resiliencyPolicies = output.resiliencyPolicies
@@ -9014,9 +8984,8 @@ extension ListTagsForResourceOutputResponse: Swift.CustomDebugStringConvertible 
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -9168,9 +9137,8 @@ public enum ListTestRecommendationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTestRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTestRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.testRecommendations = output.testRecommendations
@@ -9358,9 +9326,8 @@ public enum ListUnsupportedAppVersionResourcesOutputError: Swift.Error, Swift.Eq
 
 extension ListUnsupportedAppVersionResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListUnsupportedAppVersionResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resolutionId = output.resolutionId
@@ -9817,9 +9784,8 @@ public enum PublishAppVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension PublishAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PublishAppVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
@@ -10030,9 +9996,8 @@ public enum PutDraftAppVersionTemplateOutputError: Swift.Error, Swift.Equatable 
 
 extension PutDraftAppVersionTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutDraftAppVersionTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
@@ -10731,9 +10696,8 @@ public enum RemoveDraftAppVersionResourceMappingsOutputError: Swift.Error, Swift
 
 extension RemoveDraftAppVersionResourceMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RemoveDraftAppVersionResourceMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
@@ -11154,9 +11118,8 @@ public enum ResolveAppVersionResourcesOutputError: Swift.Error, Swift.Equatable 
 
 extension ResolveAppVersionResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResolveAppVersionResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
@@ -11562,9 +11525,8 @@ extension ResiliencehubClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -11717,9 +11679,8 @@ extension ResiliencehubClientTypes {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12067,9 +12028,8 @@ public enum StartAppAssessmentOutputError: Swift.Error, Swift.Equatable {
 
 extension StartAppAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartAppAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessment = output.assessment
         } else {
@@ -12523,9 +12483,8 @@ extension ResiliencehubClientTypes {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.retryAfterSeconds = output.retryAfterSeconds
@@ -12879,9 +12838,8 @@ public enum UpdateAppOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateAppOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.app = output.app
         } else {
@@ -13767,9 +13725,8 @@ public enum UpdateResiliencyPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateResiliencyPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -13809,9 +13766,8 @@ extension UpdateResiliencyPolicyOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

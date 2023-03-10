@@ -447,7 +447,7 @@ extension CloudSearchClientTypes {
 
 extension BaseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<BaseExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
@@ -583,9 +583,8 @@ public enum BuildSuggestersOutputError: Swift.Error, Swift.Equatable {
 
 extension BuildSuggestersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BuildSuggestersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fieldNames = output.fieldNames
         } else {
@@ -719,9 +718,8 @@ public enum CreateDomainOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainStatus = output.domainStatus
         } else {
@@ -1012,9 +1010,8 @@ public enum DefineAnalysisSchemeOutputError: Swift.Error, Swift.Equatable {
 
 extension DefineAnalysisSchemeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DefineAnalysisSchemeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analysisScheme = output.analysisScheme
         } else {
@@ -1146,9 +1143,8 @@ public enum DefineExpressionOutputError: Swift.Error, Swift.Equatable {
 
 extension DefineExpressionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DefineExpressionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expression = output.expression
         } else {
@@ -1280,9 +1276,8 @@ public enum DefineIndexFieldOutputError: Swift.Error, Swift.Equatable {
 
 extension DefineIndexFieldOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DefineIndexFieldOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.indexField = output.indexField
         } else {
@@ -1414,9 +1409,8 @@ public enum DefineSuggesterOutputError: Swift.Error, Swift.Equatable {
 
 extension DefineSuggesterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DefineSuggesterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.suggester = output.suggester
         } else {
@@ -1546,9 +1540,8 @@ public enum DeleteAnalysisSchemeOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteAnalysisSchemeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteAnalysisSchemeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analysisScheme = output.analysisScheme
         } else {
@@ -1660,9 +1653,8 @@ public enum DeleteDomainOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainStatus = output.domainStatus
         } else {
@@ -1791,9 +1783,8 @@ public enum DeleteExpressionOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteExpressionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteExpressionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expression = output.expression
         } else {
@@ -1923,9 +1914,8 @@ public enum DeleteIndexFieldOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteIndexFieldOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteIndexFieldOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.indexField = output.indexField
         } else {
@@ -2055,9 +2045,8 @@ public enum DeleteSuggesterOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSuggesterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteSuggesterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.suggester = output.suggester
         } else {
@@ -2219,9 +2208,8 @@ public enum DescribeAnalysisSchemesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAnalysisSchemesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAnalysisSchemesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analysisSchemes = output.analysisSchemes
         } else {
@@ -2369,9 +2357,8 @@ public enum DescribeAvailabilityOptionsOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeAvailabilityOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAvailabilityOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availabilityOptions = output.availabilityOptions
         } else {
@@ -2499,9 +2486,8 @@ public enum DescribeDomainEndpointOptionsOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeDomainEndpointOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDomainEndpointOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainEndpointOptions = output.domainEndpointOptions
         } else {
@@ -2637,9 +2623,8 @@ public enum DescribeDomainsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainStatusList = output.domainStatusList
         } else {
@@ -2818,9 +2803,8 @@ public enum DescribeExpressionsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeExpressionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeExpressionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expressions = output.expressions
         } else {
@@ -2999,9 +2983,8 @@ public enum DescribeIndexFieldsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeIndexFieldsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeIndexFieldsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.indexFields = output.indexFields
         } else {
@@ -3132,9 +3115,8 @@ public enum DescribeScalingParametersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeScalingParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeScalingParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.scalingParameters = output.scalingParameters
         } else {
@@ -3259,9 +3241,8 @@ public enum DescribeServiceAccessPoliciesOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeServiceAccessPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeServiceAccessPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicies = output.accessPolicies
         } else {
@@ -3423,9 +3404,8 @@ public enum DescribeSuggestersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeSuggestersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSuggestersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.suggesters = output.suggesters
         } else {
@@ -3484,7 +3464,7 @@ extension DescribeSuggestersOutputResponseBody: Swift.Decodable {
 
 extension DisabledOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DisabledOperationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
@@ -4179,9 +4159,8 @@ public enum IndexDocumentsOutputError: Swift.Error, Swift.Equatable {
 
 extension IndexDocumentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IndexDocumentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fieldNames = output.fieldNames
         } else {
@@ -4663,7 +4642,7 @@ extension CloudSearchClientTypes {
 
 extension InternalException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InternalExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
@@ -4725,7 +4704,7 @@ extension InternalExceptionBody: Swift.Decodable {
 
 extension InvalidTypeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidTypeExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
@@ -4872,7 +4851,7 @@ extension CloudSearchClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
@@ -5018,9 +4997,8 @@ public enum ListDomainNamesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDomainNamesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDomainNamesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainNames = output.domainNames
         } else {
@@ -5449,7 +5427,7 @@ extension CloudSearchClientTypes {
 
 extension ResourceAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
@@ -5511,7 +5489,7 @@ extension ResourceAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
@@ -6124,9 +6102,8 @@ public enum UpdateAvailabilityOptionsOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateAvailabilityOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateAvailabilityOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availabilityOptions = output.availabilityOptions
         } else {
@@ -6259,9 +6236,8 @@ public enum UpdateDomainEndpointOptionsOutputError: Swift.Error, Swift.Equatable
 
 extension UpdateDomainEndpointOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateDomainEndpointOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainEndpointOptions = output.domainEndpointOptions
         } else {
@@ -6392,9 +6368,8 @@ public enum UpdateScalingParametersOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateScalingParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateScalingParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.scalingParameters = output.scalingParameters
         } else {
@@ -6526,9 +6501,8 @@ public enum UpdateServiceAccessPoliciesOutputError: Swift.Error, Swift.Equatable
 
 extension UpdateServiceAccessPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateServiceAccessPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicies = output.accessPolicies
         } else {
@@ -6570,7 +6544,7 @@ extension UpdateServiceAccessPoliciesOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ValidationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code

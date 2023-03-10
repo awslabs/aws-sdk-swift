@@ -9,9 +9,8 @@ extension AccessDeniedException {
         } else {
             self.xAmzErrorType = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -371,9 +370,8 @@ extension ConflictException {
         } else {
             self.xAmzErrorType = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -574,9 +572,8 @@ public enum CreateCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCampaignOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -921,9 +918,8 @@ public enum DescribeCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCampaignOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.campaign = output.campaign
         } else {
@@ -1445,9 +1441,8 @@ public enum GetCampaignStateBatchOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignStateBatchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCampaignStateBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedRequests = output.failedRequests
             self.successfulRequests = output.successfulRequests
@@ -1577,9 +1572,8 @@ public enum GetCampaignStateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignStateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCampaignStateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.state = output.state
         } else {
@@ -1679,9 +1673,8 @@ public enum GetConnectInstanceConfigOutputError: Swift.Error, Swift.Equatable {
 
 extension GetConnectInstanceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConnectInstanceConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectInstanceConfig = output.connectInstanceConfig
         } else {
@@ -1781,9 +1774,8 @@ public enum GetInstanceOnboardingJobStatusOutputError: Swift.Error, Swift.Equata
 
 extension GetInstanceOnboardingJobStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetInstanceOnboardingJobStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectInstanceOnboardingJobStatus = output.connectInstanceOnboardingJobStatus
         } else {
@@ -2102,9 +2094,8 @@ extension InternalServerException {
         } else {
             self.xAmzErrorType = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2164,9 +2155,8 @@ extension InvalidCampaignStateException {
         } else {
             self.xAmzErrorType = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidCampaignStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.state = output.state
@@ -2237,9 +2227,8 @@ extension InvalidStateException {
         } else {
             self.xAmzErrorType = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2392,9 +2381,8 @@ public enum ListCampaignsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCampaignsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCampaignsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.campaignSummaryList = output.campaignSummaryList
             self.nextToken = output.nextToken
@@ -2515,9 +2503,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -2884,9 +2871,8 @@ public enum PutDialRequestBatchOutputError: Swift.Error, Swift.Equatable {
 
 extension PutDialRequestBatchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutDialRequestBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedRequests = output.failedRequests
             self.successfulRequests = output.successfulRequests
@@ -2959,9 +2945,8 @@ extension ResourceNotFoundException {
         } else {
             self.xAmzErrorType = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3097,9 +3082,8 @@ extension ServiceQuotaExceededException {
         } else {
             self.xAmzErrorType = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3319,9 +3303,8 @@ public enum StartInstanceOnboardingJobOutputError: Swift.Error, Swift.Equatable 
 
 extension StartInstanceOnboardingJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartInstanceOnboardingJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectInstanceOnboardingJobStatus = output.connectInstanceOnboardingJobStatus
         } else {
@@ -3641,9 +3624,8 @@ extension ThrottlingException {
         } else {
             self.xAmzErrorType = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4113,9 +4095,8 @@ extension ValidationException {
         } else {
             self.xAmzErrorType = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

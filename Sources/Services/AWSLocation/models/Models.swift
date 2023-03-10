@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -454,9 +453,8 @@ public enum BatchDeleteDevicePositionHistoryOutputError: Swift.Error, Swift.Equa
 
 extension BatchDeleteDevicePositionHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDeleteDevicePositionHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
@@ -650,9 +648,8 @@ public enum BatchDeleteGeofenceOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchDeleteGeofenceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDeleteGeofenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
@@ -857,9 +854,8 @@ public enum BatchEvaluateGeofencesOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchEvaluateGeofencesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchEvaluateGeofencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
@@ -1055,9 +1051,8 @@ public enum BatchGetDevicePositionOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchGetDevicePositionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchGetDevicePositionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.devicePositions = output.devicePositions
             self.errors = output.errors
@@ -1366,9 +1361,8 @@ public enum BatchPutGeofenceOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchPutGeofenceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchPutGeofenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.successes = output.successes
@@ -1698,9 +1692,8 @@ public enum BatchUpdateDevicePositionOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchUpdateDevicePositionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchUpdateDevicePositionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
@@ -2264,9 +2257,8 @@ public enum CalculateRouteMatrixOutputError: Swift.Error, Swift.Equatable {
 
 extension CalculateRouteMatrixOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CalculateRouteMatrixOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.routeMatrix = output.routeMatrix
             self.snappedDeparturePositions = output.snappedDeparturePositions
@@ -2500,9 +2492,8 @@ public enum CalculateRouteOutputError: Swift.Error, Swift.Equatable {
 
 extension CalculateRouteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CalculateRouteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.legs = output.legs
             self.summary = output.summary
@@ -2821,9 +2812,8 @@ extension LocationClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3046,9 +3036,8 @@ public enum CreateGeofenceCollectionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGeofenceCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGeofenceCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collectionArn = output.collectionArn
             self.collectionName = output.collectionName
@@ -3525,9 +3514,8 @@ public enum CreateMapOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateMapOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateMapOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.mapArn = output.mapArn
@@ -3772,9 +3760,8 @@ public enum CreatePlaceIndexOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePlaceIndexOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePlaceIndexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.indexArn = output.indexArn
@@ -4012,9 +3999,8 @@ public enum CreateRouteCalculatorOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRouteCalculatorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRouteCalculatorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.calculatorArn = output.calculatorArn
             self.calculatorName = output.calculatorName
@@ -4273,9 +4259,8 @@ public enum CreateTrackerOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateTrackerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTrackerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.trackerArn = output.trackerArn
@@ -4875,9 +4860,8 @@ public enum DescribeGeofenceCollectionOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeGeofenceCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGeofenceCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collectionArn = output.collectionArn
             self.collectionName = output.collectionName
@@ -5280,9 +5264,8 @@ public enum DescribeMapOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeMapOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeMapOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
             self.createTime = output.createTime
@@ -5481,9 +5464,8 @@ public enum DescribePlaceIndexOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribePlaceIndexOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePlaceIndexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.dataSource = output.dataSource
@@ -5691,9 +5673,8 @@ public enum DescribeRouteCalculatorOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRouteCalculatorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRouteCalculatorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.calculatorArn = output.calculatorArn
             self.calculatorName = output.calculatorName
@@ -5894,9 +5875,8 @@ public enum DescribeTrackerOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeTrackerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTrackerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.description = output.description
@@ -6631,9 +6611,8 @@ public enum GetDevicePositionHistoryOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDevicePositionHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDevicePositionHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.devicePositions = output.devicePositions
             self.nextToken = output.nextToken
@@ -6766,9 +6745,8 @@ extension GetDevicePositionOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension GetDevicePositionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDevicePositionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accuracy = output.accuracy
             self.deviceId = output.deviceId
@@ -6947,9 +6925,8 @@ public enum GetGeofenceOutputError: Swift.Error, Swift.Equatable {
 
 extension GetGeofenceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetGeofenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.geofenceId = output.geofenceId
@@ -7182,9 +7159,12 @@ extension GetMapGlyphsOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.contentType = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
+        switch httpResponse.body {
+        case .data(let data):
             self.blob = data
-        } else {
+        case .stream(let stream):
+            self.blob = try stream.readToEnd()
+        case .none:
             self.blob = nil
         }
     }
@@ -7340,9 +7320,12 @@ extension GetMapSpritesOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.contentType = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
+        switch httpResponse.body {
+        case .data(let data):
             self.blob = data
-        } else {
+        case .stream(let stream):
+            self.blob = try stream.readToEnd()
+        case .none:
             self.blob = nil
         }
     }
@@ -7479,9 +7462,12 @@ extension GetMapStyleDescriptorOutputResponse: ClientRuntime.HttpResponseBinding
         } else {
             self.contentType = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
+        switch httpResponse.body {
+        case .data(let data):
             self.blob = data
-        } else {
+        case .stream(let stream):
+            self.blob = try stream.readToEnd()
+        case .none:
             self.blob = nil
         }
     }
@@ -7642,9 +7628,12 @@ extension GetMapTileOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.contentType = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
+        switch httpResponse.body {
+        case .data(let data):
             self.blob = data
-        } else {
+        case .stream(let stream):
+            self.blob = try stream.readToEnd()
+        case .none:
             self.blob = nil
         }
     }
@@ -7774,9 +7763,8 @@ public enum GetPlaceOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPlaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetPlaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.place = output.place
         } else {
@@ -7850,9 +7838,8 @@ extension LocationClientTypes {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8203,9 +8190,8 @@ public enum ListDevicePositionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDevicePositionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDevicePositionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -8458,9 +8444,8 @@ public enum ListGeofenceCollectionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGeofenceCollectionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGeofenceCollectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -8797,9 +8782,8 @@ public enum ListGeofencesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGeofencesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGeofencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -9195,9 +9179,8 @@ public enum ListMapsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMapsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMapsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -9434,9 +9417,8 @@ public enum ListPlaceIndexesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPlaceIndexesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPlaceIndexesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -9682,9 +9664,8 @@ public enum ListRouteCalculatorsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRouteCalculatorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRouteCalculatorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -9910,9 +9891,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -10059,9 +10039,8 @@ public enum ListTrackerConsumersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTrackerConsumersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTrackerConsumersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumerArns = output.consumerArns
             self.nextToken = output.nextToken
@@ -10207,9 +10186,8 @@ public enum ListTrackersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTrackersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTrackersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -10868,9 +10846,8 @@ public enum PutGeofenceOutputError: Swift.Error, Swift.Equatable {
 
 extension PutGeofenceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutGeofenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.geofenceId = output.geofenceId
@@ -10932,9 +10909,8 @@ extension PutGeofenceOutputResponseBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11453,9 +11429,8 @@ public enum SearchPlaceIndexForPositionOutputError: Swift.Error, Swift.Equatable
 
 extension SearchPlaceIndexForPositionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SearchPlaceIndexForPositionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.results = output.results
             self.summary = output.summary
@@ -11797,9 +11772,8 @@ public enum SearchPlaceIndexForSuggestionsOutputError: Swift.Error, Swift.Equata
 
 extension SearchPlaceIndexForSuggestionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SearchPlaceIndexForSuggestionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.results = output.results
             self.summary = output.summary
@@ -12195,9 +12169,8 @@ public enum SearchPlaceIndexForTextOutputError: Swift.Error, Swift.Equatable {
 
 extension SearchPlaceIndexForTextOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SearchPlaceIndexForTextOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.results = output.results
             self.summary = output.summary
@@ -12426,9 +12399,8 @@ extension LocationClientTypes {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12744,9 +12716,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13217,9 +13188,8 @@ public enum UpdateGeofenceCollectionOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGeofenceCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateGeofenceCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collectionArn = output.collectionArn
             self.collectionName = output.collectionName
@@ -13580,9 +13550,8 @@ public enum UpdateMapOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateMapOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateMapOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mapArn = output.mapArn
             self.mapName = output.mapName
@@ -13756,9 +13725,8 @@ public enum UpdatePlaceIndexOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePlaceIndexOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdatePlaceIndexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.indexArn = output.indexArn
             self.indexName = output.indexName
@@ -13920,9 +13888,8 @@ public enum UpdateRouteCalculatorOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRouteCalculatorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRouteCalculatorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.calculatorArn = output.calculatorArn
             self.calculatorName = output.calculatorName
@@ -14115,9 +14082,8 @@ public enum UpdateTrackerOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateTrackerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateTrackerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trackerArn = output.trackerArn
             self.trackerName = output.trackerName
@@ -14181,9 +14147,8 @@ extension UpdateTrackerOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fieldList = output.fieldList
             self.message = output.message
