@@ -1158,7 +1158,7 @@ public struct ChangePasswordOutputResponse: Swift.Equatable {
 
 extension ConcurrentModificationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ConcurrentModificationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1422,9 +1422,8 @@ public enum CreateAccessKeyOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAccessKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAccessKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessKey = output.accessKey
         } else {
@@ -1631,9 +1630,8 @@ public enum CreateGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.group = output.group
         } else {
@@ -1798,9 +1796,8 @@ public enum CreateInstanceProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateInstanceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceProfile = output.instanceProfile
         } else {
@@ -1945,9 +1942,8 @@ public enum CreateLoginProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLoginProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLoginProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loginProfile = output.loginProfile
         } else {
@@ -2176,9 +2172,8 @@ public enum CreateOpenIDConnectProviderOutputError: Swift.Error, Swift.Equatable
 
 extension CreateOpenIDConnectProviderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateOpenIDConnectProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.openIDConnectProviderArn = output.openIDConnectProviderArn
             self.tags = output.tags
@@ -2400,9 +2395,8 @@ public enum CreatePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -2547,9 +2541,8 @@ public enum CreatePolicyVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePolicyVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePolicyVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyVersion = output.policyVersion
         } else {
@@ -2769,9 +2762,8 @@ public enum CreateRoleOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRoleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRoleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.role = output.role
         } else {
@@ -2937,9 +2929,8 @@ public enum CreateSAMLProviderOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSAMLProviderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSAMLProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.samlProviderArn = output.samlProviderArn
             self.tags = output.tags
@@ -3102,9 +3093,8 @@ public enum CreateServiceLinkedRoleOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateServiceLinkedRoleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateServiceLinkedRoleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.role = output.role
         } else {
@@ -3227,9 +3217,8 @@ public enum CreateServiceSpecificCredentialOutputError: Swift.Error, Swift.Equat
 
 extension CreateServiceSpecificCredentialOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateServiceSpecificCredentialOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceSpecificCredential = output.serviceSpecificCredential
         } else {
@@ -3405,9 +3394,8 @@ public enum CreateUserOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.user = output.user
         } else {
@@ -3571,9 +3559,8 @@ public enum CreateVirtualMFADeviceOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateVirtualMFADeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateVirtualMFADeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualMFADevice = output.virtualMFADevice
         } else {
@@ -3615,7 +3602,7 @@ extension CreateVirtualMFADeviceOutputResponseBody: Swift.Decodable {
 
 extension CredentialReportExpiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CredentialReportExpiredExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3666,7 +3653,7 @@ extension CredentialReportExpiredExceptionBody: Swift.Decodable {
 
 extension CredentialReportNotPresentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CredentialReportNotPresentExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3717,7 +3704,7 @@ extension CredentialReportNotPresentExceptionBody: Swift.Decodable {
 
 extension CredentialReportNotReadyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CredentialReportNotReadyExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4090,7 +4077,7 @@ public struct DeleteAccountPasswordPolicyOutputResponse: Swift.Equatable {
 
 extension DeleteConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DeleteConflictExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5335,9 +5322,8 @@ public enum DeleteServiceLinkedRoleOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteServiceLinkedRoleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteServiceLinkedRoleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deletionTaskId = output.deletionTaskId
         } else {
@@ -6294,7 +6280,7 @@ public struct DetachUserPolicyOutputResponse: Swift.Equatable {
 
 extension DuplicateCertificateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DuplicateCertificateExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6345,7 +6331,7 @@ extension DuplicateCertificateExceptionBody: Swift.Decodable {
 
 extension DuplicateSSHPublicKeyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DuplicateSSHPublicKeyExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6551,7 +6537,7 @@ extension IAMClientTypes {
 
 extension EntityAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EntityAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6727,7 +6713,7 @@ extension IAMClientTypes {
 
 extension EntityTemporarilyUnmodifiableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EntityTemporarilyUnmodifiableExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -7129,9 +7115,8 @@ public enum GenerateCredentialReportOutputError: Swift.Error, Swift.Equatable {
 
 extension GenerateCredentialReportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GenerateCredentialReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.state = output.state
@@ -7260,9 +7245,8 @@ public enum GenerateOrganizationsAccessReportOutputError: Swift.Error, Swift.Equ
 
 extension GenerateOrganizationsAccessReportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GenerateOrganizationsAccessReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -7382,9 +7366,8 @@ public enum GenerateServiceLastAccessedDetailsOutputError: Swift.Error, Swift.Eq
 
 extension GenerateServiceLastAccessedDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GenerateServiceLastAccessedDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -7491,9 +7474,8 @@ public enum GetAccessKeyLastUsedOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAccessKeyLastUsedOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccessKeyLastUsedOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessKeyLastUsed = output.accessKeyLastUsed
             self.userName = output.userName
@@ -7658,9 +7640,8 @@ public enum GetAccountAuthorizationDetailsOutputError: Swift.Error, Swift.Equata
 
 extension GetAccountAuthorizationDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccountAuthorizationDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groupDetailList = output.groupDetailList
             self.isTruncated = output.isTruncated
@@ -7861,9 +7842,8 @@ public enum GetAccountPasswordPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAccountPasswordPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccountPasswordPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.passwordPolicy = output.passwordPolicy
         } else {
@@ -7945,9 +7925,8 @@ public enum GetAccountSummaryOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAccountSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccountSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summaryMap = output.summaryMap
         } else {
@@ -8104,9 +8083,8 @@ public enum GetContextKeysForCustomPolicyOutputError: Swift.Error, Swift.Equatab
 
 extension GetContextKeysForCustomPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetContextKeysForCustomPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contextKeyNames = output.contextKeyNames
         } else {
@@ -8276,9 +8254,8 @@ public enum GetContextKeysForPrincipalPolicyOutputError: Swift.Error, Swift.Equa
 
 extension GetContextKeysForPrincipalPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetContextKeysForPrincipalPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contextKeyNames = output.contextKeyNames
         } else {
@@ -8382,9 +8359,8 @@ public enum GetCredentialReportOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCredentialReportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCredentialReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.content = output.content
             self.generatedTime = output.generatedTime
@@ -8544,9 +8520,8 @@ public enum GetGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension GetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.group = output.group
             self.isTruncated = output.isTruncated
@@ -8717,9 +8692,8 @@ public enum GetGroupPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetGroupPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetGroupPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groupName = output.groupName
             self.policyDocument = output.policyDocument
@@ -8865,9 +8839,8 @@ public enum GetInstanceProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension GetInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetInstanceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceProfile = output.instanceProfile
         } else {
@@ -8978,9 +8951,8 @@ public enum GetLoginProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLoginProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLoginProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loginProfile = output.loginProfile
         } else {
@@ -9093,9 +9065,8 @@ public enum GetOpenIDConnectProviderOutputError: Swift.Error, Swift.Equatable {
 
 extension GetOpenIDConnectProviderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetOpenIDConnectProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientIDList = output.clientIDList
             self.createDate = output.createDate
@@ -9327,9 +9298,8 @@ public enum GetOrganizationsAccessReportOutputError: Swift.Error, Swift.Equatabl
 
 extension GetOrganizationsAccessReportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetOrganizationsAccessReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessDetails = output.accessDetails
             self.errorDetails = output.errorDetails
@@ -9553,9 +9523,8 @@ public enum GetPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -9679,9 +9648,8 @@ public enum GetPolicyVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPolicyVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetPolicyVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyVersion = output.policyVersion
         } else {
@@ -9804,9 +9772,8 @@ public enum GetRoleOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRoleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRoleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.role = output.role
         } else {
@@ -9929,9 +9896,8 @@ public enum GetRolePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRolePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRolePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyDocument = output.policyDocument
             self.policyName = output.policyName
@@ -10066,9 +10032,8 @@ public enum GetSAMLProviderOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSAMLProviderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSAMLProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createDate = output.createDate
             self.samlMetadataDocument = output.samlMetadataDocument
@@ -10249,9 +10214,8 @@ public enum GetSSHPublicKeyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSSHPublicKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sshPublicKey = output.sshPublicKey
         } else {
@@ -10361,9 +10325,8 @@ public enum GetServerCertificateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetServerCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetServerCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serverCertificate = output.serverCertificate
         } else {
@@ -10496,9 +10459,8 @@ public enum GetServiceLastAccessedDetailsOutputError: Swift.Error, Swift.Equatab
 
 extension GetServiceLastAccessedDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetServiceLastAccessedDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.isTruncated = output.isTruncated
@@ -10732,9 +10694,8 @@ public enum GetServiceLastAccessedDetailsWithEntitiesOutputError: Swift.Error, S
 
 extension GetServiceLastAccessedDetailsWithEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetServiceLastAccessedDetailsWithEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entityDetailsList = output.entityDetailsList
             self.error = output.error
@@ -10926,9 +10887,8 @@ public enum GetServiceLinkedRoleDeletionStatusOutputError: Swift.Error, Swift.Eq
 
 extension GetServiceLinkedRoleDeletionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetServiceLinkedRoleDeletionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reason = output.reason
             self.status = output.status
@@ -11060,9 +11020,8 @@ public enum GetUserOutputError: Swift.Error, Swift.Equatable {
 
 extension GetUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.user = output.user
         } else {
@@ -11185,9 +11144,8 @@ public enum GetUserPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetUserPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetUserPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyDocument = output.policyDocument
             self.policyName = output.policyName
@@ -11677,7 +11635,7 @@ extension IAMClientTypes {
 
 extension InvalidAuthenticationCodeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidAuthenticationCodeExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11728,7 +11686,7 @@ extension InvalidAuthenticationCodeExceptionBody: Swift.Decodable {
 
 extension InvalidCertificateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidCertificateExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11779,7 +11737,7 @@ extension InvalidCertificateExceptionBody: Swift.Decodable {
 
 extension InvalidInputException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidInputExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11830,7 +11788,7 @@ extension InvalidInputExceptionBody: Swift.Decodable {
 
 extension InvalidPublicKeyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidPublicKeyExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11881,7 +11839,7 @@ extension InvalidPublicKeyExceptionBody: Swift.Decodable {
 
 extension InvalidUserTypeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidUserTypeExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11967,7 +11925,7 @@ extension IAMClientTypes {
 
 extension KeyPairMismatchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<KeyPairMismatchExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12018,7 +11976,7 @@ extension KeyPairMismatchExceptionBody: Swift.Decodable {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12159,9 +12117,8 @@ public enum ListAccessKeysOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAccessKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAccessKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessKeyMetadata = output.accessKeyMetadata
             self.isTruncated = output.isTruncated
@@ -12317,9 +12274,8 @@ public enum ListAccountAliasesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAccountAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAccountAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountAliases = output.accountAliases
             self.isTruncated = output.isTruncated
@@ -12502,9 +12458,8 @@ public enum ListAttachedGroupPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAttachedGroupPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAttachedGroupPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachedPolicies = output.attachedPolicies
             self.isTruncated = output.isTruncated
@@ -12686,9 +12641,8 @@ public enum ListAttachedRolePoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAttachedRolePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAttachedRolePoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachedPolicies = output.attachedPolicies
             self.isTruncated = output.isTruncated
@@ -12870,9 +12824,8 @@ public enum ListAttachedUserPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAttachedUserPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAttachedUserPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachedPolicies = output.attachedPolicies
             self.isTruncated = output.isTruncated
@@ -13076,9 +13029,8 @@ public enum ListEntitiesForPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension ListEntitiesForPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListEntitiesForPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -13301,9 +13253,8 @@ public enum ListGroupPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGroupPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGroupPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -13473,9 +13424,8 @@ public enum ListGroupsForUserOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGroupsForUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGroupsForUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groups = output.groups
             self.isTruncated = output.isTruncated
@@ -13642,9 +13592,8 @@ public enum ListGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groups = output.groups
             self.isTruncated = output.isTruncated
@@ -13814,9 +13763,8 @@ public enum ListInstanceProfileTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListInstanceProfileTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListInstanceProfileTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -13985,9 +13933,8 @@ public enum ListInstanceProfilesForRoleOutputError: Swift.Error, Swift.Equatable
 
 extension ListInstanceProfilesForRoleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListInstanceProfilesForRoleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceProfiles = output.instanceProfiles
             self.isTruncated = output.isTruncated
@@ -14154,9 +14101,8 @@ public enum ListInstanceProfilesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListInstanceProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListInstanceProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceProfiles = output.instanceProfiles
             self.isTruncated = output.isTruncated
@@ -14328,9 +14274,8 @@ public enum ListMFADeviceTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMFADeviceTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMFADeviceTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -14498,9 +14443,8 @@ public enum ListMFADevicesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMFADevicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMFADevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -14672,9 +14616,8 @@ public enum ListOpenIDConnectProviderTagsOutputError: Swift.Error, Swift.Equatab
 
 extension ListOpenIDConnectProviderTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListOpenIDConnectProviderTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -14792,9 +14735,8 @@ public enum ListOpenIDConnectProvidersOutputError: Swift.Error, Swift.Equatable 
 
 extension ListOpenIDConnectProvidersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListOpenIDConnectProvidersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.openIDConnectProviderList = output.openIDConnectProviderList
         } else {
@@ -15041,9 +14983,8 @@ public enum ListPoliciesGrantingServiceAccessOutputError: Swift.Error, Swift.Equ
 
 extension ListPoliciesGrantingServiceAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPoliciesGrantingServiceAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -15242,9 +15183,8 @@ public enum ListPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -15415,9 +15355,8 @@ public enum ListPolicyTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPolicyTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPolicyTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -15588,9 +15527,8 @@ public enum ListPolicyVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPolicyVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPolicyVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -15759,9 +15697,8 @@ public enum ListRolePoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRolePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRolePoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -15931,9 +15868,8 @@ public enum ListRoleTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRoleTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRoleTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -16099,9 +16035,8 @@ public enum ListRolesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRolesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRolesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -16273,9 +16208,8 @@ public enum ListSAMLProviderTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSAMLProviderTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSAMLProviderTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -16393,9 +16327,8 @@ public enum ListSAMLProvidersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSAMLProvidersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSAMLProvidersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.samlProviderList = output.samlProviderList
         } else {
@@ -16541,9 +16474,8 @@ public enum ListSSHPublicKeysOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSSHPublicKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSSHPublicKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -16712,9 +16644,8 @@ public enum ListServerCertificateTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListServerCertificateTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListServerCertificateTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -16880,9 +16811,8 @@ public enum ListServerCertificatesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListServerCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListServerCertificatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -17040,9 +16970,8 @@ public enum ListServiceSpecificCredentialsOutputError: Swift.Error, Swift.Equata
 
 extension ListServiceSpecificCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListServiceSpecificCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceSpecificCredentials = output.serviceSpecificCredentials
         } else {
@@ -17189,9 +17118,8 @@ public enum ListSigningCertificatesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSigningCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSigningCertificatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificates = output.certificates
             self.isTruncated = output.isTruncated
@@ -17361,9 +17289,8 @@ public enum ListUserPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListUserPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListUserPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -17533,9 +17460,8 @@ public enum ListUserTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListUserTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListUserTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -17701,9 +17627,8 @@ public enum ListUsersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListUsersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListUsersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -17868,9 +17793,8 @@ public enum ListVirtualMFADevicesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListVirtualMFADevicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVirtualMFADevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -18064,7 +17988,7 @@ extension IAMClientTypes {
 
 extension MalformedCertificateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<MalformedCertificateExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -18115,7 +18039,7 @@ extension MalformedCertificateExceptionBody: Swift.Decodable {
 
 extension MalformedPolicyDocumentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<MalformedPolicyDocumentExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -18337,7 +18261,7 @@ extension IAMClientTypes {
 
 extension NoSuchEntityException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchEntityExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -18583,7 +18507,7 @@ extension IAMClientTypes {
 
 extension PasswordPolicyViolationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<PasswordPolicyViolationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -18949,7 +18873,7 @@ extension IAMClientTypes {
 
 extension PolicyEvaluationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<PolicyEvaluationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -19122,7 +19046,7 @@ extension IAMClientTypes {
 
 extension PolicyNotAttachableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<PolicyNotAttachableExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -20398,7 +20322,7 @@ extension IAMClientTypes {
 
 extension ReportGenerationLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ReportGenerationLimitExceededExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -20562,9 +20486,8 @@ public enum ResetServiceSpecificCredentialOutputError: Swift.Error, Swift.Equata
 
 extension ResetServiceSpecificCredentialOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResetServiceSpecificCredentialOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceSpecificCredential = output.serviceSpecificCredential
         } else {
@@ -21815,7 +21738,7 @@ extension IAMClientTypes {
 
 extension ServiceFailureException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ServiceFailureExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -21989,7 +21912,7 @@ extension IAMClientTypes {
 
 extension ServiceNotSupportedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ServiceNotSupportedExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -22828,9 +22751,8 @@ public enum SimulateCustomPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension SimulateCustomPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SimulateCustomPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evaluationResults = output.evaluationResults
             self.isTruncated = output.isTruncated
@@ -23260,9 +23182,8 @@ public enum SimulatePrincipalPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension SimulatePrincipalPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SimulatePrincipalPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evaluationResults = output.evaluationResults
             self.isTruncated = output.isTruncated
@@ -24675,7 +24596,7 @@ extension IAMClientTypes {
 
 extension UnmodifiableEntityException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UnmodifiableEntityExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -24726,7 +24647,7 @@ extension UnmodifiableEntityExceptionBody: Swift.Decodable {
 
 extension UnrecognizedPublicKeyEncodingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UnrecognizedPublicKeyEncodingExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -26546,9 +26467,8 @@ public enum UpdateRoleDescriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRoleDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRoleDescriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.role = output.role
         } else {
@@ -26776,9 +26696,8 @@ public enum UpdateSAMLProviderOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSAMLProviderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSAMLProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.samlProviderArn = output.samlProviderArn
         } else {
@@ -27431,9 +27350,8 @@ public enum UploadSSHPublicKeyOutputError: Swift.Error, Swift.Equatable {
 
 extension UploadSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UploadSSHPublicKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sshPublicKey = output.sshPublicKey
         } else {
@@ -27659,9 +27577,8 @@ public enum UploadServerCertificateOutputError: Swift.Error, Swift.Equatable {
 
 extension UploadServerCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UploadServerCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serverCertificateMetadata = output.serverCertificateMetadata
             self.tags = output.tags
@@ -27825,9 +27742,8 @@ public enum UploadSigningCertificateOutputError: Swift.Error, Swift.Equatable {
 
 extension UploadSigningCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UploadSigningCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificate = output.certificate
         } else {

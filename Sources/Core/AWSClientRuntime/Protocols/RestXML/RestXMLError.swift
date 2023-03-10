@@ -12,7 +12,7 @@ public struct RestXMLError {
     public let requestId: String?
     public let message: String?
     public init(httpResponse: HttpResponse) throws {
-        guard let data = httpResponse.body.toBytes()?.getData() else {
+        guard let data = try httpResponse.body.toData() else {
             errorCode = nil
             requestId = nil
             message = nil

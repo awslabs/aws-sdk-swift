@@ -359,9 +359,8 @@ public enum ActivateTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension ActivateTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ActivateTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -401,7 +400,7 @@ extension ActivateTypeOutputResponseBody: Swift.Decodable {
 
 extension AlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -647,9 +646,8 @@ public enum BatchDescribeTypeConfigurationsOutputError: Swift.Error, Swift.Equat
 
 extension BatchDescribeTypeConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDescribeTypeConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.typeConfigurations = output.typeConfigurations
@@ -760,7 +758,7 @@ extension BatchDescribeTypeConfigurationsOutputResponseBody: Swift.Decodable {
 
 extension CFNRegistryException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CFNRegistryExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1339,7 +1337,7 @@ extension CloudFormationClientTypes {
 
 extension ChangeSetNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ChangeSetNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2263,9 +2261,8 @@ public enum CreateChangeSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateChangeSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateChangeSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.stackId = output.stackId
@@ -2947,9 +2944,8 @@ public enum CreateStackInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateStackInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateStackInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -3016,9 +3012,8 @@ public enum CreateStackOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateStackOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateStackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackId = output.stackId
         } else {
@@ -3403,9 +3398,8 @@ public enum CreateStackSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateStackSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateStackSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackSetId = output.stackSetId
         } else {
@@ -3445,7 +3439,7 @@ extension CreateStackSetOutputResponseBody: Swift.Decodable {
 
 extension CreatedButModifiedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CreatedButModifiedExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4002,9 +3996,8 @@ public enum DeleteStackInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteStackInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteStackInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -4502,9 +4495,8 @@ public enum DescribeAccountLimitsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAccountLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountLimits = output.accountLimits
             self.nextToken = output.nextToken
@@ -4672,9 +4664,8 @@ public enum DescribeChangeSetHooksOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeChangeSetHooksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeChangeSetHooksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeSetId = output.changeSetId
             self.changeSetName = output.changeSetName
@@ -4893,9 +4884,8 @@ public enum DescribeChangeSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeChangeSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeChangeSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capabilities = output.capabilities
             self.changeSetId = output.changeSetId
@@ -5267,9 +5257,8 @@ public enum DescribePublisherOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribePublisherOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePublisherOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.identityProvider = output.identityProvider
             self.publisherId = output.publisherId
@@ -5404,9 +5393,8 @@ public enum DescribeStackDriftDetectionStatusOutputError: Swift.Error, Swift.Equ
 
 extension DescribeStackDriftDetectionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStackDriftDetectionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.detectionStatus = output.detectionStatus
             self.detectionStatusReason = output.detectionStatusReason
@@ -5607,9 +5595,8 @@ public enum DescribeStackEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeStackEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStackEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.stackEvents = output.stackEvents
@@ -5785,9 +5772,8 @@ public enum DescribeStackInstanceOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeStackInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStackInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackInstance = output.stackInstance
         } else {
@@ -5959,9 +5945,8 @@ public enum DescribeStackResourceDriftsOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeStackResourceDriftsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStackResourceDriftsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.stackResourceDrifts = output.stackResourceDrifts
@@ -6114,9 +6099,8 @@ public enum DescribeStackResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeStackResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStackResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackResourceDetail = output.stackResourceDetail
         } else {
@@ -6251,9 +6235,8 @@ public enum DescribeStackResourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeStackResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStackResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackResources = output.stackResources
         } else {
@@ -6468,9 +6451,8 @@ public enum DescribeStackSetOperationOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeStackSetOperationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStackSetOperationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackSetOperation = output.stackSetOperation
         } else {
@@ -6531,9 +6513,8 @@ public enum DescribeStackSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeStackSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStackSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackSet = output.stackSet
         } else {
@@ -6667,9 +6648,8 @@ public enum DescribeStacksOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeStacksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.stacks = output.stacks
@@ -6860,9 +6840,8 @@ public enum DescribeTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.autoUpdate = output.autoUpdate
@@ -7281,9 +7260,8 @@ public enum DescribeTypeRegistrationOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeTypeRegistrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTypeRegistrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.progressStatus = output.progressStatus
@@ -7455,9 +7433,8 @@ public enum DetectStackDriftOutputError: Swift.Error, Swift.Equatable {
 
 extension DetectStackDriftOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectStackDriftOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackDriftDetectionId = output.stackDriftDetectionId
         } else {
@@ -7575,9 +7552,8 @@ public enum DetectStackResourceDriftOutputError: Swift.Error, Swift.Equatable {
 
 extension DetectStackResourceDriftOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectStackResourceDriftOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackResourceDrift = output.stackResourceDrift
         } else {
@@ -7726,9 +7702,8 @@ public enum DetectStackSetDriftOutputError: Swift.Error, Swift.Equatable {
 
 extension DetectStackSetDriftOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectStackSetDriftOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -7916,9 +7891,8 @@ public enum EstimateTemplateCostOutputError: Swift.Error, Swift.Equatable {
 
 extension EstimateTemplateCostOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EstimateTemplateCostOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.url = output.url
         } else {
@@ -8274,9 +8248,8 @@ public enum GetStackPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetStackPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetStackPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackPolicyBody = output.stackPolicyBody
         } else {
@@ -8413,9 +8386,8 @@ public enum GetTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stagesAvailable = output.stagesAvailable
             self.templateBody = output.templateBody
@@ -8598,9 +8570,8 @@ public enum GetTemplateSummaryOutputError: Swift.Error, Swift.Equatable {
 
 extension GetTemplateSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTemplateSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capabilities = output.capabilities
             self.capabilitiesReason = output.capabilitiesReason
@@ -9253,9 +9224,8 @@ public enum ImportStacksToStackSetOutputError: Swift.Error, Swift.Equatable {
 
 extension ImportStacksToStackSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportStacksToStackSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -9295,7 +9265,7 @@ extension ImportStacksToStackSetOutputResponseBody: Swift.Decodable {
 
 extension InsufficientCapabilitiesException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientCapabilitiesExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9346,7 +9316,7 @@ extension InsufficientCapabilitiesExceptionBody: Swift.Decodable {
 
 extension InvalidChangeSetStatusException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidChangeSetStatusExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9397,7 +9367,7 @@ extension InvalidChangeSetStatusExceptionBody: Swift.Decodable {
 
 extension InvalidOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidOperationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9448,7 +9418,7 @@ extension InvalidOperationExceptionBody: Swift.Decodable {
 
 extension InvalidStateTransitionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidStateTransitionExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9499,7 +9469,7 @@ extension InvalidStateTransitionExceptionBody: Swift.Decodable {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9627,9 +9597,8 @@ public enum ListChangeSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListChangeSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListChangeSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.summaries = output.summaries
@@ -9761,9 +9730,8 @@ public enum ListExportsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListExportsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListExportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exports = output.exports
             self.nextToken = output.nextToken
@@ -9906,9 +9874,8 @@ public enum ListImportsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListImportsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListImportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imports = output.imports
             self.nextToken = output.nextToken
@@ -10138,9 +10105,8 @@ public enum ListStackInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListStackInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStackInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.summaries = output.summaries
@@ -10291,9 +10257,8 @@ public enum ListStackResourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListStackResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStackResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.stackResourceSummaries = output.stackResourceSummaries
@@ -10516,9 +10481,8 @@ public enum ListStackSetOperationResultsOutputError: Swift.Error, Swift.Equatabl
 
 extension ListStackSetOperationResultsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStackSetOperationResultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.summaries = output.summaries
@@ -10689,9 +10653,8 @@ public enum ListStackSetOperationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListStackSetOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStackSetOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.summaries = output.summaries
@@ -10859,9 +10822,8 @@ public enum ListStackSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListStackSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStackSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.summaries = output.summaries
@@ -11030,9 +10992,8 @@ public enum ListStacksOutputError: Swift.Error, Swift.Equatable {
 
 extension ListStacksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.stackSummaries = output.stackSummaries
@@ -11221,9 +11182,8 @@ public enum ListTypeRegistrationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTypeRegistrationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTypeRegistrationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.registrationTokenList = output.registrationTokenList
@@ -11429,9 +11389,8 @@ public enum ListTypeVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTypeVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTypeVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.typeVersionSummaries = output.typeVersionSummaries
@@ -11657,9 +11616,8 @@ public enum ListTypesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.typeSummaries = output.typeSummaries
@@ -11853,7 +11811,7 @@ extension CloudFormationClientTypes {
 
 extension NameAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NameAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11939,7 +11897,7 @@ extension CloudFormationClientTypes {
 
 extension OperationIdAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<OperationIdAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11990,7 +11948,7 @@ extension OperationIdAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension OperationInProgressException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<OperationInProgressExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12041,7 +11999,7 @@ extension OperationInProgressExceptionBody: Swift.Decodable {
 
 extension OperationNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<OperationNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12204,7 +12162,7 @@ extension CloudFormationClientTypes {
 
 extension OperationStatusCheckFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<OperationStatusCheckFailedExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12821,9 +12779,8 @@ public enum PublishTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension PublishTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PublishTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.publicTypeArn = output.publicTypeArn
         } else {
@@ -13150,9 +13107,8 @@ public enum RegisterPublisherOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterPublisherOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterPublisherOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.publisherId = output.publisherId
         } else {
@@ -13336,9 +13292,8 @@ public enum RegisterTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.registrationToken = output.registrationToken
         } else {
@@ -14434,9 +14389,8 @@ public enum RollbackStackOutputError: Swift.Error, Swift.Equatable {
 
 extension RollbackStackOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RollbackStackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackId = output.stackId
         } else {
@@ -14734,9 +14688,8 @@ public enum SetTypeConfigurationOutputError: Swift.Error, Swift.Equatable {
 
 extension SetTypeConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SetTypeConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationArn = output.configurationArn
         } else {
@@ -16113,7 +16066,7 @@ extension CloudFormationClientTypes {
 
 extension StackInstanceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StackInstanceNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16355,7 +16308,7 @@ extension CloudFormationClientTypes {
 
 extension StackNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StackNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -17682,7 +17635,7 @@ extension CloudFormationClientTypes {
 
 extension StackSetNotEmptyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StackSetNotEmptyExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -17733,7 +17686,7 @@ extension StackSetNotEmptyExceptionBody: Swift.Decodable {
 
 extension StackSetNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StackSetNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -18834,7 +18787,7 @@ extension CloudFormationClientTypes {
 
 extension StaleRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StaleRequestExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -19256,9 +19209,8 @@ public enum TestTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension TestTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TestTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.typeVersionArn = output.typeVersionArn
         } else {
@@ -19333,7 +19285,7 @@ extension CloudFormationClientTypes {
 
 extension TokenAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TokenAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -19554,7 +19506,7 @@ extension CloudFormationClientTypes {
 
 extension TypeConfigurationNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TypeConfigurationNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -19675,7 +19627,7 @@ extension CloudFormationClientTypes {
 
 extension TypeNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TypeNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -20662,9 +20614,8 @@ public enum UpdateStackInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateStackInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateStackInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -20727,9 +20678,8 @@ public enum UpdateStackOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateStackOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateStackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackId = output.stackId
         } else {
@@ -21222,9 +21172,8 @@ public enum UpdateStackSetOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateStackSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateStackSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -21341,9 +21290,8 @@ public enum UpdateTerminationProtectionOutputError: Swift.Error, Swift.Equatable
 
 extension UpdateTerminationProtectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateTerminationProtectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackId = output.stackId
         } else {
@@ -21459,9 +21407,8 @@ public enum ValidateTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension ValidateTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidateTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capabilities = output.capabilities
             self.capabilitiesReason = output.capabilitiesReason

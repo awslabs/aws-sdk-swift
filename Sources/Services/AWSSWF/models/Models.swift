@@ -2091,9 +2091,8 @@ public enum CountClosedWorkflowExecutionsOutputError: Swift.Error, Swift.Equatab
 
 extension CountClosedWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CountClosedWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
             self.truncated = output.truncated
@@ -2265,9 +2264,8 @@ public enum CountOpenWorkflowExecutionsOutputError: Swift.Error, Swift.Equatable
 
 extension CountOpenWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CountOpenWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
             self.truncated = output.truncated
@@ -2403,9 +2401,8 @@ public enum CountPendingActivityTasksOutputError: Swift.Error, Swift.Equatable {
 
 extension CountPendingActivityTasksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CountPendingActivityTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
             self.truncated = output.truncated
@@ -2541,9 +2538,8 @@ public enum CountPendingDecisionTasksOutputError: Swift.Error, Swift.Equatable {
 
 extension CountPendingDecisionTasksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CountPendingDecisionTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
             self.truncated = output.truncated
@@ -3156,9 +3152,8 @@ extension SWFClientTypes {
 
 extension DefaultUndefinedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DefaultUndefinedFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3571,9 +3566,8 @@ public enum DescribeActivityTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeActivityTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeActivityTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
             self.typeInfo = output.typeInfo
@@ -3701,9 +3695,8 @@ public enum DescribeDomainOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
             self.domainInfo = output.domainInfo
@@ -3840,9 +3833,8 @@ public enum DescribeWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeWorkflowExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionConfiguration = output.executionConfiguration
             self.executionInfo = output.executionInfo
@@ -4010,9 +4002,8 @@ public enum DescribeWorkflowTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeWorkflowTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeWorkflowTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
             self.typeInfo = output.typeInfo
@@ -4068,9 +4059,8 @@ extension DescribeWorkflowTypeOutputResponseBody: Swift.Decodable {
 
 extension DomainAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DomainAlreadyExistsFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4157,9 +4147,8 @@ extension SWFClientTypes {
 
 extension DomainDeprecatedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DomainDeprecatedFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4895,9 +4884,8 @@ public enum GetWorkflowExecutionHistoryOutputError: Swift.Error, Swift.Equatable
 
 extension GetWorkflowExecutionHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetWorkflowExecutionHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextPageToken = output.nextPageToken
@@ -5985,9 +5973,8 @@ extension SWFClientTypes {
 
 extension LimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6171,9 +6158,8 @@ public enum ListActivityTypesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListActivityTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListActivityTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.typeInfos = output.typeInfos
@@ -6413,9 +6399,8 @@ public enum ListClosedWorkflowExecutionsOutputError: Swift.Error, Swift.Equatabl
 
 extension ListClosedWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListClosedWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionInfos = output.executionInfos
             self.nextPageToken = output.nextPageToken
@@ -6581,9 +6566,8 @@ public enum ListDomainsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainInfos = output.domainInfos
             self.nextPageToken = output.nextPageToken
@@ -6800,9 +6784,8 @@ public enum ListOpenWorkflowExecutionsOutputError: Swift.Error, Swift.Equatable 
 
 extension ListOpenWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListOpenWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionInfos = output.executionInfos
             self.nextPageToken = output.nextPageToken
@@ -6936,9 +6919,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -7119,9 +7101,8 @@ public enum ListWorkflowTypesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListWorkflowTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWorkflowTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.typeInfos = output.typeInfos
@@ -7238,9 +7219,8 @@ extension SWFClientTypes {
 
 extension OperationNotPermittedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OperationNotPermittedFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7390,9 +7370,8 @@ public enum PollForActivityTaskOutputError: Swift.Error, Swift.Equatable {
 
 extension PollForActivityTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PollForActivityTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activityId = output.activityId
             self.activityType = output.activityType
@@ -7622,9 +7601,8 @@ public enum PollForDecisionTaskOutputError: Swift.Error, Swift.Equatable {
 
 extension PollForDecisionTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PollForDecisionTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextPageToken = output.nextPageToken
@@ -7822,9 +7800,8 @@ public enum RecordActivityTaskHeartbeatOutputError: Swift.Error, Swift.Equatable
 
 extension RecordActivityTaskHeartbeatOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RecordActivityTaskHeartbeatOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cancelRequested = output.cancelRequested
         } else {
@@ -11380,9 +11357,8 @@ public enum StartWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
 
 extension StartWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartWorkflowExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.runId = output.runId
         } else {
@@ -11930,9 +11906,8 @@ extension SWFClientTypes {
 
 extension TooManyTagsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11982,9 +11957,8 @@ extension TooManyTagsFaultBody: Swift.Decodable {
 
 extension TypeAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TypeAlreadyExistsFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12035,9 +12009,8 @@ extension TypeAlreadyExistsFaultBody: Swift.Decodable {
 
 extension TypeDeprecatedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TypeDeprecatedFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12366,9 +12339,8 @@ public struct UndeprecateWorkflowTypeOutputResponse: Swift.Equatable {
 
 extension UnknownResourceFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnknownResourceFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12575,9 +12547,8 @@ extension SWFClientTypes {
 
 extension WorkflowExecutionAlreadyStartedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WorkflowExecutionAlreadyStartedFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

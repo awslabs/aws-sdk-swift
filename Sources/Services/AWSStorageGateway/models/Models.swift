@@ -190,9 +190,8 @@ public enum ActivateGatewayOutputError: Swift.Error, Swift.Equatable {
 
 extension ActivateGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ActivateGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -376,9 +375,8 @@ public enum AddCacheOutputError: Swift.Error, Swift.Equatable {
 
 extension AddCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -515,9 +513,8 @@ public enum AddTagsToResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddTagsToResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceARN = output.resourceARN
         } else {
@@ -654,9 +651,8 @@ public enum AddUploadBufferOutputError: Swift.Error, Swift.Equatable {
 
 extension AddUploadBufferOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddUploadBufferOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -795,9 +791,8 @@ public enum AddWorkingStorageOutputError: Swift.Error, Swift.Equatable {
 
 extension AddWorkingStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddWorkingStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -934,9 +929,8 @@ public enum AssignTapePoolOutputError: Swift.Error, Swift.Equatable {
 
 extension AssignTapePoolOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssignTapePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -1164,9 +1158,8 @@ public enum AssociateFileSystemOutputError: Swift.Error, Swift.Equatable {
 
 extension AssociateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateFileSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationARN = output.fileSystemAssociationARN
         } else {
@@ -1328,9 +1321,8 @@ public enum AttachVolumeOutputError: Swift.Error, Swift.Equatable {
 
 extension AttachVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AttachVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.targetARN = output.targetARN
             self.volumeARN = output.volumeARN
@@ -1939,9 +1931,8 @@ public enum CancelArchivalOutputError: Swift.Error, Swift.Equatable {
 
 extension CancelArchivalOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CancelArchivalOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -2067,9 +2058,8 @@ public enum CancelRetrievalOutputError: Swift.Error, Swift.Equatable {
 
 extension CancelRetrievalOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CancelRetrievalOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -2407,9 +2397,8 @@ public enum CreateCachediSCSIVolumeOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCachediSCSIVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCachediSCSIVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.targetARN = output.targetARN
             self.volumeARN = output.volumeARN
@@ -2804,9 +2793,8 @@ public enum CreateNFSFileShareOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateNFSFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateNFSFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
         } else {
@@ -3270,9 +3258,8 @@ public enum CreateSMBFileShareOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSMBFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSMBFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
         } else {
@@ -3423,9 +3410,8 @@ public enum CreateSnapshotFromVolumeRecoveryPointOutputError: Swift.Error, Swift
 
 extension CreateSnapshotFromVolumeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSnapshotFromVolumeRecoveryPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshotId = output.snapshotId
             self.volumeARN = output.volumeARN
@@ -3600,9 +3586,8 @@ public enum CreateSnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshotId = output.snapshotId
             self.volumeARN = output.volumeARN
@@ -3847,9 +3832,8 @@ public enum CreateStorediSCSIVolumeOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateStorediSCSIVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateStorediSCSIVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.targetARN = output.targetARN
             self.volumeARN = output.volumeARN
@@ -4042,9 +4026,8 @@ public enum CreateTapePoolOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateTapePoolOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTapePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.poolARN = output.poolARN
         } else {
@@ -4254,9 +4237,8 @@ public enum CreateTapeWithBarcodeOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateTapeWithBarcodeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTapeWithBarcodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -4493,9 +4475,8 @@ public enum CreateTapesOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateTapesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTapesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARNs = output.tapeARNs
         } else {
@@ -4616,9 +4597,8 @@ public enum DeleteAutomaticTapeCreationPolicyOutputError: Swift.Error, Swift.Equ
 
 extension DeleteAutomaticTapeCreationPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteAutomaticTapeCreationPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -4745,9 +4725,8 @@ public enum DeleteBandwidthRateLimitOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteBandwidthRateLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteBandwidthRateLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -4877,9 +4856,8 @@ public enum DeleteChapCredentialsOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteChapCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteChapCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.initiatorName = output.initiatorName
             self.targetARN = output.targetARN
@@ -5014,9 +4992,8 @@ public enum DeleteFileShareOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
         } else {
@@ -5129,9 +5106,8 @@ public enum DeleteGatewayOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -5243,9 +5219,8 @@ public enum DeleteSnapshotScheduleOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteSnapshotScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeARN = output.volumeARN
         } else {
@@ -5369,9 +5344,8 @@ public enum DeleteTapeArchiveOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteTapeArchiveOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteTapeArchiveOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -5509,9 +5483,8 @@ public enum DeleteTapeOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteTapeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteTapeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -5623,9 +5596,8 @@ public enum DeleteTapePoolOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteTapePoolOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteTapePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.poolARN = output.poolARN
         } else {
@@ -5737,9 +5709,8 @@ public enum DeleteVolumeOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeARN = output.volumeARN
         } else {
@@ -5851,9 +5822,8 @@ public enum DescribeAvailabilityMonitorTestOutputError: Swift.Error, Swift.Equat
 
 extension DescribeAvailabilityMonitorTestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAvailabilityMonitorTestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
             self.startTime = output.startTime
@@ -5985,9 +5955,8 @@ public enum DescribeBandwidthRateLimitOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeBandwidthRateLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeBandwidthRateLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.averageDownloadRateLimitInBitsPerSec = output.averageDownloadRateLimitInBitsPerSec
             self.averageUploadRateLimitInBitsPerSec = output.averageUploadRateLimitInBitsPerSec
@@ -6119,9 +6088,8 @@ public enum DescribeBandwidthRateLimitScheduleOutputError: Swift.Error, Swift.Eq
 
 extension DescribeBandwidthRateLimitScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeBandwidthRateLimitScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bandwidthRateLimitIntervals = output.bandwidthRateLimitIntervals
             self.gatewayARN = output.gatewayARN
@@ -6251,9 +6219,8 @@ public enum DescribeCacheOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheAllocatedInBytes = output.cacheAllocatedInBytes
             self.cacheDirtyPercentage = output.cacheDirtyPercentage
@@ -6445,9 +6412,8 @@ public enum DescribeCachediSCSIVolumesOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeCachediSCSIVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCachediSCSIVolumesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cachediSCSIVolumes = output.cachediSCSIVolumes
         } else {
@@ -6569,9 +6535,8 @@ public enum DescribeChapCredentialsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeChapCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeChapCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.chapCredentials = output.chapCredentials
         } else {
@@ -6712,9 +6677,8 @@ public enum DescribeFileSystemAssociationsOutputError: Swift.Error, Swift.Equata
 
 extension DescribeFileSystemAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFileSystemAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationInfoList = output.fileSystemAssociationInfoList
         } else {
@@ -6835,9 +6799,8 @@ public enum DescribeGatewayInformationOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeGatewayInformationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGatewayInformationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cloudWatchLogGroupARN = output.cloudWatchLogGroupARN
             self.deprecationDate = output.deprecationDate
@@ -7177,9 +7140,8 @@ public enum DescribeMaintenanceStartTimeOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeMaintenanceStartTimeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeMaintenanceStartTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dayOfMonth = output.dayOfMonth
             self.dayOfWeek = output.dayOfWeek
@@ -7364,9 +7326,8 @@ public enum DescribeNFSFileSharesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeNFSFileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeNFSFileSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nfsFileShareInfoList = output.nfsFileShareInfoList
         } else {
@@ -7500,9 +7461,8 @@ public enum DescribeSMBFileSharesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeSMBFileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSMBFileSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.smbFileShareInfoList = output.smbFileShareInfoList
         } else {
@@ -7623,9 +7583,8 @@ public enum DescribeSMBSettingsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeSMBSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSMBSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activeDirectoryStatus = output.activeDirectoryStatus
             self.domainName = output.domainName
@@ -7817,9 +7776,8 @@ public enum DescribeSnapshotScheduleOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSnapshotScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.recurrenceInHours = output.recurrenceInHours
@@ -8002,9 +7960,8 @@ public enum DescribeStorediSCSIVolumesOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeStorediSCSIVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStorediSCSIVolumesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.storediSCSIVolumes = output.storediSCSIVolumes
         } else {
@@ -8192,9 +8149,8 @@ public enum DescribeTapeArchivesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeTapeArchivesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTapeArchivesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.tapeArchives = output.tapeArchives
@@ -8350,9 +8306,8 @@ public enum DescribeTapeRecoveryPointsOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeTapeRecoveryPointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTapeRecoveryPointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
             self.marker = output.marker
@@ -8542,9 +8497,8 @@ public enum DescribeTapesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeTapesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTapesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.tapes = output.tapes
@@ -8675,9 +8629,8 @@ public enum DescribeUploadBufferOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeUploadBufferOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeUploadBufferOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.diskIds = output.diskIds
             self.gatewayARN = output.gatewayARN
@@ -8876,9 +8829,8 @@ public enum DescribeVTLDevicesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeVTLDevicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeVTLDevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
             self.marker = output.marker
@@ -9020,9 +8972,8 @@ public enum DescribeWorkingStorageOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeWorkingStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeWorkingStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.diskIds = output.diskIds
             self.gatewayARN = output.gatewayARN
@@ -9186,9 +9137,8 @@ public enum DetachVolumeOutputError: Swift.Error, Swift.Equatable {
 
 extension DetachVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetachVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeARN = output.volumeARN
         } else {
@@ -9366,9 +9316,8 @@ public enum DisableGatewayOutputError: Swift.Error, Swift.Equatable {
 
 extension DisableGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisableGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -9492,9 +9441,8 @@ public enum DisassociateFileSystemOutputError: Swift.Error, Swift.Equatable {
 
 extension DisassociateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateFileSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationARN = output.fileSystemAssociationARN
         } else {
@@ -10450,9 +10398,8 @@ extension StorageGatewayClientTypes {
 
 extension InternalServerError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerErrorBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.message = output.message
@@ -10513,9 +10460,8 @@ extension InternalServerErrorBody: Swift.Decodable {
 
 extension InvalidGatewayRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidGatewayRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.message = output.message
@@ -10741,9 +10687,8 @@ public enum JoinDomainOutputError: Swift.Error, Swift.Equatable {
 
 extension JoinDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: JoinDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activeDirectoryStatus = output.activeDirectoryStatus
             self.gatewayARN = output.gatewayARN
@@ -10878,9 +10823,8 @@ public enum ListAutomaticTapeCreationPoliciesOutputError: Swift.Error, Swift.Equ
 
 extension ListAutomaticTapeCreationPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAutomaticTapeCreationPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.automaticTapeCreationPolicyInfos = output.automaticTapeCreationPolicyInfos
         } else {
@@ -11024,9 +10968,8 @@ public enum ListFileSharesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFileSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareInfoList = output.fileShareInfoList
             self.marker = output.marker
@@ -11190,9 +11133,8 @@ public enum ListFileSystemAssociationsOutputError: Swift.Error, Swift.Equatable 
 
 extension ListFileSystemAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFileSystemAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationSummaryList = output.fileSystemAssociationSummaryList
             self.marker = output.marker
@@ -11348,9 +11290,8 @@ public enum ListGatewaysOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGatewaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gateways = output.gateways
             self.marker = output.marker
@@ -11481,9 +11422,8 @@ public enum ListLocalDisksOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLocalDisksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLocalDisksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.disks = output.disks
             self.gatewayARN = output.gatewayARN
@@ -11640,9 +11580,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.resourceARN = output.resourceARN
@@ -11818,9 +11757,8 @@ public enum ListTapePoolsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTapePoolsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTapePoolsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.poolInfos = output.poolInfos
@@ -11992,9 +11930,8 @@ public enum ListTapesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTapesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTapesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.tapeInfos = output.tapeInfos
@@ -12130,9 +12067,8 @@ public enum ListVolumeInitiatorsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListVolumeInitiatorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVolumeInitiatorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.initiators = output.initiators
         } else {
@@ -12253,9 +12189,8 @@ public enum ListVolumeRecoveryPointsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListVolumeRecoveryPointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVolumeRecoveryPointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
             self.volumeRecoveryPointInfos = output.volumeRecoveryPointInfos
@@ -12413,9 +12348,8 @@ public enum ListVolumesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVolumesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
             self.marker = output.marker
@@ -12975,9 +12909,8 @@ public enum NotifyWhenUploadedOutputError: Swift.Error, Swift.Equatable {
 
 extension NotifyWhenUploadedOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotifyWhenUploadedOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
             self.notificationId = output.notificationId
@@ -13300,9 +13233,8 @@ public enum RefreshCacheOutputError: Swift.Error, Swift.Equatable {
 
 extension RefreshCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RefreshCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
             self.notificationId = output.notificationId
@@ -13450,9 +13382,8 @@ public enum RemoveTagsFromResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RemoveTagsFromResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceARN = output.resourceARN
         } else {
@@ -13564,9 +13495,8 @@ public enum ResetCacheOutputError: Swift.Error, Swift.Equatable {
 
 extension ResetCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResetCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -13726,9 +13656,8 @@ public enum RetrieveTapeArchiveOutputError: Swift.Error, Swift.Equatable {
 
 extension RetrieveTapeArchiveOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RetrieveTapeArchiveOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -13854,9 +13783,8 @@ public enum RetrieveTapeRecoveryPointOutputError: Swift.Error, Swift.Equatable {
 
 extension RetrieveTapeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RetrieveTapeRecoveryPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -14341,9 +14269,8 @@ extension StorageGatewayClientTypes {
 
 extension ServiceUnavailableError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableErrorBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.message = output.message
@@ -14495,9 +14422,8 @@ public enum SetLocalConsolePasswordOutputError: Swift.Error, Swift.Equatable {
 
 extension SetLocalConsolePasswordOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SetLocalConsolePasswordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -14627,9 +14553,8 @@ public enum SetSMBGuestPasswordOutputError: Swift.Error, Swift.Equatable {
 
 extension SetSMBGuestPasswordOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SetSMBGuestPasswordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -14741,9 +14666,8 @@ public enum ShutdownGatewayOutputError: Swift.Error, Swift.Equatable {
 
 extension ShutdownGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ShutdownGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -14855,9 +14779,8 @@ public enum StartAvailabilityMonitorTestOutputError: Swift.Error, Swift.Equatabl
 
 extension StartAvailabilityMonitorTestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartAvailabilityMonitorTestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -14969,9 +14892,8 @@ public enum StartGatewayOutputError: Swift.Error, Swift.Equatable {
 
 extension StartGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -15899,9 +15821,8 @@ public enum UpdateAutomaticTapeCreationPolicyOutputError: Swift.Error, Swift.Equ
 
 extension UpdateAutomaticTapeCreationPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateAutomaticTapeCreationPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -16041,9 +15962,8 @@ public enum UpdateBandwidthRateLimitOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateBandwidthRateLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateBandwidthRateLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -16180,9 +16100,8 @@ public enum UpdateBandwidthRateLimitScheduleOutputError: Swift.Error, Swift.Equa
 
 extension UpdateBandwidthRateLimitScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateBandwidthRateLimitScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -16345,9 +16264,8 @@ public enum UpdateChapCredentialsOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateChapCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateChapCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.initiatorName = output.initiatorName
             self.targetARN = output.targetARN
@@ -16522,9 +16440,8 @@ public enum UpdateFileSystemAssociationOutputError: Swift.Error, Swift.Equatable
 
 extension UpdateFileSystemAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFileSystemAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationARN = output.fileSystemAssociationARN
         } else {
@@ -16683,9 +16600,8 @@ public enum UpdateGatewayInformationOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGatewayInformationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateGatewayInformationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
             self.gatewayName = output.gatewayName
@@ -16808,9 +16724,8 @@ public enum UpdateGatewaySoftwareNowOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGatewaySoftwareNowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateGatewaySoftwareNowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -16981,9 +16896,8 @@ public enum UpdateMaintenanceStartTimeOutputError: Swift.Error, Swift.Equatable 
 
 extension UpdateMaintenanceStartTimeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateMaintenanceStartTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -17282,9 +17196,8 @@ public enum UpdateNFSFileShareOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateNFSFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateNFSFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
         } else {
@@ -17649,9 +17562,8 @@ public enum UpdateSMBFileShareOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSMBFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSMBFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
         } else {
@@ -17776,9 +17688,8 @@ public enum UpdateSMBFileShareVisibilityOutputError: Swift.Error, Swift.Equatabl
 
 extension UpdateSMBFileShareVisibilityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSMBFileShareVisibilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -17902,9 +17813,8 @@ public enum UpdateSMBLocalGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSMBLocalGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSMBLocalGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -18028,9 +17938,8 @@ public enum UpdateSMBSecurityStrategyOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSMBSecurityStrategyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSMBSecurityStrategyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -18212,9 +18121,8 @@ public enum UpdateSnapshotScheduleOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSnapshotScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeARN = output.volumeARN
         } else {
@@ -18339,9 +18247,8 @@ public enum UpdateVTLDeviceTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateVTLDeviceTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateVTLDeviceTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vtlDeviceARN = output.vtlDeviceARN
         } else {

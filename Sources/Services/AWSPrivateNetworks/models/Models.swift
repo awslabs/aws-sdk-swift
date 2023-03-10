@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -130,9 +129,8 @@ public enum AcknowledgeOrderReceiptOutputError: Swift.Error, Swift.Equatable {
 
 extension AcknowledgeOrderReceiptOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AcknowledgeOrderReceiptOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.order = output.order
         } else {
@@ -298,9 +296,8 @@ extension ActivateDeviceIdentifierOutputResponse: Swift.CustomDebugStringConvert
 
 extension ActivateDeviceIdentifierOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ActivateDeviceIdentifierOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deviceIdentifier = output.deviceIdentifier
             self.tags = output.tags
@@ -458,9 +455,8 @@ public enum ActivateNetworkSiteOutputError: Swift.Error, Swift.Equatable {
 
 extension ActivateNetworkSiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ActivateNetworkSiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkSite = output.networkSite
         } else {
@@ -774,9 +770,8 @@ public enum ConfigureAccessPointOutputError: Swift.Error, Swift.Equatable {
 
 extension ConfigureAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConfigureAccessPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPoint = output.accessPoint
         } else {
@@ -948,9 +943,8 @@ extension CreateNetworkOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension CreateNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.network = output.network
             self.tags = output.tags
@@ -1190,9 +1184,8 @@ extension CreateNetworkSiteOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension CreateNetworkSiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateNetworkSiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkSite = output.networkSite
             self.tags = output.tags
@@ -1336,9 +1329,8 @@ public enum DeactivateDeviceIdentifierOutputError: Swift.Error, Swift.Equatable 
 
 extension DeactivateDeviceIdentifierOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeactivateDeviceIdentifierOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deviceIdentifier = output.deviceIdentifier
         } else {
@@ -1452,9 +1444,8 @@ public enum DeleteNetworkOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.network = output.network
         } else {
@@ -1568,9 +1559,8 @@ public enum DeleteNetworkSiteOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteNetworkSiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteNetworkSiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkSite = output.networkSite
         } else {
@@ -1920,9 +1910,8 @@ extension GetDeviceIdentifierOutputResponse: Swift.CustomDebugStringConvertible 
 
 extension GetDeviceIdentifierOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDeviceIdentifierOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deviceIdentifier = output.deviceIdentifier
             self.tags = output.tags
@@ -2042,9 +2031,8 @@ extension GetNetworkOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension GetNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.network = output.network
             self.tags = output.tags
@@ -2165,9 +2153,8 @@ extension GetNetworkResourceOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension GetNetworkResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetNetworkResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkResource = output.networkResource
             self.tags = output.tags
@@ -2288,9 +2275,8 @@ extension GetNetworkSiteOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension GetNetworkSiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetNetworkSiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkSite = output.networkSite
             self.tags = output.tags
@@ -2410,9 +2396,8 @@ extension GetOrderOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension GetOrderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetOrderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.order = output.order
             self.tags = output.tags
@@ -2511,9 +2496,8 @@ extension InternalServerException {
         } else {
             self.retryAfterSeconds = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2569,9 +2553,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2763,9 +2746,8 @@ public enum ListDeviceIdentifiersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDeviceIdentifiersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDeviceIdentifiersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deviceIdentifiers = output.deviceIdentifiers
             self.nextToken = output.nextToken
@@ -2962,9 +2944,8 @@ public enum ListNetworkResourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListNetworkResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListNetworkResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkResources = output.networkResources
             self.nextToken = output.nextToken
@@ -3159,9 +3140,8 @@ public enum ListNetworkSitesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListNetworkSitesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListNetworkSitesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkSites = output.networkSites
             self.nextToken = output.nextToken
@@ -3343,9 +3323,8 @@ public enum ListNetworksOutputError: Swift.Error, Swift.Equatable {
 
 extension ListNetworksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListNetworksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networks = output.networks
             self.nextToken = output.nextToken
@@ -3542,9 +3521,8 @@ public enum ListOrdersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListOrdersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListOrdersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.orders = output.orders
@@ -3668,9 +3646,8 @@ extension ListTagsForResourceOutputResponse: Swift.CustomDebugStringConvertible 
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -4711,9 +4688,8 @@ public enum PingOutputError: Swift.Error, Swift.Equatable {
 
 extension PingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -4827,9 +4803,8 @@ extension PrivateNetworksClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -5085,9 +5060,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5373,9 +5347,8 @@ extension UpdateNetworkSiteOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension UpdateNetworkSiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateNetworkSiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkSite = output.networkSite
             self.tags = output.tags
@@ -5537,9 +5510,8 @@ extension UpdateNetworkSitePlanOutputResponse: Swift.CustomDebugStringConvertibl
 
 extension UpdateNetworkSitePlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateNetworkSitePlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkSite = output.networkSite
             self.tags = output.tags
@@ -5597,9 +5569,8 @@ extension UpdateNetworkSitePlanOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fieldList = output.fieldList
             self.message = output.message

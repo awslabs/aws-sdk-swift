@@ -2956,9 +2956,8 @@ extension PinpointClientTypes {
 
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -5043,9 +5042,8 @@ extension PinpointClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -5154,15 +5152,15 @@ public struct CreateAppInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let createApplicationRequest = input.operationInput.createApplicationRequest {
-                let createApplicationRequestdata = try encoder.encode(createApplicationRequest)
-                let createApplicationRequestbody = ClientRuntime.HttpBody.data(createApplicationRequestdata)
-                input.builder.withBody(createApplicationRequestbody)
+                let createApplicationRequestData = try encoder.encode(createApplicationRequest)
+                let createApplicationRequestBody = ClientRuntime.HttpBody.data(createApplicationRequestData)
+                input.builder.withBody(createApplicationRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let createApplicationRequestdata = "{}".data(using: .utf8)!
-                    let createApplicationRequestbody = ClientRuntime.HttpBody.data(createApplicationRequestdata)
-                    input.builder.withBody(createApplicationRequestbody)
+                    let createApplicationRequestData = "{}".data(using: .utf8)!
+                    let createApplicationRequestBody = ClientRuntime.HttpBody.data(createApplicationRequestData)
+                    input.builder.withBody(createApplicationRequestBody)
                 }
             }
         } catch let err {
@@ -5260,13 +5258,9 @@ public enum CreateAppOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAppOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
-                self.applicationResponse = output
-            } else {
-                self.applicationResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
+            self.applicationResponse = output
         } else {
             self.applicationResponse = nil
         }
@@ -5376,15 +5370,15 @@ public struct CreateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let writeCampaignRequest = input.operationInput.writeCampaignRequest {
-                let writeCampaignRequestdata = try encoder.encode(writeCampaignRequest)
-                let writeCampaignRequestbody = ClientRuntime.HttpBody.data(writeCampaignRequestdata)
-                input.builder.withBody(writeCampaignRequestbody)
+                let writeCampaignRequestData = try encoder.encode(writeCampaignRequest)
+                let writeCampaignRequestBody = ClientRuntime.HttpBody.data(writeCampaignRequestData)
+                input.builder.withBody(writeCampaignRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let writeCampaignRequestdata = "{}".data(using: .utf8)!
-                    let writeCampaignRequestbody = ClientRuntime.HttpBody.data(writeCampaignRequestdata)
-                    input.builder.withBody(writeCampaignRequestbody)
+                    let writeCampaignRequestData = "{}".data(using: .utf8)!
+                    let writeCampaignRequestBody = ClientRuntime.HttpBody.data(writeCampaignRequestData)
+                    input.builder.withBody(writeCampaignRequestBody)
                 }
             }
         } catch let err {
@@ -5490,13 +5484,9 @@ public enum CreateCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
-                self.campaignResponse = output
-            } else {
-                self.campaignResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignResponse = output
         } else {
             self.campaignResponse = nil
         }
@@ -5548,15 +5538,15 @@ public struct CreateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let emailTemplateRequest = input.operationInput.emailTemplateRequest {
-                let emailTemplateRequestdata = try encoder.encode(emailTemplateRequest)
-                let emailTemplateRequestbody = ClientRuntime.HttpBody.data(emailTemplateRequestdata)
-                input.builder.withBody(emailTemplateRequestbody)
+                let emailTemplateRequestData = try encoder.encode(emailTemplateRequest)
+                let emailTemplateRequestBody = ClientRuntime.HttpBody.data(emailTemplateRequestData)
+                input.builder.withBody(emailTemplateRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let emailTemplateRequestdata = "{}".data(using: .utf8)!
-                    let emailTemplateRequestbody = ClientRuntime.HttpBody.data(emailTemplateRequestdata)
-                    input.builder.withBody(emailTemplateRequestbody)
+                    let emailTemplateRequestData = "{}".data(using: .utf8)!
+                    let emailTemplateRequestBody = ClientRuntime.HttpBody.data(emailTemplateRequestData)
+                    input.builder.withBody(emailTemplateRequestBody)
                 }
             }
         } catch let err {
@@ -5658,13 +5648,9 @@ public enum CreateEmailTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
-                self.createTemplateMessageBody = output
-            } else {
-                self.createTemplateMessageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
+            self.createTemplateMessageBody = output
         } else {
             self.createTemplateMessageBody = nil
         }
@@ -5716,15 +5702,15 @@ public struct CreateExportJobInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let exportJobRequest = input.operationInput.exportJobRequest {
-                let exportJobRequestdata = try encoder.encode(exportJobRequest)
-                let exportJobRequestbody = ClientRuntime.HttpBody.data(exportJobRequestdata)
-                input.builder.withBody(exportJobRequestbody)
+                let exportJobRequestData = try encoder.encode(exportJobRequest)
+                let exportJobRequestBody = ClientRuntime.HttpBody.data(exportJobRequestData)
+                input.builder.withBody(exportJobRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let exportJobRequestdata = "{}".data(using: .utf8)!
-                    let exportJobRequestbody = ClientRuntime.HttpBody.data(exportJobRequestdata)
-                    input.builder.withBody(exportJobRequestbody)
+                    let exportJobRequestData = "{}".data(using: .utf8)!
+                    let exportJobRequestBody = ClientRuntime.HttpBody.data(exportJobRequestData)
+                    input.builder.withBody(exportJobRequestBody)
                 }
             }
         } catch let err {
@@ -5830,13 +5816,9 @@ public enum CreateExportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ExportJobResponse = try responseDecoder.decode(responseBody: data)
-                self.exportJobResponse = output
-            } else {
-                self.exportJobResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ExportJobResponse = try responseDecoder.decode(responseBody: data)
+            self.exportJobResponse = output
         } else {
             self.exportJobResponse = nil
         }
@@ -5888,15 +5870,15 @@ public struct CreateImportJobInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let importJobRequest = input.operationInput.importJobRequest {
-                let importJobRequestdata = try encoder.encode(importJobRequest)
-                let importJobRequestbody = ClientRuntime.HttpBody.data(importJobRequestdata)
-                input.builder.withBody(importJobRequestbody)
+                let importJobRequestData = try encoder.encode(importJobRequest)
+                let importJobRequestBody = ClientRuntime.HttpBody.data(importJobRequestData)
+                input.builder.withBody(importJobRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let importJobRequestdata = "{}".data(using: .utf8)!
-                    let importJobRequestbody = ClientRuntime.HttpBody.data(importJobRequestdata)
-                    input.builder.withBody(importJobRequestbody)
+                    let importJobRequestData = "{}".data(using: .utf8)!
+                    let importJobRequestBody = ClientRuntime.HttpBody.data(importJobRequestData)
+                    input.builder.withBody(importJobRequestBody)
                 }
             }
         } catch let err {
@@ -6002,13 +5984,9 @@ public enum CreateImportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ImportJobResponse = try responseDecoder.decode(responseBody: data)
-                self.importJobResponse = output
-            } else {
-                self.importJobResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ImportJobResponse = try responseDecoder.decode(responseBody: data)
+            self.importJobResponse = output
         } else {
             self.importJobResponse = nil
         }
@@ -6060,15 +6038,15 @@ public struct CreateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let inAppTemplateRequest = input.operationInput.inAppTemplateRequest {
-                let inAppTemplateRequestdata = try encoder.encode(inAppTemplateRequest)
-                let inAppTemplateRequestbody = ClientRuntime.HttpBody.data(inAppTemplateRequestdata)
-                input.builder.withBody(inAppTemplateRequestbody)
+                let inAppTemplateRequestData = try encoder.encode(inAppTemplateRequest)
+                let inAppTemplateRequestBody = ClientRuntime.HttpBody.data(inAppTemplateRequestData)
+                input.builder.withBody(inAppTemplateRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let inAppTemplateRequestdata = "{}".data(using: .utf8)!
-                    let inAppTemplateRequestbody = ClientRuntime.HttpBody.data(inAppTemplateRequestdata)
-                    input.builder.withBody(inAppTemplateRequestbody)
+                    let inAppTemplateRequestData = "{}".data(using: .utf8)!
+                    let inAppTemplateRequestBody = ClientRuntime.HttpBody.data(inAppTemplateRequestData)
+                    input.builder.withBody(inAppTemplateRequestBody)
                 }
             }
         } catch let err {
@@ -6170,13 +6148,9 @@ public enum CreateInAppTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateInAppTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.TemplateCreateMessageBody = try responseDecoder.decode(responseBody: data)
-                self.templateCreateMessageBody = output
-            } else {
-                self.templateCreateMessageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.TemplateCreateMessageBody = try responseDecoder.decode(responseBody: data)
+            self.templateCreateMessageBody = output
         } else {
             self.templateCreateMessageBody = nil
         }
@@ -6228,15 +6202,15 @@ public struct CreateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let writeJourneyRequest = input.operationInput.writeJourneyRequest {
-                let writeJourneyRequestdata = try encoder.encode(writeJourneyRequest)
-                let writeJourneyRequestbody = ClientRuntime.HttpBody.data(writeJourneyRequestdata)
-                input.builder.withBody(writeJourneyRequestbody)
+                let writeJourneyRequestData = try encoder.encode(writeJourneyRequest)
+                let writeJourneyRequestBody = ClientRuntime.HttpBody.data(writeJourneyRequestData)
+                input.builder.withBody(writeJourneyRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let writeJourneyRequestdata = "{}".data(using: .utf8)!
-                    let writeJourneyRequestbody = ClientRuntime.HttpBody.data(writeJourneyRequestdata)
-                    input.builder.withBody(writeJourneyRequestbody)
+                    let writeJourneyRequestData = "{}".data(using: .utf8)!
+                    let writeJourneyRequestBody = ClientRuntime.HttpBody.data(writeJourneyRequestData)
+                    input.builder.withBody(writeJourneyRequestBody)
                 }
             }
         } catch let err {
@@ -6342,13 +6316,9 @@ public enum CreateJourneyOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateJourneyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
-                self.journeyResponse = output
-            } else {
-                self.journeyResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyResponse = output
         } else {
             self.journeyResponse = nil
         }
@@ -6400,15 +6370,15 @@ public struct CreatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let pushNotificationTemplateRequest = input.operationInput.pushNotificationTemplateRequest {
-                let pushNotificationTemplateRequestdata = try encoder.encode(pushNotificationTemplateRequest)
-                let pushNotificationTemplateRequestbody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestdata)
-                input.builder.withBody(pushNotificationTemplateRequestbody)
+                let pushNotificationTemplateRequestData = try encoder.encode(pushNotificationTemplateRequest)
+                let pushNotificationTemplateRequestBody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestData)
+                input.builder.withBody(pushNotificationTemplateRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let pushNotificationTemplateRequestdata = "{}".data(using: .utf8)!
-                    let pushNotificationTemplateRequestbody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestdata)
-                    input.builder.withBody(pushNotificationTemplateRequestbody)
+                    let pushNotificationTemplateRequestData = "{}".data(using: .utf8)!
+                    let pushNotificationTemplateRequestBody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestData)
+                    input.builder.withBody(pushNotificationTemplateRequestBody)
                 }
             }
         } catch let err {
@@ -6510,13 +6480,9 @@ public enum CreatePushTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePushTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
-                self.createTemplateMessageBody = output
-            } else {
-                self.createTemplateMessageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
+            self.createTemplateMessageBody = output
         } else {
             self.createTemplateMessageBody = nil
         }
@@ -6568,15 +6534,15 @@ public struct CreateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.M
         do {
             let encoder = context.getEncoder()
             if let createRecommenderConfiguration = input.operationInput.createRecommenderConfiguration {
-                let createRecommenderConfigurationdata = try encoder.encode(createRecommenderConfiguration)
-                let createRecommenderConfigurationbody = ClientRuntime.HttpBody.data(createRecommenderConfigurationdata)
-                input.builder.withBody(createRecommenderConfigurationbody)
+                let createRecommenderConfigurationData = try encoder.encode(createRecommenderConfiguration)
+                let createRecommenderConfigurationBody = ClientRuntime.HttpBody.data(createRecommenderConfigurationData)
+                input.builder.withBody(createRecommenderConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let createRecommenderConfigurationdata = "{}".data(using: .utf8)!
-                    let createRecommenderConfigurationbody = ClientRuntime.HttpBody.data(createRecommenderConfigurationdata)
-                    input.builder.withBody(createRecommenderConfigurationbody)
+                    let createRecommenderConfigurationData = "{}".data(using: .utf8)!
+                    let createRecommenderConfigurationBody = ClientRuntime.HttpBody.data(createRecommenderConfigurationData)
+                    input.builder.withBody(createRecommenderConfigurationBody)
                 }
             }
         } catch let err {
@@ -6674,13 +6640,9 @@ public enum CreateRecommenderConfigurationOutputError: Swift.Error, Swift.Equata
 
 extension CreateRecommenderConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
-                self.recommenderConfigurationResponse = output
-            } else {
-                self.recommenderConfigurationResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
+            self.recommenderConfigurationResponse = output
         } else {
             self.recommenderConfigurationResponse = nil
         }
@@ -6872,15 +6834,15 @@ public struct CreateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let writeSegmentRequest = input.operationInput.writeSegmentRequest {
-                let writeSegmentRequestdata = try encoder.encode(writeSegmentRequest)
-                let writeSegmentRequestbody = ClientRuntime.HttpBody.data(writeSegmentRequestdata)
-                input.builder.withBody(writeSegmentRequestbody)
+                let writeSegmentRequestData = try encoder.encode(writeSegmentRequest)
+                let writeSegmentRequestBody = ClientRuntime.HttpBody.data(writeSegmentRequestData)
+                input.builder.withBody(writeSegmentRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let writeSegmentRequestdata = "{}".data(using: .utf8)!
-                    let writeSegmentRequestbody = ClientRuntime.HttpBody.data(writeSegmentRequestdata)
-                    input.builder.withBody(writeSegmentRequestbody)
+                    let writeSegmentRequestData = "{}".data(using: .utf8)!
+                    let writeSegmentRequestBody = ClientRuntime.HttpBody.data(writeSegmentRequestData)
+                    input.builder.withBody(writeSegmentRequestBody)
                 }
             }
         } catch let err {
@@ -6986,13 +6948,9 @@ public enum CreateSegmentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSegmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
-                self.segmentResponse = output
-            } else {
-                self.segmentResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentResponse = output
         } else {
             self.segmentResponse = nil
         }
@@ -7044,15 +7002,15 @@ public struct CreateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let smsTemplateRequest = input.operationInput.smsTemplateRequest {
-                let smsTemplateRequestdata = try encoder.encode(smsTemplateRequest)
-                let smsTemplateRequestbody = ClientRuntime.HttpBody.data(smsTemplateRequestdata)
-                input.builder.withBody(smsTemplateRequestbody)
+                let smsTemplateRequestData = try encoder.encode(smsTemplateRequest)
+                let smsTemplateRequestBody = ClientRuntime.HttpBody.data(smsTemplateRequestData)
+                input.builder.withBody(smsTemplateRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let smsTemplateRequestdata = "{}".data(using: .utf8)!
-                    let smsTemplateRequestbody = ClientRuntime.HttpBody.data(smsTemplateRequestdata)
-                    input.builder.withBody(smsTemplateRequestbody)
+                    let smsTemplateRequestData = "{}".data(using: .utf8)!
+                    let smsTemplateRequestBody = ClientRuntime.HttpBody.data(smsTemplateRequestData)
+                    input.builder.withBody(smsTemplateRequestBody)
                 }
             }
         } catch let err {
@@ -7154,13 +7112,9 @@ public enum CreateSmsTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
-                self.createTemplateMessageBody = output
-            } else {
-                self.createTemplateMessageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
+            self.createTemplateMessageBody = output
         } else {
             self.createTemplateMessageBody = nil
         }
@@ -7267,15 +7221,15 @@ public struct CreateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let voiceTemplateRequest = input.operationInput.voiceTemplateRequest {
-                let voiceTemplateRequestdata = try encoder.encode(voiceTemplateRequest)
-                let voiceTemplateRequestbody = ClientRuntime.HttpBody.data(voiceTemplateRequestdata)
-                input.builder.withBody(voiceTemplateRequestbody)
+                let voiceTemplateRequestData = try encoder.encode(voiceTemplateRequest)
+                let voiceTemplateRequestBody = ClientRuntime.HttpBody.data(voiceTemplateRequestData)
+                input.builder.withBody(voiceTemplateRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let voiceTemplateRequestdata = "{}".data(using: .utf8)!
-                    let voiceTemplateRequestbody = ClientRuntime.HttpBody.data(voiceTemplateRequestdata)
-                    input.builder.withBody(voiceTemplateRequestbody)
+                    let voiceTemplateRequestData = "{}".data(using: .utf8)!
+                    let voiceTemplateRequestBody = ClientRuntime.HttpBody.data(voiceTemplateRequestData)
+                    input.builder.withBody(voiceTemplateRequestBody)
                 }
             }
         } catch let err {
@@ -7377,13 +7331,9 @@ public enum CreateVoiceTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
-                self.createTemplateMessageBody = output
-            } else {
-                self.createTemplateMessageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
+            self.createTemplateMessageBody = output
         } else {
             self.createTemplateMessageBody = nil
         }
@@ -8066,13 +8016,9 @@ public enum DeleteAdmChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteAdmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.admChannelResponse = output
-            } else {
-                self.admChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.admChannelResponse = output
         } else {
             self.admChannelResponse = nil
         }
@@ -8175,13 +8121,9 @@ public enum DeleteApnsChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteApnsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.apnsChannelResponse = output
-            } else {
-                self.apnsChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsChannelResponse = output
         } else {
             self.apnsChannelResponse = nil
         }
@@ -8284,13 +8226,9 @@ public enum DeleteApnsSandboxChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteApnsSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.apnsSandboxChannelResponse = output
-            } else {
-                self.apnsSandboxChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsSandboxChannelResponse = output
         } else {
             self.apnsSandboxChannelResponse = nil
         }
@@ -8393,13 +8331,9 @@ public enum DeleteApnsVoipChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteApnsVoipChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.apnsVoipChannelResponse = output
-            } else {
-                self.apnsVoipChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsVoipChannelResponse = output
         } else {
             self.apnsVoipChannelResponse = nil
         }
@@ -8502,13 +8436,9 @@ public enum DeleteApnsVoipSandboxChannelOutputError: Swift.Error, Swift.Equatabl
 
 extension DeleteApnsVoipSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.apnsVoipSandboxChannelResponse = output
-            } else {
-                self.apnsVoipSandboxChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsVoipSandboxChannelResponse = output
         } else {
             self.apnsVoipSandboxChannelResponse = nil
         }
@@ -8611,13 +8541,9 @@ public enum DeleteAppOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteAppOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
-                self.applicationResponse = output
-            } else {
-                self.applicationResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
+            self.applicationResponse = output
         } else {
             self.applicationResponse = nil
         }
@@ -8720,13 +8646,9 @@ public enum DeleteBaiduChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteBaiduChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.baiduChannelResponse = output
-            } else {
-                self.baiduChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.baiduChannelResponse = output
         } else {
             self.baiduChannelResponse = nil
         }
@@ -8837,13 +8759,9 @@ public enum DeleteCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
-                self.campaignResponse = output
-            } else {
-                self.campaignResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignResponse = output
         } else {
             self.campaignResponse = nil
         }
@@ -8946,13 +8864,9 @@ public enum DeleteEmailChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteEmailChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.emailChannelResponse = output
-            } else {
-                self.emailChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.emailChannelResponse = output
         } else {
             self.emailChannelResponse = nil
         }
@@ -9078,13 +8992,9 @@ public enum DeleteEmailTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -9195,13 +9105,9 @@ public enum DeleteEndpointOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.EndpointResponse = try responseDecoder.decode(responseBody: data)
-                self.endpointResponse = output
-            } else {
-                self.endpointResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EndpointResponse = try responseDecoder.decode(responseBody: data)
+            self.endpointResponse = output
         } else {
             self.endpointResponse = nil
         }
@@ -9304,13 +9210,9 @@ public enum DeleteEventStreamOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteEventStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
-                self.eventStream = output
-            } else {
-                self.eventStream = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
+            self.eventStream = output
         } else {
             self.eventStream = nil
         }
@@ -9413,13 +9315,9 @@ public enum DeleteGcmChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteGcmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.gcmChannelResponse = output
-            } else {
-                self.gcmChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.gcmChannelResponse = output
         } else {
             self.gcmChannelResponse = nil
         }
@@ -9545,13 +9443,9 @@ public enum DeleteInAppTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteInAppTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -9662,13 +9556,9 @@ public enum DeleteJourneyOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteJourneyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
-                self.journeyResponse = output
-            } else {
-                self.journeyResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyResponse = output
         } else {
             self.journeyResponse = nil
         }
@@ -9794,13 +9684,9 @@ public enum DeletePushTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension DeletePushTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -9903,13 +9789,9 @@ public enum DeleteRecommenderConfigurationOutputError: Swift.Error, Swift.Equata
 
 extension DeleteRecommenderConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
-                self.recommenderConfigurationResponse = output
-            } else {
-                self.recommenderConfigurationResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
+            self.recommenderConfigurationResponse = output
         } else {
             self.recommenderConfigurationResponse = nil
         }
@@ -10020,13 +9902,9 @@ public enum DeleteSegmentOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSegmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
-                self.segmentResponse = output
-            } else {
-                self.segmentResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentResponse = output
         } else {
             self.segmentResponse = nil
         }
@@ -10129,13 +10007,9 @@ public enum DeleteSmsChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSmsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.smsChannelResponse = output
-            } else {
-                self.smsChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.smsChannelResponse = output
         } else {
             self.smsChannelResponse = nil
         }
@@ -10261,13 +10135,9 @@ public enum DeleteSmsTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -10378,13 +10248,9 @@ public enum DeleteUserEndpointsOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteUserEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.EndpointsResponse = try responseDecoder.decode(responseBody: data)
-                self.endpointsResponse = output
-            } else {
-                self.endpointsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EndpointsResponse = try responseDecoder.decode(responseBody: data)
+            self.endpointsResponse = output
         } else {
             self.endpointsResponse = nil
         }
@@ -10487,13 +10353,9 @@ public enum DeleteVoiceChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteVoiceChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.voiceChannelResponse = output
-            } else {
-                self.voiceChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.voiceChannelResponse = output
         } else {
             self.voiceChannelResponse = nil
         }
@@ -10619,13 +10481,9 @@ public enum DeleteVoiceTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -13837,9 +13695,8 @@ extension PinpointClientTypes {
 
 extension ForbiddenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -14557,13 +14414,9 @@ public enum GetAdmChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAdmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.admChannelResponse = output
-            } else {
-                self.admChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.admChannelResponse = output
         } else {
             self.admChannelResponse = nil
         }
@@ -14666,13 +14519,9 @@ public enum GetApnsChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetApnsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.apnsChannelResponse = output
-            } else {
-                self.apnsChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsChannelResponse = output
         } else {
             self.apnsChannelResponse = nil
         }
@@ -14775,13 +14624,9 @@ public enum GetApnsSandboxChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetApnsSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.apnsSandboxChannelResponse = output
-            } else {
-                self.apnsSandboxChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsSandboxChannelResponse = output
         } else {
             self.apnsSandboxChannelResponse = nil
         }
@@ -14884,13 +14729,9 @@ public enum GetApnsVoipChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetApnsVoipChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.apnsVoipChannelResponse = output
-            } else {
-                self.apnsVoipChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsVoipChannelResponse = output
         } else {
             self.apnsVoipChannelResponse = nil
         }
@@ -14993,13 +14834,9 @@ public enum GetApnsVoipSandboxChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetApnsVoipSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.apnsVoipSandboxChannelResponse = output
-            } else {
-                self.apnsVoipSandboxChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsVoipSandboxChannelResponse = output
         } else {
             self.apnsVoipSandboxChannelResponse = nil
         }
@@ -15102,13 +14939,9 @@ public enum GetAppOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAppOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
-                self.applicationResponse = output
-            } else {
-                self.applicationResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
+            self.applicationResponse = output
         } else {
             self.applicationResponse = nil
         }
@@ -15260,13 +15093,9 @@ public enum GetApplicationDateRangeKpiOutputError: Swift.Error, Swift.Equatable 
 
 extension GetApplicationDateRangeKpiOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ApplicationDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
-                self.applicationDateRangeKpiResponse = output
-            } else {
-                self.applicationDateRangeKpiResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
+            self.applicationDateRangeKpiResponse = output
         } else {
             self.applicationDateRangeKpiResponse = nil
         }
@@ -15369,13 +15198,9 @@ public enum GetApplicationSettingsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetApplicationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ApplicationSettingsResource = try responseDecoder.decode(responseBody: data)
-                self.applicationSettingsResource = output
-            } else {
-                self.applicationSettingsResource = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationSettingsResource = try responseDecoder.decode(responseBody: data)
+            self.applicationSettingsResource = output
         } else {
             self.applicationSettingsResource = nil
         }
@@ -15495,13 +15320,9 @@ public enum GetAppsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAppsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ApplicationsResponse = try responseDecoder.decode(responseBody: data)
-                self.applicationsResponse = output
-            } else {
-                self.applicationsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationsResponse = try responseDecoder.decode(responseBody: data)
+            self.applicationsResponse = output
         } else {
             self.applicationsResponse = nil
         }
@@ -15604,13 +15425,9 @@ public enum GetBaiduChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBaiduChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.baiduChannelResponse = output
-            } else {
-                self.baiduChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.baiduChannelResponse = output
         } else {
             self.baiduChannelResponse = nil
         }
@@ -15746,13 +15563,9 @@ public enum GetCampaignActivitiesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignActivitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ActivitiesResponse = try responseDecoder.decode(responseBody: data)
-                self.activitiesResponse = output
-            } else {
-                self.activitiesResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ActivitiesResponse = try responseDecoder.decode(responseBody: data)
+            self.activitiesResponse = output
         } else {
             self.activitiesResponse = nil
         }
@@ -15912,13 +15725,9 @@ public enum GetCampaignDateRangeKpiOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignDateRangeKpiOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.CampaignDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
-                self.campaignDateRangeKpiResponse = output
-            } else {
-                self.campaignDateRangeKpiResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignDateRangeKpiResponse = output
         } else {
             self.campaignDateRangeKpiResponse = nil
         }
@@ -16029,13 +15838,9 @@ public enum GetCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
-                self.campaignResponse = output
-            } else {
-                self.campaignResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignResponse = output
         } else {
             self.campaignResponse = nil
         }
@@ -16154,13 +15959,9 @@ public enum GetCampaignVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
-                self.campaignResponse = output
-            } else {
-                self.campaignResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignResponse = output
         } else {
             self.campaignResponse = nil
         }
@@ -16296,13 +16097,9 @@ public enum GetCampaignVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.CampaignsResponse = try responseDecoder.decode(responseBody: data)
-                self.campaignsResponse = output
-            } else {
-                self.campaignsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignsResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignsResponse = output
         } else {
             self.campaignsResponse = nil
         }
@@ -16430,13 +16227,9 @@ public enum GetCampaignsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.CampaignsResponse = try responseDecoder.decode(responseBody: data)
-                self.campaignsResponse = output
-            } else {
-                self.campaignsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignsResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignsResponse = output
         } else {
             self.campaignsResponse = nil
         }
@@ -16539,13 +16332,9 @@ public enum GetChannelsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ChannelsResponse = try responseDecoder.decode(responseBody: data)
-                self.channelsResponse = output
-            } else {
-                self.channelsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ChannelsResponse = try responseDecoder.decode(responseBody: data)
+            self.channelsResponse = output
         } else {
             self.channelsResponse = nil
         }
@@ -16648,13 +16437,9 @@ public enum GetEmailChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetEmailChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.emailChannelResponse = output
-            } else {
-                self.emailChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.emailChannelResponse = output
         } else {
             self.emailChannelResponse = nil
         }
@@ -16780,13 +16565,9 @@ public enum GetEmailTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.EmailTemplateResponse = try responseDecoder.decode(responseBody: data)
-                self.emailTemplateResponse = output
-            } else {
-                self.emailTemplateResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EmailTemplateResponse = try responseDecoder.decode(responseBody: data)
+            self.emailTemplateResponse = output
         } else {
             self.emailTemplateResponse = nil
         }
@@ -16897,13 +16678,9 @@ public enum GetEndpointOutputError: Swift.Error, Swift.Equatable {
 
 extension GetEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.EndpointResponse = try responseDecoder.decode(responseBody: data)
-                self.endpointResponse = output
-            } else {
-                self.endpointResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EndpointResponse = try responseDecoder.decode(responseBody: data)
+            self.endpointResponse = output
         } else {
             self.endpointResponse = nil
         }
@@ -17006,13 +16783,9 @@ public enum GetEventStreamOutputError: Swift.Error, Swift.Equatable {
 
 extension GetEventStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
-                self.eventStream = output
-            } else {
-                self.eventStream = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
+            self.eventStream = output
         } else {
             self.eventStream = nil
         }
@@ -17123,13 +16896,9 @@ public enum GetExportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension GetExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ExportJobResponse = try responseDecoder.decode(responseBody: data)
-                self.exportJobResponse = output
-            } else {
-                self.exportJobResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ExportJobResponse = try responseDecoder.decode(responseBody: data)
+            self.exportJobResponse = output
         } else {
             self.exportJobResponse = nil
         }
@@ -17257,13 +17026,9 @@ public enum GetExportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ExportJobsResponse = try responseDecoder.decode(responseBody: data)
-                self.exportJobsResponse = output
-            } else {
-                self.exportJobsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ExportJobsResponse = try responseDecoder.decode(responseBody: data)
+            self.exportJobsResponse = output
         } else {
             self.exportJobsResponse = nil
         }
@@ -17366,13 +17131,9 @@ public enum GetGcmChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetGcmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.gcmChannelResponse = output
-            } else {
-                self.gcmChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.gcmChannelResponse = output
         } else {
             self.gcmChannelResponse = nil
         }
@@ -17483,13 +17244,9 @@ public enum GetImportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension GetImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ImportJobResponse = try responseDecoder.decode(responseBody: data)
-                self.importJobResponse = output
-            } else {
-                self.importJobResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ImportJobResponse = try responseDecoder.decode(responseBody: data)
+            self.importJobResponse = output
         } else {
             self.importJobResponse = nil
         }
@@ -17617,13 +17374,9 @@ public enum GetImportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ImportJobsResponse = try responseDecoder.decode(responseBody: data)
-                self.importJobsResponse = output
-            } else {
-                self.importJobsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ImportJobsResponse = try responseDecoder.decode(responseBody: data)
+            self.importJobsResponse = output
         } else {
             self.importJobsResponse = nil
         }
@@ -17734,13 +17487,9 @@ public enum GetInAppMessagesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetInAppMessagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.InAppMessagesResponse = try responseDecoder.decode(responseBody: data)
-                self.inAppMessagesResponse = output
-            } else {
-                self.inAppMessagesResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.InAppMessagesResponse = try responseDecoder.decode(responseBody: data)
+            self.inAppMessagesResponse = output
         } else {
             self.inAppMessagesResponse = nil
         }
@@ -17866,13 +17615,9 @@ public enum GetInAppTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetInAppTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.InAppTemplateResponse = try responseDecoder.decode(responseBody: data)
-                self.inAppTemplateResponse = output
-            } else {
-                self.inAppTemplateResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.InAppTemplateResponse = try responseDecoder.decode(responseBody: data)
+            self.inAppTemplateResponse = output
         } else {
             self.inAppTemplateResponse = nil
         }
@@ -18032,13 +17777,9 @@ public enum GetJourneyDateRangeKpiOutputError: Swift.Error, Swift.Equatable {
 
 extension GetJourneyDateRangeKpiOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.JourneyDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
-                self.journeyDateRangeKpiResponse = output
-            } else {
-                self.journeyDateRangeKpiResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyDateRangeKpiResponse = output
         } else {
             self.journeyDateRangeKpiResponse = nil
         }
@@ -18182,13 +17923,9 @@ public enum GetJourneyExecutionActivityMetricsOutputError: Swift.Error, Swift.Eq
 
 extension GetJourneyExecutionActivityMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.JourneyExecutionActivityMetricsResponse = try responseDecoder.decode(responseBody: data)
-                self.journeyExecutionActivityMetricsResponse = output
-            } else {
-                self.journeyExecutionActivityMetricsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyExecutionActivityMetricsResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyExecutionActivityMetricsResponse = output
         } else {
             self.journeyExecutionActivityMetricsResponse = nil
         }
@@ -18324,13 +18061,9 @@ public enum GetJourneyExecutionMetricsOutputError: Swift.Error, Swift.Equatable 
 
 extension GetJourneyExecutionMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.JourneyExecutionMetricsResponse = try responseDecoder.decode(responseBody: data)
-                self.journeyExecutionMetricsResponse = output
-            } else {
-                self.journeyExecutionMetricsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyExecutionMetricsResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyExecutionMetricsResponse = output
         } else {
             self.journeyExecutionMetricsResponse = nil
         }
@@ -18441,13 +18174,9 @@ public enum GetJourneyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetJourneyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
-                self.journeyResponse = output
-            } else {
-                self.journeyResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyResponse = output
         } else {
             self.journeyResponse = nil
         }
@@ -18573,13 +18302,9 @@ public enum GetPushTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPushTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.PushNotificationTemplateResponse = try responseDecoder.decode(responseBody: data)
-                self.pushNotificationTemplateResponse = output
-            } else {
-                self.pushNotificationTemplateResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.PushNotificationTemplateResponse = try responseDecoder.decode(responseBody: data)
+            self.pushNotificationTemplateResponse = output
         } else {
             self.pushNotificationTemplateResponse = nil
         }
@@ -18682,13 +18407,9 @@ public enum GetRecommenderConfigurationOutputError: Swift.Error, Swift.Equatable
 
 extension GetRecommenderConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
-                self.recommenderConfigurationResponse = output
-            } else {
-                self.recommenderConfigurationResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
+            self.recommenderConfigurationResponse = output
         } else {
             self.recommenderConfigurationResponse = nil
         }
@@ -18808,13 +18529,9 @@ public enum GetRecommenderConfigurationsOutputError: Swift.Error, Swift.Equatabl
 
 extension GetRecommenderConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ListRecommenderConfigurationsResponse = try responseDecoder.decode(responseBody: data)
-                self.listRecommenderConfigurationsResponse = output
-            } else {
-                self.listRecommenderConfigurationsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ListRecommenderConfigurationsResponse = try responseDecoder.decode(responseBody: data)
+            self.listRecommenderConfigurationsResponse = output
         } else {
             self.listRecommenderConfigurationsResponse = nil
         }
@@ -18950,13 +18667,9 @@ public enum GetSegmentExportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSegmentExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ExportJobsResponse = try responseDecoder.decode(responseBody: data)
-                self.exportJobsResponse = output
-            } else {
-                self.exportJobsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ExportJobsResponse = try responseDecoder.decode(responseBody: data)
+            self.exportJobsResponse = output
         } else {
             self.exportJobsResponse = nil
         }
@@ -19092,13 +18805,9 @@ public enum GetSegmentImportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSegmentImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ImportJobsResponse = try responseDecoder.decode(responseBody: data)
-                self.importJobsResponse = output
-            } else {
-                self.importJobsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ImportJobsResponse = try responseDecoder.decode(responseBody: data)
+            self.importJobsResponse = output
         } else {
             self.importJobsResponse = nil
         }
@@ -19209,13 +18918,9 @@ public enum GetSegmentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSegmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
-                self.segmentResponse = output
-            } else {
-                self.segmentResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentResponse = output
         } else {
             self.segmentResponse = nil
         }
@@ -19334,13 +19039,9 @@ public enum GetSegmentVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSegmentVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
-                self.segmentResponse = output
-            } else {
-                self.segmentResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentResponse = output
         } else {
             self.segmentResponse = nil
         }
@@ -19476,13 +19177,9 @@ public enum GetSegmentVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSegmentVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.SegmentsResponse = try responseDecoder.decode(responseBody: data)
-                self.segmentsResponse = output
-            } else {
-                self.segmentsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentsResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentsResponse = output
         } else {
             self.segmentsResponse = nil
         }
@@ -19610,13 +19307,9 @@ public enum GetSegmentsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSegmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.SegmentsResponse = try responseDecoder.decode(responseBody: data)
-                self.segmentsResponse = output
-            } else {
-                self.segmentsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentsResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentsResponse = output
         } else {
             self.segmentsResponse = nil
         }
@@ -19719,13 +19412,9 @@ public enum GetSmsChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSmsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.smsChannelResponse = output
-            } else {
-                self.smsChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.smsChannelResponse = output
         } else {
             self.smsChannelResponse = nil
         }
@@ -19851,13 +19540,9 @@ public enum GetSmsTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.SMSTemplateResponse = try responseDecoder.decode(responseBody: data)
-                self.smsTemplateResponse = output
-            } else {
-                self.smsTemplateResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SMSTemplateResponse = try responseDecoder.decode(responseBody: data)
+            self.smsTemplateResponse = output
         } else {
             self.smsTemplateResponse = nil
         }
@@ -19968,13 +19653,9 @@ public enum GetUserEndpointsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetUserEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.EndpointsResponse = try responseDecoder.decode(responseBody: data)
-                self.endpointsResponse = output
-            } else {
-                self.endpointsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EndpointsResponse = try responseDecoder.decode(responseBody: data)
+            self.endpointsResponse = output
         } else {
             self.endpointsResponse = nil
         }
@@ -20077,13 +19758,9 @@ public enum GetVoiceChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetVoiceChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.voiceChannelResponse = output
-            } else {
-                self.voiceChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.voiceChannelResponse = output
         } else {
             self.voiceChannelResponse = nil
         }
@@ -20209,13 +19886,9 @@ public enum GetVoiceTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.VoiceTemplateResponse = try responseDecoder.decode(responseBody: data)
-                self.voiceTemplateResponse = output
-            } else {
-                self.voiceTemplateResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.VoiceTemplateResponse = try responseDecoder.decode(responseBody: data)
+            self.voiceTemplateResponse = output
         } else {
             self.voiceTemplateResponse = nil
         }
@@ -21619,9 +21292,8 @@ extension PinpointClientTypes {
 
 extension InternalServerErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -22942,13 +22614,9 @@ public enum ListJourneysOutputError: Swift.Error, Swift.Equatable {
 
 extension ListJourneysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.JourneysResponse = try responseDecoder.decode(responseBody: data)
-                self.journeysResponse = output
-            } else {
-                self.journeysResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneysResponse = try responseDecoder.decode(responseBody: data)
+            self.journeysResponse = output
         } else {
             self.journeysResponse = nil
         }
@@ -23095,13 +22763,9 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.TagsModel = try responseDecoder.decode(responseBody: data)
-                self.tagsModel = output
-            } else {
-                self.tagsModel = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.TagsModel = try responseDecoder.decode(responseBody: data)
+            self.tagsModel = output
         } else {
             self.tagsModel = nil
         }
@@ -23237,13 +22901,9 @@ public enum ListTemplateVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTemplateVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.TemplateVersionsResponse = try responseDecoder.decode(responseBody: data)
-                self.templateVersionsResponse = output
-            } else {
-                self.templateVersionsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.TemplateVersionsResponse = try responseDecoder.decode(responseBody: data)
+            self.templateVersionsResponse = output
         } else {
             self.templateVersionsResponse = nil
         }
@@ -23375,13 +23035,9 @@ public enum ListTemplatesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.TemplatesResponse = try responseDecoder.decode(responseBody: data)
-                self.templatesResponse = output
-            } else {
-                self.templatesResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.TemplatesResponse = try responseDecoder.decode(responseBody: data)
+            self.templatesResponse = output
         } else {
             self.templatesResponse = nil
         }
@@ -24067,9 +23723,8 @@ extension PinpointClientTypes {
 
 extension MethodNotAllowedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MethodNotAllowedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -24321,9 +23976,8 @@ extension PinpointClientTypes {
 
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -24902,9 +24556,8 @@ extension PinpointClientTypes {
 
 extension PayloadTooLargeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PayloadTooLargeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -24979,15 +24632,15 @@ public struct PhoneNumberValidateInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let numberValidateRequest = input.operationInput.numberValidateRequest {
-                let numberValidateRequestdata = try encoder.encode(numberValidateRequest)
-                let numberValidateRequestbody = ClientRuntime.HttpBody.data(numberValidateRequestdata)
-                input.builder.withBody(numberValidateRequestbody)
+                let numberValidateRequestData = try encoder.encode(numberValidateRequest)
+                let numberValidateRequestBody = ClientRuntime.HttpBody.data(numberValidateRequestData)
+                input.builder.withBody(numberValidateRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let numberValidateRequestdata = "{}".data(using: .utf8)!
-                    let numberValidateRequestbody = ClientRuntime.HttpBody.data(numberValidateRequestdata)
-                    input.builder.withBody(numberValidateRequestbody)
+                    let numberValidateRequestData = "{}".data(using: .utf8)!
+                    let numberValidateRequestBody = ClientRuntime.HttpBody.data(numberValidateRequestData)
+                    input.builder.withBody(numberValidateRequestBody)
                 }
             }
         } catch let err {
@@ -25085,13 +24738,9 @@ public enum PhoneNumberValidateOutputError: Swift.Error, Swift.Equatable {
 
 extension PhoneNumberValidateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.NumberValidateResponse = try responseDecoder.decode(responseBody: data)
-                self.numberValidateResponse = output
-            } else {
-                self.numberValidateResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.NumberValidateResponse = try responseDecoder.decode(responseBody: data)
+            self.numberValidateResponse = output
         } else {
             self.numberValidateResponse = nil
         }
@@ -25695,15 +25344,15 @@ public struct PutEventStreamInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let writeEventStream = input.operationInput.writeEventStream {
-                let writeEventStreamdata = try encoder.encode(writeEventStream)
-                let writeEventStreambody = ClientRuntime.HttpBody.data(writeEventStreamdata)
-                input.builder.withBody(writeEventStreambody)
+                let writeEventStreamData = try encoder.encode(writeEventStream)
+                let writeEventStreamBody = ClientRuntime.HttpBody.data(writeEventStreamData)
+                input.builder.withBody(writeEventStreamBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let writeEventStreamdata = "{}".data(using: .utf8)!
-                    let writeEventStreambody = ClientRuntime.HttpBody.data(writeEventStreamdata)
-                    input.builder.withBody(writeEventStreambody)
+                    let writeEventStreamData = "{}".data(using: .utf8)!
+                    let writeEventStreamBody = ClientRuntime.HttpBody.data(writeEventStreamData)
+                    input.builder.withBody(writeEventStreamBody)
                 }
             }
         } catch let err {
@@ -25809,13 +25458,9 @@ public enum PutEventStreamOutputError: Swift.Error, Swift.Equatable {
 
 extension PutEventStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
-                self.eventStream = output
-            } else {
-                self.eventStream = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
+            self.eventStream = output
         } else {
             self.eventStream = nil
         }
@@ -25867,15 +25512,15 @@ public struct PutEventsInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let eventsRequest = input.operationInput.eventsRequest {
-                let eventsRequestdata = try encoder.encode(eventsRequest)
-                let eventsRequestbody = ClientRuntime.HttpBody.data(eventsRequestdata)
-                input.builder.withBody(eventsRequestbody)
+                let eventsRequestData = try encoder.encode(eventsRequest)
+                let eventsRequestBody = ClientRuntime.HttpBody.data(eventsRequestData)
+                input.builder.withBody(eventsRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let eventsRequestdata = "{}".data(using: .utf8)!
-                    let eventsRequestbody = ClientRuntime.HttpBody.data(eventsRequestdata)
-                    input.builder.withBody(eventsRequestbody)
+                    let eventsRequestData = "{}".data(using: .utf8)!
+                    let eventsRequestBody = ClientRuntime.HttpBody.data(eventsRequestData)
+                    input.builder.withBody(eventsRequestBody)
                 }
             }
         } catch let err {
@@ -25981,13 +25626,9 @@ public enum PutEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension PutEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.EventsResponse = try responseDecoder.decode(responseBody: data)
-                self.eventsResponse = output
-            } else {
-                self.eventsResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EventsResponse = try responseDecoder.decode(responseBody: data)
+            self.eventsResponse = output
         } else {
             self.eventsResponse = nil
         }
@@ -26456,15 +26097,15 @@ public struct RemoveAttributesInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let updateAttributesRequest = input.operationInput.updateAttributesRequest {
-                let updateAttributesRequestdata = try encoder.encode(updateAttributesRequest)
-                let updateAttributesRequestbody = ClientRuntime.HttpBody.data(updateAttributesRequestdata)
-                input.builder.withBody(updateAttributesRequestbody)
+                let updateAttributesRequestData = try encoder.encode(updateAttributesRequest)
+                let updateAttributesRequestBody = ClientRuntime.HttpBody.data(updateAttributesRequestData)
+                input.builder.withBody(updateAttributesRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let updateAttributesRequestdata = "{}".data(using: .utf8)!
-                    let updateAttributesRequestbody = ClientRuntime.HttpBody.data(updateAttributesRequestdata)
-                    input.builder.withBody(updateAttributesRequestbody)
+                    let updateAttributesRequestData = "{}".data(using: .utf8)!
+                    let updateAttributesRequestBody = ClientRuntime.HttpBody.data(updateAttributesRequestData)
+                    input.builder.withBody(updateAttributesRequestBody)
                 }
             }
         } catch let err {
@@ -26584,13 +26225,9 @@ public enum RemoveAttributesOutputError: Swift.Error, Swift.Equatable {
 
 extension RemoveAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.AttributesResource = try responseDecoder.decode(responseBody: data)
-                self.attributesResource = output
-            } else {
-                self.attributesResource = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.AttributesResource = try responseDecoder.decode(responseBody: data)
+            self.attributesResource = output
         } else {
             self.attributesResource = nil
         }
@@ -28409,15 +28046,15 @@ public struct SendMessagesInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let messageRequest = input.operationInput.messageRequest {
-                let messageRequestdata = try encoder.encode(messageRequest)
-                let messageRequestbody = ClientRuntime.HttpBody.data(messageRequestdata)
-                input.builder.withBody(messageRequestbody)
+                let messageRequestData = try encoder.encode(messageRequest)
+                let messageRequestBody = ClientRuntime.HttpBody.data(messageRequestData)
+                input.builder.withBody(messageRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let messageRequestdata = "{}".data(using: .utf8)!
-                    let messageRequestbody = ClientRuntime.HttpBody.data(messageRequestdata)
-                    input.builder.withBody(messageRequestbody)
+                    let messageRequestData = "{}".data(using: .utf8)!
+                    let messageRequestBody = ClientRuntime.HttpBody.data(messageRequestData)
+                    input.builder.withBody(messageRequestBody)
                 }
             }
         } catch let err {
@@ -28523,13 +28160,9 @@ public enum SendMessagesOutputError: Swift.Error, Swift.Equatable {
 
 extension SendMessagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageResponse = try responseDecoder.decode(responseBody: data)
-                self.messageResponse = output
-            } else {
-                self.messageResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageResponse = try responseDecoder.decode(responseBody: data)
+            self.messageResponse = output
         } else {
             self.messageResponse = nil
         }
@@ -28581,15 +28214,15 @@ public struct SendOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let sendOTPMessageRequestParameters = input.operationInput.sendOTPMessageRequestParameters {
-                let sendOTPMessageRequestParametersdata = try encoder.encode(sendOTPMessageRequestParameters)
-                let sendOTPMessageRequestParametersbody = ClientRuntime.HttpBody.data(sendOTPMessageRequestParametersdata)
-                input.builder.withBody(sendOTPMessageRequestParametersbody)
+                let sendOTPMessageRequestParametersData = try encoder.encode(sendOTPMessageRequestParameters)
+                let sendOTPMessageRequestParametersBody = ClientRuntime.HttpBody.data(sendOTPMessageRequestParametersData)
+                input.builder.withBody(sendOTPMessageRequestParametersBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let sendOTPMessageRequestParametersdata = "{}".data(using: .utf8)!
-                    let sendOTPMessageRequestParametersbody = ClientRuntime.HttpBody.data(sendOTPMessageRequestParametersdata)
-                    input.builder.withBody(sendOTPMessageRequestParametersbody)
+                    let sendOTPMessageRequestParametersData = "{}".data(using: .utf8)!
+                    let sendOTPMessageRequestParametersBody = ClientRuntime.HttpBody.data(sendOTPMessageRequestParametersData)
+                    input.builder.withBody(sendOTPMessageRequestParametersBody)
                 }
             }
         } catch let err {
@@ -28695,13 +28328,9 @@ public enum SendOTPMessageOutputError: Swift.Error, Swift.Equatable {
 
 extension SendOTPMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageResponse = try responseDecoder.decode(responseBody: data)
-                self.messageResponse = output
-            } else {
-                self.messageResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageResponse = try responseDecoder.decode(responseBody: data)
+            self.messageResponse = output
         } else {
             self.messageResponse = nil
         }
@@ -29072,15 +28701,15 @@ public struct SendUsersMessagesInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let sendUsersMessageRequest = input.operationInput.sendUsersMessageRequest {
-                let sendUsersMessageRequestdata = try encoder.encode(sendUsersMessageRequest)
-                let sendUsersMessageRequestbody = ClientRuntime.HttpBody.data(sendUsersMessageRequestdata)
-                input.builder.withBody(sendUsersMessageRequestbody)
+                let sendUsersMessageRequestData = try encoder.encode(sendUsersMessageRequest)
+                let sendUsersMessageRequestBody = ClientRuntime.HttpBody.data(sendUsersMessageRequestData)
+                input.builder.withBody(sendUsersMessageRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let sendUsersMessageRequestdata = "{}".data(using: .utf8)!
-                    let sendUsersMessageRequestbody = ClientRuntime.HttpBody.data(sendUsersMessageRequestdata)
-                    input.builder.withBody(sendUsersMessageRequestbody)
+                    let sendUsersMessageRequestData = "{}".data(using: .utf8)!
+                    let sendUsersMessageRequestBody = ClientRuntime.HttpBody.data(sendUsersMessageRequestData)
+                    input.builder.withBody(sendUsersMessageRequestBody)
                 }
             }
         } catch let err {
@@ -29186,13 +28815,9 @@ public enum SendUsersMessagesOutputError: Swift.Error, Swift.Equatable {
 
 extension SendUsersMessagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.SendUsersMessageResponse = try responseDecoder.decode(responseBody: data)
-                self.sendUsersMessageResponse = output
-            } else {
-                self.sendUsersMessageResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SendUsersMessageResponse = try responseDecoder.decode(responseBody: data)
+            self.sendUsersMessageResponse = output
         } else {
             self.sendUsersMessageResponse = nil
         }
@@ -29658,15 +29283,15 @@ public struct TagResourceInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let tagsModel = input.operationInput.tagsModel {
-                let tagsModeldata = try encoder.encode(tagsModel)
-                let tagsModelbody = ClientRuntime.HttpBody.data(tagsModeldata)
-                input.builder.withBody(tagsModelbody)
+                let tagsModelData = try encoder.encode(tagsModel)
+                let tagsModelBody = ClientRuntime.HttpBody.data(tagsModelData)
+                input.builder.withBody(tagsModelBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let tagsModeldata = "{}".data(using: .utf8)!
-                    let tagsModelbody = ClientRuntime.HttpBody.data(tagsModeldata)
-                    input.builder.withBody(tagsModelbody)
+                    let tagsModelData = "{}".data(using: .utf8)!
+                    let tagsModelBody = ClientRuntime.HttpBody.data(tagsModelData)
+                    input.builder.withBody(tagsModelBody)
                 }
             }
         } catch let err {
@@ -30423,9 +30048,8 @@ extension PinpointClientTypes {
 
 extension TooManyRequestsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -30735,15 +30359,15 @@ public struct UpdateAdmChannelInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let admChannelRequest = input.operationInput.admChannelRequest {
-                let admChannelRequestdata = try encoder.encode(admChannelRequest)
-                let admChannelRequestbody = ClientRuntime.HttpBody.data(admChannelRequestdata)
-                input.builder.withBody(admChannelRequestbody)
+                let admChannelRequestData = try encoder.encode(admChannelRequest)
+                let admChannelRequestBody = ClientRuntime.HttpBody.data(admChannelRequestData)
+                input.builder.withBody(admChannelRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let admChannelRequestdata = "{}".data(using: .utf8)!
-                    let admChannelRequestbody = ClientRuntime.HttpBody.data(admChannelRequestdata)
-                    input.builder.withBody(admChannelRequestbody)
+                    let admChannelRequestData = "{}".data(using: .utf8)!
+                    let admChannelRequestBody = ClientRuntime.HttpBody.data(admChannelRequestData)
+                    input.builder.withBody(admChannelRequestBody)
                 }
             }
         } catch let err {
@@ -30849,13 +30473,9 @@ public enum UpdateAdmChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateAdmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.admChannelResponse = output
-            } else {
-                self.admChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.admChannelResponse = output
         } else {
             self.admChannelResponse = nil
         }
@@ -30907,15 +30527,15 @@ public struct UpdateApnsChannelInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let apnsChannelRequest = input.operationInput.apnsChannelRequest {
-                let apnsChannelRequestdata = try encoder.encode(apnsChannelRequest)
-                let apnsChannelRequestbody = ClientRuntime.HttpBody.data(apnsChannelRequestdata)
-                input.builder.withBody(apnsChannelRequestbody)
+                let apnsChannelRequestData = try encoder.encode(apnsChannelRequest)
+                let apnsChannelRequestBody = ClientRuntime.HttpBody.data(apnsChannelRequestData)
+                input.builder.withBody(apnsChannelRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let apnsChannelRequestdata = "{}".data(using: .utf8)!
-                    let apnsChannelRequestbody = ClientRuntime.HttpBody.data(apnsChannelRequestdata)
-                    input.builder.withBody(apnsChannelRequestbody)
+                    let apnsChannelRequestData = "{}".data(using: .utf8)!
+                    let apnsChannelRequestBody = ClientRuntime.HttpBody.data(apnsChannelRequestData)
+                    input.builder.withBody(apnsChannelRequestBody)
                 }
             }
         } catch let err {
@@ -31021,13 +30641,9 @@ public enum UpdateApnsChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateApnsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.apnsChannelResponse = output
-            } else {
-                self.apnsChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsChannelResponse = output
         } else {
             self.apnsChannelResponse = nil
         }
@@ -31079,15 +30695,15 @@ public struct UpdateApnsSandboxChannelInputBodyMiddleware: ClientRuntime.Middlew
         do {
             let encoder = context.getEncoder()
             if let apnsSandboxChannelRequest = input.operationInput.apnsSandboxChannelRequest {
-                let apnsSandboxChannelRequestdata = try encoder.encode(apnsSandboxChannelRequest)
-                let apnsSandboxChannelRequestbody = ClientRuntime.HttpBody.data(apnsSandboxChannelRequestdata)
-                input.builder.withBody(apnsSandboxChannelRequestbody)
+                let apnsSandboxChannelRequestData = try encoder.encode(apnsSandboxChannelRequest)
+                let apnsSandboxChannelRequestBody = ClientRuntime.HttpBody.data(apnsSandboxChannelRequestData)
+                input.builder.withBody(apnsSandboxChannelRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let apnsSandboxChannelRequestdata = "{}".data(using: .utf8)!
-                    let apnsSandboxChannelRequestbody = ClientRuntime.HttpBody.data(apnsSandboxChannelRequestdata)
-                    input.builder.withBody(apnsSandboxChannelRequestbody)
+                    let apnsSandboxChannelRequestData = "{}".data(using: .utf8)!
+                    let apnsSandboxChannelRequestBody = ClientRuntime.HttpBody.data(apnsSandboxChannelRequestData)
+                    input.builder.withBody(apnsSandboxChannelRequestBody)
                 }
             }
         } catch let err {
@@ -31193,13 +30809,9 @@ public enum UpdateApnsSandboxChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateApnsSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.apnsSandboxChannelResponse = output
-            } else {
-                self.apnsSandboxChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsSandboxChannelResponse = output
         } else {
             self.apnsSandboxChannelResponse = nil
         }
@@ -31251,15 +30863,15 @@ public struct UpdateApnsVoipChannelInputBodyMiddleware: ClientRuntime.Middleware
         do {
             let encoder = context.getEncoder()
             if let apnsVoipChannelRequest = input.operationInput.apnsVoipChannelRequest {
-                let apnsVoipChannelRequestdata = try encoder.encode(apnsVoipChannelRequest)
-                let apnsVoipChannelRequestbody = ClientRuntime.HttpBody.data(apnsVoipChannelRequestdata)
-                input.builder.withBody(apnsVoipChannelRequestbody)
+                let apnsVoipChannelRequestData = try encoder.encode(apnsVoipChannelRequest)
+                let apnsVoipChannelRequestBody = ClientRuntime.HttpBody.data(apnsVoipChannelRequestData)
+                input.builder.withBody(apnsVoipChannelRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let apnsVoipChannelRequestdata = "{}".data(using: .utf8)!
-                    let apnsVoipChannelRequestbody = ClientRuntime.HttpBody.data(apnsVoipChannelRequestdata)
-                    input.builder.withBody(apnsVoipChannelRequestbody)
+                    let apnsVoipChannelRequestData = "{}".data(using: .utf8)!
+                    let apnsVoipChannelRequestBody = ClientRuntime.HttpBody.data(apnsVoipChannelRequestData)
+                    input.builder.withBody(apnsVoipChannelRequestBody)
                 }
             }
         } catch let err {
@@ -31365,13 +30977,9 @@ public enum UpdateApnsVoipChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateApnsVoipChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.apnsVoipChannelResponse = output
-            } else {
-                self.apnsVoipChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsVoipChannelResponse = output
         } else {
             self.apnsVoipChannelResponse = nil
         }
@@ -31423,15 +31031,15 @@ public struct UpdateApnsVoipSandboxChannelInputBodyMiddleware: ClientRuntime.Mid
         do {
             let encoder = context.getEncoder()
             if let apnsVoipSandboxChannelRequest = input.operationInput.apnsVoipSandboxChannelRequest {
-                let apnsVoipSandboxChannelRequestdata = try encoder.encode(apnsVoipSandboxChannelRequest)
-                let apnsVoipSandboxChannelRequestbody = ClientRuntime.HttpBody.data(apnsVoipSandboxChannelRequestdata)
-                input.builder.withBody(apnsVoipSandboxChannelRequestbody)
+                let apnsVoipSandboxChannelRequestData = try encoder.encode(apnsVoipSandboxChannelRequest)
+                let apnsVoipSandboxChannelRequestBody = ClientRuntime.HttpBody.data(apnsVoipSandboxChannelRequestData)
+                input.builder.withBody(apnsVoipSandboxChannelRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let apnsVoipSandboxChannelRequestdata = "{}".data(using: .utf8)!
-                    let apnsVoipSandboxChannelRequestbody = ClientRuntime.HttpBody.data(apnsVoipSandboxChannelRequestdata)
-                    input.builder.withBody(apnsVoipSandboxChannelRequestbody)
+                    let apnsVoipSandboxChannelRequestData = "{}".data(using: .utf8)!
+                    let apnsVoipSandboxChannelRequestBody = ClientRuntime.HttpBody.data(apnsVoipSandboxChannelRequestData)
+                    input.builder.withBody(apnsVoipSandboxChannelRequestBody)
                 }
             }
         } catch let err {
@@ -31537,13 +31145,9 @@ public enum UpdateApnsVoipSandboxChannelOutputError: Swift.Error, Swift.Equatabl
 
 extension UpdateApnsVoipSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.apnsVoipSandboxChannelResponse = output
-            } else {
-                self.apnsVoipSandboxChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsVoipSandboxChannelResponse = output
         } else {
             self.apnsVoipSandboxChannelResponse = nil
         }
@@ -31595,15 +31199,15 @@ public struct UpdateApplicationSettingsInputBodyMiddleware: ClientRuntime.Middle
         do {
             let encoder = context.getEncoder()
             if let writeApplicationSettingsRequest = input.operationInput.writeApplicationSettingsRequest {
-                let writeApplicationSettingsRequestdata = try encoder.encode(writeApplicationSettingsRequest)
-                let writeApplicationSettingsRequestbody = ClientRuntime.HttpBody.data(writeApplicationSettingsRequestdata)
-                input.builder.withBody(writeApplicationSettingsRequestbody)
+                let writeApplicationSettingsRequestData = try encoder.encode(writeApplicationSettingsRequest)
+                let writeApplicationSettingsRequestBody = ClientRuntime.HttpBody.data(writeApplicationSettingsRequestData)
+                input.builder.withBody(writeApplicationSettingsRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let writeApplicationSettingsRequestdata = "{}".data(using: .utf8)!
-                    let writeApplicationSettingsRequestbody = ClientRuntime.HttpBody.data(writeApplicationSettingsRequestdata)
-                    input.builder.withBody(writeApplicationSettingsRequestbody)
+                    let writeApplicationSettingsRequestData = "{}".data(using: .utf8)!
+                    let writeApplicationSettingsRequestBody = ClientRuntime.HttpBody.data(writeApplicationSettingsRequestData)
+                    input.builder.withBody(writeApplicationSettingsRequestBody)
                 }
             }
         } catch let err {
@@ -31709,13 +31313,9 @@ public enum UpdateApplicationSettingsOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateApplicationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.ApplicationSettingsResource = try responseDecoder.decode(responseBody: data)
-                self.applicationSettingsResource = output
-            } else {
-                self.applicationSettingsResource = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationSettingsResource = try responseDecoder.decode(responseBody: data)
+            self.applicationSettingsResource = output
         } else {
             self.applicationSettingsResource = nil
         }
@@ -31814,15 +31414,15 @@ public struct UpdateBaiduChannelInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let baiduChannelRequest = input.operationInput.baiduChannelRequest {
-                let baiduChannelRequestdata = try encoder.encode(baiduChannelRequest)
-                let baiduChannelRequestbody = ClientRuntime.HttpBody.data(baiduChannelRequestdata)
-                input.builder.withBody(baiduChannelRequestbody)
+                let baiduChannelRequestData = try encoder.encode(baiduChannelRequest)
+                let baiduChannelRequestBody = ClientRuntime.HttpBody.data(baiduChannelRequestData)
+                input.builder.withBody(baiduChannelRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let baiduChannelRequestdata = "{}".data(using: .utf8)!
-                    let baiduChannelRequestbody = ClientRuntime.HttpBody.data(baiduChannelRequestdata)
-                    input.builder.withBody(baiduChannelRequestbody)
+                    let baiduChannelRequestData = "{}".data(using: .utf8)!
+                    let baiduChannelRequestBody = ClientRuntime.HttpBody.data(baiduChannelRequestData)
+                    input.builder.withBody(baiduChannelRequestBody)
                 }
             }
         } catch let err {
@@ -31928,13 +31528,9 @@ public enum UpdateBaiduChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateBaiduChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.baiduChannelResponse = output
-            } else {
-                self.baiduChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.baiduChannelResponse = output
         } else {
             self.baiduChannelResponse = nil
         }
@@ -31986,15 +31582,15 @@ public struct UpdateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let writeCampaignRequest = input.operationInput.writeCampaignRequest {
-                let writeCampaignRequestdata = try encoder.encode(writeCampaignRequest)
-                let writeCampaignRequestbody = ClientRuntime.HttpBody.data(writeCampaignRequestdata)
-                input.builder.withBody(writeCampaignRequestbody)
+                let writeCampaignRequestData = try encoder.encode(writeCampaignRequest)
+                let writeCampaignRequestBody = ClientRuntime.HttpBody.data(writeCampaignRequestData)
+                input.builder.withBody(writeCampaignRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let writeCampaignRequestdata = "{}".data(using: .utf8)!
-                    let writeCampaignRequestbody = ClientRuntime.HttpBody.data(writeCampaignRequestdata)
-                    input.builder.withBody(writeCampaignRequestbody)
+                    let writeCampaignRequestData = "{}".data(using: .utf8)!
+                    let writeCampaignRequestBody = ClientRuntime.HttpBody.data(writeCampaignRequestData)
+                    input.builder.withBody(writeCampaignRequestBody)
                 }
             }
         } catch let err {
@@ -32108,13 +31704,9 @@ public enum UpdateCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
-                self.campaignResponse = output
-            } else {
-                self.campaignResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignResponse = output
         } else {
             self.campaignResponse = nil
         }
@@ -32166,15 +31758,15 @@ public struct UpdateEmailChannelInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let emailChannelRequest = input.operationInput.emailChannelRequest {
-                let emailChannelRequestdata = try encoder.encode(emailChannelRequest)
-                let emailChannelRequestbody = ClientRuntime.HttpBody.data(emailChannelRequestdata)
-                input.builder.withBody(emailChannelRequestbody)
+                let emailChannelRequestData = try encoder.encode(emailChannelRequest)
+                let emailChannelRequestBody = ClientRuntime.HttpBody.data(emailChannelRequestData)
+                input.builder.withBody(emailChannelRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let emailChannelRequestdata = "{}".data(using: .utf8)!
-                    let emailChannelRequestbody = ClientRuntime.HttpBody.data(emailChannelRequestdata)
-                    input.builder.withBody(emailChannelRequestbody)
+                    let emailChannelRequestData = "{}".data(using: .utf8)!
+                    let emailChannelRequestBody = ClientRuntime.HttpBody.data(emailChannelRequestData)
+                    input.builder.withBody(emailChannelRequestBody)
                 }
             }
         } catch let err {
@@ -32280,13 +31872,9 @@ public enum UpdateEmailChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateEmailChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.emailChannelResponse = output
-            } else {
-                self.emailChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.emailChannelResponse = output
         } else {
             self.emailChannelResponse = nil
         }
@@ -32338,15 +31926,15 @@ public struct UpdateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let emailTemplateRequest = input.operationInput.emailTemplateRequest {
-                let emailTemplateRequestdata = try encoder.encode(emailTemplateRequest)
-                let emailTemplateRequestbody = ClientRuntime.HttpBody.data(emailTemplateRequestdata)
-                input.builder.withBody(emailTemplateRequestbody)
+                let emailTemplateRequestData = try encoder.encode(emailTemplateRequest)
+                let emailTemplateRequestBody = ClientRuntime.HttpBody.data(emailTemplateRequestData)
+                input.builder.withBody(emailTemplateRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let emailTemplateRequestdata = "{}".data(using: .utf8)!
-                    let emailTemplateRequestbody = ClientRuntime.HttpBody.data(emailTemplateRequestdata)
-                    input.builder.withBody(emailTemplateRequestbody)
+                    let emailTemplateRequestData = "{}".data(using: .utf8)!
+                    let emailTemplateRequestBody = ClientRuntime.HttpBody.data(emailTemplateRequestData)
+                    input.builder.withBody(emailTemplateRequestBody)
                 }
             }
         } catch let err {
@@ -32483,13 +32071,9 @@ public enum UpdateEmailTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -32541,15 +32125,15 @@ public struct UpdateEndpointInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let endpointRequest = input.operationInput.endpointRequest {
-                let endpointRequestdata = try encoder.encode(endpointRequest)
-                let endpointRequestbody = ClientRuntime.HttpBody.data(endpointRequestdata)
-                input.builder.withBody(endpointRequestbody)
+                let endpointRequestData = try encoder.encode(endpointRequest)
+                let endpointRequestBody = ClientRuntime.HttpBody.data(endpointRequestData)
+                input.builder.withBody(endpointRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let endpointRequestdata = "{}".data(using: .utf8)!
-                    let endpointRequestbody = ClientRuntime.HttpBody.data(endpointRequestdata)
-                    input.builder.withBody(endpointRequestbody)
+                    let endpointRequestData = "{}".data(using: .utf8)!
+                    let endpointRequestBody = ClientRuntime.HttpBody.data(endpointRequestData)
+                    input.builder.withBody(endpointRequestBody)
                 }
             }
         } catch let err {
@@ -32663,13 +32247,9 @@ public enum UpdateEndpointOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -32721,15 +32301,15 @@ public struct UpdateEndpointsBatchInputBodyMiddleware: ClientRuntime.Middleware 
         do {
             let encoder = context.getEncoder()
             if let endpointBatchRequest = input.operationInput.endpointBatchRequest {
-                let endpointBatchRequestdata = try encoder.encode(endpointBatchRequest)
-                let endpointBatchRequestbody = ClientRuntime.HttpBody.data(endpointBatchRequestdata)
-                input.builder.withBody(endpointBatchRequestbody)
+                let endpointBatchRequestData = try encoder.encode(endpointBatchRequest)
+                let endpointBatchRequestBody = ClientRuntime.HttpBody.data(endpointBatchRequestData)
+                input.builder.withBody(endpointBatchRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let endpointBatchRequestdata = "{}".data(using: .utf8)!
-                    let endpointBatchRequestbody = ClientRuntime.HttpBody.data(endpointBatchRequestdata)
-                    input.builder.withBody(endpointBatchRequestbody)
+                    let endpointBatchRequestData = "{}".data(using: .utf8)!
+                    let endpointBatchRequestBody = ClientRuntime.HttpBody.data(endpointBatchRequestData)
+                    input.builder.withBody(endpointBatchRequestBody)
                 }
             }
         } catch let err {
@@ -32835,13 +32415,9 @@ public enum UpdateEndpointsBatchOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateEndpointsBatchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -32893,15 +32469,15 @@ public struct UpdateGcmChannelInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let gcmChannelRequest = input.operationInput.gcmChannelRequest {
-                let gcmChannelRequestdata = try encoder.encode(gcmChannelRequest)
-                let gcmChannelRequestbody = ClientRuntime.HttpBody.data(gcmChannelRequestdata)
-                input.builder.withBody(gcmChannelRequestbody)
+                let gcmChannelRequestData = try encoder.encode(gcmChannelRequest)
+                let gcmChannelRequestBody = ClientRuntime.HttpBody.data(gcmChannelRequestData)
+                input.builder.withBody(gcmChannelRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let gcmChannelRequestdata = "{}".data(using: .utf8)!
-                    let gcmChannelRequestbody = ClientRuntime.HttpBody.data(gcmChannelRequestdata)
-                    input.builder.withBody(gcmChannelRequestbody)
+                    let gcmChannelRequestData = "{}".data(using: .utf8)!
+                    let gcmChannelRequestBody = ClientRuntime.HttpBody.data(gcmChannelRequestData)
+                    input.builder.withBody(gcmChannelRequestBody)
                 }
             }
         } catch let err {
@@ -33007,13 +32583,9 @@ public enum UpdateGcmChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGcmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.gcmChannelResponse = output
-            } else {
-                self.gcmChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.gcmChannelResponse = output
         } else {
             self.gcmChannelResponse = nil
         }
@@ -33065,15 +32637,15 @@ public struct UpdateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let inAppTemplateRequest = input.operationInput.inAppTemplateRequest {
-                let inAppTemplateRequestdata = try encoder.encode(inAppTemplateRequest)
-                let inAppTemplateRequestbody = ClientRuntime.HttpBody.data(inAppTemplateRequestdata)
-                input.builder.withBody(inAppTemplateRequestbody)
+                let inAppTemplateRequestData = try encoder.encode(inAppTemplateRequest)
+                let inAppTemplateRequestBody = ClientRuntime.HttpBody.data(inAppTemplateRequestData)
+                input.builder.withBody(inAppTemplateRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let inAppTemplateRequestdata = "{}".data(using: .utf8)!
-                    let inAppTemplateRequestbody = ClientRuntime.HttpBody.data(inAppTemplateRequestdata)
-                    input.builder.withBody(inAppTemplateRequestbody)
+                    let inAppTemplateRequestData = "{}".data(using: .utf8)!
+                    let inAppTemplateRequestBody = ClientRuntime.HttpBody.data(inAppTemplateRequestData)
+                    input.builder.withBody(inAppTemplateRequestBody)
                 }
             }
         } catch let err {
@@ -33210,13 +32782,9 @@ public enum UpdateInAppTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateInAppTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -33268,15 +32836,15 @@ public struct UpdateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let writeJourneyRequest = input.operationInput.writeJourneyRequest {
-                let writeJourneyRequestdata = try encoder.encode(writeJourneyRequest)
-                let writeJourneyRequestbody = ClientRuntime.HttpBody.data(writeJourneyRequestdata)
-                input.builder.withBody(writeJourneyRequestbody)
+                let writeJourneyRequestData = try encoder.encode(writeJourneyRequest)
+                let writeJourneyRequestBody = ClientRuntime.HttpBody.data(writeJourneyRequestData)
+                input.builder.withBody(writeJourneyRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let writeJourneyRequestdata = "{}".data(using: .utf8)!
-                    let writeJourneyRequestbody = ClientRuntime.HttpBody.data(writeJourneyRequestdata)
-                    input.builder.withBody(writeJourneyRequestbody)
+                    let writeJourneyRequestData = "{}".data(using: .utf8)!
+                    let writeJourneyRequestBody = ClientRuntime.HttpBody.data(writeJourneyRequestData)
+                    input.builder.withBody(writeJourneyRequestBody)
                 }
             }
         } catch let err {
@@ -33392,13 +32960,9 @@ public enum UpdateJourneyOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateJourneyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
-                self.journeyResponse = output
-            } else {
-                self.journeyResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyResponse = output
         } else {
             self.journeyResponse = nil
         }
@@ -33450,15 +33014,15 @@ public struct UpdateJourneyStateInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let journeyStateRequest = input.operationInput.journeyStateRequest {
-                let journeyStateRequestdata = try encoder.encode(journeyStateRequest)
-                let journeyStateRequestbody = ClientRuntime.HttpBody.data(journeyStateRequestdata)
-                input.builder.withBody(journeyStateRequestbody)
+                let journeyStateRequestData = try encoder.encode(journeyStateRequest)
+                let journeyStateRequestBody = ClientRuntime.HttpBody.data(journeyStateRequestData)
+                input.builder.withBody(journeyStateRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let journeyStateRequestdata = "{}".data(using: .utf8)!
-                    let journeyStateRequestbody = ClientRuntime.HttpBody.data(journeyStateRequestdata)
-                    input.builder.withBody(journeyStateRequestbody)
+                    let journeyStateRequestData = "{}".data(using: .utf8)!
+                    let journeyStateRequestBody = ClientRuntime.HttpBody.data(journeyStateRequestData)
+                    input.builder.withBody(journeyStateRequestBody)
                 }
             }
         } catch let err {
@@ -33572,13 +33136,9 @@ public enum UpdateJourneyStateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateJourneyStateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
-                self.journeyResponse = output
-            } else {
-                self.journeyResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyResponse = output
         } else {
             self.journeyResponse = nil
         }
@@ -33630,15 +33190,15 @@ public struct UpdatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let pushNotificationTemplateRequest = input.operationInput.pushNotificationTemplateRequest {
-                let pushNotificationTemplateRequestdata = try encoder.encode(pushNotificationTemplateRequest)
-                let pushNotificationTemplateRequestbody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestdata)
-                input.builder.withBody(pushNotificationTemplateRequestbody)
+                let pushNotificationTemplateRequestData = try encoder.encode(pushNotificationTemplateRequest)
+                let pushNotificationTemplateRequestBody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestData)
+                input.builder.withBody(pushNotificationTemplateRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let pushNotificationTemplateRequestdata = "{}".data(using: .utf8)!
-                    let pushNotificationTemplateRequestbody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestdata)
-                    input.builder.withBody(pushNotificationTemplateRequestbody)
+                    let pushNotificationTemplateRequestData = "{}".data(using: .utf8)!
+                    let pushNotificationTemplateRequestBody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestData)
+                    input.builder.withBody(pushNotificationTemplateRequestBody)
                 }
             }
         } catch let err {
@@ -33775,13 +33335,9 @@ public enum UpdatePushTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePushTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -33833,15 +33389,15 @@ public struct UpdateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.M
         do {
             let encoder = context.getEncoder()
             if let updateRecommenderConfiguration = input.operationInput.updateRecommenderConfiguration {
-                let updateRecommenderConfigurationdata = try encoder.encode(updateRecommenderConfiguration)
-                let updateRecommenderConfigurationbody = ClientRuntime.HttpBody.data(updateRecommenderConfigurationdata)
-                input.builder.withBody(updateRecommenderConfigurationbody)
+                let updateRecommenderConfigurationData = try encoder.encode(updateRecommenderConfiguration)
+                let updateRecommenderConfigurationBody = ClientRuntime.HttpBody.data(updateRecommenderConfigurationData)
+                input.builder.withBody(updateRecommenderConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let updateRecommenderConfigurationdata = "{}".data(using: .utf8)!
-                    let updateRecommenderConfigurationbody = ClientRuntime.HttpBody.data(updateRecommenderConfigurationdata)
-                    input.builder.withBody(updateRecommenderConfigurationbody)
+                    let updateRecommenderConfigurationData = "{}".data(using: .utf8)!
+                    let updateRecommenderConfigurationBody = ClientRuntime.HttpBody.data(updateRecommenderConfigurationData)
+                    input.builder.withBody(updateRecommenderConfigurationBody)
                 }
             }
         } catch let err {
@@ -33947,13 +33503,9 @@ public enum UpdateRecommenderConfigurationOutputError: Swift.Error, Swift.Equata
 
 extension UpdateRecommenderConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
-                self.recommenderConfigurationResponse = output
-            } else {
-                self.recommenderConfigurationResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
+            self.recommenderConfigurationResponse = output
         } else {
             self.recommenderConfigurationResponse = nil
         }
@@ -34145,15 +33697,15 @@ public struct UpdateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let writeSegmentRequest = input.operationInput.writeSegmentRequest {
-                let writeSegmentRequestdata = try encoder.encode(writeSegmentRequest)
-                let writeSegmentRequestbody = ClientRuntime.HttpBody.data(writeSegmentRequestdata)
-                input.builder.withBody(writeSegmentRequestbody)
+                let writeSegmentRequestData = try encoder.encode(writeSegmentRequest)
+                let writeSegmentRequestBody = ClientRuntime.HttpBody.data(writeSegmentRequestData)
+                input.builder.withBody(writeSegmentRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let writeSegmentRequestdata = "{}".data(using: .utf8)!
-                    let writeSegmentRequestbody = ClientRuntime.HttpBody.data(writeSegmentRequestdata)
-                    input.builder.withBody(writeSegmentRequestbody)
+                    let writeSegmentRequestData = "{}".data(using: .utf8)!
+                    let writeSegmentRequestBody = ClientRuntime.HttpBody.data(writeSegmentRequestData)
+                    input.builder.withBody(writeSegmentRequestBody)
                 }
             }
         } catch let err {
@@ -34267,13 +33819,9 @@ public enum UpdateSegmentOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSegmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
-                self.segmentResponse = output
-            } else {
-                self.segmentResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentResponse = output
         } else {
             self.segmentResponse = nil
         }
@@ -34325,15 +33873,15 @@ public struct UpdateSmsChannelInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let smsChannelRequest = input.operationInput.smsChannelRequest {
-                let smsChannelRequestdata = try encoder.encode(smsChannelRequest)
-                let smsChannelRequestbody = ClientRuntime.HttpBody.data(smsChannelRequestdata)
-                input.builder.withBody(smsChannelRequestbody)
+                let smsChannelRequestData = try encoder.encode(smsChannelRequest)
+                let smsChannelRequestBody = ClientRuntime.HttpBody.data(smsChannelRequestData)
+                input.builder.withBody(smsChannelRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let smsChannelRequestdata = "{}".data(using: .utf8)!
-                    let smsChannelRequestbody = ClientRuntime.HttpBody.data(smsChannelRequestdata)
-                    input.builder.withBody(smsChannelRequestbody)
+                    let smsChannelRequestData = "{}".data(using: .utf8)!
+                    let smsChannelRequestBody = ClientRuntime.HttpBody.data(smsChannelRequestData)
+                    input.builder.withBody(smsChannelRequestBody)
                 }
             }
         } catch let err {
@@ -34439,13 +33987,9 @@ public enum UpdateSmsChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSmsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.smsChannelResponse = output
-            } else {
-                self.smsChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.smsChannelResponse = output
         } else {
             self.smsChannelResponse = nil
         }
@@ -34497,15 +34041,15 @@ public struct UpdateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let smsTemplateRequest = input.operationInput.smsTemplateRequest {
-                let smsTemplateRequestdata = try encoder.encode(smsTemplateRequest)
-                let smsTemplateRequestbody = ClientRuntime.HttpBody.data(smsTemplateRequestdata)
-                input.builder.withBody(smsTemplateRequestbody)
+                let smsTemplateRequestData = try encoder.encode(smsTemplateRequest)
+                let smsTemplateRequestBody = ClientRuntime.HttpBody.data(smsTemplateRequestData)
+                input.builder.withBody(smsTemplateRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let smsTemplateRequestdata = "{}".data(using: .utf8)!
-                    let smsTemplateRequestbody = ClientRuntime.HttpBody.data(smsTemplateRequestdata)
-                    input.builder.withBody(smsTemplateRequestbody)
+                    let smsTemplateRequestData = "{}".data(using: .utf8)!
+                    let smsTemplateRequestBody = ClientRuntime.HttpBody.data(smsTemplateRequestData)
+                    input.builder.withBody(smsTemplateRequestBody)
                 }
             }
         } catch let err {
@@ -34642,13 +34186,9 @@ public enum UpdateSmsTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -34700,15 +34240,15 @@ public struct UpdateTemplateActiveVersionInputBodyMiddleware: ClientRuntime.Midd
         do {
             let encoder = context.getEncoder()
             if let templateActiveVersionRequest = input.operationInput.templateActiveVersionRequest {
-                let templateActiveVersionRequestdata = try encoder.encode(templateActiveVersionRequest)
-                let templateActiveVersionRequestbody = ClientRuntime.HttpBody.data(templateActiveVersionRequestdata)
-                input.builder.withBody(templateActiveVersionRequestbody)
+                let templateActiveVersionRequestData = try encoder.encode(templateActiveVersionRequest)
+                let templateActiveVersionRequestBody = ClientRuntime.HttpBody.data(templateActiveVersionRequestData)
+                input.builder.withBody(templateActiveVersionRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let templateActiveVersionRequestdata = "{}".data(using: .utf8)!
-                    let templateActiveVersionRequestbody = ClientRuntime.HttpBody.data(templateActiveVersionRequestdata)
-                    input.builder.withBody(templateActiveVersionRequestbody)
+                    let templateActiveVersionRequestData = "{}".data(using: .utf8)!
+                    let templateActiveVersionRequestBody = ClientRuntime.HttpBody.data(templateActiveVersionRequestData)
+                    input.builder.withBody(templateActiveVersionRequestBody)
                 }
             }
         } catch let err {
@@ -34822,13 +34362,9 @@ public enum UpdateTemplateActiveVersionOutputError: Swift.Error, Swift.Equatable
 
 extension UpdateTemplateActiveVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -34880,15 +34416,15 @@ public struct UpdateVoiceChannelInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let voiceChannelRequest = input.operationInput.voiceChannelRequest {
-                let voiceChannelRequestdata = try encoder.encode(voiceChannelRequest)
-                let voiceChannelRequestbody = ClientRuntime.HttpBody.data(voiceChannelRequestdata)
-                input.builder.withBody(voiceChannelRequestbody)
+                let voiceChannelRequestData = try encoder.encode(voiceChannelRequest)
+                let voiceChannelRequestBody = ClientRuntime.HttpBody.data(voiceChannelRequestData)
+                input.builder.withBody(voiceChannelRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let voiceChannelRequestdata = "{}".data(using: .utf8)!
-                    let voiceChannelRequestbody = ClientRuntime.HttpBody.data(voiceChannelRequestdata)
-                    input.builder.withBody(voiceChannelRequestbody)
+                    let voiceChannelRequestData = "{}".data(using: .utf8)!
+                    let voiceChannelRequestBody = ClientRuntime.HttpBody.data(voiceChannelRequestData)
+                    input.builder.withBody(voiceChannelRequestBody)
                 }
             }
         } catch let err {
@@ -34994,13 +34530,9 @@ public enum UpdateVoiceChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateVoiceChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
-                self.voiceChannelResponse = output
-            } else {
-                self.voiceChannelResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.voiceChannelResponse = output
         } else {
             self.voiceChannelResponse = nil
         }
@@ -35052,15 +34584,15 @@ public struct UpdateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let voiceTemplateRequest = input.operationInput.voiceTemplateRequest {
-                let voiceTemplateRequestdata = try encoder.encode(voiceTemplateRequest)
-                let voiceTemplateRequestbody = ClientRuntime.HttpBody.data(voiceTemplateRequestdata)
-                input.builder.withBody(voiceTemplateRequestbody)
+                let voiceTemplateRequestData = try encoder.encode(voiceTemplateRequest)
+                let voiceTemplateRequestBody = ClientRuntime.HttpBody.data(voiceTemplateRequestData)
+                input.builder.withBody(voiceTemplateRequestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let voiceTemplateRequestdata = "{}".data(using: .utf8)!
-                    let voiceTemplateRequestbody = ClientRuntime.HttpBody.data(voiceTemplateRequestdata)
-                    input.builder.withBody(voiceTemplateRequestbody)
+                    let voiceTemplateRequestData = "{}".data(using: .utf8)!
+                    let voiceTemplateRequestBody = ClientRuntime.HttpBody.data(voiceTemplateRequestData)
+                    input.builder.withBody(voiceTemplateRequestBody)
                 }
             }
         } catch let err {
@@ -35197,13 +34729,9 @@ public enum UpdateVoiceTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-                self.messageBody = output
-            } else {
-                self.messageBody = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
         } else {
             self.messageBody = nil
         }
@@ -35290,15 +34818,15 @@ public struct VerifyOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let verifyOTPMessageRequestParameters = input.operationInput.verifyOTPMessageRequestParameters {
-                let verifyOTPMessageRequestParametersdata = try encoder.encode(verifyOTPMessageRequestParameters)
-                let verifyOTPMessageRequestParametersbody = ClientRuntime.HttpBody.data(verifyOTPMessageRequestParametersdata)
-                input.builder.withBody(verifyOTPMessageRequestParametersbody)
+                let verifyOTPMessageRequestParametersData = try encoder.encode(verifyOTPMessageRequestParameters)
+                let verifyOTPMessageRequestParametersBody = ClientRuntime.HttpBody.data(verifyOTPMessageRequestParametersData)
+                input.builder.withBody(verifyOTPMessageRequestParametersBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let verifyOTPMessageRequestParametersdata = "{}".data(using: .utf8)!
-                    let verifyOTPMessageRequestParametersbody = ClientRuntime.HttpBody.data(verifyOTPMessageRequestParametersdata)
-                    input.builder.withBody(verifyOTPMessageRequestParametersbody)
+                    let verifyOTPMessageRequestParametersData = "{}".data(using: .utf8)!
+                    let verifyOTPMessageRequestParametersBody = ClientRuntime.HttpBody.data(verifyOTPMessageRequestParametersData)
+                    input.builder.withBody(verifyOTPMessageRequestParametersBody)
                 }
             }
         } catch let err {
@@ -35404,13 +34932,9 @@ public enum VerifyOTPMessageOutputError: Swift.Error, Swift.Equatable {
 
 extension VerifyOTPMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: PinpointClientTypes.VerificationResponse = try responseDecoder.decode(responseBody: data)
-                self.verificationResponse = output
-            } else {
-                self.verificationResponse = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.VerificationResponse = try responseDecoder.decode(responseBody: data)
+            self.verificationResponse = output
         } else {
             self.verificationResponse = nil
         }

@@ -686,9 +686,8 @@ public struct CancelJobOutputResponse: Swift.Equatable {
 
 extension ClientException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ClientExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2528,9 +2527,8 @@ public enum CreateComputeEnvironmentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateComputeEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateComputeEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.computeEnvironmentArn = output.computeEnvironmentArn
             self.computeEnvironmentName = output.computeEnvironmentName
@@ -2738,9 +2736,8 @@ public enum CreateJobQueueOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateJobQueueOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateJobQueueOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobQueueArn = output.jobQueueArn
             self.jobQueueName = output.jobQueueName
@@ -2900,9 +2897,8 @@ public enum CreateSchedulingPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSchedulingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSchedulingPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
@@ -3392,9 +3388,8 @@ public enum DescribeComputeEnvironmentsOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeComputeEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeComputeEnvironmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.computeEnvironments = output.computeEnvironments
             self.nextToken = output.nextToken
@@ -3584,9 +3579,8 @@ public enum DescribeJobDefinitionsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeJobDefinitionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeJobDefinitionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobDefinitions = output.jobDefinitions
             self.nextToken = output.nextToken
@@ -3752,9 +3746,8 @@ public enum DescribeJobQueuesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeJobQueuesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeJobQueuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobQueues = output.jobQueues
             self.nextToken = output.nextToken
@@ -3897,9 +3890,8 @@ public enum DescribeJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobs = output.jobs
         } else {
@@ -4032,9 +4024,8 @@ public enum DescribeSchedulingPoliciesOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeSchedulingPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSchedulingPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.schedulingPolicies = output.schedulingPolicies
         } else {
@@ -7648,9 +7639,8 @@ public enum ListJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobSummaryList = output.jobSummaryList
             self.nextToken = output.nextToken
@@ -7793,9 +7783,8 @@ public enum ListSchedulingPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSchedulingPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSchedulingPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.schedulingPolicies = output.schedulingPolicies
@@ -7909,9 +7898,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -8862,9 +8850,8 @@ public enum RegisterJobDefinitionOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterJobDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterJobDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobDefinitionArn = output.jobDefinitionArn
             self.jobDefinitionName = output.jobDefinitionName
@@ -9266,9 +9253,8 @@ extension BatchClientTypes {
 
 extension ServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9643,9 +9629,8 @@ public enum SubmitJobOutputError: Swift.Error, Swift.Equatable {
 
 extension SubmitJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SubmitJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobArn = output.jobArn
             self.jobId = output.jobId
@@ -10253,9 +10238,8 @@ public enum UpdateComputeEnvironmentOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateComputeEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateComputeEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.computeEnvironmentArn = output.computeEnvironmentArn
             self.computeEnvironmentName = output.computeEnvironmentName
@@ -10437,9 +10421,8 @@ public enum UpdateJobQueueOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateJobQueueOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateJobQueueOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobQueueArn = output.jobQueueArn
             self.jobQueueName = output.jobQueueName

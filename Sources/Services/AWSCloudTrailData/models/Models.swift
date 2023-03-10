@@ -108,9 +108,8 @@ extension CloudTrailDataClientTypes {
 
 extension ChannelInsufficientPermission {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ChannelInsufficientPermissionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -160,9 +159,8 @@ extension ChannelInsufficientPermissionBody: Swift.Decodable {
 
 extension ChannelNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ChannelNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -212,9 +210,8 @@ extension ChannelNotFoundBody: Swift.Decodable {
 
 extension ChannelUnsupportedSchema {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ChannelUnsupportedSchemaBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -264,9 +261,8 @@ extension ChannelUnsupportedSchemaBody: Swift.Decodable {
 
 extension DuplicatedAuditEventId {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DuplicatedAuditEventIdBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -316,9 +312,8 @@ extension DuplicatedAuditEventIdBody: Swift.Decodable {
 
 extension InvalidChannelARN {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidChannelARNBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -488,9 +483,8 @@ public enum PutAuditEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension PutAuditEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutAuditEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
             self.successful = output.successful
@@ -617,9 +611,8 @@ extension CloudTrailDataClientTypes {
 
 extension UnsupportedOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
