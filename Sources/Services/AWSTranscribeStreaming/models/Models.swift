@@ -184,9 +184,8 @@ extension BadRequestException: Swift.Codable {
 
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -803,9 +802,8 @@ extension ConflictException: Swift.Codable {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1049,9 +1047,8 @@ extension InternalFailureException: Swift.Codable {
 
 extension InternalFailureException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalFailureExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1405,9 +1402,8 @@ extension LimitExceededException: Swift.Codable {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2417,9 +2413,8 @@ extension ServiceUnavailableException: Swift.Codable {
 
 extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2527,15 +2522,15 @@ public struct StartCallAnalyticsStreamTranscriptionInputBodyMiddleware: ClientRu
         do {
             let encoder = context.getEncoder()
             if let audioStream = input.operationInput.audioStream {
-                let audioStreamdata = try encoder.encode(audioStream)
-                let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
-                input.builder.withBody(audioStreambody)
+                let audioStreamData = try encoder.encode(audioStream)
+                let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
+                input.builder.withBody(audioStreamBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let audioStreamdata = "{}".data(using: .utf8)!
-                    let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
-                    input.builder.withBody(audioStreambody)
+                    let audioStreamData = "{}".data(using: .utf8)!
+                    let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
+                    input.builder.withBody(audioStreamBody)
                 }
             }
         } catch let err {
@@ -2809,13 +2804,9 @@ extension StartCallAnalyticsStreamTranscriptionOutputResponse: ClientRuntime.Htt
         } else {
             self.vocabularyName = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream = try responseDecoder.decode(responseBody: data)
-                self.callAnalyticsTranscriptResultStream = output
-            } else {
-                self.callAnalyticsTranscriptResultStream = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream = try responseDecoder.decode(responseBody: data)
+            self.callAnalyticsTranscriptResultStream = output
         } else {
             self.callAnalyticsTranscriptResultStream = nil
         }
@@ -2922,15 +2913,15 @@ public struct StartMedicalStreamTranscriptionInputBodyMiddleware: ClientRuntime.
         do {
             let encoder = context.getEncoder()
             if let audioStream = input.operationInput.audioStream {
-                let audioStreamdata = try encoder.encode(audioStream)
-                let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
-                input.builder.withBody(audioStreambody)
+                let audioStreamData = try encoder.encode(audioStream)
+                let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
+                input.builder.withBody(audioStreamBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let audioStreamdata = "{}".data(using: .utf8)!
-                    let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
-                    input.builder.withBody(audioStreambody)
+                    let audioStreamData = "{}".data(using: .utf8)!
+                    let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
+                    input.builder.withBody(audioStreamBody)
                 }
             }
         } catch let err {
@@ -3182,13 +3173,9 @@ extension StartMedicalStreamTranscriptionOutputResponse: ClientRuntime.HttpRespo
         } else {
             self.vocabularyName = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: TranscribeStreamingClientTypes.MedicalTranscriptResultStream = try responseDecoder.decode(responseBody: data)
-                self.transcriptResultStream = output
-            } else {
-                self.transcriptResultStream = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: TranscribeStreamingClientTypes.MedicalTranscriptResultStream = try responseDecoder.decode(responseBody: data)
+            self.transcriptResultStream = output
         } else {
             self.transcriptResultStream = nil
         }
@@ -3287,15 +3274,15 @@ public struct StartStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middlew
         do {
             let encoder = context.getEncoder()
             if let audioStream = input.operationInput.audioStream {
-                let audioStreamdata = try encoder.encode(audioStream)
-                let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
-                input.builder.withBody(audioStreambody)
+                let audioStreamData = try encoder.encode(audioStream)
+                let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
+                input.builder.withBody(audioStreamBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let audioStreamdata = "{}".data(using: .utf8)!
-                    let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
-                    input.builder.withBody(audioStreambody)
+                    let audioStreamData = "{}".data(using: .utf8)!
+                    let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
+                    input.builder.withBody(audioStreamBody)
                 }
             }
         } catch let err {
@@ -3664,13 +3651,9 @@ extension StartStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBind
         } else {
             self.vocabularyNames = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: TranscribeStreamingClientTypes.TranscriptResultStream = try responseDecoder.decode(responseBody: data)
-                self.transcriptResultStream = output
-            } else {
-                self.transcriptResultStream = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: TranscribeStreamingClientTypes.TranscriptResultStream = try responseDecoder.decode(responseBody: data)
+            self.transcriptResultStream = output
         } else {
             self.transcriptResultStream = nil
         }

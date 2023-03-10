@@ -150,9 +150,8 @@ public enum BatchPutMetricsOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchPutMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchPutMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {

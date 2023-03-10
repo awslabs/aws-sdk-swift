@@ -21,7 +21,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                 headers: [
                     "Content-Type": "application/xml"
                 ],
-                content: HttpBody.stream(ByteStream.from(data:"""
+                content: HttpBody(byteStream: ByteStream.from(data:"""
                 <ErrorResponse>
                    <Error>
                       <Type>Sender</Type>
@@ -66,7 +66,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     "Content-Type": "application/xml",
                     "X-Header": "Header"
                 ],
-                content: HttpBody.stream(ByteStream.from(data:"""
+                content: HttpBody(byteStream: ByteStream.from(data:"""
                 <ErrorResponse>
                    <Error>
                       <Type>Sender</Type>
@@ -121,7 +121,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     "Content-Type": "application/xml",
                     "X-Header": "Header"
                 ],
-                content: HttpBody.stream(ByteStream.from(data:"""
+                content: HttpBody(byteStream: ByteStream.from(data:"""
                    <Error>
                       <Type>Sender</Type>
                       <Code>ComplexXMLErrorNoErrorWrapping</Code>
@@ -173,7 +173,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     "Content-Type": "application/xml",
                     "X-Header": "Header"
                 ],
-                content: HttpBody.stream(ByteStream.from(data:"""
+                content: HttpBody(byteStream: ByteStream.from(data:"""
                 <?xml version="1.0" encoding="UTF-8"?>
                 <Error>
                     <Code>AccessDenied</Code>

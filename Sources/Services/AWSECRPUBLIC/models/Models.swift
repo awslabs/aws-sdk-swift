@@ -164,9 +164,8 @@ public enum BatchCheckLayerAvailabilityOutputError: Swift.Error, Swift.Equatable
 
 extension BatchCheckLayerAvailabilityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchCheckLayerAvailabilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failures = output.failures
             self.layers = output.layers
@@ -346,9 +345,8 @@ public enum BatchDeleteImageOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchDeleteImageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDeleteImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failures = output.failures
             self.imageIds = output.imageIds
@@ -553,9 +551,8 @@ public enum CompleteLayerUploadOutputError: Swift.Error, Swift.Equatable {
 
 extension CompleteLayerUploadOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CompleteLayerUploadOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.layerDigest = output.layerDigest
             self.registryId = output.registryId
@@ -742,9 +739,8 @@ public enum CreateRepositoryOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.catalogData = output.catalogData
             self.repository = output.repository
@@ -895,9 +891,8 @@ public enum DeleteRepositoryOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.repository = output.repository
         } else {
@@ -1026,9 +1021,8 @@ public enum DeleteRepositoryPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteRepositoryPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteRepositoryPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyText = output.policyText
             self.registryId = output.registryId
@@ -1199,9 +1193,8 @@ public enum DescribeImageTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeImageTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeImageTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageTagDetails = output.imageTagDetails
             self.nextToken = output.nextToken
@@ -1397,9 +1390,8 @@ public enum DescribeImagesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeImagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeImagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageDetails = output.imageDetails
             self.nextToken = output.nextToken
@@ -1542,9 +1534,8 @@ public enum DescribeRegistriesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRegistriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRegistriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.registries = output.registries
@@ -1726,9 +1717,8 @@ public enum DescribeRepositoriesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.repositories = output.repositories
@@ -1786,9 +1776,8 @@ extension DescribeRepositoriesOutputResponseBody: Swift.Decodable {
 
 extension EmptyUploadException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EmptyUploadExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1892,9 +1881,8 @@ public enum GetAuthorizationTokenOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAuthorizationTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAuthorizationTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authorizationData = output.authorizationData
         } else {
@@ -1985,9 +1973,8 @@ public enum GetRegistryCatalogDataOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRegistryCatalogDataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRegistryCatalogDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.registryCatalogData = output.registryCatalogData
         } else {
@@ -2117,9 +2104,8 @@ public enum GetRepositoryCatalogDataOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRepositoryCatalogDataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRepositoryCatalogDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.catalogData = output.catalogData
         } else {
@@ -2248,9 +2234,8 @@ public enum GetRepositoryPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRepositoryPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRepositoryPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyText = output.policyText
             self.registryId = output.registryId
@@ -2384,9 +2369,8 @@ extension ECRPUBLICClientTypes {
 
 extension ImageAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImageAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2553,9 +2537,8 @@ extension ECRPUBLICClientTypes {
 
 extension ImageDigestDoesNotMatchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImageDigestDoesNotMatchExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2752,9 +2735,8 @@ extension ECRPUBLICClientTypes {
 
 extension ImageNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImageNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2804,9 +2786,8 @@ extension ImageNotFoundExceptionBody: Swift.Decodable {
 
 extension ImageTagAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImageTagAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3001,9 +2982,8 @@ public enum InitiateLayerUploadOutputError: Swift.Error, Swift.Equatable {
 
 extension InitiateLayerUploadOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InitiateLayerUploadOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.partSize = output.partSize
             self.uploadId = output.uploadId
@@ -3052,9 +3032,8 @@ extension InitiateLayerUploadOutputResponseBody: Swift.Decodable {
 
 extension InvalidLayerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidLayerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3104,9 +3083,8 @@ extension InvalidLayerExceptionBody: Swift.Decodable {
 
 extension InvalidLayerPartException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidLayerPartExceptionBody = try responseDecoder.decode(responseBody: data)
             self.lastValidByteReceived = output.lastValidByteReceived
             self.message = output.message
@@ -3196,9 +3174,8 @@ extension InvalidLayerPartExceptionBody: Swift.Decodable {
 
 extension InvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3248,9 +3225,8 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
 
 extension InvalidTagParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidTagParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3365,9 +3341,8 @@ extension ECRPUBLICClientTypes {
 
 extension LayerAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LayerAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3536,9 +3511,8 @@ extension ECRPUBLICClientTypes {
 
 extension LayerPartTooSmallException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LayerPartTooSmallExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3588,9 +3562,8 @@ extension LayerPartTooSmallExceptionBody: Swift.Decodable {
 
 extension LayersNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LayersNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3640,9 +3613,8 @@ extension LayersNotFoundExceptionBody: Swift.Decodable {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3768,9 +3740,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -3969,9 +3940,8 @@ public enum PutImageOutputError: Swift.Error, Swift.Equatable {
 
 extension PutImageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.image = output.image
         } else {
@@ -4083,9 +4053,8 @@ public enum PutRegistryCatalogDataOutputError: Swift.Error, Swift.Equatable {
 
 extension PutRegistryCatalogDataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutRegistryCatalogDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.registryCatalogData = output.registryCatalogData
         } else {
@@ -4226,9 +4195,8 @@ public enum PutRepositoryCatalogDataOutputError: Swift.Error, Swift.Equatable {
 
 extension PutRepositoryCatalogDataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutRepositoryCatalogDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.catalogData = output.catalogData
         } else {
@@ -4342,9 +4310,8 @@ extension ECRPUBLICClientTypes {
 
 extension ReferencedImagesNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReferencedImagesNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4625,9 +4592,8 @@ extension ECRPUBLICClientTypes {
 
 extension RegistryNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegistryNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4752,9 +4718,8 @@ extension ECRPUBLICClientTypes {
 
 extension RepositoryAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5044,9 +5009,8 @@ extension ECRPUBLICClientTypes {
 
 extension RepositoryCatalogDataNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryCatalogDataNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5096,9 +5060,8 @@ extension RepositoryCatalogDataNotFoundExceptionBody: Swift.Decodable {
 
 extension RepositoryNotEmptyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryNotEmptyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5148,9 +5111,8 @@ extension RepositoryNotEmptyExceptionBody: Swift.Decodable {
 
 extension RepositoryNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5200,9 +5162,8 @@ extension RepositoryNotFoundExceptionBody: Swift.Decodable {
 
 extension RepositoryPolicyNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryPolicyNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5252,9 +5213,8 @@ extension RepositoryPolicyNotFoundExceptionBody: Swift.Decodable {
 
 extension ServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5417,9 +5377,8 @@ public enum SetRepositoryPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension SetRepositoryPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SetRepositoryPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyText = output.policyText
             self.registryId = output.registryId
@@ -5638,9 +5597,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5690,9 +5648,8 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
 
 extension UnsupportedCommandException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedCommandExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6005,9 +5962,8 @@ public enum UploadLayerPartOutputError: Swift.Error, Swift.Equatable {
 
 extension UploadLayerPartOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UploadLayerPartOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lastByteReceived = output.lastByteReceived
             self.registryId = output.registryId
@@ -6076,9 +6032,8 @@ extension UploadLayerPartOutputResponseBody: Swift.Decodable {
 
 extension UploadNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UploadNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

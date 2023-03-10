@@ -103,9 +103,8 @@ public enum AssociateCustomDomainOutputError: Swift.Error, Swift.Equatable {
 
 extension AssociateCustomDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateCustomDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customDomain = output.customDomain
             self.dnsTarget = output.dnsTarget
@@ -1124,9 +1123,8 @@ public enum CreateAutoScalingConfigurationOutputError: Swift.Error, Swift.Equata
 
 extension CreateAutoScalingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAutoScalingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingConfiguration = output.autoScalingConfiguration
         } else {
@@ -1277,9 +1275,8 @@ public enum CreateConnectionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connection = output.connection
         } else {
@@ -1429,9 +1426,8 @@ public enum CreateObservabilityConfigurationOutputError: Swift.Error, Swift.Equa
 
 extension CreateObservabilityConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateObservabilityConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.observabilityConfiguration = output.observabilityConfiguration
         } else {
@@ -1654,9 +1650,8 @@ public enum CreateServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
             self.service = output.service
@@ -1854,9 +1849,8 @@ public enum CreateVpcConnectorOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateVpcConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateVpcConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcConnector = output.vpcConnector
         } else {
@@ -2022,9 +2016,8 @@ public enum CreateVpcIngressConnectionOutputError: Swift.Error, Swift.Equatable 
 
 extension CreateVpcIngressConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateVpcIngressConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcIngressConnection = output.vpcIngressConnection
         } else {
@@ -2265,9 +2258,8 @@ public enum DeleteAutoScalingConfigurationOutputError: Swift.Error, Swift.Equata
 
 extension DeleteAutoScalingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteAutoScalingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingConfiguration = output.autoScalingConfiguration
         } else {
@@ -2381,9 +2373,8 @@ public enum DeleteConnectionOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connection = output.connection
         } else {
@@ -2496,9 +2487,8 @@ public enum DeleteObservabilityConfigurationOutputError: Swift.Error, Swift.Equa
 
 extension DeleteObservabilityConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteObservabilityConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.observabilityConfiguration = output.observabilityConfiguration
         } else {
@@ -2614,9 +2604,8 @@ public enum DeleteServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
             self.service = output.service
@@ -2741,9 +2730,8 @@ public enum DeleteVpcConnectorOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteVpcConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteVpcConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcConnector = output.vpcConnector
         } else {
@@ -2859,9 +2847,8 @@ public enum DeleteVpcIngressConnectionOutputError: Swift.Error, Swift.Equatable 
 
 extension DeleteVpcIngressConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteVpcIngressConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcIngressConnection = output.vpcIngressConnection
         } else {
@@ -2975,9 +2962,8 @@ public enum DescribeAutoScalingConfigurationOutputError: Swift.Error, Swift.Equa
 
 extension DescribeAutoScalingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAutoScalingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingConfiguration = output.autoScalingConfiguration
         } else {
@@ -3115,9 +3101,8 @@ public enum DescribeCustomDomainsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeCustomDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCustomDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customDomains = output.customDomains
             self.dnsTarget = output.dnsTarget
@@ -3292,9 +3277,8 @@ public enum DescribeObservabilityConfigurationOutputError: Swift.Error, Swift.Eq
 
 extension DescribeObservabilityConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeObservabilityConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.observabilityConfiguration = output.observabilityConfiguration
         } else {
@@ -3408,9 +3392,8 @@ public enum DescribeServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.service = output.service
         } else {
@@ -3524,9 +3507,8 @@ public enum DescribeVpcConnectorOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeVpcConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeVpcConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcConnector = output.vpcConnector
         } else {
@@ -3640,9 +3622,8 @@ public enum DescribeVpcIngressConnectionOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeVpcIngressConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeVpcIngressConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcIngressConnection = output.vpcIngressConnection
         } else {
@@ -3771,9 +3752,8 @@ public enum DisassociateCustomDomainOutputError: Swift.Error, Swift.Equatable {
 
 extension DisassociateCustomDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateCustomDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customDomain = output.customDomain
             self.dnsTarget = output.dnsTarget
@@ -4407,9 +4387,8 @@ extension AppRunnerClientTypes {
 
 extension InternalServiceErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServiceErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4459,9 +4438,8 @@ extension InternalServiceErrorExceptionBody: Swift.Decodable {
 
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4511,9 +4489,8 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
 
 extension InvalidStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4670,9 +4647,8 @@ public enum ListAutoScalingConfigurationsOutputError: Swift.Error, Swift.Equatab
 
 extension ListAutoScalingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAutoScalingConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingConfigurationSummaryList = output.autoScalingConfigurationSummaryList
             self.nextToken = output.nextToken
@@ -4826,9 +4802,8 @@ public enum ListConnectionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionSummaryList = output.connectionSummaryList
             self.nextToken = output.nextToken
@@ -4994,9 +4969,8 @@ public enum ListObservabilityConfigurationsOutputError: Swift.Error, Swift.Equat
 
 extension ListObservabilityConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListObservabilityConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.observabilityConfigurationSummaryList = output.observabilityConfigurationSummaryList
@@ -5153,9 +5127,8 @@ public enum ListOperationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.operationSummaryList = output.operationSummaryList
@@ -5296,9 +5269,8 @@ public enum ListServicesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListServicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListServicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.serviceSummaryList = output.serviceSummaryList
@@ -5433,9 +5405,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -5566,9 +5537,8 @@ public enum ListVpcConnectorsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListVpcConnectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVpcConnectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.vpcConnectors = output.vpcConnectors
@@ -5767,9 +5737,8 @@ public enum ListVpcIngressConnectionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListVpcIngressConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVpcIngressConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.vpcIngressConnectionSummaryList = output.vpcIngressConnectionSummaryList
@@ -6327,9 +6296,8 @@ public enum PauseServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension PauseServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PauseServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
             self.service = output.service
@@ -6408,9 +6376,8 @@ extension AppRunnerClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6536,9 +6503,8 @@ public enum ResumeServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension ResumeServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResumeServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
             self.service = output.service
@@ -6879,9 +6845,8 @@ extension AppRunnerClientTypes {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7289,9 +7254,8 @@ public enum StartDeploymentOutputError: Swift.Error, Swift.Equatable {
 
 extension StartDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -7811,9 +7775,8 @@ public enum UpdateServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
             self.service = output.service
@@ -7953,9 +7916,8 @@ public enum UpdateVpcIngressConnectionOutputError: Swift.Error, Swift.Equatable 
 
 extension UpdateVpcIngressConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateVpcIngressConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcIngressConnection = output.vpcIngressConnection
         } else {

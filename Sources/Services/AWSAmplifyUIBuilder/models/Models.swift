@@ -1653,15 +1653,15 @@ public struct CreateComponentInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let componentToCreate = input.operationInput.componentToCreate {
-                let componentToCreatedata = try encoder.encode(componentToCreate)
-                let componentToCreatebody = ClientRuntime.HttpBody.data(componentToCreatedata)
-                input.builder.withBody(componentToCreatebody)
+                let componentToCreateData = try encoder.encode(componentToCreate)
+                let componentToCreateBody = ClientRuntime.HttpBody.data(componentToCreateData)
+                input.builder.withBody(componentToCreateBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let componentToCreatedata = "{}".data(using: .utf8)!
-                    let componentToCreatebody = ClientRuntime.HttpBody.data(componentToCreatedata)
-                    input.builder.withBody(componentToCreatebody)
+                    let componentToCreateData = "{}".data(using: .utf8)!
+                    let componentToCreateBody = ClientRuntime.HttpBody.data(componentToCreateData)
+                    input.builder.withBody(componentToCreateBody)
                 }
             }
         } catch let err {
@@ -1786,13 +1786,9 @@ public enum CreateComponentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateComponentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AmplifyUIBuilderClientTypes.Component = try responseDecoder.decode(responseBody: data)
-                self.entity = output
-            } else {
-                self.entity = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AmplifyUIBuilderClientTypes.Component = try responseDecoder.decode(responseBody: data)
+            self.entity = output
         } else {
             self.entity = nil
         }
@@ -2011,15 +2007,15 @@ public struct CreateFormInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let formToCreate = input.operationInput.formToCreate {
-                let formToCreatedata = try encoder.encode(formToCreate)
-                let formToCreatebody = ClientRuntime.HttpBody.data(formToCreatedata)
-                input.builder.withBody(formToCreatebody)
+                let formToCreateData = try encoder.encode(formToCreate)
+                let formToCreateBody = ClientRuntime.HttpBody.data(formToCreateData)
+                input.builder.withBody(formToCreateBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let formToCreatedata = "{}".data(using: .utf8)!
-                    let formToCreatebody = ClientRuntime.HttpBody.data(formToCreatedata)
-                    input.builder.withBody(formToCreatebody)
+                    let formToCreateData = "{}".data(using: .utf8)!
+                    let formToCreateBody = ClientRuntime.HttpBody.data(formToCreateData)
+                    input.builder.withBody(formToCreateBody)
                 }
             }
         } catch let err {
@@ -2144,13 +2140,9 @@ public enum CreateFormOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateFormOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AmplifyUIBuilderClientTypes.Form = try responseDecoder.decode(responseBody: data)
-                self.entity = output
-            } else {
-                self.entity = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AmplifyUIBuilderClientTypes.Form = try responseDecoder.decode(responseBody: data)
+            self.entity = output
         } else {
             self.entity = nil
         }
@@ -2304,15 +2296,15 @@ public struct CreateThemeInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let themeToCreate = input.operationInput.themeToCreate {
-                let themeToCreatedata = try encoder.encode(themeToCreate)
-                let themeToCreatebody = ClientRuntime.HttpBody.data(themeToCreatedata)
-                input.builder.withBody(themeToCreatebody)
+                let themeToCreateData = try encoder.encode(themeToCreate)
+                let themeToCreateBody = ClientRuntime.HttpBody.data(themeToCreateData)
+                input.builder.withBody(themeToCreateBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let themeToCreatedata = "{}".data(using: .utf8)!
-                    let themeToCreatebody = ClientRuntime.HttpBody.data(themeToCreatedata)
-                    input.builder.withBody(themeToCreatebody)
+                    let themeToCreateData = "{}".data(using: .utf8)!
+                    let themeToCreateBody = ClientRuntime.HttpBody.data(themeToCreateData)
+                    input.builder.withBody(themeToCreateBody)
                 }
             }
         } catch let err {
@@ -2437,13 +2429,9 @@ public enum CreateThemeOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateThemeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AmplifyUIBuilderClientTypes.Theme = try responseDecoder.decode(responseBody: data)
-                self.entity = output
-            } else {
-                self.entity = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AmplifyUIBuilderClientTypes.Theme = try responseDecoder.decode(responseBody: data)
+            self.entity = output
         } else {
             self.entity = nil
         }
@@ -2743,15 +2731,15 @@ public struct ExchangeCodeForTokenInputBodyMiddleware: ClientRuntime.Middleware 
         do {
             let encoder = context.getEncoder()
             if let request = input.operationInput.request {
-                let requestdata = try encoder.encode(request)
-                let requestbody = ClientRuntime.HttpBody.data(requestdata)
-                input.builder.withBody(requestbody)
+                let requestData = try encoder.encode(request)
+                let requestBody = ClientRuntime.HttpBody.data(requestData)
+                input.builder.withBody(requestBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let requestdata = "{}".data(using: .utf8)!
-                    let requestbody = ClientRuntime.HttpBody.data(requestdata)
-                    input.builder.withBody(requestbody)
+                    let requestData = "{}".data(using: .utf8)!
+                    let requestBody = ClientRuntime.HttpBody.data(requestData)
+                    input.builder.withBody(requestBody)
                 }
             }
         } catch let err {
@@ -2850,9 +2838,8 @@ extension ExchangeCodeForTokenOutputResponse: Swift.CustomDebugStringConvertible
 
 extension ExchangeCodeForTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExchangeCodeForTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessToken = output.accessToken
             self.expiresIn = output.expiresIn
@@ -3056,9 +3043,8 @@ public enum ExportComponentsOutputError: Swift.Error, Swift.Equatable {
 
 extension ExportComponentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExportComponentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -3197,9 +3183,8 @@ public enum ExportFormsOutputError: Swift.Error, Swift.Equatable {
 
 extension ExportFormsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExportFormsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -3338,9 +3323,8 @@ public enum ExportThemesOutputError: Swift.Error, Swift.Equatable {
 
 extension ExportThemesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExportThemesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -4922,13 +4906,9 @@ public enum GetComponentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetComponentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AmplifyUIBuilderClientTypes.Component = try responseDecoder.decode(responseBody: data)
-                self.component = output
-            } else {
-                self.component = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AmplifyUIBuilderClientTypes.Component = try responseDecoder.decode(responseBody: data)
+            self.component = output
         } else {
             self.component = nil
         }
@@ -5038,13 +5018,9 @@ public enum GetFormOutputError: Swift.Error, Swift.Equatable {
 
 extension GetFormOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AmplifyUIBuilderClientTypes.Form = try responseDecoder.decode(responseBody: data)
-                self.form = output
-            } else {
-                self.form = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AmplifyUIBuilderClientTypes.Form = try responseDecoder.decode(responseBody: data)
+            self.form = output
         } else {
             self.form = nil
         }
@@ -5144,9 +5120,8 @@ public enum GetMetadataOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.features = output.features
         } else {
@@ -5268,13 +5243,9 @@ public enum GetThemeOutputError: Swift.Error, Swift.Equatable {
 
 extension GetThemeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AmplifyUIBuilderClientTypes.Theme = try responseDecoder.decode(responseBody: data)
-                self.theme = output
-            } else {
-                self.theme = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AmplifyUIBuilderClientTypes.Theme = try responseDecoder.decode(responseBody: data)
+            self.theme = output
         } else {
             self.theme = nil
         }
@@ -5311,9 +5282,8 @@ extension GetThemeOutputResponseBody: Swift.Decodable {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5363,9 +5333,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension InvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5538,9 +5507,8 @@ public enum ListComponentsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListComponentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListComponentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -5687,9 +5655,8 @@ public enum ListFormsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFormsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFormsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -5836,9 +5803,8 @@ public enum ListThemesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListThemesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListThemesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -6114,15 +6080,15 @@ public struct PutMetadataFlagInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let body = input.operationInput.body {
-                let bodydata = try encoder.encode(body)
-                let bodybody = ClientRuntime.HttpBody.data(bodydata)
-                input.builder.withBody(bodybody)
+                let bodyData = try encoder.encode(body)
+                let bodyBody = ClientRuntime.HttpBody.data(bodyData)
+                input.builder.withBody(bodyBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let bodydata = "{}".data(using: .utf8)!
-                    let bodybody = ClientRuntime.HttpBody.data(bodydata)
-                    input.builder.withBody(bodybody)
+                    let bodyData = "{}".data(using: .utf8)!
+                    let bodyBody = ClientRuntime.HttpBody.data(bodyData)
+                    input.builder.withBody(bodyBody)
                 }
             }
         } catch let err {
@@ -6258,15 +6224,15 @@ public struct RefreshTokenInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let refreshTokenBody = input.operationInput.refreshTokenBody {
-                let refreshTokenBodydata = try encoder.encode(refreshTokenBody)
-                let refreshTokenBodybody = ClientRuntime.HttpBody.data(refreshTokenBodydata)
-                input.builder.withBody(refreshTokenBodybody)
+                let refreshTokenBodyData = try encoder.encode(refreshTokenBody)
+                let refreshTokenBodyBody = ClientRuntime.HttpBody.data(refreshTokenBodyData)
+                input.builder.withBody(refreshTokenBodyBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let refreshTokenBodydata = "{}".data(using: .utf8)!
-                    let refreshTokenBodybody = ClientRuntime.HttpBody.data(refreshTokenBodydata)
-                    input.builder.withBody(refreshTokenBodybody)
+                    let refreshTokenBodyData = "{}".data(using: .utf8)!
+                    let refreshTokenBodyBody = ClientRuntime.HttpBody.data(refreshTokenBodyData)
+                    input.builder.withBody(refreshTokenBodyBody)
                 }
             }
         } catch let err {
@@ -6365,9 +6331,8 @@ extension RefreshTokenOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension RefreshTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RefreshTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessToken = output.accessToken
             self.expiresIn = output.expiresIn
@@ -6469,9 +6434,8 @@ extension AmplifyUIBuilderClientTypes {
 
 extension ResourceConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6521,9 +6485,8 @@ extension ResourceConflictExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6659,9 +6622,8 @@ extension AmplifyUIBuilderClientTypes {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7183,9 +7145,8 @@ extension AmplifyUIBuilderClientTypes {
 
 extension UnauthorizedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnauthorizedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7488,15 +7449,15 @@ public struct UpdateComponentInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let updatedComponent = input.operationInput.updatedComponent {
-                let updatedComponentdata = try encoder.encode(updatedComponent)
-                let updatedComponentbody = ClientRuntime.HttpBody.data(updatedComponentdata)
-                input.builder.withBody(updatedComponentbody)
+                let updatedComponentData = try encoder.encode(updatedComponent)
+                let updatedComponentBody = ClientRuntime.HttpBody.data(updatedComponentData)
+                input.builder.withBody(updatedComponentBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let updatedComponentdata = "{}".data(using: .utf8)!
-                    let updatedComponentbody = ClientRuntime.HttpBody.data(updatedComponentdata)
-                    input.builder.withBody(updatedComponentbody)
+                    let updatedComponentData = "{}".data(using: .utf8)!
+                    let updatedComponentBody = ClientRuntime.HttpBody.data(updatedComponentData)
+                    input.builder.withBody(updatedComponentBody)
                 }
             }
         } catch let err {
@@ -7627,13 +7588,9 @@ public enum UpdateComponentOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateComponentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AmplifyUIBuilderClientTypes.Component = try responseDecoder.decode(responseBody: data)
-                self.entity = output
-            } else {
-                self.entity = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AmplifyUIBuilderClientTypes.Component = try responseDecoder.decode(responseBody: data)
+            self.entity = output
         } else {
             self.entity = nil
         }
@@ -7823,15 +7780,15 @@ public struct UpdateFormInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let updatedForm = input.operationInput.updatedForm {
-                let updatedFormdata = try encoder.encode(updatedForm)
-                let updatedFormbody = ClientRuntime.HttpBody.data(updatedFormdata)
-                input.builder.withBody(updatedFormbody)
+                let updatedFormData = try encoder.encode(updatedForm)
+                let updatedFormBody = ClientRuntime.HttpBody.data(updatedFormData)
+                input.builder.withBody(updatedFormBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let updatedFormdata = "{}".data(using: .utf8)!
-                    let updatedFormbody = ClientRuntime.HttpBody.data(updatedFormdata)
-                    input.builder.withBody(updatedFormbody)
+                    let updatedFormData = "{}".data(using: .utf8)!
+                    let updatedFormBody = ClientRuntime.HttpBody.data(updatedFormData)
+                    input.builder.withBody(updatedFormBody)
                 }
             }
         } catch let err {
@@ -7962,13 +7919,9 @@ public enum UpdateFormOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateFormOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AmplifyUIBuilderClientTypes.Form = try responseDecoder.decode(responseBody: data)
-                self.entity = output
-            } else {
-                self.entity = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AmplifyUIBuilderClientTypes.Form = try responseDecoder.decode(responseBody: data)
+            self.entity = output
         } else {
             self.entity = nil
         }
@@ -8109,15 +8062,15 @@ public struct UpdateThemeInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let updatedTheme = input.operationInput.updatedTheme {
-                let updatedThemedata = try encoder.encode(updatedTheme)
-                let updatedThemebody = ClientRuntime.HttpBody.data(updatedThemedata)
-                input.builder.withBody(updatedThemebody)
+                let updatedThemeData = try encoder.encode(updatedTheme)
+                let updatedThemeBody = ClientRuntime.HttpBody.data(updatedThemeData)
+                input.builder.withBody(updatedThemeBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let updatedThemedata = "{}".data(using: .utf8)!
-                    let updatedThemebody = ClientRuntime.HttpBody.data(updatedThemedata)
-                    input.builder.withBody(updatedThemebody)
+                    let updatedThemeData = "{}".data(using: .utf8)!
+                    let updatedThemeBody = ClientRuntime.HttpBody.data(updatedThemeData)
+                    input.builder.withBody(updatedThemeBody)
                 }
             }
         } catch let err {
@@ -8248,13 +8201,9 @@ public enum UpdateThemeOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateThemeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: AmplifyUIBuilderClientTypes.Theme = try responseDecoder.decode(responseBody: data)
-                self.entity = output
-            } else {
-                self.entity = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: AmplifyUIBuilderClientTypes.Theme = try responseDecoder.decode(responseBody: data)
+            self.entity = output
         } else {
             self.entity = nil
         }

@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessForbidden {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessForbiddenBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -294,9 +293,8 @@ public enum BatchGetRecordOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchGetRecordOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchGetRecordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.records = output.records
@@ -743,9 +741,8 @@ public enum GetRecordOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRecordOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRecordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.record = output.record
         } else {
@@ -793,9 +790,8 @@ extension GetRecordOutputResponseBody: Swift.Decodable {
 
 extension InternalFailure {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalFailureBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -981,9 +977,8 @@ public struct PutRecordOutputResponse: Swift.Equatable {
 
 extension ResourceNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1033,9 +1028,8 @@ extension ResourceNotFoundBody: Swift.Decodable {
 
 extension ServiceUnavailable {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1117,9 +1111,8 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
 
 extension ValidationError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

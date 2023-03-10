@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -99,9 +98,8 @@ extension SecurityLakeClientTypes {
 
 extension AccountNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccountNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -328,9 +326,8 @@ extension SecurityLakeClientTypes {
 
 extension BucketNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BucketNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -381,9 +378,8 @@ extension BucketNotFoundExceptionBody: Swift.Decodable {
 
 extension ConcurrentModificationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -434,9 +430,8 @@ extension ConcurrentModificationExceptionBody: Swift.Decodable {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -509,9 +504,8 @@ extension ConflictExceptionBody: Swift.Decodable {
 
 extension ConflictSourceNamesException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictSourceNamesExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -562,9 +556,8 @@ extension ConflictSourceNamesExceptionBody: Swift.Decodable {
 
 extension ConflictSubscriptionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictSubscriptionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -809,9 +802,8 @@ public enum CreateAwsLogSourceOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAwsLogSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAwsLogSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
             self.processing = output.processing
@@ -1003,9 +995,8 @@ public enum CreateCustomLogSourceOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCustomLogSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCustomLogSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customDataLocation = output.customDataLocation
             self.glueCrawlerName = output.glueCrawlerName
@@ -1694,9 +1685,8 @@ public enum CreateSubscriberOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSubscriberOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSubscriberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceShareArn = output.resourceShareArn
             self.resourceShareName = output.resourceShareName
@@ -1935,9 +1925,8 @@ public enum CreateSubscriptionNotificationConfigurationOutputError: Swift.Error,
 
 extension CreateSubscriptionNotificationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSubscriptionNotificationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.queueArn = output.queueArn
         } else {
@@ -2166,9 +2155,8 @@ public enum DeleteAwsLogSourceOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteAwsLogSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteAwsLogSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
             self.processing = output.processing
@@ -2312,9 +2300,8 @@ public enum DeleteCustomLogSourceOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteCustomLogSourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteCustomLogSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customDataLocation = output.customDataLocation
         } else {
@@ -2569,9 +2556,8 @@ public enum DeleteDatalakeExceptionsSubscriptionOutputError: Swift.Error, Swift.
 
 extension DeleteDatalakeExceptionsSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteDatalakeExceptionsSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -2906,9 +2892,8 @@ extension SecurityLakeClientTypes {
 
 extension EventBridgeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EventBridgeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3122,9 +3107,8 @@ public enum GetDatalakeAutoEnableOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDatalakeAutoEnableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDatalakeAutoEnableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoEnableNewAccounts = output.autoEnableNewAccounts
         } else {
@@ -3221,9 +3205,8 @@ public enum GetDatalakeExceptionsExpiryOutputError: Swift.Error, Swift.Equatable
 
 extension GetDatalakeExceptionsExpiryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDatalakeExceptionsExpiryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exceptionMessageExpiry = output.exceptionMessageExpiry
         } else {
@@ -3311,9 +3294,8 @@ public enum GetDatalakeExceptionsSubscriptionOutputError: Swift.Error, Swift.Equ
 
 extension GetDatalakeExceptionsSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDatalakeExceptionsSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.protocolAndNotificationEndpoint = output.protocolAndNotificationEndpoint
         } else {
@@ -3403,9 +3385,8 @@ public enum GetDatalakeOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDatalakeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDatalakeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurations = output.configurations
         } else {
@@ -3565,9 +3546,8 @@ public enum GetDatalakeStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDatalakeStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDatalakeStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountSourcesList = output.accountSourcesList
             self.nextToken = output.nextToken
@@ -3687,9 +3667,8 @@ public enum GetSubscriberOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSubscriberOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSubscriberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subscriber = output.subscriber
         } else {
@@ -3765,9 +3744,8 @@ extension InternalServerException {
         } else {
             self.retryAfterSeconds = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3822,9 +3800,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension InvalidInputException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidInputExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4283,9 +4260,8 @@ public enum ListDatalakeExceptionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDatalakeExceptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDatalakeExceptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.nonRetryableFailures = output.nonRetryableFailures
@@ -4559,9 +4535,8 @@ public enum ListLogSourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLogSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLogSourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.regionSourceTypesAccountsList = output.regionSourceTypesAccountsList
@@ -4723,9 +4698,8 @@ public enum ListSubscribersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSubscribersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSubscribersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.subscribers = output.subscribers
@@ -5048,9 +5022,8 @@ extension SecurityLakeClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -5168,9 +5141,8 @@ extension SecurityLakeClientTypes {
 
 extension S3Exception {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: S3ExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5221,9 +5193,8 @@ extension S3ExceptionBody: Swift.Decodable {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.quotaCode = output.quotaCode
@@ -5803,9 +5774,8 @@ extension ThrottlingException {
         } else {
             self.retryAfterSeconds = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.quotaCode = output.quotaCode
@@ -6358,9 +6328,8 @@ public enum UpdateSubscriberOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSubscriberOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSubscriberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subscriber = output.subscriber
         } else {
@@ -6548,9 +6517,8 @@ public enum UpdateSubscriptionNotificationConfigurationOutputError: Swift.Error,
 
 extension UpdateSubscriptionNotificationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSubscriptionNotificationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.queueArn = output.queueArn
         } else {
@@ -6589,9 +6557,8 @@ extension UpdateSubscriptionNotificationConfigurationOutputResponseBody: Swift.D
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fieldList = output.fieldList
             self.message = output.message

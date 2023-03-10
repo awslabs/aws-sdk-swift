@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.reason = output.reason
@@ -895,9 +894,8 @@ public enum BatchGetSchemaOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchGetSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchGetSchemaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.schemas = output.schemas
@@ -2079,9 +2077,8 @@ extension CleanRoomsClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.reason = output.reason
@@ -2399,9 +2396,8 @@ public enum CreateCollaborationOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCollaborationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCollaborationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collaboration = output.collaboration
         } else {
@@ -2542,9 +2538,8 @@ public enum CreateConfiguredTableAnalysisRuleOutputError: Swift.Error, Swift.Equ
 
 extension CreateConfiguredTableAnalysisRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateConfiguredTableAnalysisRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analysisRule = output.analysisRule
         } else {
@@ -2736,9 +2731,8 @@ public enum CreateConfiguredTableAssociationOutputError: Swift.Error, Swift.Equa
 
 extension CreateConfiguredTableAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateConfiguredTableAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuredTableAssociation = output.configuredTableAssociation
         } else {
@@ -2947,9 +2941,8 @@ public enum CreateConfiguredTableOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateConfiguredTableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateConfiguredTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuredTable = output.configuredTable
         } else {
@@ -3108,9 +3101,8 @@ public enum CreateMembershipOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateMembershipOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.membership = output.membership
         } else {
@@ -3770,9 +3762,8 @@ public enum GetCollaborationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCollaborationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCollaborationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collaboration = output.collaboration
         } else {
@@ -3881,9 +3872,8 @@ public enum GetConfiguredTableAnalysisRuleOutputError: Swift.Error, Swift.Equata
 
 extension GetConfiguredTableAnalysisRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConfiguredTableAnalysisRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analysisRule = output.analysisRule
         } else {
@@ -3992,9 +3982,8 @@ public enum GetConfiguredTableAssociationOutputError: Swift.Error, Swift.Equatab
 
 extension GetConfiguredTableAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConfiguredTableAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuredTableAssociation = output.configuredTableAssociation
         } else {
@@ -4095,9 +4084,8 @@ public enum GetConfiguredTableOutputError: Swift.Error, Swift.Equatable {
 
 extension GetConfiguredTableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConfiguredTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuredTable = output.configuredTable
         } else {
@@ -4198,9 +4186,8 @@ public enum GetMembershipOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMembershipOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.membership = output.membership
         } else {
@@ -4309,9 +4296,8 @@ public enum GetProtectedQueryOutputError: Swift.Error, Swift.Equatable {
 
 extension GetProtectedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetProtectedQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.protectedQuery = output.protectedQuery
         } else {
@@ -4428,9 +4414,8 @@ public enum GetSchemaAnalysisRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSchemaAnalysisRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSchemaAnalysisRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analysisRule = output.analysisRule
         } else {
@@ -4539,9 +4524,8 @@ public enum GetSchemaOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSchemaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.schema = output.schema
         } else {
@@ -4628,9 +4612,8 @@ extension CleanRoomsClientTypes {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4793,9 +4776,8 @@ public enum ListCollaborationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCollaborationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCollaborationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collaborationList = output.collaborationList
             self.nextToken = output.nextToken
@@ -4940,9 +4922,8 @@ public enum ListConfiguredTableAssociationsOutputError: Swift.Error, Swift.Equat
 
 extension ListConfiguredTableAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListConfiguredTableAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuredTableAssociationSummaries = output.configuredTableAssociationSummaries
             self.nextToken = output.nextToken
@@ -5077,9 +5058,8 @@ public enum ListConfiguredTablesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListConfiguredTablesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListConfiguredTablesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuredTableSummaries = output.configuredTableSummaries
             self.nextToken = output.nextToken
@@ -5224,9 +5204,8 @@ public enum ListMembersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.memberSummaries = output.memberSummaries
             self.nextToken = output.nextToken
@@ -5369,9 +5348,8 @@ public enum ListMembershipsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMembershipsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMembershipsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.membershipSummaries = output.membershipSummaries
             self.nextToken = output.nextToken
@@ -5524,9 +5502,8 @@ public enum ListProtectedQueriesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListProtectedQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListProtectedQueriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.protectedQueries = output.protectedQueries
@@ -5679,9 +5656,8 @@ public enum ListSchemasOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSchemasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSchemasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.schemaSummaries = output.schemaSummaries
@@ -7159,9 +7135,8 @@ extension CleanRoomsClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -7725,9 +7700,8 @@ extension CleanRoomsClientTypes {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.quotaName = output.quotaName
@@ -7919,9 +7893,8 @@ public enum StartProtectedQueryOutputError: Swift.Error, Swift.Equatable {
 
 extension StartProtectedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartProtectedQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.protectedQuery = output.protectedQuery
         } else {
@@ -8129,9 +8102,8 @@ extension CleanRoomsClientTypes {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8363,9 +8335,8 @@ public enum UpdateCollaborationOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateCollaborationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateCollaborationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collaboration = output.collaboration
         } else {
@@ -8501,9 +8472,8 @@ public enum UpdateConfiguredTableAnalysisRuleOutputError: Swift.Error, Swift.Equ
 
 extension UpdateConfiguredTableAnalysisRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateConfiguredTableAnalysisRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analysisRule = output.analysisRule
         } else {
@@ -8650,9 +8620,8 @@ public enum UpdateConfiguredTableAssociationOutputError: Swift.Error, Swift.Equa
 
 extension UpdateConfiguredTableAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateConfiguredTableAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuredTableAssociation = output.configuredTableAssociation
         } else {
@@ -8791,9 +8760,8 @@ public enum UpdateConfiguredTableOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateConfiguredTableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateConfiguredTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuredTable = output.configuredTable
         } else {
@@ -8920,9 +8888,8 @@ public enum UpdateMembershipOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateMembershipOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.membership = output.membership
         } else {
@@ -9058,9 +9025,8 @@ public enum UpdateProtectedQueryOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateProtectedQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateProtectedQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.protectedQuery = output.protectedQuery
         } else {
@@ -9100,9 +9066,8 @@ extension UpdateProtectedQueryOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fieldList = output.fieldList
             self.message = output.message

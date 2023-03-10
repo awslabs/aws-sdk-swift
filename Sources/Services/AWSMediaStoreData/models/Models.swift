@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension ContainerNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ContainerNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -341,9 +340,12 @@ extension GetObjectOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.lastModified = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.body = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.body = .data(data)
+        case .stream(let stream):
+            self.body = .stream(stream)
+        case .none:
             self.body = nil
         }
         self.statusCode = httpResponse.statusCode.rawValue
@@ -413,9 +415,8 @@ extension GetObjectOutputResponseBody: Swift.Decodable {
 
 extension InternalServerError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -662,9 +663,8 @@ public enum ListItemsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListItemsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListItemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -722,9 +722,8 @@ extension ListItemsOutputResponseBody: Swift.Decodable {
 
 extension ObjectNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ObjectNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -786,9 +785,8 @@ public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let body = input.operationInput.body {
-            let bodydata = body
-            let bodybody = ClientRuntime.HttpBody.stream(bodydata)
-            input.builder.withBody(bodybody)
+            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
+            input.builder.withBody(bodyBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -806,7 +804,7 @@ extension PutObjectInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let body = self.body {
-            try encodeContainer.encode(body.toBytes().getData(), forKey: .body)
+            try encodeContainer.encode(body, forKey: .body)
         }
     }
 }
@@ -915,9 +913,8 @@ public enum PutObjectOutputError: Swift.Error, Swift.Equatable {
 
 extension PutObjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutObjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contentSHA256 = output.contentSHA256
             self.eTag = output.eTag
@@ -976,9 +973,8 @@ extension PutObjectOutputResponseBody: Swift.Decodable {
 
 extension RequestedRangeNotSatisfiableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RequestedRangeNotSatisfiableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

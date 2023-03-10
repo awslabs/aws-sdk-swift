@@ -189,9 +189,8 @@ public enum ActivateKeySigningKeyOutputError: Swift.Error, Swift.Equatable {
 
 extension ActivateKeySigningKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ActivateKeySigningKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeInfo = output.changeInfo
         } else {
@@ -589,9 +588,8 @@ public enum AssociateVPCWithHostedZoneOutputError: Swift.Error, Swift.Equatable 
 
 extension AssociateVPCWithHostedZoneOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateVPCWithHostedZoneOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeInfo = output.changeInfo
         } else {
@@ -960,9 +958,8 @@ public enum ChangeCidrCollectionOutputError: Swift.Error, Swift.Equatable {
 
 extension ChangeCidrCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ChangeCidrCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
         } else {
@@ -1190,9 +1187,8 @@ public enum ChangeResourceRecordSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ChangeResourceRecordSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ChangeResourceRecordSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeInfo = output.changeInfo
         } else {
@@ -1442,7 +1438,7 @@ public struct ChangeTagsForResourceOutputResponse: Swift.Equatable {
 
 extension CidrBlockInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CidrBlockInUseExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1637,7 +1633,7 @@ extension Route53ClientTypes {
 
 extension CidrCollectionAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CidrCollectionAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1815,7 +1811,7 @@ extension Route53ClientTypes {
 
 extension CidrCollectionInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CidrCollectionInUseExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1866,7 +1862,7 @@ extension CidrCollectionInUseExceptionBody: Swift.Decodable {
 
 extension CidrCollectionVersionMismatchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CidrCollectionVersionMismatchExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2378,7 +2374,7 @@ extension Route53ClientTypes {
 
 extension ConcurrentModification {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ConcurrentModificationBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2430,7 +2426,7 @@ extension ConcurrentModificationBody: Swift.Decodable {
 
 extension ConflictingDomainExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ConflictingDomainExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2487,7 +2483,7 @@ extension ConflictingDomainExistsBody: Swift.Decodable {
 
 extension ConflictingTypes {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ConflictingTypesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2649,9 +2645,8 @@ extension CreateCidrCollectionOutputResponse: ClientRuntime.HttpResponseBinding 
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCidrCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collection = output.collection
         } else {
@@ -2811,9 +2806,8 @@ extension CreateHealthCheckOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateHealthCheckOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.healthCheck = output.healthCheck
         } else {
@@ -3023,9 +3017,8 @@ extension CreateHostedZoneOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateHostedZoneOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeInfo = output.changeInfo
             self.delegationSet = output.delegationSet
@@ -3278,9 +3271,8 @@ extension CreateKeySigningKeyOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateKeySigningKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeInfo = output.changeInfo
             self.keySigningKey = output.keySigningKey
@@ -3450,9 +3442,8 @@ extension CreateQueryLoggingConfigOutputResponse: ClientRuntime.HttpResponseBind
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateQueryLoggingConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.queryLoggingConfig = output.queryLoggingConfig
         } else {
@@ -3612,9 +3603,8 @@ extension CreateReusableDelegationSetOutputResponse: ClientRuntime.HttpResponseB
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateReusableDelegationSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.delegationSet = output.delegationSet
         } else {
@@ -3902,9 +3892,8 @@ extension CreateTrafficPolicyInstanceOutputResponse: ClientRuntime.HttpResponseB
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTrafficPolicyInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trafficPolicyInstance = output.trafficPolicyInstance
         } else {
@@ -3982,9 +3971,8 @@ extension CreateTrafficPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTrafficPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trafficPolicy = output.trafficPolicy
         } else {
@@ -4150,9 +4138,8 @@ extension CreateTrafficPolicyVersionOutputResponse: ClientRuntime.HttpResponseBi
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTrafficPolicyVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trafficPolicy = output.trafficPolicy
         } else {
@@ -4301,9 +4288,8 @@ public enum CreateVPCAssociationAuthorizationOutputError: Swift.Error, Swift.Equ
 
 extension CreateVPCAssociationAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateVPCAssociationAuthorizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hostedZoneId = output.hostedZoneId
             self.vpc = output.vpc
@@ -4355,7 +4341,7 @@ extension CreateVPCAssociationAuthorizationOutputResponseBody: Swift.Decodable {
 
 extension DNSSECNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DNSSECNotFoundBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4540,9 +4526,8 @@ public enum DeactivateKeySigningKeyOutputError: Swift.Error, Swift.Equatable {
 
 extension DeactivateKeySigningKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeactivateKeySigningKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeInfo = output.changeInfo
         } else {
@@ -4675,7 +4660,7 @@ extension Route53ClientTypes {
 
 extension DelegationSetAlreadyCreated {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DelegationSetAlreadyCreatedBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4727,7 +4712,7 @@ extension DelegationSetAlreadyCreatedBody: Swift.Decodable {
 
 extension DelegationSetAlreadyReusable {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DelegationSetAlreadyReusableBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4779,7 +4764,7 @@ extension DelegationSetAlreadyReusableBody: Swift.Decodable {
 
 extension DelegationSetInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DelegationSetInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4831,7 +4816,7 @@ extension DelegationSetInUseBody: Swift.Decodable {
 
 extension DelegationSetNotAvailable {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DelegationSetNotAvailableBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4883,7 +4868,7 @@ extension DelegationSetNotAvailableBody: Swift.Decodable {
 
 extension DelegationSetNotReusable {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DelegationSetNotReusableBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5132,9 +5117,8 @@ public enum DeleteHostedZoneOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteHostedZoneOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteHostedZoneOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeInfo = output.changeInfo
         } else {
@@ -5245,9 +5229,8 @@ public enum DeleteKeySigningKeyOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteKeySigningKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteKeySigningKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeInfo = output.changeInfo
         } else {
@@ -5813,9 +5796,8 @@ public enum DisableHostedZoneDNSSECOutputError: Swift.Error, Swift.Equatable {
 
 extension DisableHostedZoneDNSSECOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisableHostedZoneDNSSECOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeInfo = output.changeInfo
         } else {
@@ -5970,9 +5952,8 @@ public enum DisassociateVPCFromHostedZoneOutputError: Swift.Error, Swift.Equatab
 
 extension DisassociateVPCFromHostedZoneOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateVPCFromHostedZoneOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeInfo = output.changeInfo
         } else {
@@ -6081,9 +6062,8 @@ public enum EnableHostedZoneDNSSECOutputError: Swift.Error, Swift.Equatable {
 
 extension EnableHostedZoneDNSSECOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EnableHostedZoneDNSSECOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeInfo = output.changeInfo
         } else {
@@ -6377,9 +6357,8 @@ public enum GetAccountLimitOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAccountLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccountLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
             self.limit = output.limit
@@ -6486,9 +6465,8 @@ public enum GetChangeOutputError: Swift.Error, Swift.Equatable {
 
 extension GetChangeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetChangeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeInfo = output.changeInfo
         } else {
@@ -6569,9 +6547,8 @@ public enum GetCheckerIpRangesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCheckerIpRangesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCheckerIpRangesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checkerIpRanges = output.checkerIpRanges
         } else {
@@ -6685,9 +6662,8 @@ public enum GetDNSSECOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDNSSECOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDNSSECOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keySigningKeys = output.keySigningKeys
             self.status = output.status
@@ -6849,9 +6825,8 @@ public enum GetGeoLocationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetGeoLocationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetGeoLocationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.geoLocationDetails = output.geoLocationDetails
         } else {
@@ -6932,9 +6907,8 @@ public enum GetHealthCheckCountOutputError: Swift.Error, Swift.Equatable {
 
 extension GetHealthCheckCountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetHealthCheckCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.healthCheckCount = output.healthCheckCount
         } else {
@@ -7062,9 +7036,8 @@ public enum GetHealthCheckLastFailureReasonOutputError: Swift.Error, Swift.Equat
 
 extension GetHealthCheckLastFailureReasonOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetHealthCheckLastFailureReasonOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.healthCheckObservations = output.healthCheckObservations
         } else {
@@ -7147,9 +7120,8 @@ public enum GetHealthCheckOutputError: Swift.Error, Swift.Equatable {
 
 extension GetHealthCheckOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetHealthCheckOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.healthCheck = output.healthCheck
         } else {
@@ -7245,9 +7217,8 @@ public enum GetHealthCheckStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension GetHealthCheckStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetHealthCheckStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.healthCheckObservations = output.healthCheckObservations
         } else {
@@ -7347,9 +7318,8 @@ public enum GetHostedZoneCountOutputError: Swift.Error, Swift.Equatable {
 
 extension GetHostedZoneCountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetHostedZoneCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hostedZoneCount = output.hostedZoneCount
         } else {
@@ -7491,9 +7461,8 @@ public enum GetHostedZoneLimitOutputError: Swift.Error, Swift.Equatable {
 
 extension GetHostedZoneLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetHostedZoneLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
             self.limit = output.limit
@@ -7568,9 +7537,8 @@ public enum GetHostedZoneOutputError: Swift.Error, Swift.Equatable {
 
 extension GetHostedZoneOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetHostedZoneOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.delegationSet = output.delegationSet
             self.hostedZone = output.hostedZone
@@ -7702,9 +7670,8 @@ public enum GetQueryLoggingConfigOutputError: Swift.Error, Swift.Equatable {
 
 extension GetQueryLoggingConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetQueryLoggingConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.queryLoggingConfig = output.queryLoggingConfig
         } else {
@@ -7839,9 +7806,8 @@ public enum GetReusableDelegationSetLimitOutputError: Swift.Error, Swift.Equatab
 
 extension GetReusableDelegationSetLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetReusableDelegationSetLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
             self.limit = output.limit
@@ -7918,9 +7884,8 @@ public enum GetReusableDelegationSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetReusableDelegationSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetReusableDelegationSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.delegationSet = output.delegationSet
         } else {
@@ -8041,9 +8006,8 @@ public enum GetTrafficPolicyInstanceCountOutputError: Swift.Error, Swift.Equatab
 
 extension GetTrafficPolicyInstanceCountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTrafficPolicyInstanceCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trafficPolicyInstanceCount = output.trafficPolicyInstanceCount
         } else {
@@ -8139,9 +8103,8 @@ public enum GetTrafficPolicyInstanceOutputError: Swift.Error, Swift.Equatable {
 
 extension GetTrafficPolicyInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTrafficPolicyInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trafficPolicyInstance = output.trafficPolicyInstance
         } else {
@@ -8205,9 +8168,8 @@ public enum GetTrafficPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetTrafficPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTrafficPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trafficPolicy = output.trafficPolicy
         } else {
@@ -8354,7 +8316,7 @@ extension Route53ClientTypes {
 
 extension HealthCheckAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HealthCheckAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -8736,7 +8698,7 @@ extension Route53ClientTypes {
 
 extension HealthCheckInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HealthCheckInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -8961,7 +8923,7 @@ extension Route53ClientTypes {
 
 extension HealthCheckVersionMismatch {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HealthCheckVersionMismatchBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9117,7 +9079,7 @@ extension Route53ClientTypes {
 
 extension HostedZoneAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HostedZoneAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9331,7 +9293,7 @@ extension Route53ClientTypes {
 
 extension HostedZoneNotEmpty {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HostedZoneNotEmptyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9383,7 +9345,7 @@ extension HostedZoneNotEmptyBody: Swift.Decodable {
 
 extension HostedZoneNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HostedZoneNotFoundBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9435,7 +9397,7 @@ extension HostedZoneNotFoundBody: Swift.Decodable {
 
 extension HostedZoneNotPrivate {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HostedZoneNotPrivateBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9549,7 +9511,7 @@ extension Route53ClientTypes {
 
 extension HostedZonePartiallyDelegated {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<HostedZonePartiallyDelegatedBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9675,7 +9637,7 @@ extension Route53ClientTypes {
 
 extension IncompatibleVersion {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<IncompatibleVersionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9726,7 +9688,7 @@ extension IncompatibleVersionBody: Swift.Decodable {
 
 extension InsufficientCloudWatchLogsResourcePolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientCloudWatchLogsResourcePolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9822,7 +9784,7 @@ extension Route53ClientTypes {
 
 extension InvalidArgument {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidArgumentBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9874,7 +9836,7 @@ extension InvalidArgumentBody: Swift.Decodable {
 
 extension InvalidChangeBatch {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidChangeBatchBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9952,7 +9914,7 @@ extension InvalidChangeBatchBody: Swift.Decodable {
 
 extension InvalidDomainName {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDomainNameBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10004,7 +9966,7 @@ extension InvalidDomainNameBody: Swift.Decodable {
 
 extension InvalidInput {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidInputBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10056,7 +10018,7 @@ extension InvalidInputBody: Swift.Decodable {
 
 extension InvalidKMSArn {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidKMSArnBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10107,7 +10069,7 @@ extension InvalidKMSArnBody: Swift.Decodable {
 
 extension InvalidKeySigningKeyName {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidKeySigningKeyNameBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10158,7 +10120,7 @@ extension InvalidKeySigningKeyNameBody: Swift.Decodable {
 
 extension InvalidKeySigningKeyStatus {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidKeySigningKeyStatusBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10209,7 +10171,7 @@ extension InvalidKeySigningKeyStatusBody: Swift.Decodable {
 
 extension InvalidPaginationToken {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidPaginationTokenBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10260,7 +10222,7 @@ extension InvalidPaginationTokenBody: Swift.Decodable {
 
 extension InvalidSigningStatus {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSigningStatusBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10311,7 +10273,7 @@ extension InvalidSigningStatusBody: Swift.Decodable {
 
 extension InvalidTrafficPolicyDocument {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidTrafficPolicyDocumentBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10363,7 +10325,7 @@ extension InvalidTrafficPolicyDocumentBody: Swift.Decodable {
 
 extension InvalidVPCId {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidVPCIdBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10631,7 +10593,7 @@ extension Route53ClientTypes {
 
 extension KeySigningKeyAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<KeySigningKeyAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10682,7 +10644,7 @@ extension KeySigningKeyAlreadyExistsBody: Swift.Decodable {
 
 extension KeySigningKeyInParentDSRecord {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<KeySigningKeyInParentDSRecordBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10733,7 +10695,7 @@ extension KeySigningKeyInParentDSRecordBody: Swift.Decodable {
 
 extension KeySigningKeyInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<KeySigningKeyInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10784,7 +10746,7 @@ extension KeySigningKeyInUseBody: Swift.Decodable {
 
 extension KeySigningKeyWithActiveStatusNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<KeySigningKeyWithActiveStatusNotFoundBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10835,7 +10797,7 @@ extension KeySigningKeyWithActiveStatusNotFoundBody: Swift.Decodable {
 
 extension LastVPCAssociation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<LastVPCAssociationBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10887,7 +10849,7 @@ extension LastVPCAssociationBody: Swift.Decodable {
 
 extension LimitsExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<LimitsExceededBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11090,9 +11052,8 @@ public enum ListCidrBlocksOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCidrBlocksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCidrBlocksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cidrBlocks = output.cidrBlocks
             self.nextToken = output.nextToken
@@ -11227,9 +11188,8 @@ public enum ListCidrCollectionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCidrCollectionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCidrCollectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cidrCollections = output.cidrCollections
             self.nextToken = output.nextToken
@@ -11374,9 +11334,8 @@ public enum ListCidrLocationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCidrLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCidrLocationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cidrLocations = output.cidrLocations
             self.nextToken = output.nextToken
@@ -11528,9 +11487,8 @@ public enum ListGeoLocationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGeoLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGeoLocationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.geoLocationDetailsList = output.geoLocationDetailsList
             self.isTruncated = output.isTruncated
@@ -11712,9 +11670,8 @@ public enum ListHealthChecksOutputError: Swift.Error, Swift.Equatable {
 
 extension ListHealthChecksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListHealthChecksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.healthChecks = output.healthChecks
             self.isTruncated = output.isTruncated
@@ -11895,9 +11852,8 @@ public enum ListHostedZonesByNameOutputError: Swift.Error, Swift.Equatable {
 
 extension ListHostedZonesByNameOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListHostedZonesByNameOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dnsName = output.dnsName
             self.hostedZoneId = output.hostedZoneId
@@ -12111,9 +12067,8 @@ public enum ListHostedZonesByVPCOutputError: Swift.Error, Swift.Equatable {
 
 extension ListHostedZonesByVPCOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListHostedZonesByVPCOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hostedZoneSummaries = output.hostedZoneSummaries
             self.maxItems = output.maxItems
@@ -12273,9 +12228,8 @@ public enum ListHostedZonesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListHostedZonesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListHostedZonesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hostedZones = output.hostedZones
             self.isTruncated = output.isTruncated
@@ -12456,9 +12410,8 @@ public enum ListQueryLoggingConfigsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListQueryLoggingConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListQueryLoggingConfigsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.queryLoggingConfigs = output.queryLoggingConfigs
@@ -12638,9 +12591,8 @@ public enum ListResourceRecordSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListResourceRecordSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListResourceRecordSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.maxItems = output.maxItems
@@ -12820,9 +12772,8 @@ public enum ListReusableDelegationSetsOutputError: Swift.Error, Swift.Equatable 
 
 extension ListReusableDelegationSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListReusableDelegationSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.delegationSets = output.delegationSets
             self.isTruncated = output.isTruncated
@@ -12996,9 +12947,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceTagSet = output.resourceTagSet
         } else {
@@ -13166,9 +13116,8 @@ public enum ListTagsForResourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceTagSets = output.resourceTagSets
         } else {
@@ -13296,9 +13245,8 @@ public enum ListTrafficPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTrafficPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTrafficPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.maxItems = output.maxItems
@@ -13482,9 +13430,8 @@ public enum ListTrafficPolicyInstancesByHostedZoneOutputError: Swift.Error, Swif
 
 extension ListTrafficPolicyInstancesByHostedZoneOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTrafficPolicyInstancesByHostedZoneOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.maxItems = output.maxItems
@@ -13696,9 +13643,8 @@ public enum ListTrafficPolicyInstancesByPolicyOutputError: Swift.Error, Swift.Eq
 
 extension ListTrafficPolicyInstancesByPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTrafficPolicyInstancesByPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hostedZoneIdMarker = output.hostedZoneIdMarker
             self.isTruncated = output.isTruncated
@@ -13896,9 +13842,8 @@ public enum ListTrafficPolicyInstancesOutputError: Swift.Error, Swift.Equatable 
 
 extension ListTrafficPolicyInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTrafficPolicyInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hostedZoneIdMarker = output.hostedZoneIdMarker
             self.isTruncated = output.isTruncated
@@ -14088,9 +14033,8 @@ public enum ListTrafficPolicyVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTrafficPolicyVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTrafficPolicyVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.maxItems = output.maxItems
@@ -14263,9 +14207,8 @@ public enum ListVPCAssociationAuthorizationsOutputError: Swift.Error, Swift.Equa
 
 extension ListVPCAssociationAuthorizationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVPCAssociationAuthorizationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hostedZoneId = output.hostedZoneId
             self.nextToken = output.nextToken
@@ -14396,7 +14339,7 @@ extension Route53ClientTypes {
 
 extension NoSuchChange {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchChangeBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14447,7 +14390,7 @@ extension NoSuchChangeBody: Swift.Decodable {
 
 extension NoSuchCidrCollectionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchCidrCollectionExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14498,7 +14441,7 @@ extension NoSuchCidrCollectionExceptionBody: Swift.Decodable {
 
 extension NoSuchCidrLocationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchCidrLocationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14549,7 +14492,7 @@ extension NoSuchCidrLocationExceptionBody: Swift.Decodable {
 
 extension NoSuchCloudWatchLogsLogGroup {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchCloudWatchLogsLogGroupBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14600,7 +14543,7 @@ extension NoSuchCloudWatchLogsLogGroupBody: Swift.Decodable {
 
 extension NoSuchDelegationSet {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchDelegationSetBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14652,7 +14595,7 @@ extension NoSuchDelegationSetBody: Swift.Decodable {
 
 extension NoSuchGeoLocation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchGeoLocationBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14704,7 +14647,7 @@ extension NoSuchGeoLocationBody: Swift.Decodable {
 
 extension NoSuchHealthCheck {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchHealthCheckBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14756,7 +14699,7 @@ extension NoSuchHealthCheckBody: Swift.Decodable {
 
 extension NoSuchHostedZone {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchHostedZoneBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14808,7 +14751,7 @@ extension NoSuchHostedZoneBody: Swift.Decodable {
 
 extension NoSuchKeySigningKey {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchKeySigningKeyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14859,7 +14802,7 @@ extension NoSuchKeySigningKeyBody: Swift.Decodable {
 
 extension NoSuchQueryLoggingConfig {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchQueryLoggingConfigBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14910,7 +14853,7 @@ extension NoSuchQueryLoggingConfigBody: Swift.Decodable {
 
 extension NoSuchTrafficPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchTrafficPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -14962,7 +14905,7 @@ extension NoSuchTrafficPolicyBody: Swift.Decodable {
 
 extension NoSuchTrafficPolicyInstance {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchTrafficPolicyInstanceBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -15014,7 +14957,7 @@ extension NoSuchTrafficPolicyInstanceBody: Swift.Decodable {
 
 extension NotAuthorizedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NotAuthorizedExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -15066,7 +15009,7 @@ extension NotAuthorizedExceptionBody: Swift.Decodable {
 
 extension PriorRequestNotComplete {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<PriorRequestNotCompleteBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -15117,7 +15060,7 @@ extension PriorRequestNotCompleteBody: Swift.Decodable {
 
 extension PublicZoneVPCAssociation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<PublicZoneVPCAssociationBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -15244,7 +15187,7 @@ extension Route53ClientTypes {
 
 extension QueryLoggingConfigAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<QueryLoggingConfigAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16445,9 +16388,8 @@ public enum TestDNSAnswerOutputError: Swift.Error, Swift.Equatable {
 
 extension TestDNSAnswerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TestDNSAnswerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`protocol` = output.`protocol`
             self.nameserver = output.nameserver
@@ -16560,7 +16502,7 @@ extension TestDNSAnswerOutputResponseBody: Swift.Decodable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ThrottlingExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16611,7 +16553,7 @@ extension ThrottlingExceptionBody: Swift.Decodable {
 
 extension TooManyHealthChecks {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyHealthChecksBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16662,7 +16604,7 @@ extension TooManyHealthChecksBody: Swift.Decodable {
 
 extension TooManyHostedZones {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyHostedZonesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16714,7 +16656,7 @@ extension TooManyHostedZonesBody: Swift.Decodable {
 
 extension TooManyKeySigningKeys {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyKeySigningKeysBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16765,7 +16707,7 @@ extension TooManyKeySigningKeysBody: Swift.Decodable {
 
 extension TooManyTrafficPolicies {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyTrafficPoliciesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16817,7 +16759,7 @@ extension TooManyTrafficPoliciesBody: Swift.Decodable {
 
 extension TooManyTrafficPolicyInstances {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyTrafficPolicyInstancesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16869,7 +16811,7 @@ extension TooManyTrafficPolicyInstancesBody: Swift.Decodable {
 
 extension TooManyTrafficPolicyVersionsForCurrentPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyTrafficPolicyVersionsForCurrentPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16921,7 +16863,7 @@ extension TooManyTrafficPolicyVersionsForCurrentPolicyBody: Swift.Decodable {
 
 extension TooManyVPCAssociationAuthorizations {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyVPCAssociationAuthorizationsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -17080,7 +17022,7 @@ extension Route53ClientTypes {
 
 extension TrafficPolicyAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TrafficPolicyAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -17132,7 +17074,7 @@ extension TrafficPolicyAlreadyExistsBody: Swift.Decodable {
 
 extension TrafficPolicyInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TrafficPolicyInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -17325,7 +17267,7 @@ extension Route53ClientTypes {
 
 extension TrafficPolicyInstanceAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TrafficPolicyInstanceAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -17872,9 +17814,8 @@ public enum UpdateHealthCheckOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateHealthCheckOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateHealthCheckOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.healthCheck = output.healthCheck
         } else {
@@ -18013,9 +17954,8 @@ public enum UpdateHostedZoneCommentOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateHostedZoneCommentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateHostedZoneCommentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hostedZone = output.hostedZone
         } else {
@@ -18163,9 +18103,8 @@ public enum UpdateTrafficPolicyCommentOutputError: Swift.Error, Swift.Equatable 
 
 extension UpdateTrafficPolicyCommentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateTrafficPolicyCommentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trafficPolicy = output.trafficPolicy
         } else {
@@ -18335,9 +18274,8 @@ public enum UpdateTrafficPolicyInstanceOutputError: Swift.Error, Swift.Equatable
 
 extension UpdateTrafficPolicyInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateTrafficPolicyInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trafficPolicyInstance = output.trafficPolicyInstance
         } else {
@@ -18440,7 +18378,7 @@ extension Route53ClientTypes {
 
 extension VPCAssociationAuthorizationNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<VPCAssociationAuthorizationNotFoundBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -18492,7 +18430,7 @@ extension VPCAssociationAuthorizationNotFoundBody: Swift.Decodable {
 
 extension VPCAssociationNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<VPCAssociationNotFoundBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message

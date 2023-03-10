@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -88,9 +87,8 @@ extension HealthLakeClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -288,9 +286,8 @@ public enum CreateFHIRDatastoreOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateFHIRDatastoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datastoreArn = output.datastoreArn
             self.datastoreEndpoint = output.datastoreEndpoint
@@ -665,9 +662,8 @@ public enum DeleteFHIRDatastoreOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteFHIRDatastoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datastoreArn = output.datastoreArn
             self.datastoreEndpoint = output.datastoreEndpoint
@@ -815,9 +811,8 @@ public enum DescribeFHIRDatastoreOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFHIRDatastoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datastoreProperties = output.datastoreProperties
         } else {
@@ -946,9 +941,8 @@ public enum DescribeFHIRExportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFHIRExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFHIRExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exportJobProperties = output.exportJobProperties
         } else {
@@ -1077,9 +1071,8 @@ public enum DescribeFHIRImportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFHIRImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFHIRImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importJobProperties = output.importJobProperties
         } else {
@@ -1435,9 +1428,8 @@ extension HealthLakeClientTypes {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1671,9 +1663,8 @@ public enum ListFHIRDatastoresOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFHIRDatastoresOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFHIRDatastoresOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datastorePropertiesList = output.datastorePropertiesList
             self.nextToken = output.nextToken
@@ -1882,9 +1873,8 @@ public enum ListFHIRExportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFHIRExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFHIRExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exportJobPropertiesList = output.exportJobPropertiesList
             self.nextToken = output.nextToken
@@ -2093,9 +2083,8 @@ public enum ListFHIRImportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFHIRImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFHIRImportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importJobPropertiesList = output.importJobPropertiesList
             self.nextToken = output.nextToken
@@ -2226,9 +2215,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -2378,9 +2366,8 @@ extension HealthLakeClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2642,9 +2629,8 @@ public enum StartFHIRExportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StartFHIRExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartFHIRExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datastoreId = output.datastoreId
             self.jobId = output.jobId
@@ -2847,9 +2833,8 @@ public enum StartFHIRImportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StartFHIRImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartFHIRImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datastoreId = output.datastoreId
             self.jobId = output.jobId
@@ -3064,9 +3049,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3223,9 +3207,8 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1065,9 +1064,8 @@ public enum DescribeRecommendationExportJobsOutputError: Swift.Error, Swift.Equa
 
 extension DescribeRecommendationExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRecommendationExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recommendationExportJobs = output.recommendationExportJobs
@@ -2628,9 +2626,8 @@ public enum ExportAutoScalingGroupRecommendationsOutputError: Swift.Error, Swift
 
 extension ExportAutoScalingGroupRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExportAutoScalingGroupRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
@@ -2894,9 +2891,8 @@ public enum ExportEBSVolumeRecommendationsOutputError: Swift.Error, Swift.Equata
 
 extension ExportEBSVolumeRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExportEBSVolumeRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
@@ -3137,9 +3133,8 @@ public enum ExportEC2InstanceRecommendationsOutputError: Swift.Error, Swift.Equa
 
 extension ExportEC2InstanceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExportEC2InstanceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
@@ -3368,9 +3363,8 @@ public enum ExportECSServiceRecommendationsOutputError: Swift.Error, Swift.Equat
 
 extension ExportECSServiceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExportECSServiceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
@@ -3599,9 +3593,8 @@ public enum ExportLambdaFunctionRecommendationsOutputError: Swift.Error, Swift.E
 
 extension ExportLambdaFunctionRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExportLambdaFunctionRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
@@ -4821,9 +4814,8 @@ public enum GetAutoScalingGroupRecommendationsOutputError: Swift.Error, Swift.Eq
 
 extension GetAutoScalingGroupRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAutoScalingGroupRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingGroupRecommendations = output.autoScalingGroupRecommendations
             self.errors = output.errors
@@ -5067,9 +5059,8 @@ public enum GetEBSVolumeRecommendationsOutputError: Swift.Error, Swift.Equatable
 
 extension GetEBSVolumeRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetEBSVolumeRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.nextToken = output.nextToken
@@ -5325,9 +5316,8 @@ public enum GetEC2InstanceRecommendationsOutputError: Swift.Error, Swift.Equatab
 
 extension GetEC2InstanceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetEC2InstanceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.instanceRecommendations = output.instanceRecommendations
@@ -5552,9 +5542,8 @@ public enum GetEC2RecommendationProjectedMetricsOutputError: Swift.Error, Swift.
 
 extension GetEC2RecommendationProjectedMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetEC2RecommendationProjectedMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recommendedOptionProjectedMetrics = output.recommendedOptionProjectedMetrics
         } else {
@@ -5738,9 +5727,8 @@ public enum GetECSServiceRecommendationProjectedMetricsOutputError: Swift.Error,
 
 extension GetECSServiceRecommendationProjectedMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetECSServiceRecommendationProjectedMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recommendedOptionProjectedMetrics = output.recommendedOptionProjectedMetrics
         } else {
@@ -5955,9 +5943,8 @@ public enum GetECSServiceRecommendationsOutputError: Swift.Error, Swift.Equatabl
 
 extension GetECSServiceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetECSServiceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ecsServiceRecommendations = output.ecsServiceRecommendations
             self.errors = output.errors
@@ -6118,9 +6105,8 @@ public enum GetEffectiveRecommendationPreferencesOutputError: Swift.Error, Swift
 
 extension GetEffectiveRecommendationPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetEffectiveRecommendationPreferencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.enhancedInfrastructureMetrics = output.enhancedInfrastructureMetrics
             self.externalMetricsPreference = output.externalMetricsPreference
@@ -6229,9 +6215,8 @@ public enum GetEnrollmentStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension GetEnrollmentStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetEnrollmentStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lastUpdatedTimestamp = output.lastUpdatedTimestamp
             self.memberAccountsEnrolled = output.memberAccountsEnrolled
@@ -6425,9 +6410,8 @@ public enum GetEnrollmentStatusesForOrganizationOutputError: Swift.Error, Swift.
 
 extension GetEnrollmentStatusesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetEnrollmentStatusesForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountEnrollmentStatuses = output.accountEnrollmentStatuses
             self.nextToken = output.nextToken
@@ -6652,9 +6636,8 @@ public enum GetLambdaFunctionRecommendationsOutputError: Swift.Error, Swift.Equa
 
 extension GetLambdaFunctionRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLambdaFunctionRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lambdaFunctionRecommendations = output.lambdaFunctionRecommendations
             self.nextToken = output.nextToken
@@ -6887,9 +6870,8 @@ public enum GetRecommendationPreferencesOutputError: Swift.Error, Swift.Equatabl
 
 extension GetRecommendationPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRecommendationPreferencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recommendationPreferencesDetails = output.recommendationPreferencesDetails
@@ -7064,9 +7046,8 @@ public enum GetRecommendationSummariesOutputError: Swift.Error, Swift.Equatable 
 
 extension GetRecommendationSummariesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRecommendationSummariesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recommendationSummaries = output.recommendationSummaries
@@ -7747,9 +7728,8 @@ extension ComputeOptimizerClientTypes {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7799,9 +7779,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension InvalidParameterValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8662,9 +8641,8 @@ extension ComputeOptimizerClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8897,9 +8875,8 @@ extension ComputeOptimizerClientTypes {
 
 extension MissingAuthenticationToken {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MissingAuthenticationTokenBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8949,9 +8926,8 @@ extension MissingAuthenticationTokenBody: Swift.Decodable {
 
 extension OptInRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OptInRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9813,9 +9789,8 @@ extension ComputeOptimizerClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10243,9 +10218,8 @@ extension ComputeOptimizerClientTypes {
 
 extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10400,9 +10374,8 @@ extension ComputeOptimizerClientTypes {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10552,9 +10525,8 @@ public enum UpdateEnrollmentStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateEnrollmentStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateEnrollmentStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
             self.statusReason = output.statusReason

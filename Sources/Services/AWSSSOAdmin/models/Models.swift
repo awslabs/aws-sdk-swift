@@ -99,9 +99,8 @@ extension SSOAdminClientTypes {
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -667,9 +666,8 @@ extension SSOAdminClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -866,9 +864,8 @@ public enum CreateAccountAssignmentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAccountAssignmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAccountAssignmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountAssignmentCreationStatus = output.accountAssignmentCreationStatus
         } else {
@@ -1165,9 +1162,8 @@ public enum CreatePermissionSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePermissionSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePermissionSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.permissionSet = output.permissionSet
         } else {
@@ -1397,9 +1393,8 @@ public enum DeleteAccountAssignmentOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteAccountAssignmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteAccountAssignmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountAssignmentDeletionStatus = output.accountAssignmentDeletionStatus
         } else {
@@ -1926,9 +1921,8 @@ public enum DescribeAccountAssignmentCreationStatusOutputError: Swift.Error, Swi
 
 extension DescribeAccountAssignmentCreationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAccountAssignmentCreationStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountAssignmentCreationStatus = output.accountAssignmentCreationStatus
         } else {
@@ -2058,9 +2052,8 @@ public enum DescribeAccountAssignmentDeletionStatusOutputError: Swift.Error, Swi
 
 extension DescribeAccountAssignmentDeletionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAccountAssignmentDeletionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountAssignmentDeletionStatus = output.accountAssignmentDeletionStatus
         } else {
@@ -2177,9 +2170,8 @@ public enum DescribeInstanceAccessControlAttributeConfigurationOutputError: Swif
 
 extension DescribeInstanceAccessControlAttributeConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeInstanceAccessControlAttributeConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceAccessControlAttributeConfiguration = output.instanceAccessControlAttributeConfiguration
             self.status = output.status
@@ -2329,9 +2321,8 @@ public enum DescribePermissionSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribePermissionSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePermissionSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.permissionSet = output.permissionSet
         } else {
@@ -2461,9 +2452,8 @@ public enum DescribePermissionSetProvisioningStatusOutputError: Swift.Error, Swi
 
 extension DescribePermissionSetProvisioningStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePermissionSetProvisioningStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.permissionSetProvisioningStatus = output.permissionSetProvisioningStatus
         } else {
@@ -2825,9 +2815,8 @@ public enum GetInlinePolicyForPermissionSetOutputError: Swift.Error, Swift.Equat
 
 extension GetInlinePolicyForPermissionSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetInlinePolicyForPermissionSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.inlinePolicy = output.inlinePolicy
         } else {
@@ -2957,9 +2946,8 @@ public enum GetPermissionsBoundaryForPermissionSetOutputError: Swift.Error, Swif
 
 extension GetPermissionsBoundaryForPermissionSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetPermissionsBoundaryForPermissionSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.permissionsBoundary = output.permissionsBoundary
         } else {
@@ -3126,9 +3114,8 @@ extension SSOAdminClientTypes {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3292,9 +3279,8 @@ public enum ListAccountAssignmentCreationStatusOutputError: Swift.Error, Swift.E
 
 extension ListAccountAssignmentCreationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAccountAssignmentCreationStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountAssignmentsCreationStatus = output.accountAssignmentsCreationStatus
             self.nextToken = output.nextToken
@@ -3466,9 +3452,8 @@ public enum ListAccountAssignmentDeletionStatusOutputError: Swift.Error, Swift.E
 
 extension ListAccountAssignmentDeletionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAccountAssignmentDeletionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountAssignmentsDeletionStatus = output.accountAssignmentsDeletionStatus
             self.nextToken = output.nextToken
@@ -3654,9 +3639,8 @@ public enum ListAccountAssignmentsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAccountAssignmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAccountAssignmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountAssignments = output.accountAssignments
             self.nextToken = output.nextToken
@@ -3841,9 +3825,8 @@ public enum ListAccountsForProvisionedPermissionSetOutputError: Swift.Error, Swi
 
 extension ListAccountsForProvisionedPermissionSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAccountsForProvisionedPermissionSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountIds = output.accountIds
             self.nextToken = output.nextToken
@@ -4016,9 +3999,8 @@ public enum ListCustomerManagedPolicyReferencesInPermissionSetOutputError: Swift
 
 extension ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCustomerManagedPolicyReferencesInPermissionSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customerManagedPolicyReferences = output.customerManagedPolicyReferences
             self.nextToken = output.nextToken
@@ -4163,9 +4145,8 @@ public enum ListInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
             self.nextToken = output.nextToken
@@ -4338,9 +4319,8 @@ public enum ListManagedPoliciesInPermissionSetOutputError: Swift.Error, Swift.Eq
 
 extension ListManagedPoliciesInPermissionSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListManagedPoliciesInPermissionSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachedManagedPolicies = output.attachedManagedPolicies
             self.nextToken = output.nextToken
@@ -4512,9 +4492,8 @@ public enum ListPermissionSetProvisioningStatusOutputError: Swift.Error, Swift.E
 
 extension ListPermissionSetProvisioningStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPermissionSetProvisioningStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.permissionSetsProvisioningStatus = output.permissionSetsProvisioningStatus
@@ -4674,9 +4653,8 @@ public enum ListPermissionSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPermissionSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPermissionSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.permissionSets = output.permissionSets
@@ -4861,9 +4839,8 @@ public enum ListPermissionSetsProvisionedToAccountOutputError: Swift.Error, Swif
 
 extension ListPermissionSetsProvisionedToAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPermissionSetsProvisionedToAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.permissionSets = output.permissionSets
@@ -5024,9 +5001,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -5539,9 +5515,8 @@ public enum ProvisionPermissionSetOutputError: Swift.Error, Swift.Equatable {
 
 extension ProvisionPermissionSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ProvisionPermissionSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.permissionSetProvisioningStatus = output.permissionSetProvisioningStatus
         } else {
@@ -5878,9 +5853,8 @@ public struct PutPermissionsBoundaryToPermissionSetOutputResponse: Swift.Equatab
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5930,9 +5904,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6223,9 +6196,8 @@ extension SSOAdminClientTypes {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6645,9 +6617,8 @@ public struct UpdatePermissionSetOutputResponse: Swift.Equatable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

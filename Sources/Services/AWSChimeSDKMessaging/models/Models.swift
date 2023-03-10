@@ -211,9 +211,8 @@ public struct AssociateChannelFlowOutputResponse: Swift.Equatable {
 
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -567,9 +566,8 @@ public enum BatchCreateChannelMembershipOutputError: Swift.Error, Swift.Equatabl
 
 extension BatchCreateChannelMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchCreateChannelMembershipOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.batchChannelMemberships = output.batchChannelMemberships
             self.errors = output.errors
@@ -1174,9 +1172,8 @@ public enum ChannelFlowCallbackOutputError: Swift.Error, Swift.Equatable {
 
 extension ChannelFlowCallbackOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ChannelFlowCallbackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.callbackId = output.callbackId
             self.channelArn = output.channelArn
@@ -2442,9 +2439,8 @@ extension ChimeSDKMessagingClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -2610,9 +2606,8 @@ public enum CreateChannelBanOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateChannelBanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateChannelBanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.member = output.member
@@ -2825,9 +2820,8 @@ public enum CreateChannelFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateChannelFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateChannelFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelFlowArn = output.channelFlowArn
         } else {
@@ -3238,9 +3232,8 @@ public enum CreateChannelMembershipOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateChannelMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateChannelMembershipOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.member = output.member
@@ -3406,9 +3399,8 @@ public enum CreateChannelModeratorOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateChannelModeratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateChannelModeratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.channelModerator = output.channelModerator
@@ -3493,9 +3485,8 @@ public enum CreateChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
         } else {
@@ -4293,9 +4284,8 @@ public enum DescribeChannelBanOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeChannelBanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeChannelBanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelBan = output.channelBan
         } else {
@@ -4397,9 +4387,8 @@ public enum DescribeChannelFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeChannelFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeChannelFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelFlow = output.channelFlow
         } else {
@@ -4583,9 +4572,8 @@ public enum DescribeChannelMembershipForAppInstanceUserOutputError: Swift.Error,
 
 extension DescribeChannelMembershipForAppInstanceUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeChannelMembershipForAppInstanceUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelMembership = output.channelMembership
         } else {
@@ -4729,9 +4717,8 @@ public enum DescribeChannelMembershipOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeChannelMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeChannelMembershipOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelMembership = output.channelMembership
         } else {
@@ -4869,9 +4856,8 @@ public enum DescribeChannelModeratedByAppInstanceUserOutputError: Swift.Error, S
 
 extension DescribeChannelModeratedByAppInstanceUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeChannelModeratedByAppInstanceUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channel = output.channel
         } else {
@@ -4998,9 +4984,8 @@ public enum DescribeChannelModeratorOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeChannelModeratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeChannelModeratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelModerator = output.channelModerator
         } else {
@@ -5071,9 +5056,8 @@ public enum DescribeChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channel = output.channel
         } else {
@@ -5452,9 +5436,8 @@ extension ChimeSDKMessagingClientTypes {
 
 extension ForbiddenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -5599,9 +5582,8 @@ public enum GetChannelMembershipPreferencesOutputError: Swift.Error, Swift.Equat
 
 extension GetChannelMembershipPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetChannelMembershipPreferencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.member = output.member
@@ -5765,9 +5747,8 @@ public enum GetChannelMessageOutputError: Swift.Error, Swift.Equatable {
 
 extension GetChannelMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetChannelMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelMessage = output.channelMessage
         } else {
@@ -5910,9 +5891,8 @@ public enum GetChannelMessageStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension GetChannelMessageStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetChannelMessageStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -6001,9 +5981,8 @@ public enum GetMessagingSessionEndpointOutputError: Swift.Error, Swift.Equatable
 
 extension GetMessagingSessionEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMessagingSessionEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpoint = output.endpoint
         } else {
@@ -6396,9 +6375,8 @@ extension ListChannelBansOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension ListChannelBansOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListChannelBansOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.channelBans = output.channelBans
@@ -6567,9 +6545,8 @@ extension ListChannelFlowsOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension ListChannelFlowsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListChannelFlowsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelFlows = output.channelFlows
             self.nextToken = output.nextToken
@@ -6741,9 +6718,8 @@ extension ListChannelMembershipsForAppInstanceUserOutputResponse: Swift.CustomDe
 
 extension ListChannelMembershipsForAppInstanceUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListChannelMembershipsForAppInstanceUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelMemberships = output.channelMemberships
             self.nextToken = output.nextToken
@@ -6930,9 +6906,8 @@ extension ListChannelMembershipsOutputResponse: Swift.CustomDebugStringConvertib
 
 extension ListChannelMembershipsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListChannelMembershipsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.channelMemberships = output.channelMemberships
@@ -7145,9 +7120,8 @@ extension ListChannelMessagesOutputResponse: Swift.CustomDebugStringConvertible 
 
 extension ListChannelMessagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListChannelMessagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.channelMessages = output.channelMessages
@@ -7338,9 +7312,8 @@ extension ListChannelModeratorsOutputResponse: Swift.CustomDebugStringConvertibl
 
 extension ListChannelModeratorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListChannelModeratorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.channelModerators = output.channelModerators
@@ -7510,9 +7483,8 @@ extension ListChannelsAssociatedWithChannelFlowOutputResponse: Swift.CustomDebug
 
 extension ListChannelsAssociatedWithChannelFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListChannelsAssociatedWithChannelFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channels = output.channels
             self.nextToken = output.nextToken
@@ -7771,9 +7743,8 @@ extension ListChannelsModeratedByAppInstanceUserOutputResponse: Swift.CustomDebu
 
 extension ListChannelsModeratedByAppInstanceUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListChannelsModeratedByAppInstanceUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channels = output.channels
             self.nextToken = output.nextToken
@@ -7868,9 +7839,8 @@ extension ListChannelsOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension ListChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListChannelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channels = output.channels
             self.nextToken = output.nextToken
@@ -8041,9 +8011,8 @@ extension ListSubChannelsOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension ListSubChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSubChannelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.nextToken = output.nextToken
@@ -8186,9 +8155,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -8350,9 +8318,8 @@ extension ChimeSDKMessagingClientTypes {
 
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -8931,9 +8898,8 @@ public enum PutChannelMembershipPreferencesOutputError: Swift.Error, Swift.Equat
 
 extension PutChannelMembershipPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutChannelMembershipPreferencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.member = output.member
@@ -9268,9 +9234,8 @@ public enum RedactChannelMessageOutputError: Swift.Error, Swift.Equatable {
 
 extension RedactChannelMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RedactChannelMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.messageId = output.messageId
@@ -9329,9 +9294,8 @@ extension RedactChannelMessageOutputResponseBody: Swift.Decodable {
 
 extension ResourceLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -9532,9 +9496,8 @@ extension SearchChannelsOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension SearchChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SearchChannelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channels = output.channels
             self.nextToken = output.nextToken
@@ -9944,9 +9907,8 @@ public enum SendChannelMessageOutputError: Swift.Error, Swift.Equatable {
 
 extension SendChannelMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SendChannelMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.messageId = output.messageId
@@ -10015,9 +9977,8 @@ extension SendChannelMessageOutputResponseBody: Swift.Decodable {
 
 extension ServiceFailureException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceFailureExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -10076,9 +10037,8 @@ extension ServiceFailureExceptionBody: Swift.Decodable {
 
 extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -10440,9 +10400,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension ThrottledClientException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottledClientExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -10501,9 +10460,8 @@ extension ThrottledClientExceptionBody: Swift.Decodable {
 
 extension UnauthorizedClientException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnauthorizedClientExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -10807,9 +10765,8 @@ public enum UpdateChannelFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateChannelFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateChannelFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelFlowArn = output.channelFlowArn
         } else {
@@ -11101,9 +11058,8 @@ public enum UpdateChannelMessageOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateChannelMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateChannelMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.messageId = output.messageId
@@ -11206,9 +11162,8 @@ public enum UpdateChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
         } else {
@@ -11351,9 +11306,8 @@ public enum UpdateChannelReadMarkerOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateChannelReadMarkerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateChannelReadMarkerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.subChannelId = output.subChannelId

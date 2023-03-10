@@ -678,9 +678,8 @@ extension AmplifyBackendClientTypes {
 
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -824,9 +823,8 @@ public enum CloneBackendOutputError: Swift.Error, Swift.Equatable {
 
 extension CloneBackendOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CloneBackendOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -1026,9 +1024,8 @@ public enum CreateBackendAPIOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateBackendAPIOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateBackendAPIOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -1502,9 +1499,8 @@ public enum CreateBackendAuthOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateBackendAuthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateBackendAuthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -1979,9 +1975,8 @@ public enum CreateBackendConfigOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateBackendConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateBackendConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -2177,9 +2172,8 @@ public enum CreateBackendOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateBackendOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateBackendOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -2379,9 +2373,8 @@ public enum CreateBackendStorageOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateBackendStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateBackendStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -2566,9 +2559,8 @@ public enum CreateTokenOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.challengeCode = output.challengeCode
@@ -2742,9 +2734,8 @@ public enum DeleteBackendAPIOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteBackendAPIOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteBackendAPIOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -2926,9 +2917,8 @@ public enum DeleteBackendAuthOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteBackendAuthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteBackendAuthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -3084,9 +3074,8 @@ public enum DeleteBackendOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteBackendOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteBackendOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -3281,9 +3270,8 @@ public enum DeleteBackendStorageOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteBackendStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteBackendStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -3419,9 +3407,8 @@ public enum DeleteTokenOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isSuccess = output.isSuccess
         } else {
@@ -3538,9 +3525,8 @@ extension AmplifyBackendClientTypes {
 
 extension GatewayTimeoutException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GatewayTimeoutExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3684,9 +3670,8 @@ public enum GenerateBackendAPIModelsOutputError: Swift.Error, Swift.Equatable {
 
 extension GenerateBackendAPIModelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GenerateBackendAPIModelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -3945,9 +3930,8 @@ public enum GetBackendAPIModelsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBackendAPIModelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBackendAPIModelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.modelIntrospectionSchema = output.modelIntrospectionSchema
             self.models = output.models
@@ -4034,9 +4018,8 @@ public enum GetBackendAPIOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBackendAPIOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBackendAPIOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -4208,9 +4191,8 @@ public enum GetBackendAuthOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBackendAuthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBackendAuthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -4420,9 +4402,8 @@ public enum GetBackendJobOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBackendJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBackendJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -4559,9 +4540,8 @@ public enum GetBackendOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBackendOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBackendOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.amplifyFeatureFlags = output.amplifyFeatureFlags
             self.amplifyMetaConfig = output.amplifyMetaConfig
@@ -4762,9 +4742,8 @@ public enum GetBackendStorageOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBackendStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBackendStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -4967,9 +4946,8 @@ public enum GetTokenOutputError: Swift.Error, Swift.Equatable {
 
 extension GetTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.challengeCode = output.challengeCode
@@ -5169,9 +5147,8 @@ public enum ImportBackendAuthOutputError: Swift.Error, Swift.Equatable {
 
 extension ImportBackendAuthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportBackendAuthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -5365,9 +5342,8 @@ public enum ImportBackendStorageOutputError: Swift.Error, Swift.Equatable {
 
 extension ImportBackendStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportBackendStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -5576,9 +5552,8 @@ public enum ListBackendJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListBackendJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBackendJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobs = output.jobs
             self.nextToken = output.nextToken
@@ -5712,9 +5687,8 @@ public enum ListS3BucketsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListS3BucketsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListS3BucketsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.buckets = output.buckets
             self.nextToken = output.nextToken
@@ -5942,9 +5916,8 @@ extension AmplifyBackendClientTypes {
 
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceType = output.resourceType
@@ -6162,9 +6135,8 @@ public enum RemoveAllBackendsOutputError: Swift.Error, Swift.Equatable {
 
 extension RemoveAllBackendsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RemoveAllBackendsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.error = output.error
@@ -6302,9 +6274,8 @@ public enum RemoveBackendConfigOutputError: Swift.Error, Swift.Equatable {
 
 extension RemoveBackendConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RemoveBackendConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
         } else {
@@ -6808,9 +6779,8 @@ extension AmplifyBackendClientTypes {
 
 extension TooManyRequestsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.limitType = output.limitType
             self.message = output.message
@@ -7011,9 +6981,8 @@ public enum UpdateBackendAPIOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateBackendAPIOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateBackendAPIOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -7464,9 +7433,8 @@ public enum UpdateBackendAuthOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateBackendAuthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateBackendAuthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -7895,9 +7863,8 @@ public enum UpdateBackendConfigOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateBackendConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateBackendConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendManagerAppId = output.backendManagerAppId
@@ -8078,9 +8045,8 @@ public enum UpdateBackendJobOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateBackendJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateBackendJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName
@@ -8295,9 +8261,8 @@ public enum UpdateBackendStorageOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateBackendStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateBackendStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
             self.backendEnvironmentName = output.backendEnvironmentName

@@ -36,7 +36,7 @@ class Route53InvalidBatchErrorIntegrationTests {
                     self.messages = messages?.map(\.message)
                 }
                 static func makeFromHttpResponse(_ httpResponse: ClientRuntime.HttpResponse) -> CustomInvalidBatchError? {
-                    guard let data = httpResponse.body.toBytes()?.getData() else {
+                    guard let data = try httpResponse.body.toData() else {
                         return nil
                     }
                     return try? XMLDecoder().decode(CustomInvalidBatchError.self, from: data)

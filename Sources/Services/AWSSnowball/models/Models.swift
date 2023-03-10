@@ -337,9 +337,8 @@ public struct CancelJobOutputResponse: Swift.Equatable {
 
 extension ClusterLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ClusterLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -723,9 +722,8 @@ extension SnowballClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.conflictResource = output.conflictResource
             self.message = output.message
@@ -857,9 +855,8 @@ public enum CreateAddressOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAddressOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAddressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressId = output.addressId
         } else {
@@ -1142,9 +1139,8 @@ public enum CreateClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterId = output.clusterId
         } else {
@@ -1460,9 +1456,8 @@ public enum CreateJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -1595,9 +1590,8 @@ public enum CreateLongTermPricingOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLongTermPricingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLongTermPricingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.longTermPricingId = output.longTermPricingId
         } else {
@@ -1726,9 +1720,8 @@ public enum CreateReturnShippingLabelOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateReturnShippingLabelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateReturnShippingLabelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -1947,9 +1940,8 @@ public enum DescribeAddressOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAddressOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAddressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.address = output.address
         } else {
@@ -2071,9 +2063,8 @@ public enum DescribeAddressesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAddressesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAddressesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addresses = output.addresses
             self.nextToken = output.nextToken
@@ -2201,9 +2192,8 @@ public enum DescribeClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterMetadata = output.clusterMetadata
         } else {
@@ -2312,9 +2302,8 @@ public enum DescribeJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobMetadata = output.jobMetadata
             self.subJobMetadata = output.subJobMetadata
@@ -2446,9 +2435,8 @@ public enum DescribeReturnShippingLabelOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeReturnShippingLabelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeReturnShippingLabelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expirationDate = output.expirationDate
             self.returnShippingLabelURI = output.returnShippingLabelURI
@@ -2665,9 +2653,8 @@ extension SnowballClientTypes {
 
 extension Ec2RequestFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: Ec2RequestFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2824,9 +2811,8 @@ public enum GetJobManifestOutputError: Swift.Error, Swift.Equatable {
 
 extension GetJobManifestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetJobManifestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.manifestURI = output.manifestURI
         } else {
@@ -2937,9 +2923,8 @@ public enum GetJobUnlockCodeOutputError: Swift.Error, Swift.Equatable {
 
 extension GetJobUnlockCodeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetJobUnlockCodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.unlockCode = output.unlockCode
         } else {
@@ -3026,9 +3011,8 @@ public enum GetSnowballUsageOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSnowballUsageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSnowballUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snowballLimit = output.snowballLimit
             self.snowballsInUse = output.snowballsInUse
@@ -3149,9 +3133,8 @@ public enum GetSoftwareUpdatesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSoftwareUpdatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSoftwareUpdatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.updatesURI = output.updatesURI
         } else {
@@ -3225,9 +3208,8 @@ extension SnowballClientTypes {
 
 extension InvalidAddressException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidAddressExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3277,9 +3259,8 @@ extension InvalidAddressExceptionBody: Swift.Decodable {
 
 extension InvalidInputCombinationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidInputCombinationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3329,9 +3310,8 @@ extension InvalidInputCombinationExceptionBody: Swift.Decodable {
 
 extension InvalidJobStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidJobStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3381,9 +3361,8 @@ extension InvalidJobStateExceptionBody: Swift.Decodable {
 
 extension InvalidNextTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3433,9 +3412,8 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
 
 extension InvalidResourceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidResourceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceType = output.resourceType
@@ -4081,9 +4059,8 @@ extension SnowballClientTypes {
 
 extension KMSRequestFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KMSRequestFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4331,9 +4308,8 @@ public enum ListClusterJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListClusterJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListClusterJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobListEntries = output.jobListEntries
             self.nextToken = output.nextToken
@@ -4472,9 +4448,8 @@ public enum ListClustersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterListEntries = output.clusterListEntries
             self.nextToken = output.nextToken
@@ -4615,9 +4590,8 @@ public enum ListCompatibleImagesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCompatibleImagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCompatibleImagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.compatibleImages = output.compatibleImages
             self.nextToken = output.nextToken
@@ -4756,9 +4730,8 @@ public enum ListJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobListEntries = output.jobListEntries
             self.nextToken = output.nextToken
@@ -4899,9 +4872,8 @@ public enum ListLongTermPricingOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLongTermPricingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLongTermPricingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.longTermPricingEntries = output.longTermPricingEntries
             self.nextToken = output.nextToken
@@ -5079,9 +5051,8 @@ public enum ListServiceVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListServiceVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListServiceVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dependentServices = output.dependentServices
             self.nextToken = output.nextToken
@@ -5538,9 +5509,8 @@ extension SnowballClientTypes {
 
 extension ReturnShippingLabelAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReturnShippingLabelAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6267,9 +6237,8 @@ extension SnowballClientTypes {
 
 extension UnsupportedAddressException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedAddressExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

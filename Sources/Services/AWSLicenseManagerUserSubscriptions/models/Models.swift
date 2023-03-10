@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -211,9 +210,8 @@ public enum AssociateUserOutputError: Swift.Error, Swift.Equatable {
 
 extension AssociateUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceUserSummary = output.instanceUserSummary
         } else {
@@ -253,9 +251,8 @@ extension AssociateUserOutputResponseBody: Swift.Decodable {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -400,9 +397,8 @@ public enum DeregisterIdentityProviderOutputError: Swift.Error, Swift.Equatable 
 
 extension DeregisterIdentityProviderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeregisterIdentityProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.identityProviderSummary = output.identityProviderSummary
         } else {
@@ -562,9 +558,8 @@ public enum DisassociateUserOutputError: Swift.Error, Swift.Equatable {
 
 extension DisassociateUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceUserSummary = output.instanceUserSummary
         } else {
@@ -974,9 +969,8 @@ extension LicenseManagerUserSubscriptionsClientTypes {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1119,9 +1113,8 @@ public enum ListIdentityProvidersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListIdentityProvidersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListIdentityProvidersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.identityProviderSummaries = output.identityProviderSummaries
             self.nextToken = output.nextToken
@@ -1297,9 +1290,8 @@ public enum ListInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceSummaries = output.instanceSummaries
             self.nextToken = output.nextToken
@@ -1500,9 +1492,8 @@ public enum ListProductSubscriptionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListProductSubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListProductSubscriptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.productUserSummaries = output.productUserSummaries
@@ -1703,9 +1694,8 @@ public enum ListUserAssociationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListUserAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListUserAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceUserSummaries = output.instanceUserSummaries
             self.nextToken = output.nextToken
@@ -1979,9 +1969,8 @@ public enum RegisterIdentityProviderOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterIdentityProviderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterIdentityProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.identityProviderSummary = output.identityProviderSummary
         } else {
@@ -2021,9 +2010,8 @@ extension RegisterIdentityProviderOutputResponseBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2073,9 +2061,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2304,9 +2291,8 @@ public enum StartProductSubscriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension StartProductSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartProductSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.productUserSummary = output.productUserSummary
         } else {
@@ -2466,9 +2452,8 @@ public enum StopProductSubscriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension StopProductSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopProductSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.productUserSummary = output.productUserSummary
         } else {
@@ -2508,9 +2493,8 @@ extension StopProductSubscriptionOutputResponseBody: Swift.Decodable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2668,9 +2652,8 @@ public enum UpdateIdentityProviderSettingsOutputError: Swift.Error, Swift.Equata
 
 extension UpdateIdentityProviderSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateIdentityProviderSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.identityProviderSummary = output.identityProviderSummary
         } else {
@@ -2791,9 +2774,8 @@ extension LicenseManagerUserSubscriptionsClientTypes {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

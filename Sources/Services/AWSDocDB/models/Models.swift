@@ -94,9 +94,8 @@ public enum AddSourceIdentifierToSubscriptionOutputError: Swift.Error, Swift.Equ
 
 extension AddSourceIdentifierToSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddSourceIdentifierToSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
@@ -390,9 +389,8 @@ public enum ApplyPendingMaintenanceActionOutputError: Swift.Error, Swift.Equatab
 
 extension ApplyPendingMaintenanceActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApplyPendingMaintenanceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourcePendingMaintenanceActions = output.resourcePendingMaintenanceActions
         } else {
@@ -432,7 +430,7 @@ extension ApplyPendingMaintenanceActionOutputResponseBody: Swift.Decodable {
 
 extension AuthorizationNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AuthorizationNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -603,7 +601,7 @@ extension DocDBClientTypes {
 
 extension CertificateNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CertificateNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -901,9 +899,8 @@ public enum CopyDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatable
 
 extension CopyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CopyDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroup = output.dbClusterParameterGroup
         } else {
@@ -1127,9 +1124,8 @@ public enum CopyDBClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension CopyDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CopyDBClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshot = output.dbClusterSnapshot
         } else {
@@ -1613,9 +1609,8 @@ public enum CreateDBClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
@@ -1791,9 +1786,8 @@ public enum CreateDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatab
 
 extension CreateDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroup = output.dbClusterParameterGroup
         } else {
@@ -1972,9 +1966,8 @@ public enum CreateDBClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDBClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshot = output.dbClusterSnapshot
         } else {
@@ -2269,9 +2262,8 @@ public enum CreateDBInstanceOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbInstance = output.dbInstance
         } else {
@@ -2474,9 +2466,8 @@ public enum CreateDBSubnetGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDBSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbSubnetGroup = output.dbSubnetGroup
         } else {
@@ -2751,9 +2742,8 @@ public enum CreateEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
@@ -2933,9 +2923,8 @@ public enum CreateGlobalClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
@@ -3476,7 +3465,7 @@ extension DocDBClientTypes {
 
 extension DBClusterAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBClusterAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3592,7 +3581,7 @@ extension DocDBClientTypes {
 
 extension DBClusterNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBClusterNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3708,7 +3697,7 @@ extension DocDBClientTypes {
 
 extension DBClusterParameterGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBClusterParameterGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3759,7 +3748,7 @@ extension DBClusterParameterGroupNotFoundFaultBody: Swift.Decodable {
 
 extension DBClusterQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBClusterQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4082,7 +4071,7 @@ extension DocDBClientTypes {
 
 extension DBClusterSnapshotAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBClusterSnapshotAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4275,7 +4264,7 @@ extension DocDBClientTypes {
 
 extension DBClusterSnapshotNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBClusterSnapshotNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4856,7 +4845,7 @@ extension DocDBClientTypes {
 
 extension DBInstanceAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBInstanceAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4907,7 +4896,7 @@ extension DBInstanceAlreadyExistsFaultBody: Swift.Decodable {
 
 extension DBInstanceNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBInstanceNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5023,7 +5012,7 @@ extension DocDBClientTypes {
 
 extension DBParameterGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBParameterGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5074,7 +5063,7 @@ extension DBParameterGroupAlreadyExistsFaultBody: Swift.Decodable {
 
 extension DBParameterGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBParameterGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5125,7 +5114,7 @@ extension DBParameterGroupNotFoundFaultBody: Swift.Decodable {
 
 extension DBParameterGroupQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBParameterGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5176,7 +5165,7 @@ extension DBParameterGroupQuotaExceededFaultBody: Swift.Decodable {
 
 extension DBSecurityGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSecurityGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5227,7 +5216,7 @@ extension DBSecurityGroupNotFoundFaultBody: Swift.Decodable {
 
 extension DBSnapshotAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSnapshotAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5278,7 +5267,7 @@ extension DBSnapshotAlreadyExistsFaultBody: Swift.Decodable {
 
 extension DBSnapshotNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSnapshotNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5440,7 +5429,7 @@ extension DocDBClientTypes {
 
 extension DBSubnetGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSubnetGroupAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5491,7 +5480,7 @@ extension DBSubnetGroupAlreadyExistsFaultBody: Swift.Decodable {
 
 extension DBSubnetGroupDoesNotCoverEnoughAZs {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSubnetGroupDoesNotCoverEnoughAZsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5542,7 +5531,7 @@ extension DBSubnetGroupDoesNotCoverEnoughAZsBody: Swift.Decodable {
 
 extension DBSubnetGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSubnetGroupNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5593,7 +5582,7 @@ extension DBSubnetGroupNotFoundFaultBody: Swift.Decodable {
 
 extension DBSubnetGroupQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSubnetGroupQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5644,7 +5633,7 @@ extension DBSubnetGroupQuotaExceededFaultBody: Swift.Decodable {
 
 extension DBSubnetQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBSubnetQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5695,7 +5684,7 @@ extension DBSubnetQuotaExceededFaultBody: Swift.Decodable {
 
 extension DBUpgradeDependencyFailureFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DBUpgradeDependencyFailureFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5852,9 +5841,8 @@ public enum DeleteDBClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
@@ -6050,9 +6038,8 @@ public enum DeleteDBClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteDBClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshot = output.dbClusterSnapshot
         } else {
@@ -6170,9 +6157,8 @@ public enum DeleteDBInstanceOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbInstance = output.dbInstance
         } else {
@@ -6364,9 +6350,8 @@ public enum DeleteEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
@@ -6476,9 +6461,8 @@ public enum DeleteGlobalClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
@@ -6649,9 +6633,8 @@ public enum DescribeCertificatesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCertificatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificates = output.certificates
             self.marker = output.marker
@@ -6846,9 +6829,8 @@ public enum DescribeDBClusterParameterGroupsOutputError: Swift.Error, Swift.Equa
 
 extension DescribeDBClusterParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDBClusterParameterGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroups = output.dbClusterParameterGroups
             self.marker = output.marker
@@ -7056,9 +7038,8 @@ public enum DescribeDBClusterParametersOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeDBClusterParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDBClusterParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.parameters = output.parameters
@@ -7194,9 +7175,8 @@ public enum DescribeDBClusterSnapshotAttributesOutputError: Swift.Error, Swift.E
 
 extension DescribeDBClusterSnapshotAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDBClusterSnapshotAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshotAttributesResult = output.dbClusterSnapshotAttributesResult
         } else {
@@ -7423,9 +7403,8 @@ public enum DescribeDBClusterSnapshotsOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeDBClusterSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDBClusterSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshots = output.dbClusterSnapshots
             self.marker = output.marker
@@ -7623,9 +7602,8 @@ public enum DescribeDBClustersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDBClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDBClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusters = output.dbClusters
             self.marker = output.marker
@@ -7874,9 +7852,8 @@ public enum DescribeDBEngineVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDBEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDBEngineVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbEngineVersions = output.dbEngineVersions
             self.marker = output.marker
@@ -8088,9 +8065,8 @@ public enum DescribeDBInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDBInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDBInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbInstances = output.dbInstances
             self.marker = output.marker
@@ -8284,9 +8260,8 @@ public enum DescribeDBSubnetGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDBSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDBSubnetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbSubnetGroups = output.dbSubnetGroups
             self.marker = output.marker
@@ -8479,9 +8454,8 @@ public enum DescribeEngineDefaultClusterParametersOutputError: Swift.Error, Swif
 
 extension DescribeEngineDefaultClusterParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEngineDefaultClusterParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.engineDefaults = output.engineDefaults
         } else {
@@ -8623,9 +8597,8 @@ public enum DescribeEventCategoriesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEventCategoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventCategoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventCategoriesMapList = output.eventCategoriesMapList
         } else {
@@ -8809,9 +8782,8 @@ public enum DescribeEventSubscriptionsOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeEventSubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventSubscriptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscriptionsList = output.eventSubscriptionsList
             self.marker = output.marker
@@ -9096,9 +9068,8 @@ public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.marker = output.marker
@@ -9291,9 +9262,8 @@ public enum DescribeGlobalClustersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeGlobalClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGlobalClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalClusters = output.globalClusters
             self.marker = output.marker
@@ -9529,9 +9499,8 @@ public enum DescribeOrderableDBInstanceOptionsOutputError: Swift.Error, Swift.Eq
 
 extension DescribeOrderableDBInstanceOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeOrderableDBInstanceOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.orderableDBInstanceOptions = output.orderableDBInstanceOptions
@@ -9729,9 +9698,8 @@ public enum DescribePendingMaintenanceActionsOutputError: Swift.Error, Swift.Equ
 
 extension DescribePendingMaintenanceActionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePendingMaintenanceActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.pendingMaintenanceActions = output.pendingMaintenanceActions
@@ -10294,7 +10262,7 @@ extension DocDBClientTypes {
 
 extension EventSubscriptionQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EventSubscriptionQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10429,9 +10397,8 @@ public enum FailoverDBClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension FailoverDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FailoverDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
@@ -10695,7 +10662,7 @@ extension DocDBClientTypes {
 
 extension GlobalClusterAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<GlobalClusterAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10827,7 +10794,7 @@ extension DocDBClientTypes {
 
 extension GlobalClusterNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<GlobalClusterNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10878,7 +10845,7 @@ extension GlobalClusterNotFoundFaultBody: Swift.Decodable {
 
 extension GlobalClusterQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<GlobalClusterQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10929,7 +10896,7 @@ extension GlobalClusterQuotaExceededFaultBody: Swift.Decodable {
 
 extension InstanceQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InstanceQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10980,7 +10947,7 @@ extension InstanceQuotaExceededFaultBody: Swift.Decodable {
 
 extension InsufficientDBClusterCapacityFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientDBClusterCapacityFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11031,7 +10998,7 @@ extension InsufficientDBClusterCapacityFaultBody: Swift.Decodable {
 
 extension InsufficientDBInstanceCapacityFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientDBInstanceCapacityFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11082,7 +11049,7 @@ extension InsufficientDBInstanceCapacityFaultBody: Swift.Decodable {
 
 extension InsufficientStorageClusterCapacityFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientStorageClusterCapacityFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11133,7 +11100,7 @@ extension InsufficientStorageClusterCapacityFaultBody: Swift.Decodable {
 
 extension InvalidDBClusterSnapshotStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBClusterSnapshotStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11184,7 +11151,7 @@ extension InvalidDBClusterSnapshotStateFaultBody: Swift.Decodable {
 
 extension InvalidDBClusterStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBClusterStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11235,7 +11202,7 @@ extension InvalidDBClusterStateFaultBody: Swift.Decodable {
 
 extension InvalidDBInstanceStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBInstanceStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11286,7 +11253,7 @@ extension InvalidDBInstanceStateFaultBody: Swift.Decodable {
 
 extension InvalidDBParameterGroupStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBParameterGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11337,7 +11304,7 @@ extension InvalidDBParameterGroupStateFaultBody: Swift.Decodable {
 
 extension InvalidDBSecurityGroupStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBSecurityGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11388,7 +11355,7 @@ extension InvalidDBSecurityGroupStateFaultBody: Swift.Decodable {
 
 extension InvalidDBSnapshotStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBSnapshotStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11439,7 +11406,7 @@ extension InvalidDBSnapshotStateFaultBody: Swift.Decodable {
 
 extension InvalidDBSubnetGroupStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBSubnetGroupStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11490,7 +11457,7 @@ extension InvalidDBSubnetGroupStateFaultBody: Swift.Decodable {
 
 extension InvalidDBSubnetStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDBSubnetStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11541,7 +11508,7 @@ extension InvalidDBSubnetStateFaultBody: Swift.Decodable {
 
 extension InvalidEventSubscriptionStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidEventSubscriptionStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11592,7 +11559,7 @@ extension InvalidEventSubscriptionStateFaultBody: Swift.Decodable {
 
 extension InvalidGlobalClusterStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidGlobalClusterStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11643,7 +11610,7 @@ extension InvalidGlobalClusterStateFaultBody: Swift.Decodable {
 
 extension InvalidRestoreFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidRestoreFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11694,7 +11661,7 @@ extension InvalidRestoreFaultBody: Swift.Decodable {
 
 extension InvalidSubnet {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSubnetBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11745,7 +11712,7 @@ extension InvalidSubnetBody: Swift.Decodable {
 
 extension InvalidVPCNetworkStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidVPCNetworkStateFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11796,7 +11763,7 @@ extension InvalidVPCNetworkStateFaultBody: Swift.Decodable {
 
 extension KMSKeyNotAccessibleFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<KMSKeyNotAccessibleFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11956,9 +11923,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
@@ -12283,9 +12249,8 @@ public enum ModifyDBClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
@@ -12433,9 +12398,8 @@ public enum ModifyDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatab
 
 extension ModifyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroupName = output.dbClusterParameterGroupName
         } else {
@@ -12643,9 +12607,8 @@ public enum ModifyDBClusterSnapshotAttributeOutputError: Swift.Error, Swift.Equa
 
 extension ModifyDBClusterSnapshotAttributeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyDBClusterSnapshotAttributeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterSnapshotAttributesResult = output.dbClusterSnapshotAttributesResult
         } else {
@@ -12898,9 +12861,8 @@ public enum ModifyDBInstanceOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbInstance = output.dbInstance
         } else {
@@ -13065,9 +13027,8 @@ public enum ModifyDBSubnetGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyDBSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbSubnetGroup = output.dbSubnetGroup
         } else {
@@ -13255,9 +13216,8 @@ public enum ModifyEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyEventSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
@@ -13396,9 +13356,8 @@ public enum ModifyGlobalClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension ModifyGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
@@ -14104,9 +14063,8 @@ public enum RebootDBInstanceOutputError: Swift.Error, Swift.Equatable {
 
 extension RebootDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RebootDBInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbInstance = output.dbInstance
         } else {
@@ -14230,9 +14188,8 @@ public enum RemoveFromGlobalClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension RemoveFromGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RemoveFromGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalCluster = output.globalCluster
         } else {
@@ -14354,9 +14311,8 @@ public enum RemoveSourceIdentifierFromSubscriptionOutputError: Swift.Error, Swif
 
 extension RemoveSourceIdentifierFromSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RemoveSourceIdentifierFromSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventSubscription = output.eventSubscription
         } else {
@@ -14634,9 +14590,8 @@ public enum ResetDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatabl
 
 extension ResetDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResetDBClusterParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbClusterParameterGroupName = output.dbClusterParameterGroupName
         } else {
@@ -14686,7 +14641,7 @@ extension ResetDBClusterParameterGroupOutputResponseBody: Swift.Decodable {
 
 extension ResourceNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -15155,9 +15110,8 @@ public enum RestoreDBClusterFromSnapshotOutputError: Swift.Error, Swift.Equatabl
 
 extension RestoreDBClusterFromSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RestoreDBClusterFromSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
@@ -15526,9 +15480,8 @@ public enum RestoreDBClusterToPointInTimeOutputError: Swift.Error, Swift.Equatab
 
 extension RestoreDBClusterToPointInTimeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RestoreDBClusterToPointInTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
@@ -15568,7 +15521,7 @@ extension RestoreDBClusterToPointInTimeOutputResponseBody: Swift.Decodable {
 
 extension SNSInvalidTopicFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SNSInvalidTopicFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -15619,7 +15572,7 @@ extension SNSInvalidTopicFaultBody: Swift.Decodable {
 
 extension SNSNoAuthorizationFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SNSNoAuthorizationFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -15670,7 +15623,7 @@ extension SNSNoAuthorizationFaultBody: Swift.Decodable {
 
 extension SNSTopicArnNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SNSTopicArnNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -15721,7 +15674,7 @@ extension SNSTopicArnNotFoundFaultBody: Swift.Decodable {
 
 extension SharedSnapshotQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SharedSnapshotQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -15772,7 +15725,7 @@ extension SharedSnapshotQuotaExceededFaultBody: Swift.Decodable {
 
 extension SnapshotQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SnapshotQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -15823,7 +15776,7 @@ extension SnapshotQuotaExceededFaultBody: Swift.Decodable {
 
 extension SourceNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SourceNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -15989,9 +15942,8 @@ public enum StartDBClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension StartDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
@@ -16102,9 +16054,8 @@ public enum StopDBClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension StopDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopDBClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dbCluster = output.dbCluster
         } else {
@@ -16144,7 +16095,7 @@ extension StopDBClusterOutputResponseBody: Swift.Decodable {
 
 extension StorageQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StorageQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16195,7 +16146,7 @@ extension StorageQuotaExceededFaultBody: Swift.Decodable {
 
 extension StorageTypeNotSupportedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StorageTypeNotSupportedFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16301,7 +16252,7 @@ extension DocDBClientTypes {
 
 extension SubnetAlreadyInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubnetAlreadyInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16352,7 +16303,7 @@ extension SubnetAlreadyInUseBody: Swift.Decodable {
 
 extension SubscriptionAlreadyExistFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubscriptionAlreadyExistFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16403,7 +16354,7 @@ extension SubscriptionAlreadyExistFaultBody: Swift.Decodable {
 
 extension SubscriptionCategoryNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubscriptionCategoryNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16454,7 +16405,7 @@ extension SubscriptionCategoryNotFoundFaultBody: Swift.Decodable {
 
 extension SubscriptionNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubscriptionNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message

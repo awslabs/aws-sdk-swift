@@ -295,9 +295,8 @@ extension BatchDetectDominantLanguageOutputResponse: Swift.CustomDebugStringConv
 
 extension BatchDetectDominantLanguageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDetectDominantLanguageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorList = output.errorList
             self.resultList = output.resultList
@@ -537,9 +536,8 @@ extension BatchDetectEntitiesOutputResponse: Swift.CustomDebugStringConvertible 
 
 extension BatchDetectEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDetectEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorList = output.errorList
             self.resultList = output.resultList
@@ -779,9 +777,8 @@ extension BatchDetectKeyPhrasesOutputResponse: Swift.CustomDebugStringConvertibl
 
 extension BatchDetectKeyPhrasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDetectKeyPhrasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorList = output.errorList
             self.resultList = output.resultList
@@ -1019,9 +1016,8 @@ extension BatchDetectSentimentOutputResponse: Swift.CustomDebugStringConvertible
 
 extension BatchDetectSentimentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDetectSentimentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorList = output.errorList
             self.resultList = output.resultList
@@ -1261,9 +1257,8 @@ extension BatchDetectSyntaxOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension BatchDetectSyntaxOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDetectSyntaxOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorList = output.errorList
             self.resultList = output.resultList
@@ -1503,9 +1498,8 @@ extension BatchDetectTargetedSentimentOutputResponse: Swift.CustomDebugStringCon
 
 extension BatchDetectTargetedSentimentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDetectTargetedSentimentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorList = output.errorList
             self.resultList = output.resultList
@@ -1629,9 +1623,8 @@ extension ComprehendClientTypes {
 
 extension BatchSizeLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchSizeLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2310,9 +2303,8 @@ extension ClassifyDocumentOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension ClassifyDocumentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ClassifyDocumentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.classes = output.classes
             self.documentMetadata = output.documentMetadata
@@ -2427,9 +2419,8 @@ extension ClassifyDocumentOutputResponseBody: Swift.Decodable {
 
 extension ConcurrentModificationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2568,9 +2559,8 @@ public enum ContainsPiiEntitiesOutputError: Swift.Error, Swift.Equatable {
 
 extension ContainsPiiEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ContainsPiiEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.labels = output.labels
         } else {
@@ -3078,9 +3068,8 @@ public enum CreateDocumentClassifierOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDocumentClassifierOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDocumentClassifierOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.documentClassifierArn = output.documentClassifierArn
         } else {
@@ -3288,9 +3277,8 @@ public enum CreateEndpointOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointArn = output.endpointArn
             self.modelArn = output.modelArn
@@ -3566,9 +3554,8 @@ public enum CreateEntityRecognizerOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateEntityRecognizerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateEntityRecognizerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entityRecognizerArn = output.entityRecognizerArn
         } else {
@@ -5247,9 +5234,8 @@ public enum DescribeDocumentClassificationJobOutputError: Swift.Error, Swift.Equ
 
 extension DescribeDocumentClassificationJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDocumentClassificationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.documentClassificationJobProperties = output.documentClassificationJobProperties
         } else {
@@ -5364,9 +5350,8 @@ public enum DescribeDocumentClassifierOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeDocumentClassifierOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDocumentClassifierOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.documentClassifierProperties = output.documentClassifierProperties
         } else {
@@ -5481,9 +5466,8 @@ public enum DescribeDominantLanguageDetectionJobOutputError: Swift.Error, Swift.
 
 extension DescribeDominantLanguageDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDominantLanguageDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dominantLanguageDetectionJobProperties = output.dominantLanguageDetectionJobProperties
         } else {
@@ -5598,9 +5582,8 @@ public enum DescribeEndpointOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointProperties = output.endpointProperties
         } else {
@@ -5715,9 +5698,8 @@ public enum DescribeEntitiesDetectionJobOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeEntitiesDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEntitiesDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entitiesDetectionJobProperties = output.entitiesDetectionJobProperties
         } else {
@@ -5832,9 +5814,8 @@ public enum DescribeEntityRecognizerOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEntityRecognizerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEntityRecognizerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entityRecognizerProperties = output.entityRecognizerProperties
         } else {
@@ -5949,9 +5930,8 @@ public enum DescribeEventsDetectionJobOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeEventsDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventsDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventsDetectionJobProperties = output.eventsDetectionJobProperties
         } else {
@@ -6313,9 +6293,8 @@ public enum DescribeKeyPhrasesDetectionJobOutputError: Swift.Error, Swift.Equata
 
 extension DescribeKeyPhrasesDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeKeyPhrasesDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyPhrasesDetectionJobProperties = output.keyPhrasesDetectionJobProperties
         } else {
@@ -6430,9 +6409,8 @@ public enum DescribePiiEntitiesDetectionJobOutputError: Swift.Error, Swift.Equat
 
 extension DescribePiiEntitiesDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePiiEntitiesDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.piiEntitiesDetectionJobProperties = output.piiEntitiesDetectionJobProperties
         } else {
@@ -6545,9 +6523,8 @@ public enum DescribeResourcePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.lastModifiedTime = output.lastModifiedTime
@@ -6692,9 +6669,8 @@ public enum DescribeSentimentDetectionJobOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeSentimentDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSentimentDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sentimentDetectionJobProperties = output.sentimentDetectionJobProperties
         } else {
@@ -6809,9 +6785,8 @@ public enum DescribeTargetedSentimentDetectionJobOutputError: Swift.Error, Swift
 
 extension DescribeTargetedSentimentDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTargetedSentimentDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.targetedSentimentDetectionJobProperties = output.targetedSentimentDetectionJobProperties
         } else {
@@ -6926,9 +6901,8 @@ public enum DescribeTopicsDetectionJobOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeTopicsDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTopicsDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.topicsDetectionJobProperties = output.topicsDetectionJobProperties
         } else {
@@ -7052,9 +7026,8 @@ extension DetectDominantLanguageOutputResponse: Swift.CustomDebugStringConvertib
 
 extension DetectDominantLanguageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectDominantLanguageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.languages = output.languages
         } else {
@@ -7238,9 +7211,8 @@ extension DetectEntitiesOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension DetectEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.blocks = output.blocks
             self.documentMetadata = output.documentMetadata
@@ -7455,9 +7427,8 @@ extension DetectKeyPhrasesOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension DetectKeyPhrasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectKeyPhrasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyPhrases = output.keyPhrases
         } else {
@@ -7594,9 +7565,8 @@ public enum DetectPiiEntitiesOutputError: Swift.Error, Swift.Equatable {
 
 extension DetectPiiEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectPiiEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
         } else {
@@ -7744,9 +7714,8 @@ extension DetectSentimentOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension DetectSentimentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectSentimentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sentiment = output.sentiment
             self.sentimentScore = output.sentimentScore
@@ -7895,9 +7864,8 @@ extension DetectSyntaxOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension DetectSyntaxOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectSyntaxOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.syntaxTokens = output.syntaxTokens
         } else {
@@ -8045,9 +8013,8 @@ extension DetectTargetedSentimentOutputResponse: Swift.CustomDebugStringConverti
 
 extension DetectTargetedSentimentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectTargetedSentimentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
         } else {
@@ -12582,9 +12549,8 @@ public enum ImportModelOutputError: Swift.Error, Swift.Equatable {
 
 extension ImportModelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportModelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.modelArn = output.modelArn
         } else {
@@ -12715,9 +12681,8 @@ extension ComprehendClientTypes {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12767,9 +12732,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension InvalidFilterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidFilterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12900,9 +12864,8 @@ extension ComprehendClientTypes {
 
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.detail = output.detail
             self.message = output.message
@@ -13008,9 +12971,8 @@ extension ComprehendClientTypes {
 
 extension JobNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: JobNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13393,9 +13355,8 @@ extension ComprehendClientTypes {
 
 extension KmsKeyValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KmsKeyValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13779,9 +13740,8 @@ public enum ListDocumentClassificationJobsOutputError: Swift.Error, Swift.Equata
 
 extension ListDocumentClassificationJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDocumentClassificationJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.documentClassificationJobPropertiesList = output.documentClassificationJobPropertiesList
             self.nextToken = output.nextToken
@@ -13924,9 +13884,8 @@ public enum ListDocumentClassifierSummariesOutputError: Swift.Error, Swift.Equat
 
 extension ListDocumentClassifierSummariesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDocumentClassifierSummariesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.documentClassifierSummariesList = output.documentClassifierSummariesList
             self.nextToken = output.nextToken
@@ -14083,9 +14042,8 @@ public enum ListDocumentClassifiersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDocumentClassifiersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDocumentClassifiersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.documentClassifierPropertiesList = output.documentClassifierPropertiesList
             self.nextToken = output.nextToken
@@ -14242,9 +14200,8 @@ public enum ListDominantLanguageDetectionJobsOutputError: Swift.Error, Swift.Equ
 
 extension ListDominantLanguageDetectionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDominantLanguageDetectionJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dominantLanguageDetectionJobPropertiesList = output.dominantLanguageDetectionJobPropertiesList
             self.nextToken = output.nextToken
@@ -14399,9 +14356,8 @@ public enum ListEndpointsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointPropertiesList = output.endpointPropertiesList
             self.nextToken = output.nextToken
@@ -14558,9 +14514,8 @@ public enum ListEntitiesDetectionJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListEntitiesDetectionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListEntitiesDetectionJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entitiesDetectionJobPropertiesList = output.entitiesDetectionJobPropertiesList
             self.nextToken = output.nextToken
@@ -14703,9 +14658,8 @@ public enum ListEntityRecognizerSummariesOutputError: Swift.Error, Swift.Equatab
 
 extension ListEntityRecognizerSummariesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListEntityRecognizerSummariesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entityRecognizerSummariesList = output.entityRecognizerSummariesList
             self.nextToken = output.nextToken
@@ -14862,9 +14816,8 @@ public enum ListEntityRecognizersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListEntityRecognizersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListEntityRecognizersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entityRecognizerPropertiesList = output.entityRecognizerPropertiesList
             self.nextToken = output.nextToken
@@ -15021,9 +14974,8 @@ public enum ListEventsDetectionJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListEventsDetectionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListEventsDetectionJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventsDetectionJobPropertiesList = output.eventsDetectionJobPropertiesList
             self.nextToken = output.nextToken
@@ -15513,9 +15465,8 @@ public enum ListKeyPhrasesDetectionJobsOutputError: Swift.Error, Swift.Equatable
 
 extension ListKeyPhrasesDetectionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListKeyPhrasesDetectionJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyPhrasesDetectionJobPropertiesList = output.keyPhrasesDetectionJobPropertiesList
             self.nextToken = output.nextToken
@@ -15672,9 +15623,8 @@ public enum ListPiiEntitiesDetectionJobsOutputError: Swift.Error, Swift.Equatabl
 
 extension ListPiiEntitiesDetectionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPiiEntitiesDetectionJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.piiEntitiesDetectionJobPropertiesList = output.piiEntitiesDetectionJobPropertiesList
@@ -15831,9 +15781,8 @@ public enum ListSentimentDetectionJobsOutputError: Swift.Error, Swift.Equatable 
 
 extension ListSentimentDetectionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSentimentDetectionJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sentimentDetectionJobPropertiesList = output.sentimentDetectionJobPropertiesList
@@ -15965,9 +15914,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
             self.tags = output.tags
@@ -16124,9 +16072,8 @@ public enum ListTargetedSentimentDetectionJobsOutputError: Swift.Error, Swift.Eq
 
 extension ListTargetedSentimentDetectionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTargetedSentimentDetectionJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.targetedSentimentDetectionJobPropertiesList = output.targetedSentimentDetectionJobPropertiesList
@@ -16283,9 +16230,8 @@ public enum ListTopicsDetectionJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTopicsDetectionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTopicsDetectionJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.topicsDetectionJobPropertiesList = output.topicsDetectionJobPropertiesList
@@ -17366,9 +17312,8 @@ public enum PutResourcePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyRevisionId = output.policyRevisionId
         } else {
@@ -17560,9 +17505,8 @@ extension ComprehendClientTypes {
 
 extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17612,9 +17556,8 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
 
 extension ResourceLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17664,9 +17607,8 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17716,9 +17658,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 
 extension ResourceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -18335,9 +18276,8 @@ public enum StartDocumentClassificationJobOutputError: Swift.Error, Swift.Equata
 
 extension StartDocumentClassificationJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartDocumentClassificationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.documentClassifierArn = output.documentClassifierArn
             self.jobArn = output.jobArn
@@ -18598,9 +18538,8 @@ public enum StartDominantLanguageDetectionJobOutputError: Swift.Error, Swift.Equ
 
 extension StartDominantLanguageDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartDominantLanguageDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobArn = output.jobArn
             self.jobId = output.jobId
@@ -18888,9 +18827,8 @@ public enum StartEntitiesDetectionJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StartEntitiesDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartEntitiesDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entityRecognizerArn = output.entityRecognizerArn
             self.jobArn = output.jobArn
@@ -19161,9 +19099,8 @@ public enum StartEventsDetectionJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StartEventsDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartEventsDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobArn = output.jobArn
             self.jobId = output.jobId
@@ -19556,9 +19493,8 @@ public enum StartKeyPhrasesDetectionJobOutputError: Swift.Error, Swift.Equatable
 
 extension StartKeyPhrasesDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartKeyPhrasesDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobArn = output.jobArn
             self.jobId = output.jobId
@@ -19815,9 +19751,8 @@ public enum StartPiiEntitiesDetectionJobOutputError: Swift.Error, Swift.Equatabl
 
 extension StartPiiEntitiesDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartPiiEntitiesDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobArn = output.jobArn
             self.jobId = output.jobId
@@ -20069,9 +20004,8 @@ public enum StartSentimentDetectionJobOutputError: Swift.Error, Swift.Equatable 
 
 extension StartSentimentDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartSentimentDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobArn = output.jobArn
             self.jobId = output.jobId
@@ -20331,9 +20265,8 @@ public enum StartTargetedSentimentDetectionJobOutputError: Swift.Error, Swift.Eq
 
 extension StartTargetedSentimentDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartTargetedSentimentDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobArn = output.jobArn
             self.jobId = output.jobId
@@ -20592,9 +20525,8 @@ public enum StartTopicsDetectionJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StartTopicsDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartTopicsDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobArn = output.jobArn
             self.jobId = output.jobId
@@ -20735,9 +20667,8 @@ public enum StopDominantLanguageDetectionJobOutputError: Swift.Error, Swift.Equa
 
 extension StopDominantLanguageDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopDominantLanguageDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
@@ -20860,9 +20791,8 @@ public enum StopEntitiesDetectionJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StopEntitiesDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopEntitiesDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
@@ -20985,9 +20915,8 @@ public enum StopEventsDetectionJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StopEventsDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopEventsDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
@@ -21110,9 +21039,8 @@ public enum StopKeyPhrasesDetectionJobOutputError: Swift.Error, Swift.Equatable 
 
 extension StopKeyPhrasesDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopKeyPhrasesDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
@@ -21235,9 +21163,8 @@ public enum StopPiiEntitiesDetectionJobOutputError: Swift.Error, Swift.Equatable
 
 extension StopPiiEntitiesDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopPiiEntitiesDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
@@ -21360,9 +21287,8 @@ public enum StopSentimentDetectionJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StopSentimentDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopSentimentDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
@@ -21485,9 +21411,8 @@ public enum StopTargetedSentimentDetectionJobOutputError: Swift.Error, Swift.Equ
 
 extension StopTargetedSentimentDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopTargetedSentimentDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
@@ -22507,9 +22432,8 @@ extension ComprehendClientTypes {
 
 extension TextSizeLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TextSizeLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22559,9 +22483,8 @@ extension TextSizeLimitExceededExceptionBody: Swift.Decodable {
 
 extension TooManyRequestsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22611,9 +22534,8 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
 
 extension TooManyTagKeysException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagKeysExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22663,9 +22585,8 @@ extension TooManyTagKeysExceptionBody: Swift.Decodable {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22939,9 +22860,8 @@ extension ComprehendClientTypes {
 
 extension UnsupportedLanguageException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedLanguageExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

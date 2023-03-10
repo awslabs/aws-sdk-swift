@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -282,9 +281,8 @@ public enum AssociateAccountsOutputError: Swift.Error, Swift.Equatable {
 
 extension AssociateAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateAccountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -430,9 +428,8 @@ public enum AssociatePricingRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension AssociatePricingRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociatePricingRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -721,9 +718,8 @@ public enum BatchAssociateResourcesToCustomLineItemOutputError: Swift.Error, Swi
 
 extension BatchAssociateResourcesToCustomLineItemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchAssociateResourcesToCustomLineItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedAssociatedResources = output.failedAssociatedResources
             self.successfullyAssociatedResources = output.successfullyAssociatedResources
@@ -907,9 +903,8 @@ public enum BatchDisassociateResourcesFromCustomLineItemOutputError: Swift.Error
 
 extension BatchDisassociateResourcesFromCustomLineItemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDisassociateResourcesFromCustomLineItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedDisassociatedResources = output.failedDisassociatedResources
             self.successfullyDisassociatedResources = output.successfullyDisassociatedResources
@@ -1259,9 +1254,8 @@ extension BillingconductorClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.reason = output.reason
@@ -1558,9 +1552,8 @@ public enum CreateBillingGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateBillingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateBillingGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -1773,9 +1766,8 @@ public enum CreateCustomLineItemOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCustomLineItemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCustomLineItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -2011,9 +2003,8 @@ public enum CreatePricingPlanOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePricingPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePricingPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -2285,9 +2276,8 @@ public enum CreatePricingRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePricingRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -3020,9 +3010,8 @@ public enum DeleteBillingGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteBillingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteBillingGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -3151,9 +3140,8 @@ public enum DeleteCustomLineItemOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteCustomLineItemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteCustomLineItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -3270,9 +3258,8 @@ public enum DeletePricingPlanOutputError: Swift.Error, Swift.Equatable {
 
 extension DeletePricingPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeletePricingPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -3389,9 +3376,8 @@ public enum DeletePricingRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension DeletePricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeletePricingRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -3535,9 +3521,8 @@ public enum DisassociateAccountsOutputError: Swift.Error, Swift.Equatable {
 
 extension DisassociateAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateAccountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -3681,9 +3666,8 @@ public enum DisassociatePricingRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension DisassociatePricingRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociatePricingRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -3808,9 +3792,8 @@ extension InternalServerException {
         } else {
             self.retryAfterSeconds = 0
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4033,9 +4016,8 @@ public enum ListAccountAssociationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAccountAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAccountAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.linkedAccounts = output.linkedAccounts
             self.nextToken = output.nextToken
@@ -4253,9 +4235,8 @@ public enum ListBillingGroupCostReportsOutputError: Swift.Error, Swift.Equatable
 
 extension ListBillingGroupCostReportsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBillingGroupCostReportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.billingGroupCostReports = output.billingGroupCostReports
             self.nextToken = output.nextToken
@@ -4505,9 +4486,8 @@ public enum ListBillingGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListBillingGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBillingGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.billingGroups = output.billingGroups
             self.nextToken = output.nextToken
@@ -4885,9 +4865,8 @@ public enum ListCustomLineItemVersionsOutputError: Swift.Error, Swift.Equatable 
 
 extension ListCustomLineItemVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCustomLineItemVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customLineItemVersions = output.customLineItemVersions
             self.nextToken = output.nextToken
@@ -5149,9 +5128,8 @@ public enum ListCustomLineItemsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCustomLineItemsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCustomLineItemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customLineItems = output.customLineItems
             self.nextToken = output.nextToken
@@ -5323,9 +5301,8 @@ public enum ListPricingPlansAssociatedWithPricingRuleOutputError: Swift.Error, S
 
 extension ListPricingPlansAssociatedWithPricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPricingPlansAssociatedWithPricingRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.billingPeriod = output.billingPeriod
             self.nextToken = output.nextToken
@@ -5561,9 +5538,8 @@ public enum ListPricingPlansOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPricingPlansOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPricingPlansOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.billingPeriod = output.billingPeriod
             self.nextToken = output.nextToken
@@ -5745,9 +5721,8 @@ public enum ListPricingRulesAssociatedToPricingPlanOutputError: Swift.Error, Swi
 
 extension ListPricingRulesAssociatedToPricingPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPricingRulesAssociatedToPricingPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.billingPeriod = output.billingPeriod
             self.nextToken = output.nextToken
@@ -5983,9 +5958,8 @@ public enum ListPricingRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPricingRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPricingRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.billingPeriod = output.billingPeriod
             self.nextToken = output.nextToken
@@ -6214,9 +6188,8 @@ public enum ListResourcesAssociatedToCustomLineItemOutputError: Swift.Error, Swi
 
 extension ListResourcesAssociatedToCustomLineItemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListResourcesAssociatedToCustomLineItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.associatedResources = output.associatedResources
@@ -6400,9 +6373,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -6783,9 +6755,8 @@ extension BillingconductorClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -6858,9 +6829,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 
 extension ServiceLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.limitCode = output.limitCode
             self.message = output.message
@@ -7066,9 +7036,8 @@ extension ThrottlingException {
         } else {
             self.retryAfterSeconds = 0
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7390,9 +7359,8 @@ extension UpdateBillingGroupOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension UpdateBillingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateBillingGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.description = output.description
@@ -7728,9 +7696,8 @@ extension UpdateCustomLineItemOutputResponse: Swift.CustomDebugStringConvertible
 
 extension UpdateCustomLineItemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateCustomLineItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.associationSize = output.associationSize
@@ -8015,9 +7982,8 @@ extension UpdatePricingPlanOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension UpdatePricingPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdatePricingPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.description = output.description
@@ -8246,9 +8212,8 @@ extension UpdatePricingRuleOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension UpdatePricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdatePricingRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.associatedPricingPlanCount = output.associatedPricingPlanCount
@@ -8443,9 +8408,8 @@ extension BillingconductorClientTypes {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fields = output.fields
             self.message = output.message

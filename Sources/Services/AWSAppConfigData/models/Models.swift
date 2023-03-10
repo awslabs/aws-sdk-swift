@@ -53,9 +53,8 @@ extension AppConfigDataClientTypes {
 
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.details = output.details
             self.message = output.message
@@ -251,9 +250,12 @@ extension GetLatestConfigurationOutputResponse: ClientRuntime.HttpResponseBindin
         } else {
             self.versionLabel = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
+        switch httpResponse.body {
+        case .data(let data):
             self.configuration = data
-        } else {
+        case .stream(let stream):
+            self.configuration = try stream.readToEnd()
+        case .none:
             self.configuration = nil
         }
     }
@@ -305,9 +307,8 @@ extension GetLatestConfigurationOutputResponseBody: Swift.Decodable {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -430,9 +431,8 @@ extension AppConfigDataClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.referencedBy = output.referencedBy
@@ -671,9 +671,8 @@ public enum StartConfigurationSessionOutputError: Swift.Error, Swift.Equatable {
 
 extension StartConfigurationSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartConfigurationSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.initialConfigurationToken = output.initialConfigurationToken
         } else {
@@ -712,9 +711,8 @@ extension StartConfigurationSessionOutputResponseBody: Swift.Decodable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

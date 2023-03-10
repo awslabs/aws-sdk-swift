@@ -949,9 +949,8 @@ extension DynamoDBClientTypes {
 
 extension BackupInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BackupInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1001,9 +1000,8 @@ extension BackupInUseExceptionBody: Swift.Decodable {
 
 extension BackupNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BackupNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1394,9 +1392,8 @@ public enum BatchExecuteStatementOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchExecuteStatementOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchExecuteStatementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
             self.responses = output.responses
@@ -1606,9 +1603,8 @@ public enum BatchGetItemOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchGetItemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchGetItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
             self.responses = output.responses
@@ -2107,9 +2103,8 @@ public enum BatchWriteItemOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchWriteItemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchWriteItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
             self.itemCollectionMetrics = output.itemCollectionMetrics
@@ -2718,9 +2713,8 @@ extension DynamoDBClientTypes {
 
 extension ConditionalCheckFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConditionalCheckFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3000,9 +2994,8 @@ extension DynamoDBClientTypes {
 
 extension ContinuousBackupsUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ContinuousBackupsUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3275,9 +3268,8 @@ public enum CreateBackupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateBackupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupDetails = output.backupDetails
         } else {
@@ -3499,9 +3491,8 @@ public enum CreateGlobalTableOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGlobalTableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGlobalTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalTableDescription = output.globalTableDescription
         } else {
@@ -4008,9 +3999,8 @@ public enum CreateTableOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateTableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableDescription = output.tableDescription
         } else {
@@ -4308,9 +4298,8 @@ public enum DeleteBackupOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteBackupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupDescription = output.backupDescription
         } else {
@@ -4673,9 +4662,8 @@ public enum DeleteItemOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteItemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
             self.consumedCapacity = output.consumedCapacity
@@ -4947,9 +4935,8 @@ public enum DeleteTableOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteTableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableDescription = output.tableDescription
         } else {
@@ -5063,9 +5050,8 @@ public enum DescribeBackupOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeBackupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupDescription = output.backupDescription
         } else {
@@ -5178,9 +5164,8 @@ public enum DescribeContinuousBackupsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeContinuousBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeContinuousBackupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.continuousBackupsDescription = output.continuousBackupsDescription
         } else {
@@ -5303,9 +5288,8 @@ public enum DescribeContributorInsightsOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeContributorInsightsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeContributorInsightsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contributorInsightsRuleList = output.contributorInsightsRuleList
             self.contributorInsightsStatus = output.contributorInsightsStatus
@@ -5459,9 +5443,8 @@ public enum DescribeEndpointsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpoints = output.endpoints
         } else {
@@ -5584,9 +5567,8 @@ public enum DescribeExportOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeExportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exportDescription = output.exportDescription
         } else {
@@ -5699,9 +5681,8 @@ public enum DescribeGlobalTableOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeGlobalTableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGlobalTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalTableDescription = output.globalTableDescription
         } else {
@@ -5814,9 +5795,8 @@ public enum DescribeGlobalTableSettingsOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeGlobalTableSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGlobalTableSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalTableName = output.globalTableName
             self.replicaSettings = output.replicaSettings
@@ -5944,9 +5924,8 @@ public enum DescribeImportOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeImportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importTableDescription = output.importTableDescription
         } else {
@@ -6060,9 +6039,8 @@ public enum DescribeKinesisStreamingDestinationOutputError: Swift.Error, Swift.E
 
 extension DescribeKinesisStreamingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeKinesisStreamingDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.kinesisDataStreamDestinations = output.kinesisDataStreamDestinations
             self.tableName = output.tableName
@@ -6173,9 +6151,8 @@ public enum DescribeLimitsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountMaxReadCapacityUnits = output.accountMaxReadCapacityUnits
             self.accountMaxWriteCapacityUnits = output.accountMaxWriteCapacityUnits
@@ -6334,9 +6311,8 @@ public enum DescribeTableOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeTableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.table = output.table
         } else {
@@ -6448,9 +6424,8 @@ public enum DescribeTableReplicaAutoScalingOutputError: Swift.Error, Swift.Equat
 
 extension DescribeTableReplicaAutoScalingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTableReplicaAutoScalingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableAutoScalingDescription = output.tableAutoScalingDescription
         } else {
@@ -6563,9 +6538,8 @@ public enum DescribeTimeToLiveOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeTimeToLiveOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTimeToLiveOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.timeToLiveDescription = output.timeToLiveDescription
         } else {
@@ -6736,9 +6710,8 @@ public enum DisableKinesisStreamingDestinationOutputError: Swift.Error, Swift.Eq
 
 extension DisableKinesisStreamingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisableKinesisStreamingDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.destinationStatus = output.destinationStatus
             self.streamArn = output.streamArn
@@ -6797,9 +6770,8 @@ extension DisableKinesisStreamingDestinationOutputResponseBody: Swift.Decodable 
 
 extension DuplicateItemException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DuplicateItemExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6940,9 +6912,8 @@ public enum EnableKinesisStreamingDestinationOutputError: Swift.Error, Swift.Equ
 
 extension EnableKinesisStreamingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EnableKinesisStreamingDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.destinationStatus = output.destinationStatus
             self.streamArn = output.streamArn
@@ -7210,9 +7181,8 @@ public enum ExecuteStatementOutputError: Swift.Error, Swift.Equatable {
 
 extension ExecuteStatementOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExecuteStatementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
             self.items = output.items
@@ -7426,9 +7396,8 @@ public enum ExecuteTransactionOutputError: Swift.Error, Swift.Equatable {
 
 extension ExecuteTransactionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExecuteTransactionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
             self.responses = output.responses
@@ -7616,9 +7585,8 @@ extension DynamoDBClientTypes {
 
 extension ExportConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExportConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7919,9 +7887,8 @@ extension DynamoDBClientTypes {
 
 extension ExportNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExportNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8232,9 +8199,8 @@ public enum ExportTableToPointInTimeOutputError: Swift.Error, Swift.Equatable {
 
 extension ExportTableToPointInTimeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExportTableToPointInTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exportDescription = output.exportDescription
         } else {
@@ -8627,9 +8593,8 @@ public enum GetItemOutputError: Swift.Error, Swift.Equatable {
 
 extension GetItemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
             self.item = output.item
@@ -9174,9 +9139,8 @@ extension DynamoDBClientTypes {
 
 extension GlobalTableAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GlobalTableAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9377,9 +9341,8 @@ extension DynamoDBClientTypes {
 
 extension GlobalTableNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GlobalTableNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9467,9 +9430,8 @@ extension DynamoDBClientTypes {
 
 extension IdempotentParameterMismatchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IdempotentParameterMismatchExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9519,9 +9481,8 @@ extension IdempotentParameterMismatchExceptionBody: Swift.Decodable {
 
 extension ImportConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9571,9 +9532,8 @@ extension ImportConflictExceptionBody: Swift.Decodable {
 
 extension ImportNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10120,9 +10080,8 @@ public enum ImportTableOutputError: Swift.Error, Swift.Equatable {
 
 extension ImportTableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importTableDescription = output.importTableDescription
         } else {
@@ -10162,9 +10121,8 @@ extension ImportTableOutputResponseBody: Swift.Decodable {
 
 extension IndexNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IndexNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10357,9 +10315,8 @@ extension DynamoDBClientTypes {
 
 extension InternalServerError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10410,9 +10367,8 @@ extension InternalServerErrorBody: Swift.Decodable {
 
 extension InvalidEndpointException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidEndpointExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10461,9 +10417,8 @@ extension InvalidEndpointExceptionBody: Swift.Decodable {
 
 extension InvalidExportTimeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidExportTimeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10513,9 +10468,8 @@ extension InvalidExportTimeExceptionBody: Swift.Decodable {
 
 extension InvalidRestoreTimeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRestoreTimeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10634,9 +10588,8 @@ extension DynamoDBClientTypes {
 
 extension ItemCollectionSizeLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ItemCollectionSizeLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11023,9 +10976,8 @@ extension DynamoDBClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11213,9 +11165,8 @@ public enum ListBackupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBackupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupSummaries = output.backupSummaries
             self.lastEvaluatedBackupArn = output.lastEvaluatedBackupArn
@@ -11368,9 +11319,8 @@ public enum ListContributorInsightsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListContributorInsightsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListContributorInsightsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contributorInsightsSummaries = output.contributorInsightsSummaries
             self.nextToken = output.nextToken
@@ -11523,9 +11473,8 @@ public enum ListExportsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListExportsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListExportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exportSummaries = output.exportSummaries
             self.nextToken = output.nextToken
@@ -11678,9 +11627,8 @@ public enum ListGlobalTablesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGlobalTablesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGlobalTablesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalTables = output.globalTables
             self.lastEvaluatedGlobalTableName = output.lastEvaluatedGlobalTableName
@@ -11831,9 +11779,8 @@ public enum ListImportsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListImportsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListImportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importSummaryList = output.importSummaryList
             self.nextToken = output.nextToken
@@ -11975,9 +11922,8 @@ public enum ListTablesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTablesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTablesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lastEvaluatedTableName = output.lastEvaluatedTableName
             self.tableNames = output.tableNames
@@ -12122,9 +12068,8 @@ public enum ListTagsOfResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsOfResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsOfResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -12622,9 +12567,8 @@ extension DynamoDBClientTypes {
 
 extension PointInTimeRecoveryUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PointInTimeRecoveryUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12894,9 +12838,8 @@ extension DynamoDBClientTypes {
 
 extension ProvisionedThroughputExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ProvisionedThroughputExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13393,9 +13336,8 @@ public enum PutItemOutputError: Swift.Error, Swift.Equatable {
 
 extension PutItemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
             self.consumedCapacity = output.consumedCapacity
@@ -13942,9 +13884,8 @@ public enum QueryOutputError: Swift.Error, Swift.Equatable {
 
 extension QueryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: QueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
             self.count = output.count
@@ -14086,9 +14027,8 @@ extension DynamoDBClientTypes {
 
 extension ReplicaAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReplicaAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14799,9 +14739,8 @@ extension DynamoDBClientTypes {
 
 extension ReplicaNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReplicaNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15237,9 +15176,8 @@ extension DynamoDBClientTypes {
 
 extension RequestLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RequestLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15289,9 +15227,8 @@ extension RequestLimitExceededBody: Swift.Decodable {
 
 extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15342,9 +15279,8 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15641,9 +15577,8 @@ public enum RestoreTableFromBackupOutputError: Swift.Error, Swift.Equatable {
 
 extension RestoreTableFromBackupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RestoreTableFromBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableDescription = output.tableDescription
         } else {
@@ -15898,9 +15833,8 @@ public enum RestoreTableToPointInTimeOutputError: Swift.Error, Swift.Equatable {
 
 extension RestoreTableToPointInTimeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RestoreTableToPointInTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableDescription = output.tableDescription
         } else {
@@ -16777,9 +16711,8 @@ public enum ScanOutputError: Swift.Error, Swift.Equatable {
 
 extension ScanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ScanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
             self.count = output.count
@@ -17251,9 +17184,8 @@ extension DynamoDBClientTypes {
 
 extension TableAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TableAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -18017,9 +17949,8 @@ extension DynamoDBClientTypes {
 
 extension TableInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TableInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -18069,9 +18000,8 @@ extension TableInUseExceptionBody: Swift.Decodable {
 
 extension TableNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TableNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -18598,9 +18528,8 @@ public enum TransactGetItemsOutputError: Swift.Error, Swift.Equatable {
 
 extension TransactGetItemsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TransactGetItemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
             self.responses = output.responses
@@ -18870,9 +18799,8 @@ public enum TransactWriteItemsOutputError: Swift.Error, Swift.Equatable {
 
 extension TransactWriteItemsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TransactWriteItemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
             self.itemCollectionMetrics = output.itemCollectionMetrics
@@ -18946,9 +18874,8 @@ extension TransactWriteItemsOutputResponseBody: Swift.Decodable {
 
 extension TransactionCanceledException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TransactionCanceledExceptionBody = try responseDecoder.decode(responseBody: data)
             self.cancellationReasons = output.cancellationReasons
             self.message = output.message
@@ -19137,9 +19064,8 @@ extension TransactionCanceledExceptionBody: Swift.Decodable {
 
 extension TransactionConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TransactionConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -19189,9 +19115,8 @@ extension TransactionConflictExceptionBody: Swift.Decodable {
 
 extension TransactionInProgressException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TransactionInProgressExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -19602,9 +19527,8 @@ public enum UpdateContinuousBackupsOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateContinuousBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateContinuousBackupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.continuousBackupsDescription = output.continuousBackupsDescription
         } else {
@@ -19740,9 +19664,8 @@ public enum UpdateContributorInsightsOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateContributorInsightsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateContributorInsightsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contributorInsightsStatus = output.contributorInsightsStatus
             self.indexName = output.indexName
@@ -19953,9 +19876,8 @@ public enum UpdateGlobalTableOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGlobalTableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateGlobalTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalTableDescription = output.globalTableDescription
         } else {
@@ -20164,9 +20086,8 @@ public enum UpdateGlobalTableSettingsOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGlobalTableSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateGlobalTableSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalTableName = output.globalTableName
             self.replicaSettings = output.replicaSettings
@@ -20579,9 +20500,8 @@ public enum UpdateItemOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateItemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
             self.consumedCapacity = output.consumedCapacity
@@ -20978,9 +20898,8 @@ public enum UpdateTableOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateTableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableDescription = output.tableDescription
         } else {
@@ -21156,9 +21075,8 @@ public enum UpdateTableReplicaAutoScalingOutputError: Swift.Error, Swift.Equatab
 
 extension UpdateTableReplicaAutoScalingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateTableReplicaAutoScalingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableAutoScalingDescription = output.tableAutoScalingDescription
         } else {
@@ -21289,9 +21207,8 @@ public enum UpdateTimeToLiveOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateTimeToLiveOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateTimeToLiveOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.timeToLiveSpecification = output.timeToLiveSpecification
         } else {

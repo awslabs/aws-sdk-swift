@@ -23,9 +23,8 @@ extension AccessDeniedException: Swift.Codable {
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -333,9 +332,8 @@ extension BadGatewayException: Swift.Codable {
 
 extension BadGatewayException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadGatewayExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -660,9 +658,8 @@ extension ConflictException: Swift.Codable {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -893,9 +890,8 @@ public enum DeleteSessionOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botAliasId = output.botAliasId
             self.botId = output.botId
@@ -983,9 +979,8 @@ extension DependencyFailedException: Swift.Codable {
 
 extension DependencyFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DependencyFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1339,9 +1334,8 @@ public enum GetSessionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.interpretations = output.interpretations
             self.messages = output.messages
@@ -1836,9 +1830,8 @@ extension InternalServerException: Swift.Codable {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2383,9 +2376,12 @@ extension PutSessionOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.sessionState = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.audioStream = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.audioStream = .data(data)
+        case .stream(let stream):
+            self.audioStream = .stream(stream)
+        case .none:
             self.audioStream = nil
         }
     }
@@ -2598,9 +2594,8 @@ public enum RecognizeTextOutputError: Swift.Error, Swift.Equatable {
 
 extension RecognizeTextOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RecognizeTextOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.interpretations = output.interpretations
             self.messages = output.messages
@@ -2728,9 +2723,8 @@ public struct RecognizeUtteranceInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let inputStream = input.operationInput.inputStream {
-            let inputStreamdata = inputStream
-            let inputStreambody = ClientRuntime.HttpBody.stream(inputStreamdata)
-            input.builder.withBody(inputStreambody)
+            let inputStreamBody = ClientRuntime.HttpBody(byteStream: inputStream)
+            input.builder.withBody(inputStreamBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -2753,7 +2747,7 @@ extension RecognizeUtteranceInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputStream = self.inputStream {
-            try encodeContainer.encode(inputStream.toBytes().getData(), forKey: .inputStream)
+            try encodeContainer.encode(inputStream, forKey: .inputStream)
         }
     }
 }
@@ -2983,9 +2977,12 @@ extension RecognizeUtteranceOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.sessionState = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.audioStream = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.audioStream = .data(data)
+        case .stream(let stream):
+            self.audioStream = .stream(stream)
+        case .none:
             self.audioStream = nil
         }
     }
@@ -3122,9 +3119,8 @@ extension ResourceNotFoundException: Swift.Codable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3732,15 +3728,15 @@ public struct StartConversationInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let requestEventStream = input.operationInput.requestEventStream {
-                let requestEventStreamdata = try encoder.encode(requestEventStream)
-                let requestEventStreambody = ClientRuntime.HttpBody.data(requestEventStreamdata)
-                input.builder.withBody(requestEventStreambody)
+                let requestEventStreamData = try encoder.encode(requestEventStream)
+                let requestEventStreamBody = ClientRuntime.HttpBody.data(requestEventStreamData)
+                input.builder.withBody(requestEventStreamBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let requestEventStreamdata = "{}".data(using: .utf8)!
-                    let requestEventStreambody = ClientRuntime.HttpBody.data(requestEventStreamdata)
-                    input.builder.withBody(requestEventStreambody)
+                    let requestEventStreamData = "{}".data(using: .utf8)!
+                    let requestEventStreamBody = ClientRuntime.HttpBody.data(requestEventStreamData)
+                    input.builder.withBody(requestEventStreamBody)
                 }
             }
         } catch let err {
@@ -3878,13 +3874,9 @@ public enum StartConversationOutputError: Swift.Error, Swift.Equatable {
 
 extension StartConversationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: LexRuntimeV2ClientTypes.StartConversationResponseEventStream = try responseDecoder.decode(responseBody: data)
-                self.responseEventStream = output
-            } else {
-                self.responseEventStream = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: LexRuntimeV2ClientTypes.StartConversationResponseEventStream = try responseDecoder.decode(responseBody: data)
+            self.responseEventStream = output
         } else {
             self.responseEventStream = nil
         }
@@ -4353,9 +4345,8 @@ extension ThrottlingException: Swift.Codable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4470,9 +4461,8 @@ extension ValidationException: Swift.Codable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

@@ -279,9 +279,8 @@ extension DAXClientTypes {
 
 extension ClusterAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ClusterAlreadyExistsFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -363,9 +362,8 @@ extension DAXClientTypes {
 
 extension ClusterNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ClusterNotFoundFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -415,9 +413,8 @@ extension ClusterNotFoundFaultBody: Swift.Decodable {
 
 extension ClusterQuotaForCustomerExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ClusterQuotaForCustomerExceededFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -787,9 +784,8 @@ public enum CreateClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -920,9 +916,8 @@ public enum CreateParameterGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.parameterGroup = output.parameterGroup
         } else {
@@ -1076,9 +1071,8 @@ public enum CreateSubnetGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subnetGroup = output.subnetGroup
         } else {
@@ -1258,9 +1252,8 @@ public enum DecreaseReplicationFactorOutputError: Swift.Error, Swift.Equatable {
 
 extension DecreaseReplicationFactorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DecreaseReplicationFactorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -1377,9 +1370,8 @@ public enum DeleteClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -1496,9 +1488,8 @@ public enum DeleteParameterGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deletionMessage = output.deletionMessage
         } else {
@@ -1611,9 +1602,8 @@ public enum DeleteSubnetGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deletionMessage = output.deletionMessage
         } else {
@@ -1763,9 +1753,8 @@ public enum DescribeClustersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusters = output.clusters
             self.nextToken = output.nextToken
@@ -1908,9 +1897,8 @@ public enum DescribeDefaultParametersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDefaultParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDefaultParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.parameters = output.parameters
@@ -2113,9 +2101,8 @@ public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextToken = output.nextToken
@@ -2284,9 +2271,8 @@ public enum DescribeParameterGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeParameterGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.parameterGroups = output.parameterGroups
@@ -2456,9 +2442,8 @@ public enum DescribeParametersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.parameters = output.parameters
@@ -2623,9 +2608,8 @@ public enum DescribeSubnetGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSubnetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.subnetGroups = output.subnetGroups
@@ -2926,9 +2910,8 @@ public enum IncreaseReplicationFactorOutputError: Swift.Error, Swift.Equatable {
 
 extension IncreaseReplicationFactorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IncreaseReplicationFactorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -2967,9 +2950,8 @@ extension IncreaseReplicationFactorOutputResponseBody: Swift.Decodable {
 
 extension InsufficientClusterCapacityFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InsufficientClusterCapacityFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3019,9 +3001,8 @@ extension InsufficientClusterCapacityFaultBody: Swift.Decodable {
 
 extension InvalidARNFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidARNFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3071,9 +3052,8 @@ extension InvalidARNFaultBody: Swift.Decodable {
 
 extension InvalidClusterStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidClusterStateFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3123,9 +3103,8 @@ extension InvalidClusterStateFaultBody: Swift.Decodable {
 
 extension InvalidParameterCombinationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterCombinationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3175,9 +3154,8 @@ extension InvalidParameterCombinationExceptionBody: Swift.Decodable {
 
 extension InvalidParameterGroupStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterGroupStateFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3227,9 +3205,8 @@ extension InvalidParameterGroupStateFaultBody: Swift.Decodable {
 
 extension InvalidParameterValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3279,9 +3256,8 @@ extension InvalidParameterValueExceptionBody: Swift.Decodable {
 
 extension InvalidSubnet {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidSubnetBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3331,9 +3307,8 @@ extension InvalidSubnetBody: Swift.Decodable {
 
 extension InvalidVPCNetworkStateFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidVPCNetworkStateFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3510,9 +3485,8 @@ public enum ListTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -3655,9 +3629,8 @@ extension DAXClientTypes {
 
 extension NodeNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NodeNotFoundFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3707,9 +3680,8 @@ extension NodeNotFoundFaultBody: Swift.Decodable {
 
 extension NodeQuotaForClusterExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NodeQuotaForClusterExceededFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3759,9 +3731,8 @@ extension NodeQuotaForClusterExceededFaultBody: Swift.Decodable {
 
 extension NodeQuotaForCustomerExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NodeQuotaForCustomerExceededFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4083,9 +4054,8 @@ extension DAXClientTypes {
 
 extension ParameterGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ParameterGroupAlreadyExistsFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4135,9 +4105,8 @@ extension ParameterGroupAlreadyExistsFaultBody: Swift.Decodable {
 
 extension ParameterGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ParameterGroupNotFoundFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4187,9 +4156,8 @@ extension ParameterGroupNotFoundFaultBody: Swift.Decodable {
 
 extension ParameterGroupQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ParameterGroupQuotaExceededFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4476,9 +4444,8 @@ public enum RebootNodeOutputError: Swift.Error, Swift.Equatable {
 
 extension RebootNodeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RebootNodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -4679,9 +4646,8 @@ extension DAXClientTypes {
 
 extension ServiceLinkedRoleNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceLinkedRoleNotFoundFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4914,9 +4880,8 @@ extension DAXClientTypes {
 
 extension SubnetGroupAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SubnetGroupAlreadyExistsFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4966,9 +4931,8 @@ extension SubnetGroupAlreadyExistsFaultBody: Swift.Decodable {
 
 extension SubnetGroupInUseFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SubnetGroupInUseFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5018,9 +4982,8 @@ extension SubnetGroupInUseFaultBody: Swift.Decodable {
 
 extension SubnetGroupNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SubnetGroupNotFoundFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5070,9 +5033,8 @@ extension SubnetGroupNotFoundFaultBody: Swift.Decodable {
 
 extension SubnetGroupQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SubnetGroupQuotaExceededFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5122,9 +5084,8 @@ extension SubnetGroupQuotaExceededFaultBody: Swift.Decodable {
 
 extension SubnetInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SubnetInUseBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5174,9 +5135,8 @@ extension SubnetInUseBody: Swift.Decodable {
 
 extension SubnetQuotaExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SubnetQuotaExceededFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5271,9 +5231,8 @@ extension DAXClientTypes {
 
 extension TagNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TagNotFoundFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5323,9 +5282,8 @@ extension TagNotFoundFaultBody: Swift.Decodable {
 
 extension TagQuotaPerResourceExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TagQuotaPerResourceExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5482,9 +5440,8 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TagResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -5639,9 +5596,8 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UntagResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -5855,9 +5811,8 @@ public enum UpdateClusterOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -5999,9 +5954,8 @@ public enum UpdateParameterGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.parameterGroup = output.parameterGroup
         } else {
@@ -6154,9 +6108,8 @@ public enum UpdateSubnetGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subnetGroup = output.subnetGroup
         } else {

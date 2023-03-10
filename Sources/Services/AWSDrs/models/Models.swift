@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -145,9 +144,8 @@ extension DrsClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -446,9 +444,8 @@ public enum CreateExtendedSourceServerOutputError: Swift.Error, Swift.Equatable 
 
 extension CreateExtendedSourceServerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateExtendedSourceServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sourceServer = output.sourceServer
         } else {
@@ -1001,9 +998,8 @@ extension CreateReplicationConfigurationTemplateOutputResponse: Swift.CustomDebu
 
 extension CreateReplicationConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateReplicationConfigurationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.associateDefaultSecurityGroup = output.associateDefaultSecurityGroup
@@ -2342,9 +2338,8 @@ public enum DescribeJobLogItemsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeJobLogItemsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeJobLogItemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -2501,9 +2496,8 @@ public enum DescribeJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -2900,9 +2894,8 @@ public enum DescribeRecoveryInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRecoveryInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRecoveryInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -3155,9 +3148,8 @@ public enum DescribeRecoverySnapshotsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRecoverySnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRecoverySnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -3373,9 +3365,8 @@ public enum DescribeReplicationConfigurationTemplatesOutputError: Swift.Error, S
 
 extension DescribeReplicationConfigurationTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeReplicationConfigurationTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -3532,9 +3523,8 @@ public enum DescribeSourceServersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeSourceServersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSourceServersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -3844,9 +3834,8 @@ extension DisconnectSourceServerOutputResponse: Swift.CustomDebugStringConvertib
 
 extension DisconnectSourceServerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisconnectSourceServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.dataReplicationInfo = output.dataReplicationInfo
@@ -4375,9 +4364,8 @@ public enum GetFailbackReplicationConfigurationOutputError: Swift.Error, Swift.E
 
 extension GetFailbackReplicationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetFailbackReplicationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bandwidthThrottling = output.bandwidthThrottling
             self.name = output.name
@@ -4523,9 +4511,8 @@ public enum GetLaunchConfigurationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLaunchConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLaunchConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.copyPrivateIp = output.copyPrivateIp
             self.copyTags = output.copyTags
@@ -4717,9 +4704,8 @@ extension GetReplicationConfigurationOutputResponse: Swift.CustomDebugStringConv
 
 extension GetReplicationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetReplicationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associateDefaultSecurityGroup = output.associateDefaultSecurityGroup
             self.autoReplicateNewDisks = output.autoReplicateNewDisks
@@ -5126,9 +5112,8 @@ extension InternalServerException {
         } else {
             self.retryAfterSeconds = 0
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6182,9 +6167,8 @@ public enum ListExtensibleSourceServersOutputError: Swift.Error, Swift.Equatable
 
 extension ListExtensibleSourceServersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListExtensibleSourceServersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -6320,9 +6304,8 @@ public enum ListStagingAccountsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListStagingAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStagingAccountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accounts = output.accounts
             self.nextToken = output.nextToken
@@ -6446,9 +6429,8 @@ extension ListTagsForResourceOutputResponse: Swift.CustomDebugStringConvertible 
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -8440,9 +8422,8 @@ extension DrsClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -8605,9 +8586,8 @@ extension RetryDataReplicationOutputResponse: Swift.CustomDebugStringConvertible
 
 extension RetryDataReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RetryDataReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.dataReplicationInfo = output.dataReplicationInfo
@@ -8847,9 +8827,8 @@ public enum ReverseReplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension ReverseReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReverseReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reversedDirectionSourceServerArn = output.reversedDirectionSourceServerArn
         } else {
@@ -8888,9 +8867,8 @@ extension ReverseReplicationOutputResponseBody: Swift.Decodable {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -9614,9 +9592,8 @@ public enum StartFailbackLaunchOutputError: Swift.Error, Swift.Equatable {
 
 extension StartFailbackLaunchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartFailbackLaunchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.job = output.job
         } else {
@@ -9786,9 +9763,8 @@ public enum StartRecoveryOutputError: Swift.Error, Swift.Equatable {
 
 extension StartRecoveryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartRecoveryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.job = output.job
         } else {
@@ -9951,9 +9927,8 @@ public enum StartReplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension StartReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sourceServer = output.sourceServer
         } else {
@@ -10156,9 +10131,8 @@ public enum StopReplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension StopReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sourceServer = output.sourceServer
         } else {
@@ -10432,9 +10406,8 @@ public enum TerminateRecoveryInstancesOutputError: Swift.Error, Swift.Equatable 
 
 extension TerminateRecoveryInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TerminateRecoveryInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.job = output.job
         } else {
@@ -10478,9 +10451,8 @@ extension ThrottlingException {
         } else {
             self.retryAfterSeconds = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.quotaCode = output.quotaCode
@@ -10555,9 +10527,8 @@ extension ThrottlingExceptionBody: Swift.Decodable {
 
 extension UninitializedAccountException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UninitializedAccountExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -10990,9 +10961,8 @@ public enum UpdateLaunchConfigurationOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateLaunchConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateLaunchConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.copyPrivateIp = output.copyPrivateIp
             self.copyTags = output.copyTags
@@ -11614,9 +11584,8 @@ extension UpdateReplicationConfigurationOutputResponse: Swift.CustomDebugStringC
 
 extension UpdateReplicationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateReplicationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associateDefaultSecurityGroup = output.associateDefaultSecurityGroup
             self.autoReplicateNewDisks = output.autoReplicateNewDisks
@@ -12157,9 +12126,8 @@ extension UpdateReplicationConfigurationTemplateOutputResponse: Swift.CustomDebu
 
 extension UpdateReplicationConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateReplicationConfigurationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.associateDefaultSecurityGroup = output.associateDefaultSecurityGroup
@@ -12395,9 +12363,8 @@ extension UpdateReplicationConfigurationTemplateOutputResponseBody: Swift.Decoda
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.fieldList = output.fieldList

@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -654,9 +653,8 @@ extension AppflowClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -738,9 +736,8 @@ extension AppflowClientTypes {
 
 extension ConnectorAuthenticationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConnectorAuthenticationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2780,9 +2777,8 @@ extension AppflowClientTypes {
 
 extension ConnectorServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConnectorServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3083,9 +3079,8 @@ public enum CreateConnectorProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateConnectorProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateConnectorProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorProfileArn = output.connectorProfileArn
         } else {
@@ -3354,9 +3349,8 @@ public enum CreateFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.flowStatus = output.flowStatus
@@ -4430,9 +4424,8 @@ public enum DescribeConnectorEntityOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeConnectorEntityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConnectorEntityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorEntityFields = output.connectorEntityFields
         } else {
@@ -4567,9 +4560,8 @@ public enum DescribeConnectorOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorConfiguration = output.connectorConfiguration
         } else {
@@ -4739,9 +4731,8 @@ public enum DescribeConnectorProfilesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeConnectorProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConnectorProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorProfileDetails = output.connectorProfileDetails
             self.nextToken = output.nextToken
@@ -4906,9 +4897,8 @@ public enum DescribeConnectorsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeConnectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConnectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorConfigurations = output.connectorConfigurations
             self.connectors = output.connectors
@@ -5083,9 +5073,8 @@ public enum DescribeFlowExecutionRecordsOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeFlowExecutionRecordsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFlowExecutionRecordsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowExecutions = output.flowExecutions
             self.nextToken = output.nextToken
@@ -5215,9 +5204,8 @@ public enum DescribeFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
             self.createdBy = output.createdBy
@@ -7541,9 +7529,8 @@ extension AppflowClientTypes {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7766,9 +7753,8 @@ public enum ListConnectorEntitiesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListConnectorEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListConnectorEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorEntityMap = output.connectorEntityMap
             self.nextToken = output.nextToken
@@ -7917,9 +7903,8 @@ public enum ListConnectorsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListConnectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListConnectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectors = output.connectors
             self.nextToken = output.nextToken
@@ -8060,9 +8045,8 @@ public enum ListFlowsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFlowsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFlowsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flows = output.flows
             self.nextToken = output.nextToken
@@ -8177,9 +8161,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -10486,9 +10469,8 @@ public enum RegisterConnectorOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorArn = output.connectorArn
         } else {
@@ -10582,9 +10564,8 @@ extension AppflowClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12237,9 +12218,8 @@ extension AppflowClientTypes {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13427,9 +13407,8 @@ public enum StartFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension StartFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionId = output.executionId
             self.flowArn = output.flowArn
@@ -13564,9 +13543,8 @@ public enum StopFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension StopFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
             self.flowStatus = output.flowStatus
@@ -13957,9 +13935,8 @@ extension AppflowClientTypes {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14406,9 +14383,8 @@ public struct UnregisterConnectorOutputResponse: Swift.Equatable {
 
 extension UnsupportedOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14663,9 +14639,8 @@ public enum UpdateConnectorProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateConnectorProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateConnectorProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorProfileArn = output.connectorProfileArn
         } else {
@@ -14826,9 +14801,8 @@ public enum UpdateConnectorRegistrationOutputError: Swift.Error, Swift.Equatable
 
 extension UpdateConnectorRegistrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateConnectorRegistrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorArn = output.connectorArn
         } else {
@@ -15061,9 +15035,8 @@ public enum UpdateFlowOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowStatus = output.flowStatus
         } else {
@@ -15235,9 +15208,8 @@ extension AppflowClientTypes {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
