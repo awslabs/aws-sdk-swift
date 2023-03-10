@@ -11,7 +11,7 @@ import ClientRuntime
 
 final class AWSMessageEncoderStreamTests: XCTestCase {
     func testIterator_EndMessageSent() async {
-        let baseStream = AsyncThrowingStream { continuation in
+        let baseStream = AsyncThrowingStream<EventStream.Message, Error> { continuation in
             Task {
                 continuation.yield(validMessageWithAllHeaders)
                 continuation.yield(validMessageEmptyPayload)
