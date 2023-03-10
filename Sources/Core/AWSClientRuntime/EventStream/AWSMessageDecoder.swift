@@ -23,7 +23,7 @@ extension AWSEventStream {
 
         private let logger = SwiftLogger(label: "AWSMessageDecoder")
 
-        init() {
+        public init() {
             self.decoder = EventStreamMessageDecoder(
                 onPayloadSegment: { payload, finalSegment in
                     self.logger.debug("onPayloadSegment: \(payload.count) bytes, finalSegment: \(finalSegment)")

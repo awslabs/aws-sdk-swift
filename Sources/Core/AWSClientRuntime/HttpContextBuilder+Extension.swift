@@ -39,8 +39,16 @@ extension HttpContext {
 
     /// Returns the request signature for the event stream operation
     /// - Returns: `String` request signature
-    func getRequestSignature() -> String? {
+    public func getRequestSignature() -> String? {
         return attributes.get(key: AttributeKey<String>(name: "AWS_HTTP_SIGNATURE"))
+    }
+    
+    public func getMessageEncoder() -> MessageEncoder? {
+        return attributes.get(key: AttributeKey<MessageEncoder>(name: "MessageEncoder"))
+    }
+    
+    public func getMessageDecoder() -> MessageDecoder? {
+        return attributes.get(key: AttributeKey<MessageDecoder>(name: "MessageDecoder"))
     }
 
     /// Returns the signing config for the event stream message
@@ -114,6 +122,18 @@ extension HttpContextBuilder {
     @discardableResult
     public func withRequestSignature(value: String) -> HttpContextBuilder {
         self.attributes.set(key: AttributeKey<String>(name: "AWS_HTTP_SIGNATURE"), value: value)
+        return self
+    }
+    
+    @discardableResult
+    public func withMessageEncoder(value: MessageEncoder) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKey<MessageEncoder>(name: "MessageEncoder"), value: value)
+        return self
+    }
+    
+    @discardableResult
+    public func withMessageDecoder(value: MessageDecoder) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKey<MessageDecoder>(name: "MessageDecoder"), value: value)
         return self
     }
 }

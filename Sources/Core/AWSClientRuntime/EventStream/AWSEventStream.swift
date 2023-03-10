@@ -6,7 +6,7 @@
 //
 
 /// Namespace for event stream related types
-enum AWSEventStream {
+public enum AWSEventStream {
 
 }
 

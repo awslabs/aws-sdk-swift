@@ -9,56 +9,48 @@ import ClientRuntime
 
 extension AWSEventStream {
     /// Stream adapter that encodes input into `Data` objects.
-    struct AWSMessageEncoderStream<Element: MessageMarshaller>: MessageEncoderStream {
-        let stream: AsyncThrowingStream<Element, Error>
-        
+    public class AWSMessageEncoderStream<Element: MessageMarshaller>: MessageEncoderStream {
+        let stream: EventStream.AsyncInputStream<Element>
         let messageEncoder: MessageEncoder
-        let requestSignature: String
-        let signingConfig: AWSSigningConfig
+        let messageSinger: MessageSigner
         let requestEncoder: RequestEncoder
 
-        init(stream: AsyncThrowingStream<Element, Error>,
-             messageEncoder: MessageEncoder,
-             requestEncoder: RequestEncoder,
-             signingConfig: AWSSigningConfig,
-             requestSignature: String) {
+        public init(stream: EventStream.AsyncInputStream<Element>,
+                    messageEncoder: MessageEncoder,
+                    requestEncoder: RequestEncoder,
+                    messageSinger: MessageSigner) {
             self.stream = stream
             self.messageEncoder = messageEncoder
-            self.requestSignature = requestSignature
-            self.signingConfig = signingConfig
+            self.messageSinger = messageSinger
             self.requestEncoder = requestEncoder
         }
 
-        struct AsyncIterator: AsyncIteratorProtocol {
-            let stream: AsyncThrowingStream<Element, Error>
+        public struct AsyncIterator: AsyncIteratorProtocol {
+            let stream: EventStream.AsyncInputStream<Element>
             let messageEncoder: MessageEncoder
-            var previousSignature: String
-            let signingConfig: AWSSigningConfig
-            var lastMessageSent: Bool = false
+            var messageSinger: MessageSigner
             let requestEncoder: RequestEncoder
 
-            init(stream: AsyncThrowingStream<Element, Error>,
+            private var lastMessageSent: Bool = false
+
+            init(stream: EventStream.AsyncInputStream<Element>,
                  messageEncoder: MessageEncoder,
                  requestEncoder: RequestEncoder,
-                 signingConfig: AWSSigningConfig,
-                 requestSignature: String) {
+                 messageSinger: MessageSigner) {
                 self.stream = stream
                 self.messageEncoder = messageEncoder
-                self.previousSignature = requestSignature
-                self.signingConfig = signingConfig
+                self.messageSinger = messageSinger
                 self.requestEncoder = requestEncoder
             }
 
-            mutating func next() async throws -> Data? {
+            mutating public func next() async throws -> Data? {
                 var iterator = stream.makeAsyncIterator()
                 guard let event = try await iterator.next() else {
                     // There are no more messages in the base stream
                     // if we have not sent the last message, send it now
                     if !lastMessageSent {
-                        let signResult = try await AWSSigV4Signer.signEvent(payload: .init(),
-                                                                            previousSignature: previousSignature,
-                                                                            signingConfig: signingConfig)
-                        let data = try messageEncoder.encode(message: signResult.output)
+                        let emptySignedMessage = try await messageSinger.signEmpty()
+                        let data = try messageEncoder.encode(message: emptySignedMessage)
                         lastMessageSent = true
                         return data
                     }
@@ -67,30 +59,23 @@ extension AWSEventStream {
                     return nil
                 }
 
+                // marshall event to message
                 let message = try event.marshall(encoder: requestEncoder)
 
-                // encode the message
-                let encodedMessage = try messageEncoder.encode(message: message)
-
                 // sign the message
-                let signResult = try await AWSSigV4Signer.signEvent(payload: encodedMessage,
-                                                                    previousSignature: previousSignature,
-                                                                    signingConfig: signingConfig)
-                previousSignature = signResult.signature
+                let signedMessage = try await messageSinger.sign(message: message)
 
                 // encode again the signed message
-                let data = try messageEncoder.encode(message: signResult.output)
+                let data = try messageEncoder.encode(message: signedMessage)
                 return data
             }
         }
 
-        func makeAsyncIterator() -> AsyncIterator {
+        public func makeAsyncIterator() -> AsyncIterator {
             AsyncIterator(stream: stream,
                           messageEncoder: messageEncoder,
                           requestEncoder: requestEncoder,
-                          signingConfig: signingConfig,
-                          requestSignature: requestSignature)
+                          messageSinger: messageSinger)
         }
     }
-
 }

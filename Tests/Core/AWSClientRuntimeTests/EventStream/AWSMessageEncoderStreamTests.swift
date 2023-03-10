@@ -11,14 +11,14 @@ import ClientRuntime
 
 final class AWSMessageEncoderStreamTests: XCTestCase {
     func testIterator_EndMessageSent() async throws {
-        let baseStream = AsyncThrowingStream<TestEvent, Error> { continuation in
+        let baseStream = EventStream.AsyncInputStream<TestEvent>(AsyncThrowingStream<TestEvent, Error> { continuation in
             Task {
                 continuation.yield(.allHeaders)
                 continuation.yield(.emptyPayload)
                 continuation.yield(.noHeaders)
                 continuation.finish()
             }
-        }
+        })
 
         let messageEncoder = AWSEventStream.AWSMessageEncoder()
         let context = HttpContextBuilder().withSigningRegion(value: "us-east-2")
@@ -27,13 +27,13 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             .withCredentialsProvider(value: MyCustomCredentialsProvider(credentials:
                     .init(accessKey: "fake access key", secret: "fake secret key")))
             .build()
-        let signingConfig = try! await context.makeEventStreamSigningConfig()
+        
+        let messageSigner = AWSEventStream.AWSMessageSigner(context: context, encoder: messageEncoder)
 
         let sut = AWSEventStream.AWSMessageEncoderStream(stream: baseStream,
                                                          messageEncoder: messageEncoder,
                                                          requestEncoder: JSONEncoder(),
-                                                         signingConfig: signingConfig,
-                                                         requestSignature: context.getRequestSignature()!)
+                                                         messageSinger: messageSigner)
 
         var actual: [Data] = []
         for try await data in sut {

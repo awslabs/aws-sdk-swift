@@ -11,7 +11,8 @@ extension AWSEventStream {
 
     /// Encodes a `Message` into a `Data` object
     /// to be sent over the wire.
-    struct AWSMessageEncoder: MessageEncoder {
+    public struct AWSMessageEncoder: MessageEncoder {
+        init() {}
 
         /// Encodes a `Message` into a `Data` object
         public func encode(message: EventStream.Message) throws -> Data {
