@@ -14,7 +14,7 @@ public struct AWSSigningConfig {
     public let signedBodyHeader: AWSSignedBodyHeader
     public let signedBodyValue: AWSSignedBodyValue
     public let flags: SigningFlags
-    public internal(set) var date: Date
+    public let date: Date
     public let service: String
     public let region: String
     public let shouldSignHeader: ((String) -> Bool)?
