@@ -10,7 +10,7 @@ import ArgumentParser
 @main
 struct AWSSDKSwiftCLI: ParsableCommand {
     static var configuration = CommandConfiguration(
-        commandName: "assc",
+        commandName: "AWSSDKSwiftCLI",
         abstract: "CLI for managing the AWS SDK for Swift",
         subcommands: [
             GeneratePackageManifest.self,

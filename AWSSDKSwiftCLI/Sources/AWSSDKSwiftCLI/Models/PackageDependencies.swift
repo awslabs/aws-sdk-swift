@@ -46,7 +46,9 @@ extension PackageDependencies {
     ///
     /// - Parameter path: The path to the `packageDependencies.plist` file. Defaults to `packageDependencies.plist`
     func save(to path: String = fileName) throws {
-        let data = try PropertyListEncoder().encode(self)
+        let encoder = PropertyListEncoder()
+        encoder.outputFormat = .xml
+        let data = try encoder.encode(self)
         try data.write(to: URL(fileURLWithPath: path))
     }
 }
