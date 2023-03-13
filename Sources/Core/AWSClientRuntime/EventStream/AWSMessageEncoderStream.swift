@@ -9,7 +9,7 @@ import ClientRuntime
 
 extension AWSEventStream {
     /// Stream adapter that encodes input into `Data` objects.
-    public class AWSMessageEncoderStream<Element: MessageMarshaller>: MessageEncoderStream {
+    public class AWSMessageEncoderStream<Element: MessageMarshallable>: MessageEncoderStream {
         let stream: AsyncThrowingStream<Element, Error>
         let messageEncoder: MessageEncoder
         let messageSinger: MessageSigner

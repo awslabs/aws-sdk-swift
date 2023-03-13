@@ -10,7 +10,7 @@ import ClientRuntime
 extension AWSEventStream {
 
     /// Stream adapter that decodes input data into `EventStream.Message` objects.
-    struct AWSMessageDecoderStream<Element: MessageUnmarshaller>: MessageDecoderStream {
+    struct AWSMessageDecoderStream<Element: MessageUnmarshallable>: MessageDecoderStream {
 
         let stream: Stream
         let messageDecoder: MessageDecoder

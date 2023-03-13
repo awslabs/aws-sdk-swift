@@ -8,7 +8,7 @@
 import ClientRuntime
 import Foundation
 
-enum TestEvent: MessageMarshaller, MessageUnmarshaller {
+enum TestEvent: MessageMarshallable, MessageUnmarshallable {
     case allHeaders
     case emptyPayload
     case noHeaders
