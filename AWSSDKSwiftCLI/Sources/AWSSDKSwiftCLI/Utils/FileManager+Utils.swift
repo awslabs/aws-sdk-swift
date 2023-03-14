@@ -14,6 +14,7 @@ extension FileManager {
         guard FileManager.default.changeCurrentDirectoryPath(path) else {
             throw Error("Failed to change directory to \(path)")
         }
+        print("Changed working directory to: \(FileManager.default.currentDirectoryPath)")
     }
     
     /// Returns the contents of a file located at the provied path.

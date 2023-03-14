@@ -1,5 +1,5 @@
 import XCTest
-@testable import SDKCLI
+@testable import AWSSDKSwiftCLI
 
-final class SDKCLITests: XCTestCase {
+final class AWSSDKSwiftCLITests: XCTestCase {
 }
