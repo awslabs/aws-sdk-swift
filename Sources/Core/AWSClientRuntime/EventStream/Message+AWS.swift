@@ -77,7 +77,7 @@ extension EventStream {
 extension EventStream.Message {
     /// Parses the protocol level headers into a `MessageType`
     func type() throws -> EventStream.MessageType {
-        let headersByName = Dictionary(grouping: headers, by: { $0.name })
+        let headersByName = Dictionary(grouping: headers, by: \.name)
         // look for messageType header
         guard let messageTypeHeader = headersByName[":message-type"]?.first,
               case let .string(messageType) = messageTypeHeader.value else {
