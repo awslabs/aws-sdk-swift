@@ -76,6 +76,7 @@ extension AWSEventStream {
 
         /// Returns the next message in the decoder's buffer
         /// and removes it from the buffer.
+        /// If the buffer is empty then this returns `nil`.
         func message() throws -> EventStream.Message? {
             try throwIfErrorOccurred()
 
