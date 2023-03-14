@@ -28,7 +28,14 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
                     .init(accessKey: "fake access key", secret: "fake secret key")))
             .build()
         
-        let messageSigner = AWSEventStream.AWSMessageSigner(context: context, encoder: messageEncoder)
+        let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
+            try await context.makeEventStreamSigningConfig()
+        } requestSignature: {
+            guard let requestSignature = context.getRequestSignature() else {
+                fatalError("Unable to get request signature from context. This is likely a bug in the AWSClientRuntime")
+            }
+            return requestSignature
+        }
 
         let sut = AWSEventStream.AWSMessageEncoderStream(stream: baseStream,
                                                          messageEncoder: messageEncoder,
