@@ -10,7 +10,8 @@ import ClientRuntime
 extension AWSEventStream {
 
     /// Stream adapter that decodes input data into `EventStream.Message` objects.
-    struct AWSMessageDecoderStream<Element: MessageUnmarshallable>: MessageDecoderStream {
+    struct AWSMessageDecoderStream<Event: MessageUnmarshallable>: MessageDecoderStream {
+        typealias Element = Event
 
         let stream: Stream
         let messageDecoder: MessageDecoder
@@ -33,10 +34,10 @@ extension AWSEventStream {
                 self.responseDecoder = responseDecoder
             }
 
-            mutating func next() async throws -> Element? {
+            mutating func next() async throws -> Event? {
                 // if we have a message in the decoder buffer, return it
                 if let message = try messageDecoder.message() {
-                    let event = try Element(message: message, decoder: responseDecoder)
+                    let event = try Event(message: message, decoder: responseDecoder)
                     return event
                 }
 
