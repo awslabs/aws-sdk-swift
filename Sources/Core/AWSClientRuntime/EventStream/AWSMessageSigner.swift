@@ -13,19 +13,35 @@ extension AWSEventStream {
         let context: HttpContext
         let encoder: MessageEncoder
 
-        private var previousSignature: String
+        private var _previousSignature: String?
+
+        /// Returns the previous signature used to sign a message
+        /// If no previous signature is available, then the request signature returned
+        /// which acts as previous signature for the first message
+        var previousSignature: String {
+            get {
+                if let signature = _previousSignature {
+                    return signature
+                }
+
+                guard let signature = context.getRequestSignature() else {
+                    fatalError("""
+                        Unable to get request signature from context.
+                        This is likely a bug in the AWSClientRuntime.
+                    """)
+                }
+
+                _previousSignature = signature
+                return signature
+            }
+            set {
+                _previousSignature = newValue
+            }
+        }
 
         public init(context: HttpContext, encoder: MessageEncoder) {
             self.context = context
             self.encoder = encoder
-
-            guard let previousSignature = context.getRequestSignature() else {
-                fatalError("""
-                    Unable to get request signature from context.
-                    This is likely a bug in the AWSClientRuntime.
-                """)
-            }
-            self.previousSignature = previousSignature
         }
 
         /// Signs a `Message` using the AWS SigV4 signing algorithm

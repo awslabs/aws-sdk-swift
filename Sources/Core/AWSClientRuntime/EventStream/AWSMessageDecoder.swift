@@ -88,6 +88,9 @@ extension AWSEventStream {
             return message
         }
 
+        /// Throws an error if one has occurred.
+        /// This should be called before any other methods to make sure
+        /// that the decoder is in a valid state.
         private func throwIfErrorOccurred() throws {
             if let error = error {
                 throw error
