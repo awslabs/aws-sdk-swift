@@ -33,7 +33,7 @@ const val ENDPOINT_CONFIG_NAME = "endpoint"
 
 val runtimeConfig = ConfigField(
     RUNTIME_CONFIG_NAME,
-    type = ClientRuntimeTypes.Core.SDKRuntimeConfiguration,
+    concreteType = ClientRuntimeTypes.Core.SDKRuntimeConfiguration,
     propFormatter = "\$T",
     paramFormatter = "\$N",
 )
@@ -56,7 +56,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         writer.openBlock("public init(", ") throws {") {
             awsConfigs.forEachIndexed { index, config ->
                 val terminator = if (index != awsConfigs.lastIndex) ", " else ""
-                writer.write("${config.memberName}: ${config.paramFormatter}$terminator", config.type)
+                writer.write("${config.memberName}: ${config.paramFormatter}$terminator", config.concreteType)
             }
         }
         writer.indent()
@@ -116,7 +116,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
 
                     else -> {
                         val terminator = if (index != awsConfigs.lastIndex) ", " else ""
-                        writer.write("${config.memberName}: ${config.paramFormatter}$terminator", config.type)
+                        writer.write("${config.memberName}: ${config.paramFormatter}$terminator", config.concreteType)
                     }
                 }
             }
@@ -147,7 +147,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
 
                     else -> {
                         val terminator = if (index != awsConfigs.lastIndex) ", " else ""
-                        writer.write("${config.memberName}: ${config.paramFormatter}$terminator", config.type)
+                        writer.write("${config.memberName}: ${config.paramFormatter}$terminator", config.concreteType)
                     }
                 }
             }
@@ -215,7 +215,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
 
                     else -> {
                         val terminator = if (index != awsConfigs.lastIndex) ", " else ""
-                        writer.write("${config.memberName}: ${config.paramFormatter}$terminator", config.type)
+                        writer.write("${config.memberName}: ${config.paramFormatter}$terminator", config.concreteType)
                     }
                 }
             }
@@ -250,20 +250,20 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
 
     override fun otherRuntimeConfigProperties(): List<ConfigField> {
         return listOf(
-            ConfigField(ENDPOINT_CONFIG_NAME, SwiftTypes.String, "\$T"),
+            ConfigField(ENDPOINT_CONFIG_NAME, SwiftTypes.String, propFormatter = "\$T"),
             ConfigField(
                 CREDENTIALS_PROVIDER_CONFIG_NAME,
                 AWSClientRuntimeTypes.Core.CredentialsProvider,
                 documentation = "The credentials provider to use to authenticate requests."
             ),
-            ConfigField(REGION_CONFIG_NAME, SwiftTypes.String, "\$T", paramFormatter = "\$N"),
+            ConfigField(REGION_CONFIG_NAME, SwiftTypes.String, propFormatter = "\$T", paramFormatter = "\$N"),
             ConfigField(
-                SIGNING_REGION_CONFIG_NAME, SwiftTypes.String, "\$T", "The region to sign requests in. (Required)"
+                SIGNING_REGION_CONFIG_NAME, SwiftTypes.String, propFormatter = "\$T", documentation = "The region to sign requests in. (Required)"
             ),
             ConfigField(
                 REGION_RESOLVER,
                 AWSClientRuntimeTypes.Core.RegionResolver,
-                "\$T",
+                propFormatter = "\$T",
                 documentation = "The region resolver uses an array of region providers to resolve the region."
             ),
             ConfigField(
@@ -272,8 +272,8 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 propFormatter = "\$T",
                 documentation = "Contains information to inject lib/ into user-agent"
             ),
-            ConfigField(USE_FIPS_CONFIG_NAME, SwiftTypes.Bool, "\$T"),
-            ConfigField(USE_DUAL_STACK_CONFIG_NAME, SwiftTypes.Bool, "\$T"),
+            ConfigField(USE_FIPS_CONFIG_NAME, SwiftTypes.Bool, propFormatter = "\$T"),
+            ConfigField(USE_DUAL_STACK_CONFIG_NAME, SwiftTypes.Bool, propFormatter = "\$T"),
         ).sortedBy { it.memberName }
     }
 
@@ -281,11 +281,11 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         var configs = mutableListOf<ConfigField>()
 
         // service specific EndpointResolver
-        configs.add(ConfigField(ENDPOINT_RESOLVER, AWSServiceTypes.EndpointResolver, "\$N", "Endpoint resolver"))
+        configs.add(ConfigField(ENDPOINT_RESOLVER, AWSServiceTypes.EndpointResolver, propFormatter = "\$N", documentation = "Endpoint resolver"))
 
         val clientContextParams = ctx.service.getTrait<ClientContextParamsTrait>()
         clientContextParams?.parameters?.forEach {
-            configs.add(ConfigField(it.key.toLowerCamelCase(), it.value.type.toSwiftType(), "\$T"))
+            configs.add(ConfigField(it.key.toLowerCamelCase(), it.value.type.toSwiftType(), propFormatter = "\$T"))
         }
         return configs.sortedBy { it.memberName }
     }

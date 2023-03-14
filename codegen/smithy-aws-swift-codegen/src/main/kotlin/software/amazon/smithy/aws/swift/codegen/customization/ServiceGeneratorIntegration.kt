@@ -30,7 +30,7 @@ class ServiceGeneratorIntegration : SwiftIntegration {
                     ) {
                         serviceConfigs?.let { fields ->
                             fields.forEach {
-                                writer.write("var ${it.memberName}: ${it.propFormatter} { get }", it.type)
+                                writer.write("var ${it.memberName}: ${it.propFormatter} { get }", it.concreteType)
                             }
                         }
                     }
