@@ -48,7 +48,7 @@ extension AWSEventStream {
                 guard let event = try await iterator.next() else {
                     // There are no more messages in the base stream
                     // if we have not sent the last message, send it now
-                    if !lastMessageSent {
+                    guard lastMessageSent else {
                         let emptySignedMessage = try await messageSinger.signEmpty()
                         let data = try messageEncoder.encode(message: emptySignedMessage)
                         lastMessageSent = true
