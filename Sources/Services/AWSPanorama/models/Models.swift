@@ -6317,7 +6317,7 @@ extension PanoramaClientTypes.ManifestOverridesPayload: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// Parameter overrides for an application instance. This is a JSON document that has a single key (PayloadData) where the value is an escaped string representation of the overrides document.
-    public enum ManifestOverridesPayload: Swift.Equatable, Swift.Hashable {
+    public enum ManifestOverridesPayload: Swift.Equatable {
         /// The overrides document.
         case payloaddata(Swift.String)
         case sdkUnknown(Swift.String)
@@ -6354,7 +6354,7 @@ extension PanoramaClientTypes.ManifestPayload: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A application verion's manifest file. This is a JSON document that has a single key (PayloadData) where the value is an escaped string representation of the application manifest (graph.json). This file is located in the graphs folder in your application source.
-    public enum ManifestPayload: Swift.Equatable, Swift.Hashable {
+    public enum ManifestPayload: Swift.Equatable {
         /// The application manifest.
         case payloaddata(Swift.String)
         case sdkUnknown(Swift.String)

@@ -4123,7 +4123,7 @@ extension IoTFleetWiseClientTypes.FormattedVss: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Vehicle Signal Specification (VSS) is a precise language used to describe and model signals in vehicle networks. The JSON file collects signal specificiations in a VSS format.
-    public enum FormattedVss: Swift.Equatable, Swift.Hashable {
+    public enum FormattedVss: Swift.Equatable {
         /// Provides the VSS in JSON format.
         case vssjson(Swift.String)
         case sdkUnknown(Swift.String)

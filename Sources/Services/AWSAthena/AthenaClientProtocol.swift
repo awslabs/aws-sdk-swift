@@ -73,7 +73,7 @@ public protocol AthenaClientProtocol {
     func listCalculationExecutions(input: ListCalculationExecutionsInput) async throws -> ListCalculationExecutionsOutputResponse
     /// Lists the databases in the specified data catalog.
     func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutputResponse
-    /// Lists the data catalogs in the current Amazon Web Services account.
+    /// Lists the data catalogs in the current Amazon Web Services account. In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
     func listDataCatalogs(input: ListDataCatalogsInput) async throws -> ListDataCatalogsOutputResponse
     /// Returns a list of engine versions that are available to choose from, including the Auto option.
     func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutputResponse

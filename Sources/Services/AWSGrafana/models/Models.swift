@@ -1856,7 +1856,7 @@ extension GrafanaClientTypes.IdpMetadata: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// A structure containing the identity provider (IdP) metadata used to integrate the identity provider with this workspace. You can specify the metadata either by providing a URL to its location in the url parameter, or by specifying the full metadata in XML format in the xml parameter. Specifying both will cause an error.
-    public enum IdpMetadata: Swift.Equatable, Swift.Hashable {
+    public enum IdpMetadata: Swift.Equatable {
         /// The URL of the location containing the IdP metadata.
         case url(Swift.String)
         /// The full IdP metadata, in XML format.

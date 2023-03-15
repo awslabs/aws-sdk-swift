@@ -421,6 +421,7 @@ extension ConfigureLogsOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: ConfigureLogsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.authorization = output.authorization
+            self.createdAt = output.createdAt
             self.domainName = output.domainName
             self.egressAccessLogs = output.egressAccessLogs
             self.id = output.id
@@ -428,6 +429,7 @@ extension ConfigureLogsOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.arn = nil
             self.authorization = nil
+            self.createdAt = nil
             self.domainName = nil
             self.egressAccessLogs = nil
             self.id = nil
@@ -441,6 +443,8 @@ public struct ConfigureLogsOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// CDN Authorization credentials
     public var authorization: MediaPackageVodClientTypes.Authorization?
+    /// The time the PackagingGroup was created.
+    public var createdAt: Swift.String?
     /// The fully qualified domain name for Assets in the PackagingGroup.
     public var domainName: Swift.String?
     /// Configure egress access logging.
@@ -453,6 +457,7 @@ public struct ConfigureLogsOutputResponse: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         authorization: MediaPackageVodClientTypes.Authorization? = nil,
+        createdAt: Swift.String? = nil,
         domainName: Swift.String? = nil,
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
@@ -461,6 +466,7 @@ public struct ConfigureLogsOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.authorization = authorization
+        self.createdAt = createdAt
         self.domainName = domainName
         self.egressAccessLogs = egressAccessLogs
         self.id = id
@@ -471,6 +477,7 @@ public struct ConfigureLogsOutputResponse: Swift.Equatable {
 struct ConfigureLogsOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
     let authorization: MediaPackageVodClientTypes.Authorization?
+    let createdAt: Swift.String?
     let domainName: Swift.String?
     let egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs?
     let id: Swift.String?
@@ -481,6 +488,7 @@ extension ConfigureLogsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
         case authorization = "authorization"
+        case createdAt = "createdAt"
         case domainName = "domainName"
         case egressAccessLogs = "egressAccessLogs"
         case id = "id"
@@ -493,6 +501,8 @@ extension ConfigureLogsOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)
         authorization = authorizationDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -982,6 +992,7 @@ extension CreatePackagingConfigurationOutputResponse: ClientRuntime.HttpResponse
             let output: CreatePackagingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.cmafPackage = output.cmafPackage
+            self.createdAt = output.createdAt
             self.dashPackage = output.dashPackage
             self.hlsPackage = output.hlsPackage
             self.id = output.id
@@ -991,6 +1002,7 @@ extension CreatePackagingConfigurationOutputResponse: ClientRuntime.HttpResponse
         } else {
             self.arn = nil
             self.cmafPackage = nil
+            self.createdAt = nil
             self.dashPackage = nil
             self.hlsPackage = nil
             self.id = nil
@@ -1006,6 +1018,8 @@ public struct CreatePackagingConfigurationOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// A CMAF packaging configuration.
     public var cmafPackage: MediaPackageVodClientTypes.CmafPackage?
+    /// The time the PackagingConfiguration was created.
+    public var createdAt: Swift.String?
     /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
     public var dashPackage: MediaPackageVodClientTypes.DashPackage?
     /// An HTTP Live Streaming (HLS) packaging configuration.
@@ -1022,6 +1036,7 @@ public struct CreatePackagingConfigurationOutputResponse: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         cmafPackage: MediaPackageVodClientTypes.CmafPackage? = nil,
+        createdAt: Swift.String? = nil,
         dashPackage: MediaPackageVodClientTypes.DashPackage? = nil,
         hlsPackage: MediaPackageVodClientTypes.HlsPackage? = nil,
         id: Swift.String? = nil,
@@ -1032,6 +1047,7 @@ public struct CreatePackagingConfigurationOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.cmafPackage = cmafPackage
+        self.createdAt = createdAt
         self.dashPackage = dashPackage
         self.hlsPackage = hlsPackage
         self.id = id
@@ -1044,6 +1060,7 @@ public struct CreatePackagingConfigurationOutputResponse: Swift.Equatable {
 struct CreatePackagingConfigurationOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
     let cmafPackage: MediaPackageVodClientTypes.CmafPackage?
+    let createdAt: Swift.String?
     let dashPackage: MediaPackageVodClientTypes.DashPackage?
     let hlsPackage: MediaPackageVodClientTypes.HlsPackage?
     let id: Swift.String?
@@ -1056,6 +1073,7 @@ extension CreatePackagingConfigurationOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
         case cmafPackage = "cmafPackage"
+        case createdAt = "createdAt"
         case dashPackage = "dashPackage"
         case hlsPackage = "hlsPackage"
         case id = "id"
@@ -1070,6 +1088,8 @@ extension CreatePackagingConfigurationOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let cmafPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.CmafPackage.self, forKey: .cmafPackage)
         cmafPackage = cmafPackageDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let dashPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.DashPackage.self, forKey: .dashPackage)
         dashPackage = dashPackageDecoded
         let hlsPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.HlsPackage.self, forKey: .hlsPackage)
@@ -1231,6 +1251,7 @@ extension CreatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding 
             let output: CreatePackagingGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.authorization = output.authorization
+            self.createdAt = output.createdAt
             self.domainName = output.domainName
             self.egressAccessLogs = output.egressAccessLogs
             self.id = output.id
@@ -1238,6 +1259,7 @@ extension CreatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding 
         } else {
             self.arn = nil
             self.authorization = nil
+            self.createdAt = nil
             self.domainName = nil
             self.egressAccessLogs = nil
             self.id = nil
@@ -1251,6 +1273,8 @@ public struct CreatePackagingGroupOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// CDN Authorization credentials
     public var authorization: MediaPackageVodClientTypes.Authorization?
+    /// The time the PackagingGroup was created.
+    public var createdAt: Swift.String?
     /// The fully qualified domain name for Assets in the PackagingGroup.
     public var domainName: Swift.String?
     /// Configure egress access logging.
@@ -1263,6 +1287,7 @@ public struct CreatePackagingGroupOutputResponse: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         authorization: MediaPackageVodClientTypes.Authorization? = nil,
+        createdAt: Swift.String? = nil,
         domainName: Swift.String? = nil,
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
@@ -1271,6 +1296,7 @@ public struct CreatePackagingGroupOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.authorization = authorization
+        self.createdAt = createdAt
         self.domainName = domainName
         self.egressAccessLogs = egressAccessLogs
         self.id = id
@@ -1281,6 +1307,7 @@ public struct CreatePackagingGroupOutputResponse: Swift.Equatable {
 struct CreatePackagingGroupOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
     let authorization: MediaPackageVodClientTypes.Authorization?
+    let createdAt: Swift.String?
     let domainName: Swift.String?
     let egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs?
     let id: Swift.String?
@@ -1291,6 +1318,7 @@ extension CreatePackagingGroupOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
         case authorization = "authorization"
+        case createdAt = "createdAt"
         case domainName = "domainName"
         case egressAccessLogs = "egressAccessLogs"
         case id = "id"
@@ -1303,6 +1331,8 @@ extension CreatePackagingGroupOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)
         authorization = authorizationDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -1419,7 +1449,7 @@ extension MediaPackageVodClientTypes {
         public var minBufferTimeSeconds: Swift.Int?
         /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type. When set to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
         public var profile: MediaPackageVodClientTypes.Profile?
-        /// The source of scte markers used. When set to SEGMENTS, the scte markers are sourced from the segments of the ingested content. When set to MANIFEST, the scte markers are sourced from the manifest of the ingested content. The MANIFEST value is compatible with source HLS playlists using the SCTE-35 Enhanced syntax (#EXT-OATCLS-SCTE35 tags). SCTE-35 Elemental and SCTE-35 Daterange syntaxes are not supported with this option.
+        /// The source of scte markers used. When set to SEGMENTS, the scte markers are sourced from the segments of the ingested content. When set to MANIFEST, the scte markers are sourced from the manifest of the ingested content.
         public var scteMarkersSource: MediaPackageVodClientTypes.ScteMarkersSource?
         /// A StreamSelection configuration.
         public var streamSelection: MediaPackageVodClientTypes.StreamSelection?
@@ -2056,6 +2086,7 @@ extension DescribePackagingConfigurationOutputResponse: ClientRuntime.HttpRespon
             let output: DescribePackagingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.cmafPackage = output.cmafPackage
+            self.createdAt = output.createdAt
             self.dashPackage = output.dashPackage
             self.hlsPackage = output.hlsPackage
             self.id = output.id
@@ -2065,6 +2096,7 @@ extension DescribePackagingConfigurationOutputResponse: ClientRuntime.HttpRespon
         } else {
             self.arn = nil
             self.cmafPackage = nil
+            self.createdAt = nil
             self.dashPackage = nil
             self.hlsPackage = nil
             self.id = nil
@@ -2080,6 +2112,8 @@ public struct DescribePackagingConfigurationOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// A CMAF packaging configuration.
     public var cmafPackage: MediaPackageVodClientTypes.CmafPackage?
+    /// The time the PackagingConfiguration was created.
+    public var createdAt: Swift.String?
     /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
     public var dashPackage: MediaPackageVodClientTypes.DashPackage?
     /// An HTTP Live Streaming (HLS) packaging configuration.
@@ -2096,6 +2130,7 @@ public struct DescribePackagingConfigurationOutputResponse: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         cmafPackage: MediaPackageVodClientTypes.CmafPackage? = nil,
+        createdAt: Swift.String? = nil,
         dashPackage: MediaPackageVodClientTypes.DashPackage? = nil,
         hlsPackage: MediaPackageVodClientTypes.HlsPackage? = nil,
         id: Swift.String? = nil,
@@ -2106,6 +2141,7 @@ public struct DescribePackagingConfigurationOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.cmafPackage = cmafPackage
+        self.createdAt = createdAt
         self.dashPackage = dashPackage
         self.hlsPackage = hlsPackage
         self.id = id
@@ -2118,6 +2154,7 @@ public struct DescribePackagingConfigurationOutputResponse: Swift.Equatable {
 struct DescribePackagingConfigurationOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
     let cmafPackage: MediaPackageVodClientTypes.CmafPackage?
+    let createdAt: Swift.String?
     let dashPackage: MediaPackageVodClientTypes.DashPackage?
     let hlsPackage: MediaPackageVodClientTypes.HlsPackage?
     let id: Swift.String?
@@ -2130,6 +2167,7 @@ extension DescribePackagingConfigurationOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
         case cmafPackage = "cmafPackage"
+        case createdAt = "createdAt"
         case dashPackage = "dashPackage"
         case hlsPackage = "hlsPackage"
         case id = "id"
@@ -2144,6 +2182,8 @@ extension DescribePackagingConfigurationOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let cmafPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.CmafPackage.self, forKey: .cmafPackage)
         cmafPackage = cmafPackageDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let dashPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.DashPackage.self, forKey: .dashPackage)
         dashPackage = dashPackageDecoded
         let hlsPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.HlsPackage.self, forKey: .hlsPackage)
@@ -2240,6 +2280,7 @@ extension DescribePackagingGroupOutputResponse: ClientRuntime.HttpResponseBindin
             self.approximateAssetCount = output.approximateAssetCount
             self.arn = output.arn
             self.authorization = output.authorization
+            self.createdAt = output.createdAt
             self.domainName = output.domainName
             self.egressAccessLogs = output.egressAccessLogs
             self.id = output.id
@@ -2248,6 +2289,7 @@ extension DescribePackagingGroupOutputResponse: ClientRuntime.HttpResponseBindin
             self.approximateAssetCount = nil
             self.arn = nil
             self.authorization = nil
+            self.createdAt = nil
             self.domainName = nil
             self.egressAccessLogs = nil
             self.id = nil
@@ -2263,6 +2305,8 @@ public struct DescribePackagingGroupOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// CDN Authorization credentials
     public var authorization: MediaPackageVodClientTypes.Authorization?
+    /// The time the PackagingGroup was created.
+    public var createdAt: Swift.String?
     /// The fully qualified domain name for Assets in the PackagingGroup.
     public var domainName: Swift.String?
     /// Configure egress access logging.
@@ -2276,6 +2320,7 @@ public struct DescribePackagingGroupOutputResponse: Swift.Equatable {
         approximateAssetCount: Swift.Int? = nil,
         arn: Swift.String? = nil,
         authorization: MediaPackageVodClientTypes.Authorization? = nil,
+        createdAt: Swift.String? = nil,
         domainName: Swift.String? = nil,
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
@@ -2285,6 +2330,7 @@ public struct DescribePackagingGroupOutputResponse: Swift.Equatable {
         self.approximateAssetCount = approximateAssetCount
         self.arn = arn
         self.authorization = authorization
+        self.createdAt = createdAt
         self.domainName = domainName
         self.egressAccessLogs = egressAccessLogs
         self.id = id
@@ -2296,6 +2342,7 @@ struct DescribePackagingGroupOutputResponseBody: Swift.Equatable {
     let approximateAssetCount: Swift.Int?
     let arn: Swift.String?
     let authorization: MediaPackageVodClientTypes.Authorization?
+    let createdAt: Swift.String?
     let domainName: Swift.String?
     let egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs?
     let id: Swift.String?
@@ -2307,6 +2354,7 @@ extension DescribePackagingGroupOutputResponseBody: Swift.Decodable {
         case approximateAssetCount = "approximateAssetCount"
         case arn = "arn"
         case authorization = "authorization"
+        case createdAt = "createdAt"
         case domainName = "domainName"
         case egressAccessLogs = "egressAccessLogs"
         case id = "id"
@@ -2321,6 +2369,8 @@ extension DescribePackagingGroupOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)
         authorization = authorizationDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -3617,6 +3667,7 @@ extension MediaPackageVodClientTypes.PackagingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
         case cmafPackage = "cmafPackage"
+        case createdAt = "createdAt"
         case dashPackage = "dashPackage"
         case hlsPackage = "hlsPackage"
         case id = "id"
@@ -3632,6 +3683,9 @@ extension MediaPackageVodClientTypes.PackagingConfiguration: Swift.Codable {
         }
         if let cmafPackage = self.cmafPackage {
             try encodeContainer.encode(cmafPackage, forKey: .cmafPackage)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encode(createdAt, forKey: .createdAt)
         }
         if let dashPackage = self.dashPackage {
             try encodeContainer.encode(dashPackage, forKey: .dashPackage)
@@ -3662,6 +3716,8 @@ extension MediaPackageVodClientTypes.PackagingConfiguration: Swift.Codable {
         arn = arnDecoded
         let cmafPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.CmafPackage.self, forKey: .cmafPackage)
         cmafPackage = cmafPackageDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let dashPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.DashPackage.self, forKey: .dashPackage)
         dashPackage = dashPackageDecoded
         let hlsPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.HlsPackage.self, forKey: .hlsPackage)
@@ -3693,6 +3749,8 @@ extension MediaPackageVodClientTypes {
         public var arn: Swift.String?
         /// A CMAF packaging configuration.
         public var cmafPackage: MediaPackageVodClientTypes.CmafPackage?
+        /// The time the PackagingConfiguration was created.
+        public var createdAt: Swift.String?
         /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
         public var dashPackage: MediaPackageVodClientTypes.DashPackage?
         /// An HTTP Live Streaming (HLS) packaging configuration.
@@ -3709,6 +3767,7 @@ extension MediaPackageVodClientTypes {
         public init (
             arn: Swift.String? = nil,
             cmafPackage: MediaPackageVodClientTypes.CmafPackage? = nil,
+            createdAt: Swift.String? = nil,
             dashPackage: MediaPackageVodClientTypes.DashPackage? = nil,
             hlsPackage: MediaPackageVodClientTypes.HlsPackage? = nil,
             id: Swift.String? = nil,
@@ -3719,6 +3778,7 @@ extension MediaPackageVodClientTypes {
         {
             self.arn = arn
             self.cmafPackage = cmafPackage
+            self.createdAt = createdAt
             self.dashPackage = dashPackage
             self.hlsPackage = hlsPackage
             self.id = id
@@ -3735,6 +3795,7 @@ extension MediaPackageVodClientTypes.PackagingGroup: Swift.Codable {
         case approximateAssetCount = "approximateAssetCount"
         case arn = "arn"
         case authorization = "authorization"
+        case createdAt = "createdAt"
         case domainName = "domainName"
         case egressAccessLogs = "egressAccessLogs"
         case id = "id"
@@ -3751,6 +3812,9 @@ extension MediaPackageVodClientTypes.PackagingGroup: Swift.Codable {
         }
         if let authorization = self.authorization {
             try encodeContainer.encode(authorization, forKey: .authorization)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encode(createdAt, forKey: .createdAt)
         }
         if let domainName = self.domainName {
             try encodeContainer.encode(domainName, forKey: .domainName)
@@ -3777,6 +3841,8 @@ extension MediaPackageVodClientTypes.PackagingGroup: Swift.Codable {
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)
         authorization = authorizationDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -3806,6 +3872,8 @@ extension MediaPackageVodClientTypes {
         public var arn: Swift.String?
         /// CDN Authorization credentials
         public var authorization: MediaPackageVodClientTypes.Authorization?
+        /// The time the PackagingGroup was created.
+        public var createdAt: Swift.String?
         /// The fully qualified domain name for Assets in the PackagingGroup.
         public var domainName: Swift.String?
         /// Configure egress access logging.
@@ -3819,6 +3887,7 @@ extension MediaPackageVodClientTypes {
             approximateAssetCount: Swift.Int? = nil,
             arn: Swift.String? = nil,
             authorization: MediaPackageVodClientTypes.Authorization? = nil,
+            createdAt: Swift.String? = nil,
             domainName: Swift.String? = nil,
             egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
             id: Swift.String? = nil,
@@ -3828,6 +3897,7 @@ extension MediaPackageVodClientTypes {
             self.approximateAssetCount = approximateAssetCount
             self.arn = arn
             self.authorization = authorization
+            self.createdAt = createdAt
             self.domainName = domainName
             self.egressAccessLogs = egressAccessLogs
             self.id = id
@@ -4637,6 +4707,7 @@ extension UpdatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding 
             self.approximateAssetCount = output.approximateAssetCount
             self.arn = output.arn
             self.authorization = output.authorization
+            self.createdAt = output.createdAt
             self.domainName = output.domainName
             self.egressAccessLogs = output.egressAccessLogs
             self.id = output.id
@@ -4645,6 +4716,7 @@ extension UpdatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding 
             self.approximateAssetCount = nil
             self.arn = nil
             self.authorization = nil
+            self.createdAt = nil
             self.domainName = nil
             self.egressAccessLogs = nil
             self.id = nil
@@ -4660,6 +4732,8 @@ public struct UpdatePackagingGroupOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// CDN Authorization credentials
     public var authorization: MediaPackageVodClientTypes.Authorization?
+    /// The time the PackagingGroup was created.
+    public var createdAt: Swift.String?
     /// The fully qualified domain name for Assets in the PackagingGroup.
     public var domainName: Swift.String?
     /// Configure egress access logging.
@@ -4673,6 +4747,7 @@ public struct UpdatePackagingGroupOutputResponse: Swift.Equatable {
         approximateAssetCount: Swift.Int? = nil,
         arn: Swift.String? = nil,
         authorization: MediaPackageVodClientTypes.Authorization? = nil,
+        createdAt: Swift.String? = nil,
         domainName: Swift.String? = nil,
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
@@ -4682,6 +4757,7 @@ public struct UpdatePackagingGroupOutputResponse: Swift.Equatable {
         self.approximateAssetCount = approximateAssetCount
         self.arn = arn
         self.authorization = authorization
+        self.createdAt = createdAt
         self.domainName = domainName
         self.egressAccessLogs = egressAccessLogs
         self.id = id
@@ -4693,6 +4769,7 @@ struct UpdatePackagingGroupOutputResponseBody: Swift.Equatable {
     let approximateAssetCount: Swift.Int?
     let arn: Swift.String?
     let authorization: MediaPackageVodClientTypes.Authorization?
+    let createdAt: Swift.String?
     let domainName: Swift.String?
     let egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs?
     let id: Swift.String?
@@ -4704,6 +4781,7 @@ extension UpdatePackagingGroupOutputResponseBody: Swift.Decodable {
         case approximateAssetCount = "approximateAssetCount"
         case arn = "arn"
         case authorization = "authorization"
+        case createdAt = "createdAt"
         case domainName = "domainName"
         case egressAccessLogs = "egressAccessLogs"
         case id = "id"
@@ -4718,6 +4796,8 @@ extension UpdatePackagingGroupOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)
         authorization = authorizationDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)

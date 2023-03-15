@@ -140,6 +140,7 @@ extension ApplicationAutoScalingClientTypes.CustomizedMetricSpecification: Swift
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dimensions = "Dimensions"
         case metricName = "MetricName"
+        case metrics = "Metrics"
         case namespace = "Namespace"
         case statistic = "Statistic"
         case unit = "Unit"
@@ -155,6 +156,12 @@ extension ApplicationAutoScalingClientTypes.CustomizedMetricSpecification: Swift
         }
         if let metricName = self.metricName {
             try encodeContainer.encode(metricName, forKey: .metricName)
+        }
+        if let metrics = metrics {
+            var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
+            for targettrackingmetricdataquery0 in metrics {
+                try metricsContainer.encode(targettrackingmetricdataquery0)
+            }
         }
         if let namespace = self.namespace {
             try encodeContainer.encode(namespace, forKey: .namespace)
@@ -188,6 +195,17 @@ extension ApplicationAutoScalingClientTypes.CustomizedMetricSpecification: Swift
         statistic = statisticDecoded
         let unitDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .unit)
         unit = unitDecoded
+        let metricsContainer = try containerValues.decodeIfPresent([ApplicationAutoScalingClientTypes.TargetTrackingMetricDataQuery?].self, forKey: .metrics)
+        var metricsDecoded0:[ApplicationAutoScalingClientTypes.TargetTrackingMetricDataQuery]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [ApplicationAutoScalingClientTypes.TargetTrackingMetricDataQuery]()
+            for structure0 in metricsContainer {
+                if let structure0 = structure0 {
+                    metricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metrics = metricsDecoded0
     }
 }
 
@@ -199,18 +217,17 @@ extension ApplicationAutoScalingClientTypes {
     /// * Choose a metric that changes proportionally with capacity. The value of the metric should increase or decrease in inverse proportion to the number of capacity units. That is, the value of the metric should decrease when capacity increases, and increase when capacity decreases.
     ///
     ///
-    /// For an example of how creating new metrics can be useful, see [Scaling based on Amazon SQS](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-using-sqs-queue.html) in the Amazon EC2 Auto Scaling User Guide. This topic mentions Auto Scaling groups, but the same scenario for Amazon SQS can apply to the target tracking scaling policies that you create for a Spot Fleet by using the Application Auto Scaling API. For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
+    /// For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
     public struct CustomizedMetricSpecification: Swift.Equatable {
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         public var dimensions: [ApplicationAutoScalingClientTypes.MetricDimension]?
         /// The name of the metric. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that is returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
-        /// This member is required.
         public var metricName: Swift.String?
+        /// The metrics to include in the target tracking scaling policy, as a metric data query. This can include both raw metric and metric math expressions.
+        public var metrics: [ApplicationAutoScalingClientTypes.TargetTrackingMetricDataQuery]?
         /// The namespace of the metric.
-        /// This member is required.
         public var namespace: Swift.String?
         /// The statistic of the metric.
-        /// This member is required.
         public var statistic: ApplicationAutoScalingClientTypes.MetricStatistic?
         /// The unit of the metric. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
         public var unit: Swift.String?
@@ -218,6 +235,7 @@ extension ApplicationAutoScalingClientTypes {
         public init (
             dimensions: [ApplicationAutoScalingClientTypes.MetricDimension]? = nil,
             metricName: Swift.String? = nil,
+            metrics: [ApplicationAutoScalingClientTypes.TargetTrackingMetricDataQuery]? = nil,
             namespace: Swift.String? = nil,
             statistic: ApplicationAutoScalingClientTypes.MetricStatistic? = nil,
             unit: Swift.String? = nil
@@ -225,6 +243,7 @@ extension ApplicationAutoScalingClientTypes {
         {
             self.dimensions = dimensions
             self.metricName = metricName
+            self.metrics = metrics
             self.namespace = namespace
             self.statistic = statistic
             self.unit = unit
@@ -4697,6 +4716,253 @@ extension ApplicationAutoScalingClientTypes {
             self.dynamicScalingInSuspended = dynamicScalingInSuspended
             self.dynamicScalingOutSuspended = dynamicScalingOutSuspended
             self.scheduledScalingSuspended = scheduledScalingSuspended
+        }
+    }
+
+}
+
+extension ApplicationAutoScalingClientTypes.TargetTrackingMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dimensions = "Dimensions"
+        case metricName = "MetricName"
+        case namespace = "Namespace"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dimensions = dimensions {
+            var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
+            for targettrackingmetricdimension0 in dimensions {
+                try dimensionsContainer.encode(targettrackingmetricdimension0)
+            }
+        }
+        if let metricName = self.metricName {
+            try encodeContainer.encode(metricName, forKey: .metricName)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dimensionsContainer = try containerValues.decodeIfPresent([ApplicationAutoScalingClientTypes.TargetTrackingMetricDimension?].self, forKey: .dimensions)
+        var dimensionsDecoded0:[ApplicationAutoScalingClientTypes.TargetTrackingMetricDimension]? = nil
+        if let dimensionsContainer = dimensionsContainer {
+            dimensionsDecoded0 = [ApplicationAutoScalingClientTypes.TargetTrackingMetricDimension]()
+            for structure0 in dimensionsContainer {
+                if let structure0 = structure0 {
+                    dimensionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dimensions = dimensionsDecoded0
+        let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+    /// Represents a specific metric. Metric is a property of the [TargetTrackingMetricStat] object.
+    public struct TargetTrackingMetric: Swift.Equatable {
+        /// The dimensions for the metric. For the list of available dimensions, see the Amazon Web Services documentation available from the table in [Amazon Web Services services that publish CloudWatch metrics ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html) in the Amazon CloudWatch User Guide. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
+        public var dimensions: [ApplicationAutoScalingClientTypes.TargetTrackingMetricDimension]?
+        /// The name of the metric.
+        public var metricName: Swift.String?
+        /// The namespace of the metric. For more information, see the table in [Amazon Web Services services that publish CloudWatch metrics ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html) in the Amazon CloudWatch User Guide.
+        public var namespace: Swift.String?
+
+        public init (
+            dimensions: [ApplicationAutoScalingClientTypes.TargetTrackingMetricDimension]? = nil,
+            metricName: Swift.String? = nil,
+            namespace: Swift.String? = nil
+        )
+        {
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+        }
+    }
+
+}
+
+extension ApplicationAutoScalingClientTypes.TargetTrackingMetricDataQuery: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expression = "Expression"
+        case id = "Id"
+        case label = "Label"
+        case metricStat = "MetricStat"
+        case returnData = "ReturnData"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expression = self.expression {
+            try encodeContainer.encode(expression, forKey: .expression)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let label = self.label {
+            try encodeContainer.encode(label, forKey: .label)
+        }
+        if let metricStat = self.metricStat {
+            try encodeContainer.encode(metricStat, forKey: .metricStat)
+        }
+        if let returnData = self.returnData {
+            try encodeContainer.encode(returnData, forKey: .returnData)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expression)
+        expression = expressionDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let labelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .label)
+        label = labelDecoded
+        let metricStatDecoded = try containerValues.decodeIfPresent(ApplicationAutoScalingClientTypes.TargetTrackingMetricStat.self, forKey: .metricStat)
+        metricStat = metricStatDecoded
+        let returnDataDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .returnData)
+        returnData = returnDataDecoded
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+    /// The metric data to return. Also defines whether this call is returning data for one metric only, or whether it is performing a math expression on the values of returned metric statistics to create a new time series. A time series is a series of data points, each of which is associated with a timestamp. For more information and examples, see [Create a target tracking scaling policy for Application Auto Scaling using metric math](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking-metric-math.html) in the Application Auto Scaling User Guide.
+    public struct TargetTrackingMetricDataQuery: Swift.Equatable {
+        /// The math expression to perform on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. Conditional: Within each TargetTrackingMetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public var expression: Swift.String?
+        /// A short name that identifies the object's results in the response. This name must be unique among all MetricDataQuery objects specified for a single scaling policy. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscores. The first character must be a lowercase letter.
+        /// This member is required.
+        public var id: Swift.String?
+        /// A human-readable label for this metric or expression. This is especially useful if this is a math expression, so that you know what the value represents.
+        public var label: Swift.String?
+        /// Information about the metric data to return. Conditional: Within each MetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public var metricStat: ApplicationAutoScalingClientTypes.TargetTrackingMetricStat?
+        /// Indicates whether to return the timestamps and raw data values of this metric. If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
+        public var returnData: Swift.Bool?
+
+        public init (
+            expression: Swift.String? = nil,
+            id: Swift.String? = nil,
+            label: Swift.String? = nil,
+            metricStat: ApplicationAutoScalingClientTypes.TargetTrackingMetricStat? = nil,
+            returnData: Swift.Bool? = nil
+        )
+        {
+            self.expression = expression
+            self.id = id
+            self.label = label
+            self.metricStat = metricStat
+            self.returnData = returnData
+        }
+    }
+
+}
+
+extension ApplicationAutoScalingClientTypes.TargetTrackingMetricDimension: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+    /// Describes the dimension of a metric.
+    public struct TargetTrackingMetricDimension: Swift.Equatable {
+        /// The name of the dimension.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value of the dimension.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init (
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
+extension ApplicationAutoScalingClientTypes.TargetTrackingMetricStat: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metric = "Metric"
+        case stat = "Stat"
+        case unit = "Unit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metric = self.metric {
+            try encodeContainer.encode(metric, forKey: .metric)
+        }
+        if let stat = self.stat {
+            try encodeContainer.encode(stat, forKey: .stat)
+        }
+        if let unit = self.unit {
+            try encodeContainer.encode(unit, forKey: .unit)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricDecoded = try containerValues.decodeIfPresent(ApplicationAutoScalingClientTypes.TargetTrackingMetric.self, forKey: .metric)
+        metric = metricDecoded
+        let statDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stat)
+        stat = statDecoded
+        let unitDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .unit)
+        unit = unitDecoded
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+    /// This structure defines the CloudWatch metric to return, along with the statistic, period, and unit. For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
+    public struct TargetTrackingMetricStat: Swift.Equatable {
+        /// The CloudWatch metric to return, including the metric name, namespace, and dimensions. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that is returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
+        /// This member is required.
+        public var metric: ApplicationAutoScalingClientTypes.TargetTrackingMetric?
+        /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in [Statistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic) in the Amazon CloudWatch User Guide. The most commonly used metrics for scaling is Average
+        /// This member is required.
+        public var stat: Swift.String?
+        /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
+        public var unit: Swift.String?
+
+        public init (
+            metric: ApplicationAutoScalingClientTypes.TargetTrackingMetric? = nil,
+            stat: Swift.String? = nil,
+            unit: Swift.String? = nil
+        )
+        {
+            self.metric = metric
+            self.stat = stat
+            self.unit = unit
         }
     }
 

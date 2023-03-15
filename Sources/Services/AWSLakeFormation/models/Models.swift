@@ -1711,6 +1711,7 @@ extension LakeFormationClientTypes.DataCellsFilter: Swift.Codable {
         case rowFilter = "RowFilter"
         case tableCatalogId = "TableCatalogId"
         case tableName = "TableName"
+        case versionId = "VersionId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1739,6 +1740,9 @@ extension LakeFormationClientTypes.DataCellsFilter: Swift.Codable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
+        if let versionId = self.versionId {
+            try encodeContainer.encode(versionId, forKey: .versionId)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -1766,6 +1770,8 @@ extension LakeFormationClientTypes.DataCellsFilter: Swift.Codable {
         columnNames = columnNamesDecoded0
         let columnWildcardDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.ColumnWildcard.self, forKey: .columnWildcard)
         columnWildcard = columnWildcardDecoded
+        let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
+        versionId = versionIdDecoded
     }
 }
 
@@ -1790,6 +1796,8 @@ extension LakeFormationClientTypes {
         /// A table in the database.
         /// This member is required.
         public var tableName: Swift.String?
+        /// The ID of the data cells filter version.
+        public var versionId: Swift.String?
 
         public init (
             columnNames: [Swift.String]? = nil,
@@ -1798,7 +1806,8 @@ extension LakeFormationClientTypes {
             name: Swift.String? = nil,
             rowFilter: LakeFormationClientTypes.RowFilter? = nil,
             tableCatalogId: Swift.String? = nil,
-            tableName: Swift.String? = nil
+            tableName: Swift.String? = nil,
+            versionId: Swift.String? = nil
         )
         {
             self.columnNames = columnNames
@@ -1808,6 +1817,7 @@ extension LakeFormationClientTypes {
             self.rowFilter = rowFilter
             self.tableCatalogId = tableCatalogId
             self.tableName = tableName
+            self.versionId = versionId
         }
     }
 
@@ -3456,6 +3466,164 @@ extension LakeFormationClientTypes {
         }
     }
 
+}
+
+extension GetDataCellsFilterInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseName = "DatabaseName"
+        case name = "Name"
+        case tableCatalogId = "TableCatalogId"
+        case tableName = "TableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tableCatalogId = self.tableCatalogId {
+            try encodeContainer.encode(tableCatalogId, forKey: .tableCatalogId)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+    }
+}
+
+extension GetDataCellsFilterInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/GetDataCellsFilter"
+    }
+}
+
+public struct GetDataCellsFilterInput: Swift.Equatable {
+    /// A database in the Glue Data Catalog.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name given by the user to the data filter cell.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ID of the catalog to which the table belongs.
+    /// This member is required.
+    public var tableCatalogId: Swift.String?
+    /// A table in the database.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init (
+        databaseName: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tableCatalogId: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.databaseName = databaseName
+        self.name = name
+        self.tableCatalogId = tableCatalogId
+        self.tableName = tableName
+    }
+}
+
+struct GetDataCellsFilterInputBody: Swift.Equatable {
+    let tableCatalogId: Swift.String?
+    let databaseName: Swift.String?
+    let tableName: Swift.String?
+    let name: Swift.String?
+}
+
+extension GetDataCellsFilterInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseName = "DatabaseName"
+        case name = "Name"
+        case tableCatalogId = "TableCatalogId"
+        case tableName = "TableName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableCatalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableCatalogId)
+        tableCatalogId = tableCatalogIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension GetDataCellsFilterOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetDataCellsFilterOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetDataCellsFilterOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case entityNotFoundException(EntityNotFoundException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDataCellsFilterOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetDataCellsFilterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.dataCellsFilter = output.dataCellsFilter
+        } else {
+            self.dataCellsFilter = nil
+        }
+    }
+}
+
+public struct GetDataCellsFilterOutputResponse: Swift.Equatable {
+    /// A structure that describes certain columns on certain rows.
+    public var dataCellsFilter: LakeFormationClientTypes.DataCellsFilter?
+
+    public init (
+        dataCellsFilter: LakeFormationClientTypes.DataCellsFilter? = nil
+    )
+    {
+        self.dataCellsFilter = dataCellsFilter
+    }
+}
+
+struct GetDataCellsFilterOutputResponseBody: Swift.Equatable {
+    let dataCellsFilter: LakeFormationClientTypes.DataCellsFilter?
+}
+
+extension GetDataCellsFilterOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataCellsFilter = "DataCellsFilter"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataCellsFilterDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.DataCellsFilter.self, forKey: .dataCellsFilter)
+        dataCellsFilter = dataCellsFilterDecoded
+    }
 }
 
 extension GetDataLakeSettingsInput: Swift.Encodable {
@@ -8544,7 +8712,7 @@ extension RevokePermissionsInput: ClientRuntime.URLPathProvider {
 public struct RevokePermissionsInput: Swift.Equatable {
     /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
     public var catalogId: Swift.String?
-    /// The permissions revoked to the principal on the resource. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
+    /// The permissions revoked to the principal on the resource. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     /// This member is required.
     public var permissions: [LakeFormationClientTypes.Permission]?
     /// Indicates a list of permissions for which to revoke the grant option allowing the principal to pass permissions to other principals.
@@ -10242,6 +10410,96 @@ extension LakeFormationClientTypes {
             self = TransactionType(rawValue: rawValue) ?? TransactionType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension UpdateDataCellsFilterInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableData = "TableData"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tableData = self.tableData {
+            try encodeContainer.encode(tableData, forKey: .tableData)
+        }
+    }
+}
+
+extension UpdateDataCellsFilterInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/UpdateDataCellsFilter"
+    }
+}
+
+public struct UpdateDataCellsFilterInput: Swift.Equatable {
+    /// A DataCellsFilter structure containing information about the data cells filter.
+    /// This member is required.
+    public var tableData: LakeFormationClientTypes.DataCellsFilter?
+
+    public init (
+        tableData: LakeFormationClientTypes.DataCellsFilter? = nil
+    )
+    {
+        self.tableData = tableData
+    }
+}
+
+struct UpdateDataCellsFilterInputBody: Swift.Equatable {
+    let tableData: LakeFormationClientTypes.DataCellsFilter?
+}
+
+extension UpdateDataCellsFilterInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableData = "TableData"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableDataDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.DataCellsFilter.self, forKey: .tableData)
+        tableData = tableDataDecoded
+    }
+}
+
+extension UpdateDataCellsFilterOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateDataCellsFilterOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationTimeoutException" : self = .operationTimeoutException(try OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateDataCellsFilterOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case concurrentModificationException(ConcurrentModificationException)
+    case entityNotFoundException(EntityNotFoundException)
+    case internalServiceException(InternalServiceException)
+    case invalidInputException(InvalidInputException)
+    case operationTimeoutException(OperationTimeoutException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateDataCellsFilterOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateDataCellsFilterOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension UpdateLFTagInput: Swift.Encodable {

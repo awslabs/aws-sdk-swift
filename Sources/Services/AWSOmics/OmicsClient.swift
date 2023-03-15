@@ -2032,7 +2032,7 @@ extension OmicsClient: OmicsClientProtocol {
         return result
     }
 
-    /// Starts a read set activation job.
+    /// Activates an archived read set. To reduce storage charges, Amazon Omics archives unused read sets after 30 days.
     public func startReadSetActivationJob(input: StartReadSetActivationJobInput) async throws -> StartReadSetActivationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2067,7 +2067,7 @@ extension OmicsClient: OmicsClientProtocol {
         return result
     }
 
-    /// Starts a read set export job.
+    /// Exports a read set to Amazon S3.
     public func startReadSetExportJob(input: StartReadSetExportJobInput) async throws -> StartReadSetExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

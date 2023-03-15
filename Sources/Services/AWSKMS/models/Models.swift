@@ -191,9 +191,6 @@ public struct CancelKeyDeletionInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -805,9 +802,6 @@ public struct CreateAliasInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var targetKeyId: Swift.String?
@@ -1206,7 +1200,7 @@ public struct CreateGrantInput: Swift.Equatable {
     public var constraints: KMSClientTypes.GrantConstraints?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token) in the Key Management Service Developer Guide.
     public var grantTokens: [Swift.String]?
-    /// The identity that gets the permissions specified in the grant. To specify the principal, use the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an Amazon Web Services principal. Valid Amazon Web Services principals include Amazon Web Services accounts (root), IAM users, IAM roles, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see [Amazon Web Services Identity and Access Management (IAM)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam) in the Example ARNs section of the Amazon Web Services General Reference.
+    /// The identity that gets the permissions specified in the grant. To specify the grantee principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns) in the Identity and Access Management User Guide .
     /// This member is required.
     public var granteePrincipal: Swift.String?
     /// Identifies the KMS key for the grant. The grant gives principals permission to use this KMS key. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example:
@@ -1214,9 +1208,6 @@ public struct CreateGrantInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
@@ -1227,7 +1218,7 @@ public struct CreateGrantInput: Swift.Equatable {
     /// A list of operations that the grant permits. This list must include only operations that are permitted in a grant. Also, the operation must be supported on the KMS key. For example, you cannot create a grant for a symmetric encryption KMS key that allows the [Sign] operation, or a grant for an asymmetric KMS key that allows the [GenerateDataKey] operation. If you try, KMS returns a ValidationError exception. For details, see [Grant operations](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#terms-grant-operations) in the Key Management Service Developer Guide.
     /// This member is required.
     public var operations: [KMSClientTypes.GrantOperation]?
-    /// The principal that has permission to use the [RetireGrant] operation to retire the grant. To specify the principal, use the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an Amazon Web Services principal. Valid Amazon Web Services principals include Amazon Web Services accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see [Amazon Web Services Identity and Access Management (IAM)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam) in the Example ARNs section of the Amazon Web Services General Reference. The grant determines the retiring principal. Other principals might have permission to retire the grant or revoke the grant. For details, see [RevokeGrant] and [Retiring and revoking grants](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#grant-delete) in the Key Management Service Developer Guide.
+    /// The principal that has permission to use the [RetireGrant] operation to retire the grant. To specify the principal, use the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns) in the Identity and Access Management User Guide . The grant determines the retiring principal. Other principals might have permission to retire the grant or revoke the grant. For details, see [RevokeGrant] and [Retiring and revoking grants](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#grant-delete) in the Key Management Service Developer Guide.
     public var retiringPrincipal: Swift.String?
 
     public init (
@@ -1412,7 +1403,7 @@ extension CreateKeyInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if bypassPolicyLockoutSafetyCheck != false {
+        if let bypassPolicyLockoutSafetyCheck = self.bypassPolicyLockoutSafetyCheck {
             try encodeContainer.encode(bypassPolicyLockoutSafetyCheck, forKey: .bypassPolicyLockoutSafetyCheck)
         }
         if let customKeyStoreId = self.customKeyStoreId {
@@ -1458,8 +1449,8 @@ extension CreateKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateKeyInput: Swift.Equatable {
-    /// A flag to indicate whether to bypass the key policy lockout safety check. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the [Default Key Policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam) section in the Key Management Service Developer Guide . Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy] request on the KMS key. The default value is false.
-    public var bypassPolicyLockoutSafetyCheck: Swift.Bool
+    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy] request on the KMS key.
+    public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// Creates the KMS key in the specified [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html). The ConnectionState of the custom key store must be CONNECTED. To find the CustomKeyStoreID and ConnectionState use the [DescribeCustomKeyStores] operation. This parameter is valid only for symmetric encryption KMS keys in a single Region. You cannot create any other type of KMS key in a custom key store. When you create a KMS key in an CloudHSM key store, KMS generates a non-exportable 256-bit symmetric key in its associated CloudHSM cluster and associates it with the KMS key. When you create a KMS key in an external key store, you must use the XksKeyId parameter to specify an external key that serves as key material for the KMS key.
     public var customKeyStoreId: Swift.String?
     /// Instead, use the KeySpec parameter. The KeySpec and CustomerMasterKeySpec parameters work the same way. Only the names differ. We recommend that you use KeySpec parameter in your code. However, to avoid breaking changes, KMS supports both parameters.
@@ -1540,12 +1531,12 @@ public struct CreateKeyInput: Swift.Equatable {
     public var origin: KMSClientTypes.OriginType?
     /// The key policy to attach to the KMS key. If you provide a key policy, it must meet the following criteria:
     ///
-    /// * If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must allow the principal that is making the CreateKey request to make a subsequent [PutKeyPolicy] request on the KMS key. This reduces the risk that the KMS key becomes unmanageable. For more information, refer to the scenario in the [Default Key Policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam) section of the Key Management Service Developer Guide .
+    /// * The key policy must allow the calling principal to make a subsequent PutKeyPolicy request on the KMS key. This reduces the risk that the KMS key becomes unmanageable. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. (To omit this condition, set BypassPolicyLockoutSafetyCheck to true.)
     ///
-    /// * Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to KMS. When you create a new Amazon Web Services principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to KMS. For more information, see [Changes that I make are not always immediately visible](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency) in the Amazon Web Services Identity and Access Management User Guide.
+    /// * Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to KMS. When you create a new Amazon Web Services principal, you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to KMS. For more information, see [Changes that I make are not always immediately visible](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency) in the Amazon Web Services Identity and Access Management User Guide.
     ///
     ///
-    /// If you do not provide a key policy, KMS attaches a default key policy to the KMS key. For more information, see [Default Key Policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default) in the Key Management Service Developer Guide. The key policy size quota is 32 kilobytes (32768 bytes). For help writing and formatting a JSON policy document, see the [IAM JSON Policy Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) in the Identity and Access Management User Guide .
+    /// If you do not provide a key policy, KMS attaches a default key policy to the KMS key. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default) in the Key Management Service Developer Guide. The key policy size quota is 32 kilobytes (32768 bytes). For help writing and formatting a JSON policy document, see the [IAM JSON Policy Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) in the Identity and Access Management User Guide .
     public var policy: Swift.String?
     /// Assigns one or more tags to the KMS key. Use this parameter to tag the KMS key when it is created. To tag an existing KMS key, use the [TagResource] operation. Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see [ABAC for KMS](https://docs.aws.amazon.com/kms/latest/developerguide/abac.html) in the Key Management Service Developer Guide. To use this parameter, you must have [kms:TagResource](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) permission in an IAM policy. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You cannot have more than one tag on a KMS key with the same tag key. If you specify an existing tag key with a different tag value, KMS replaces the current tag value with the specified one. When you add tags to an Amazon Web Services resource, Amazon Web Services generates a cost allocation report with usage and costs aggregated by tags. Tags can also be used to control access to a KMS key. For details, see [Tagging Keys](https://docs.aws.amazon.com/kms/latest/developerguide/tagging-keys.html).
     public var tags: [KMSClientTypes.Tag]?
@@ -1553,7 +1544,7 @@ public struct CreateKeyInput: Swift.Equatable {
     public var xksKeyId: Swift.String?
 
     public init (
-        bypassPolicyLockoutSafetyCheck: Swift.Bool = false,
+        bypassPolicyLockoutSafetyCheck: Swift.Bool? = nil,
         customKeyStoreId: Swift.String? = nil,
         customerMasterKeySpec: KMSClientTypes.CustomerMasterKeySpec? = nil,
         description: Swift.String? = nil,
@@ -1588,7 +1579,7 @@ struct CreateKeyInputBody: Swift.Equatable {
     let keySpec: KMSClientTypes.KeySpec?
     let origin: KMSClientTypes.OriginType?
     let customKeyStoreId: Swift.String?
-    let bypassPolicyLockoutSafetyCheck: Swift.Bool
+    let bypassPolicyLockoutSafetyCheck: Swift.Bool?
     let tags: [KMSClientTypes.Tag]?
     let multiRegion: Swift.Bool?
     let xksKeyId: Swift.String?
@@ -1625,7 +1616,7 @@ extension CreateKeyInputBody: Swift.Decodable {
         origin = originDecoded
         let customKeyStoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customKeyStoreId)
         customKeyStoreId = customKeyStoreIdDecoded
-        let bypassPolicyLockoutSafetyCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassPolicyLockoutSafetyCheck) ?? false
+        let bypassPolicyLockoutSafetyCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassPolicyLockoutSafetyCheck)
         bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheckDecoded
         let tagsContainer = try containerValues.decodeIfPresent([KMSClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[KMSClientTypes.Tag]? = nil
@@ -2102,10 +2093,7 @@ extension KMSClientTypes {
         ///
         /// * It must have a network load balancer (NLB) connected to at least two subnets, each in a different Availability Zone.
         ///
-        /// * The Allow principals list must include the KMS service principal for the Region, cks.kms..amazonaws.com,
-        ///
-        ///
-        /// such as cks.kms.us-east-1.amazonaws.com.
+        /// * The Allow principals list must include the KMS service principal for the Region, cks.kms..amazonaws.com, such as cks.kms.us-east-1.amazonaws.com.
         ///
         /// * It must not require [acceptance](https://docs.aws.amazon.com/vpc/latest/privatelink/create-endpoint-service.html) of connection requests.
         ///
@@ -2365,9 +2353,6 @@ public struct DecryptInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     /// * Alias name: alias/ExampleAlias
     ///
@@ -2748,9 +2733,6 @@ public struct DeleteImportedKeyMaterialInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -3087,9 +3069,6 @@ public struct DescribeKeyInput: Swift.Equatable {
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
-    ///
-    ///
-    ///
     /// * Alias name: alias/ExampleAlias
     ///
     /// * Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
@@ -3234,9 +3213,6 @@ public struct DisableKeyInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -3330,9 +3306,6 @@ public struct DisableKeyRotationInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
@@ -3570,9 +3543,6 @@ public struct EnableKeyInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -3668,9 +3638,6 @@ public struct EnableKeyRotationInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
@@ -3803,9 +3770,6 @@ public struct EncryptInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     /// * Alias name: alias/ExampleAlias
     ///
@@ -4156,9 +4120,6 @@ public struct GenerateDataKeyInput: Swift.Equatable {
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
-    ///
-    ///
-    ///
     /// * Alias name: alias/ExampleAlias
     ///
     /// * Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
@@ -4387,9 +4348,6 @@ public struct GenerateDataKeyPairInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     /// * Alias name: alias/ExampleAlias
     ///
@@ -4635,9 +4593,6 @@ public struct GenerateDataKeyPairWithoutPlaintextInput: Swift.Equatable {
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
-    ///
-    ///
-    ///
     /// * Alias name: alias/ExampleAlias
     ///
     /// * Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
@@ -4870,9 +4825,6 @@ public struct GenerateDataKeyWithoutPlaintextInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     /// * Alias name: alias/ExampleAlias
     ///
@@ -5404,9 +5356,6 @@ public struct GetKeyPolicyInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -5540,9 +5489,6 @@ public struct GetKeyRotationStatusInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
@@ -5681,13 +5627,10 @@ public struct GetParametersForImportInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
-    /// The algorithm you will use to encrypt the key material before importing it with [ImportKeyMaterial]. For more information, see [Encrypt the Key Material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-encrypt-key-material.html) in the Key Management Service Developer Guide.
+    /// The algorithm you will use to encrypt the key material before using the [ImportKeyMaterial] operation to import it. For more information, see [Encrypt the key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-encrypt-key-material.html) in the Key Management Service Developer Guide. The RSAES_PKCS1_V1_5 wrapping algorithm is deprecated. We recommend that you begin using a different wrapping algorithm immediately. KMS will end support for RSAES_PKCS1_V1_5 by October 1, 2023 pursuant to [cryptographic key management guidance](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf) from the National Institute of Standards and Technology (NIST).
     /// This member is required.
     public var wrappingAlgorithm: KMSClientTypes.AlgorithmSpec?
     /// The type of wrapping key (public key) to return in the response. Only 2048-bit RSA public keys are supported.
@@ -5872,9 +5815,6 @@ public struct GetPublicKeyInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     /// * Alias name: alias/ExampleAlias
     ///
@@ -6403,9 +6343,6 @@ public struct ImportKeyMaterialInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
@@ -7978,9 +7915,6 @@ public struct ListAliasesInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     public var keyId: Swift.String?
     /// Use this parameter to specify the maximum number of items to return. When this value is present, KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
@@ -8169,9 +8103,6 @@ public struct ListGrantsInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
@@ -8367,9 +8298,6 @@ public struct ListKeyPoliciesInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
@@ -8706,9 +8634,6 @@ public struct ListResourceTagsInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -8883,7 +8808,7 @@ public struct ListRetirableGrantsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
     public var marker: Swift.String?
-    /// The retiring principal for which to list grants. Enter a principal in your Amazon Web Services account. To specify the retiring principal, use the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an Amazon Web Services principal. Valid Amazon Web Services principals include Amazon Web Services accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax for specifying a principal, see [Amazon Web Services Identity and Access Management (IAM)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam) in the Example ARNs section of the Amazon Web Services General Reference.
+    /// The retiring principal for which to list grants. Enter a principal in your Amazon Web Services account. To specify the retiring principal, use the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns) in the Identity and Access Management User Guide .
     /// This member is required.
     public var retiringPrincipal: Swift.String?
 
@@ -9389,7 +9314,7 @@ extension PutKeyPolicyInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if bypassPolicyLockoutSafetyCheck != false {
+        if let bypassPolicyLockoutSafetyCheck = self.bypassPolicyLockoutSafetyCheck {
             try encodeContainer.encode(bypassPolicyLockoutSafetyCheck, forKey: .bypassPolicyLockoutSafetyCheck)
         }
         if let keyId = self.keyId {
@@ -9411,8 +9336,8 @@ extension PutKeyPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutKeyPolicyInput: Swift.Equatable {
-    /// A flag to indicate whether to bypass the key policy lockout safety check. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the [Default Key Policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam) section in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the KMS key. The default value is false.
-    public var bypassPolicyLockoutSafetyCheck: Swift.Bool
+    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy] request on the KMS key.
+    public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// Sets the key policy on the specified KMS key. Specify the key ID or key ARN of the KMS key. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
@@ -9420,17 +9345,14 @@ public struct PutKeyPolicyInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
     /// The key policy to attach to the KMS key. The key policy must meet the following criteria:
     ///
-    /// * If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must allow the principal that is making the PutKeyPolicy request to make a subsequent PutKeyPolicy request on the KMS key. This reduces the risk that the KMS key becomes unmanageable. For more information, refer to the scenario in the [Default Key Policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam) section of the Key Management Service Developer Guide.
+    /// * The key policy must allow the calling principal to make a subsequent PutKeyPolicy request on the KMS key. This reduces the risk that the KMS key becomes unmanageable. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. (To omit this condition, set BypassPolicyLockoutSafetyCheck to true.)
     ///
-    /// * Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to KMS. When you create a new Amazon Web Services principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to KMS. For more information, see [Changes that I make are not always immediately visible](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency) in the Amazon Web Services Identity and Access Management User Guide.
+    /// * Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to KMS. When you create a new Amazon Web Services principal, you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to KMS. For more information, see [Changes that I make are not always immediately visible](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency) in the Amazon Web Services Identity and Access Management User Guide.
     ///
     ///
     /// A key policy document can include only the following characters:
@@ -9450,7 +9372,7 @@ public struct PutKeyPolicyInput: Swift.Equatable {
     public var policyName: Swift.String?
 
     public init (
-        bypassPolicyLockoutSafetyCheck: Swift.Bool = false,
+        bypassPolicyLockoutSafetyCheck: Swift.Bool? = nil,
         keyId: Swift.String? = nil,
         policy: Swift.String? = nil,
         policyName: Swift.String? = nil
@@ -9467,7 +9389,7 @@ struct PutKeyPolicyInputBody: Swift.Equatable {
     let keyId: Swift.String?
     let policyName: Swift.String?
     let policy: Swift.String?
-    let bypassPolicyLockoutSafetyCheck: Swift.Bool
+    let bypassPolicyLockoutSafetyCheck: Swift.Bool?
 }
 
 extension PutKeyPolicyInputBody: Swift.Decodable {
@@ -9486,7 +9408,7 @@ extension PutKeyPolicyInputBody: Swift.Decodable {
         policyName = policyNameDecoded
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
-        let bypassPolicyLockoutSafetyCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassPolicyLockoutSafetyCheck) ?? false
+        let bypassPolicyLockoutSafetyCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassPolicyLockoutSafetyCheck)
         bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheckDecoded
     }
 }
@@ -9607,9 +9529,6 @@ public struct ReEncryptInput: Swift.Equatable {
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
-    ///
-    ///
-    ///
     /// * Alias name: alias/ExampleAlias
     ///
     /// * Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
@@ -9629,9 +9548,6 @@ public struct ReEncryptInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     /// * Alias name: alias/ExampleAlias
     ///
@@ -9867,7 +9783,7 @@ extension ReplicateKeyInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if bypassPolicyLockoutSafetyCheck != false {
+        if let bypassPolicyLockoutSafetyCheck = self.bypassPolicyLockoutSafetyCheck {
             try encodeContainer.encode(bypassPolicyLockoutSafetyCheck, forKey: .bypassPolicyLockoutSafetyCheck)
         }
         if let description = self.description {
@@ -9898,8 +9814,8 @@ extension ReplicateKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ReplicateKeyInput: Swift.Equatable {
-    /// A flag to indicate whether to bypass the key policy lockout safety check. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the [Default Key Policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam) section in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the KMS key. The default value is false.
-    public var bypassPolicyLockoutSafetyCheck: Swift.Bool
+    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy] request on the KMS key.
+    public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// A description of the KMS key. The default value is an empty string (no description). The description is not a shared property of multi-Region keys. You can specify the same description or a different description for each key in a set of related multi-Region keys. KMS does not synchronize this property.
     public var description: Swift.String?
     /// Identifies the multi-Region primary key that is being replicated. To determine whether a KMS key is a multi-Region primary key, use the [DescribeKey] operation to check the value of the MultiRegionKeyType property. Specify the key ID or key ARN of a multi-Region primary key. For example:
@@ -9909,17 +9825,14 @@ public struct ReplicateKeyInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
     /// The key policy to attach to the KMS key. This parameter is optional. If you do not provide a key policy, KMS attaches the [default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default) to the KMS key. The key policy is not a shared property of multi-Region keys. You can specify the same key policy or a different key policy for each key in a set of related multi-Region keys. KMS does not synchronize this property. If you provide a key policy, it must meet the following criteria:
     ///
-    /// * If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must give the caller kms:PutKeyPolicy permission on the replica key. This reduces the risk that the KMS key becomes unmanageable. For more information, refer to the scenario in the [Default Key Policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam) section of the Key Management Service Developer Guide .
+    /// * The key policy must allow the calling principal to make a subsequent PutKeyPolicy request on the KMS key. This reduces the risk that the KMS key becomes unmanageable. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. (To omit this condition, set BypassPolicyLockoutSafetyCheck to true.)
     ///
-    /// * Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to KMS. When you create a new Amazon Web Services principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to KMS. For more information, see [Changes that I make are not always immediately visible](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency) in the Identity and Access Management User Guide .
+    /// * Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to KMS. When you create a new Amazon Web Services principal, you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to KMS. For more information, see [Changes that I make are not always immediately visible](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency) in the Amazon Web Services Identity and Access Management User Guide.
     ///
     ///
     /// A key policy document can include only the following characters:
@@ -9940,7 +9853,7 @@ public struct ReplicateKeyInput: Swift.Equatable {
     public var tags: [KMSClientTypes.Tag]?
 
     public init (
-        bypassPolicyLockoutSafetyCheck: Swift.Bool = false,
+        bypassPolicyLockoutSafetyCheck: Swift.Bool? = nil,
         description: Swift.String? = nil,
         keyId: Swift.String? = nil,
         policy: Swift.String? = nil,
@@ -9961,7 +9874,7 @@ struct ReplicateKeyInputBody: Swift.Equatable {
     let keyId: Swift.String?
     let replicaRegion: Swift.String?
     let policy: Swift.String?
-    let bypassPolicyLockoutSafetyCheck: Swift.Bool
+    let bypassPolicyLockoutSafetyCheck: Swift.Bool?
     let description: Swift.String?
     let tags: [KMSClientTypes.Tag]?
 }
@@ -9984,7 +9897,7 @@ extension ReplicateKeyInputBody: Swift.Decodable {
         replicaRegion = replicaRegionDecoded
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
-        let bypassPolicyLockoutSafetyCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassPolicyLockoutSafetyCheck) ?? false
+        let bypassPolicyLockoutSafetyCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassPolicyLockoutSafetyCheck)
         bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheckDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -10263,9 +10176,6 @@ public struct RevokeGrantInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -10371,9 +10281,6 @@ public struct ScheduleKeyDeletionInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
@@ -10565,9 +10472,6 @@ public struct SignInput: Swift.Equatable {
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
-    ///
-    ///
-    ///
     /// * Alias name: alias/ExampleAlias
     ///
     /// * Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
@@ -10576,12 +10480,20 @@ public struct SignInput: Swift.Equatable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     /// This member is required.
     public var keyId: Swift.String?
-    /// Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide the message digest. If you provide a message, KMS generates a hash digest of the message and then signs it.
+    /// Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide a message digest. If you provide a message digest, use the DIGEST value of MessageType to prevent the digest from being hashed again while signing.
     /// This member is required.
     public var message: ClientRuntime.Data?
-    /// Tells KMS whether the value of the Message parameter is a message or message digest. The default value, RAW, indicates a message. To indicate a message digest, enter DIGEST.
+    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. Use the DIGEST value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When the value of MessageTypeis DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm in that Sign uses is based on the SigningAlgorithm value.
+    ///
+    /// * Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.
+    ///
+    /// * Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm.
+    ///
+    /// * Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.
+    ///
+    /// * SM2DSA uses the SM3 hashing algorithm. For details, see [Offline verification with SM2 key pairs](https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html#key-spec-sm-offline-verification).
     public var messageType: KMSClientTypes.MessageType?
-    /// Specifies the signing algorithm to use when signing the message. Choose an algorithm that is compatible with the type and size of the specified asymmetric KMS key.
+    /// Specifies the signing algorithm to use when signing the message. Choose an algorithm that is compatible with the type and size of the specified asymmetric KMS key. When signing with RSA key pairs, RSASSA-PSS algorithms are preferred. We include RSASSA-PKCS1-v1_5 algorithms for compatibility with existing applications.
     /// This member is required.
     public var signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec?
 
@@ -10935,9 +10847,6 @@ public struct TagResourceInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -11112,9 +11021,6 @@ public struct UntagResourceInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -11233,9 +11139,6 @@ public struct UpdateAliasInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    ///
-    ///
-    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To verify that the alias is mapped to the correct KMS key, use [ListAliases].
@@ -11559,9 +11462,6 @@ public struct UpdateKeyDescriptionInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
-    ///
-    ///
-    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -11665,9 +11565,6 @@ public struct UpdatePrimaryRegionInput: Swift.Equatable {
     /// * Key ID: mrk-1234abcd12ab34cd56ef1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab
-    ///
-    ///
-    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
@@ -11805,9 +11702,6 @@ public struct VerifyInput: Swift.Equatable {
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
-    ///
-    ///
-    ///
     /// * Alias name: alias/ExampleAlias
     ///
     /// * Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
@@ -11819,7 +11713,15 @@ public struct VerifyInput: Swift.Equatable {
     /// Specifies the message that was signed. You can submit a raw message of up to 4096 bytes, or a hash digest of the message. If you submit a digest, use the MessageType parameter with a value of DIGEST. If the message specified here is different from the message that was signed, the signature verification fails. A message and its hash digest are considered to be the same message.
     /// This member is required.
     public var message: ClientRuntime.Data?
-    /// Tells KMS whether the value of the Message parameter is a message or message digest. The default value, RAW, indicates a message. To indicate a message digest, enter DIGEST. Use the DIGEST value only when the value of the Message parameter is a message digest. If you use the DIGEST value with a raw message, the security of the verification operation can be compromised.
+    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. Use the DIGEST value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the verification operation can be compromised. When the value of MessageTypeis DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm in that Verify uses is based on the SigningAlgorithm value.
+    ///
+    /// * Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.
+    ///
+    /// * Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm.
+    ///
+    /// * Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.
+    ///
+    /// * SM2DSA uses the SM3 hashing algorithm. For details, see [Offline verification with SM2 key pairs](https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html#key-spec-sm-offline-verification).
     public var messageType: KMSClientTypes.MessageType?
     /// The signature that the Sign operation generated.
     /// This member is required.

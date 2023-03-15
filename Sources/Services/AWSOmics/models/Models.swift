@@ -1274,7 +1274,7 @@ public struct CreateAnnotationStoreOutputResponse: Swift.Equatable {
     /// The store's name.
     /// This member is required.
     public var name: Swift.String?
-    /// The store's genome reference.
+    /// The store's genome reference. Required for all stores except TSV format with generic annotations.
     public var reference: OmicsClientTypes.ReferenceItem?
     /// The store's status.
     /// This member is required.
@@ -1623,13 +1623,13 @@ extension CreateRunGroupInput: ClientRuntime.URLPathProvider {
 public struct CreateRunGroupInput: Swift.Equatable {
     /// The maximum number of CPUs to use in the group.
     public var maxCpus: Swift.Int?
-    /// A max duration for the group.
+    /// A maximum run time for the group in minutes.
     public var maxDuration: Swift.Int?
     /// The maximum number of concurrent runs for the group.
     public var maxRuns: Swift.Int?
     /// A name for the group.
     public var name: Swift.String?
-    /// A request ID for the group.
+    /// To ensure that requests don't run multiple times, specify a unique ID for each request.
     /// This member is required.
     public var requestId: Swift.String?
     /// Tags for the group.
@@ -2341,10 +2341,10 @@ public struct CreateWorkflowInput: Swift.Equatable {
     public var name: Swift.String?
     /// A parameter template for the workflow.
     public var parameterTemplate: [Swift.String:OmicsClientTypes.WorkflowParameter]?
-    /// A request ID for the workflow.
+    /// To ensure that requests don't run multiple times, specify a unique ID for each request.
     /// This member is required.
     public var requestId: Swift.String?
-    /// A storage capacity for the workflow.
+    /// A storage capacity for the workflow in gigabytes.
     public var storageCapacity: Swift.Int?
     /// Tags for the workflow.
     public var tags: [Swift.String:Swift.String]?
@@ -4301,7 +4301,7 @@ public struct GetReadSetActivationJobOutputResponse: Swift.Equatable {
     /// The job's sequence store ID.
     /// This member is required.
     public var sequenceStoreId: Swift.String?
-    /// The job's sources.
+    /// The job's source files.
     public var sources: [OmicsClientTypes.ActivateReadSetSourceItem]?
     /// The job's status.
     /// This member is required.
@@ -4687,7 +4687,7 @@ public struct GetReadSetImportJobOutputResponse: Swift.Equatable {
     /// The job's sequence store ID.
     /// This member is required.
     public var sequenceStoreId: Swift.String?
-    /// The job's sources.
+    /// The job's source files.
     /// This member is required.
     public var sources: [OmicsClientTypes.ImportReadSetSourceItem]?
     /// The job's status.
@@ -5263,7 +5263,7 @@ public struct GetReferenceImportJobOutputResponse: Swift.Equatable {
     /// The job's service role ARN.
     /// This member is required.
     public var roleArn: Swift.String?
-    /// The job's sources.
+    /// The job's source files.
     /// This member is required.
     public var sources: [OmicsClientTypes.ImportReferenceSourceItem]?
     /// The job's status.
@@ -5968,7 +5968,7 @@ public struct GetRunGroupOutputResponse: Swift.Equatable {
     public var id: Swift.String?
     /// The group's maximum number of CPUs to use.
     public var maxCpus: Swift.Int?
-    /// The group's maximum run duration.
+    /// The group's maximum run time in minutes.
     public var maxDuration: Swift.Int?
     /// The maximum number of concurrent runs for the group.
     public var maxRuns: Swift.Int?
@@ -6234,7 +6234,7 @@ public struct GetRunOutputResponse: Swift.Equatable {
     public var statusMessage: Swift.String?
     /// The run's stop time.
     public var stopTime: ClientRuntime.Date?
-    /// The run's storage capacity.
+    /// The run's storage capacity in gigabytes.
     public var storageCapacity: Swift.Int?
     /// The run's tags.
     public var tags: [Swift.String:Swift.String]?
@@ -6530,7 +6530,7 @@ public struct GetRunTaskOutputResponse: Swift.Equatable {
     public var creationTime: ClientRuntime.Date?
     /// The task's log stream.
     public var logStream: Swift.String?
-    /// The task's memory setting.
+    /// The task's memory use in gigabytes.
     public var memory: Swift.Int?
     /// The task's name.
     public var name: Swift.String?
@@ -7383,7 +7383,7 @@ public struct GetWorkflowOutputResponse: Swift.Equatable {
     public var status: OmicsClientTypes.WorkflowStatus?
     /// The workflow's status message.
     public var statusMessage: Swift.String?
-    /// The workflow's storage capacity.
+    /// The workflow's storage capacity in gigabytes.
     public var storageCapacity: Swift.Int?
     /// The workflow's tags.
     public var tags: [Swift.String:Swift.String]?
@@ -8115,6 +8115,8 @@ extension OmicsClientTypes {
         case cancelled
         /// The Job has completed
         case completed
+        /// The Job completed with failed runs
+        case completedWithFailures
         /// The Job failed
         case failed
         /// The Job is executing
@@ -8127,6 +8129,7 @@ extension OmicsClientTypes {
             return [
                 .cancelled,
                 .completed,
+                .completedWithFailures,
                 .failed,
                 .inProgress,
                 .submitted,
@@ -8141,6 +8144,7 @@ extension OmicsClientTypes {
             switch self {
             case .cancelled: return "CANCELLED"
             case .completed: return "COMPLETED"
+            case .completedWithFailures: return "COMPLETED_WITH_FAILURES"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
             case .submitted: return "SUBMITTED"
@@ -12263,7 +12267,7 @@ extension OmicsClientTypes.ReferenceItem: Swift.Codable {
 
 extension OmicsClientTypes {
     /// A genome reference.
-    public enum ReferenceItem: Swift.Equatable, Swift.Hashable {
+    public enum ReferenceItem: Swift.Equatable {
         /// The reference's ARN.
         case referencearn(Swift.String)
         case sdkUnknown(Swift.String)
@@ -12771,7 +12775,7 @@ extension OmicsClientTypes {
         public var id: Swift.String?
         /// The group's maximum CPU count setting.
         public var maxCpus: Swift.Int?
-        /// The group's maximum duration setting.
+        /// The group's maximum duration setting in minutes.
         public var maxDuration: Swift.Int?
         /// The group's maximum concurrent run setting.
         public var maxRuns: Swift.Int?
@@ -13635,7 +13639,7 @@ public struct StartReadSetActivationJobInput: Swift.Equatable {
     /// The read set's sequence store ID.
     /// This member is required.
     public var sequenceStoreId: Swift.String?
-    /// The job's sources.
+    /// The job's source files.
     /// This member is required.
     public var sources: [OmicsClientTypes.StartReadSetActivationJobSourceItem]?
 
@@ -13874,7 +13878,7 @@ public struct StartReadSetExportJobInput: Swift.Equatable {
     /// The read set's sequence store ID.
     /// This member is required.
     public var sequenceStoreId: Swift.String?
-    /// Sources for the job.
+    /// The job's source files.
     /// This member is required.
     public var sources: [OmicsClientTypes.ExportReadSet]?
 
@@ -14093,7 +14097,7 @@ public struct StartReadSetImportJobInput: Swift.Equatable {
     /// The read set's sequence store ID.
     /// This member is required.
     public var sequenceStoreId: Swift.String?
-    /// Source files to import.
+    /// The job's source files.
     /// This member is required.
     public var sources: [OmicsClientTypes.StartReadSetImportJobSourceItem]?
 
@@ -14438,7 +14442,7 @@ public struct StartReferenceImportJobInput: Swift.Equatable {
     /// A service role for the job.
     /// This member is required.
     public var roleArn: Swift.String?
-    /// Sources for the job.
+    /// The job's source files.
     /// This member is required.
     public var sources: [OmicsClientTypes.StartReferenceImportJobSourceItem]?
 
@@ -14769,7 +14773,7 @@ public struct StartRunInput: Swift.Equatable {
     public var parameters: ClientRuntime.Document?
     /// A priority for the run.
     public var priority: Swift.Int?
-    /// A request ID for the run.
+    /// To ensure that requests don't run multiple times, specify a unique ID for each request.
     /// This member is required.
     public var requestId: Swift.String?
     /// A service role for the run.
@@ -14779,7 +14783,7 @@ public struct StartRunInput: Swift.Equatable {
     public var runGroupId: Swift.String?
     /// The run's ID.
     public var runId: Swift.String?
-    /// A storage capacity for the run.
+    /// A storage capacity for the run in gigabytes.
     public var storageCapacity: Swift.Int?
     /// Tags for the run.
     public var tags: [Swift.String:Swift.String]?
@@ -15484,7 +15488,7 @@ extension OmicsClientTypes {
         public var cpus: Swift.Int?
         /// When the task was created.
         public var creationTime: ClientRuntime.Date?
-        /// The task's memory.
+        /// The task's memory use in gigabyes.
         public var memory: Swift.Int?
         /// The task's name.
         public var name: Swift.String?
@@ -16099,7 +16103,7 @@ public struct UpdateRunGroupInput: Swift.Equatable {
     public var id: Swift.String?
     /// The maximum number of CPUs to use.
     public var maxCpus: Swift.Int?
-    /// The maximum amount of time to run.
+    /// A maximum run time for the group in minutes.
     public var maxDuration: Swift.Int?
     /// The maximum number of concurrent runs for the group.
     public var maxRuns: Swift.Int?
@@ -16559,6 +16563,7 @@ extension OmicsClientTypes.VariantImportItemDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobStatus
         case source
+        case statusMessage
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -16569,6 +16574,9 @@ extension OmicsClientTypes.VariantImportItemDetail: Swift.Codable {
         if let source = self.source {
             try encodeContainer.encode(source, forKey: .source)
         }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -16577,6 +16585,8 @@ extension OmicsClientTypes.VariantImportItemDetail: Swift.Codable {
         source = sourceDecoded
         let jobStatusDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.JobStatus.self, forKey: .jobStatus)
         jobStatus = jobStatusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
     }
 }
 
@@ -16589,14 +16599,18 @@ extension OmicsClientTypes {
         /// The source file's location in Amazon S3.
         /// This member is required.
         public var source: Swift.String?
+        /// A message that provides additional context about a job
+        public var statusMessage: Swift.String?
 
         public init (
             jobStatus: OmicsClientTypes.JobStatus? = nil,
-            source: Swift.String? = nil
+            source: Swift.String? = nil,
+            statusMessage: Swift.String? = nil
         )
         {
             self.jobStatus = jobStatus
             self.source = source
+            self.statusMessage = statusMessage
         }
     }
 
@@ -17147,6 +17161,7 @@ extension OmicsClientTypes {
         case creating
         case deleted
         case failed
+        case inactive
         case updating
         case sdkUnknown(Swift.String)
 
@@ -17156,6 +17171,7 @@ extension OmicsClientTypes {
                 .creating,
                 .deleted,
                 .failed,
+                .inactive,
                 .updating,
                 .sdkUnknown("")
             ]
@@ -17170,6 +17186,7 @@ extension OmicsClientTypes {
             case .creating: return "CREATING"
             case .deleted: return "DELETED"
             case .failed: return "FAILED"
+            case .inactive: return "INACTIVE"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -17185,11 +17202,13 @@ extension OmicsClientTypes {
 extension OmicsClientTypes {
     public enum WorkflowType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `private`
+        case service
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WorkflowType] {
             return [
                 .private,
+                .service,
                 .sdkUnknown("")
             ]
         }
@@ -17200,6 +17219,7 @@ extension OmicsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .private: return "PRIVATE"
+            case .service: return "SERVICE"
             case let .sdkUnknown(s): return s
             }
         }

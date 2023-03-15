@@ -3543,11 +3543,11 @@ extension MediaConvertClientTypes.BandwidthReductionFilter: Swift.Codable {
 }
 
 extension MediaConvertClientTypes {
-    /// The Bandwidth reduction filter increases the video quality of your output relative to its bitrate. Use to lower the bitrate of your constant quality QVBR output, with little or no perceptual decrease in quality. Or, use to increase the video quality of outputs with other rate control modes relative to the bitrate that you specify. Bandwidth reduction increases further when your input is low quality or noisy.Outputs that use this feature incur pro-tier pricing.When you include Bandwidth reduction filter, you cannot include the Noise reducer preprocessor.
+    /// The Bandwidth reduction filter increases the video quality of your output relative to its bitrate. Use to lower the bitrate of your constant quality QVBR output, with little or no perceptual decrease in quality. Or, use to increase the video quality of outputs with other rate control modes relative to the bitrate that you specify. Bandwidth reduction increases further when your input is low quality or noisy. Outputs that use this feature incur pro-tier pricing. When you include Bandwidth reduction filter, you cannot include the Noise reducer preprocessor.
     public struct BandwidthReductionFilter: Swift.Equatable {
         /// Optionally specify the level of sharpening to apply when you use the Bandwidth reduction filter. Sharpening adds contrast to the edges of your video content and can reduce softness. Keep the default value Off to apply no sharpening. Set Sharpening strength to Low to apply a minimal amount of sharpening, or High to apply a maximum amount of sharpening.
         public var sharpening: MediaConvertClientTypes.BandwidthReductionFilterSharpening?
-        /// Specify the strength of the Bandwidth reduction filter. For most workflows, we recommend that you choose Auto. Your output bandwidth will be reduced by at least 8 percent with no perceptual decrease in video quality. If your output bandwidth isn't constrained, set Filter strength to Low or Medium. Low results in minimal to no impact in perceptual quality. For more bandwidth reduction, choose High. The filter helps equalize quality between all scenes and increases video softness. We recommend that you choose High for low bitrate outputs.
+        /// Specify the strength of the Bandwidth reduction filter. For most workflows, we recommend that you choose Auto to reduce the bandwidth of your output with little to no perceptual decrease in video quality. For high quality and high bitrate outputs, choose Low. For the most bandwidth reduction, choose High. We recommend that you choose High for low bitrate outputs. Note that High may incur a slight increase in the softness of your output.
         public var strength: MediaConvertClientTypes.BandwidthReductionFilterStrength?
 
         public init (
@@ -3602,7 +3602,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Specify the strength of the Bandwidth reduction filter. For most workflows, we recommend that you choose Auto. Your output bandwidth will be reduced by at least 8 percent with no perceptual decrease in video quality. If your output bandwidth isn't constrained, set Filter strength to Low or Medium. Low results in minimal to no impact in perceptual quality. For more bandwidth reduction, choose High. The filter helps equalize quality between all scenes and increases video softness. We recommend that you choose High for low bitrate outputs.
+    /// Specify the strength of the Bandwidth reduction filter. For most workflows, we recommend that you choose Auto to reduce the bandwidth of your output with little to no perceptual decrease in video quality. For high quality and high bitrate outputs, choose Low. For the most bandwidth reduction, choose High. We recommend that you choose High for low bitrate outputs. Note that High may incur a slight increase in the softness of your output.
     public enum BandwidthReductionFilterStrength: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case auto
         case high
@@ -6839,7 +6839,17 @@ extension MediaConvertClientTypes {
         public var brightness: Swift.Int?
         /// Specify YUV limits and RGB tolerances when you set Sample range conversion to Limited range clip.
         public var clipLimits: MediaConvertClientTypes.ClipLimits?
-        /// Specify the color space you want for this output. The service supports conversion between HDR formats, between SDR formats, from SDR to HDR, and from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range. The converted video has an HDR format, but visually appears the same as an unconverted output. HDR to SDR conversion uses Elemental tone mapping technology to approximate the outcome of manually regrading from HDR to SDR. Select Force P3D65 (SDR) to set the output color space metadata to the following: * Color primaries: Display P3 * Transfer characteristics: SMPTE 428M * Matrix coefficients: BT.709
+        /// Specify the color space you want for this output. The service supports conversion between HDR formats, between SDR formats, from SDR to HDR, and from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range. The converted video has an HDR format, but visually appears the same as an unconverted output. HDR to SDR conversion uses tone mapping to approximate the outcome of manually regrading from HDR to SDR. When you specify an output color space, MediaConvert uses the following color space metadata, which includes color primaries, transfer characteristics, and matrix coefficients:
+        ///
+        /// * HDR 10: BT.2020, PQ, BT.2020 non-constant
+        ///
+        /// * HLG 2020: BT.2020, HLG, BT.2020 non-constant
+        ///
+        /// * P3DCI (Theater): DCIP3, SMPTE 428M, BT.709
+        ///
+        /// * P3D65 (SDR): Display P3, sRGB, BT.709
+        ///
+        /// * P3D65 (HDR): Display P3, PQ, BT.709
         public var colorSpaceConversion: MediaConvertClientTypes.ColorSpaceConversion?
         /// Contrast level.
         public var contrast: Swift.Int?
@@ -6918,17 +6928,22 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// If your input video has accurate color space metadata, or if you don't know about color space, leave this set to the default value Follow. The service will automatically detect your input color space. If your input video has metadata indicating the wrong color space, specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate, choose Force HDR 10 here and specify correct values in the input HDR 10 metadata settings. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr. Select P3D65 (SDR) to set the input color space metadata to the following:
+    /// If your input video has accurate color space metadata, or if you don't know about color space: Keep the default value, Follow. MediaConvert will automatically detect your input color space. If your input video has metadata indicating the wrong color space, or has missing metadata: Specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate: Choose Force HDR 10. Specify correct values in the input HDR 10 metadata settings. For more information about HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr. When you specify an input color space, MediaConvert uses the following color space metadata, which includes color primaries, transfer characteristics, and matrix coefficients:
     ///
-    /// * Color primaries: Display P3
+    /// * HDR 10: BT.2020, PQ, BT.2020 non-constant
     ///
-    /// * Transfer characteristics: SMPTE 428M
+    /// * HLG 2020: BT.2020, HLG, BT.2020 non-constant
     ///
-    /// * Matrix coefficients: BT.709
+    /// * P3DCI (Theater): DCIP3, SMPTE 428M, BT.709
+    ///
+    /// * P3D65 (SDR): Display P3, sRGB, BT.709
+    ///
+    /// * P3D65 (HDR): Display P3, PQ, BT.709
     public enum ColorSpace: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case follow
         case hdr10
         case hlg2020
+        case p3d65Hdr
         case p3d65Sdr
         case p3dci
         case rec601
@@ -6940,6 +6955,7 @@ extension MediaConvertClientTypes {
                 .follow,
                 .hdr10,
                 .hlg2020,
+                .p3d65Hdr,
                 .p3d65Sdr,
                 .p3dci,
                 .rec601,
@@ -6956,6 +6972,7 @@ extension MediaConvertClientTypes {
             case .follow: return "FOLLOW"
             case .hdr10: return "HDR10"
             case .hlg2020: return "HLG_2020"
+            case .p3d65Hdr: return "P3D65_HDR"
             case .p3d65Sdr: return "P3D65_SDR"
             case .p3dci: return "P3DCI"
             case .rec601: return "REC_601"
@@ -6972,12 +6989,23 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Specify the color space you want for this output. The service supports conversion between HDR formats, between SDR formats, from SDR to HDR, and from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range. The converted video has an HDR format, but visually appears the same as an unconverted output. HDR to SDR conversion uses Elemental tone mapping technology to approximate the outcome of manually regrading from HDR to SDR. Select Force P3D65 (SDR) to set the output color space metadata to the following: * Color primaries: Display P3 * Transfer characteristics: SMPTE 428M * Matrix coefficients: BT.709
+    /// Specify the color space you want for this output. The service supports conversion between HDR formats, between SDR formats, from SDR to HDR, and from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range. The converted video has an HDR format, but visually appears the same as an unconverted output. HDR to SDR conversion uses tone mapping to approximate the outcome of manually regrading from HDR to SDR. When you specify an output color space, MediaConvert uses the following color space metadata, which includes color primaries, transfer characteristics, and matrix coefficients:
+    ///
+    /// * HDR 10: BT.2020, PQ, BT.2020 non-constant
+    ///
+    /// * HLG 2020: BT.2020, HLG, BT.2020 non-constant
+    ///
+    /// * P3DCI (Theater): DCIP3, SMPTE 428M, BT.709
+    ///
+    /// * P3D65 (SDR): Display P3, sRGB, BT.709
+    ///
+    /// * P3D65 (HDR): Display P3, PQ, BT.709
     public enum ColorSpaceConversion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case force601
         case force709
         case forceHdr10
         case forceHlg2020
+        case forceP3d65Hdr
         case forceP3d65Sdr
         case forceP3dci
         case `none`
@@ -6989,6 +7017,7 @@ extension MediaConvertClientTypes {
                 .force709,
                 .forceHdr10,
                 .forceHlg2020,
+                .forceP3d65Hdr,
                 .forceP3d65Sdr,
                 .forceP3dci,
                 .none,
@@ -7005,6 +7034,7 @@ extension MediaConvertClientTypes {
             case .force709: return "FORCE_709"
             case .forceHdr10: return "FORCE_HDR10"
             case .forceHlg2020: return "FORCE_HLG_2020"
+            case .forceP3d65Hdr: return "FORCE_P3D65_HDR"
             case .forceP3d65Sdr: return "FORCE_P3D65_SDR"
             case .forceP3dci: return "FORCE_P3DCI"
             case .none: return "NONE"
@@ -14794,7 +14824,7 @@ extension MediaConvertClientTypes {
     public struct H264Settings: Swift.Equatable {
         /// Keep the default value, Auto (AUTO), for this setting to have MediaConvert automatically apply the best types of quantization for your video content. When you want to apply your quantization settings manually, you must set H264AdaptiveQuantization to a value other than Auto (AUTO). Use this setting to specify the strength of any adaptive quantization filters that you enable. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization (H264AdaptiveQuantization) to Off (OFF). Related settings: The value that you choose here applies to the following settings: H264FlickerAdaptiveQuantization, H264SpatialAdaptiveQuantization, and H264TemporalAdaptiveQuantization.
         public var adaptiveQuantization: MediaConvertClientTypes.H264AdaptiveQuantization?
-        /// The Bandwidth reduction filter increases the video quality of your output relative to its bitrate. Use to lower the bitrate of your constant quality QVBR output, with little or no perceptual decrease in quality. Or, use to increase the video quality of outputs with other rate control modes relative to the bitrate that you specify. Bandwidth reduction increases further when your input is low quality or noisy.Outputs that use this feature incur pro-tier pricing.When you include Bandwidth reduction filter, you cannot include the Noise reducer preprocessor.
+        /// The Bandwidth reduction filter increases the video quality of your output relative to its bitrate. Use to lower the bitrate of your constant quality QVBR output, with little or no perceptual decrease in quality. Or, use to increase the video quality of outputs with other rate control modes relative to the bitrate that you specify. Bandwidth reduction increases further when your input is low quality or noisy. Outputs that use this feature incur pro-tier pricing. When you include Bandwidth reduction filter, you cannot include the Noise reducer preprocessor.
         public var bandwidthReductionFilter: MediaConvertClientTypes.BandwidthReductionFilter?
         /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
         public var bitrate: Swift.Int?
@@ -33093,13 +33123,17 @@ extension MediaConvertClientTypes {
     public struct VideoSelector: Swift.Equatable {
         /// Ignore this setting unless this input is a QuickTime animation with an alpha channel. Use this setting to create separate Key and Fill outputs. In each output, specify which part of the input MediaConvert uses. Leave this setting at the default value DISCARD to delete the alpha channel and preserve the video. Set it to REMAP_TO_LUMA to delete the video and map the alpha channel to the luma channel of your outputs.
         public var alphaBehavior: MediaConvertClientTypes.AlphaBehavior?
-        /// If your input video has accurate color space metadata, or if you don't know about color space, leave this set to the default value Follow. The service will automatically detect your input color space. If your input video has metadata indicating the wrong color space, specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate, choose Force HDR 10 here and specify correct values in the input HDR 10 metadata settings. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr. Select P3D65 (SDR) to set the input color space metadata to the following:
+        /// If your input video has accurate color space metadata, or if you don't know about color space: Keep the default value, Follow. MediaConvert will automatically detect your input color space. If your input video has metadata indicating the wrong color space, or has missing metadata: Specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate: Choose Force HDR 10. Specify correct values in the input HDR 10 metadata settings. For more information about HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr. When you specify an input color space, MediaConvert uses the following color space metadata, which includes color primaries, transfer characteristics, and matrix coefficients:
         ///
-        /// * Color primaries: Display P3
+        /// * HDR 10: BT.2020, PQ, BT.2020 non-constant
         ///
-        /// * Transfer characteristics: SMPTE 428M
+        /// * HLG 2020: BT.2020, HLG, BT.2020 non-constant
         ///
-        /// * Matrix coefficients: BT.709
+        /// * P3DCI (Theater): DCIP3, SMPTE 428M, BT.709
+        ///
+        /// * P3D65 (SDR): Display P3, sRGB, BT.709
+        ///
+        /// * P3D65 (HDR): Display P3, PQ, BT.709
         public var colorSpace: MediaConvertClientTypes.ColorSpace?
         /// There are two sources for color metadata, the input file and the job input settings Color space (ColorSpace) and HDR master display information settings(Hdr10Metadata). The Color space usage setting determines which takes precedence. Choose Force (FORCE) to use color metadata from the input job settings. If you don't specify values for those settings, the service defaults to using metadata from your input. FALLBACK - Choose Fallback (FALLBACK) to use color metadata from the source when it is present. If there's no color metadata in your input file, the service defaults to using values you specify in the input settings.
         public var colorSpaceUsage: MediaConvertClientTypes.ColorSpaceUsage?

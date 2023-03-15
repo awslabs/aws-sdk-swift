@@ -220,7 +220,7 @@ extension AllocateConnectionOnInterconnectInput: Swift.Encodable {
         if let ownerAccount = self.ownerAccount {
             try encodeContainer.encode(ownerAccount, forKey: .ownerAccount)
         }
-        if vlan != 0 {
+        if let vlan = self.vlan {
             try encodeContainer.encode(vlan, forKey: .vlan)
         }
     }
@@ -247,14 +247,14 @@ public struct AllocateConnectionOnInterconnectInput: Swift.Equatable {
     public var ownerAccount: Swift.String?
     /// The dedicated VLAN provisioned to the connection.
     /// This member is required.
-    public var vlan: Swift.Int
+    public var vlan: Swift.Int?
 
     public init (
         bandwidth: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         interconnectId: Swift.String? = nil,
         ownerAccount: Swift.String? = nil,
-        vlan: Swift.Int = 0
+        vlan: Swift.Int? = nil
     )
     {
         self.bandwidth = bandwidth
@@ -270,7 +270,7 @@ struct AllocateConnectionOnInterconnectInputBody: Swift.Equatable {
     let connectionName: Swift.String?
     let ownerAccount: Swift.String?
     let interconnectId: Swift.String?
-    let vlan: Swift.Int
+    let vlan: Swift.Int?
 }
 
 extension AllocateConnectionOnInterconnectInputBody: Swift.Decodable {
@@ -292,7 +292,7 @@ extension AllocateConnectionOnInterconnectInputBody: Swift.Decodable {
         ownerAccount = ownerAccountDecoded
         let interconnectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .interconnectId)
         interconnectId = interconnectIdDecoded
-        let vlanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .vlan) ?? 0
+        let vlanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .vlan)
         vlan = vlanDecoded
     }
 }
@@ -640,7 +640,7 @@ extension AllocateHostedConnectionInput: Swift.Encodable {
                 try tagsContainer.encode(tag0)
             }
         }
-        if vlan != 0 {
+        if let vlan = self.vlan {
             try encodeContainer.encode(vlan, forKey: .vlan)
         }
     }
@@ -669,7 +669,7 @@ public struct AllocateHostedConnectionInput: Swift.Equatable {
     public var tags: [DirectConnectClientTypes.Tag]?
     /// The dedicated VLAN provisioned to the hosted connection.
     /// This member is required.
-    public var vlan: Swift.Int
+    public var vlan: Swift.Int?
 
     public init (
         bandwidth: Swift.String? = nil,
@@ -677,7 +677,7 @@ public struct AllocateHostedConnectionInput: Swift.Equatable {
         connectionName: Swift.String? = nil,
         ownerAccount: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
-        vlan: Swift.Int = 0
+        vlan: Swift.Int? = nil
     )
     {
         self.bandwidth = bandwidth
@@ -694,7 +694,7 @@ struct AllocateHostedConnectionInputBody: Swift.Equatable {
     let ownerAccount: Swift.String?
     let bandwidth: Swift.String?
     let connectionName: Swift.String?
-    let vlan: Swift.Int
+    let vlan: Swift.Int?
     let tags: [DirectConnectClientTypes.Tag]?
 }
 
@@ -718,7 +718,7 @@ extension AllocateHostedConnectionInputBody: Swift.Decodable {
         bandwidth = bandwidthDecoded
         let connectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionName)
         connectionName = connectionNameDecoded
-        let vlanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .vlan) ?? 0
+        let vlanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .vlan)
         vlan = vlanDecoded
         let tagsContainer = try containerValues.decodeIfPresent([DirectConnectClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[DirectConnectClientTypes.Tag]? = nil
@@ -6143,7 +6143,7 @@ extension CreateLagInput: Swift.Encodable {
         if let location = self.location {
             try encodeContainer.encode(location, forKey: .location)
         }
-        if numberOfConnections != 0 {
+        if let numberOfConnections = self.numberOfConnections {
             try encodeContainer.encode(numberOfConnections, forKey: .numberOfConnections)
         }
         if let providerName = self.providerName {
@@ -6183,7 +6183,7 @@ public struct CreateLagInput: Swift.Equatable {
     public var location: Swift.String?
     /// The number of physical dedicated connections initially provisioned and bundled by the LAG.
     /// This member is required.
-    public var numberOfConnections: Swift.Int
+    public var numberOfConnections: Swift.Int?
     /// The name of the service provider associated with the LAG.
     public var providerName: Swift.String?
     /// Indicates whether the connection will support MAC Security (MACsec). All connections in the LAG must be capable of supporting MAC Security (MACsec). For information about MAC Security (MACsec) prerequisties, see [MACsec prerequisties](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites) in the Direct Connect User Guide.
@@ -6197,7 +6197,7 @@ public struct CreateLagInput: Swift.Equatable {
         connectionsBandwidth: Swift.String? = nil,
         lagName: Swift.String? = nil,
         location: Swift.String? = nil,
-        numberOfConnections: Swift.Int = 0,
+        numberOfConnections: Swift.Int? = nil,
         providerName: Swift.String? = nil,
         requestMACSec: Swift.Bool? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
@@ -6216,7 +6216,7 @@ public struct CreateLagInput: Swift.Equatable {
 }
 
 struct CreateLagInputBody: Swift.Equatable {
-    let numberOfConnections: Swift.Int
+    let numberOfConnections: Swift.Int?
     let location: Swift.String?
     let connectionsBandwidth: Swift.String?
     let lagName: Swift.String?
@@ -6242,7 +6242,7 @@ extension CreateLagInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let numberOfConnectionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfConnections) ?? 0
+        let numberOfConnectionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfConnections)
         numberOfConnections = numberOfConnectionsDecoded
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
@@ -7630,7 +7630,7 @@ extension DeleteBGPPeerInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if asn != 0 {
+        if let asn = self.asn {
             try encodeContainer.encode(asn, forKey: .asn)
         }
         if let bgpPeerId = self.bgpPeerId {
@@ -7653,7 +7653,7 @@ extension DeleteBGPPeerInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteBGPPeerInput: Swift.Equatable {
     /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-    public var asn: Swift.Int
+    public var asn: Swift.Int?
     /// The ID of the BGP peer.
     public var bgpPeerId: Swift.String?
     /// The IP address assigned to the customer interface.
@@ -7662,7 +7662,7 @@ public struct DeleteBGPPeerInput: Swift.Equatable {
     public var virtualInterfaceId: Swift.String?
 
     public init (
-        asn: Swift.Int = 0,
+        asn: Swift.Int? = nil,
         bgpPeerId: Swift.String? = nil,
         customerAddress: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
@@ -7677,7 +7677,7 @@ public struct DeleteBGPPeerInput: Swift.Equatable {
 
 struct DeleteBGPPeerInputBody: Swift.Equatable {
     let virtualInterfaceId: Swift.String?
-    let asn: Swift.Int
+    let asn: Swift.Int?
     let customerAddress: Swift.String?
     let bgpPeerId: Swift.String?
 }
@@ -7694,7 +7694,7 @@ extension DeleteBGPPeerInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualInterfaceId)
         virtualInterfaceId = virtualInterfaceIdDecoded
-        let asnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .asn) ?? 0
+        let asnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .asn)
         asn = asnDecoded
         let customerAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerAddress)
         customerAddress = customerAddressDecoded
@@ -11819,6 +11819,8 @@ extension DirectConnectClientTypes {
         /// * disassociating: The initial state after calling [DeleteDirectConnectGatewayAssociation].
         ///
         /// * disassociated: The virtual private gateway or transit gateway is disassociated from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual private gateway or transit gateway is stopped.
+        ///
+        /// * updating: The CIDR blocks for the virtual private gateway or transit gateway are currently being updated. This could be new CIDR blocks added or current CIDR blocks removed.
         public var associationState: DirectConnectClientTypes.DirectConnectGatewayAssociationState?
         /// The ID of the Direct Connect gateway.
         public var directConnectGatewayId: Swift.String?
@@ -15185,7 +15187,7 @@ extension StartBgpFailoverTestInput: ClientRuntime.URLPathProvider {
 public struct StartBgpFailoverTestInput: Swift.Equatable {
     /// The BGP peers to place in the DOWN state.
     public var bgpPeers: [Swift.String]?
-    /// The time in minutes that the virtual interface failover test will last. Maximum value: 180 minutes (3 hours). Default: 180 minutes (3 hours).
+    /// The time in minutes that the virtual interface failover test will last. Maximum value: 4,320 minutes (72 hours). Default: 180 minutes (3 hours).
     public var testDurationInMinutes: Swift.Int?
     /// The ID of the virtual interface you want to test.
     /// This member is required.
@@ -16420,7 +16422,7 @@ extension UpdateLagInput: Swift.Encodable {
         if let lagName = self.lagName {
             try encodeContainer.encode(lagName, forKey: .lagName)
         }
-        if minimumLinks != 0 {
+        if let minimumLinks = self.minimumLinks {
             try encodeContainer.encode(minimumLinks, forKey: .minimumLinks)
         }
     }
@@ -16441,13 +16443,13 @@ public struct UpdateLagInput: Swift.Equatable {
     /// The name of the LAG.
     public var lagName: Swift.String?
     /// The minimum number of physical connections that must be operational for the LAG itself to be operational.
-    public var minimumLinks: Swift.Int
+    public var minimumLinks: Swift.Int?
 
     public init (
         encryptionMode: Swift.String? = nil,
         lagId: Swift.String? = nil,
         lagName: Swift.String? = nil,
-        minimumLinks: Swift.Int = 0
+        minimumLinks: Swift.Int? = nil
     )
     {
         self.encryptionMode = encryptionMode
@@ -16460,7 +16462,7 @@ public struct UpdateLagInput: Swift.Equatable {
 struct UpdateLagInputBody: Swift.Equatable {
     let lagId: Swift.String?
     let lagName: Swift.String?
-    let minimumLinks: Swift.Int
+    let minimumLinks: Swift.Int?
     let encryptionMode: Swift.String?
 }
 
@@ -16478,7 +16480,7 @@ extension UpdateLagInputBody: Swift.Decodable {
         lagId = lagIdDecoded
         let lagNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lagName)
         lagName = lagNameDecoded
-        let minimumLinksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumLinks) ?? 0
+        let minimumLinksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumLinks)
         minimumLinks = minimumLinksDecoded
         let encryptionModeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionMode)
         encryptionMode = encryptionModeDecoded

@@ -1353,6 +1353,7 @@ extension GetResourceMetricsInput: Swift.Encodable {
         case maxResults = "MaxResults"
         case metricQueries = "MetricQueries"
         case nextToken = "NextToken"
+        case periodAlignment = "PeriodAlignment"
         case periodInSeconds = "PeriodInSeconds"
         case serviceType = "ServiceType"
         case startTime = "StartTime"
@@ -1377,6 +1378,9 @@ extension GetResourceMetricsInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let periodAlignment = self.periodAlignment {
+            try encodeContainer.encode(periodAlignment.rawValue, forKey: .periodAlignment)
         }
         if let periodInSeconds = self.periodInSeconds {
             try encodeContainer.encode(periodInSeconds, forKey: .periodInSeconds)
@@ -1410,6 +1414,8 @@ public struct GetResourceMetricsInput: Swift.Equatable {
     public var metricQueries: [PIClientTypes.MetricQuery]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
     public var nextToken: Swift.String?
+    /// The returned timestamp which is the start or end time of the time periods. The default value is END_TIME.
+    public var periodAlignment: PIClientTypes.PeriodAlignment?
     /// The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as one second, or as long as one day (86400 seconds). Valid values are:
     ///
     /// * 1 (one second)
@@ -1442,6 +1448,7 @@ public struct GetResourceMetricsInput: Swift.Equatable {
         maxResults: Swift.Int? = nil,
         metricQueries: [PIClientTypes.MetricQuery]? = nil,
         nextToken: Swift.String? = nil,
+        periodAlignment: PIClientTypes.PeriodAlignment? = nil,
         periodInSeconds: Swift.Int? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
         startTime: ClientRuntime.Date? = nil
@@ -1452,6 +1459,7 @@ public struct GetResourceMetricsInput: Swift.Equatable {
         self.maxResults = maxResults
         self.metricQueries = metricQueries
         self.nextToken = nextToken
+        self.periodAlignment = periodAlignment
         self.periodInSeconds = periodInSeconds
         self.serviceType = serviceType
         self.startTime = startTime
@@ -1467,6 +1475,7 @@ struct GetResourceMetricsInputBody: Swift.Equatable {
     let periodInSeconds: Swift.Int?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
+    let periodAlignment: PIClientTypes.PeriodAlignment?
 }
 
 extension GetResourceMetricsInputBody: Swift.Decodable {
@@ -1476,6 +1485,7 @@ extension GetResourceMetricsInputBody: Swift.Decodable {
         case maxResults = "MaxResults"
         case metricQueries = "MetricQueries"
         case nextToken = "NextToken"
+        case periodAlignment = "PeriodAlignment"
         case periodInSeconds = "PeriodInSeconds"
         case serviceType = "ServiceType"
         case startTime = "StartTime"
@@ -1508,6 +1518,8 @@ extension GetResourceMetricsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let periodAlignmentDecoded = try containerValues.decodeIfPresent(PIClientTypes.PeriodAlignment.self, forKey: .periodAlignment)
+        periodAlignment = periodAlignmentDecoded
     }
 }
 
@@ -2375,6 +2387,38 @@ extension NotAuthorizedExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension PIClientTypes {
+    public enum PeriodAlignment: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case endTime
+        case startTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PeriodAlignment] {
+            return [
+                .endTime,
+                .startTime,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .endTime: return "END_TIME"
+            case .startTime: return "START_TIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PeriodAlignment(rawValue: rawValue) ?? PeriodAlignment.sdkUnknown(rawValue)
+        }
     }
 }
 

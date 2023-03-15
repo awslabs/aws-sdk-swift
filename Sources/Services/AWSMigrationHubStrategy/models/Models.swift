@@ -19,7 +19,7 @@ extension AccessDeniedException {
     }
 }
 
-/// The AWS user account does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this account.
+/// The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
 public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -53,6 +53,213 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension MigrationHubStrategyClientTypes.AnalysisStatusUnion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runtimeanalysisstatus = "runtimeAnalysisStatus"
+        case sdkUnknown
+        case srccodeordbanalysisstatus = "srcCodeOrDbAnalysisStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .runtimeanalysisstatus(runtimeanalysisstatus):
+                try container.encode(runtimeanalysisstatus.rawValue, forKey: .runtimeanalysisstatus)
+            case let .srccodeordbanalysisstatus(srccodeordbanalysisstatus):
+                try container.encode(srccodeordbanalysisstatus.rawValue, forKey: .srccodeordbanalysisstatus)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let runtimeanalysisstatusDecoded = try values.decodeIfPresent(MigrationHubStrategyClientTypes.RuntimeAnalysisStatus.self, forKey: .runtimeanalysisstatus)
+        if let runtimeanalysisstatus = runtimeanalysisstatusDecoded {
+            self = .runtimeanalysisstatus(runtimeanalysisstatus)
+            return
+        }
+        let srccodeordbanalysisstatusDecoded = try values.decodeIfPresent(MigrationHubStrategyClientTypes.SrcCodeOrDbAnalysisStatus.self, forKey: .srccodeordbanalysisstatus)
+        if let srccodeordbanalysisstatus = srccodeordbanalysisstatusDecoded {
+            self = .srccodeordbanalysisstatus(srccodeordbanalysisstatus)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// A combination of existing analysis statuses.
+    public enum AnalysisStatusUnion: Swift.Equatable {
+        /// The status of the analysis.
+        case runtimeanalysisstatus(MigrationHubStrategyClientTypes.RuntimeAnalysisStatus)
+        /// The status of the source code or database analysis.
+        case srccodeordbanalysisstatus(MigrationHubStrategyClientTypes.SrcCodeOrDbAnalysisStatus)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension MigrationHubStrategyClientTypes {
+    public enum AnalysisType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case binaryAnalysis
+        case databaseAnalysis
+        case runtimeAnalysis
+        case sourceCodeAnalysis
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalysisType] {
+            return [
+                .binaryAnalysis,
+                .databaseAnalysis,
+                .runtimeAnalysis,
+                .sourceCodeAnalysis,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .binaryAnalysis: return "BINARY_ANALYSIS"
+            case .databaseAnalysis: return "DATABASE_ANALYSIS"
+            case .runtimeAnalysis: return "RUNTIME_ANALYSIS"
+            case .sourceCodeAnalysis: return "SOURCE_CODE_ANALYSIS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalysisType(rawValue: rawValue) ?? AnalysisType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MigrationHubStrategyClientTypes.AnalyzerNameUnion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case binaryanalyzername = "binaryAnalyzerName"
+        case runtimeanalyzername = "runTimeAnalyzerName"
+        case sdkUnknown
+        case sourcecodeanalyzername = "sourceCodeAnalyzerName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .binaryanalyzername(binaryanalyzername):
+                try container.encode(binaryanalyzername.rawValue, forKey: .binaryanalyzername)
+            case let .runtimeanalyzername(runtimeanalyzername):
+                try container.encode(runtimeanalyzername.rawValue, forKey: .runtimeanalyzername)
+            case let .sourcecodeanalyzername(sourcecodeanalyzername):
+                try container.encode(sourcecodeanalyzername.rawValue, forKey: .sourcecodeanalyzername)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let binaryanalyzernameDecoded = try values.decodeIfPresent(MigrationHubStrategyClientTypes.BinaryAnalyzerName.self, forKey: .binaryanalyzername)
+        if let binaryanalyzername = binaryanalyzernameDecoded {
+            self = .binaryanalyzername(binaryanalyzername)
+            return
+        }
+        let runtimeanalyzernameDecoded = try values.decodeIfPresent(MigrationHubStrategyClientTypes.RunTimeAnalyzerName.self, forKey: .runtimeanalyzername)
+        if let runtimeanalyzername = runtimeanalyzernameDecoded {
+            self = .runtimeanalyzername(runtimeanalyzername)
+            return
+        }
+        let sourcecodeanalyzernameDecoded = try values.decodeIfPresent(MigrationHubStrategyClientTypes.SourceCodeAnalyzerName.self, forKey: .sourcecodeanalyzername)
+        if let sourcecodeanalyzername = sourcecodeanalyzernameDecoded {
+            self = .sourcecodeanalyzername(sourcecodeanalyzername)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// The combination of the existing analyzers.
+    public enum AnalyzerNameUnion: Swift.Equatable {
+        /// The binary analyzer names.
+        case binaryanalyzername(MigrationHubStrategyClientTypes.BinaryAnalyzerName)
+        /// The assessment analyzer names.
+        case runtimeanalyzername(MigrationHubStrategyClientTypes.RunTimeAnalyzerName)
+        /// The source code analyzer names.
+        case sourcecodeanalyzername(MigrationHubStrategyClientTypes.SourceCodeAnalyzerName)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension MigrationHubStrategyClientTypes.AntipatternReportResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzerName
+        case antiPatternReportS3Object
+        case antipatternReportStatus
+        case antipatternReportStatusMessage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analyzerName = self.analyzerName {
+            try encodeContainer.encode(analyzerName, forKey: .analyzerName)
+        }
+        if let antiPatternReportS3Object = self.antiPatternReportS3Object {
+            try encodeContainer.encode(antiPatternReportS3Object, forKey: .antiPatternReportS3Object)
+        }
+        if let antipatternReportStatus = self.antipatternReportStatus {
+            try encodeContainer.encode(antipatternReportStatus.rawValue, forKey: .antipatternReportStatus)
+        }
+        if let antipatternReportStatusMessage = self.antipatternReportStatusMessage {
+            try encodeContainer.encode(antipatternReportStatusMessage, forKey: .antipatternReportStatusMessage)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analyzerNameDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.AnalyzerNameUnion.self, forKey: .analyzerName)
+        analyzerName = analyzerNameDecoded
+        let antiPatternReportS3ObjectDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.S3Object.self, forKey: .antiPatternReportS3Object)
+        antiPatternReportS3Object = antiPatternReportS3ObjectDecoded
+        let antipatternReportStatusDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.AntipatternReportStatus.self, forKey: .antipatternReportStatus)
+        antipatternReportStatus = antipatternReportStatusDecoded
+        let antipatternReportStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .antipatternReportStatusMessage)
+        antipatternReportStatusMessage = antipatternReportStatusMessageDecoded
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// The anti-pattern report result.
+    public struct AntipatternReportResult: Swift.Equatable {
+        /// The analyzer name.
+        public var analyzerName: MigrationHubStrategyClientTypes.AnalyzerNameUnion?
+        /// Contains the S3 bucket name and the Amazon S3 key name.
+        public var antiPatternReportS3Object: MigrationHubStrategyClientTypes.S3Object?
+        /// The status of the anti-pattern report generation.
+        public var antipatternReportStatus: MigrationHubStrategyClientTypes.AntipatternReportStatus?
+        /// The status message for the anti-pattern.
+        public var antipatternReportStatusMessage: Swift.String?
+
+        public init (
+            analyzerName: MigrationHubStrategyClientTypes.AnalyzerNameUnion? = nil,
+            antiPatternReportS3Object: MigrationHubStrategyClientTypes.S3Object? = nil,
+            antipatternReportStatus: MigrationHubStrategyClientTypes.AntipatternReportStatus? = nil,
+            antipatternReportStatusMessage: Swift.String? = nil
+        )
+        {
+            self.analyzerName = analyzerName
+            self.antiPatternReportS3Object = antiPatternReportS3Object
+            self.antipatternReportStatus = antipatternReportStatus
+            self.antipatternReportStatusMessage = antipatternReportStatusMessage
+        }
+    }
+
 }
 
 extension MigrationHubStrategyClientTypes {
@@ -373,6 +580,7 @@ extension MigrationHubStrategyClientTypes.ApplicationComponentDetail: Swift.Coda
         case osVersion
         case recommendationSet
         case resourceSubType
+        case resultList
         case runtimeStatus
         case runtimeStatusMessage
         case sourceCodeRepositories
@@ -437,6 +645,12 @@ extension MigrationHubStrategyClientTypes.ApplicationComponentDetail: Swift.Coda
         }
         if let resourceSubType = self.resourceSubType {
             try encodeContainer.encode(resourceSubType.rawValue, forKey: .resourceSubType)
+        }
+        if let resultList = resultList {
+            var resultListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resultList)
+            for result0 in resultList {
+                try resultListContainer.encode(result0)
+            }
         }
         if let runtimeStatus = self.runtimeStatus {
             try encodeContainer.encode(runtimeStatus.rawValue, forKey: .runtimeStatus)
@@ -519,6 +733,17 @@ extension MigrationHubStrategyClientTypes.ApplicationComponentDetail: Swift.Coda
         runtimeStatusMessage = runtimeStatusMessageDecoded
         let appUnitErrorDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.AppUnitError.self, forKey: .appUnitError)
         appUnitError = appUnitErrorDecoded
+        let resultListContainer = try containerValues.decodeIfPresent([MigrationHubStrategyClientTypes.Result?].self, forKey: .resultList)
+        var resultListDecoded0:[MigrationHubStrategyClientTypes.Result]? = nil
+        if let resultListContainer = resultListContainer {
+            resultListDecoded0 = [MigrationHubStrategyClientTypes.Result]()
+            for structure0 in resultListContainer {
+                if let structure0 = structure0 {
+                    resultListDecoded0?.append(structure0)
+                }
+            }
+        }
+        resultList = resultListDecoded0
     }
 }
 
@@ -561,6 +786,8 @@ extension MigrationHubStrategyClientTypes {
         public var recommendationSet: MigrationHubStrategyClientTypes.RecommendationSet?
         /// The application component subtype.
         public var resourceSubType: MigrationHubStrategyClientTypes.ResourceSubType?
+        /// A list of the analysis results.
+        public var resultList: [MigrationHubStrategyClientTypes.Result]?
         /// The status of the application unit.
         public var runtimeStatus: MigrationHubStrategyClientTypes.RuntimeAnalysisStatus?
         /// The status message for the application unit.
@@ -589,6 +816,7 @@ extension MigrationHubStrategyClientTypes {
             osVersion: Swift.String? = nil,
             recommendationSet: MigrationHubStrategyClientTypes.RecommendationSet? = nil,
             resourceSubType: MigrationHubStrategyClientTypes.ResourceSubType? = nil,
+            resultList: [MigrationHubStrategyClientTypes.Result]? = nil,
             runtimeStatus: MigrationHubStrategyClientTypes.RuntimeAnalysisStatus? = nil,
             runtimeStatusMessage: Swift.String? = nil,
             sourceCodeRepositories: [MigrationHubStrategyClientTypes.SourceCodeRepository]? = nil,
@@ -613,6 +841,7 @@ extension MigrationHubStrategyClientTypes {
             self.osVersion = osVersion
             self.recommendationSet = recommendationSet
             self.resourceSubType = resourceSubType
+            self.resultList = resultList
             self.runtimeStatus = runtimeStatus
             self.runtimeStatusMessage = runtimeStatusMessage
             self.sourceCodeRepositories = sourceCodeRepositories
@@ -1327,6 +1556,38 @@ extension MigrationHubStrategyClientTypes {
     }
 }
 
+extension MigrationHubStrategyClientTypes {
+    public enum BinaryAnalyzerName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bytecodeAnalyzer
+        case dllAnalyzer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BinaryAnalyzerName] {
+            return [
+                .bytecodeAnalyzer,
+                .dllAnalyzer,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bytecodeAnalyzer: return "BYTECODE_ANALYZER"
+            case .dllAnalyzer: return "DLL_ANALYZER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BinaryAnalyzerName(rawValue: rawValue) ?? BinaryAnalyzerName.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MigrationHubStrategyClientTypes.BusinessGoals: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case licenseCostReduction
@@ -1851,12 +2112,14 @@ extension MigrationHubStrategyClientTypes {
 extension MigrationHubStrategyClientTypes {
     public enum DataSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ads
+        case `import`
         case mpa
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DataSourceType] {
             return [
                 .ads,
+                .import,
                 .mpa,
                 .sdkUnknown("")
             ]
@@ -1868,6 +2131,7 @@ extension MigrationHubStrategyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .ads: return "ApplicationDiscoveryService"
+            case .import: return "Import"
             case .mpa: return "MPA"
             case let .sdkUnknown(s): return s
             }
@@ -3410,11 +3674,13 @@ extension MigrationHubStrategyClientTypes {
 extension MigrationHubStrategyClientTypes {
     public enum GroupName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case externalId
+        case externalSourceType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GroupName] {
             return [
                 .externalId,
+                .externalSourceType,
                 .sdkUnknown("")
             ]
         }
@@ -3425,6 +3691,7 @@ extension MigrationHubStrategyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .externalId: return "ExternalId"
+            case .externalSourceType: return "ExternalSourceType"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5542,6 +5809,124 @@ extension MigrationHubStrategyClientTypes {
     }
 }
 
+extension MigrationHubStrategyClientTypes.Result: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisStatus
+        case analysisType
+        case antipatternReportResultList
+        case statusMessage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisStatus = self.analysisStatus {
+            try encodeContainer.encode(analysisStatus, forKey: .analysisStatus)
+        }
+        if let analysisType = self.analysisType {
+            try encodeContainer.encode(analysisType.rawValue, forKey: .analysisType)
+        }
+        if let antipatternReportResultList = antipatternReportResultList {
+            var antipatternReportResultListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .antipatternReportResultList)
+            for antipatternreportresult0 in antipatternReportResultList {
+                try antipatternReportResultListContainer.encode(antipatternreportresult0)
+            }
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisTypeDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.AnalysisType.self, forKey: .analysisType)
+        analysisType = analysisTypeDecoded
+        let analysisStatusDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.AnalysisStatusUnion.self, forKey: .analysisStatus)
+        analysisStatus = analysisStatusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let antipatternReportResultListContainer = try containerValues.decodeIfPresent([MigrationHubStrategyClientTypes.AntipatternReportResult?].self, forKey: .antipatternReportResultList)
+        var antipatternReportResultListDecoded0:[MigrationHubStrategyClientTypes.AntipatternReportResult]? = nil
+        if let antipatternReportResultListContainer = antipatternReportResultListContainer {
+            antipatternReportResultListDecoded0 = [MigrationHubStrategyClientTypes.AntipatternReportResult]()
+            for structure0 in antipatternReportResultListContainer {
+                if let structure0 = structure0 {
+                    antipatternReportResultListDecoded0?.append(structure0)
+                }
+            }
+        }
+        antipatternReportResultList = antipatternReportResultListDecoded0
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// The error in server analysis.
+    public struct Result: Swift.Equatable {
+        /// The error in server analysis.
+        public var analysisStatus: MigrationHubStrategyClientTypes.AnalysisStatusUnion?
+        /// The error in server analysis.
+        public var analysisType: MigrationHubStrategyClientTypes.AnalysisType?
+        /// The error in server analysis.
+        public var antipatternReportResultList: [MigrationHubStrategyClientTypes.AntipatternReportResult]?
+        /// The error in server analysis.
+        public var statusMessage: Swift.String?
+
+        public init (
+            analysisStatus: MigrationHubStrategyClientTypes.AnalysisStatusUnion? = nil,
+            analysisType: MigrationHubStrategyClientTypes.AnalysisType? = nil,
+            antipatternReportResultList: [MigrationHubStrategyClientTypes.AntipatternReportResult]? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.analysisStatus = analysisStatus
+            self.analysisType = analysisType
+            self.antipatternReportResultList = antipatternReportResultList
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
+extension MigrationHubStrategyClientTypes {
+    public enum RunTimeAnalyzerName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case a2cAnalyzer
+        case databaseAnalyzer
+        case empPaAnalyzer
+        case rehostAnalyzer
+        case sctAnalyzer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RunTimeAnalyzerName] {
+            return [
+                .a2cAnalyzer,
+                .databaseAnalyzer,
+                .empPaAnalyzer,
+                .rehostAnalyzer,
+                .sctAnalyzer,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .a2cAnalyzer: return "A2C_ANALYZER"
+            case .databaseAnalyzer: return "DATABASE_ANALYZER"
+            case .empPaAnalyzer: return "EMP_PA_ANALYZER"
+            case .rehostAnalyzer: return "REHOST_ANALYZER"
+            case .sctAnalyzer: return "SCT_ANALYZER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RunTimeAnalyzerName(rawValue: rawValue) ?? RunTimeAnalyzerName.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MigrationHubStrategyClientTypes {
     public enum RunTimeAssessmentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case dcFailed
@@ -6501,6 +6886,44 @@ extension MigrationHubStrategyClientTypes {
         }
     }
 
+}
+
+extension MigrationHubStrategyClientTypes {
+    public enum SourceCodeAnalyzerName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bytecodeAnalyzer
+        case csharpAnalyzer
+        case javaAnalyzer
+        case portingAssistant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceCodeAnalyzerName] {
+            return [
+                .bytecodeAnalyzer,
+                .csharpAnalyzer,
+                .javaAnalyzer,
+                .portingAssistant,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bytecodeAnalyzer: return "BYTECODE_ANALYZER"
+            case .csharpAnalyzer: return "CSHARP_ANALYZER"
+            case .javaAnalyzer: return "JAVA_ANALYZER"
+            case .portingAssistant: return "PORTING_ASSISTANT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SourceCodeAnalyzerName(rawValue: rawValue) ?? SourceCodeAnalyzerName.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MigrationHubStrategyClientTypes.SourceCodeRepository: Swift.Codable {

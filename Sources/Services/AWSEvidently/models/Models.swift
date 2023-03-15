@@ -696,7 +696,7 @@ public struct CreateFeatureInput: Swift.Equatable {
     public var defaultVariation: Swift.String?
     /// An optional description of the feature.
     public var description: Swift.String?
-    /// Specify users that should always be served a specific variation of a feature. Each user is specified by a key-value pair . For each key, specify a user by entering their user ID, account ID, or some other identifier. For the value, specify the name of the variation that they are to be served.
+    /// Specify users that should always be served a specific variation of a feature. Each user is specified by a key-value pair . For each key, specify a user by entering their user ID, account ID, or some other identifier. For the value, specify the name of the variation that they are to be served. This parameter is limited to 2500 overrides or a total of 40KB. The 40KB limit includes an overhead of 6 bytes per override.
     public var entityOverrides: [Swift.String:Swift.String]?
     /// Specify ALL_RULES to activate the traffic allocation specified by any ongoing launches or experiments. Specify DEFAULT_VARIATION to serve the default variation to all users instead.
     public var evaluationStrategy: EvidentlyClientTypes.FeatureEvaluationStrategy?
@@ -9313,7 +9313,7 @@ public struct UpdateFeatureInput: Swift.Equatable {
     public var defaultVariation: Swift.String?
     /// An optional description of the feature.
     public var description: Swift.String?
-    /// Specified users that should always be served a specific variation of a feature. Each user is specified by a key-value pair . For each key, specify a user by entering their user ID, account ID, or some other identifier. For the value, specify the name of the variation that they are to be served.
+    /// Specified users that should always be served a specific variation of a feature. Each user is specified by a key-value pair . For each key, specify a user by entering their user ID, account ID, or some other identifier. For the value, specify the name of the variation that they are to be served. This parameter is limited to 2500 overrides or a total of 40KB. The 40KB limit includes an overhead of 6 bytes per override.
     public var entityOverrides: [Swift.String:Swift.String]?
     /// Specify ALL_RULES to activate the traffic allocation specified by any ongoing launches or experiments. Specify DEFAULT_VARIATION to serve the default variation to all users instead.
     public var evaluationStrategy: EvidentlyClientTypes.FeatureEvaluationStrategy?

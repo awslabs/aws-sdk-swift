@@ -95,17 +95,26 @@ extension WisdomClientTypes {
     /// Configuration information for Amazon AppIntegrations to automatically ingest content.
     public struct AppIntegrationsConfiguration: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use for ingesting content.
+        ///
+        /// * For [ Salesforce](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_objects_knowledge__kav.htm), your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted as source fields.
+        ///
+        /// * For [ ServiceNow](https://developer.servicenow.com/dev.do#!/reference/api/rome/rest/knowledge-management-api), your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least number, short_description, sys_mod_count, workflow_state, and active as source fields.
+        ///
+        /// * For [ Zendesk](https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/), your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least id, title, updated_at, and draft as source fields.
+        ///
+        /// * For [ SharePoint](https://learn.microsoft.com/en-us/sharepoint/dev/sp-add-ins/sharepoint-net-server-csom-jsom-and-rest-api-index), your AppIntegrations DataIntegration must have a FileConfiguration, including only file extensions that are among docx, pdf, html, htm, and txt.
         /// This member is required.
         public var appIntegrationArn: Swift.String?
-        /// The fields from the source that are made available to your agents in Wisdom.
+        /// The fields from the source that are made available to your agents in Wisdom. Optional if ObjectConfiguration is included in the provided DataIntegration.
         ///
         /// * For [ Salesforce](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_objects_knowledge__kav.htm), you must include at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted.
         ///
         /// * For [ ServiceNow](https://developer.servicenow.com/dev.do#!/reference/api/rome/rest/knowledge-management-api), you must include at least number, short_description, sys_mod_count, workflow_state, and active.
         ///
+        /// * For [ Zendesk](https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/), you must include at least id, title, updated_at, and draft.
+        ///
         ///
         /// Make sure to include additional fields. These fields are indexed and used to source recommendations.
-        /// This member is required.
         public var objectFields: [Swift.String]?
 
         public init (
@@ -262,7 +271,7 @@ extension WisdomClientTypes.AssistantAssociationInputData: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The data that is input into Wisdom as a result of the assistant association.
-    public enum AssistantAssociationInputData: Swift.Equatable, Swift.Hashable {
+    public enum AssistantAssociationInputData: Swift.Equatable {
         /// The identifier of the knowledge base.
         case knowledgebaseid(Swift.String)
         case sdkUnknown(Swift.String)
@@ -1352,7 +1361,7 @@ public struct CreateAssistantAssociationInput: Swift.Equatable {
     /// The type of association.
     /// This member is required.
     public var associationType: WisdomClientTypes.AssociationType?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
@@ -1524,7 +1533,7 @@ extension CreateAssistantInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateAssistantInput: Swift.Equatable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description of the assistant.
     public var description: Swift.String?
@@ -1724,7 +1733,7 @@ extension CreateContentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateContentInput: Swift.Equatable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
@@ -1946,7 +1955,7 @@ extension CreateKnowledgeBaseInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateKnowledgeBaseInput: Swift.Equatable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description.
     public var description: Swift.String?
@@ -2150,7 +2159,7 @@ public struct CreateSessionInput: Swift.Equatable {
     /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description.
     public var description: Swift.String?
@@ -5602,11 +5611,13 @@ extension WisdomClientTypes.RenderingConfiguration: Swift.Codable {
 extension WisdomClientTypes {
     /// Information about how to render the content.
     public struct RenderingConfiguration: Swift.Equatable {
-        /// A URI template containing exactly one variable in ${variableName} format. This can only be set for EXTERNAL knowledge bases. For Salesforce and ServiceNow, the variable must be one of the following:
+        /// A URI template containing exactly one variable in ${variableName} format. This can only be set for EXTERNAL knowledge bases. For Salesforce, ServiceNow, and Zendesk, the variable must be one of the following:
         ///
         /// * Salesforce: Id, ArticleNumber, VersionNumber, Title, PublishStatus, or IsDeleted
         ///
         /// * ServiceNow: number, short_description, sys_mod_count, workflow_state, or active
+        ///
+        /// * Zendesk: id, title, updated_at, or draft
         ///
         ///
         /// The variable is replaced with the actual value for a piece of content when calling [GetContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetContent.html).

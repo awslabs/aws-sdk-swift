@@ -4449,7 +4449,7 @@ extension AmplifyUIBuilderClientTypes.FormStyleConfig: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration settings for the form's style properties.
-    public enum FormStyleConfig: Swift.Equatable, Swift.Hashable {
+    public enum FormStyleConfig: Swift.Equatable {
         /// A reference to a design token to use to bind the form's style properties to an existing theme.
         case tokenreference(Swift.String)
         /// The value of the style setting.

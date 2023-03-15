@@ -932,7 +932,7 @@ public struct CreateCallAnalyticsCategoryInput: Swift.Equatable {
     /// A unique name, chosen by you, for your Call Analytics category. It's helpful to use a detailed naming system that will make sense to you in the future. For example, it's better to use sentiment-positive-last30seconds for a category over a generic name like test-category. Category names are case sensitive.
     /// This member is required.
     public var categoryName: Swift.String?
-    /// Choose whether you want to create a streaming or a batch category for your Call Analytics transcription. Specifying POST_CALL assigns your category to batch transcriptions; categories with this input type cannot be applied to streaming (real-time) transcriptions. Specifying REAL_TIME assigns your category to streaming transcriptions; categories with this input type cannot be applied to batch (post-call) transcriptions. If you do not include InputType, your category is created as a batch category by default.
+    /// Choose whether you want to create a real-time or a post-call category for your Call Analytics transcription. Specifying POST_CALL assigns your category to post-call transcriptions; categories with this input type cannot be applied to streaming (real-time) transcriptions. Specifying REAL_TIME assigns your category to streaming transcriptions; categories with this input type cannot be applied to post-call transcriptions. If you do not include InputType, your category is created as a post-call category by default.
     public var inputType: TranscribeClientTypes.InputType?
     /// Rules define a Call Analytics category. When creating a new category, you must create between 1 and 20 rules for that category. For each rule, you specify a filter you want applied to the attributes of a call. For example, you can choose a sentiment filter that detects if a customer's sentiment was positive during the last 30 seconds of the call.
     /// This member is required.
@@ -1461,6 +1461,7 @@ extension CreateMedicalVocabularyOutputResponseBody: Swift.Decodable {
 
 extension CreateVocabularyFilterInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataAccessRoleArn = "DataAccessRoleArn"
         case languageCode = "LanguageCode"
         case tags = "Tags"
         case vocabularyFilterFileUri = "VocabularyFilterFileUri"
@@ -1469,6 +1470,9 @@ extension CreateVocabularyFilterInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataAccessRoleArn = self.dataAccessRoleArn {
+            try encodeContainer.encode(dataAccessRoleArn, forKey: .dataAccessRoleArn)
+        }
         if let languageCode = self.languageCode {
             try encodeContainer.encode(languageCode.rawValue, forKey: .languageCode)
         }
@@ -1497,6 +1501,8 @@ extension CreateVocabularyFilterInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateVocabularyFilterInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+    public var dataAccessRoleArn: Swift.String?
     /// The language code that represents the language of the entries in your vocabulary filter. Each custom vocabulary filter must contain terms in only one language. A custom vocabulary filter can only be used to transcribe files in the same language as the filter. For example, if you create a custom vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
     public var languageCode: TranscribeClientTypes.LanguageCode?
@@ -1511,6 +1517,7 @@ public struct CreateVocabularyFilterInput: Swift.Equatable {
     public var words: [Swift.String]?
 
     public init (
+        dataAccessRoleArn: Swift.String? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
         tags: [TranscribeClientTypes.Tag]? = nil,
         vocabularyFilterFileUri: Swift.String? = nil,
@@ -1518,6 +1525,7 @@ public struct CreateVocabularyFilterInput: Swift.Equatable {
         words: [Swift.String]? = nil
     )
     {
+        self.dataAccessRoleArn = dataAccessRoleArn
         self.languageCode = languageCode
         self.tags = tags
         self.vocabularyFilterFileUri = vocabularyFilterFileUri
@@ -1531,10 +1539,12 @@ struct CreateVocabularyFilterInputBody: Swift.Equatable {
     let words: [Swift.String]?
     let vocabularyFilterFileUri: Swift.String?
     let tags: [TranscribeClientTypes.Tag]?
+    let dataAccessRoleArn: Swift.String?
 }
 
 extension CreateVocabularyFilterInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataAccessRoleArn = "DataAccessRoleArn"
         case languageCode = "LanguageCode"
         case tags = "Tags"
         case vocabularyFilterFileUri = "VocabularyFilterFileUri"
@@ -1569,6 +1579,8 @@ extension CreateVocabularyFilterInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let dataAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataAccessRoleArn)
+        dataAccessRoleArn = dataAccessRoleArnDecoded
     }
 }
 
@@ -1663,6 +1675,7 @@ extension CreateVocabularyFilterOutputResponseBody: Swift.Decodable {
 
 extension CreateVocabularyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataAccessRoleArn = "DataAccessRoleArn"
         case languageCode = "LanguageCode"
         case phrases = "Phrases"
         case tags = "Tags"
@@ -1671,6 +1684,9 @@ extension CreateVocabularyInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataAccessRoleArn = self.dataAccessRoleArn {
+            try encodeContainer.encode(dataAccessRoleArn, forKey: .dataAccessRoleArn)
+        }
         if let languageCode = self.languageCode {
             try encodeContainer.encode(languageCode.rawValue, forKey: .languageCode)
         }
@@ -1699,6 +1715,8 @@ extension CreateVocabularyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateVocabularyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+    public var dataAccessRoleArn: Swift.String?
     /// The language code that represents the language of the entries in your custom vocabulary. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
     public var languageCode: TranscribeClientTypes.LanguageCode?
@@ -1713,6 +1731,7 @@ public struct CreateVocabularyInput: Swift.Equatable {
     public var vocabularyName: Swift.String?
 
     public init (
+        dataAccessRoleArn: Swift.String? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
         phrases: [Swift.String]? = nil,
         tags: [TranscribeClientTypes.Tag]? = nil,
@@ -1720,6 +1739,7 @@ public struct CreateVocabularyInput: Swift.Equatable {
         vocabularyName: Swift.String? = nil
     )
     {
+        self.dataAccessRoleArn = dataAccessRoleArn
         self.languageCode = languageCode
         self.phrases = phrases
         self.tags = tags
@@ -1733,10 +1753,12 @@ struct CreateVocabularyInputBody: Swift.Equatable {
     let phrases: [Swift.String]?
     let vocabularyFileUri: Swift.String?
     let tags: [TranscribeClientTypes.Tag]?
+    let dataAccessRoleArn: Swift.String?
 }
 
 extension CreateVocabularyInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataAccessRoleArn = "DataAccessRoleArn"
         case languageCode = "LanguageCode"
         case phrases = "Phrases"
         case tags = "Tags"
@@ -1771,6 +1793,8 @@ extension CreateVocabularyInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let dataAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataAccessRoleArn)
+        dataAccessRoleArn = dataAccessRoleArnDecoded
     }
 }
 
@@ -3633,7 +3657,7 @@ extension TranscribeClientTypes {
     /// * A lack of interruptions
     ///
     ///
-    /// See [Rule criteria for batch categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch) for usage examples.
+    /// See [Rule criteria for post-call categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch) for usage examples.
     public struct InterruptionFilter: Swift.Equatable {
         /// Makes it possible to specify a time range (in milliseconds) in your audio, during which you want to search for an interruption. See for more detail.
         public var absoluteTimeRange: TranscribeClientTypes.AbsoluteTimeRange?
@@ -3692,7 +3716,7 @@ extension TranscribeClientTypes.JobExecutionSettings: Swift.Codable {
 extension TranscribeClientTypes {
     /// Makes it possible to control how your transcription job is processed. Currently, the only JobExecutionSettings modification you can choose is enabling job queueing using the AllowDeferredExecution sub-parameter. If you include JobExecutionSettings in your request, you must also include the sub-parameters: AllowDeferredExecution and DataAccessRoleArn.
     public struct JobExecutionSettings: Swift.Equatable {
-        /// Makes it possible to enable job queuing when your concurrent request limit is exceeded. When AllowDeferredExecution is set to true, transcription job requests are placed in a queue until the number of jobs falls below the concurrent request limit. If AllowDeferredExecution is set to false and the number of transcription job requests exceed the concurrent request limit, you get a LimitExceededException error. Note that job queuing is enabled by default for Call Analytics jobs. If you include AllowDeferredExecution in your request, you must also include DataAccessRoleArn.
+        /// Makes it possible to enable job queuing when your concurrent request limit is exceeded. When AllowDeferredExecution is set to true, transcription job requests are placed in a queue until the number of jobs falls below the concurrent request limit. If AllowDeferredExecution is set to false and the number of transcription job requests exceed the concurrent request limit, you get a LimitExceededException error. If you include AllowDeferredExecution in your request, you must also include DataAccessRoleArn.
         public var allowDeferredExecution: Swift.Bool?
         /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns). Note that if you include DataAccessRoleArn in your request, you must also include AllowDeferredExecution.
         public var dataAccessRoleArn: Swift.String?
@@ -4020,7 +4044,23 @@ extension TranscribeClientTypes.LanguageModel: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// Provides information about a custom language model, including the base model name, when the model was created, the location of the files used to train the model, when the model was last modified, the name you chose for the model, its language, its processing state, and if there is an upgrade available for the base model.
+    /// Provides information about a custom language model, including:
+    ///
+    /// * The base model name
+    ///
+    /// * When the model was created
+    ///
+    /// * The location of the files used to train the model
+    ///
+    /// * When the model was last modified
+    ///
+    /// * The name you chose for the model
+    ///
+    /// * The model's language
+    ///
+    /// * The model's processing state
+    ///
+    /// * Any available upgrades for the base model
     public struct LanguageModel: Swift.Equatable {
         /// The Amazon Transcribe standard language model, or base model, used to create your custom language model.
         public var baseModelName: TranscribeClientTypes.BaseModelName?
@@ -6131,7 +6171,7 @@ extension TranscribeClientTypes {
     /// * The presence of speech at specified periods throughout the call
     ///
     ///
-    /// See [Rule criteria for batch categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch) for usage examples.
+    /// See [Rule criteria for post-call categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch) for usage examples.
     public struct NonTalkTimeFilter: Swift.Equatable {
         /// Makes it possible to specify a time range (in milliseconds) in your audio, during which you want to search for a period of silence. See for more detail.
         public var absoluteTimeRange: TranscribeClientTypes.AbsoluteTimeRange?
@@ -6514,7 +6554,7 @@ extension TranscribeClientTypes.Rule: Swift.Codable {
 }
 
 extension TranscribeClientTypes {
-    /// A rule is a set of criteria that you can specify to flag an attribute in your Call Analytics output. Rules define a Call Analytics category. Rules can include these parameters: , , , and . To learn more about Call Analytics rules and categories, see [Creating categories for batch transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html) and [Creating categories for streaming transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html). To learn more about Call Analytics, see [Analyzing call center audio with Call Analytics](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html).
+    /// A rule is a set of criteria that you can specify to flag an attribute in your Call Analytics output. Rules define a Call Analytics category. Rules can include these parameters: , , , and . To learn more about Call Analytics rules and categories, see [Creating categories for post-call transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html) and [Creating categories for real-time transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html). To learn more about Call Analytics, see [Analyzing call center audio with Call Analytics](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html).
     public enum Rule: Swift.Equatable {
         /// Flag the presence or absence of periods of silence in your Call Analytics transcription output. Refer to for more detail.
         case nontalktimefilter(TranscribeClientTypes.NonTalkTimeFilter)
@@ -6596,7 +6636,7 @@ extension TranscribeClientTypes {
     /// * The presence or absence of a mixed sentiment felt by the customer, the agent, or both at specified points in the call
     ///
     ///
-    /// See [Rule criteria for batch categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch) for usage examples.
+    /// See [Rule criteria for post-call categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch) for usage examples.
     public struct SentimentFilter: Swift.Equatable {
         /// Makes it possible to specify a time range (in milliseconds) in your audio, during which you want to search for the specified sentiments. See for more detail.
         public var absoluteTimeRange: TranscribeClientTypes.AbsoluteTimeRange?
@@ -6871,7 +6911,7 @@ public struct StartCallAnalyticsJobInput: Swift.Equatable {
     /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
     ///
     ///
-    /// If you don't specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location using the OutputLocation parameter. Note that the user making the request must have permission to use the specified KMS key.
+    /// If you don't specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location using the OutputLocation parameter. Note that the role making the request must have permission to use the specified KMS key.
     public var outputEncryptionKMSKeyId: Swift.String?
     /// The Amazon S3 location where you want your Call Analytics transcription output stored. You can use any of the following formats to specify the output location:
     ///
@@ -7133,7 +7173,7 @@ public struct StartMedicalTranscriptionJobInput: Swift.Equatable {
     /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
     ///
     ///
-    /// If you don't specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location using the OutputLocation parameter. Note that the user making the request must have permission to use the specified KMS key.
+    /// If you don't specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location using the OutputLocation parameter. Note that the role making the request must have permission to use the specified KMS key.
     public var outputEncryptionKMSKeyId: Swift.String?
     /// Use in combination with OutputBucketName to specify the output location of your transcript and, optionally, a unique name for your output file. The default name for your transcription output is the same as the name you specified for your medical transcription job (MedicalTranscriptionJobName). Here are some examples of how you can use OutputKey:
     ///
@@ -7489,7 +7529,7 @@ public struct StartTranscriptionJobInput: Swift.Equatable {
     /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
     ///
     ///
-    /// If you don't specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location using the OutputLocation parameter. Note that the user making the request must have permission to use the specified KMS key.
+    /// If you don't specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location using the OutputLocation parameter. Note that the role making the request must have permission to use the specified KMS key.
     public var outputEncryptionKMSKeyId: Swift.String?
     /// Use in combination with OutputBucketName to specify the output location of your transcript and, optionally, a unique name for your output file. The default name for your transcription output is the same as the name you specified for your transcription job (TranscriptionJobName). Here are some examples of how you can use OutputKey:
     ///
@@ -8183,7 +8223,7 @@ extension TranscribeClientTypes {
     /// * Custom words or phrases that occur at a specific time frame
     ///
     ///
-    /// See [Rule criteria for batch categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch) and [Rule criteria for streaming categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html#tca-rules-stream) for usage examples.
+    /// See [Rule criteria for post-call categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch) and [Rule criteria for streaming categories](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html#tca-rules-stream) for usage examples.
     public struct TranscriptFilter: Swift.Equatable {
         /// Makes it possible to specify a time range (in milliseconds) in your audio, during which you want to search for the specified key words or phrases. See for more detail.
         public var absoluteTimeRange: TranscribeClientTypes.AbsoluteTimeRange?
@@ -8946,7 +8986,7 @@ public struct UpdateCallAnalyticsCategoryInput: Swift.Equatable {
     /// The name of the Call Analytics category you want to update. Category names are case sensitive.
     /// This member is required.
     public var categoryName: Swift.String?
-    /// Choose whether you want to update a streaming or a batch Call Analytics category. The input type you specify must match the input type specified when the category was created. For example, if you created a category with the POST_CALL input type, you must use POST_CALL as the input type when updating this category.
+    /// Choose whether you want to update a real-time or a post-call category. The input type you specify must match the input type specified when the category was created. For example, if you created a category with the POST_CALL input type, you must use POST_CALL as the input type when updating this category.
     public var inputType: TranscribeClientTypes.InputType?
     /// The rules used for the updated Call Analytics category. The rules you provide in this field replace the ones that are currently being used in the specified category.
     /// This member is required.
@@ -9233,12 +9273,16 @@ extension UpdateMedicalVocabularyOutputResponseBody: Swift.Decodable {
 
 extension UpdateVocabularyFilterInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataAccessRoleArn = "DataAccessRoleArn"
         case vocabularyFilterFileUri = "VocabularyFilterFileUri"
         case words = "Words"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataAccessRoleArn = self.dataAccessRoleArn {
+            try encodeContainer.encode(dataAccessRoleArn, forKey: .dataAccessRoleArn)
+        }
         if let vocabularyFilterFileUri = self.vocabularyFilterFileUri {
             try encodeContainer.encode(vocabularyFilterFileUri, forKey: .vocabularyFilterFileUri)
         }
@@ -9258,6 +9302,8 @@ extension UpdateVocabularyFilterInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateVocabularyFilterInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+    public var dataAccessRoleArn: Swift.String?
     /// The Amazon S3 location of the text file that contains your custom vocabulary filter terms. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt Note that if you include VocabularyFilterFileUri in your request, you cannot use Words; you must choose one or the other.
     public var vocabularyFilterFileUri: Swift.String?
     /// The name of the custom vocabulary filter you want to update. Custom vocabulary filter names are case sensitive.
@@ -9267,11 +9313,13 @@ public struct UpdateVocabularyFilterInput: Swift.Equatable {
     public var words: [Swift.String]?
 
     public init (
+        dataAccessRoleArn: Swift.String? = nil,
         vocabularyFilterFileUri: Swift.String? = nil,
         vocabularyFilterName: Swift.String? = nil,
         words: [Swift.String]? = nil
     )
     {
+        self.dataAccessRoleArn = dataAccessRoleArn
         self.vocabularyFilterFileUri = vocabularyFilterFileUri
         self.vocabularyFilterName = vocabularyFilterName
         self.words = words
@@ -9281,10 +9329,12 @@ public struct UpdateVocabularyFilterInput: Swift.Equatable {
 struct UpdateVocabularyFilterInputBody: Swift.Equatable {
     let words: [Swift.String]?
     let vocabularyFilterFileUri: Swift.String?
+    let dataAccessRoleArn: Swift.String?
 }
 
 extension UpdateVocabularyFilterInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataAccessRoleArn = "DataAccessRoleArn"
         case vocabularyFilterFileUri = "VocabularyFilterFileUri"
         case words = "Words"
     }
@@ -9304,6 +9354,8 @@ extension UpdateVocabularyFilterInputBody: Swift.Decodable {
         words = wordsDecoded0
         let vocabularyFilterFileUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vocabularyFilterFileUri)
         vocabularyFilterFileUri = vocabularyFilterFileUriDecoded
+        let dataAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataAccessRoleArn)
+        dataAccessRoleArn = dataAccessRoleArnDecoded
     }
 }
 
@@ -9398,6 +9450,7 @@ extension UpdateVocabularyFilterOutputResponseBody: Swift.Decodable {
 
 extension UpdateVocabularyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataAccessRoleArn = "DataAccessRoleArn"
         case languageCode = "LanguageCode"
         case phrases = "Phrases"
         case vocabularyFileUri = "VocabularyFileUri"
@@ -9405,6 +9458,9 @@ extension UpdateVocabularyInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataAccessRoleArn = self.dataAccessRoleArn {
+            try encodeContainer.encode(dataAccessRoleArn, forKey: .dataAccessRoleArn)
+        }
         if let languageCode = self.languageCode {
             try encodeContainer.encode(languageCode.rawValue, forKey: .languageCode)
         }
@@ -9427,6 +9483,8 @@ extension UpdateVocabularyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateVocabularyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+    public var dataAccessRoleArn: Swift.String?
     /// The language code that represents the language of the entries in the custom vocabulary you want to update. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
     public var languageCode: TranscribeClientTypes.LanguageCode?
@@ -9439,12 +9497,14 @@ public struct UpdateVocabularyInput: Swift.Equatable {
     public var vocabularyName: Swift.String?
 
     public init (
+        dataAccessRoleArn: Swift.String? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
         phrases: [Swift.String]? = nil,
         vocabularyFileUri: Swift.String? = nil,
         vocabularyName: Swift.String? = nil
     )
     {
+        self.dataAccessRoleArn = dataAccessRoleArn
         self.languageCode = languageCode
         self.phrases = phrases
         self.vocabularyFileUri = vocabularyFileUri
@@ -9456,10 +9516,12 @@ struct UpdateVocabularyInputBody: Swift.Equatable {
     let languageCode: TranscribeClientTypes.LanguageCode?
     let phrases: [Swift.String]?
     let vocabularyFileUri: Swift.String?
+    let dataAccessRoleArn: Swift.String?
 }
 
 extension UpdateVocabularyInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataAccessRoleArn = "DataAccessRoleArn"
         case languageCode = "LanguageCode"
         case phrases = "Phrases"
         case vocabularyFileUri = "VocabularyFileUri"
@@ -9482,6 +9544,8 @@ extension UpdateVocabularyInputBody: Swift.Decodable {
         phrases = phrasesDecoded0
         let vocabularyFileUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vocabularyFileUri)
         vocabularyFileUri = vocabularyFileUriDecoded
+        let dataAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataAccessRoleArn)
+        dataAccessRoleArn = dataAccessRoleArnDecoded
     }
 }
 

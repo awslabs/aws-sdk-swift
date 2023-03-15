@@ -3663,7 +3663,7 @@ extension IdentitystoreClientTypes.MemberId: Swift.Codable {
 
 extension IdentitystoreClientTypes {
     /// An object containing the identifier of a group member.
-    public enum MemberId: Swift.Equatable, Swift.Hashable {
+    public enum MemberId: Swift.Equatable {
         /// An object containing the identifiers of resources that can be members.
         case userid(Swift.String)
         case sdkUnknown(Swift.String)

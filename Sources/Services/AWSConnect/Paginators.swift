@@ -79,6 +79,33 @@ extension GetMetricDataInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ConnectClient {
+    /// Paginate over `[GetMetricDataV2OutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetMetricDataV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetMetricDataV2OutputResponse`
+    public func getMetricDataV2Paginated(input: GetMetricDataV2Input) -> ClientRuntime.PaginatorSequence<GetMetricDataV2Input, GetMetricDataV2OutputResponse> {
+        return ClientRuntime.PaginatorSequence<GetMetricDataV2Input, GetMetricDataV2OutputResponse>(input: input, inputKey: \GetMetricDataV2Input.nextToken, outputKey: \GetMetricDataV2OutputResponse.nextToken, paginationFunction: self.getMetricDataV2(input:))
+    }
+}
+
+extension GetMetricDataV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetMetricDataV2Input {
+        return GetMetricDataV2Input(
+            endTime: self.endTime,
+            filters: self.filters,
+            groupings: self.groupings,
+            maxResults: self.maxResults,
+            metrics: self.metrics,
+            nextToken: token,
+            resourceArn: self.resourceArn,
+            startTime: self.startTime
+        )}
+}
+extension ConnectClient {
     /// Paginate over `[ListAgentStatusesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

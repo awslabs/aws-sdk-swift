@@ -331,7 +331,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         return result
     }
 
-    /// Closes an Amazon Web Services member account within an organization. You can't close the management account with this API. This is an asynchronous request that Amazon Web Services performs in the background. Because CloseAccount operates asynchronously, it can return a successful completion message even though account closure might still be in progress. You need to wait a few minutes before the account is fully closed. To check the status of the request, do one of the following:
+    /// Closes an Amazon Web Services member account within an organization. You can close an account when [all features are enabled ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html). You can't close the management account with this API. This is an asynchronous request that Amazon Web Services performs in the background. Because CloseAccount operates asynchronously, it can return a successful completion message even though account closure might still be in progress. You need to wait a few minutes before the account is fully closed. To check the status of the request, do one of the following:
     ///
     /// * Use the AccountId that you sent in the CloseAccount request to provide as a parameter to the [DescribeAccount] operation. While the close account request is in progress, Account status will indicate PENDING_CLOSURE. When the close account request completes, the status will change to SUSPENDED.
     ///
@@ -340,7 +340,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     ///
     ///
     ///
-    /// * You can only close 10% of active member accounts within a rolling 30 day period. This quota is not bound by a calendar month, but starts when you close an account. Within 30 days of that initial account closure, you can't exceed the 10% account closure limit.
+    /// * You can close only 10% of member accounts, between 10 and 200, within a rolling 30 day period. This quota is not bound by a calendar month, but starts when you close an account. After you reach this limit, you can close additional accounts in the Billing console. For more information, see [Closing an account](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/close-account.html) in the Amazon Web Services Billing and Cost Management User Guide.
     ///
     /// * To reinstate a closed account, contact Amazon Web Services Support within the 90-day grace period while the account is in SUSPENDED status.
     ///
@@ -1085,7 +1085,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         return result
     }
 
-    /// Retrieves information about a resource policy. You can only call this operation from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    /// Retrieves information about a resource policy. You can only call this operation from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

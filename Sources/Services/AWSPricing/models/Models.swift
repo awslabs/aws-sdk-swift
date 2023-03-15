@@ -2,6 +2,58 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AccessDeniedException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// General authentication failure. The request wasn't signed correctly.
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct AccessDeniedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension AccessDeniedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension PricingClientTypes.AttributeValue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case value = "Value"
@@ -312,7 +364,7 @@ extension PricingClientTypes {
         /// The type of filter that you want to use. Valid values are: TERM_MATCH. TERM_MATCH returns only products that match both the given filter field and the given value.
         /// This member is required.
         public var type: PricingClientTypes.FilterType?
-        /// The service code or attribute value that you want to filter by. If you are filtering by service code this is the actual service code, such as AmazonEC2. If you are filtering by attribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS volume.
+        /// The service code or attribute value that you want to filter by. If you're filtering by service code this is the actual service code, such as AmazonEC2. If you're filtering by attribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS volume.
         /// This member is required.
         public var value: Swift.String?
 
@@ -531,6 +583,136 @@ extension GetAttributeValuesOutputResponseBody: Swift.Decodable {
         attributeValues = attributeValuesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+extension GetPriceListFileUrlInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileFormat = "FileFormat"
+        case priceListArn = "PriceListArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fileFormat = self.fileFormat {
+            try encodeContainer.encode(fileFormat, forKey: .fileFormat)
+        }
+        if let priceListArn = self.priceListArn {
+            try encodeContainer.encode(priceListArn, forKey: .priceListArn)
+        }
+    }
+}
+
+extension GetPriceListFileUrlInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetPriceListFileUrlInput: Swift.Equatable {
+    /// The format that you want to retrieve your Price List files in. The FileFormat can be obtained from the [ListPriceLists](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html) response.
+    /// This member is required.
+    public var fileFormat: Swift.String?
+    /// The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the [ListPriceLists](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html) response.
+    /// This member is required.
+    public var priceListArn: Swift.String?
+
+    public init (
+        fileFormat: Swift.String? = nil,
+        priceListArn: Swift.String? = nil
+    )
+    {
+        self.fileFormat = fileFormat
+        self.priceListArn = priceListArn
+    }
+}
+
+struct GetPriceListFileUrlInputBody: Swift.Equatable {
+    let priceListArn: Swift.String?
+    let fileFormat: Swift.String?
+}
+
+extension GetPriceListFileUrlInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileFormat = "FileFormat"
+        case priceListArn = "PriceListArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let priceListArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .priceListArn)
+        priceListArn = priceListArnDecoded
+        let fileFormatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileFormat)
+        fileFormat = fileFormatDecoded
+    }
+}
+
+extension GetPriceListFileUrlOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetPriceListFileUrlOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalErrorException" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetPriceListFileUrlOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalErrorException(InternalErrorException)
+    case invalidParameterException(InvalidParameterException)
+    case notFoundException(NotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetPriceListFileUrlOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetPriceListFileUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.url = output.url
+        } else {
+            self.url = nil
+        }
+    }
+}
+
+public struct GetPriceListFileUrlOutputResponse: Swift.Equatable {
+    /// The URL to download your Price List file from.
+    public var url: Swift.String?
+
+    public init (
+        url: Swift.String? = nil
+    )
+    {
+        self.url = url
+    }
+}
+
+struct GetPriceListFileUrlOutputResponseBody: Swift.Equatable {
+    let url: Swift.String?
+}
+
+extension GetPriceListFileUrlOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case url = "Url"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
+        url = urlDecoded
     }
 }
 
@@ -898,6 +1080,208 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
     }
 }
 
+extension ListPriceListsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currencyCode = "CurrencyCode"
+        case effectiveDate = "EffectiveDate"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case regionCode = "RegionCode"
+        case serviceCode = "ServiceCode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currencyCode = self.currencyCode {
+            try encodeContainer.encode(currencyCode, forKey: .currencyCode)
+        }
+        if let effectiveDate = self.effectiveDate {
+            try encodeContainer.encodeTimestamp(effectiveDate, format: .epochSeconds, forKey: .effectiveDate)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let regionCode = self.regionCode {
+            try encodeContainer.encode(regionCode, forKey: .regionCode)
+        }
+        if let serviceCode = self.serviceCode {
+            try encodeContainer.encode(serviceCode, forKey: .serviceCode)
+        }
+    }
+}
+
+extension ListPriceListsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListPriceListsInput: Swift.Equatable {
+    /// The three alphabetical character ISO-4217 currency code that the Price List files are denominated in.
+    /// This member is required.
+    public var currencyCode: Swift.String?
+    /// The date that the Price List file prices are effective from.
+    /// This member is required.
+    public var effectiveDate: ClientRuntime.Date?
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// The pagination token that indicates the next set of results that you want to retrieve.
+    public var nextToken: Swift.String?
+    /// This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Virginia) Region, use us-east-1. If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from [GetAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetAttributeValues.html) API.
+    public var regionCode: Swift.String?
+    /// The service code or the Savings Plan service code for the attributes that you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists, use AmazonEC2. For a full list of service codes containing On-Demand and Reserved Instance (RI) pricing, use the [DescribeServices](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_DescribeServices.html#awscostmanagement-pricing_DescribeServices-request-FormatVersion) API. To retrieve the Compute Savings Plan price lists, use ComputeSavingsPlans. To retrieve Machine Learning Savings Plans price lists, use MachineLearningSavingsPlans.
+    /// This member is required.
+    public var serviceCode: Swift.String?
+
+    public init (
+        currencyCode: Swift.String? = nil,
+        effectiveDate: ClientRuntime.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        regionCode: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    )
+    {
+        self.currencyCode = currencyCode
+        self.effectiveDate = effectiveDate
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.regionCode = regionCode
+        self.serviceCode = serviceCode
+    }
+}
+
+struct ListPriceListsInputBody: Swift.Equatable {
+    let serviceCode: Swift.String?
+    let effectiveDate: ClientRuntime.Date?
+    let regionCode: Swift.String?
+    let currencyCode: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListPriceListsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currencyCode = "CurrencyCode"
+        case effectiveDate = "EffectiveDate"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case regionCode = "RegionCode"
+        case serviceCode = "ServiceCode"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceCode)
+        serviceCode = serviceCodeDecoded
+        let effectiveDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .effectiveDate)
+        effectiveDate = effectiveDateDecoded
+        let regionCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionCode)
+        regionCode = regionCodeDecoded
+        let currencyCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currencyCode)
+        currencyCode = currencyCodeDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListPriceListsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListPriceListsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ExpiredNextTokenException" : self = .expiredNextTokenException(try ExpiredNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalErrorException" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListPriceListsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case expiredNextTokenException(ExpiredNextTokenException)
+    case internalErrorException(InternalErrorException)
+    case invalidNextTokenException(InvalidNextTokenException)
+    case invalidParameterException(InvalidParameterException)
+    case notFoundException(NotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPriceListsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListPriceListsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.priceLists = output.priceLists
+        } else {
+            self.nextToken = nil
+            self.priceLists = nil
+        }
+    }
+}
+
+public struct ListPriceListsOutputResponse: Swift.Equatable {
+    /// The pagination token that indicates the next set of results to retrieve.
+    public var nextToken: Swift.String?
+    /// The type of price list references that match your request.
+    public var priceLists: [PricingClientTypes.PriceList]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        priceLists: [PricingClientTypes.PriceList]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.priceLists = priceLists
+    }
+}
+
+struct ListPriceListsOutputResponseBody: Swift.Equatable {
+    let priceLists: [PricingClientTypes.PriceList]?
+    let nextToken: Swift.String?
+}
+
+extension ListPriceListsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case priceLists = "PriceLists"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let priceListsContainer = try containerValues.decodeIfPresent([PricingClientTypes.PriceList?].self, forKey: .priceLists)
+        var priceListsDecoded0:[PricingClientTypes.PriceList]? = nil
+        if let priceListsContainer = priceListsContainer {
+            priceListsDecoded0 = [PricingClientTypes.PriceList]()
+            for structure0 in priceListsContainer {
+                if let structure0 = structure0 {
+                    priceListsDecoded0?.append(structure0)
+                }
+            }
+        }
+        priceLists = priceListsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -948,6 +1332,83 @@ extension NotFoundExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension PricingClientTypes.PriceList: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currencyCode = "CurrencyCode"
+        case fileFormats = "FileFormats"
+        case priceListArn = "PriceListArn"
+        case regionCode = "RegionCode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currencyCode = self.currencyCode {
+            try encodeContainer.encode(currencyCode, forKey: .currencyCode)
+        }
+        if let fileFormats = fileFormats {
+            var fileFormatsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileFormats)
+            for fileformat0 in fileFormats {
+                try fileFormatsContainer.encode(fileformat0)
+            }
+        }
+        if let priceListArn = self.priceListArn {
+            try encodeContainer.encode(priceListArn, forKey: .priceListArn)
+        }
+        if let regionCode = self.regionCode {
+            try encodeContainer.encode(regionCode, forKey: .regionCode)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let priceListArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .priceListArn)
+        priceListArn = priceListArnDecoded
+        let regionCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionCode)
+        regionCode = regionCodeDecoded
+        let currencyCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currencyCode)
+        currencyCode = currencyCodeDecoded
+        let fileFormatsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .fileFormats)
+        var fileFormatsDecoded0:[Swift.String]? = nil
+        if let fileFormatsContainer = fileFormatsContainer {
+            fileFormatsDecoded0 = [Swift.String]()
+            for string0 in fileFormatsContainer {
+                if let string0 = string0 {
+                    fileFormatsDecoded0?.append(string0)
+                }
+            }
+        }
+        fileFormats = fileFormatsDecoded0
+    }
+}
+
+extension PricingClientTypes {
+    /// This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/) (Section 1.10). This is the type of price list references that match your request.
+    public struct PriceList: Swift.Equatable {
+        /// The three alphabetical character ISO-4217 currency code the Price List files are denominated in.
+        public var currencyCode: Swift.String?
+        /// The format you want to retrieve your Price List files. The FileFormat can be obtained from the [ListPriceList](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html) response.
+        public var fileFormats: [Swift.String]?
+        /// The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the [ListPriceList](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html) response.
+        public var priceListArn: Swift.String?
+        /// This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Virginia) Region, use us-east-1. If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from [GetAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetAttributeValues.html) API.
+        public var regionCode: Swift.String?
+
+        public init (
+            currencyCode: Swift.String? = nil,
+            fileFormats: [Swift.String]? = nil,
+            priceListArn: Swift.String? = nil,
+            regionCode: Swift.String? = nil
+        )
+        {
+            self.currencyCode = currencyCode
+            self.fileFormats = fileFormats
+            self.priceListArn = priceListArn
+            self.regionCode = regionCode
+        }
+    }
+
 }
 
 extension PricingClientTypes.Service: Swift.Codable {

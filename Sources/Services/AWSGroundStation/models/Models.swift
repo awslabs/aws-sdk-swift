@@ -5609,7 +5609,7 @@ extension GroundStationClientTypes.KmsKey: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// AWS Key Management Service (KMS) Key.
-    public enum KmsKey: Swift.Equatable, Swift.Hashable {
+    public enum KmsKey: Swift.Equatable {
         /// KMS Key Arn.
         case kmskeyarn(Swift.String)
         /// KMS Alias Arn.

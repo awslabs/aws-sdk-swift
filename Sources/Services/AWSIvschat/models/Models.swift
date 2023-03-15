@@ -3584,6 +3584,7 @@ extension UpdateLoggingConfigurationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PendingVerification" : self = .pendingVerification(try PendingVerification(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -3594,6 +3595,7 @@ extension UpdateLoggingConfigurationOutputError {
 
 public enum UpdateLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
     case pendingVerification(PendingVerification)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)

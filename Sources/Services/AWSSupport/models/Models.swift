@@ -2214,6 +2214,10 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesInput: Swift.Encodable {
         if let checkIds = checkIds {
             var checkIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .checkIds)
             for string0 in checkIds {
+                guard let string0 = string0 else {
+                    try checkIdsContainer.encodeNil()
+                    continue
+                }
                 try checkIdsContainer.encode(string0)
             }
         }
@@ -2229,10 +2233,10 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesInput: ClientRuntime.URLPath
 public struct DescribeTrustedAdvisorCheckRefreshStatusesInput: Swift.Equatable {
     /// The IDs of the Trusted Advisor checks to get the status. If you specify the check ID of a check that is automatically refreshed, you might see an InvalidParameterValue error.
     /// This member is required.
-    public var checkIds: [Swift.String]?
+    public var checkIds: [Swift.String?]?
 
     public init (
-        checkIds: [Swift.String]? = nil
+        checkIds: [Swift.String?]? = nil
     )
     {
         self.checkIds = checkIds
@@ -2240,7 +2244,7 @@ public struct DescribeTrustedAdvisorCheckRefreshStatusesInput: Swift.Equatable {
 }
 
 struct DescribeTrustedAdvisorCheckRefreshStatusesInputBody: Swift.Equatable {
-    let checkIds: [Swift.String]?
+    let checkIds: [Swift.String?]?
 }
 
 extension DescribeTrustedAdvisorCheckRefreshStatusesInputBody: Swift.Decodable {
@@ -2251,13 +2255,11 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesInputBody: Swift.Decodable {
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .checkIds)
-        var checkIdsDecoded0:[Swift.String]? = nil
+        var checkIdsDecoded0:[Swift.String?]? = nil
         if let checkIdsContainer = checkIdsContainer {
-            checkIdsDecoded0 = [Swift.String]()
+            checkIdsDecoded0 = [Swift.String?]()
             for string0 in checkIdsContainer {
-                if let string0 = string0 {
-                    checkIdsDecoded0?.append(string0)
-                }
+                checkIdsDecoded0?.append(string0)
             }
         }
         checkIds = checkIdsDecoded0
@@ -2495,6 +2497,10 @@ extension DescribeTrustedAdvisorCheckSummariesInput: Swift.Encodable {
         if let checkIds = checkIds {
             var checkIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .checkIds)
             for string0 in checkIds {
+                guard let string0 = string0 else {
+                    try checkIdsContainer.encodeNil()
+                    continue
+                }
                 try checkIdsContainer.encode(string0)
             }
         }
@@ -2510,10 +2516,10 @@ extension DescribeTrustedAdvisorCheckSummariesInput: ClientRuntime.URLPathProvid
 public struct DescribeTrustedAdvisorCheckSummariesInput: Swift.Equatable {
     /// The IDs of the Trusted Advisor checks.
     /// This member is required.
-    public var checkIds: [Swift.String]?
+    public var checkIds: [Swift.String?]?
 
     public init (
-        checkIds: [Swift.String]? = nil
+        checkIds: [Swift.String?]? = nil
     )
     {
         self.checkIds = checkIds
@@ -2521,7 +2527,7 @@ public struct DescribeTrustedAdvisorCheckSummariesInput: Swift.Equatable {
 }
 
 struct DescribeTrustedAdvisorCheckSummariesInputBody: Swift.Equatable {
-    let checkIds: [Swift.String]?
+    let checkIds: [Swift.String?]?
 }
 
 extension DescribeTrustedAdvisorCheckSummariesInputBody: Swift.Decodable {
@@ -2532,13 +2538,11 @@ extension DescribeTrustedAdvisorCheckSummariesInputBody: Swift.Decodable {
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .checkIds)
-        var checkIdsDecoded0:[Swift.String]? = nil
+        var checkIdsDecoded0:[Swift.String?]? = nil
         if let checkIdsContainer = checkIdsContainer {
-            checkIdsDecoded0 = [Swift.String]()
+            checkIdsDecoded0 = [Swift.String?]()
             for string0 in checkIdsContainer {
-                if let string0 = string0 {
-                    checkIdsDecoded0?.append(string0)
-                }
+                checkIdsDecoded0?.append(string0)
             }
         }
         checkIds = checkIdsDecoded0
@@ -3293,6 +3297,10 @@ extension SupportClientTypes.TrustedAdvisorCheckDescription: Swift.Codable {
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metadata)
             for string0 in metadata {
+                guard let string0 = string0 else {
+                    try metadataContainer.encodeNil()
+                    continue
+                }
                 try metadataContainer.encode(string0)
             }
         }
@@ -3312,13 +3320,11 @@ extension SupportClientTypes.TrustedAdvisorCheckDescription: Swift.Codable {
         let categoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .category)
         category = categoryDecoded
         let metadataContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .metadata)
-        var metadataDecoded0:[Swift.String]? = nil
+        var metadataDecoded0:[Swift.String?]? = nil
         if let metadataContainer = metadataContainer {
-            metadataDecoded0 = [Swift.String]()
+            metadataDecoded0 = [Swift.String?]()
             for string0 in metadataContainer {
-                if let string0 = string0 {
-                    metadataDecoded0?.append(string0)
-                }
+                metadataDecoded0?.append(string0)
             }
         }
         metadata = metadataDecoded0
@@ -3339,7 +3345,7 @@ extension SupportClientTypes {
         public var id: Swift.String?
         /// The column headings for the data returned by the Trusted Advisor check. The order of the headings corresponds to the order of the data in the Metadata element of the [TrustedAdvisorResourceDetail] for the check. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data.
         /// This member is required.
-        public var metadata: [Swift.String]?
+        public var metadata: [Swift.String?]?
         /// The display name for the Trusted Advisor check.
         /// This member is required.
         public var name: Swift.String?
@@ -3348,7 +3354,7 @@ extension SupportClientTypes {
             category: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
-            metadata: [Swift.String]? = nil,
+            metadata: [Swift.String?]? = nil,
             name: Swift.String? = nil
         )
         {
@@ -3687,6 +3693,10 @@ extension SupportClientTypes.TrustedAdvisorResourceDetail: Swift.Codable {
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metadata)
             for string0 in metadata {
+                guard let string0 = string0 else {
+                    try metadataContainer.encodeNil()
+                    continue
+                }
                 try metadataContainer.encode(string0)
             }
         }
@@ -3712,13 +3722,11 @@ extension SupportClientTypes.TrustedAdvisorResourceDetail: Swift.Codable {
         let isSuppressedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isSuppressed) ?? false
         isSuppressed = isSuppressedDecoded
         let metadataContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .metadata)
-        var metadataDecoded0:[Swift.String]? = nil
+        var metadataDecoded0:[Swift.String?]? = nil
         if let metadataContainer = metadataContainer {
-            metadataDecoded0 = [Swift.String]()
+            metadataDecoded0 = [Swift.String?]()
             for string0 in metadataContainer {
-                if let string0 = string0 {
-                    metadataDecoded0?.append(string0)
-                }
+                metadataDecoded0?.append(string0)
             }
         }
         metadata = metadataDecoded0
@@ -3732,7 +3740,7 @@ extension SupportClientTypes {
         public var isSuppressed: Swift.Bool
         /// Additional information about the identified resource. The exact metadata and its order can be obtained by inspecting the [TrustedAdvisorCheckDescription] object returned by the call to [DescribeTrustedAdvisorChecks]. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data.
         /// This member is required.
-        public var metadata: [Swift.String]?
+        public var metadata: [Swift.String?]?
         /// The Amazon Web Services Region in which the identified resource is located.
         public var region: Swift.String?
         /// The unique identifier for the identified resource.
@@ -3744,7 +3752,7 @@ extension SupportClientTypes {
 
         public init (
             isSuppressed: Swift.Bool = false,
-            metadata: [Swift.String]? = nil,
+            metadata: [Swift.String?]? = nil,
             region: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             status: Swift.String? = nil

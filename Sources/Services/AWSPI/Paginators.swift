@@ -55,6 +55,7 @@ extension GetResourceMetricsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             metricQueries: self.metricQueries,
             nextToken: token,
+            periodAlignment: self.periodAlignment,
             periodInSeconds: self.periodInSeconds,
             serviceType: self.serviceType,
             startTime: self.startTime

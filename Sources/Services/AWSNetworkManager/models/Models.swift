@@ -16634,13 +16634,13 @@ extension StartRouteAnalysisInput: Swift.Encodable {
         if let destination = self.destination {
             try encodeContainer.encode(destination, forKey: .destination)
         }
-        if includeReturnPath != false {
+        if let includeReturnPath = self.includeReturnPath {
             try encodeContainer.encode(includeReturnPath, forKey: .includeReturnPath)
         }
         if let source = self.source {
             try encodeContainer.encode(source, forKey: .source)
         }
-        if useMiddleboxes != false {
+        if let useMiddleboxes = self.useMiddleboxes {
             try encodeContainer.encode(useMiddleboxes, forKey: .useMiddleboxes)
         }
     }
@@ -16663,19 +16663,19 @@ public struct StartRouteAnalysisInput: Swift.Equatable {
     /// This member is required.
     public var globalNetworkId: Swift.String?
     /// Indicates whether to analyze the return path. The default is false.
-    public var includeReturnPath: Swift.Bool
+    public var includeReturnPath: Swift.Bool?
     /// The source from which traffic originates.
     /// This member is required.
     public var source: NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification?
     /// Indicates whether to include the location of middlebox appliances in the route analysis. The default is false.
-    public var useMiddleboxes: Swift.Bool
+    public var useMiddleboxes: Swift.Bool?
 
     public init (
         destination: NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification? = nil,
         globalNetworkId: Swift.String? = nil,
-        includeReturnPath: Swift.Bool = false,
+        includeReturnPath: Swift.Bool? = nil,
         source: NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification? = nil,
-        useMiddleboxes: Swift.Bool = false
+        useMiddleboxes: Swift.Bool? = nil
     )
     {
         self.destination = destination
@@ -16689,8 +16689,8 @@ public struct StartRouteAnalysisInput: Swift.Equatable {
 struct StartRouteAnalysisInputBody: Swift.Equatable {
     let source: NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification?
     let destination: NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification?
-    let includeReturnPath: Swift.Bool
-    let useMiddleboxes: Swift.Bool
+    let includeReturnPath: Swift.Bool?
+    let useMiddleboxes: Swift.Bool?
 }
 
 extension StartRouteAnalysisInputBody: Swift.Decodable {
@@ -16707,9 +16707,9 @@ extension StartRouteAnalysisInputBody: Swift.Decodable {
         source = sourceDecoded
         let destinationDecoded = try containerValues.decodeIfPresent(NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification.self, forKey: .destination)
         destination = destinationDecoded
-        let includeReturnPathDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeReturnPath) ?? false
+        let includeReturnPathDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeReturnPath)
         includeReturnPath = includeReturnPathDecoded
-        let useMiddleboxesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useMiddleboxes) ?? false
+        let useMiddleboxesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useMiddleboxes)
         useMiddleboxes = useMiddleboxesDecoded
     }
 }
@@ -17353,7 +17353,7 @@ extension NetworkManagerClientTypes {
         public var attachment: NetworkManagerClientTypes.Attachment?
         /// The ID of the peering attachment.
         public var peeringId: Swift.String?
-        /// The ARN of the transit gateway attachment route table.
+        /// The ARN of the transit gateway attachment route table. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
         public var transitGatewayRouteTableArn: Swift.String?
 
         public init (

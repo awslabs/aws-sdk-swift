@@ -4649,7 +4649,7 @@ extension IvsClientTypes {
         public var playbackUrl: Swift.String?
         /// Time of the stream’s start. This is an ISO 8601 timestamp; note that this is returned as a string.
         public var startTime: ClientRuntime.Date?
-        /// The stream’s state.
+        /// The stream’s state. Do not rely on the OFFLINE state, as the API may not return it; instead, a "NotBroadcasting" error will indicate that the stream is not live.
         public var state: IvsClientTypes.StreamState?
         /// Unique identifier for a live or previously live stream in the specified channel.
         public var streamId: Swift.String?
@@ -5214,7 +5214,7 @@ extension IvsClientTypes {
         public var health: IvsClientTypes.StreamHealth?
         /// Time of the stream’s start. This is an ISO 8601 timestamp; note that this is returned as a string.
         public var startTime: ClientRuntime.Date?
-        /// The stream’s state.
+        /// The stream’s state. Do not rely on the OFFLINE state, as the API may not return it; instead, a "NotBroadcasting" error will indicate that the stream is not live.
         public var state: IvsClientTypes.StreamState?
         /// Unique identifier for a live or previously live stream in the specified channel.
         public var streamId: Swift.String?

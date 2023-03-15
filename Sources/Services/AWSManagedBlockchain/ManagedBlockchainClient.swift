@@ -205,7 +205,7 @@ public struct ManagedBlockchainClientLogHandlerFactory: ClientRuntime.SDKLogHand
 }
 
 extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
-    /// The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is subject to change. We recommend that you use this feature only with test scenarios, and not in production environments. Creates a new accessor for use with Managed Blockchain Ethereum nodes. An accessor object is a container that has the information required for token based access to your Ethereum nodes.
+    /// Creates a new accessor for use with Managed Blockchain Ethereum nodes. An accessor contains information required for token based access to your Ethereum nodes.
     public func createAccessor(input: CreateAccessorInput) async throws -> CreateAccessorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -420,7 +420,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         return result
     }
 
-    /// The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is subject to change. We recommend that you use this feature only with test scenarios, and not in production environments. Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the information required for token based access to your Ethereum nodes including, the BILLING_TOKEN. After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION. An accessor in the PENDING_DELETION state can’t be used for new WebSocket requests or HTTP requests. However, WebSocket connections that were initiated while the accessor was in the AVAILABLE state remain open until they expire (up to 2 hours).
+    /// Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the information required for token based access to your Ethereum nodes including, the BILLING_TOKEN. After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION. An accessor in the PENDING_DELETION state can’t be used for new WebSocket requests or HTTP requests. However, WebSocket connections that were initiated while the accessor was in the AVAILABLE state remain open until they expire (up to 2 hours).
     public func deleteAccessor(input: DeleteAccessorInput) async throws -> DeleteAccessorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -517,7 +517,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         return result
     }
 
-    /// The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is subject to change. We recommend that you use this feature only with test scenarios, and not in production environments. Returns detailed information about an accessor. An accessor object is a container that has the information required for token based access to your Ethereum nodes.
+    /// Returns detailed information about an accessor. An accessor object is a container that has the information required for token based access to your Ethereum nodes.
     public func getAccessor(input: GetAccessorInput) async throws -> GetAccessorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -678,7 +678,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         return result
     }
 
-    /// The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is subject to change. We recommend that you use this feature only with test scenarios, and not in production environments. Returns a list of the accessors and their properties. Accessor objects are containers that have the information required for token based access to your Ethereum nodes.
+    /// Returns a list of the accessors and their properties. Accessor objects are containers that have the information required for token based access to your Ethereum nodes.
     public func listAccessors(input: ListAccessorsInput) async throws -> ListAccessorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

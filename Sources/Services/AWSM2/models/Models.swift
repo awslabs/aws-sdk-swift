@@ -2366,7 +2366,7 @@ extension M2ClientTypes.Definition: Swift.Codable {
 
 extension M2ClientTypes {
     /// The application definition for a particular application.
-    public enum Definition: Swift.Equatable, Swift.Hashable {
+    public enum Definition: Swift.Equatable {
         /// The S3 bucket that contains the application definition.
         case s3location(Swift.String)
         /// The content of the application definition. This is a JSON object that contains the resource configuration/definitions that identify an application.
@@ -3101,7 +3101,7 @@ extension M2ClientTypes.ExternalLocation: Swift.Codable {
 
 extension M2ClientTypes {
     /// Defines an external storage location.
-    public enum ExternalLocation: Swift.Equatable, Swift.Hashable {
+    public enum ExternalLocation: Swift.Equatable {
         /// The URI of the Amazon S3 bucket.
         case s3location(Swift.String)
         case sdkUnknown(Swift.String)

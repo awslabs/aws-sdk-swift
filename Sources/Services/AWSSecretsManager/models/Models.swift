@@ -171,7 +171,7 @@ extension CreateSecretInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if forceOverwriteReplicaSecret != false {
+        if let forceOverwriteReplicaSecret = self.forceOverwriteReplicaSecret {
             try encodeContainer.encode(forceOverwriteReplicaSecret, forKey: .forceOverwriteReplicaSecret)
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -218,7 +218,7 @@ public struct CreateSecretInput: Swift.Equatable {
     /// The description of the secret.
     public var description: Swift.String?
     /// Specifies whether to overwrite a secret with the same name in the destination Region.
-    public var forceOverwriteReplicaSecret: Swift.Bool
+    public var forceOverwriteReplicaSecret: Swift.Bool?
     /// The ARN, key ID, or alias of the KMS key that Secrets Manager uses to encrypt the secret value in the secret. An alias is always prefixed by alias/, for example alias/aws/secretsmanager. For more information, see [About aliases](https://docs.aws.amazon.com/kms/latest/developerguide/alias-about.html). To use a KMS key in a different account, use the key ARN or the alias ARN. If you don't specify this value, then Secrets Manager uses the key aws/secretsmanager. If that key doesn't yet exist, then Secrets Manager creates it for you automatically the first time it encrypts the secret value. If the secret is in a different Amazon Web Services account from the credentials calling the API, then you can't use aws/secretsmanager to encrypt the secret, and you must create and use a customer managed KMS key.
     public var kmsKeyId: Swift.String?
     /// The name of the new secret. The secret name can contain ASCII letters, numbers, and the following characters: /_+=.@- Do not end your secret name with a hyphen followed by six characters. If you do so, you risk confusion and unexpected results when searching for a secret by partial ARN. Secrets Manager automatically adds a hyphen and six random characters after the secret name at the end of the ARN.
@@ -247,7 +247,7 @@ public struct CreateSecretInput: Swift.Equatable {
         addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]? = nil,
         clientRequestToken: Swift.String? = nil,
         description: Swift.String? = nil,
-        forceOverwriteReplicaSecret: Swift.Bool = false,
+        forceOverwriteReplicaSecret: Swift.Bool? = nil,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         secretBinary: ClientRuntime.Data? = nil,
@@ -276,7 +276,7 @@ struct CreateSecretInputBody: Swift.Equatable {
     let secretString: Swift.String?
     let tags: [SecretsManagerClientTypes.Tag]?
     let addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]?
-    let forceOverwriteReplicaSecret: Swift.Bool
+    let forceOverwriteReplicaSecret: Swift.Bool?
 }
 
 extension CreateSecretInputBody: Swift.Decodable {
@@ -328,7 +328,7 @@ extension CreateSecretInputBody: Swift.Decodable {
             }
         }
         addReplicaRegions = addReplicaRegionsDecoded0
-        let forceOverwriteReplicaSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceOverwriteReplicaSecret) ?? false
+        let forceOverwriteReplicaSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceOverwriteReplicaSecret)
         forceOverwriteReplicaSecret = forceOverwriteReplicaSecretDecoded
     }
 }
@@ -3282,7 +3282,7 @@ extension ReplicateSecretToRegionsInput: Swift.Encodable {
                 try addReplicaRegionsContainer.encode(replicaregiontype0)
             }
         }
-        if forceOverwriteReplicaSecret != false {
+        if let forceOverwriteReplicaSecret = self.forceOverwriteReplicaSecret {
             try encodeContainer.encode(forceOverwriteReplicaSecret, forKey: .forceOverwriteReplicaSecret)
         }
         if let secretId = self.secretId {
@@ -3302,14 +3302,14 @@ public struct ReplicateSecretToRegionsInput: Swift.Equatable {
     /// This member is required.
     public var addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]?
     /// Specifies whether to overwrite a secret with the same name in the destination Region.
-    public var forceOverwriteReplicaSecret: Swift.Bool
+    public var forceOverwriteReplicaSecret: Swift.Bool?
     /// The ARN or name of the secret to replicate.
     /// This member is required.
     public var secretId: Swift.String?
 
     public init (
         addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]? = nil,
-        forceOverwriteReplicaSecret: Swift.Bool = false,
+        forceOverwriteReplicaSecret: Swift.Bool? = nil,
         secretId: Swift.String? = nil
     )
     {
@@ -3322,7 +3322,7 @@ public struct ReplicateSecretToRegionsInput: Swift.Equatable {
 struct ReplicateSecretToRegionsInputBody: Swift.Equatable {
     let secretId: Swift.String?
     let addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]?
-    let forceOverwriteReplicaSecret: Swift.Bool
+    let forceOverwriteReplicaSecret: Swift.Bool?
 }
 
 extension ReplicateSecretToRegionsInputBody: Swift.Decodable {
@@ -3347,7 +3347,7 @@ extension ReplicateSecretToRegionsInputBody: Swift.Decodable {
             }
         }
         addReplicaRegions = addReplicaRegionsDecoded0
-        let forceOverwriteReplicaSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceOverwriteReplicaSecret) ?? false
+        let forceOverwriteReplicaSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceOverwriteReplicaSecret)
         forceOverwriteReplicaSecret = forceOverwriteReplicaSecretDecoded
     }
 }

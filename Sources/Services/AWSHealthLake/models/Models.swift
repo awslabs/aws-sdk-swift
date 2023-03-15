@@ -1425,7 +1425,7 @@ extension HealthLakeClientTypes.InputDataConfig: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// The input properties for an import job.
-    public enum InputDataConfig: Swift.Equatable, Swift.Hashable {
+    public enum InputDataConfig: Swift.Equatable {
         /// The S3Uri is the user specified S3 location of the FHIR data to be imported into Amazon HealthLake.
         case s3uri(Swift.String)
         case sdkUnknown(Swift.String)

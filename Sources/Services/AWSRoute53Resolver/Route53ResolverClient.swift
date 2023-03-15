@@ -2459,7 +2459,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
         return result
     }
 
-    /// Updates the name of an inbound or an outbound Resolver endpoint.
+    /// Updates the name, or enpoint type for an inbound or an outbound Resolver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
     public func updateResolverEndpoint(input: UpdateResolverEndpointInput) async throws -> UpdateResolverEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

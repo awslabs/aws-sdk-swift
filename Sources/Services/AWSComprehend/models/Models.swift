@@ -2616,6 +2616,215 @@ extension ContainsPiiEntitiesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateDatasetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case datasetName = "DatasetName"
+        case datasetType = "DatasetType"
+        case description = "Description"
+        case flywheelArn = "FlywheelArn"
+        case inputDataConfig = "InputDataConfig"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let datasetName = self.datasetName {
+            try encodeContainer.encode(datasetName, forKey: .datasetName)
+        }
+        if let datasetType = self.datasetType {
+            try encodeContainer.encode(datasetType.rawValue, forKey: .datasetType)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
+        }
+        if let inputDataConfig = self.inputDataConfig {
+            try encodeContainer.encode(inputDataConfig, forKey: .inputDataConfig)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateDatasetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateDatasetInput: Swift.Equatable {
+    /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+    public var clientRequestToken: Swift.String?
+    /// Name of the dataset.
+    /// This member is required.
+    public var datasetName: Swift.String?
+    /// The dataset type. You can specify that the data in a dataset is for training the model or for testing the model.
+    public var datasetType: ComprehendClientTypes.DatasetType?
+    /// Description of the dataset.
+    public var description: Swift.String?
+    /// The Amazon Resource Number (ARN) of the flywheel of the flywheel to receive the data.
+    /// This member is required.
+    public var flywheelArn: Swift.String?
+    /// Information about the input data configuration. The type of input data varies based on the format of the input and whether the data is for a classifier model or an entity recognition model.
+    /// This member is required.
+    public var inputDataConfig: ComprehendClientTypes.DatasetInputDataConfig?
+    /// Tags for the dataset.
+    public var tags: [ComprehendClientTypes.Tag]?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        datasetName: Swift.String? = nil,
+        datasetType: ComprehendClientTypes.DatasetType? = nil,
+        description: Swift.String? = nil,
+        flywheelArn: Swift.String? = nil,
+        inputDataConfig: ComprehendClientTypes.DatasetInputDataConfig? = nil,
+        tags: [ComprehendClientTypes.Tag]? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.datasetName = datasetName
+        self.datasetType = datasetType
+        self.description = description
+        self.flywheelArn = flywheelArn
+        self.inputDataConfig = inputDataConfig
+        self.tags = tags
+    }
+}
+
+struct CreateDatasetInputBody: Swift.Equatable {
+    let flywheelArn: Swift.String?
+    let datasetName: Swift.String?
+    let datasetType: ComprehendClientTypes.DatasetType?
+    let description: Swift.String?
+    let inputDataConfig: ComprehendClientTypes.DatasetInputDataConfig?
+    let clientRequestToken: Swift.String?
+    let tags: [ComprehendClientTypes.Tag]?
+}
+
+extension CreateDatasetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case datasetName = "DatasetName"
+        case datasetType = "DatasetType"
+        case description = "Description"
+        case flywheelArn = "FlywheelArn"
+        case inputDataConfig = "InputDataConfig"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+        let datasetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetName)
+        datasetName = datasetNameDecoded
+        let datasetTypeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetType.self, forKey: .datasetType)
+        datasetType = datasetTypeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let inputDataConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetInputDataConfig.self, forKey: .inputDataConfig)
+        inputDataConfig = inputDataConfigDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ComprehendClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ComprehendClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateDatasetOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateDatasetOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateDatasetOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceInUseException(ResourceInUseException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case tooManyTagsException(TooManyTagsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDatasetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateDatasetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.datasetArn = output.datasetArn
+        } else {
+            self.datasetArn = nil
+        }
+    }
+}
+
+public struct CreateDatasetOutputResponse: Swift.Equatable {
+    /// The ARN of the dataset.
+    public var datasetArn: Swift.String?
+
+    public init (
+        datasetArn: Swift.String? = nil
+    )
+    {
+        self.datasetArn = datasetArn
+    }
+}
+
+struct CreateDatasetOutputResponseBody: Swift.Equatable {
+    let datasetArn: Swift.String?
+}
+
+extension CreateDatasetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn = "DatasetArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+    }
+}
+
 extension CreateDocumentClassifierInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
@@ -2689,7 +2898,7 @@ extension CreateDocumentClassifierInput: ClientRuntime.URLPathProvider {
 public struct CreateDocumentClassifierInput: Swift.Equatable {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// The name of the document classifier.
@@ -2698,7 +2907,7 @@ public struct CreateDocumentClassifierInput: Swift.Equatable {
     /// Specifies the format and location of the input data for the job.
     /// This member is required.
     public var inputDataConfig: ComprehendClientTypes.DocumentClassifierInputDataConfig?
-    /// The language of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
+    /// The language of the input documents. You can specify any of the languages supported by Amazon Comprehend. All documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
     /// Indicates the mode in which the classifier will be trained. The classifier can be trained in multi-class mode, which identifies one and only one class for each document, or multi-label mode, which identifies one or more labels for each document. In multi-label mode, multiple labels for an individual document are separated by a delimiter. The default delimiter between labels is a pipe (|).
@@ -2713,7 +2922,7 @@ public struct CreateDocumentClassifierInput: Swift.Equatable {
     public var modelPolicy: Swift.String?
     /// Enables the addition of output results configuration parameters for custom classifier jobs.
     public var outputDataConfig: ComprehendClientTypes.DocumentClassifierOutputDataConfig?
-    /// Tags to be associated with the document classifier being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+    /// Tags to associate with the document classifier. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
     /// The version name given to the newly created classifier. Version names can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same classifier name in the account/AWS Region.
     public var versionName: Swift.String?
@@ -2914,6 +3123,7 @@ extension CreateEndpointInput: Swift.Encodable {
         case dataAccessRoleArn = "DataAccessRoleArn"
         case desiredInferenceUnits = "DesiredInferenceUnits"
         case endpointName = "EndpointName"
+        case flywheelArn = "FlywheelArn"
         case modelArn = "ModelArn"
         case tags = "Tags"
     }
@@ -2931,6 +3141,9 @@ extension CreateEndpointInput: Swift.Encodable {
         }
         if let endpointName = self.endpointName {
             try encodeContainer.encode(endpointName, forKey: .endpointName)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
         }
         if let modelArn = self.modelArn {
             try encodeContainer.encode(modelArn, forKey: .modelArn)
@@ -2953,7 +3166,7 @@ extension CreateEndpointInput: ClientRuntime.URLPathProvider {
 public struct CreateEndpointInput: Swift.Equatable {
     /// An idempotency token provided by the customer. If this token matches a previous endpoint creation request, Amazon Comprehend will not return a ResourceInUseException.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS identity and Access Management (IAM) role that grants Amazon Comprehend read access to trained custom models encrypted with a customer managed key (ModelKmsKeyId).
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to trained custom models encrypted with a customer managed key (ModelKmsKeyId).
     public var dataAccessRoleArn: Swift.String?
     /// The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second.
     /// This member is required.
@@ -2961,10 +3174,11 @@ public struct CreateEndpointInput: Swift.Equatable {
     /// This is the descriptive suffix that becomes part of the EndpointArn used for all subsequent requests to this resource.
     /// This member is required.
     public var endpointName: Swift.String?
+    /// The Amazon Resource Number (ARN) of the flywheel to which the endpoint will be attached.
+    public var flywheelArn: Swift.String?
     /// The Amazon Resource Number (ARN) of the model to which the endpoint will be attached.
-    /// This member is required.
     public var modelArn: Swift.String?
-    /// Tags associated with the endpoint being created. A tag is a key-value pair that adds metadata to the endpoint. For example, a tag with "Sales" as the key might be added to an endpoint to indicate its use by the sales department.
+    /// Tags to associate with the endpoint. A tag is a key-value pair that adds metadata to the endpoint. For example, a tag with "Sales" as the key might be added to an endpoint to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
 
     public init (
@@ -2972,6 +3186,7 @@ public struct CreateEndpointInput: Swift.Equatable {
         dataAccessRoleArn: Swift.String? = nil,
         desiredInferenceUnits: Swift.Int? = nil,
         endpointName: Swift.String? = nil,
+        flywheelArn: Swift.String? = nil,
         modelArn: Swift.String? = nil,
         tags: [ComprehendClientTypes.Tag]? = nil
     )
@@ -2980,6 +3195,7 @@ public struct CreateEndpointInput: Swift.Equatable {
         self.dataAccessRoleArn = dataAccessRoleArn
         self.desiredInferenceUnits = desiredInferenceUnits
         self.endpointName = endpointName
+        self.flywheelArn = flywheelArn
         self.modelArn = modelArn
         self.tags = tags
     }
@@ -2992,6 +3208,7 @@ struct CreateEndpointInputBody: Swift.Equatable {
     let clientRequestToken: Swift.String?
     let tags: [ComprehendClientTypes.Tag]?
     let dataAccessRoleArn: Swift.String?
+    let flywheelArn: Swift.String?
 }
 
 extension CreateEndpointInputBody: Swift.Decodable {
@@ -3000,6 +3217,7 @@ extension CreateEndpointInputBody: Swift.Decodable {
         case dataAccessRoleArn = "DataAccessRoleArn"
         case desiredInferenceUnits = "DesiredInferenceUnits"
         case endpointName = "EndpointName"
+        case flywheelArn = "FlywheelArn"
         case modelArn = "ModelArn"
         case tags = "Tags"
     }
@@ -3027,6 +3245,8 @@ extension CreateEndpointInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let dataAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataAccessRoleArn)
         dataAccessRoleArn = dataAccessRoleArnDecoded
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
     }
 }
 
@@ -3073,8 +3293,10 @@ extension CreateEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: CreateEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointArn = output.endpointArn
+            self.modelArn = output.modelArn
         } else {
             self.endpointArn = nil
+            self.modelArn = nil
         }
     }
 }
@@ -3082,28 +3304,36 @@ extension CreateEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateEndpointOutputResponse: Swift.Equatable {
     /// The Amazon Resource Number (ARN) of the endpoint being created.
     public var endpointArn: Swift.String?
+    /// The Amazon Resource Number (ARN) of the model to which the endpoint is attached.
+    public var modelArn: Swift.String?
 
     public init (
-        endpointArn: Swift.String? = nil
+        endpointArn: Swift.String? = nil,
+        modelArn: Swift.String? = nil
     )
     {
         self.endpointArn = endpointArn
+        self.modelArn = modelArn
     }
 }
 
 struct CreateEndpointOutputResponseBody: Swift.Equatable {
     let endpointArn: Swift.String?
+    let modelArn: Swift.String?
 }
 
 extension CreateEndpointOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointArn = "EndpointArn"
+        case modelArn = "ModelArn"
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointArn)
         endpointArn = endpointArnDecoded
+        let modelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelArn)
+        modelArn = modelArnDecoded
     }
 }
 
@@ -3172,7 +3402,7 @@ extension CreateEntityRecognizerInput: ClientRuntime.URLPathProvider {
 public struct CreateEntityRecognizerInput: Swift.Equatable {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// Specifies the format and location of the input data. The S3 bucket containing the input data must be located in the same region as the entity recognizer being created.
@@ -3181,7 +3411,7 @@ public struct CreateEntityRecognizerInput: Swift.Equatable {
     /// You can specify any of the following languages: English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), German ("de"), or Portuguese ("pt"). If you plan to use this entity recognizer with PDF, Word, or image input files, you must specify English as the language. All training documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
-    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats
+    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
     ///
     /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
     ///
@@ -3192,7 +3422,7 @@ public struct CreateEntityRecognizerInput: Swift.Equatable {
     /// The name given to the newly created recognizer. Recognizer names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The name must be unique in the account/region.
     /// This member is required.
     public var recognizerName: Swift.String?
-    /// Tags to be associated with the entity recognizer being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+    /// Tags to associate with the entity recognizer. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
     /// The version name given to the newly created recognizer. Version names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same recognizer name in the account/ AWS Region.
     public var versionName: Swift.String?
@@ -3372,6 +3602,999 @@ extension CreateEntityRecognizerOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entityRecognizerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityRecognizerArn)
         entityRecognizerArn = entityRecognizerArnDecoded
+    }
+}
+
+extension CreateFlywheelInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeModelArn = "ActiveModelArn"
+        case clientRequestToken = "ClientRequestToken"
+        case dataAccessRoleArn = "DataAccessRoleArn"
+        case dataLakeS3Uri = "DataLakeS3Uri"
+        case dataSecurityConfig = "DataSecurityConfig"
+        case flywheelName = "FlywheelName"
+        case modelType = "ModelType"
+        case tags = "Tags"
+        case taskConfig = "TaskConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeModelArn = self.activeModelArn {
+            try encodeContainer.encode(activeModelArn, forKey: .activeModelArn)
+        }
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let dataAccessRoleArn = self.dataAccessRoleArn {
+            try encodeContainer.encode(dataAccessRoleArn, forKey: .dataAccessRoleArn)
+        }
+        if let dataLakeS3Uri = self.dataLakeS3Uri {
+            try encodeContainer.encode(dataLakeS3Uri, forKey: .dataLakeS3Uri)
+        }
+        if let dataSecurityConfig = self.dataSecurityConfig {
+            try encodeContainer.encode(dataSecurityConfig, forKey: .dataSecurityConfig)
+        }
+        if let flywheelName = self.flywheelName {
+            try encodeContainer.encode(flywheelName, forKey: .flywheelName)
+        }
+        if let modelType = self.modelType {
+            try encodeContainer.encode(modelType.rawValue, forKey: .modelType)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let taskConfig = self.taskConfig {
+            try encodeContainer.encode(taskConfig, forKey: .taskConfig)
+        }
+    }
+}
+
+extension CreateFlywheelInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateFlywheelInput: Swift.Equatable {
+    /// To associate an existing model with the flywheel, specify the Amazon Resource Number (ARN) of the model version.
+    public var activeModelArn: Swift.String?
+    /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+    public var clientRequestToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend the permissions required to access the flywheel data in the data lake.
+    /// This member is required.
+    public var dataAccessRoleArn: Swift.String?
+    /// Enter the S3 location for the data lake. You can specify a new S3 bucket or a new folder of an existing S3 bucket. The flywheel creates the data lake at this location.
+    /// This member is required.
+    public var dataLakeS3Uri: Swift.String?
+    /// Data security configurations.
+    public var dataSecurityConfig: ComprehendClientTypes.DataSecurityConfig?
+    /// Name for the flywheel.
+    /// This member is required.
+    public var flywheelName: Swift.String?
+    /// The model type.
+    public var modelType: ComprehendClientTypes.ModelType?
+    /// The tags to associate with this flywheel.
+    public var tags: [ComprehendClientTypes.Tag]?
+    /// Configuration about the custom classifier associated with the flywheel.
+    public var taskConfig: ComprehendClientTypes.TaskConfig?
+
+    public init (
+        activeModelArn: Swift.String? = nil,
+        clientRequestToken: Swift.String? = nil,
+        dataAccessRoleArn: Swift.String? = nil,
+        dataLakeS3Uri: Swift.String? = nil,
+        dataSecurityConfig: ComprehendClientTypes.DataSecurityConfig? = nil,
+        flywheelName: Swift.String? = nil,
+        modelType: ComprehendClientTypes.ModelType? = nil,
+        tags: [ComprehendClientTypes.Tag]? = nil,
+        taskConfig: ComprehendClientTypes.TaskConfig? = nil
+    )
+    {
+        self.activeModelArn = activeModelArn
+        self.clientRequestToken = clientRequestToken
+        self.dataAccessRoleArn = dataAccessRoleArn
+        self.dataLakeS3Uri = dataLakeS3Uri
+        self.dataSecurityConfig = dataSecurityConfig
+        self.flywheelName = flywheelName
+        self.modelType = modelType
+        self.tags = tags
+        self.taskConfig = taskConfig
+    }
+}
+
+struct CreateFlywheelInputBody: Swift.Equatable {
+    let flywheelName: Swift.String?
+    let activeModelArn: Swift.String?
+    let dataAccessRoleArn: Swift.String?
+    let taskConfig: ComprehendClientTypes.TaskConfig?
+    let modelType: ComprehendClientTypes.ModelType?
+    let dataLakeS3Uri: Swift.String?
+    let dataSecurityConfig: ComprehendClientTypes.DataSecurityConfig?
+    let clientRequestToken: Swift.String?
+    let tags: [ComprehendClientTypes.Tag]?
+}
+
+extension CreateFlywheelInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeModelArn = "ActiveModelArn"
+        case clientRequestToken = "ClientRequestToken"
+        case dataAccessRoleArn = "DataAccessRoleArn"
+        case dataLakeS3Uri = "DataLakeS3Uri"
+        case dataSecurityConfig = "DataSecurityConfig"
+        case flywheelName = "FlywheelName"
+        case modelType = "ModelType"
+        case tags = "Tags"
+        case taskConfig = "TaskConfig"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelName)
+        flywheelName = flywheelNameDecoded
+        let activeModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activeModelArn)
+        activeModelArn = activeModelArnDecoded
+        let dataAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataAccessRoleArn)
+        dataAccessRoleArn = dataAccessRoleArnDecoded
+        let taskConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.TaskConfig.self, forKey: .taskConfig)
+        taskConfig = taskConfigDecoded
+        let modelTypeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.ModelType.self, forKey: .modelType)
+        modelType = modelTypeDecoded
+        let dataLakeS3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataLakeS3Uri)
+        dataLakeS3Uri = dataLakeS3UriDecoded
+        let dataSecurityConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DataSecurityConfig.self, forKey: .dataSecurityConfig)
+        dataSecurityConfig = dataSecurityConfigDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ComprehendClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ComprehendClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateFlywheelOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateFlywheelOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "KmsKeyValidationException" : self = .kmsKeyValidationException(try KmsKeyValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedLanguageException" : self = .unsupportedLanguageException(try UnsupportedLanguageException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateFlywheelOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case kmsKeyValidationException(KmsKeyValidationException)
+    case resourceInUseException(ResourceInUseException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case resourceUnavailableException(ResourceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case tooManyTagsException(TooManyTagsException)
+    case unsupportedLanguageException(UnsupportedLanguageException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateFlywheelOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateFlywheelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.activeModelArn = output.activeModelArn
+            self.flywheelArn = output.flywheelArn
+        } else {
+            self.activeModelArn = nil
+            self.flywheelArn = nil
+        }
+    }
+}
+
+public struct CreateFlywheelOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Number (ARN) of the active model version.
+    public var activeModelArn: Swift.String?
+    /// The Amazon Resource Number (ARN) of the flywheel.
+    public var flywheelArn: Swift.String?
+
+    public init (
+        activeModelArn: Swift.String? = nil,
+        flywheelArn: Swift.String? = nil
+    )
+    {
+        self.activeModelArn = activeModelArn
+        self.flywheelArn = flywheelArn
+    }
+}
+
+struct CreateFlywheelOutputResponseBody: Swift.Equatable {
+    let flywheelArn: Swift.String?
+    let activeModelArn: Swift.String?
+}
+
+extension CreateFlywheelOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeModelArn = "ActiveModelArn"
+        case flywheelArn = "FlywheelArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+        let activeModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activeModelArn)
+        activeModelArn = activeModelArnDecoded
+    }
+}
+
+extension ComprehendClientTypes.DataSecurityConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataLakeKmsKeyId = "DataLakeKmsKeyId"
+        case modelKmsKeyId = "ModelKmsKeyId"
+        case volumeKmsKeyId = "VolumeKmsKeyId"
+        case vpcConfig = "VpcConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataLakeKmsKeyId = self.dataLakeKmsKeyId {
+            try encodeContainer.encode(dataLakeKmsKeyId, forKey: .dataLakeKmsKeyId)
+        }
+        if let modelKmsKeyId = self.modelKmsKeyId {
+            try encodeContainer.encode(modelKmsKeyId, forKey: .modelKmsKeyId)
+        }
+        if let volumeKmsKeyId = self.volumeKmsKeyId {
+            try encodeContainer.encode(volumeKmsKeyId, forKey: .volumeKmsKeyId)
+        }
+        if let vpcConfig = self.vpcConfig {
+            try encodeContainer.encode(vpcConfig, forKey: .vpcConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelKmsKeyId)
+        modelKmsKeyId = modelKmsKeyIdDecoded
+        let volumeKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeKmsKeyId)
+        volumeKmsKeyId = volumeKmsKeyIdDecoded
+        let dataLakeKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataLakeKmsKeyId)
+        dataLakeKmsKeyId = dataLakeKmsKeyIdDecoded
+        let vpcConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.VpcConfig.self, forKey: .vpcConfig)
+        vpcConfig = vpcConfigDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Data security configuration.
+    public struct DataSecurityConfig: Swift.Equatable {
+        /// ID for the KMS key that Amazon Comprehend uses to encrypt the data in the data lake.
+        public var dataLakeKmsKeyId: Swift.String?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
+        ///
+        /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
+        ///
+        /// * Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        public var modelKmsKeyId: Swift.String?
+        /// ID for the KMS key that Amazon Comprehend uses to encrypt the volume.
+        public var volumeKmsKeyId: Swift.String?
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for the job. For more information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
+        public var vpcConfig: ComprehendClientTypes.VpcConfig?
+
+        public init (
+            dataLakeKmsKeyId: Swift.String? = nil,
+            modelKmsKeyId: Swift.String? = nil,
+            volumeKmsKeyId: Swift.String? = nil,
+            vpcConfig: ComprehendClientTypes.VpcConfig? = nil
+        )
+        {
+            self.dataLakeKmsKeyId = dataLakeKmsKeyId
+            self.modelKmsKeyId = modelKmsKeyId
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.DatasetAugmentedManifestsListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case annotationDataS3Uri = "AnnotationDataS3Uri"
+        case attributeNames = "AttributeNames"
+        case documentType = "DocumentType"
+        case s3Uri = "S3Uri"
+        case sourceDocumentsS3Uri = "SourceDocumentsS3Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let annotationDataS3Uri = self.annotationDataS3Uri {
+            try encodeContainer.encode(annotationDataS3Uri, forKey: .annotationDataS3Uri)
+        }
+        if let attributeNames = attributeNames {
+            var attributeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeNames)
+            for attributenameslistitem0 in attributeNames {
+                try attributeNamesContainer.encode(attributenameslistitem0)
+            }
+        }
+        if let documentType = self.documentType {
+            try encodeContainer.encode(documentType.rawValue, forKey: .documentType)
+        }
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+        if let sourceDocumentsS3Uri = self.sourceDocumentsS3Uri {
+            try encodeContainer.encode(sourceDocumentsS3Uri, forKey: .sourceDocumentsS3Uri)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .attributeNames)
+        var attributeNamesDecoded0:[Swift.String]? = nil
+        if let attributeNamesContainer = attributeNamesContainer {
+            attributeNamesDecoded0 = [Swift.String]()
+            for string0 in attributeNamesContainer {
+                if let string0 = string0 {
+                    attributeNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        attributeNames = attributeNamesDecoded0
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+        let annotationDataS3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .annotationDataS3Uri)
+        annotationDataS3Uri = annotationDataS3UriDecoded
+        let sourceDocumentsS3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDocumentsS3Uri)
+        sourceDocumentsS3Uri = sourceDocumentsS3UriDecoded
+        let documentTypeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.AugmentedManifestsDocumentTypeFormat.self, forKey: .documentType)
+        documentType = documentTypeDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// An augmented manifest file that provides training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth.
+    public struct DatasetAugmentedManifestsListItem: Swift.Equatable {
+        /// The S3 prefix to the annotation files that are referred in the augmented manifest file.
+        public var annotationDataS3Uri: Swift.String?
+        /// The JSON attribute that contains the annotations for your training documents. The number of attribute names that you specify depends on whether your augmented manifest file is the output of a single labeling job or a chained labeling job. If your file is the output of a single labeling job, specify the LabelAttributeName key that was used when the job was created in Ground Truth. If your file is the output of a chained labeling job, specify the LabelAttributeName key for one or more jobs in the chain. Each LabelAttributeName key provides the annotations from an individual job.
+        /// This member is required.
+        public var attributeNames: [Swift.String]?
+        /// The type of augmented manifest. If you don't specify, the default is PlainTextDocument. PLAIN_TEXT_DOCUMENT A document type that represents any unicode text that is encoded in UTF-8.
+        public var documentType: ComprehendClientTypes.AugmentedManifestsDocumentTypeFormat?
+        /// The Amazon S3 location of the augmented manifest file.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+        /// The S3 prefix to the source files (PDFs) that are referred to in the augmented manifest file.
+        public var sourceDocumentsS3Uri: Swift.String?
+
+        public init (
+            annotationDataS3Uri: Swift.String? = nil,
+            attributeNames: [Swift.String]? = nil,
+            documentType: ComprehendClientTypes.AugmentedManifestsDocumentTypeFormat? = nil,
+            s3Uri: Swift.String? = nil,
+            sourceDocumentsS3Uri: Swift.String? = nil
+        )
+        {
+            self.annotationDataS3Uri = annotationDataS3Uri
+            self.attributeNames = attributeNames
+            self.documentType = documentType
+            self.s3Uri = s3Uri
+            self.sourceDocumentsS3Uri = sourceDocumentsS3Uri
+        }
+    }
+
+}
+
+extension ComprehendClientTypes {
+    public enum DatasetDataFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case augmentedManifest
+        case comprehendCsv
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatasetDataFormat] {
+            return [
+                .augmentedManifest,
+                .comprehendCsv,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .augmentedManifest: return "AUGMENTED_MANIFEST"
+            case .comprehendCsv: return "COMPREHEND_CSV"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DatasetDataFormat(rawValue: rawValue) ?? DatasetDataFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComprehendClientTypes.DatasetDocumentClassifierInputDataConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case labelDelimiter = "LabelDelimiter"
+        case s3Uri = "S3Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let labelDelimiter = self.labelDelimiter {
+            try encodeContainer.encode(labelDelimiter, forKey: .labelDelimiter)
+        }
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+        let labelDelimiterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .labelDelimiter)
+        labelDelimiter = labelDelimiterDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Describes the dataset input data configuration for a document classifier model. For more information on how the input file is formatted, see [Preparing training data](https://docs.aws.amazon.com/comprehend/latest/dg/prep-classifier-data.html) in the Comprehend Developer Guide.
+    public struct DatasetDocumentClassifierInputDataConfig: Swift.Equatable {
+        /// Indicates the delimiter used to separate each label for training a multi-label classifier. The default delimiter between labels is a pipe (|). You can use a different character as a delimiter (if it's an allowed character) by specifying it under Delimiter for labels. If the training documents use a delimiter other than the default or the delimiter you specify, the labels on that line will be combined to make a single unique label, such as LABELLABELLABEL.
+        public var labelDelimiter: Swift.String?
+        /// The Amazon S3 URI for the input data. The S3 bucket must be in the same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init (
+            labelDelimiter: Swift.String? = nil,
+            s3Uri: Swift.String? = nil
+        )
+        {
+            self.labelDelimiter = labelDelimiter
+            self.s3Uri = s3Uri
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.DatasetEntityRecognizerAnnotations: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Uri = "S3Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Describes the annotations associated with a entity recognizer.
+    public struct DatasetEntityRecognizerAnnotations: Swift.Equatable {
+        /// Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init (
+            s3Uri: Swift.String? = nil
+        )
+        {
+            self.s3Uri = s3Uri
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.DatasetEntityRecognizerDocuments: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inputFormat = "InputFormat"
+        case s3Uri = "S3Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inputFormat = self.inputFormat {
+            try encodeContainer.encode(inputFormat.rawValue, forKey: .inputFormat)
+        }
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+        let inputFormatDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.InputFormat.self, forKey: .inputFormat)
+        inputFormat = inputFormatDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Describes the documents submitted with a dataset for an entity recognizer model.
+    public struct DatasetEntityRecognizerDocuments: Swift.Equatable {
+        /// Specifies how the text in an input file should be processed. This is optional, and the default is ONE_DOC_PER_LINE. ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers. ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.
+        public var inputFormat: ComprehendClientTypes.InputFormat?
+        /// Specifies the Amazon S3 location where the documents for the dataset are located.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init (
+            inputFormat: ComprehendClientTypes.InputFormat? = nil,
+            s3Uri: Swift.String? = nil
+        )
+        {
+            self.inputFormat = inputFormat
+            self.s3Uri = s3Uri
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.DatasetEntityRecognizerEntityList: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Uri = "S3Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Describes the dataset entity list for an entity recognizer model. For more information on how the input file is formatted, see [Preparing training data](https://docs.aws.amazon.com/comprehend/latest/dg/prep-training-data-cer.html) in the Comprehend Developer Guide.
+    public struct DatasetEntityRecognizerEntityList: Swift.Equatable {
+        /// Specifies the Amazon S3 location where the entity list is located.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init (
+            s3Uri: Swift.String? = nil
+        )
+        {
+            self.s3Uri = s3Uri
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.DatasetEntityRecognizerInputDataConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case annotations = "Annotations"
+        case documents = "Documents"
+        case entityList = "EntityList"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let annotations = self.annotations {
+            try encodeContainer.encode(annotations, forKey: .annotations)
+        }
+        if let documents = self.documents {
+            try encodeContainer.encode(documents, forKey: .documents)
+        }
+        if let entityList = self.entityList {
+            try encodeContainer.encode(entityList, forKey: .entityList)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let annotationsDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetEntityRecognizerAnnotations.self, forKey: .annotations)
+        annotations = annotationsDecoded
+        let documentsDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetEntityRecognizerDocuments.self, forKey: .documents)
+        documents = documentsDecoded
+        let entityListDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetEntityRecognizerEntityList.self, forKey: .entityList)
+        entityList = entityListDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Specifies the format and location of the input data. You must provide either the Annotations parameter or the EntityList parameter.
+    public struct DatasetEntityRecognizerInputDataConfig: Swift.Equatable {
+        /// The S3 location of the annotation documents for your custom entity recognizer.
+        public var annotations: ComprehendClientTypes.DatasetEntityRecognizerAnnotations?
+        /// The format and location of the training documents for your custom entity recognizer.
+        /// This member is required.
+        public var documents: ComprehendClientTypes.DatasetEntityRecognizerDocuments?
+        /// The S3 location of the entity list for your custom entity recognizer.
+        public var entityList: ComprehendClientTypes.DatasetEntityRecognizerEntityList?
+
+        public init (
+            annotations: ComprehendClientTypes.DatasetEntityRecognizerAnnotations? = nil,
+            documents: ComprehendClientTypes.DatasetEntityRecognizerDocuments? = nil,
+            entityList: ComprehendClientTypes.DatasetEntityRecognizerEntityList? = nil
+        )
+        {
+            self.annotations = annotations
+            self.documents = documents
+            self.entityList = entityList
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.DatasetFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTimeAfter = "CreationTimeAfter"
+        case creationTimeBefore = "CreationTimeBefore"
+        case datasetType = "DatasetType"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTimeAfter = self.creationTimeAfter {
+            try encodeContainer.encodeTimestamp(creationTimeAfter, format: .epochSeconds, forKey: .creationTimeAfter)
+        }
+        if let creationTimeBefore = self.creationTimeBefore {
+            try encodeContainer.encodeTimestamp(creationTimeBefore, format: .epochSeconds, forKey: .creationTimeBefore)
+        }
+        if let datasetType = self.datasetType {
+            try encodeContainer.encode(datasetType.rawValue, forKey: .datasetType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetStatus.self, forKey: .status)
+        status = statusDecoded
+        let datasetTypeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetType.self, forKey: .datasetType)
+        datasetType = datasetTypeDecoded
+        let creationTimeAfterDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimeAfter)
+        creationTimeAfter = creationTimeAfterDecoded
+        let creationTimeBeforeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimeBefore)
+        creationTimeBefore = creationTimeBeforeDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Filter the datasets based on creation time or dataset status.
+    public struct DatasetFilter: Swift.Equatable {
+        /// Filter the datasets to include datasets created after the specified time.
+        public var creationTimeAfter: ClientRuntime.Date?
+        /// Filter the datasets to include datasets created before the specified time.
+        public var creationTimeBefore: ClientRuntime.Date?
+        /// Filter the datasets based on the dataset type.
+        public var datasetType: ComprehendClientTypes.DatasetType?
+        /// Filter the datasets based on the dataset status.
+        public var status: ComprehendClientTypes.DatasetStatus?
+
+        public init (
+            creationTimeAfter: ClientRuntime.Date? = nil,
+            creationTimeBefore: ClientRuntime.Date? = nil,
+            datasetType: ComprehendClientTypes.DatasetType? = nil,
+            status: ComprehendClientTypes.DatasetStatus? = nil
+        )
+        {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.datasetType = datasetType
+            self.status = status
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.DatasetInputDataConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case augmentedManifests = "AugmentedManifests"
+        case dataFormat = "DataFormat"
+        case documentClassifierInputDataConfig = "DocumentClassifierInputDataConfig"
+        case entityRecognizerInputDataConfig = "EntityRecognizerInputDataConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let augmentedManifests = augmentedManifests {
+            var augmentedManifestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .augmentedManifests)
+            for datasetaugmentedmanifestslistitem0 in augmentedManifests {
+                try augmentedManifestsContainer.encode(datasetaugmentedmanifestslistitem0)
+            }
+        }
+        if let dataFormat = self.dataFormat {
+            try encodeContainer.encode(dataFormat.rawValue, forKey: .dataFormat)
+        }
+        if let documentClassifierInputDataConfig = self.documentClassifierInputDataConfig {
+            try encodeContainer.encode(documentClassifierInputDataConfig, forKey: .documentClassifierInputDataConfig)
+        }
+        if let entityRecognizerInputDataConfig = self.entityRecognizerInputDataConfig {
+            try encodeContainer.encode(entityRecognizerInputDataConfig, forKey: .entityRecognizerInputDataConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let augmentedManifestsContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.DatasetAugmentedManifestsListItem?].self, forKey: .augmentedManifests)
+        var augmentedManifestsDecoded0:[ComprehendClientTypes.DatasetAugmentedManifestsListItem]? = nil
+        if let augmentedManifestsContainer = augmentedManifestsContainer {
+            augmentedManifestsDecoded0 = [ComprehendClientTypes.DatasetAugmentedManifestsListItem]()
+            for structure0 in augmentedManifestsContainer {
+                if let structure0 = structure0 {
+                    augmentedManifestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        augmentedManifests = augmentedManifestsDecoded0
+        let dataFormatDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetDataFormat.self, forKey: .dataFormat)
+        dataFormat = dataFormatDecoded
+        let documentClassifierInputDataConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetDocumentClassifierInputDataConfig.self, forKey: .documentClassifierInputDataConfig)
+        documentClassifierInputDataConfig = documentClassifierInputDataConfigDecoded
+        let entityRecognizerInputDataConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetEntityRecognizerInputDataConfig.self, forKey: .entityRecognizerInputDataConfig)
+        entityRecognizerInputDataConfig = entityRecognizerInputDataConfigDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Specifies the format and location of the input data for the dataset.
+    public struct DatasetInputDataConfig: Swift.Equatable {
+        /// A list of augmented manifest files that provide training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth.
+        public var augmentedManifests: [ComprehendClientTypes.DatasetAugmentedManifestsListItem]?
+        /// COMPREHEND_CSV: The data format is a two-column CSV file, where the first column contains labels and the second column contains documents. AUGMENTED_MANIFEST: The data format
+        public var dataFormat: ComprehendClientTypes.DatasetDataFormat?
+        /// The input properties for training a document classifier model. For more information on how the input file is formatted, see [Preparing training data](https://docs.aws.amazon.com/comprehend/latest/dg/prep-classifier-data.html) in the Comprehend Developer Guide.
+        public var documentClassifierInputDataConfig: ComprehendClientTypes.DatasetDocumentClassifierInputDataConfig?
+        /// The input properties for training an entity recognizer model.
+        public var entityRecognizerInputDataConfig: ComprehendClientTypes.DatasetEntityRecognizerInputDataConfig?
+
+        public init (
+            augmentedManifests: [ComprehendClientTypes.DatasetAugmentedManifestsListItem]? = nil,
+            dataFormat: ComprehendClientTypes.DatasetDataFormat? = nil,
+            documentClassifierInputDataConfig: ComprehendClientTypes.DatasetDocumentClassifierInputDataConfig? = nil,
+            entityRecognizerInputDataConfig: ComprehendClientTypes.DatasetEntityRecognizerInputDataConfig? = nil
+        )
+        {
+            self.augmentedManifests = augmentedManifests
+            self.dataFormat = dataFormat
+            self.documentClassifierInputDataConfig = documentClassifierInputDataConfig
+            self.entityRecognizerInputDataConfig = entityRecognizerInputDataConfig
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.DatasetProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case datasetArn = "DatasetArn"
+        case datasetName = "DatasetName"
+        case datasetS3Uri = "DatasetS3Uri"
+        case datasetType = "DatasetType"
+        case description = "Description"
+        case endTime = "EndTime"
+        case message = "Message"
+        case numberOfDocuments = "NumberOfDocuments"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let datasetArn = self.datasetArn {
+            try encodeContainer.encode(datasetArn, forKey: .datasetArn)
+        }
+        if let datasetName = self.datasetName {
+            try encodeContainer.encode(datasetName, forKey: .datasetName)
+        }
+        if let datasetS3Uri = self.datasetS3Uri {
+            try encodeContainer.encode(datasetS3Uri, forKey: .datasetS3Uri)
+        }
+        if let datasetType = self.datasetType {
+            try encodeContainer.encode(datasetType.rawValue, forKey: .datasetType)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let numberOfDocuments = self.numberOfDocuments {
+            try encodeContainer.encode(numberOfDocuments, forKey: .numberOfDocuments)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+        let datasetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetName)
+        datasetName = datasetNameDecoded
+        let datasetTypeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetType.self, forKey: .datasetType)
+        datasetType = datasetTypeDecoded
+        let datasetS3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetS3Uri)
+        datasetS3Uri = datasetS3UriDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetStatus.self, forKey: .status)
+        status = statusDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let numberOfDocumentsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfDocuments)
+        numberOfDocuments = numberOfDocumentsDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Properties associated with the dataset.
+    public struct DatasetProperties: Swift.Equatable {
+        /// Creation time of the dataset.
+        public var creationTime: ClientRuntime.Date?
+        /// The ARN of the dataset.
+        public var datasetArn: Swift.String?
+        /// The name of the dataset.
+        public var datasetName: Swift.String?
+        /// The S3 URI where the dataset is stored.
+        public var datasetS3Uri: Swift.String?
+        /// The dataset type (training data or test data).
+        public var datasetType: ComprehendClientTypes.DatasetType?
+        /// Description of the dataset.
+        public var description: Swift.String?
+        /// Time when the data from the dataset becomes available in the data lake.
+        public var endTime: ClientRuntime.Date?
+        /// A description of the status of the dataset.
+        public var message: Swift.String?
+        /// The number of documents in the dataset.
+        public var numberOfDocuments: Swift.Int?
+        /// The dataset status. While the system creates the dataset, the status is CREATING. When the dataset is ready to use, the status changes to COMPLETED.
+        public var status: ComprehendClientTypes.DatasetStatus?
+
+        public init (
+            creationTime: ClientRuntime.Date? = nil,
+            datasetArn: Swift.String? = nil,
+            datasetName: Swift.String? = nil,
+            datasetS3Uri: Swift.String? = nil,
+            datasetType: ComprehendClientTypes.DatasetType? = nil,
+            description: Swift.String? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            message: Swift.String? = nil,
+            numberOfDocuments: Swift.Int? = nil,
+            status: ComprehendClientTypes.DatasetStatus? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.datasetArn = datasetArn
+            self.datasetName = datasetName
+            self.datasetS3Uri = datasetS3Uri
+            self.datasetType = datasetType
+            self.description = description
+            self.endTime = endTime
+            self.message = message
+            self.numberOfDocuments = numberOfDocuments
+            self.status = status
+        }
+    }
+
+}
+
+extension ComprehendClientTypes {
+    public enum DatasetStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case creating
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatasetStatus] {
+            return [
+                .completed,
+                .creating,
+                .failed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .creating: return "CREATING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DatasetStatus(rawValue: rawValue) ?? DatasetStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComprehendClientTypes {
+    public enum DatasetType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case test
+        case train
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatasetType] {
+            return [
+                .test,
+                .train,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .test: return "TEST"
+            case .train: return "TRAIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DatasetType(rawValue: rawValue) ?? DatasetType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -3643,6 +4866,96 @@ public struct DeleteEntityRecognizerOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DeleteFlywheelInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelArn = "FlywheelArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
+        }
+    }
+}
+
+extension DeleteFlywheelInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteFlywheelInput: Swift.Equatable {
+    /// The Amazon Resource Number (ARN) of the flywheel to delete.
+    /// This member is required.
+    public var flywheelArn: Swift.String?
+
+    public init (
+        flywheelArn: Swift.String? = nil
+    )
+    {
+        self.flywheelArn = flywheelArn
+    }
+}
+
+struct DeleteFlywheelInputBody: Swift.Equatable {
+    let flywheelArn: Swift.String?
+}
+
+extension DeleteFlywheelInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelArn = "FlywheelArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+    }
+}
+
+extension DeleteFlywheelOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteFlywheelOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteFlywheelOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceInUseException(ResourceInUseException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case resourceUnavailableException(ResourceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteFlywheelOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteFlywheelOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DeleteResourcePolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyRevisionId = "PolicyRevisionId"
@@ -3739,6 +5052,123 @@ public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DescribeDatasetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn = "DatasetArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let datasetArn = self.datasetArn {
+            try encodeContainer.encode(datasetArn, forKey: .datasetArn)
+        }
+    }
+}
+
+extension DescribeDatasetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeDatasetInput: Swift.Equatable {
+    /// The ARN of the dataset.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+
+    public init (
+        datasetArn: Swift.String? = nil
+    )
+    {
+        self.datasetArn = datasetArn
+    }
+}
+
+struct DescribeDatasetInputBody: Swift.Equatable {
+    let datasetArn: Swift.String?
+}
+
+extension DescribeDatasetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn = "DatasetArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+    }
+}
+
+extension DescribeDatasetOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeDatasetOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeDatasetOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDatasetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeDatasetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.datasetProperties = output.datasetProperties
+        } else {
+            self.datasetProperties = nil
+        }
+    }
+}
+
+public struct DescribeDatasetOutputResponse: Swift.Equatable {
+    /// The dataset properties.
+    public var datasetProperties: ComprehendClientTypes.DatasetProperties?
+
+    public init (
+        datasetProperties: ComprehendClientTypes.DatasetProperties? = nil
+    )
+    {
+        self.datasetProperties = datasetProperties
+    }
+}
+
+struct DescribeDatasetOutputResponseBody: Swift.Equatable {
+    let datasetProperties: ComprehendClientTypes.DatasetProperties?
+}
+
+extension DescribeDatasetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetProperties = "DatasetProperties"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetPropertiesDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetProperties.self, forKey: .datasetProperties)
+        datasetProperties = datasetPropertiesDecoded
+    }
+}
+
 extension DescribeDocumentClassificationJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId = "JobId"
@@ -3759,7 +5189,7 @@ extension DescribeDocumentClassificationJobInput: ClientRuntime.URLPathProvider 
 }
 
 public struct DescribeDocumentClassificationJobInput: Swift.Equatable {
-    /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
+    /// The identifier that Amazon Comprehend generated for the job. The StartDocumentClassificationJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
 
@@ -3876,7 +5306,7 @@ extension DescribeDocumentClassifierInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeDocumentClassifierInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) that identifies the document classifier. The operation returns this identifier in its response.
+    /// The Amazon Resource Name (ARN) that identifies the document classifier. The CreateDocumentClassifier operation returns this identifier in its response.
     /// This member is required.
     public var documentClassifierArn: Swift.String?
 
@@ -3993,7 +5423,7 @@ extension DescribeDominantLanguageDetectionJobInput: ClientRuntime.URLPathProvid
 }
 
 public struct DescribeDominantLanguageDetectionJobInput: Swift.Equatable {
-    /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
+    /// The identifier that Amazon Comprehend generated for the job. The StartDominantLanguageDetectionJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
 
@@ -4227,7 +5657,7 @@ extension DescribeEntitiesDetectionJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeEntitiesDetectionJobInput: Swift.Equatable {
-    /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
+    /// The identifier that Amazon Comprehend generated for the job. The StartEntitiesDetectionJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
 
@@ -4558,6 +5988,253 @@ extension DescribeEventsDetectionJobOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeFlywheelInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelArn = "FlywheelArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
+        }
+    }
+}
+
+extension DescribeFlywheelInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeFlywheelInput: Swift.Equatable {
+    /// The Amazon Resource Number (ARN) of the flywheel.
+    /// This member is required.
+    public var flywheelArn: Swift.String?
+
+    public init (
+        flywheelArn: Swift.String? = nil
+    )
+    {
+        self.flywheelArn = flywheelArn
+    }
+}
+
+struct DescribeFlywheelInputBody: Swift.Equatable {
+    let flywheelArn: Swift.String?
+}
+
+extension DescribeFlywheelInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelArn = "FlywheelArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+    }
+}
+
+extension DescribeFlywheelIterationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelArn = "FlywheelArn"
+        case flywheelIterationId = "FlywheelIterationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
+        }
+        if let flywheelIterationId = self.flywheelIterationId {
+            try encodeContainer.encode(flywheelIterationId, forKey: .flywheelIterationId)
+        }
+    }
+}
+
+extension DescribeFlywheelIterationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeFlywheelIterationInput: Swift.Equatable {
+    ///
+    /// This member is required.
+    public var flywheelArn: Swift.String?
+    ///
+    /// This member is required.
+    public var flywheelIterationId: Swift.String?
+
+    public init (
+        flywheelArn: Swift.String? = nil,
+        flywheelIterationId: Swift.String? = nil
+    )
+    {
+        self.flywheelArn = flywheelArn
+        self.flywheelIterationId = flywheelIterationId
+    }
+}
+
+struct DescribeFlywheelIterationInputBody: Swift.Equatable {
+    let flywheelArn: Swift.String?
+    let flywheelIterationId: Swift.String?
+}
+
+extension DescribeFlywheelIterationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelArn = "FlywheelArn"
+        case flywheelIterationId = "FlywheelIterationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+        let flywheelIterationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelIterationId)
+        flywheelIterationId = flywheelIterationIdDecoded
+    }
+}
+
+extension DescribeFlywheelIterationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeFlywheelIterationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeFlywheelIterationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeFlywheelIterationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeFlywheelIterationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.flywheelIterationProperties = output.flywheelIterationProperties
+        } else {
+            self.flywheelIterationProperties = nil
+        }
+    }
+}
+
+public struct DescribeFlywheelIterationOutputResponse: Swift.Equatable {
+    /// The configuration properties of a flywheel iteration.
+    public var flywheelIterationProperties: ComprehendClientTypes.FlywheelIterationProperties?
+
+    public init (
+        flywheelIterationProperties: ComprehendClientTypes.FlywheelIterationProperties? = nil
+    )
+    {
+        self.flywheelIterationProperties = flywheelIterationProperties
+    }
+}
+
+struct DescribeFlywheelIterationOutputResponseBody: Swift.Equatable {
+    let flywheelIterationProperties: ComprehendClientTypes.FlywheelIterationProperties?
+}
+
+extension DescribeFlywheelIterationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelIterationProperties = "FlywheelIterationProperties"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelIterationPropertiesDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.FlywheelIterationProperties.self, forKey: .flywheelIterationProperties)
+        flywheelIterationProperties = flywheelIterationPropertiesDecoded
+    }
+}
+
+extension DescribeFlywheelOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeFlywheelOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeFlywheelOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeFlywheelOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeFlywheelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.flywheelProperties = output.flywheelProperties
+        } else {
+            self.flywheelProperties = nil
+        }
+    }
+}
+
+public struct DescribeFlywheelOutputResponse: Swift.Equatable {
+    /// The flywheel properties.
+    public var flywheelProperties: ComprehendClientTypes.FlywheelProperties?
+
+    public init (
+        flywheelProperties: ComprehendClientTypes.FlywheelProperties? = nil
+    )
+    {
+        self.flywheelProperties = flywheelProperties
+    }
+}
+
+struct DescribeFlywheelOutputResponseBody: Swift.Equatable {
+    let flywheelProperties: ComprehendClientTypes.FlywheelProperties?
+}
+
+extension DescribeFlywheelOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelProperties = "FlywheelProperties"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelPropertiesDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.FlywheelProperties.self, forKey: .flywheelProperties)
+        flywheelProperties = flywheelPropertiesDecoded
+    }
+}
+
 extension DescribeKeyPhrasesDetectionJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId = "JobId"
@@ -4578,7 +6255,7 @@ extension DescribeKeyPhrasesDetectionJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeKeyPhrasesDetectionJobInput: Swift.Equatable {
-    /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
+    /// The identifier that Amazon Comprehend generated for the job. The StartKeyPhrasesDetectionJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
 
@@ -5074,7 +6751,7 @@ extension DescribeTargetedSentimentDetectionJobInput: ClientRuntime.URLPathProvi
 }
 
 public struct DescribeTargetedSentimentDetectionJobInput: Swift.Equatable {
-    /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
+    /// The identifier that Amazon Comprehend generated for the job. The StartTargetedSentimentDetectionJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
 
@@ -6471,6 +8148,64 @@ extension ComprehendClientTypes {
 
 }
 
+extension ComprehendClientTypes.DocumentClassificationConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case labels = "Labels"
+        case mode = "Mode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let labels = labels {
+            var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
+            for labellistitem0 in labels {
+                try labelsContainer.encode(labellistitem0)
+            }
+        }
+        if let mode = self.mode {
+            try encodeContainer.encode(mode.rawValue, forKey: .mode)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DocumentClassifierMode.self, forKey: .mode)
+        mode = modeDecoded
+        let labelsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .labels)
+        var labelsDecoded0:[Swift.String]? = nil
+        if let labelsContainer = labelsContainer {
+            labelsDecoded0 = [Swift.String]()
+            for string0 in labelsContainer {
+                if let string0 = string0 {
+                    labelsDecoded0?.append(string0)
+                }
+            }
+        }
+        labels = labelsDecoded0
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Configuration required for a custom classification model.
+    public struct DocumentClassificationConfig: Swift.Equatable {
+        /// One or more labels to associate with the custom classifier.
+        public var labels: [Swift.String]?
+        /// Classification mode indicates whether the documents are MULTI_CLASS or MULTI_LABEL.
+        /// This member is required.
+        public var mode: ComprehendClientTypes.DocumentClassifierMode?
+
+        public init (
+            labels: [Swift.String]? = nil,
+            mode: ComprehendClientTypes.DocumentClassifierMode? = nil
+        )
+        {
+            self.labels = labels
+            self.mode = mode
+        }
+    }
+
+}
+
 extension ComprehendClientTypes.DocumentClassificationJobFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobName = "JobName"
@@ -6541,6 +8276,7 @@ extension ComprehendClientTypes.DocumentClassificationJobProperties: Swift.Codab
         case dataAccessRoleArn = "DataAccessRoleArn"
         case documentClassifierArn = "DocumentClassifierArn"
         case endTime = "EndTime"
+        case flywheelArn = "FlywheelArn"
         case inputDataConfig = "InputDataConfig"
         case jobArn = "JobArn"
         case jobId = "JobId"
@@ -6563,6 +8299,9 @@ extension ComprehendClientTypes.DocumentClassificationJobProperties: Swift.Codab
         }
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
         }
         if let inputDataConfig = self.inputDataConfig {
             try encodeContainer.encode(inputDataConfig, forKey: .inputDataConfig)
@@ -6624,18 +8363,22 @@ extension ComprehendClientTypes.DocumentClassificationJobProperties: Swift.Codab
         volumeKmsKeyId = volumeKmsKeyIdDecoded
         let vpcConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.VpcConfig.self, forKey: .vpcConfig)
         vpcConfig = vpcConfigDecoded
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
     }
 }
 
 extension ComprehendClientTypes {
     /// Provides information about a document classification job.
     public struct DocumentClassificationJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
         public var documentClassifierArn: Swift.String?
         /// The time that the document classification job completed.
         public var endTime: ClientRuntime.Date?
+        /// The Amazon Resource Number (ARN) of the flywheel
+        public var flywheelArn: Swift.String?
         /// The input data configuration that you supplied when you created the document classification job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
         /// The Amazon Resource Name (ARN) of the document classification job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::document-classification-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
@@ -6665,6 +8408,7 @@ extension ComprehendClientTypes {
             dataAccessRoleArn: Swift.String? = nil,
             documentClassifierArn: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
+            flywheelArn: Swift.String? = nil,
             inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
             jobArn: Swift.String? = nil,
             jobId: Swift.String? = nil,
@@ -6680,6 +8424,7 @@ extension ComprehendClientTypes {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
             self.endTime = endTime
+            self.flywheelArn = flywheelArn
             self.inputDataConfig = inputDataConfig
             self.jobArn = jobArn
             self.jobId = jobId
@@ -6765,7 +8510,7 @@ extension ComprehendClientTypes.DocumentClassifierFilter: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// Provides information for filtering a list of document classifiers. You can only specify one filtering parameter in a request. For more information, see the operation.
+    /// Provides information for filtering a list of document classifiers. You can only specify one filtering parameter in a request. For more information, see the ListDocumentClassifiers operation.
     public struct DocumentClassifierFilter: Swift.Equatable {
         /// The name that you assigned to the document classifier
         public var documentClassifierName: Swift.String?
@@ -6920,12 +8665,16 @@ extension ComprehendClientTypes {
 
 extension ComprehendClientTypes.DocumentClassifierOutputDataConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelStatsS3Prefix = "FlywheelStatsS3Prefix"
         case kmsKeyId = "KmsKeyId"
         case s3Uri = "S3Uri"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flywheelStatsS3Prefix = self.flywheelStatsS3Prefix {
+            try encodeContainer.encode(flywheelStatsS3Prefix, forKey: .flywheelStatsS3Prefix)
+        }
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
         }
@@ -6940,12 +8689,16 @@ extension ComprehendClientTypes.DocumentClassifierOutputDataConfig: Swift.Codabl
         s3Uri = s3UriDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let flywheelStatsS3PrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelStatsS3Prefix)
+        flywheelStatsS3Prefix = flywheelStatsS3PrefixDecoded
     }
 }
 
 extension ComprehendClientTypes {
     /// Provides output results configuration parameters for custom classifier jobs.
     public struct DocumentClassifierOutputDataConfig: Swift.Equatable {
+        /// The Amazon S3 prefix for the data lake location of the flywheel statistics.
+        public var flywheelStatsS3Prefix: Swift.String?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -6960,10 +8713,12 @@ extension ComprehendClientTypes {
         public var s3Uri: Swift.String?
 
         public init (
+            flywheelStatsS3Prefix: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
         )
         {
+            self.flywheelStatsS3Prefix = flywheelStatsS3Prefix
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
         }
@@ -6977,6 +8732,7 @@ extension ComprehendClientTypes.DocumentClassifierProperties: Swift.Codable {
         case dataAccessRoleArn = "DataAccessRoleArn"
         case documentClassifierArn = "DocumentClassifierArn"
         case endTime = "EndTime"
+        case flywheelArn = "FlywheelArn"
         case inputDataConfig = "InputDataConfig"
         case languageCode = "LanguageCode"
         case message = "Message"
@@ -7006,6 +8762,9 @@ extension ComprehendClientTypes.DocumentClassifierProperties: Swift.Codable {
         }
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
         }
         if let inputDataConfig = self.inputDataConfig {
             try encodeContainer.encode(inputDataConfig, forKey: .inputDataConfig)
@@ -7089,12 +8848,14 @@ extension ComprehendClientTypes.DocumentClassifierProperties: Swift.Codable {
         versionName = versionNameDecoded
         let sourceModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceModelArn)
         sourceModelArn = sourceModelArnDecoded
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
     }
 }
 
 extension ComprehendClientTypes.DocumentClassifierProperties: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DocumentClassifierProperties(dataAccessRoleArn: \(Swift.String(describing: dataAccessRoleArn)), documentClassifierArn: \(Swift.String(describing: documentClassifierArn)), endTime: \(Swift.String(describing: endTime)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), languageCode: \(Swift.String(describing: languageCode)), message: \(Swift.String(describing: message)), mode: \(Swift.String(describing: mode)), modelKmsKeyId: \(Swift.String(describing: modelKmsKeyId)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), sourceModelArn: \(Swift.String(describing: sourceModelArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), trainingEndTime: \(Swift.String(describing: trainingEndTime)), trainingStartTime: \(Swift.String(describing: trainingStartTime)), versionName: \(Swift.String(describing: versionName)), volumeKmsKeyId: \(Swift.String(describing: volumeKmsKeyId)), vpcConfig: \(Swift.String(describing: vpcConfig)), classifierMetadata: \"CONTENT_REDACTED\")"}
+        "DocumentClassifierProperties(dataAccessRoleArn: \(Swift.String(describing: dataAccessRoleArn)), documentClassifierArn: \(Swift.String(describing: documentClassifierArn)), endTime: \(Swift.String(describing: endTime)), flywheelArn: \(Swift.String(describing: flywheelArn)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), languageCode: \(Swift.String(describing: languageCode)), message: \(Swift.String(describing: message)), mode: \(Swift.String(describing: mode)), modelKmsKeyId: \(Swift.String(describing: modelKmsKeyId)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), sourceModelArn: \(Swift.String(describing: sourceModelArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), trainingEndTime: \(Swift.String(describing: trainingEndTime)), trainingStartTime: \(Swift.String(describing: trainingStartTime)), versionName: \(Swift.String(describing: versionName)), volumeKmsKeyId: \(Swift.String(describing: volumeKmsKeyId)), vpcConfig: \(Swift.String(describing: vpcConfig)), classifierMetadata: \"CONTENT_REDACTED\")"}
 }
 
 extension ComprehendClientTypes {
@@ -7102,12 +8863,14 @@ extension ComprehendClientTypes {
     public struct DocumentClassifierProperties: Swift.Equatable {
         /// Information about the document classifier, including the number of documents used for training the classifier, the number of documents used for test the classifier, and an accuracy rating.
         public var classifierMetadata: ComprehendClientTypes.ClassifierMetadata?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
         public var documentClassifierArn: Swift.String?
         /// The time that training the document classifier completed.
         public var endTime: ClientRuntime.Date?
+        /// The Amazon Resource Number (ARN) of the flywheel
+        public var flywheelArn: Swift.String?
         /// The input data configuration that you supplied when you created the document classifier for training.
         public var inputDataConfig: ComprehendClientTypes.DocumentClassifierInputDataConfig?
         /// The language code for the language of the documents that the classifier was trained on.
@@ -7150,6 +8913,7 @@ extension ComprehendClientTypes {
             dataAccessRoleArn: Swift.String? = nil,
             documentClassifierArn: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
+            flywheelArn: Swift.String? = nil,
             inputDataConfig: ComprehendClientTypes.DocumentClassifierInputDataConfig? = nil,
             languageCode: ComprehendClientTypes.LanguageCode? = nil,
             message: Swift.String? = nil,
@@ -7170,6 +8934,7 @@ extension ComprehendClientTypes {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
             self.endTime = endTime
+            self.flywheelArn = flywheelArn
             self.inputDataConfig = inputDataConfig
             self.languageCode = languageCode
             self.message = message
@@ -7856,7 +9621,7 @@ extension ComprehendClientTypes.DominantLanguageDetectionJobProperties: Swift.Co
 extension ComprehendClientTypes {
     /// Provides information about a dominant language detection job.
     public struct DominantLanguageDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the dominant language detection job completed.
         public var endTime: ClientRuntime.Date?
@@ -7991,6 +9756,7 @@ extension ComprehendClientTypes.EndpointProperties: Swift.Codable {
         case desiredInferenceUnits = "DesiredInferenceUnits"
         case desiredModelArn = "DesiredModelArn"
         case endpointArn = "EndpointArn"
+        case flywheelArn = "FlywheelArn"
         case lastModifiedTime = "LastModifiedTime"
         case message = "Message"
         case modelArn = "ModelArn"
@@ -8019,6 +9785,9 @@ extension ComprehendClientTypes.EndpointProperties: Swift.Codable {
         }
         if let endpointArn = self.endpointArn {
             try encodeContainer.encode(endpointArn, forKey: .endpointArn)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
         }
         if let lastModifiedTime = self.lastModifiedTime {
             try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
@@ -8058,6 +9827,8 @@ extension ComprehendClientTypes.EndpointProperties: Swift.Codable {
         dataAccessRoleArn = dataAccessRoleArnDecoded
         let desiredDataAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .desiredDataAccessRoleArn)
         desiredDataAccessRoleArn = desiredDataAccessRoleArnDecoded
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
     }
 }
 
@@ -8068,7 +9839,7 @@ extension ComprehendClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// The number of inference units currently used by the model using this endpoint.
         public var currentInferenceUnits: Swift.Int?
-        /// The Amazon Resource Name (ARN) of the AWS identity and Access Management (IAM) role that grants Amazon Comprehend read access to trained custom models encrypted with a customer managed key (ModelKmsKeyId).
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to trained custom models encrypted with a customer managed key (ModelKmsKeyId).
         public var dataAccessRoleArn: Swift.String?
         /// Data access role ARN to use in case the new model is encrypted with a customer KMS key.
         public var desiredDataAccessRoleArn: Swift.String?
@@ -8078,6 +9849,8 @@ extension ComprehendClientTypes {
         public var desiredModelArn: Swift.String?
         /// The Amazon Resource Number (ARN) of the endpoint.
         public var endpointArn: Swift.String?
+        /// The Amazon Resource Number (ARN) of the flywheel
+        public var flywheelArn: Swift.String?
         /// The date and time that the endpoint was last modified.
         public var lastModifiedTime: ClientRuntime.Date?
         /// Specifies a reason for failure in cases of Failed status.
@@ -8095,6 +9868,7 @@ extension ComprehendClientTypes {
             desiredInferenceUnits: Swift.Int? = nil,
             desiredModelArn: Swift.String? = nil,
             endpointArn: Swift.String? = nil,
+            flywheelArn: Swift.String? = nil,
             lastModifiedTime: ClientRuntime.Date? = nil,
             message: Swift.String? = nil,
             modelArn: Swift.String? = nil,
@@ -8108,6 +9882,7 @@ extension ComprehendClientTypes {
             self.desiredInferenceUnits = desiredInferenceUnits
             self.desiredModelArn = desiredModelArn
             self.endpointArn = endpointArn
+            self.flywheelArn = flywheelArn
             self.lastModifiedTime = lastModifiedTime
             self.message = message
             self.modelArn = modelArn
@@ -8323,7 +10098,7 @@ extension ComprehendClientTypes.EntitiesDetectionJobProperties: Swift.Codable {
 extension ComprehendClientTypes {
     /// Provides information about an entities detection job.
     public struct EntitiesDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the entities detection job completed
         public var endTime: ClientRuntime.Date?
@@ -8534,6 +10309,54 @@ extension ComprehendClientTypes {
 
 }
 
+extension ComprehendClientTypes.EntityRecognitionConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entityTypes = "EntityTypes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let entityTypes = entityTypes {
+            var entityTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityTypes)
+            for entitytypeslistitem0 in entityTypes {
+                try entityTypesContainer.encode(entitytypeslistitem0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let entityTypesContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.EntityTypesListItem?].self, forKey: .entityTypes)
+        var entityTypesDecoded0:[ComprehendClientTypes.EntityTypesListItem]? = nil
+        if let entityTypesContainer = entityTypesContainer {
+            entityTypesDecoded0 = [ComprehendClientTypes.EntityTypesListItem]()
+            for structure0 in entityTypesContainer {
+                if let structure0 = structure0 {
+                    entityTypesDecoded0?.append(structure0)
+                }
+            }
+        }
+        entityTypes = entityTypesDecoded0
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Configuration required for an entity recognition model.
+    public struct EntityRecognitionConfig: Swift.Equatable {
+        /// Up to 25 entity types that the model is trained to recognize.
+        /// This member is required.
+        public var entityTypes: [ComprehendClientTypes.EntityTypesListItem]?
+
+        public init (
+            entityTypes: [ComprehendClientTypes.EntityTypesListItem]? = nil
+        )
+        {
+            self.entityTypes = entityTypes
+        }
+    }
+
+}
+
 extension ComprehendClientTypes.EntityRecognizerAnnotations: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case s3Uri = "S3Uri"
@@ -8688,7 +10511,7 @@ extension ComprehendClientTypes.EntityRecognizerEntityList: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// Describes the entity recognizer submitted with an entity recognizer.
+    /// Describes the entity list submitted with an entity recognizer.
     public struct EntityRecognizerEntityList: Swift.Equatable {
         /// Specifies the Amazon S3 location where the entity list is located. The URI must be in the same region as the API endpoint that you are calling.
         /// This member is required.
@@ -8797,7 +10620,7 @@ extension ComprehendClientTypes.EntityRecognizerFilter: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// Provides information for filtering a list of entity recognizers. You can only specify one filtering parameter in a request. For more information, see the operation./>
+    /// Provides information for filtering a list of entity recognizers. You can only specify one filtering parameter in a request. For more information, see the ListEntityRecognizers operation./>
     public struct EntityRecognizerFilter: Swift.Equatable {
         /// The name that you assigned the entity recognizer.
         public var recognizerName: Swift.String?
@@ -9079,15 +10902,52 @@ extension ComprehendClientTypes {
 
 }
 
+extension ComprehendClientTypes.EntityRecognizerOutputDataConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelStatsS3Prefix = "FlywheelStatsS3Prefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flywheelStatsS3Prefix = self.flywheelStatsS3Prefix {
+            try encodeContainer.encode(flywheelStatsS3Prefix, forKey: .flywheelStatsS3Prefix)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelStatsS3PrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelStatsS3Prefix)
+        flywheelStatsS3Prefix = flywheelStatsS3PrefixDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Output data configuration.
+    public struct EntityRecognizerOutputDataConfig: Swift.Equatable {
+        /// The Amazon S3 prefix for the data lake location of the flywheel statistics.
+        public var flywheelStatsS3Prefix: Swift.String?
+
+        public init (
+            flywheelStatsS3Prefix: Swift.String? = nil
+        )
+        {
+            self.flywheelStatsS3Prefix = flywheelStatsS3Prefix
+        }
+    }
+
+}
+
 extension ComprehendClientTypes.EntityRecognizerProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataAccessRoleArn = "DataAccessRoleArn"
         case endTime = "EndTime"
         case entityRecognizerArn = "EntityRecognizerArn"
+        case flywheelArn = "FlywheelArn"
         case inputDataConfig = "InputDataConfig"
         case languageCode = "LanguageCode"
         case message = "Message"
         case modelKmsKeyId = "ModelKmsKeyId"
+        case outputDataConfig = "OutputDataConfig"
         case recognizerMetadata = "RecognizerMetadata"
         case sourceModelArn = "SourceModelArn"
         case status = "Status"
@@ -9110,6 +10970,9 @@ extension ComprehendClientTypes.EntityRecognizerProperties: Swift.Codable {
         if let entityRecognizerArn = self.entityRecognizerArn {
             try encodeContainer.encode(entityRecognizerArn, forKey: .entityRecognizerArn)
         }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
+        }
         if let inputDataConfig = self.inputDataConfig {
             try encodeContainer.encode(inputDataConfig, forKey: .inputDataConfig)
         }
@@ -9121,6 +10984,9 @@ extension ComprehendClientTypes.EntityRecognizerProperties: Swift.Codable {
         }
         if let modelKmsKeyId = self.modelKmsKeyId {
             try encodeContainer.encode(modelKmsKeyId, forKey: .modelKmsKeyId)
+        }
+        if let outputDataConfig = self.outputDataConfig {
+            try encodeContainer.encode(outputDataConfig, forKey: .outputDataConfig)
         }
         if let recognizerMetadata = self.recognizerMetadata {
             try encodeContainer.encode(recognizerMetadata, forKey: .recognizerMetadata)
@@ -9185,23 +11051,29 @@ extension ComprehendClientTypes.EntityRecognizerProperties: Swift.Codable {
         versionName = versionNameDecoded
         let sourceModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceModelArn)
         sourceModelArn = sourceModelArnDecoded
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+        let outputDataConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.EntityRecognizerOutputDataConfig.self, forKey: .outputDataConfig)
+        outputDataConfig = outputDataConfigDecoded
     }
 }
 
 extension ComprehendClientTypes.EntityRecognizerProperties: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EntityRecognizerProperties(dataAccessRoleArn: \(Swift.String(describing: dataAccessRoleArn)), endTime: \(Swift.String(describing: endTime)), entityRecognizerArn: \(Swift.String(describing: entityRecognizerArn)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), languageCode: \(Swift.String(describing: languageCode)), message: \(Swift.String(describing: message)), modelKmsKeyId: \(Swift.String(describing: modelKmsKeyId)), sourceModelArn: \(Swift.String(describing: sourceModelArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), trainingEndTime: \(Swift.String(describing: trainingEndTime)), trainingStartTime: \(Swift.String(describing: trainingStartTime)), versionName: \(Swift.String(describing: versionName)), volumeKmsKeyId: \(Swift.String(describing: volumeKmsKeyId)), vpcConfig: \(Swift.String(describing: vpcConfig)), recognizerMetadata: \"CONTENT_REDACTED\")"}
+        "EntityRecognizerProperties(dataAccessRoleArn: \(Swift.String(describing: dataAccessRoleArn)), endTime: \(Swift.String(describing: endTime)), entityRecognizerArn: \(Swift.String(describing: entityRecognizerArn)), flywheelArn: \(Swift.String(describing: flywheelArn)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), languageCode: \(Swift.String(describing: languageCode)), message: \(Swift.String(describing: message)), modelKmsKeyId: \(Swift.String(describing: modelKmsKeyId)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), sourceModelArn: \(Swift.String(describing: sourceModelArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), trainingEndTime: \(Swift.String(describing: trainingEndTime)), trainingStartTime: \(Swift.String(describing: trainingStartTime)), versionName: \(Swift.String(describing: versionName)), volumeKmsKeyId: \(Swift.String(describing: volumeKmsKeyId)), vpcConfig: \(Swift.String(describing: vpcConfig)), recognizerMetadata: \"CONTENT_REDACTED\")"}
 }
 
 extension ComprehendClientTypes {
     /// Describes information about an entity recognizer.
     public struct EntityRecognizerProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the recognizer creation completed.
         public var endTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public var entityRecognizerArn: Swift.String?
+        /// The Amazon Resource Number (ARN) of the flywheel
+        public var flywheelArn: Swift.String?
         /// The input data properties of an entity recognizer.
         public var inputDataConfig: ComprehendClientTypes.EntityRecognizerInputDataConfig?
         /// The language of the input documents. All documents must be in the same language. Only English ("en") is currently supported.
@@ -9214,6 +11086,8 @@ extension ComprehendClientTypes {
         ///
         /// * Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public var modelKmsKeyId: Swift.String?
+        /// Output data configuration.
+        public var outputDataConfig: ComprehendClientTypes.EntityRecognizerOutputDataConfig?
         /// Provides information about an entity recognizer.
         public var recognizerMetadata: ComprehendClientTypes.EntityRecognizerMetadata?
         /// The Amazon Resource Name (ARN) of the source model. This model was imported from a different AWS account to create the entity recognizer model in your AWS account.
@@ -9241,10 +11115,12 @@ extension ComprehendClientTypes {
             dataAccessRoleArn: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
             entityRecognizerArn: Swift.String? = nil,
+            flywheelArn: Swift.String? = nil,
             inputDataConfig: ComprehendClientTypes.EntityRecognizerInputDataConfig? = nil,
             languageCode: ComprehendClientTypes.LanguageCode? = nil,
             message: Swift.String? = nil,
             modelKmsKeyId: Swift.String? = nil,
+            outputDataConfig: ComprehendClientTypes.EntityRecognizerOutputDataConfig? = nil,
             recognizerMetadata: ComprehendClientTypes.EntityRecognizerMetadata? = nil,
             sourceModelArn: Swift.String? = nil,
             status: ComprehendClientTypes.ModelStatus? = nil,
@@ -9259,10 +11135,12 @@ extension ComprehendClientTypes {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.entityRecognizerArn = entityRecognizerArn
+            self.flywheelArn = flywheelArn
             self.inputDataConfig = inputDataConfig
             self.languageCode = languageCode
             self.message = message
             self.modelKmsKeyId = modelKmsKeyId
+            self.outputDataConfig = outputDataConfig
             self.recognizerMetadata = recognizerMetadata
             self.sourceModelArn = sourceModelArn
             self.status = status
@@ -9726,7 +11604,7 @@ extension ComprehendClientTypes.EventsDetectionJobProperties: Swift.Codable {
 extension ComprehendClientTypes {
     /// Provides information about an events detection job.
     public struct EventsDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identify and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the events detection job completed.
         public var endTime: ClientRuntime.Date?
@@ -9823,6 +11701,651 @@ extension ComprehendClientTypes {
         {
             self.count = count
             self.page = page
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.FlywheelFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTimeAfter = "CreationTimeAfter"
+        case creationTimeBefore = "CreationTimeBefore"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTimeAfter = self.creationTimeAfter {
+            try encodeContainer.encodeTimestamp(creationTimeAfter, format: .epochSeconds, forKey: .creationTimeAfter)
+        }
+        if let creationTimeBefore = self.creationTimeBefore {
+            try encodeContainer.encodeTimestamp(creationTimeBefore, format: .epochSeconds, forKey: .creationTimeBefore)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.FlywheelStatus.self, forKey: .status)
+        status = statusDecoded
+        let creationTimeAfterDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimeAfter)
+        creationTimeAfter = creationTimeAfterDecoded
+        let creationTimeBeforeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimeBefore)
+        creationTimeBefore = creationTimeBeforeDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Filter the flywheels based on creation time or flywheel status.
+    public struct FlywheelFilter: Swift.Equatable {
+        /// Filter the flywheels to include flywheels created after the specified time.
+        public var creationTimeAfter: ClientRuntime.Date?
+        /// Filter the flywheels to include flywheels created before the specified time.
+        public var creationTimeBefore: ClientRuntime.Date?
+        /// Filter the flywheels based on the flywheel status.
+        public var status: ComprehendClientTypes.FlywheelStatus?
+
+        public init (
+            creationTimeAfter: ClientRuntime.Date? = nil,
+            creationTimeBefore: ClientRuntime.Date? = nil,
+            status: ComprehendClientTypes.FlywheelStatus? = nil
+        )
+        {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.status = status
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.FlywheelIterationFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTimeAfter = "CreationTimeAfter"
+        case creationTimeBefore = "CreationTimeBefore"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTimeAfter = self.creationTimeAfter {
+            try encodeContainer.encodeTimestamp(creationTimeAfter, format: .epochSeconds, forKey: .creationTimeAfter)
+        }
+        if let creationTimeBefore = self.creationTimeBefore {
+            try encodeContainer.encodeTimestamp(creationTimeBefore, format: .epochSeconds, forKey: .creationTimeBefore)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeAfterDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimeAfter)
+        creationTimeAfter = creationTimeAfterDecoded
+        let creationTimeBeforeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimeBefore)
+        creationTimeBefore = creationTimeBeforeDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Filter the flywheel iterations based on creation time.
+    public struct FlywheelIterationFilter: Swift.Equatable {
+        /// Filter the flywheel iterations to include iterations created after the specified time.
+        public var creationTimeAfter: ClientRuntime.Date?
+        /// Filter the flywheel iterations to include iterations created before the specified time.
+        public var creationTimeBefore: ClientRuntime.Date?
+
+        public init (
+            creationTimeAfter: ClientRuntime.Date? = nil,
+            creationTimeBefore: ClientRuntime.Date? = nil
+        )
+        {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.FlywheelIterationProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case endTime = "EndTime"
+        case evaluatedModelArn = "EvaluatedModelArn"
+        case evaluatedModelMetrics = "EvaluatedModelMetrics"
+        case evaluationManifestS3Prefix = "EvaluationManifestS3Prefix"
+        case flywheelArn = "FlywheelArn"
+        case flywheelIterationId = "FlywheelIterationId"
+        case message = "Message"
+        case status = "Status"
+        case trainedModelArn = "TrainedModelArn"
+        case trainedModelMetrics = "TrainedModelMetrics"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let evaluatedModelArn = self.evaluatedModelArn {
+            try encodeContainer.encode(evaluatedModelArn, forKey: .evaluatedModelArn)
+        }
+        if let evaluatedModelMetrics = self.evaluatedModelMetrics {
+            try encodeContainer.encode(evaluatedModelMetrics, forKey: .evaluatedModelMetrics)
+        }
+        if let evaluationManifestS3Prefix = self.evaluationManifestS3Prefix {
+            try encodeContainer.encode(evaluationManifestS3Prefix, forKey: .evaluationManifestS3Prefix)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
+        }
+        if let flywheelIterationId = self.flywheelIterationId {
+            try encodeContainer.encode(flywheelIterationId, forKey: .flywheelIterationId)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let trainedModelArn = self.trainedModelArn {
+            try encodeContainer.encode(trainedModelArn, forKey: .trainedModelArn)
+        }
+        if let trainedModelMetrics = self.trainedModelMetrics {
+            try encodeContainer.encode(trainedModelMetrics, forKey: .trainedModelMetrics)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+        let flywheelIterationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelIterationId)
+        flywheelIterationId = flywheelIterationIdDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.FlywheelIterationStatus.self, forKey: .status)
+        status = statusDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let evaluatedModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluatedModelArn)
+        evaluatedModelArn = evaluatedModelArnDecoded
+        let evaluatedModelMetricsDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.FlywheelModelEvaluationMetrics.self, forKey: .evaluatedModelMetrics)
+        evaluatedModelMetrics = evaluatedModelMetricsDecoded
+        let trainedModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trainedModelArn)
+        trainedModelArn = trainedModelArnDecoded
+        let trainedModelMetricsDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.FlywheelModelEvaluationMetrics.self, forKey: .trainedModelMetrics)
+        trainedModelMetrics = trainedModelMetricsDecoded
+        let evaluationManifestS3PrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationManifestS3Prefix)
+        evaluationManifestS3Prefix = evaluationManifestS3PrefixDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// The configuration properties of a flywheel iteration.
+    public struct FlywheelIterationProperties: Swift.Equatable {
+        /// The creation start time of the flywheel iteration.
+        public var creationTime: ClientRuntime.Date?
+        /// The completion time of this flywheel iteration.
+        public var endTime: ClientRuntime.Date?
+        /// The ARN of the evaluated model associated with this flywheel iteration.
+        public var evaluatedModelArn: Swift.String?
+        /// The evaluation metrics associated with the evaluated model.
+        public var evaluatedModelMetrics: ComprehendClientTypes.FlywheelModelEvaluationMetrics?
+        ///
+        public var evaluationManifestS3Prefix: Swift.String?
+        ///
+        public var flywheelArn: Swift.String?
+        ///
+        public var flywheelIterationId: Swift.String?
+        /// A description of the status of the flywheel iteration.
+        public var message: Swift.String?
+        /// The status of the flywheel iteration.
+        public var status: ComprehendClientTypes.FlywheelIterationStatus?
+        /// The ARN of the trained model associated with this flywheel iteration.
+        public var trainedModelArn: Swift.String?
+        /// The metrics associated with the trained model.
+        public var trainedModelMetrics: ComprehendClientTypes.FlywheelModelEvaluationMetrics?
+
+        public init (
+            creationTime: ClientRuntime.Date? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            evaluatedModelArn: Swift.String? = nil,
+            evaluatedModelMetrics: ComprehendClientTypes.FlywheelModelEvaluationMetrics? = nil,
+            evaluationManifestS3Prefix: Swift.String? = nil,
+            flywheelArn: Swift.String? = nil,
+            flywheelIterationId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            status: ComprehendClientTypes.FlywheelIterationStatus? = nil,
+            trainedModelArn: Swift.String? = nil,
+            trainedModelMetrics: ComprehendClientTypes.FlywheelModelEvaluationMetrics? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.evaluatedModelArn = evaluatedModelArn
+            self.evaluatedModelMetrics = evaluatedModelMetrics
+            self.evaluationManifestS3Prefix = evaluationManifestS3Prefix
+            self.flywheelArn = flywheelArn
+            self.flywheelIterationId = flywheelIterationId
+            self.message = message
+            self.status = status
+            self.trainedModelArn = trainedModelArn
+            self.trainedModelMetrics = trainedModelMetrics
+        }
+    }
+
+}
+
+extension ComprehendClientTypes {
+    public enum FlywheelIterationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case evaluating
+        case failed
+        case stopped
+        case stopRequested
+        case training
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlywheelIterationStatus] {
+            return [
+                .completed,
+                .evaluating,
+                .failed,
+                .stopped,
+                .stopRequested,
+                .training,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .evaluating: return "EVALUATING"
+            case .failed: return "FAILED"
+            case .stopped: return "STOPPED"
+            case .stopRequested: return "STOP_REQUESTED"
+            case .training: return "TRAINING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FlywheelIterationStatus(rawValue: rawValue) ?? FlywheelIterationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComprehendClientTypes.FlywheelModelEvaluationMetrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case averageAccuracy = "AverageAccuracy"
+        case averageF1Score = "AverageF1Score"
+        case averagePrecision = "AveragePrecision"
+        case averageRecall = "AverageRecall"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let averageAccuracy = self.averageAccuracy {
+            try encodeContainer.encode(averageAccuracy, forKey: .averageAccuracy)
+        }
+        if let averageF1Score = self.averageF1Score {
+            try encodeContainer.encode(averageF1Score, forKey: .averageF1Score)
+        }
+        if let averagePrecision = self.averagePrecision {
+            try encodeContainer.encode(averagePrecision, forKey: .averagePrecision)
+        }
+        if let averageRecall = self.averageRecall {
+            try encodeContainer.encode(averageRecall, forKey: .averageRecall)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let averageF1ScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .averageF1Score)
+        averageF1Score = averageF1ScoreDecoded
+        let averagePrecisionDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .averagePrecision)
+        averagePrecision = averagePrecisionDecoded
+        let averageRecallDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .averageRecall)
+        averageRecall = averageRecallDecoded
+        let averageAccuracyDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .averageAccuracy)
+        averageAccuracy = averageAccuracyDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// The evaluation metrics associated with the evaluated model.
+    public struct FlywheelModelEvaluationMetrics: Swift.Equatable {
+        /// Average accuracy metric for the model.
+        public var averageAccuracy: Swift.Double?
+        /// The average F1 score from the evaluation metrics.
+        public var averageF1Score: Swift.Double?
+        /// Average precision metric for the model.
+        public var averagePrecision: Swift.Double?
+        /// Average recall metric for the model.
+        public var averageRecall: Swift.Double?
+
+        public init (
+            averageAccuracy: Swift.Double? = nil,
+            averageF1Score: Swift.Double? = nil,
+            averagePrecision: Swift.Double? = nil,
+            averageRecall: Swift.Double? = nil
+        )
+        {
+            self.averageAccuracy = averageAccuracy
+            self.averageF1Score = averageF1Score
+            self.averagePrecision = averagePrecision
+            self.averageRecall = averageRecall
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.FlywheelProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeModelArn = "ActiveModelArn"
+        case creationTime = "CreationTime"
+        case dataAccessRoleArn = "DataAccessRoleArn"
+        case dataLakeS3Uri = "DataLakeS3Uri"
+        case dataSecurityConfig = "DataSecurityConfig"
+        case flywheelArn = "FlywheelArn"
+        case lastModifiedTime = "LastModifiedTime"
+        case latestFlywheelIteration = "LatestFlywheelIteration"
+        case message = "Message"
+        case modelType = "ModelType"
+        case status = "Status"
+        case taskConfig = "TaskConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeModelArn = self.activeModelArn {
+            try encodeContainer.encode(activeModelArn, forKey: .activeModelArn)
+        }
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let dataAccessRoleArn = self.dataAccessRoleArn {
+            try encodeContainer.encode(dataAccessRoleArn, forKey: .dataAccessRoleArn)
+        }
+        if let dataLakeS3Uri = self.dataLakeS3Uri {
+            try encodeContainer.encode(dataLakeS3Uri, forKey: .dataLakeS3Uri)
+        }
+        if let dataSecurityConfig = self.dataSecurityConfig {
+            try encodeContainer.encode(dataSecurityConfig, forKey: .dataSecurityConfig)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let latestFlywheelIteration = self.latestFlywheelIteration {
+            try encodeContainer.encode(latestFlywheelIteration, forKey: .latestFlywheelIteration)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let modelType = self.modelType {
+            try encodeContainer.encode(modelType.rawValue, forKey: .modelType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let taskConfig = self.taskConfig {
+            try encodeContainer.encode(taskConfig, forKey: .taskConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+        let activeModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activeModelArn)
+        activeModelArn = activeModelArnDecoded
+        let dataAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataAccessRoleArn)
+        dataAccessRoleArn = dataAccessRoleArnDecoded
+        let taskConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.TaskConfig.self, forKey: .taskConfig)
+        taskConfig = taskConfigDecoded
+        let dataLakeS3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataLakeS3Uri)
+        dataLakeS3Uri = dataLakeS3UriDecoded
+        let dataSecurityConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DataSecurityConfig.self, forKey: .dataSecurityConfig)
+        dataSecurityConfig = dataSecurityConfigDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.FlywheelStatus.self, forKey: .status)
+        status = statusDecoded
+        let modelTypeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.ModelType.self, forKey: .modelType)
+        modelType = modelTypeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let latestFlywheelIterationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .latestFlywheelIteration)
+        latestFlywheelIteration = latestFlywheelIterationDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// The flywheel properties.
+    public struct FlywheelProperties: Swift.Equatable {
+        /// The Amazon Resource Number (ARN) of the active model version.
+        public var activeModelArn: Swift.String?
+        /// Creation time of the flywheel.
+        public var creationTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend permission to access the flywheel data.
+        public var dataAccessRoleArn: Swift.String?
+        /// Amazon S3 URI of the data lake location.
+        public var dataLakeS3Uri: Swift.String?
+        /// Data security configuration.
+        public var dataSecurityConfig: ComprehendClientTypes.DataSecurityConfig?
+        /// The Amazon Resource Number (ARN) of the flywheel.
+        public var flywheelArn: Swift.String?
+        /// Last modified time for the flywheel.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The most recent flywheel iteration.
+        public var latestFlywheelIteration: Swift.String?
+        /// A description of the status of the flywheel.
+        public var message: Swift.String?
+        /// Model type of the flywheel's model.
+        public var modelType: ComprehendClientTypes.ModelType?
+        /// The status of the flywheel.
+        public var status: ComprehendClientTypes.FlywheelStatus?
+        /// Configuration about the custom classifier associated with the flywheel.
+        public var taskConfig: ComprehendClientTypes.TaskConfig?
+
+        public init (
+            activeModelArn: Swift.String? = nil,
+            creationTime: ClientRuntime.Date? = nil,
+            dataAccessRoleArn: Swift.String? = nil,
+            dataLakeS3Uri: Swift.String? = nil,
+            dataSecurityConfig: ComprehendClientTypes.DataSecurityConfig? = nil,
+            flywheelArn: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            latestFlywheelIteration: Swift.String? = nil,
+            message: Swift.String? = nil,
+            modelType: ComprehendClientTypes.ModelType? = nil,
+            status: ComprehendClientTypes.FlywheelStatus? = nil,
+            taskConfig: ComprehendClientTypes.TaskConfig? = nil
+        )
+        {
+            self.activeModelArn = activeModelArn
+            self.creationTime = creationTime
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.dataLakeS3Uri = dataLakeS3Uri
+            self.dataSecurityConfig = dataSecurityConfig
+            self.flywheelArn = flywheelArn
+            self.lastModifiedTime = lastModifiedTime
+            self.latestFlywheelIteration = latestFlywheelIteration
+            self.message = message
+            self.modelType = modelType
+            self.status = status
+            self.taskConfig = taskConfig
+        }
+    }
+
+}
+
+extension ComprehendClientTypes {
+    public enum FlywheelStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlywheelStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FlywheelStatus(rawValue: rawValue) ?? FlywheelStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComprehendClientTypes.FlywheelSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeModelArn = "ActiveModelArn"
+        case creationTime = "CreationTime"
+        case dataLakeS3Uri = "DataLakeS3Uri"
+        case flywheelArn = "FlywheelArn"
+        case lastModifiedTime = "LastModifiedTime"
+        case latestFlywheelIteration = "LatestFlywheelIteration"
+        case message = "Message"
+        case modelType = "ModelType"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeModelArn = self.activeModelArn {
+            try encodeContainer.encode(activeModelArn, forKey: .activeModelArn)
+        }
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let dataLakeS3Uri = self.dataLakeS3Uri {
+            try encodeContainer.encode(dataLakeS3Uri, forKey: .dataLakeS3Uri)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let latestFlywheelIteration = self.latestFlywheelIteration {
+            try encodeContainer.encode(latestFlywheelIteration, forKey: .latestFlywheelIteration)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let modelType = self.modelType {
+            try encodeContainer.encode(modelType.rawValue, forKey: .modelType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+        let activeModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activeModelArn)
+        activeModelArn = activeModelArnDecoded
+        let dataLakeS3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataLakeS3Uri)
+        dataLakeS3Uri = dataLakeS3UriDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.FlywheelStatus.self, forKey: .status)
+        status = statusDecoded
+        let modelTypeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.ModelType.self, forKey: .modelType)
+        modelType = modelTypeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let latestFlywheelIterationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .latestFlywheelIteration)
+        latestFlywheelIteration = latestFlywheelIterationDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Flywheel summary information.
+    public struct FlywheelSummary: Swift.Equatable {
+        /// ARN of the active model version for the flywheel.
+        public var activeModelArn: Swift.String?
+        /// Creation time of the flywheel.
+        public var creationTime: ClientRuntime.Date?
+        /// Amazon S3 URI of the data lake location.
+        public var dataLakeS3Uri: Swift.String?
+        /// The Amazon Resource Number (ARN) of the flywheel
+        public var flywheelArn: Swift.String?
+        /// Last modified time for the flywheel.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The most recent flywheel iteration.
+        public var latestFlywheelIteration: Swift.String?
+        /// A description of the status of the flywheel.
+        public var message: Swift.String?
+        /// Model type of the flywheel's model.
+        public var modelType: ComprehendClientTypes.ModelType?
+        /// The status of the flywheel.
+        public var status: ComprehendClientTypes.FlywheelStatus?
+
+        public init (
+            activeModelArn: Swift.String? = nil,
+            creationTime: ClientRuntime.Date? = nil,
+            dataLakeS3Uri: Swift.String? = nil,
+            flywheelArn: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            latestFlywheelIteration: Swift.String? = nil,
+            message: Swift.String? = nil,
+            modelType: ComprehendClientTypes.ModelType? = nil,
+            status: ComprehendClientTypes.FlywheelStatus? = nil
+        )
+        {
+            self.activeModelArn = activeModelArn
+            self.creationTime = creationTime
+            self.dataLakeS3Uri = dataLakeS3Uri
+            self.flywheelArn = flywheelArn
+            self.lastModifiedTime = lastModifiedTime
+            self.latestFlywheelIteration = latestFlywheelIteration
+            self.message = message
+            self.modelType = modelType
+            self.status = status
         }
     }
 
@@ -9928,7 +12451,7 @@ extension ImportModelInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ImportModelInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that allows Amazon Comprehend to use Amazon Key Management Service (KMS) to encrypt or decrypt the custom model.
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend permission to use Amazon Key Management Service (KMS) to encrypt or decrypt the custom model.
     public var dataAccessRoleArn: Swift.String?
     /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
     ///
@@ -9941,7 +12464,7 @@ public struct ImportModelInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the custom model to import.
     /// This member is required.
     public var sourceModelArn: Swift.String?
-    /// Tags to be associated with the custom model that is created by this import. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+    /// Tags to associate with the custom model that is created by this import. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
     /// The version name given to the custom model that is created by this import. Version names can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same classifier name in the account/AWS Region.
     public var versionName: Swift.String?
@@ -10793,7 +13316,7 @@ extension ComprehendClientTypes.KeyPhrasesDetectionJobProperties: Swift.Codable 
 extension ComprehendClientTypes {
     /// Provides information about a key phrases detection job.
     public struct KeyPhrasesDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the key phrases detection job completed.
         public var endTime: ClientRuntime.Date?
@@ -10969,6 +13492,179 @@ extension ComprehendClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = LanguageCode(rawValue: rawValue) ?? LanguageCode.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension ListDatasetsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case flywheelArn = "FlywheelArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListDatasetsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListDatasetsInput: Swift.Equatable {
+    /// Filters the datasets to be returned in the response.
+    public var filter: ComprehendClientTypes.DatasetFilter?
+    /// The Amazon Resource Number (ARN) of the flywheel.
+    public var flywheelArn: Swift.String?
+    /// Maximum number of results to return in a response. The default is 100.
+    public var maxResults: Swift.Int?
+    /// Identifies the next page of results to return.
+    public var nextToken: Swift.String?
+
+    public init (
+        filter: ComprehendClientTypes.DatasetFilter? = nil,
+        flywheelArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.flywheelArn = flywheelArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDatasetsInputBody: Swift.Equatable {
+    let flywheelArn: Swift.String?
+    let filter: ComprehendClientTypes.DatasetFilter?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListDatasetsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case flywheelArn = "FlywheelArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DatasetFilter.self, forKey: .filter)
+        filter = filterDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListDatasetsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListDatasetsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidFilterException" : self = .invalidFilterException(try InvalidFilterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListDatasetsOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidFilterException(InvalidFilterException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDatasetsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListDatasetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.datasetPropertiesList = output.datasetPropertiesList
+            self.nextToken = output.nextToken
+        } else {
+            self.datasetPropertiesList = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListDatasetsOutputResponse: Swift.Equatable {
+    /// The dataset properties list.
+    public var datasetPropertiesList: [ComprehendClientTypes.DatasetProperties]?
+    /// Identifies the next page of results to return.
+    public var nextToken: Swift.String?
+
+    public init (
+        datasetPropertiesList: [ComprehendClientTypes.DatasetProperties]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.datasetPropertiesList = datasetPropertiesList
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDatasetsOutputResponseBody: Swift.Equatable {
+    let datasetPropertiesList: [ComprehendClientTypes.DatasetProperties]?
+    let nextToken: Swift.String?
+}
+
+extension ListDatasetsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetPropertiesList = "DatasetPropertiesList"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetPropertiesListContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.DatasetProperties?].self, forKey: .datasetPropertiesList)
+        var datasetPropertiesListDecoded0:[ComprehendClientTypes.DatasetProperties]? = nil
+        if let datasetPropertiesListContainer = datasetPropertiesListContainer {
+            datasetPropertiesListDecoded0 = [ComprehendClientTypes.DatasetProperties]()
+            for structure0 in datasetPropertiesListContainer {
+                if let structure0 = structure0 {
+                    datasetPropertiesListDecoded0?.append(structure0)
+                }
+            }
+        }
+        datasetPropertiesList = datasetPropertiesListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -12013,7 +14709,7 @@ extension ListEntityRecognizerSummariesOutputResponse: ClientRuntime.HttpRespons
 public struct ListEntityRecognizerSummariesOutputResponse: Swift.Equatable {
     /// The list entity recognizer summaries.
     public var entityRecognizerSummariesList: [ComprehendClientTypes.EntityRecognizerSummary]?
-    /// The list entity recognizer summaries.
+    /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
 
     public init (
@@ -12368,6 +15064,339 @@ extension ListEventsDetectionJobsOutputResponseBody: Swift.Decodable {
             }
         }
         eventsDetectionJobPropertiesList = eventsDetectionJobPropertiesListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListFlywheelIterationHistoryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case flywheelArn = "FlywheelArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListFlywheelIterationHistoryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListFlywheelIterationHistoryInput: Swift.Equatable {
+    /// Filter the flywheel iteration history based on creation time.
+    public var filter: ComprehendClientTypes.FlywheelIterationFilter?
+    /// The ARN of the flywheel.
+    /// This member is required.
+    public var flywheelArn: Swift.String?
+    /// Maximum number of iteration history results to return
+    public var maxResults: Swift.Int?
+    /// Next token
+    public var nextToken: Swift.String?
+
+    public init (
+        filter: ComprehendClientTypes.FlywheelIterationFilter? = nil,
+        flywheelArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.flywheelArn = flywheelArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListFlywheelIterationHistoryInputBody: Swift.Equatable {
+    let flywheelArn: Swift.String?
+    let filter: ComprehendClientTypes.FlywheelIterationFilter?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListFlywheelIterationHistoryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case flywheelArn = "FlywheelArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.FlywheelIterationFilter.self, forKey: .filter)
+        filter = filterDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListFlywheelIterationHistoryOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListFlywheelIterationHistoryOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidFilterException" : self = .invalidFilterException(try InvalidFilterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListFlywheelIterationHistoryOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidFilterException(InvalidFilterException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListFlywheelIterationHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListFlywheelIterationHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.flywheelIterationPropertiesList = output.flywheelIterationPropertiesList
+            self.nextToken = output.nextToken
+        } else {
+            self.flywheelIterationPropertiesList = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListFlywheelIterationHistoryOutputResponse: Swift.Equatable {
+    /// List of flywheel iteration properties
+    public var flywheelIterationPropertiesList: [ComprehendClientTypes.FlywheelIterationProperties]?
+    /// Next token
+    public var nextToken: Swift.String?
+
+    public init (
+        flywheelIterationPropertiesList: [ComprehendClientTypes.FlywheelIterationProperties]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.flywheelIterationPropertiesList = flywheelIterationPropertiesList
+        self.nextToken = nextToken
+    }
+}
+
+struct ListFlywheelIterationHistoryOutputResponseBody: Swift.Equatable {
+    let flywheelIterationPropertiesList: [ComprehendClientTypes.FlywheelIterationProperties]?
+    let nextToken: Swift.String?
+}
+
+extension ListFlywheelIterationHistoryOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelIterationPropertiesList = "FlywheelIterationPropertiesList"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelIterationPropertiesListContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.FlywheelIterationProperties?].self, forKey: .flywheelIterationPropertiesList)
+        var flywheelIterationPropertiesListDecoded0:[ComprehendClientTypes.FlywheelIterationProperties]? = nil
+        if let flywheelIterationPropertiesListContainer = flywheelIterationPropertiesListContainer {
+            flywheelIterationPropertiesListDecoded0 = [ComprehendClientTypes.FlywheelIterationProperties]()
+            for structure0 in flywheelIterationPropertiesListContainer {
+                if let structure0 = structure0 {
+                    flywheelIterationPropertiesListDecoded0?.append(structure0)
+                }
+            }
+        }
+        flywheelIterationPropertiesList = flywheelIterationPropertiesListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListFlywheelsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListFlywheelsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListFlywheelsInput: Swift.Equatable {
+    /// Filters the flywheels that are returned. You can filter flywheels on their status, or the date and time that they were submitted. You can only set one filter at a time.
+    public var filter: ComprehendClientTypes.FlywheelFilter?
+    /// Maximum number of results to return in a response. The default is 100.
+    public var maxResults: Swift.Int?
+    /// Identifies the next page of results to return.
+    public var nextToken: Swift.String?
+
+    public init (
+        filter: ComprehendClientTypes.FlywheelFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListFlywheelsInputBody: Swift.Equatable {
+    let filter: ComprehendClientTypes.FlywheelFilter?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListFlywheelsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.FlywheelFilter.self, forKey: .filter)
+        filter = filterDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListFlywheelsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListFlywheelsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidFilterException" : self = .invalidFilterException(try InvalidFilterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListFlywheelsOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidFilterException(InvalidFilterException)
+    case invalidRequestException(InvalidRequestException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListFlywheelsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListFlywheelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.flywheelSummaryList = output.flywheelSummaryList
+            self.nextToken = output.nextToken
+        } else {
+            self.flywheelSummaryList = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListFlywheelsOutputResponse: Swift.Equatable {
+    /// A list of flywheel properties retrieved by the service in response to the request.
+    public var flywheelSummaryList: [ComprehendClientTypes.FlywheelSummary]?
+    /// Identifies the next page of results to return.
+    public var nextToken: Swift.String?
+
+    public init (
+        flywheelSummaryList: [ComprehendClientTypes.FlywheelSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.flywheelSummaryList = flywheelSummaryList
+        self.nextToken = nextToken
+    }
+}
+
+struct ListFlywheelsOutputResponseBody: Swift.Equatable {
+    let flywheelSummaryList: [ComprehendClientTypes.FlywheelSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListFlywheelsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelSummaryList = "FlywheelSummaryList"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelSummaryListContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.FlywheelSummary?].self, forKey: .flywheelSummaryList)
+        var flywheelSummaryListDecoded0:[ComprehendClientTypes.FlywheelSummary]? = nil
+        if let flywheelSummaryListContainer = flywheelSummaryListContainer {
+            flywheelSummaryListDecoded0 = [ComprehendClientTypes.FlywheelSummary]()
+            for structure0 in flywheelSummaryListContainer {
+                if let structure0 = structure0 {
+                    flywheelSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        flywheelSummaryList = flywheelSummaryListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -13394,6 +16423,38 @@ extension ComprehendClientTypes {
     }
 }
 
+extension ComprehendClientTypes {
+    public enum ModelType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case documentClassifier
+        case entityRecognizer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelType] {
+            return [
+                .documentClassifier,
+                .entityRecognizer,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .documentClassifier: return "DOCUMENT_CLASSIFIER"
+            case .entityRecognizer: return "ENTITY_RECOGNIZER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ModelType(rawValue: rawValue) ?? ModelType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ComprehendClientTypes.OutputDataConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsKeyId = "KmsKeyId"
@@ -13773,7 +16834,7 @@ extension ComprehendClientTypes.PiiEntitiesDetectionJobProperties: Swift.Codable
 extension ComprehendClientTypes {
     /// Provides information about a PII entities detection job.
     public struct PiiEntitiesDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the PII entities detection job completed.
         public var endTime: ClientRuntime.Date?
@@ -14851,7 +17912,7 @@ extension ComprehendClientTypes.SentimentDetectionJobProperties: Swift.Codable {
 extension ComprehendClientTypes {
     /// Provides information about a sentiment detection job.
     public struct SentimentDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the sentiment detection job ended.
         public var endTime: ClientRuntime.Date?
@@ -15056,6 +18117,7 @@ extension StartDocumentClassificationJobInput: Swift.Encodable {
         case clientRequestToken = "ClientRequestToken"
         case dataAccessRoleArn = "DataAccessRoleArn"
         case documentClassifierArn = "DocumentClassifierArn"
+        case flywheelArn = "FlywheelArn"
         case inputDataConfig = "InputDataConfig"
         case jobName = "JobName"
         case outputDataConfig = "OutputDataConfig"
@@ -15074,6 +18136,9 @@ extension StartDocumentClassificationJobInput: Swift.Encodable {
         }
         if let documentClassifierArn = self.documentClassifierArn {
             try encodeContainer.encode(documentClassifierArn, forKey: .documentClassifierArn)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
         }
         if let inputDataConfig = self.inputDataConfig {
             try encodeContainer.encode(inputDataConfig, forKey: .inputDataConfig)
@@ -15112,8 +18177,9 @@ public struct StartDocumentClassificationJobInput: Swift.Equatable {
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the document classifier to use to process the job.
-    /// This member is required.
     public var documentClassifierArn: Swift.String?
+    /// The Amazon Resource Number (ARN) of the flywheel associated with the model to use.
+    public var flywheelArn: Swift.String?
     /// Specifies the format and location of the input data for the job.
     /// This member is required.
     public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
@@ -15122,7 +18188,7 @@ public struct StartDocumentClassificationJobInput: Swift.Equatable {
     /// Specifies where to send the output files.
     /// This member is required.
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
-    /// Tags to be associated with the document classification job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+    /// Tags to associate with the document classification job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
     /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
@@ -15137,6 +18203,7 @@ public struct StartDocumentClassificationJobInput: Swift.Equatable {
         clientRequestToken: Swift.String? = nil,
         dataAccessRoleArn: Swift.String? = nil,
         documentClassifierArn: Swift.String? = nil,
+        flywheelArn: Swift.String? = nil,
         inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
         jobName: Swift.String? = nil,
         outputDataConfig: ComprehendClientTypes.OutputDataConfig? = nil,
@@ -15148,6 +18215,7 @@ public struct StartDocumentClassificationJobInput: Swift.Equatable {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.documentClassifierArn = documentClassifierArn
+        self.flywheelArn = flywheelArn
         self.inputDataConfig = inputDataConfig
         self.jobName = jobName
         self.outputDataConfig = outputDataConfig
@@ -15167,6 +18235,7 @@ struct StartDocumentClassificationJobInputBody: Swift.Equatable {
     let volumeKmsKeyId: Swift.String?
     let vpcConfig: ComprehendClientTypes.VpcConfig?
     let tags: [ComprehendClientTypes.Tag]?
+    let flywheelArn: Swift.String?
 }
 
 extension StartDocumentClassificationJobInputBody: Swift.Decodable {
@@ -15174,6 +18243,7 @@ extension StartDocumentClassificationJobInputBody: Swift.Decodable {
         case clientRequestToken = "ClientRequestToken"
         case dataAccessRoleArn = "DataAccessRoleArn"
         case documentClassifierArn = "DocumentClassifierArn"
+        case flywheelArn = "FlywheelArn"
         case inputDataConfig = "InputDataConfig"
         case jobName = "JobName"
         case outputDataConfig = "OutputDataConfig"
@@ -15211,6 +18281,8 @@ extension StartDocumentClassificationJobInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
     }
 }
 
@@ -15254,10 +18326,12 @@ extension StartDocumentClassificationJobOutputResponse: ClientRuntime.HttpRespon
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: StartDocumentClassificationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.documentClassifierArn = output.documentClassifierArn
             self.jobArn = output.jobArn
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
         } else {
+            self.documentClassifierArn = nil
             self.jobArn = nil
             self.jobId = nil
             self.jobStatus = nil
@@ -15266,9 +18340,11 @@ extension StartDocumentClassificationJobOutputResponse: ClientRuntime.HttpRespon
 }
 
 public struct StartDocumentClassificationJobOutputResponse: Swift.Equatable {
+    /// The ARN of the custom classification model.
+    public var documentClassifierArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the document classification job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::document-classification-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
-    /// The identifier generated for the job. To get the status of the job, use this identifier with the operation.
+    /// The identifier generated for the job. To get the status of the job, use this identifier with the DescribeDocumentClassificationJob operation.
     public var jobId: Swift.String?
     /// The status of the job:
     ///
@@ -15278,7 +18354,7 @@ public struct StartDocumentClassificationJobOutputResponse: Swift.Equatable {
     ///
     /// * COMPLETED - The job was successfully completed and the output is available.
     ///
-    /// * FAILED - The job did not complete. For details, use the operation.
+    /// * FAILED - The job did not complete. For details, use the DescribeDocumentClassificationJob operation.
     ///
     /// * STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.
     ///
@@ -15286,11 +18362,13 @@ public struct StartDocumentClassificationJobOutputResponse: Swift.Equatable {
     public var jobStatus: ComprehendClientTypes.JobStatus?
 
     public init (
+        documentClassifierArn: Swift.String? = nil,
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
     )
     {
+        self.documentClassifierArn = documentClassifierArn
         self.jobArn = jobArn
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -15301,10 +18379,12 @@ struct StartDocumentClassificationJobOutputResponseBody: Swift.Equatable {
     let jobId: Swift.String?
     let jobArn: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
+    let documentClassifierArn: Swift.String?
 }
 
 extension StartDocumentClassificationJobOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case documentClassifierArn = "DocumentClassifierArn"
         case jobArn = "JobArn"
         case jobId = "JobId"
         case jobStatus = "JobStatus"
@@ -15318,6 +18398,8 @@ extension StartDocumentClassificationJobOutputResponseBody: Swift.Decodable {
         jobArn = jobArnDecoded
         let jobStatusDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.JobStatus.self, forKey: .jobStatus)
         jobStatus = jobStatusDecoded
+        let documentClassifierArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentClassifierArn)
+        documentClassifierArn = documentClassifierArnDecoded
     }
 }
 
@@ -15385,7 +18467,7 @@ public struct StartDominantLanguageDetectionJobInput: Swift.Equatable {
     /// Specifies where to send the output files.
     /// This member is required.
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
-    /// Tags to be associated with the dominant language detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+    /// Tags to associate with the dominant language detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
     /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
@@ -15575,6 +18657,7 @@ extension StartEntitiesDetectionJobInput: Swift.Encodable {
         case clientRequestToken = "ClientRequestToken"
         case dataAccessRoleArn = "DataAccessRoleArn"
         case entityRecognizerArn = "EntityRecognizerArn"
+        case flywheelArn = "FlywheelArn"
         case inputDataConfig = "InputDataConfig"
         case jobName = "JobName"
         case languageCode = "LanguageCode"
@@ -15594,6 +18677,9 @@ extension StartEntitiesDetectionJobInput: Swift.Encodable {
         }
         if let entityRecognizerArn = self.entityRecognizerArn {
             try encodeContainer.encode(entityRecognizerArn, forKey: .entityRecognizerArn)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
         }
         if let inputDataConfig = self.inputDataConfig {
             try encodeContainer.encode(inputDataConfig, forKey: .inputDataConfig)
@@ -15636,6 +18722,8 @@ public struct StartEntitiesDetectionJobInput: Swift.Equatable {
     public var dataAccessRoleArn: Swift.String?
     /// The Amazon Resource Name (ARN) that identifies the specific entity recognizer to be used by the StartEntitiesDetectionJob. This ARN is optional and is only used for a custom entity recognition job.
     public var entityRecognizerArn: Swift.String?
+    /// The Amazon Resource Number (ARN) of the flywheel associated with the model to use.
+    public var flywheelArn: Swift.String?
     /// Specifies the format and location of the input data for the job.
     /// This member is required.
     public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
@@ -15647,7 +18735,7 @@ public struct StartEntitiesDetectionJobInput: Swift.Equatable {
     /// Specifies where to send the output files.
     /// This member is required.
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
-    /// Tags to be associated with the entities detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+    /// Tags to associate with the entities detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
     /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
@@ -15662,6 +18750,7 @@ public struct StartEntitiesDetectionJobInput: Swift.Equatable {
         clientRequestToken: Swift.String? = nil,
         dataAccessRoleArn: Swift.String? = nil,
         entityRecognizerArn: Swift.String? = nil,
+        flywheelArn: Swift.String? = nil,
         inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
         jobName: Swift.String? = nil,
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
@@ -15674,6 +18763,7 @@ public struct StartEntitiesDetectionJobInput: Swift.Equatable {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.entityRecognizerArn = entityRecognizerArn
+        self.flywheelArn = flywheelArn
         self.inputDataConfig = inputDataConfig
         self.jobName = jobName
         self.languageCode = languageCode
@@ -15695,6 +18785,7 @@ struct StartEntitiesDetectionJobInputBody: Swift.Equatable {
     let volumeKmsKeyId: Swift.String?
     let vpcConfig: ComprehendClientTypes.VpcConfig?
     let tags: [ComprehendClientTypes.Tag]?
+    let flywheelArn: Swift.String?
 }
 
 extension StartEntitiesDetectionJobInputBody: Swift.Decodable {
@@ -15702,6 +18793,7 @@ extension StartEntitiesDetectionJobInputBody: Swift.Decodable {
         case clientRequestToken = "ClientRequestToken"
         case dataAccessRoleArn = "DataAccessRoleArn"
         case entityRecognizerArn = "EntityRecognizerArn"
+        case flywheelArn = "FlywheelArn"
         case inputDataConfig = "InputDataConfig"
         case jobName = "JobName"
         case languageCode = "LanguageCode"
@@ -15742,6 +18834,8 @@ extension StartEntitiesDetectionJobInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
     }
 }
 
@@ -15785,10 +18879,12 @@ extension StartEntitiesDetectionJobOutputResponse: ClientRuntime.HttpResponseBin
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: StartEntitiesDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.entityRecognizerArn = output.entityRecognizerArn
             self.jobArn = output.jobArn
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
         } else {
+            self.entityRecognizerArn = nil
             self.jobArn = nil
             self.jobId = nil
             self.jobStatus = nil
@@ -15797,6 +18893,8 @@ extension StartEntitiesDetectionJobOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 public struct StartEntitiesDetectionJobOutputResponse: Swift.Equatable {
+    /// The ARN of the custom entity recognition model.
+    public var entityRecognizerArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the entities detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::entities-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:entities-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of job, use this identifier with the operation.
@@ -15817,11 +18915,13 @@ public struct StartEntitiesDetectionJobOutputResponse: Swift.Equatable {
     public var jobStatus: ComprehendClientTypes.JobStatus?
 
     public init (
+        entityRecognizerArn: Swift.String? = nil,
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
     )
     {
+        self.entityRecognizerArn = entityRecognizerArn
         self.jobArn = jobArn
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -15832,10 +18932,12 @@ struct StartEntitiesDetectionJobOutputResponseBody: Swift.Equatable {
     let jobId: Swift.String?
     let jobArn: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
+    let entityRecognizerArn: Swift.String?
 }
 
 extension StartEntitiesDetectionJobOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entityRecognizerArn = "EntityRecognizerArn"
         case jobArn = "JobArn"
         case jobId = "JobId"
         case jobStatus = "JobStatus"
@@ -15849,6 +18951,8 @@ extension StartEntitiesDetectionJobOutputResponseBody: Swift.Decodable {
         jobArn = jobArnDecoded
         let jobStatusDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.JobStatus.self, forKey: .jobStatus)
         jobStatus = jobStatusDecoded
+        let entityRecognizerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityRecognizerArn)
+        entityRecognizerArn = entityRecognizerArnDecoded
     }
 }
 
@@ -15922,7 +19026,7 @@ public struct StartEventsDetectionJobInput: Swift.Equatable {
     /// Specifies where to send the output files.
     /// This member is required.
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
-    /// Tags to be associated with the events detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+    /// Tags to associate with the events detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
     /// The types of events to detect in the input documents.
     /// This member is required.
@@ -16103,6 +19207,147 @@ extension StartEventsDetectionJobOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension StartFlywheelIterationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case flywheelArn = "FlywheelArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
+        }
+    }
+}
+
+extension StartFlywheelIterationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartFlywheelIterationInput: Swift.Equatable {
+    /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+    public var clientRequestToken: Swift.String?
+    /// The ARN of the flywheel.
+    /// This member is required.
+    public var flywheelArn: Swift.String?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        flywheelArn: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.flywheelArn = flywheelArn
+    }
+}
+
+struct StartFlywheelIterationInputBody: Swift.Equatable {
+    let flywheelArn: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension StartFlywheelIterationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case flywheelArn = "FlywheelArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension StartFlywheelIterationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartFlywheelIterationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartFlywheelIterationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceInUseException(ResourceInUseException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartFlywheelIterationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: StartFlywheelIterationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.flywheelArn = output.flywheelArn
+            self.flywheelIterationId = output.flywheelIterationId
+        } else {
+            self.flywheelArn = nil
+            self.flywheelIterationId = nil
+        }
+    }
+}
+
+public struct StartFlywheelIterationOutputResponse: Swift.Equatable {
+    ///
+    public var flywheelArn: Swift.String?
+    ///
+    public var flywheelIterationId: Swift.String?
+
+    public init (
+        flywheelArn: Swift.String? = nil,
+        flywheelIterationId: Swift.String? = nil
+    )
+    {
+        self.flywheelArn = flywheelArn
+        self.flywheelIterationId = flywheelIterationId
+    }
+}
+
+struct StartFlywheelIterationOutputResponseBody: Swift.Equatable {
+    let flywheelArn: Swift.String?
+    let flywheelIterationId: Swift.String?
+}
+
+extension StartFlywheelIterationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelArn = "FlywheelArn"
+        case flywheelIterationId = "FlywheelIterationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+        let flywheelIterationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelIterationId)
+        flywheelIterationId = flywheelIterationIdDecoded
+    }
+}
+
 extension StartKeyPhrasesDetectionJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
@@ -16174,7 +19419,7 @@ public struct StartKeyPhrasesDetectionJobInput: Swift.Equatable {
     /// Specifies where to send the output files.
     /// This member is required.
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
-    /// Tags to be associated with the key phrases detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+    /// Tags to associate with the key phrases detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
     /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
@@ -16441,7 +19686,7 @@ public struct StartPiiEntitiesDetectionJobInput: Swift.Equatable {
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     /// Provides configuration parameters for PII entity redaction. This parameter is required if you set the Mode parameter to ONLY_REDACTION. In that case, you must provide a RedactionConfig definition that includes the PiiEntityTypes parameter.
     public var redactionConfig: ComprehendClientTypes.RedactionConfig?
-    /// Tags to be associated with the PII entities detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+    /// Tags to associate with the PII entities detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
 
     public init (
@@ -16687,7 +19932,7 @@ public struct StartSentimentDetectionJobInput: Swift.Equatable {
     /// Specifies where to send the output files.
     /// This member is required.
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
-    /// Tags to be associated with the sentiment detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+    /// Tags to associate with the sentiment detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
     /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
@@ -16949,7 +20194,7 @@ public struct StartTargetedSentimentDetectionJobInput: Swift.Equatable {
     /// Specifies where to send the output files.
     /// This member is required.
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
-    /// Tags to be associated with the targeted sentiment detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+    /// Tags to associate with the targeted sentiment detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
     /// ID for the KMS key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
@@ -17091,7 +20336,7 @@ extension StartTargetedSentimentDetectionJobOutputResponse: ClientRuntime.HttpRe
 public struct StartTargetedSentimentDetectionJobOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the targeted sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::targeted-sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:targeted-sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
-    /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
+    /// The identifier generated for the job. To get the status of a job, use this identifier with the DescribeTargetedSentimentDetectionJob operation.
     public var jobId: Swift.String?
     /// The status of the job.
     ///
@@ -17101,7 +20346,7 @@ public struct StartTargetedSentimentDetectionJobOutputResponse: Swift.Equatable 
     ///
     /// * COMPLETED - The job was successfully completed and the output is available.
     ///
-    /// * FAILED - The job did not complete. To get details, use the operation.
+    /// * FAILED - The job did not complete. To get details, use the DescribeTargetedSentimentDetectionJob operation.
     public var jobStatus: ComprehendClientTypes.JobStatus?
 
     public init (
@@ -17210,7 +20455,7 @@ public struct StartTopicsDetectionJobInput: Swift.Equatable {
     /// Specifies where to send the output files. The output is a compressed archive with two files, topic-terms.csv that lists the terms associated with each topic, and doc-topics.csv that lists the documents associated with each topic
     /// This member is required.
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
-    /// Tags to be associated with the topics detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+    /// Tags to associate with the topics detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
     /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
@@ -18764,7 +22009,7 @@ extension ComprehendClientTypes.TargetedSentimentDetectionJobFilter: Swift.Codab
 }
 
 extension ComprehendClientTypes {
-    /// Provides information for filtering a list of dominant language detection jobs. For more information, see the operation.
+    /// Provides information for filtering a list of dominant language detection jobs. For more information, see the ListTargetedSentimentDetectionJobs operation.
     public struct TargetedSentimentDetectionJobFilter: Swift.Equatable {
         /// Filters on the name of the job.
         public var jobName: Swift.String?
@@ -18885,7 +22130,7 @@ extension ComprehendClientTypes.TargetedSentimentDetectionJobProperties: Swift.C
 extension ComprehendClientTypes {
     /// Provides information about a targeted sentiment detection job.
     public struct TargetedSentimentDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the targeted sentiment detection job ended.
         public var endTime: ClientRuntime.Date?
@@ -18907,7 +22152,7 @@ extension ComprehendClientTypes {
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the targeted sentiment detection job was submitted for processing.
         public var submitTime: ClientRuntime.Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the targeted sentiment detection job. The VolumeKmsKeyId can be either of the following formats:
+        /// ID for the KMS key that Amazon Comprehend uses to encrypt the data on the storage volume attached to the ML compute instance(s) that process the targeted sentiment detection job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -19186,6 +22431,62 @@ extension ComprehendClientTypes {
             self.score = score
             self.text = text
             self.type = type
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.TaskConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case documentClassificationConfig = "DocumentClassificationConfig"
+        case entityRecognitionConfig = "EntityRecognitionConfig"
+        case languageCode = "LanguageCode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let documentClassificationConfig = self.documentClassificationConfig {
+            try encodeContainer.encode(documentClassificationConfig, forKey: .documentClassificationConfig)
+        }
+        if let entityRecognitionConfig = self.entityRecognitionConfig {
+            try encodeContainer.encode(entityRecognitionConfig, forKey: .entityRecognitionConfig)
+        }
+        if let languageCode = self.languageCode {
+            try encodeContainer.encode(languageCode.rawValue, forKey: .languageCode)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let languageCodeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.LanguageCode.self, forKey: .languageCode)
+        languageCode = languageCodeDecoded
+        let documentClassificationConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DocumentClassificationConfig.self, forKey: .documentClassificationConfig)
+        documentClassificationConfig = documentClassificationConfigDecoded
+        let entityRecognitionConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.EntityRecognitionConfig.self, forKey: .entityRecognitionConfig)
+        entityRecognitionConfig = entityRecognitionConfigDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Configuration about the custom classifier associated with the flywheel.
+    public struct TaskConfig: Swift.Equatable {
+        /// Configuration required for a classification model.
+        public var documentClassificationConfig: ComprehendClientTypes.DocumentClassificationConfig?
+        /// Configuration required for an entity recognition model.
+        public var entityRecognitionConfig: ComprehendClientTypes.EntityRecognitionConfig?
+        /// Language code for the language that the model supports.
+        /// This member is required.
+        public var languageCode: ComprehendClientTypes.LanguageCode?
+
+        public init (
+            documentClassificationConfig: ComprehendClientTypes.DocumentClassificationConfig? = nil,
+            entityRecognitionConfig: ComprehendClientTypes.EntityRecognitionConfig? = nil,
+            languageCode: ComprehendClientTypes.LanguageCode? = nil
+        )
+        {
+            self.documentClassificationConfig = documentClassificationConfig
+            self.entityRecognitionConfig = entityRecognitionConfig
+            self.languageCode = languageCode
         }
     }
 
@@ -19558,7 +22859,7 @@ extension ComprehendClientTypes.TopicsDetectionJobProperties: Swift.Codable {
 extension ComprehendClientTypes {
     /// Provides information about a topic detection job.
     public struct TopicsDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your job data.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your job data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the topic detection job was completed.
         public var endTime: ClientRuntime.Date?
@@ -19788,12 +23089,72 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension ComprehendClientTypes.UpdateDataSecurityConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case modelKmsKeyId = "ModelKmsKeyId"
+        case volumeKmsKeyId = "VolumeKmsKeyId"
+        case vpcConfig = "VpcConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let modelKmsKeyId = self.modelKmsKeyId {
+            try encodeContainer.encode(modelKmsKeyId, forKey: .modelKmsKeyId)
+        }
+        if let volumeKmsKeyId = self.volumeKmsKeyId {
+            try encodeContainer.encode(volumeKmsKeyId, forKey: .volumeKmsKeyId)
+        }
+        if let vpcConfig = self.vpcConfig {
+            try encodeContainer.encode(vpcConfig, forKey: .vpcConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelKmsKeyId)
+        modelKmsKeyId = modelKmsKeyIdDecoded
+        let volumeKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeKmsKeyId)
+        volumeKmsKeyId = volumeKmsKeyIdDecoded
+        let vpcConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.VpcConfig.self, forKey: .vpcConfig)
+        vpcConfig = vpcConfigDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Data security configuration.
+    public struct UpdateDataSecurityConfig: Swift.Equatable {
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
+        ///
+        /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
+        ///
+        /// * Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        public var modelKmsKeyId: Swift.String?
+        /// ID for the KMS key that Amazon Comprehend uses to encrypt the volume.
+        public var volumeKmsKeyId: Swift.String?
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for the job. For more information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
+        public var vpcConfig: ComprehendClientTypes.VpcConfig?
+
+        public init (
+            modelKmsKeyId: Swift.String? = nil,
+            volumeKmsKeyId: Swift.String? = nil,
+            vpcConfig: ComprehendClientTypes.VpcConfig? = nil
+        )
+        {
+            self.modelKmsKeyId = modelKmsKeyId
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
+        }
+    }
+
+}
+
 extension UpdateEndpointInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case desiredDataAccessRoleArn = "DesiredDataAccessRoleArn"
         case desiredInferenceUnits = "DesiredInferenceUnits"
         case desiredModelArn = "DesiredModelArn"
         case endpointArn = "EndpointArn"
+        case flywheelArn = "FlywheelArn"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -19809,6 +23170,9 @@ extension UpdateEndpointInput: Swift.Encodable {
         }
         if let endpointArn = self.endpointArn {
             try encodeContainer.encode(endpointArn, forKey: .endpointArn)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
         }
     }
 }
@@ -19829,18 +23193,22 @@ public struct UpdateEndpointInput: Swift.Equatable {
     /// The Amazon Resource Number (ARN) of the endpoint being updated.
     /// This member is required.
     public var endpointArn: Swift.String?
+    /// The Amazon Resource Number (ARN) of the flywheel
+    public var flywheelArn: Swift.String?
 
     public init (
         desiredDataAccessRoleArn: Swift.String? = nil,
         desiredInferenceUnits: Swift.Int? = nil,
         desiredModelArn: Swift.String? = nil,
-        endpointArn: Swift.String? = nil
+        endpointArn: Swift.String? = nil,
+        flywheelArn: Swift.String? = nil
     )
     {
         self.desiredDataAccessRoleArn = desiredDataAccessRoleArn
         self.desiredInferenceUnits = desiredInferenceUnits
         self.desiredModelArn = desiredModelArn
         self.endpointArn = endpointArn
+        self.flywheelArn = flywheelArn
     }
 }
 
@@ -19849,6 +23217,7 @@ struct UpdateEndpointInputBody: Swift.Equatable {
     let desiredModelArn: Swift.String?
     let desiredInferenceUnits: Swift.Int?
     let desiredDataAccessRoleArn: Swift.String?
+    let flywheelArn: Swift.String?
 }
 
 extension UpdateEndpointInputBody: Swift.Decodable {
@@ -19857,6 +23226,7 @@ extension UpdateEndpointInputBody: Swift.Decodable {
         case desiredInferenceUnits = "DesiredInferenceUnits"
         case desiredModelArn = "DesiredModelArn"
         case endpointArn = "EndpointArn"
+        case flywheelArn = "FlywheelArn"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -19869,6 +23239,8 @@ extension UpdateEndpointInputBody: Swift.Decodable {
         desiredInferenceUnits = desiredInferenceUnitsDecoded
         let desiredDataAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .desiredDataAccessRoleArn)
         desiredDataAccessRoleArn = desiredDataAccessRoleArnDecoded
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
     }
 }
 
@@ -19908,12 +23280,198 @@ public enum UpdateEndpointOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.desiredModelArn = output.desiredModelArn
+        } else {
+            self.desiredModelArn = nil
+        }
     }
 }
 
 public struct UpdateEndpointOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Number (ARN) of the new model.
+    public var desiredModelArn: Swift.String?
 
-    public init () { }
+    public init (
+        desiredModelArn: Swift.String? = nil
+    )
+    {
+        self.desiredModelArn = desiredModelArn
+    }
+}
+
+struct UpdateEndpointOutputResponseBody: Swift.Equatable {
+    let desiredModelArn: Swift.String?
+}
+
+extension UpdateEndpointOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case desiredModelArn = "DesiredModelArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let desiredModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .desiredModelArn)
+        desiredModelArn = desiredModelArnDecoded
+    }
+}
+
+extension UpdateFlywheelInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeModelArn = "ActiveModelArn"
+        case dataAccessRoleArn = "DataAccessRoleArn"
+        case dataSecurityConfig = "DataSecurityConfig"
+        case flywheelArn = "FlywheelArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeModelArn = self.activeModelArn {
+            try encodeContainer.encode(activeModelArn, forKey: .activeModelArn)
+        }
+        if let dataAccessRoleArn = self.dataAccessRoleArn {
+            try encodeContainer.encode(dataAccessRoleArn, forKey: .dataAccessRoleArn)
+        }
+        if let dataSecurityConfig = self.dataSecurityConfig {
+            try encodeContainer.encode(dataSecurityConfig, forKey: .dataSecurityConfig)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
+        }
+    }
+}
+
+extension UpdateFlywheelInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateFlywheelInput: Swift.Equatable {
+    /// The Amazon Resource Number (ARN) of the active model version.
+    public var activeModelArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend permission to access the flywheel data.
+    public var dataAccessRoleArn: Swift.String?
+    /// Flywheel data security configuration.
+    public var dataSecurityConfig: ComprehendClientTypes.UpdateDataSecurityConfig?
+    /// The Amazon Resource Number (ARN) of the flywheel to update.
+    /// This member is required.
+    public var flywheelArn: Swift.String?
+
+    public init (
+        activeModelArn: Swift.String? = nil,
+        dataAccessRoleArn: Swift.String? = nil,
+        dataSecurityConfig: ComprehendClientTypes.UpdateDataSecurityConfig? = nil,
+        flywheelArn: Swift.String? = nil
+    )
+    {
+        self.activeModelArn = activeModelArn
+        self.dataAccessRoleArn = dataAccessRoleArn
+        self.dataSecurityConfig = dataSecurityConfig
+        self.flywheelArn = flywheelArn
+    }
+}
+
+struct UpdateFlywheelInputBody: Swift.Equatable {
+    let flywheelArn: Swift.String?
+    let activeModelArn: Swift.String?
+    let dataAccessRoleArn: Swift.String?
+    let dataSecurityConfig: ComprehendClientTypes.UpdateDataSecurityConfig?
+}
+
+extension UpdateFlywheelInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeModelArn = "ActiveModelArn"
+        case dataAccessRoleArn = "DataAccessRoleArn"
+        case dataSecurityConfig = "DataSecurityConfig"
+        case flywheelArn = "FlywheelArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
+        let activeModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activeModelArn)
+        activeModelArn = activeModelArnDecoded
+        let dataAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataAccessRoleArn)
+        dataAccessRoleArn = dataAccessRoleArnDecoded
+        let dataSecurityConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.UpdateDataSecurityConfig.self, forKey: .dataSecurityConfig)
+        dataSecurityConfig = dataSecurityConfigDecoded
+    }
+}
+
+extension UpdateFlywheelOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateFlywheelOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "KmsKeyValidationException" : self = .kmsKeyValidationException(try KmsKeyValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateFlywheelOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case kmsKeyValidationException(KmsKeyValidationException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateFlywheelOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateFlywheelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.flywheelProperties = output.flywheelProperties
+        } else {
+            self.flywheelProperties = nil
+        }
+    }
+}
+
+public struct UpdateFlywheelOutputResponse: Swift.Equatable {
+    /// The flywheel properties.
+    public var flywheelProperties: ComprehendClientTypes.FlywheelProperties?
+
+    public init (
+        flywheelProperties: ComprehendClientTypes.FlywheelProperties? = nil
+    )
+    {
+        self.flywheelProperties = flywheelProperties
+    }
+}
+
+struct UpdateFlywheelOutputResponseBody: Swift.Equatable {
+    let flywheelProperties: ComprehendClientTypes.FlywheelProperties?
+}
+
+extension UpdateFlywheelOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flywheelProperties = "FlywheelProperties"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flywheelPropertiesDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.FlywheelProperties.self, forKey: .flywheelProperties)
+        flywheelProperties = flywheelPropertiesDecoded
+    }
 }
 
 extension ComprehendClientTypes.VpcConfig: Swift.Codable {

@@ -728,12 +728,14 @@ extension Route53ResolverClientTypes {
     public enum AutodefinedReverseFlag: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disable
         case enable
+        case useLocalResourceSetting
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutodefinedReverseFlag] {
             return [
                 .disable,
                 .enable,
+                .useLocalResourceSetting,
                 .sdkUnknown("")
             ]
         }
@@ -745,6 +747,7 @@ extension Route53ResolverClientTypes {
             switch self {
             case .disable: return "DISABLE"
             case .enable: return "ENABLE"
+            case .useLocalResourceSetting: return "USE_LOCAL_RESOURCE_SETTING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -837,7 +840,7 @@ extension ConflictException {
     }
 }
 
-///
+/// The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.
 public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1439,6 +1442,7 @@ extension CreateResolverEndpointInput: Swift.Encodable {
         case direction = "Direction"
         case ipAddresses = "IpAddresses"
         case name = "Name"
+        case resolverEndpointType = "ResolverEndpointType"
         case securityGroupIds = "SecurityGroupIds"
         case tags = "Tags"
     }
@@ -1459,6 +1463,9 @@ extension CreateResolverEndpointInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let resolverEndpointType = self.resolverEndpointType {
+            try encodeContainer.encode(resolverEndpointType.rawValue, forKey: .resolverEndpointType)
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
@@ -1497,6 +1504,8 @@ public struct CreateResolverEndpointInput: Swift.Equatable {
     public var ipAddresses: [Route53ResolverClientTypes.IpAddressRequest]?
     /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
     public var name: Swift.String?
+    /// For the endpoint type you can choose either IPv4, IPv6. or dual-stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This endpoint type is applied to all IP addresses.
+    public var resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
     /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network.
     /// This member is required.
     public var securityGroupIds: [Swift.String]?
@@ -1508,6 +1517,7 @@ public struct CreateResolverEndpointInput: Swift.Equatable {
         direction: Route53ResolverClientTypes.ResolverEndpointDirection? = nil,
         ipAddresses: [Route53ResolverClientTypes.IpAddressRequest]? = nil,
         name: Swift.String? = nil,
+        resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
         securityGroupIds: [Swift.String]? = nil,
         tags: [Route53ResolverClientTypes.Tag]? = nil
     )
@@ -1516,6 +1526,7 @@ public struct CreateResolverEndpointInput: Swift.Equatable {
         self.direction = direction
         self.ipAddresses = ipAddresses
         self.name = name
+        self.resolverEndpointType = resolverEndpointType
         self.securityGroupIds = securityGroupIds
         self.tags = tags
     }
@@ -1528,6 +1539,7 @@ struct CreateResolverEndpointInputBody: Swift.Equatable {
     let direction: Route53ResolverClientTypes.ResolverEndpointDirection?
     let ipAddresses: [Route53ResolverClientTypes.IpAddressRequest]?
     let tags: [Route53ResolverClientTypes.Tag]?
+    let resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
 }
 
 extension CreateResolverEndpointInputBody: Swift.Decodable {
@@ -1536,6 +1548,7 @@ extension CreateResolverEndpointInputBody: Swift.Decodable {
         case direction = "Direction"
         case ipAddresses = "IpAddresses"
         case name = "Name"
+        case resolverEndpointType = "ResolverEndpointType"
         case securityGroupIds = "SecurityGroupIds"
         case tags = "Tags"
     }
@@ -1581,6 +1594,8 @@ extension CreateResolverEndpointInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let resolverEndpointTypeDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.ResolverEndpointType.self, forKey: .resolverEndpointType)
+        resolverEndpointType = resolverEndpointTypeDecoded
     }
 }
 
@@ -3838,12 +3853,14 @@ extension Route53ResolverClientTypes {
     public enum FirewallFailOpenStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
+        case useLocalResourceSetting
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FirewallFailOpenStatus] {
             return [
                 .disabled,
                 .enabled,
+                .useLocalResourceSetting,
                 .sdkUnknown("")
             ]
         }
@@ -3855,6 +3872,7 @@ extension Route53ResolverClientTypes {
             switch self {
             case .disabled: return "DISABLED"
             case .enabled: return "ENABLED"
+            case .useLocalResourceSetting: return "USE_LOCAL_RESOURCE_SETTING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5121,6 +5139,7 @@ extension GetResolverConfigOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -5132,6 +5151,7 @@ public enum GetResolverConfigOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -6068,6 +6088,7 @@ extension GetResolverRulePolicyOutputError: ClientRuntime.HttpResponseBinding {
 extension GetResolverRulePolicyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceErrorException" : self = .internalServiceErrorException(try InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceException" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -6077,6 +6098,7 @@ extension GetResolverRulePolicyOutputError {
 }
 
 public enum GetResolverRulePolicyOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServiceErrorException(InternalServiceErrorException)
     case invalidParameterException(InvalidParameterException)
     case unknownResourceException(UnknownResourceException)
@@ -6256,7 +6278,7 @@ public struct ImportFirewallDomainsOutputResponse: Swift.Equatable {
     public var id: Swift.String?
     /// The name of the domain list.
     public var name: Swift.String?
-    ///
+    /// Status of the import request.
     public var status: Route53ResolverClientTypes.FirewallDomainListStatus?
     /// Additional information about the status of the list, if available.
     public var statusMessage: Swift.String?
@@ -6629,6 +6651,7 @@ extension InvalidTagExceptionBody: Swift.Decodable {
 extension Route53ResolverClientTypes.IpAddressRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ip = "Ip"
+        case ipv6 = "Ipv6"
         case subnetId = "SubnetId"
     }
 
@@ -6636,6 +6659,9 @@ extension Route53ResolverClientTypes.IpAddressRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ip = self.ip {
             try encodeContainer.encode(ip, forKey: .ip)
+        }
+        if let ipv6 = self.ipv6 {
+            try encodeContainer.encode(ipv6, forKey: .ipv6)
         }
         if let subnetId = self.subnetId {
             try encodeContainer.encode(subnetId, forKey: .subnetId)
@@ -6648,24 +6674,30 @@ extension Route53ResolverClientTypes.IpAddressRequest: Swift.Codable {
         subnetId = subnetIdDecoded
         let ipDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ip)
         ip = ipDecoded
+        let ipv6Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipv6)
+        ipv6 = ipv6Decoded
     }
 }
 
 extension Route53ResolverClientTypes {
     /// In a [CreateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html) request, the IP address that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). IpAddressRequest also includes the ID of the subnet that contains the IP address.
     public struct IpAddressRequest: Swift.Equatable {
-        /// The IP address that you want to use for DNS queries.
+        /// The IPv4 address that you want to use for DNS queries.
         public var ip: Swift.String?
+        /// The IPv6 address that you want to use for DNS queries.
+        public var ipv6: Swift.String?
         /// The ID of the subnet that contains the IP address.
         /// This member is required.
         public var subnetId: Swift.String?
 
         public init (
             ip: Swift.String? = nil,
+            ipv6: Swift.String? = nil,
             subnetId: Swift.String? = nil
         )
         {
             self.ip = ip
+            self.ipv6 = ipv6
             self.subnetId = subnetId
         }
     }
@@ -6677,6 +6709,7 @@ extension Route53ResolverClientTypes.IpAddressResponse: Swift.Codable {
         case creationTime = "CreationTime"
         case ip = "Ip"
         case ipId = "IpId"
+        case ipv6 = "Ipv6"
         case modificationTime = "ModificationTime"
         case status = "Status"
         case statusMessage = "StatusMessage"
@@ -6693,6 +6726,9 @@ extension Route53ResolverClientTypes.IpAddressResponse: Swift.Codable {
         }
         if let ipId = self.ipId {
             try encodeContainer.encode(ipId, forKey: .ipId)
+        }
+        if let ipv6 = self.ipv6 {
+            try encodeContainer.encode(ipv6, forKey: .ipv6)
         }
         if let modificationTime = self.modificationTime {
             try encodeContainer.encode(modificationTime, forKey: .modificationTime)
@@ -6716,6 +6752,8 @@ extension Route53ResolverClientTypes.IpAddressResponse: Swift.Codable {
         subnetId = subnetIdDecoded
         let ipDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ip)
         ip = ipDecoded
+        let ipv6Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipv6)
+        ipv6 = ipv6Decoded
         let statusDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.IpAddressStatus.self, forKey: .status)
         status = statusDecoded
         let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
@@ -6732,10 +6770,12 @@ extension Route53ResolverClientTypes {
     public struct IpAddressResponse: Swift.Equatable {
         /// The date and time that the IP address was created, in Unix time format and Coordinated Universal Time (UTC).
         public var creationTime: Swift.String?
-        /// One IP address that the Resolver endpoint uses for DNS queries.
+        /// One IPv4 address that the Resolver endpoint uses for DNS queries.
         public var ip: Swift.String?
         /// The ID of one IP address.
         public var ipId: Swift.String?
+        /// One IPv6 address that the Resolver endpoint uses for DNS queries.
+        public var ipv6: Swift.String?
         /// The date and time that the IP address was last modified, in Unix time format and Coordinated Universal Time (UTC).
         public var modificationTime: Swift.String?
         /// A status code that gives the current status of the request.
@@ -6749,6 +6789,7 @@ extension Route53ResolverClientTypes {
             creationTime: Swift.String? = nil,
             ip: Swift.String? = nil,
             ipId: Swift.String? = nil,
+            ipv6: Swift.String? = nil,
             modificationTime: Swift.String? = nil,
             status: Route53ResolverClientTypes.IpAddressStatus? = nil,
             statusMessage: Swift.String? = nil,
@@ -6758,6 +6799,7 @@ extension Route53ResolverClientTypes {
             self.creationTime = creationTime
             self.ip = ip
             self.ipId = ipId
+            self.ipv6 = ipv6
             self.modificationTime = modificationTime
             self.status = status
             self.statusMessage = statusMessage
@@ -6779,6 +6821,7 @@ extension Route53ResolverClientTypes {
         case failedresourcegone
         case remapattaching
         case remapdetaching
+        case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IpAddressStatus] {
@@ -6793,6 +6836,7 @@ extension Route53ResolverClientTypes {
                 .failedresourcegone,
                 .remapattaching,
                 .remapdetaching,
+                .updating,
                 .sdkUnknown("")
             ]
         }
@@ -6812,6 +6856,7 @@ extension Route53ResolverClientTypes {
             case .failedresourcegone: return "FAILED_RESOURCE_GONE"
             case .remapattaching: return "REMAP_ATTACHING"
             case .remapdetaching: return "REMAP_DETACHING"
+            case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6827,6 +6872,7 @@ extension Route53ResolverClientTypes.IpAddressUpdate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ip = "Ip"
         case ipId = "IpId"
+        case ipv6 = "Ipv6"
         case subnetId = "SubnetId"
     }
 
@@ -6837,6 +6883,9 @@ extension Route53ResolverClientTypes.IpAddressUpdate: Swift.Codable {
         }
         if let ipId = self.ipId {
             try encodeContainer.encode(ipId, forKey: .ipId)
+        }
+        if let ipv6 = self.ipv6 {
+            try encodeContainer.encode(ipv6, forKey: .ipv6)
         }
         if let subnetId = self.subnetId {
             try encodeContainer.encode(subnetId, forKey: .subnetId)
@@ -6851,27 +6900,33 @@ extension Route53ResolverClientTypes.IpAddressUpdate: Swift.Codable {
         subnetId = subnetIdDecoded
         let ipDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ip)
         ip = ipDecoded
+        let ipv6Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipv6)
+        ipv6 = ipv6Decoded
     }
 }
 
 extension Route53ResolverClientTypes {
     /// In an [UpdateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html) request, information about an IP address to update.
     public struct IpAddressUpdate: Swift.Equatable {
-        /// The new IP address.
+        /// The new IPv4 address.
         public var ip: Swift.String?
         /// Only when removing an IP address from a Resolver endpoint: The ID of the IP address that you want to remove. To get this ID, use [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html).
         public var ipId: Swift.String?
+        /// The new IPv6 address.
+        public var ipv6: Swift.String?
         /// The ID of the subnet that includes the IP address that you want to update. To get this ID, use [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html).
         public var subnetId: Swift.String?
 
         public init (
             ip: Swift.String? = nil,
             ipId: Swift.String? = nil,
+            ipv6: Swift.String? = nil,
             subnetId: Swift.String? = nil
         )
         {
             self.ip = ip
             self.ipId = ipId
+            self.ipv6 = ipv6
             self.subnetId = subnetId
         }
     }
@@ -8006,6 +8061,7 @@ extension ListResolverConfigsOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -8018,6 +8074,7 @@ public enum ListResolverConfigsOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case invalidRequestException(InvalidRequestException)
     case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -10037,6 +10094,7 @@ extension PutResolverRulePolicyOutputError: ClientRuntime.HttpResponseBinding {
 extension PutResolverRulePolicyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceErrorException" : self = .internalServiceErrorException(try InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidPolicyDocument" : self = .invalidPolicyDocument(try InvalidPolicyDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -10047,6 +10105,7 @@ extension PutResolverRulePolicyOutputError {
 }
 
 public enum PutResolverRulePolicyOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServiceErrorException(InternalServiceErrorException)
     case invalidParameterException(InvalidParameterException)
     case invalidPolicyDocument(InvalidPolicyDocument)
@@ -10102,6 +10161,8 @@ extension Route53ResolverClientTypes {
         case disabling
         case enabled
         case enabling
+        case updatingtouselocalresourcesetting
+        case uselocalresourcesetting
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResolverAutodefinedReverseStatus] {
@@ -10110,6 +10171,8 @@ extension Route53ResolverClientTypes {
                 .disabling,
                 .enabled,
                 .enabling,
+                .updatingtouselocalresourcesetting,
+                .uselocalresourcesetting,
                 .sdkUnknown("")
             ]
         }
@@ -10123,6 +10186,8 @@ extension Route53ResolverClientTypes {
             case .disabling: return "DISABLING"
             case .enabled: return "ENABLED"
             case .enabling: return "ENABLING"
+            case .updatingtouselocalresourcesetting: return "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING"
+            case .uselocalresourcesetting: return "USE_LOCAL_RESOURCE_SETTING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10174,7 +10239,7 @@ extension Route53ResolverClientTypes.ResolverConfig: Swift.Codable {
 extension Route53ResolverClientTypes {
     /// A complex type that contains information about a Resolver configuration for a VPC.
     public struct ResolverConfig: Swift.Equatable {
-        /// The status of whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. The status can be one of following: Status of the rules generated by VPCs based on CIDR/Region for reverse DNS resolution. The status can be one of following:
+        /// The status of whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. The status can be one of following:
         ///
         /// * ENABLING: Autodefined rules for reverse DNS lookups are being enabled but are not complete.
         ///
@@ -10213,6 +10278,8 @@ extension Route53ResolverClientTypes {
         case disabling
         case enabled
         case enabling
+        case updatetouselocalresourcesetting
+        case uselocalresourcesetting
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResolverDNSSECValidationStatus] {
@@ -10221,6 +10288,8 @@ extension Route53ResolverClientTypes {
                 .disabling,
                 .enabled,
                 .enabling,
+                .updatetouselocalresourcesetting,
+                .uselocalresourcesetting,
                 .sdkUnknown("")
             ]
         }
@@ -10234,6 +10303,8 @@ extension Route53ResolverClientTypes {
             case .disabling: return "DISABLING"
             case .enabled: return "ENABLED"
             case .enabling: return "ENABLING"
+            case .updatetouselocalresourcesetting: return "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING"
+            case .uselocalresourcesetting: return "USE_LOCAL_RESOURCE_SETTING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10329,6 +10400,7 @@ extension Route53ResolverClientTypes.ResolverEndpoint: Swift.Codable {
         case ipAddressCount = "IpAddressCount"
         case modificationTime = "ModificationTime"
         case name = "Name"
+        case resolverEndpointType = "ResolverEndpointType"
         case securityGroupIds = "SecurityGroupIds"
         case status = "Status"
         case statusMessage = "StatusMessage"
@@ -10362,6 +10434,9 @@ extension Route53ResolverClientTypes.ResolverEndpoint: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let resolverEndpointType = self.resolverEndpointType {
+            try encodeContainer.encode(resolverEndpointType.rawValue, forKey: .resolverEndpointType)
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
@@ -10412,11 +10487,13 @@ extension Route53ResolverClientTypes.ResolverEndpoint: Swift.Codable {
         creationTime = creationTimeDecoded
         let modificationTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modificationTime)
         modificationTime = modificationTimeDecoded
+        let resolverEndpointTypeDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.ResolverEndpointType.self, forKey: .resolverEndpointType)
+        resolverEndpointType = resolverEndpointTypeDecoded
     }
 }
 
 extension Route53ResolverClientTypes {
-    /// In the response to a [CreateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html), [DeleteResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DeleteResolverEndpoint.html), [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html), [ListResolverEndpoints](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverEndpoints.html), or [UpdateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html) request, a complex type that contains settings for an existing inbound or outbound Resolver endpoint.
+    /// In the response to a [CreateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html), [DeleteResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DeleteResolverEndpoint.html), [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html), Updates the name, or ResolverEndpointType for an endpoint, or [UpdateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html) request, a complex type that contains settings for an existing inbound or outbound Resolver endpoint.
     public struct ResolverEndpoint: Swift.Equatable {
         /// The ARN (Amazon Resource Name) for the Resolver endpoint.
         public var arn: Swift.String?
@@ -10440,6 +10517,8 @@ extension Route53ResolverClientTypes {
         public var modificationTime: Swift.String?
         /// The name that you assigned to the Resolver endpoint when you submitted a [CreateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html) request.
         public var name: Swift.String?
+        /// The Resolver endpoint IP address type.
+        public var resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
         /// The ID of one or more security groups that control access to this VPC. The security group must include one or more inbound rules (for inbound endpoints) or outbound rules (for outbound endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network.
         public var securityGroupIds: [Swift.String]?
         /// A code that specifies the current status of the Resolver endpoint. Valid values include the following:
@@ -10476,6 +10555,7 @@ extension Route53ResolverClientTypes {
             ipAddressCount: Swift.Int? = nil,
             modificationTime: Swift.String? = nil,
             name: Swift.String? = nil,
+            resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
             securityGroupIds: [Swift.String]? = nil,
             status: Route53ResolverClientTypes.ResolverEndpointStatus? = nil,
             statusMessage: Swift.String? = nil
@@ -10490,6 +10570,7 @@ extension Route53ResolverClientTypes {
             self.ipAddressCount = ipAddressCount
             self.modificationTime = modificationTime
             self.name = name
+            self.resolverEndpointType = resolverEndpointType
             self.securityGroupIds = securityGroupIds
             self.status = status
             self.statusMessage = statusMessage
@@ -10570,6 +10651,41 @@ extension Route53ResolverClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ResolverEndpointStatus(rawValue: rawValue) ?? ResolverEndpointStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Route53ResolverClientTypes {
+    public enum ResolverEndpointType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResolverEndpointType] {
+            return [
+                .dualstack,
+                .ipv4,
+                .ipv6,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "DUALSTACK"
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResolverEndpointType(rawValue: rawValue) ?? ResolverEndpointType.sdkUnknown(rawValue)
         }
     }
 }
@@ -11875,6 +11991,7 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 extension Route53ResolverClientTypes.TargetAddress: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ip = "Ip"
+        case ipv6 = "Ipv6"
         case port = "Port"
     }
 
@@ -11882,6 +11999,9 @@ extension Route53ResolverClientTypes.TargetAddress: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ip = self.ip {
             try encodeContainer.encode(ip, forKey: .ip)
+        }
+        if let ipv6 = self.ipv6 {
+            try encodeContainer.encode(ipv6, forKey: .ipv6)
         }
         if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
@@ -11894,24 +12014,29 @@ extension Route53ResolverClientTypes.TargetAddress: Swift.Codable {
         ip = ipDecoded
         let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
+        let ipv6Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipv6)
+        ipv6 = ipv6Decoded
     }
 }
 
 extension Route53ResolverClientTypes {
     /// In a [CreateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverRule.html) request, an array of the IPs that you want to forward DNS queries to.
     public struct TargetAddress: Swift.Equatable {
-        /// One IP address that you want to forward DNS queries to. You can specify only IPv4 addresses.
-        /// This member is required.
+        /// One IPv4 address that you want to forward DNS queries to.
         public var ip: Swift.String?
+        /// One IPv6 address that you want to forward DNS queries to.
+        public var ipv6: Swift.String?
         /// The port at Ip that you want to forward DNS queries to.
         public var port: Swift.Int?
 
         public init (
             ip: Swift.String? = nil,
+            ipv6: Swift.String? = nil,
             port: Swift.Int? = nil
         )
         {
             self.ip = ip
+            self.ipv6 = ipv6
             self.port = port
         }
     }
@@ -12317,7 +12442,7 @@ extension UpdateFirewallDomainsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateFirewallDomainsInput: Swift.Equatable {
-    /// A list of domains to use in the update operation. Each domain specification in your domain list must satisfy the following requirements:
+    /// A list of domains to use in the update operation. There is a limit of 1000 domains per request. Each domain specification in your domain list must satisfy the following requirements:
     ///
     /// * It can optionally start with * (asterisk).
     ///
@@ -12442,7 +12567,7 @@ public struct UpdateFirewallDomainsOutputResponse: Swift.Equatable {
     public var id: Swift.String?
     /// The name of the domain list.
     public var name: Swift.String?
-    ///
+    /// Status of the UpdateFirewallDomains request.
     public var status: Route53ResolverClientTypes.FirewallDomainListStatus?
     /// Additional information about the status of the list, if available.
     public var statusMessage: Swift.String?
@@ -12876,6 +13001,53 @@ extension UpdateFirewallRuleOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension Route53ResolverClientTypes.UpdateIpAddress: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipId = "IpId"
+        case ipv6 = "Ipv6"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipId = self.ipId {
+            try encodeContainer.encode(ipId, forKey: .ipId)
+        }
+        if let ipv6 = self.ipv6 {
+            try encodeContainer.encode(ipv6, forKey: .ipv6)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipId)
+        ipId = ipIdDecoded
+        let ipv6Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipv6)
+        ipv6 = ipv6Decoded
+    }
+}
+
+extension Route53ResolverClientTypes {
+    /// Provides information about the IP address type in response to [UpdateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html).
+    public struct UpdateIpAddress: Swift.Equatable {
+        /// The ID of the IP address, specified by the ResolverEndpointId.
+        /// This member is required.
+        public var ipId: Swift.String?
+        /// The IPv6 address that you want to use for DNS queries.
+        /// This member is required.
+        public var ipv6: Swift.String?
+
+        public init (
+            ipId: Swift.String? = nil,
+            ipv6: Swift.String? = nil
+        )
+        {
+            self.ipId = ipId
+            self.ipv6 = ipv6
+        }
+    }
+
+}
+
 extension UpdateResolverConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autodefinedReverseFlag = "AutodefinedReverseFlag"
@@ -12900,7 +13072,7 @@ extension UpdateResolverConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateResolverConfigInput: Swift.Equatable {
-    /// Indicates whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. Disabling this option will also affect EC2-Classic instances using ClassicLink. For more information, see [ClassicLink](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html) in the Amazon EC2 guide. It can take some time for the status change to be completed.
+    /// Indicates whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. Disabling this option will also affect EC2-Classic instances using ClassicLink. For more information, see [ClassicLink](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html) in the Amazon EC2 guide. We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 guide and the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/). It can take some time for the status change to be completed.
     /// This member is required.
     public var autodefinedReverseFlag: Route53ResolverClientTypes.AutodefinedReverseFlag?
     /// Resource ID of the Amazon VPC that you want to update the Resolver configuration for.
@@ -12956,6 +13128,7 @@ extension UpdateResolverConfigOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -12970,6 +13143,7 @@ public enum UpdateResolverConfigOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case resourceUnavailableException(ResourceUnavailableException)
     case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -13152,6 +13326,8 @@ extension UpdateResolverEndpointInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
         case resolverEndpointId = "ResolverEndpointId"
+        case resolverEndpointType = "ResolverEndpointType"
+        case updateIpAddresses = "UpdateIpAddresses"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13161,6 +13337,15 @@ extension UpdateResolverEndpointInput: Swift.Encodable {
         }
         if let resolverEndpointId = self.resolverEndpointId {
             try encodeContainer.encode(resolverEndpointId, forKey: .resolverEndpointId)
+        }
+        if let resolverEndpointType = self.resolverEndpointType {
+            try encodeContainer.encode(resolverEndpointType.rawValue, forKey: .resolverEndpointType)
+        }
+        if let updateIpAddresses = updateIpAddresses {
+            var updateIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .updateIpAddresses)
+            for updateipaddress0 in updateIpAddresses {
+                try updateIpAddressesContainer.encode(updateipaddress0)
+            }
         }
     }
 }
@@ -13177,26 +13362,38 @@ public struct UpdateResolverEndpointInput: Swift.Equatable {
     /// The ID of the Resolver endpoint that you want to update.
     /// This member is required.
     public var resolverEndpointId: Swift.String?
+    /// Specifies the endpoint type for what type of IP address the endpoint uses to forward DNS queries.
+    public var resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
+    /// Updates the Resolver endpoint type to IpV4, Ipv6, or dual-stack.
+    public var updateIpAddresses: [Route53ResolverClientTypes.UpdateIpAddress]?
 
     public init (
         name: Swift.String? = nil,
-        resolverEndpointId: Swift.String? = nil
+        resolverEndpointId: Swift.String? = nil,
+        resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
+        updateIpAddresses: [Route53ResolverClientTypes.UpdateIpAddress]? = nil
     )
     {
         self.name = name
         self.resolverEndpointId = resolverEndpointId
+        self.resolverEndpointType = resolverEndpointType
+        self.updateIpAddresses = updateIpAddresses
     }
 }
 
 struct UpdateResolverEndpointInputBody: Swift.Equatable {
     let resolverEndpointId: Swift.String?
     let name: Swift.String?
+    let resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
+    let updateIpAddresses: [Route53ResolverClientTypes.UpdateIpAddress]?
 }
 
 extension UpdateResolverEndpointInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
         case resolverEndpointId = "ResolverEndpointId"
+        case resolverEndpointType = "ResolverEndpointType"
+        case updateIpAddresses = "UpdateIpAddresses"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -13205,6 +13402,19 @@ extension UpdateResolverEndpointInputBody: Swift.Decodable {
         resolverEndpointId = resolverEndpointIdDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let resolverEndpointTypeDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.ResolverEndpointType.self, forKey: .resolverEndpointType)
+        resolverEndpointType = resolverEndpointTypeDecoded
+        let updateIpAddressesContainer = try containerValues.decodeIfPresent([Route53ResolverClientTypes.UpdateIpAddress?].self, forKey: .updateIpAddresses)
+        var updateIpAddressesDecoded0:[Route53ResolverClientTypes.UpdateIpAddress]? = nil
+        if let updateIpAddressesContainer = updateIpAddressesContainer {
+            updateIpAddressesDecoded0 = [Route53ResolverClientTypes.UpdateIpAddress]()
+            for structure0 in updateIpAddressesContainer {
+                if let structure0 = structure0 {
+                    updateIpAddressesDecoded0?.append(structure0)
+                }
+            }
+        }
+        updateIpAddresses = updateIpAddressesDecoded0
     }
 }
 
@@ -13419,12 +13629,14 @@ extension Route53ResolverClientTypes {
     public enum Validation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disable
         case enable
+        case useLocalResourceSetting
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Validation] {
             return [
                 .disable,
                 .enable,
+                .useLocalResourceSetting,
                 .sdkUnknown("")
             ]
         }
@@ -13436,6 +13648,7 @@ extension Route53ResolverClientTypes {
             switch self {
             case .disable: return "DISABLE"
             case .enable: return "ENABLE"
+            case .useLocalResourceSetting: return "USE_LOCAL_RESOURCE_SETTING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13464,7 +13677,7 @@ extension ValidationException {
     }
 }
 
-///
+/// You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
 public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?

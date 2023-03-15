@@ -25,6 +25,15 @@ extension DescribeServicesInput: ClientRuntime.PaginateToken {
             serviceCode: self.serviceCode
         )}
 }
+
+extension PaginatorSequence where Input == DescribeServicesInput, Output == DescribeServicesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeServicesPaginated`
+    /// to access the nested member `[PricingClientTypes.Service]`
+    /// - Returns: `[PricingClientTypes.Service]`
+    public func services() async throws -> [PricingClientTypes.Service] {
+        return try await self.asyncCompactMap { item in item.services }
+    }
+}
 extension PricingClient {
     /// Paginate over `[GetAttributeValuesOutputResponse]` results.
     ///
@@ -47,6 +56,15 @@ extension GetAttributeValuesInput: ClientRuntime.PaginateToken {
             nextToken: token,
             serviceCode: self.serviceCode
         )}
+}
+
+extension PaginatorSequence where Input == GetAttributeValuesInput, Output == GetAttributeValuesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getAttributeValuesPaginated`
+    /// to access the nested member `[PricingClientTypes.AttributeValue]`
+    /// - Returns: `[PricingClientTypes.AttributeValue]`
+    public func attributeValues() async throws -> [PricingClientTypes.AttributeValue] {
+        return try await self.asyncCompactMap { item in item.attributeValues }
+    }
 }
 extension PricingClient {
     /// Paginate over `[GetProductsOutputResponse]` results.
@@ -71,4 +89,47 @@ extension GetProductsInput: ClientRuntime.PaginateToken {
             nextToken: token,
             serviceCode: self.serviceCode
         )}
+}
+
+extension PaginatorSequence where Input == GetProductsInput, Output == GetProductsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getProductsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func priceList() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.priceList }
+    }
+}
+extension PricingClient {
+    /// Paginate over `[ListPriceListsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPriceListsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPriceListsOutputResponse`
+    public func listPriceListsPaginated(input: ListPriceListsInput) -> ClientRuntime.PaginatorSequence<ListPriceListsInput, ListPriceListsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListPriceListsInput, ListPriceListsOutputResponse>(input: input, inputKey: \ListPriceListsInput.nextToken, outputKey: \ListPriceListsOutputResponse.nextToken, paginationFunction: self.listPriceLists(input:))
+    }
+}
+
+extension ListPriceListsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPriceListsInput {
+        return ListPriceListsInput(
+            currencyCode: self.currencyCode,
+            effectiveDate: self.effectiveDate,
+            maxResults: self.maxResults,
+            nextToken: token,
+            regionCode: self.regionCode,
+            serviceCode: self.serviceCode
+        )}
+}
+
+extension PaginatorSequence where Input == ListPriceListsInput, Output == ListPriceListsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPriceListsPaginated`
+    /// to access the nested member `[PricingClientTypes.PriceList]`
+    /// - Returns: `[PricingClientTypes.PriceList]`
+    public func priceLists() async throws -> [PricingClientTypes.PriceList] {
+        return try await self.asyncCompactMap { item in item.priceLists }
+    }
 }

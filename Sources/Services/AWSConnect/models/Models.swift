@@ -12256,6 +12256,63 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes.FilterV2: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterKey = "FilterKey"
+        case filterValues = "FilterValues"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filterKey = self.filterKey {
+            try encodeContainer.encode(filterKey, forKey: .filterKey)
+        }
+        if let filterValues = filterValues {
+            var filterValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterValues)
+            for resourcearnorid0 in filterValues {
+                try filterValuesContainer.encode(resourcearnorid0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterKey)
+        filterKey = filterKeyDecoded
+        let filterValuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .filterValues)
+        var filterValuesDecoded0:[Swift.String]? = nil
+        if let filterValuesContainer = filterValuesContainer {
+            filterValuesDecoded0 = [Swift.String]()
+            for string0 in filterValuesContainer {
+                if let string0 = string0 {
+                    filterValuesDecoded0?.append(string0)
+                }
+            }
+        }
+        filterValues = filterValuesDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// Contains the filter to apply when retrieving metrics with the [GetMetricDataV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricDataV2.html) API.
+    public struct FilterV2: Swift.Equatable {
+        /// The key to use for filtering data. For example, QUEUE, ROUTING_PROFILE, AGENT, CHANNEL, AGENT_HIERARCHY_LEVEL_ONE, AGENT_HIERARCHY_LEVEL_TWO, AGENT_HIERARCHY_LEVEL_THREE, AGENT_HIERARCHY_LEVEL_FOUR, AGENT_HIERARCHY_LEVEL_FIVE. There must be at least 1 key and a maximum 5 keys.
+        public var filterKey: Swift.String?
+        /// The identifiers to use for filtering data. For example, if you have a filter key of QUEUE, you would add queue IDs or ARNs in FilterValues.
+        public var filterValues: [Swift.String]?
+
+        public init (
+            filterKey: Swift.String? = nil,
+            filterValues: [Swift.String]? = nil
+        )
+        {
+            self.filterKey = filterKey
+            self.filterValues = filterValues
+        }
+    }
+
+}
+
 extension ConnectClientTypes.Filters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channels = "Channels"
@@ -13304,6 +13361,285 @@ extension GetMetricDataOutputResponseBody: Swift.Decodable {
         var metricResultsDecoded0:[ConnectClientTypes.HistoricalMetricResult]? = nil
         if let metricResultsContainer = metricResultsContainer {
             metricResultsDecoded0 = [ConnectClientTypes.HistoricalMetricResult]()
+            for structure0 in metricResultsContainer {
+                if let structure0 = structure0 {
+                    metricResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metricResults = metricResultsDecoded0
+    }
+}
+
+extension GetMetricDataV2Input: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case filters = "Filters"
+        case groupings = "Groupings"
+        case maxResults = "MaxResults"
+        case metrics = "Metrics"
+        case nextToken = "NextToken"
+        case resourceArn = "ResourceArn"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filterv20 in filters {
+                try filtersContainer.encode(filterv20)
+            }
+        }
+        if let groupings = groupings {
+            var groupingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupings)
+            for groupingv20 in groupings {
+                try groupingsContainer.encode(groupingv20)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let metrics = metrics {
+            var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
+            for metricv20 in metrics {
+                try metricsContainer.encode(metricv20)
+            }
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+}
+
+extension GetMetricDataV2Input: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/metrics/data"
+    }
+}
+
+public struct GetMetricDataV2Input: Swift.Equatable {
+    /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
+    /// This member is required.
+    public var endTime: ClientRuntime.Date?
+    /// The filters to apply to returned metrics. You can filter on the following resources:
+    ///
+    /// * Queues
+    ///
+    /// * Routing profiles
+    ///
+    /// * Agents
+    ///
+    /// * Channels
+    ///
+    /// * User hierarchy groups
+    ///
+    ///
+    /// At least one filter must be passed from queues, routing profiles, agents, or user hierarchy groups. To filter by phone number, see [Create a historical metrics report](https://docs.aws.amazon.com/connect/latest/adminguide/create-historical-metrics-report.html) in the Amazon Connect Administrator's Guide. Note the following limits:
+    ///
+    /// * Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: QUEUE | ROUTING_PROFILE | AGENT | CHANNEL | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE
+    ///
+    /// * Filter values: A maximum of 100 filter values are supported in a single request. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key.
+    /// This member is required.
+    public var filters: [ConnectClientTypes.FilterV2]?
+    /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: QUEUE | ROUTING_PROFILE | AGENT | CHANNEL | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE
+    public var groupings: [Swift.String]?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_INTERACTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile CONTACTS_ABANDONED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_ANSWERED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile SUM_CONTACTS_ABANDONED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile SUM_CONTACTS_DISCONNECTED Valid metric filter key: DISCONNECT_REASON Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile SUM_RETRY_CALLBACK_ATTEMPTS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile
+    /// This member is required.
+    public var metrics: [ConnectClientTypes.MetricV2]?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource. This includes the instanceId an Amazon Connect instance.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be before the end time timestamp. The time range between the start and end time must be less than 24 hours. The start time cannot be earlier than 14 days before the time of the request. Historical metrics are available for 14 days.
+    /// This member is required.
+    public var startTime: ClientRuntime.Date?
+
+    public init (
+        endTime: ClientRuntime.Date? = nil,
+        filters: [ConnectClientTypes.FilterV2]? = nil,
+        groupings: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        metrics: [ConnectClientTypes.MetricV2]? = nil,
+        nextToken: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        startTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.endTime = endTime
+        self.filters = filters
+        self.groupings = groupings
+        self.maxResults = maxResults
+        self.metrics = metrics
+        self.nextToken = nextToken
+        self.resourceArn = resourceArn
+        self.startTime = startTime
+    }
+}
+
+struct GetMetricDataV2InputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let filters: [ConnectClientTypes.FilterV2]?
+    let groupings: [Swift.String]?
+    let metrics: [ConnectClientTypes.MetricV2]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension GetMetricDataV2InputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case filters = "Filters"
+        case groupings = "Groupings"
+        case maxResults = "MaxResults"
+        case metrics = "Metrics"
+        case nextToken = "NextToken"
+        case resourceArn = "ResourceArn"
+        case startTime = "StartTime"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([ConnectClientTypes.FilterV2?].self, forKey: .filters)
+        var filtersDecoded0:[ConnectClientTypes.FilterV2]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [ConnectClientTypes.FilterV2]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let groupingsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .groupings)
+        var groupingsDecoded0:[Swift.String]? = nil
+        if let groupingsContainer = groupingsContainer {
+            groupingsDecoded0 = [Swift.String]()
+            for string0 in groupingsContainer {
+                if let string0 = string0 {
+                    groupingsDecoded0?.append(string0)
+                }
+            }
+        }
+        groupings = groupingsDecoded0
+        let metricsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.MetricV2?].self, forKey: .metrics)
+        var metricsDecoded0:[ConnectClientTypes.MetricV2]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [ConnectClientTypes.MetricV2]()
+            for structure0 in metricsContainer {
+                if let structure0 = structure0 {
+                    metricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension GetMetricDataV2OutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetMetricDataV2OutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetMetricDataV2OutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetMetricDataV2OutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetMetricDataV2OutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.metricResults = output.metricResults
+            self.nextToken = output.nextToken
+        } else {
+            self.metricResults = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct GetMetricDataV2OutputResponse: Swift.Equatable {
+    /// Information about the metrics requested in the API request If no grouping is specified, a summary of metric data is returned.
+    public var metricResults: [ConnectClientTypes.MetricResultV2]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        metricResults: [ConnectClientTypes.MetricResultV2]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.metricResults = metricResults
+        self.nextToken = nextToken
+    }
+}
+
+struct GetMetricDataV2OutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let metricResults: [ConnectClientTypes.MetricResultV2]?
+}
+
+extension GetMetricDataV2OutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricResults = "MetricResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let metricResultsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.MetricResultV2?].self, forKey: .metricResults)
+        var metricResultsDecoded0:[ConnectClientTypes.MetricResultV2]? = nil
+        if let metricResultsContainer = metricResultsContainer {
+            metricResultsDecoded0 = [ConnectClientTypes.MetricResultV2]()
             for structure0 in metricResultsContainer {
                 if let structure0 = structure0 {
                     metricResultsDecoded0?.append(structure0)
@@ -21392,6 +21728,256 @@ extension ConnectClientTypes {
         {
             self.channel = channel
             self.concurrency = concurrency
+        }
+    }
+
+}
+
+extension ConnectClientTypes.MetricDataV2: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metric = "Metric"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metric = self.metric {
+            try encodeContainer.encode(metric, forKey: .metric)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.MetricV2.self, forKey: .metric)
+        metric = metricDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Contains the name, thresholds, and metric filters.
+    public struct MetricDataV2: Swift.Equatable {
+        /// The metric name, thresholds, and metric filters of the returned metric.
+        public var metric: ConnectClientTypes.MetricV2?
+        /// The corresponding value of the metric returned in the response.
+        public var value: Swift.Double?
+
+        public init (
+            metric: ConnectClientTypes.MetricV2? = nil,
+            value: Swift.Double? = nil
+        )
+        {
+            self.metric = metric
+            self.value = value
+        }
+    }
+
+}
+
+extension ConnectClientTypes.MetricFilterV2: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricFilterKey = "MetricFilterKey"
+        case metricFilterValues = "MetricFilterValues"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metricFilterKey = self.metricFilterKey {
+            try encodeContainer.encode(metricFilterKey, forKey: .metricFilterKey)
+        }
+        if let metricFilterValues = metricFilterValues {
+            var metricFilterValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricFilterValues)
+            for string0 in metricFilterValues {
+                try metricFilterValuesContainer.encode(string0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricFilterKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricFilterKey)
+        metricFilterKey = metricFilterKeyDecoded
+        let metricFilterValuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .metricFilterValues)
+        var metricFilterValuesDecoded0:[Swift.String]? = nil
+        if let metricFilterValuesContainer = metricFilterValuesContainer {
+            metricFilterValuesDecoded0 = [Swift.String]()
+            for string0 in metricFilterValuesContainer {
+                if let string0 = string0 {
+                    metricFilterValuesDecoded0?.append(string0)
+                }
+            }
+        }
+        metricFilterValues = metricFilterValuesDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// Contains information about the filter used when retrieving metrics. MetricFiltersV2 can be used on the following metrics: AVG_AGENT_CONNECTING_TIME, CONTACTS_CREATED, CONTACTS_HANDLED, SUM_CONTACTS_DISCONNECTED.
+    public struct MetricFilterV2: Swift.Equatable {
+        /// The key to use for filtering data. Valid metric filter keys: INITIATION_METHOD, DISCONNECT_REASON
+        public var metricFilterKey: Swift.String?
+        /// The values to use for filtering data. Valid metric filter values for INITIATION_METHOD: INBOUND | OUTBOUND | TRANSFER | QUEUE_TRANSFER | CALLBACK | API Valid metric filter values for DISCONNECT_REASON: CUSTOMER_DISCONNECT | AGENT_DISCONNECT | THIRD_PARTY_DISCONNECT | TELECOM_PROBLEM | BARGED | CONTACT_FLOW_DISCONNECT | OTHER | EXPIRED | API
+        public var metricFilterValues: [Swift.String]?
+
+        public init (
+            metricFilterKey: Swift.String? = nil,
+            metricFilterValues: [Swift.String]? = nil
+        )
+        {
+            self.metricFilterKey = metricFilterKey
+            self.metricFilterValues = metricFilterValues
+        }
+    }
+
+}
+
+extension ConnectClientTypes.MetricResultV2: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collections = "Collections"
+        case dimensions = "Dimensions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let collections = collections {
+            var collectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .collections)
+            for metricdatav20 in collections {
+                try collectionsContainer.encode(metricdatav20)
+            }
+        }
+        if let dimensions = dimensions {
+            var dimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dimensions)
+            for (dictKey0, dimensionsV2Map0) in dimensions {
+                try dimensionsContainer.encode(dimensionsV2Map0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dimensionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .dimensions)
+        var dimensionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let dimensionsContainer = dimensionsContainer {
+            dimensionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, dimensionsv2value0) in dimensionsContainer {
+                if let dimensionsv2value0 = dimensionsv2value0 {
+                    dimensionsDecoded0?[key0] = dimensionsv2value0
+                }
+            }
+        }
+        dimensions = dimensionsDecoded0
+        let collectionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.MetricDataV2?].self, forKey: .collections)
+        var collectionsDecoded0:[ConnectClientTypes.MetricDataV2]? = nil
+        if let collectionsContainer = collectionsContainer {
+            collectionsDecoded0 = [ConnectClientTypes.MetricDataV2]()
+            for structure0 in collectionsContainer {
+                if let structure0 = structure0 {
+                    collectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        collections = collectionsDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// Contains information about the metric results.
+    public struct MetricResultV2: Swift.Equatable {
+        /// The set of metrics.
+        public var collections: [ConnectClientTypes.MetricDataV2]?
+        /// The dimension for the metrics.
+        public var dimensions: [Swift.String:Swift.String]?
+
+        public init (
+            collections: [ConnectClientTypes.MetricDataV2]? = nil,
+            dimensions: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.collections = collections
+            self.dimensions = dimensions
+        }
+    }
+
+}
+
+extension ConnectClientTypes.MetricV2: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricFilters = "MetricFilters"
+        case name = "Name"
+        case threshold = "Threshold"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metricFilters = metricFilters {
+            var metricFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricFilters)
+            for metricfilterv20 in metricFilters {
+                try metricFiltersContainer.encode(metricfilterv20)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let threshold = threshold {
+            var thresholdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .threshold)
+            for thresholdv20 in threshold {
+                try thresholdContainer.encode(thresholdv20)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let thresholdContainer = try containerValues.decodeIfPresent([ConnectClientTypes.ThresholdV2?].self, forKey: .threshold)
+        var thresholdDecoded0:[ConnectClientTypes.ThresholdV2]? = nil
+        if let thresholdContainer = thresholdContainer {
+            thresholdDecoded0 = [ConnectClientTypes.ThresholdV2]()
+            for structure0 in thresholdContainer {
+                if let structure0 = structure0 {
+                    thresholdDecoded0?.append(structure0)
+                }
+            }
+        }
+        threshold = thresholdDecoded0
+        let metricFiltersContainer = try containerValues.decodeIfPresent([ConnectClientTypes.MetricFilterV2?].self, forKey: .metricFilters)
+        var metricFiltersDecoded0:[ConnectClientTypes.MetricFilterV2]? = nil
+        if let metricFiltersContainer = metricFiltersContainer {
+            metricFiltersDecoded0 = [ConnectClientTypes.MetricFilterV2]()
+            for structure0 in metricFiltersContainer {
+                if let structure0 = structure0 {
+                    metricFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        metricFilters = metricFiltersDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// Contains information about the metric.
+    public struct MetricV2: Swift.Equatable {
+        /// Contains the filters to be used when returning data.
+        public var metricFilters: [ConnectClientTypes.MetricFilterV2]?
+        /// The name of the metric.
+        public var name: Swift.String?
+        /// Contains information about the threshold for service level metrics.
+        public var threshold: [ConnectClientTypes.ThresholdV2]?
+
+        public init (
+            metricFilters: [ConnectClientTypes.MetricFilterV2]? = nil,
+            name: Swift.String? = nil,
+            threshold: [ConnectClientTypes.ThresholdV2]? = nil
+        )
+        {
+            self.metricFilters = metricFilters
+            self.name = name
+            self.threshold = threshold
         }
     }
 
@@ -30721,6 +31307,51 @@ extension ConnectClientTypes {
 
         public init (
             comparison: ConnectClientTypes.Comparison? = nil,
+            thresholdValue: Swift.Double? = nil
+        )
+        {
+            self.comparison = comparison
+            self.thresholdValue = thresholdValue
+        }
+    }
+
+}
+
+extension ConnectClientTypes.ThresholdV2: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparison = "Comparison"
+        case thresholdValue = "ThresholdValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparison = self.comparison {
+            try encodeContainer.encode(comparison, forKey: .comparison)
+        }
+        if let thresholdValue = self.thresholdValue {
+            try encodeContainer.encode(thresholdValue, forKey: .thresholdValue)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .comparison)
+        comparison = comparisonDecoded
+        let thresholdValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .thresholdValue)
+        thresholdValue = thresholdValueDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Contains information about the threshold for service level metrics.
+    public struct ThresholdV2: Swift.Equatable {
+        /// The type of comparison. Only "less than" (LT) comparisons are supported.
+        public var comparison: Swift.String?
+        /// The threshold value to compare.
+        public var thresholdValue: Swift.Double?
+
+        public init (
+            comparison: Swift.String? = nil,
             thresholdValue: Swift.Double? = nil
         )
         {
