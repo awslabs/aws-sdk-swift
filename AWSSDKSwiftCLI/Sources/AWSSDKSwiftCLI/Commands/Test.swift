@@ -22,23 +22,45 @@ struct Test: ParsableCommand {
     @Option(help: "The number of batches to break out the tests.")
     var batches: UInt = 1
     
+    private var packageFileName: String { "Package.swift" }
+    private var copiedPackageFileName: String { "Package.copy.swift" }
+    
     func run() throws {
         try FileManager.changeWorkingDirectory(repoPath)
         
         // If batches is 1, then run `swift test --parallel` with the current Package.swift
         guard batches > 1 else {
             print("Testing Package.swift...")
-            let task = Process("swift", "test", "--parallel")
+            let task = Process.swift.test()
             try _run(task)
             task.waitUntilExit()
             return
         }
+
+        // Create batches of services
+        let serviceBatches = try createBatches(Int(batches))
         
+        // Create package manifests for each batch
+        let packageManifests = try createPackageManifests(serviceBatches)
+        
+        // Test each package manifest
+        try testAllPackages(packageManifests)
+    }
+}
+
+extension Test {
+    /// Creates `n` batches of services where `n` is the provided `batches` value.
+    func createBatches(_ batches: Int) throws -> ChunksOfCountCollection<[String]> {
         print("Creating \(batches) batches...")
-        let services = try enabledServices()
-        let chunkSize = services.count / Int(batches)
+        let services = try FileManager.enabledServices()
+        let chunkSize = services.count / batches
         let serviceBatches = services.chunks(ofCount: chunkSize)
-        
+        return serviceBatches
+    }
+    
+    /// Creates package manifests for each batch in the provided list.
+    /// Returns a list of the package manifests file names
+    func createPackageManifests(_ serviceBatches: ChunksOfCountCollection<[String]>) throws -> [String] {
         var packageManifests: [String] = []
         
         for (index, serviceList) in serviceBatches.enumerated() {
@@ -60,33 +82,64 @@ struct Test: ParsableCommand {
             """)
         }
         
-        // Move the current Package.swift to a new file to be restored later
-        try FileManager.default.moveItem(atPath: "Package.swift", toPath: "Package.Release.swift")
-        
-        try packageManifests.forEach { package in
-            print("Testing \(package)...")
-            // Set this package as the Package.swift and run tests
-            try FileManager.default.moveItem(atPath: package, toPath: "Package.swift")
-            let task = Process("swift", "test", "--parallel")
-            try _run(task)
-            task.waitUntilExit()
-            try FileManager.default.removeItem(atPath: "Package.swift")
-        }
-        
-        // Restore the original Package.swift
-        try FileManager.default.moveItem(atPath: "Package.Release.swift", toPath: "Package.swift")
+        return packageManifests
     }
-}
-
-extension Test {
-    func enabledServices() throws -> [String] {
-        try FileManager.default
-            .contentsOfDirectory(atPath: "Sources/Services")
-            .sorted()
+    
+    /// Runs tests for each package manifest in the provided list
+    func testAllPackages(_ packageManifests: [String]) throws {
+        // Move the current Package.swift to a new file to be restored later
+        try renamePackageManifest()
+        
+        // Run 'swift test' for each package manifest
+        try packageManifests.forEach(testPackage)
+        
+        // Restor the original package manifest
+        try restorePackageManifest()
+    }
+    
+    /// Runs tests using the provided package manifest
+    ///
+    /// This renames the provided package to `Package.swift` and then runs `swift test --parallel`
+    /// When finished, it renames `Package.swift` back to the provided package file name.
+    ///
+    func testPackage(_ package: String) throws {
+        print("Testing \(package)...")
+        // Set this package as the Package.swift
+        try FileManager.default.moveItem(
+            atPath: package,
+            toPath: packageFileName
+        )
+        let task = Process.swift.test()
+        try _run(task)
+        task.waitUntilExit()
+    
+        // Move the file back when we are finished
+        try FileManager.default.moveItem(
+            atPath: packageFileName,
+            toPath: package
+        )
+    }
+    
+    /// Moves the original `Package.swift` to `Package.copy.swift`
+    func renamePackageManifest() throws {
+        try FileManager.default.moveItem(
+            atPath: packageFileName,
+            toPath: copiedPackageFileName
+        )
+    }
+    
+    /// Restores the original package manifest to `Package.swift`
+    func restorePackageManifest() throws {
+        try FileManager.default.moveItem(
+            atPath: copiedPackageFileName,
+            toPath: packageFileName
+        )
     }
 }
 
 extension GeneratePackageManifest {
+    /// Creates a GeneratePackageManifest command
+    /// This is necessary to sucessfully create a ParsableCommand instance manually.
     init(
         packageFileName: String,
         services: [String]

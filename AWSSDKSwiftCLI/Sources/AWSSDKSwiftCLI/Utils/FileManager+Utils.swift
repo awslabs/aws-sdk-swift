@@ -24,4 +24,14 @@ extension FileManager {
         }
         return fileContents
     }
+    
+    /// Returns the list of enabled services.
+    /// A service is considered enabled if it was generated successfully and therefore a folder for the service and its contents, exists within `Sources/Services`
+    ///
+    /// - Returns: The list of enabled services.
+    static func enabledServices() throws -> [String] {
+        try FileManager.default
+            .contentsOfDirectory(atPath: "Sources/Services")
+            .sorted()
+    }
 }

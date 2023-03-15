@@ -120,22 +120,12 @@ extension GeneratePackageManifest {
         let services: [String]
         if self.services.isEmpty {
             print("Using list of services that exist within Sources/Services")
-            services = try enabledServices()
+            services = try FileManager.enabledServices()
         } else {
             print("Using list of services provided.")
             services = self.services
         }
         print("Resolved list of services: \(services.count)")
         return services
-    }
-    
-    /// Returns the list of enabled services.
-    /// A service is considered enabled if it was generated successfully and therefore a folder for the service and its contents, exists within `Sources/Services`
-    ///
-    /// - Returns: The list of enabled services.
-    func enabledServices() throws -> [String] {
-        try FileManager.default
-            .contentsOfDirectory(atPath: "Sources/Services")
-            .sorted()
     }
 }
