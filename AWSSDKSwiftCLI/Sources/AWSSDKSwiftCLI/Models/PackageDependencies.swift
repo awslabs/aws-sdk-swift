@@ -37,7 +37,7 @@ extension PackageDependencies {
     /// - Parameter path: The path to the `packageDependencies.plist` file. Defaults to `packageDependencies.plist`
     /// - Returns: `PackageDependencies` loaded from the file at the provided path.
     static func load(from path: String = fileName) throws -> PackageDependencies {
-        let fileContents = try FileManager.loadContents(atPath: path)
+        let fileContents = try FileManager.default.loadContents(atPath: path)
         return try PropertyListDecoder().decode(PackageDependencies.self, from: fileContents)
     }
     

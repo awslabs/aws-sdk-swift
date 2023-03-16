@@ -13,8 +13,8 @@ struct AWSSDKSwiftCLI: ParsableCommand {
         commandName: "AWSSDKSwiftCLI",
         abstract: "CLI for managing the AWS SDK for Swift",
         subcommands: [
-            GeneratePackageManifest.self,
-            PrepareRelease.self,
+            GeneratePackageManifestCommand.self,
+            PrepareReleaseCommand.self,
             SyncClientRuntimeVersion.self,
             Test.self
         ]

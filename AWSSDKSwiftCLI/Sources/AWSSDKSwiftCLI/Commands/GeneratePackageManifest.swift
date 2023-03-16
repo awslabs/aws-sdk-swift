@@ -9,8 +9,11 @@ import ArgumentParser
 import Foundation
 import PackageDescription
 
-struct GeneratePackageManifest: ParsableCommand {
+// MARK: - Command
+
+struct GeneratePackageManifestCommand: ParsableCommand {
     static var configuration = CommandConfiguration(
+        commandName: "generate-package-manifest",
         abstract: "Generates the Package.swift manifest for the aws-sdk-swift package."
     )
     
@@ -30,15 +33,41 @@ struct GeneratePackageManifest: ParsableCommand {
     var services: [String] = []
     
     func run() throws {
-        try FileManager.changeWorkingDirectory(repoPath)
-        let contents = try generatePackageManifestContents()
-        try savePackageManifest(contents)
+        let generatePackageManifest = GeneratePackageManifest.standard(
+            repoPath: repoPath,
+            packageFileName: packageFileName,
+            clientRuntimeVersion: clientRuntimeVersion,
+            crtVersion: crtVersion,
+            services: services.isEmpty ? nil : services
+        )
+        try generatePackageManifest.run()
     }
 }
 
-// MARK: - Helpers
+// MARK: - Generate Package Manifest
 
-extension GeneratePackageManifest {
+struct GeneratePackageManifest {
+    let repoPath: String
+    let packageFileName: String
+    let clientRuntimeVersion: Version?
+    let crtVersion: Version?
+    let services: [String]?
+    
+    typealias BuildPackageManifest = (
+        _ clientRuntimeVersion: Version,
+        _ crtVersion: Version,
+        _ services: [String]
+    ) throws -> String
+    let buildPackageManifest: BuildPackageManifest
+    
+    func run() throws {
+        try FileManager.default.changeWorkingDirectory(repoPath)
+        let contents = try generatePackageManifestContents()
+        try savePackageManifest(contents)
+    }
+
+    // MARK: - Helpers
+
     /// Returns the contents of the generated package manifest.
     /// This determines the versions of the dependencies and the list of services to include and then genraetes the package manifest with those values.
     ///
@@ -46,14 +75,9 @@ extension GeneratePackageManifest {
     func generatePackageManifestContents() throws -> String {
         let versions = try resolveVersions()
         let services = try resolveServices()
-        print("Creating package manifest contents...")
-        let builder = PackageManifestBuilder(
-            clientRuntimeVersion: versions.clientRuntime,
-            crtVersion: versions.crt,
-            services: services
-        )
-        let contents = try builder.build()
-        print("Successfully created package manifest contents")
+        log("Creating package manifest contents...")
+        let contents = try buildPackageManifest(versions.clientRuntime, versions.crt, services)
+        log("Successfully created package manifest contents")
         return contents
     }
     
@@ -62,13 +86,13 @@ extension GeneratePackageManifest {
     ///
     /// - Parameter contents: The contents of the package manifest.
     func savePackageManifest(_ contents: String) throws {
-        print("Saving package manifest to \(packageFileName)...")
+        log("Saving package manifest to \(packageFileName)...")
         try contents.write(
             toFile: packageFileName,
             atomically: true,
             encoding: .utf8
         )
-        print("Successfully saved package manifest to \(packageFileName)")
+        log("Successfully saved package manifest to \(packageFileName)")
     }
     
     /// Returns the versions for ClientRuntime and CRT.
@@ -77,28 +101,28 @@ extension GeneratePackageManifest {
     ///
     /// - Returns: The versions for ClientRuntime and CRT.
     func resolveVersions() throws -> (clientRuntime: Version, crt: Version) {
-        print("Resolving versions of dependencies...")
+        log("Resolving versions of dependencies...")
         let packageDependencies = LazyValue { try PackageDependencies.load() }
         let resolvedClientRuntime: Version
         let resolvedCRT: Version
     
         if let explicitVersion = self.clientRuntimeVersion {
             resolvedClientRuntime = explicitVersion
-            print("Using ClientRuntime version provided: \(resolvedClientRuntime.description)")
+            log("Using ClientRuntime version provided: \(resolvedClientRuntime.description)")
         } else {
             resolvedClientRuntime = try packageDependencies.value().clientRuntimeVersion
-            print("Using ClientRuntime version loaded from file: \(resolvedClientRuntime.description)")
+            log("Using ClientRuntime version loaded from file: \(resolvedClientRuntime.description)")
         }
         
         if let explicitVersion = self.crtVersion {
             resolvedCRT = explicitVersion
-            print("Using CRT version provided: \(resolvedCRT.description)")
+            log("Using CRT version provided: \(resolvedCRT.description)")
         } else {
             resolvedCRT = try packageDependencies.value().awsCRTSwiftVersion
-            print("Using CRT version loaded from file: \(resolvedCRT.description)")
+            log("Using CRT version loaded from file: \(resolvedCRT.description)")
         }
         
-        print("""
+        log("""
         Resolved versions of dependencies:
             * ClientRuntime: \(resolvedClientRuntime.description)
             * CRT: \(resolvedCRT.description)
@@ -116,16 +140,41 @@ extension GeneratePackageManifest {
     ///
     /// - Returns: The list of services to include in the package manifest
     func resolveServices() throws -> [String] {
-        print("Resolving services...")
-        let services: [String]
-        if self.services.isEmpty {
-            print("Using list of services that exist within Sources/Services")
-            services = try FileManager.enabledServices()
+        log("Resolving services...")
+        let resolvedServices: [String]
+        if let services = self.services {
+            log("Using list of services provided.")
+            resolvedServices = services
         } else {
-            print("Using list of services provided.")
-            services = self.services
+            log("Using list of services that exist within Sources/Services")
+            resolvedServices = try FileManager.default.enabledServices()
         }
-        print("Resolved list of services: \(services.count)")
-        return services
+        log("Resolved list of services: \(resolvedServices.count)")
+        return resolvedServices
+    }
+}
+
+extension GeneratePackageManifest {
+    static func standard(
+        repoPath: String,
+        packageFileName: String,
+        clientRuntimeVersion: Version? = nil,
+        crtVersion: Version? = nil,
+        services: [String]? = nil
+    ) -> Self {
+        GeneratePackageManifest(
+            repoPath: repoPath,
+            packageFileName: packageFileName,
+            clientRuntimeVersion: clientRuntimeVersion,
+            crtVersion: crtVersion,
+            services: services
+        ) { _clientRuntimeVersion, _crtVersion, _services in
+            let builder = PackageManifestBuilder(
+                clientRuntimeVersion: _clientRuntimeVersion,
+                crtVersion: _crtVersion,
+                services: _services
+            )
+            return try builder.build()
+        }
     }
 }

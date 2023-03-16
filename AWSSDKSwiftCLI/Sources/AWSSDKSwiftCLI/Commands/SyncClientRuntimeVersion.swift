@@ -21,7 +21,7 @@ struct SyncClientRuntimeVersion: ParsableCommand {
     var smithySwiftPath: String?
     
     func run() throws {
-        try FileManager.changeWorkingDirectory(repoPath)
+        try FileManager.default.changeWorkingDirectory(repoPath)
         try syncClientRuntimeVersion()
     }
 }
@@ -41,15 +41,15 @@ extension SyncClientRuntimeVersion {
     /// - Returns: The version of ClientRuntime retrieved from the `Package.version` file located in `smithy-swift`.
     func smithySwiftPackageVersion() throws -> Version {
         let path = resolveSmithySwiftPath() + "/Package.version"
-        print("Loading ClientRuntime version from \(path)")
+        log("Loading ClientRuntime version from \(path)")
         let version = try Version.fromFile(path)
-        print("Successfully loaded ClientRuntime version \(version.description)")
+        log("Successfully loaded ClientRuntime version \(version.description)")
         return version
     }
     
     /// Syncs the version of ClientRuntime by setting the version to the value defined in the `Package.version` file located in`smithy-swift'.
     func syncClientRuntimeVersion() throws {
-        print("Syncing ClientRuntime version...")
+        log("Syncing ClientRuntime version...")
         let version = try smithySwiftPackageVersion()
         try setClientRuntimeVersion(version)
     }
@@ -58,10 +58,10 @@ extension SyncClientRuntimeVersion {
     ///
     /// - Parameter version: The version to set for ClientRuntime.
     func setClientRuntimeVersion(_ version: Version) throws {
-        print("Setting ClientRuntime version to \(version.description)")
+        log("Setting ClientRuntime version to \(version.description)")
         var packageDependencies = try PackageDependencies.load()
         packageDependencies.clientRuntimeVersion = version
         try packageDependencies.save()
-        print("Successfully saved ClientRuntime version to \(version.description)")
+        log("Successfully saved ClientRuntime version to \(version.description)")
     }
 }

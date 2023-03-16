@@ -9,25 +9,46 @@ import ArgumentParser
 import Foundation
 import PackageDescription
 
-struct PrepareRelease: ParsableCommand {
+// MARK: - Command
+
+struct PrepareReleaseCommand: ParsableCommand {
     static var configuration = CommandConfiguration(
+        commandName: "prepare-release",
         abstract: "Prepares a repository for release",
         discussion: "If there are no changes, then this does nothing as there is nothing new to release"
     )
     
-    enum Repo: String, ExpressibleByArgument {
-        case sdk
-        case smithySwift = "smithy-swift"
-    }
-    
     @Argument(help: "The repository type to release. sdk or smithy-swift")
-    var repoType: Repo
+    var repoType: PrepareRelease.Repo
     
     @Argument(help: "The path to the git repository.")
     var repoPath: String
     
     func run() throws {
-        try FileManager.changeWorkingDirectory(repoPath)
+        let prepareRelease = PrepareRelease.standard(
+            repoType: repoType,
+            repoPath: repoPath
+        )
+        try prepareRelease.run()
+    }
+}
+
+// MARK: - Prepare Release
+
+struct PrepareRelease {
+    enum Repo: String, ExpressibleByArgument {
+        case awsSdkSwift = "aws-sdk-swift"
+        case smithySwift = "smithy-swift"
+    }
+    
+    let repoType: Repo
+    let repoPath: String
+    
+    typealias DiffChecker = (_ branch: String, _ version: Version) throws -> Bool
+    let diffChecker: DiffChecker
+    
+    func run() throws {
+        try FileManager.default.changeWorkingDirectory(repoPath)
         
         let previousVersion = try getPreviousVersion()
         guard try repoHasChanges(previousVersion) else { return }
@@ -37,18 +58,16 @@ struct PrepareRelease: ParsableCommand {
         try commitChanges(newVersion)
         try tagVersion(newVersion)
     }
-}
-
-// MARK: - Helpers
-
-extension PrepareRelease {
+    
+    // MARK: - Helpers
+    
     /// Returns the version of the previous release.
     /// This version is read from the version defined in the `Package.version` file.
     ///
     /// - Returns: The version of the previous release.
     func getPreviousVersion() throws -> Version {
         let previousVersion = try Version.fromFile("Package.version")
-        print("Previous release version: \(previousVersion)")
+        log("Previous release version: \(previousVersion)")
         return previousVersion
     }
     
@@ -58,12 +77,11 @@ extension PrepareRelease {
     /// - Parameter previousVersion: The version of the previous release
     /// - Returns: True if the `main` branch has changes since the previous release, otherwise returns false.
     func repoHasChanges(_ previousVersion: Version) throws -> Bool {
-        let hasChanges = try Process.git.hasLocalChanges()
-            || Process.git.diffHasChanges("main", "\(previousVersion)")
+        let hasChanges = try diffChecker("main", previousVersion)
         if hasChanges {
-            print("Changes detected between 'main' and the previous release \(previousVersion)")
+            log("Changes detected between 'main' and the previous release \(previousVersion)")
         } else {
-            print("No changes detected between 'main' and the previous release \(previousVersion)")
+            log("No changes detected between 'main' and the previous release \(previousVersion)")
         }
         return hasChanges
     }
@@ -79,7 +97,7 @@ extension PrepareRelease {
         } catch {
           throw Error("Failed to write version \(newVersion) to Package.version")
         }
-        print("Updated Package.version: \(newVersion)")
+        log("Updated Package.version: \(newVersion)")
         return newVersion
     }
     
@@ -87,7 +105,7 @@ extension PrepareRelease {
     func stageFiles() throws {
         let files: [String]
         switch repoType {
-        case .sdk:
+        case .awsSdkSwift:
             files = [
                 "Package.swift",
                 "Package.version",
@@ -98,9 +116,7 @@ extension PrepareRelease {
             files = ["Package.version"]
         }
         
-        try files
-            .map{ Process.git.add($0) }
-            .forEach { try _run($0) }
+        try _run(Process.git.add(files))
     }
     
     /// Commits the staged changes
@@ -115,5 +131,17 @@ extension PrepareRelease {
     /// - Parameter newVersion: The version to use for the tag
     func tagVersion(_ newVersion: Version) throws {
         try _run(Process.git.tag(newVersion, "Release \(newVersion)"))
+    }
+}
+
+extension PrepareRelease {
+    static func standard(
+        repoType: Repo,
+        repoPath: String
+    ) -> Self {
+        PrepareRelease(repoType: repoType, repoPath: repoPath) { branch, version in
+            try Process.git.hasLocalChanges()
+                || Process.git.diffHasChanges(branch, "\(version)")
+        }
     }
 }

@@ -29,7 +29,7 @@ extension Version {
     /// - Parameter filePath: The path to file containing the version
     /// - Returns: A version loaded from the provided file.
     static func fromFile(_ filePath: String) throws -> Version {
-        let fileContents = try FileManager.loadContents(atPath: filePath)
+        let fileContents = try FileManager.default.loadContents(atPath: filePath)
         
         guard let versionString = String(data: fileContents, encoding: .utf8) else {
             throw Error("Failed to convert data to string for file at path: \(filePath)")

@@ -12,6 +12,7 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.0"),
         .package(url: "https://github.com/apple/swift-package-manager", from: "0.6.0"),
         .package(url: "https://github.com/apple/swift-algorithms", from: "1.0.0"),
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
     ],
     targets: [
         .executableTarget(
@@ -20,9 +21,10 @@ let package = Package(
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "PackageDescription", package: "swift-package-manager"),
                 .product(name: "Algorithms", package: "swift-algorithms"),
+                .product(name: "Logging", package: "swift-log"),
             ],
             resources: [
-                .process("Resources/BasePackageManifest.swift")
+                .process("Resources/Package.Base.swift")
             ],
             swiftSettings: [
                 .unsafeFlags(["-package-description-version", "5.5"])
@@ -30,6 +32,7 @@ let package = Package(
         ),
         .testTarget(
             name: "AWSSDKSwiftCLITests",
-            dependencies: ["AWSSDKSwiftCLI"]),
+            dependencies: ["AWSSDKSwiftCLI"]
+        )
     ]
 )

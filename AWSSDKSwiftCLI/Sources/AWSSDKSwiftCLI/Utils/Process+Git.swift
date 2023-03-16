@@ -24,8 +24,8 @@ extension Process {
         
         /// Returns a process for executing `git add <args>`
         /// This is used for staging specific files.
-        func add(_ args: String...) -> Process {
-            gitProcess(["add"] + Array(args))
+        func add(_ files: [String]) -> Process {
+            gitProcess(["add"] + files)
         }
         
         /// Returns a process for executing `git commit -m <message>`

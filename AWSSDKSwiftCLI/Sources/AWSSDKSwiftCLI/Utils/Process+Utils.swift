@@ -35,8 +35,26 @@ extension Process {
     }
 }
 
-/// Runs the pprocess and prints out the process's full command.
+/// Runs the process and prints out the process's full command.
 func _run(_ process: Process) throws {
-    print("Running process: \(process.commandString)")
-    try process.run()
+    #if DEBUG
+    if let testRunner = ProcessRunner.testRunner {
+        try testRunner.run(process)
+        return
+    }
+    #endif
+    try ProcessRunner.standard.run(process)
+}
+
+struct ProcessRunner {
+    let run: (Process) throws -> Void
+    
+    static let standard = ProcessRunner { process in
+        log("Running process: \(process.commandString)")
+        try process.run()
+    }
+    
+    #if DEBUG
+    static var testRunner: ProcessRunner? = nil
+    #endif
 }

@@ -13,37 +13,56 @@ struct PackageManifestBuilder {
     let clientRuntimeVersion: Version
     let crtVersion: Version
     let services: [String]
-    let basePackageManifestName = "BasePackageManifest"
+    let basePackageContents: () throws -> String
+    
+    init(
+        clientRuntimeVersion: Version,
+        crtVersion: Version,
+        services: [String],
+        basePackageContents: @escaping () throws -> String
+    ) {
+        self.clientRuntimeVersion = clientRuntimeVersion
+        self.crtVersion = crtVersion
+        self.services = services
+        self.basePackageContents = basePackageContents
+    }
+    
+    init(
+        clientRuntimeVersion: Version,
+        crtVersion: Version,
+        services: [String]
+    ) {
+        self.init(clientRuntimeVersion: clientRuntimeVersion, crtVersion: crtVersion, services: services) {
+            // Returns the contents of the base package manifest stored in the bundle at `Resources/Package.Base.swift`
+            let basePackageName = "Package.Base"
+            
+            // Get the url for the base package manifest that is stored in the bundle
+            guard let url = Bundle.module.url(forResource: basePackageName, withExtension: "swift") else {
+                throw Error("Could not find \(basePackageName).swift in bundle")
+            }
+            
+            // Load the contents of the base package manifest
+            let fileContents = try FileManager.default.loadContents(atPath: url.path)
+            
+            // Convert the base package manifest data to a string
+            guard let fileText = String(data: fileContents, encoding: .utf8) else {
+                throw Error("Failed to create string from contents of file \(basePackageName).swift")
+            }
+            
+            return fileText
+        }
+    }
     
     // MARK: - Build
     
     /// Builds the contents of the package manifest file.
     func build() throws-> String {
         let contents = try [
-            basePackageManifestContents(),
+            basePackageContents(),
             "",
             buildGeneratedContent()
         ]
         return contents.joined(separator: .newline)
-    }
-
-    /// Returns the contents of the base package manifest stored in the bundle at `Resources/BasePackageManifest.swift`
-    /// - Returns: The contents of the base package manifest
-    private func basePackageManifestContents() throws -> String {
-        // Get the url for the base package manifest that is stored in the bundle
-        guard let url = Bundle.module.url(forResource: basePackageManifestName, withExtension: "swift") else {
-            throw Error("Could not find \(basePackageManifestName).swift in bundle")
-        }
-        
-        // Load the contents of the base package manifest
-        let fileContents = try FileManager.loadContents(atPath: url.path)
-        
-        // Convert the base package manifest data to a string
-        guard let fileText = String(data: fileContents, encoding: .utf8) else {
-            throw Error("Failed to create string from contents of file \(basePackageManifestName).swift")
-        }
-        
-        return fileText
     }
     
     /// Builds all the generated package manifest content
