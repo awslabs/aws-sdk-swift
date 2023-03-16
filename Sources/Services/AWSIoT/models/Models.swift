@@ -152,7 +152,7 @@ extension AcceptCertificateTransferInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if setAsActive != false {
+            if let setAsActive = setAsActive {
                 let setAsActiveQueryItem = ClientRuntime.URLQueryItem(name: "setAsActive".urlPercentEncoding(), value: Swift.String(setAsActive).urlPercentEncoding())
                 items.append(setAsActiveQueryItem)
             }
@@ -176,11 +176,11 @@ public struct AcceptCertificateTransferInput: Swift.Equatable {
     /// This member is required.
     public var certificateId: Swift.String?
     /// Specifies whether the certificate is active.
-    public var setAsActive: Swift.Bool
+    public var setAsActive: Swift.Bool?
 
     public init (
         certificateId: Swift.String? = nil,
-        setAsActive: Swift.Bool = false
+        setAsActive: Swift.Bool? = nil
     )
     {
         self.certificateId = certificateId
@@ -791,7 +791,7 @@ extension AddThingToThingGroupInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if overrideDynamicGroups != false {
+        if let overrideDynamicGroups = self.overrideDynamicGroups {
             try encodeContainer.encode(overrideDynamicGroups, forKey: .overrideDynamicGroups)
         }
         if let thingArn = self.thingArn {
@@ -817,7 +817,7 @@ extension AddThingToThingGroupInput: ClientRuntime.URLPathProvider {
 
 public struct AddThingToThingGroupInput: Swift.Equatable {
     /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
-    public var overrideDynamicGroups: Swift.Bool
+    public var overrideDynamicGroups: Swift.Bool?
     /// The ARN of the thing to add to a group.
     public var thingArn: Swift.String?
     /// The ARN of the group to which you are adding a thing.
@@ -828,7 +828,7 @@ public struct AddThingToThingGroupInput: Swift.Equatable {
     public var thingName: Swift.String?
 
     public init (
-        overrideDynamicGroups: Swift.Bool = false,
+        overrideDynamicGroups: Swift.Bool? = nil,
         thingArn: Swift.String? = nil,
         thingGroupArn: Swift.String? = nil,
         thingGroupName: Swift.String? = nil,
@@ -848,7 +848,7 @@ struct AddThingToThingGroupInputBody: Swift.Equatable {
     let thingGroupArn: Swift.String?
     let thingName: Swift.String?
     let thingArn: Swift.String?
-    let overrideDynamicGroups: Swift.Bool
+    let overrideDynamicGroups: Swift.Bool?
 }
 
 extension AddThingToThingGroupInputBody: Swift.Decodable {
@@ -870,7 +870,7 @@ extension AddThingToThingGroupInputBody: Swift.Decodable {
         thingName = thingNameDecoded
         let thingArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .thingArn)
         thingArn = thingArnDecoded
-        let overrideDynamicGroupsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .overrideDynamicGroups) ?? false
+        let overrideDynamicGroupsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .overrideDynamicGroups)
         overrideDynamicGroups = overrideDynamicGroupsDecoded
     }
 }
@@ -1344,7 +1344,7 @@ extension IoTClientTypes.AssetPropertyVariant: Swift.Codable {
 
 extension IoTClientTypes {
     /// Contains an asset property value (of a single type).
-    public enum AssetPropertyVariant: Swift.Equatable, Swift.Hashable {
+    public enum AssetPropertyVariant: Swift.Equatable {
         /// Optional. The string value of the value entry. Accepts substitution templates.
         case stringvalue(Swift.String)
         /// Optional. A string that contains the integer value of the value entry. Accepts substitution templates.
@@ -4901,7 +4901,7 @@ extension CancelJobExecutionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if force != false {
+            if let force = force {
                 let forceQueryItem = ClientRuntime.URLQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
                 items.append(forceQueryItem)
             }
@@ -4926,7 +4926,7 @@ public struct CancelJobExecutionInput: Swift.Equatable {
     /// (Optional) The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that contains the current job execution status data is returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in order to obtain the job execution status data.)
     public var expectedVersion: Swift.Int?
     /// (Optional) If true the job execution will be canceled if it has status IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set force to true, then an InvalidStateTransitionException will be thrown. The default is false. Canceling a job execution which is "IN_PROGRESS", will cause the device to be unable to update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The ID of the job to be canceled.
     /// This member is required.
     public var jobId: Swift.String?
@@ -4938,7 +4938,7 @@ public struct CancelJobExecutionInput: Swift.Equatable {
 
     public init (
         expectedVersion: Swift.Int? = nil,
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         jobId: Swift.String? = nil,
         statusDetails: [Swift.String:Swift.String]? = nil,
         thingName: Swift.String? = nil
@@ -5044,7 +5044,7 @@ extension CancelJobInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if force != false {
+            if let force = force {
                 let forceQueryItem = ClientRuntime.URLQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
                 items.append(forceQueryItem)
             }
@@ -5066,7 +5066,7 @@ public struct CancelJobInput: Swift.Equatable {
     /// An optional comment string describing why the job was canceled.
     public var comment: Swift.String?
     /// (Optional) If true job executions with status "IN_PROGRESS" and "QUEUED" are canceled, otherwise only job executions with status "QUEUED" are canceled. The default is false. Canceling a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to update the job execution status. Use caution and ensure that each device executing a job which is canceled is able to recover to a valid state.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The unique identifier you assigned to this job when it was created.
     /// This member is required.
     public var jobId: Swift.String?
@@ -5075,7 +5075,7 @@ public struct CancelJobInput: Swift.Equatable {
 
     public init (
         comment: Swift.String? = nil,
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         jobId: Swift.String? = nil,
         reasonCode: Swift.String? = nil
     )
@@ -7055,7 +7055,7 @@ extension CreateCertificateFromCsrInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if setAsActive != false {
+            if let setAsActive = setAsActive {
                 let setAsActiveQueryItem = ClientRuntime.URLQueryItem(name: "setAsActive".urlPercentEncoding(), value: Swift.String(setAsActive).urlPercentEncoding())
                 items.append(setAsActiveQueryItem)
             }
@@ -7076,11 +7076,11 @@ public struct CreateCertificateFromCsrInput: Swift.Equatable {
     /// This member is required.
     public var certificateSigningRequest: Swift.String?
     /// Specifies whether the certificate is active.
-    public var setAsActive: Swift.Bool
+    public var setAsActive: Swift.Bool?
 
     public init (
         certificateSigningRequest: Swift.String? = nil,
-        setAsActive: Swift.Bool = false
+        setAsActive: Swift.Bool? = nil
     )
     {
         self.certificateSigningRequest = certificateSigningRequest
@@ -8129,7 +8129,7 @@ public struct CreateFleetMetricInput: Swift.Equatable {
     public var queryVersion: Swift.String?
     /// Metadata, which can be used to manage the fleet metric.
     public var tags: [IoTClientTypes.Tag]?
-    /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by [CW metric](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html). Default to null.
+    /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by [CW metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html). Default to null.
     public var unit: IoTClientTypes.FleetMetricUnit?
 
     public init (
@@ -8670,6 +8670,7 @@ extension CreateJobTemplateInput: Swift.Encodable {
         case jobArn
         case jobExecutionsRetryConfig
         case jobExecutionsRolloutConfig
+        case maintenanceWindows
         case presignedUrlConfig
         case tags
         case timeoutConfig
@@ -8697,6 +8698,12 @@ extension CreateJobTemplateInput: Swift.Encodable {
         }
         if let jobExecutionsRolloutConfig = self.jobExecutionsRolloutConfig {
             try encodeContainer.encode(jobExecutionsRolloutConfig, forKey: .jobExecutionsRolloutConfig)
+        }
+        if let maintenanceWindows = maintenanceWindows {
+            var maintenanceWindowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .maintenanceWindows)
+            for maintenancewindow0 in maintenanceWindows {
+                try maintenanceWindowsContainer.encode(maintenancewindow0)
+            }
         }
         if let presignedUrlConfig = self.presignedUrlConfig {
             try encodeContainer.encode(presignedUrlConfig, forKey: .presignedUrlConfig)
@@ -8741,6 +8748,8 @@ public struct CreateJobTemplateInput: Swift.Equatable {
     /// A unique identifier for the job template. We recommend using a UUID. Alpha-numeric characters, "-", and "_" are valid for use here.
     /// This member is required.
     public var jobTemplateId: Swift.String?
+    /// Allows you to configure an optional maintenance window for the rollout of a job document to all devices in the target group for a job.
+    public var maintenanceWindows: [IoTClientTypes.MaintenanceWindow]?
     /// Configuration for pre-signed S3 URLs.
     public var presignedUrlConfig: IoTClientTypes.PresignedUrlConfig?
     /// Metadata that can be used to manage the job template.
@@ -8757,6 +8766,7 @@ public struct CreateJobTemplateInput: Swift.Equatable {
         jobExecutionsRetryConfig: IoTClientTypes.JobExecutionsRetryConfig? = nil,
         jobExecutionsRolloutConfig: IoTClientTypes.JobExecutionsRolloutConfig? = nil,
         jobTemplateId: Swift.String? = nil,
+        maintenanceWindows: [IoTClientTypes.MaintenanceWindow]? = nil,
         presignedUrlConfig: IoTClientTypes.PresignedUrlConfig? = nil,
         tags: [IoTClientTypes.Tag]? = nil,
         timeoutConfig: IoTClientTypes.TimeoutConfig? = nil
@@ -8770,6 +8780,7 @@ public struct CreateJobTemplateInput: Swift.Equatable {
         self.jobExecutionsRetryConfig = jobExecutionsRetryConfig
         self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
         self.jobTemplateId = jobTemplateId
+        self.maintenanceWindows = maintenanceWindows
         self.presignedUrlConfig = presignedUrlConfig
         self.tags = tags
         self.timeoutConfig = timeoutConfig
@@ -8787,6 +8798,7 @@ struct CreateJobTemplateInputBody: Swift.Equatable {
     let timeoutConfig: IoTClientTypes.TimeoutConfig?
     let tags: [IoTClientTypes.Tag]?
     let jobExecutionsRetryConfig: IoTClientTypes.JobExecutionsRetryConfig?
+    let maintenanceWindows: [IoTClientTypes.MaintenanceWindow]?
 }
 
 extension CreateJobTemplateInputBody: Swift.Decodable {
@@ -8798,6 +8810,7 @@ extension CreateJobTemplateInputBody: Swift.Decodable {
         case jobArn
         case jobExecutionsRetryConfig
         case jobExecutionsRolloutConfig
+        case maintenanceWindows
         case presignedUrlConfig
         case tags
         case timeoutConfig
@@ -8834,6 +8847,17 @@ extension CreateJobTemplateInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let jobExecutionsRetryConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.JobExecutionsRetryConfig.self, forKey: .jobExecutionsRetryConfig)
         jobExecutionsRetryConfig = jobExecutionsRetryConfigDecoded
+        let maintenanceWindowsContainer = try containerValues.decodeIfPresent([IoTClientTypes.MaintenanceWindow?].self, forKey: .maintenanceWindows)
+        var maintenanceWindowsDecoded0:[IoTClientTypes.MaintenanceWindow]? = nil
+        if let maintenanceWindowsContainer = maintenanceWindowsContainer {
+            maintenanceWindowsDecoded0 = [IoTClientTypes.MaintenanceWindow]()
+            for structure0 in maintenanceWindowsContainer {
+                if let structure0 = structure0 {
+                    maintenanceWindowsDecoded0?.append(structure0)
+                }
+            }
+        }
+        maintenanceWindows = maintenanceWindowsDecoded0
     }
 }
 
@@ -8924,7 +8948,7 @@ extension CreateKeysAndCertificateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if setAsActive != false {
+            if let setAsActive = setAsActive {
                 let setAsActiveQueryItem = ClientRuntime.URLQueryItem(name: "setAsActive".urlPercentEncoding(), value: Swift.String(setAsActive).urlPercentEncoding())
                 items.append(setAsActiveQueryItem)
             }
@@ -8942,10 +8966,10 @@ extension CreateKeysAndCertificateInput: ClientRuntime.URLPathProvider {
 /// The input for the CreateKeysAndCertificate operation. Requires permission to access the [CreateKeysAndCertificateRequest](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
 public struct CreateKeysAndCertificateInput: Swift.Equatable {
     /// Specifies whether the certificate is active.
-    public var setAsActive: Swift.Bool
+    public var setAsActive: Swift.Bool?
 
     public init (
-        setAsActive: Swift.Bool = false
+        setAsActive: Swift.Bool? = nil
     )
     {
         self.setAsActive = setAsActive
@@ -9808,7 +9832,7 @@ extension CreatePolicyVersionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if setAsDefault != false {
+            if let setAsDefault = setAsDefault {
                 let setAsDefaultQueryItem = ClientRuntime.URLQueryItem(name: "setAsDefault".urlPercentEncoding(), value: Swift.String(setAsDefault).urlPercentEncoding())
                 items.append(setAsDefaultQueryItem)
             }
@@ -9835,12 +9859,12 @@ public struct CreatePolicyVersionInput: Swift.Equatable {
     /// This member is required.
     public var policyName: Swift.String?
     /// Specifies whether the policy version is set as the default. When this parameter is true, the new policy version becomes the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
-    public var setAsDefault: Swift.Bool
+    public var setAsDefault: Swift.Bool?
 
     public init (
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
-        setAsDefault: Swift.Bool = false
+        setAsDefault: Swift.Bool? = nil
     )
     {
         self.policyDocument = policyDocument
@@ -10124,7 +10148,7 @@ extension CreateProvisioningTemplateInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let preProvisioningHook = self.preProvisioningHook {
@@ -10161,7 +10185,7 @@ public struct CreateProvisioningTemplateInput: Swift.Equatable {
     /// The description of the provisioning template.
     public var description: Swift.String?
     /// True to enable the provisioning template, otherwise false.
-    public var enabled: Swift.Bool
+    public var enabled: Swift.Bool?
     /// Creates a pre-provisioning hook template. Only supports template of type FLEET_PROVISIONING. For more information about provisioning template types, see [type](https://docs.aws.amazon.com/iot/latest/apireference/API_CreateProvisioningTemplate.html#iot-CreateProvisioningTemplate-request-type).
     public var preProvisioningHook: IoTClientTypes.ProvisioningHook?
     /// The role ARN for the role associated with the provisioning template. This IoT role grants permission to provision a device.
@@ -10180,7 +10204,7 @@ public struct CreateProvisioningTemplateInput: Swift.Equatable {
 
     public init (
         description: Swift.String? = nil,
-        enabled: Swift.Bool = false,
+        enabled: Swift.Bool? = nil,
         preProvisioningHook: IoTClientTypes.ProvisioningHook? = nil,
         provisioningRoleArn: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil,
@@ -10204,7 +10228,7 @@ struct CreateProvisioningTemplateInputBody: Swift.Equatable {
     let templateName: Swift.String?
     let description: Swift.String?
     let templateBody: Swift.String?
-    let enabled: Swift.Bool
+    let enabled: Swift.Bool?
     let provisioningRoleArn: Swift.String?
     let preProvisioningHook: IoTClientTypes.ProvisioningHook?
     let tags: [IoTClientTypes.Tag]?
@@ -10231,7 +10255,7 @@ extension CreateProvisioningTemplateInputBody: Swift.Decodable {
         description = descriptionDecoded
         let templateBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateBody)
         templateBody = templateBodyDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let provisioningRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .provisioningRoleArn)
         provisioningRoleArn = provisioningRoleArnDecoded
@@ -10363,7 +10387,7 @@ extension CreateProvisioningTemplateVersionInput: ClientRuntime.QueryItemProvide
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if setAsDefault != false {
+            if let setAsDefault = setAsDefault {
                 let setAsDefaultQueryItem = ClientRuntime.URLQueryItem(name: "setAsDefault".urlPercentEncoding(), value: Swift.String(setAsDefault).urlPercentEncoding())
                 items.append(setAsDefaultQueryItem)
             }
@@ -10383,7 +10407,7 @@ extension CreateProvisioningTemplateVersionInput: ClientRuntime.URLPathProvider 
 
 public struct CreateProvisioningTemplateVersionInput: Swift.Equatable {
     /// Sets a fleet provision template version as the default version.
-    public var setAsDefault: Swift.Bool
+    public var setAsDefault: Swift.Bool?
     /// The JSON formatted contents of the provisioning template.
     /// This member is required.
     public var templateBody: Swift.String?
@@ -10392,7 +10416,7 @@ public struct CreateProvisioningTemplateVersionInput: Swift.Equatable {
     public var templateName: Swift.String?
 
     public init (
-        setAsDefault: Swift.Bool = false,
+        setAsDefault: Swift.Bool? = nil,
         templateBody: Swift.String? = nil,
         templateName: Swift.String? = nil
     )
@@ -12334,7 +12358,7 @@ extension DeleteAccountAuditConfigurationInput: ClientRuntime.QueryItemProvider 
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if deleteScheduledAudits != false {
+            if let deleteScheduledAudits = deleteScheduledAudits {
                 let deleteScheduledAuditsQueryItem = ClientRuntime.URLQueryItem(name: "deleteScheduledAudits".urlPercentEncoding(), value: Swift.String(deleteScheduledAudits).urlPercentEncoding())
                 items.append(deleteScheduledAuditsQueryItem)
             }
@@ -12351,10 +12375,10 @@ extension DeleteAccountAuditConfigurationInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteAccountAuditConfigurationInput: Swift.Equatable {
     /// If true, all scheduled audits are deleted.
-    public var deleteScheduledAudits: Swift.Bool
+    public var deleteScheduledAudits: Swift.Bool?
 
     public init (
-        deleteScheduledAudits: Swift.Bool = false
+        deleteScheduledAudits: Swift.Bool? = nil
     )
     {
         self.deleteScheduledAudits = deleteScheduledAudits
@@ -12747,7 +12771,7 @@ extension DeleteCertificateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if forceDelete != false {
+            if let forceDelete = forceDelete {
                 let forceDeleteQueryItem = ClientRuntime.URLQueryItem(name: "forceDelete".urlPercentEncoding(), value: Swift.String(forceDelete).urlPercentEncoding())
                 items.append(forceDeleteQueryItem)
             }
@@ -12771,11 +12795,11 @@ public struct DeleteCertificateInput: Swift.Equatable {
     /// This member is required.
     public var certificateId: Swift.String?
     /// Forces the deletion of a certificate if it is inactive and is not attached to an IoT thing.
-    public var forceDelete: Swift.Bool
+    public var forceDelete: Swift.Bool?
 
     public init (
         certificateId: Swift.String? = nil,
-        forceDelete: Swift.Bool = false
+        forceDelete: Swift.Bool? = nil
     )
     {
         self.certificateId = certificateId
@@ -13282,7 +13306,7 @@ extension DeleteJobExecutionInput: ClientRuntime.QueryItemProvider {
                 let namespaceIdQueryItem = ClientRuntime.URLQueryItem(name: "namespaceId".urlPercentEncoding(), value: Swift.String(namespaceId).urlPercentEncoding())
                 items.append(namespaceIdQueryItem)
             }
-            if force != false {
+            if let force = force {
                 let forceQueryItem = ClientRuntime.URLQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
                 items.append(forceQueryItem)
             }
@@ -13311,7 +13335,7 @@ public struct DeleteJobExecutionInput: Swift.Equatable {
     /// This member is required.
     public var executionNumber: Swift.Int?
     /// (Optional) When true, you can delete a job execution which is "IN_PROGRESS". Otherwise, you can only delete a job execution which is in a terminal state ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will occur. The default is false. Deleting a job execution which is "IN_PROGRESS", will cause the device to be unable to access job information or update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The ID of the job whose execution on a particular device will be deleted.
     /// This member is required.
     public var jobId: Swift.String?
@@ -13323,7 +13347,7 @@ public struct DeleteJobExecutionInput: Swift.Equatable {
 
     public init (
         executionNumber: Swift.Int? = nil,
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         jobId: Swift.String? = nil,
         namespaceId: Swift.String? = nil,
         thingName: Swift.String? = nil
@@ -13394,7 +13418,7 @@ extension DeleteJobInput: ClientRuntime.QueryItemProvider {
                 let namespaceIdQueryItem = ClientRuntime.URLQueryItem(name: "namespaceId".urlPercentEncoding(), value: Swift.String(namespaceId).urlPercentEncoding())
                 items.append(namespaceIdQueryItem)
             }
-            if force != false {
+            if let force = force {
                 let forceQueryItem = ClientRuntime.URLQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
                 items.append(forceQueryItem)
             }
@@ -13414,7 +13438,7 @@ extension DeleteJobInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteJobInput: Swift.Equatable {
     /// (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise, you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an exception will occur. The default is false. Deleting a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to a valid state.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job. However, this is not recommended, and you must ensure that your devices are not using the jobId to refer to the deleted job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -13422,7 +13446,7 @@ public struct DeleteJobInput: Swift.Equatable {
     public var namespaceId: Swift.String?
 
     public init (
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         jobId: Swift.String? = nil,
         namespaceId: Swift.String? = nil
     )
@@ -13624,11 +13648,11 @@ extension DeleteOTAUpdateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if deleteStream != false {
+            if let deleteStream = deleteStream {
                 let deleteStreamQueryItem = ClientRuntime.URLQueryItem(name: "deleteStream".urlPercentEncoding(), value: Swift.String(deleteStream).urlPercentEncoding())
                 items.append(deleteStreamQueryItem)
             }
-            if forceDeleteAWSJob != false {
+            if let forceDeleteAWSJob = forceDeleteAWSJob {
                 let forceDeleteAWSJobQueryItem = ClientRuntime.URLQueryItem(name: "forceDeleteAWSJob".urlPercentEncoding(), value: Swift.String(forceDeleteAWSJob).urlPercentEncoding())
                 items.append(forceDeleteAWSJobQueryItem)
             }
@@ -13648,16 +13672,16 @@ extension DeleteOTAUpdateInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteOTAUpdateInput: Swift.Equatable {
     /// When true, the stream created by the OTAUpdate process is deleted when the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by the user.
-    public var deleteStream: Swift.Bool
+    public var deleteStream: Swift.Bool?
     /// When true, deletes the IoT job created by the OTAUpdate process even if it is "IN_PROGRESS". Otherwise, if the job is not in a terminal state ("COMPLETED" or "CANCELED") an exception will occur. The default is false.
-    public var forceDeleteAWSJob: Swift.Bool
+    public var forceDeleteAWSJob: Swift.Bool?
     /// The ID of the OTA update to delete.
     /// This member is required.
     public var otaUpdateId: Swift.String?
 
     public init (
-        deleteStream: Swift.Bool = false,
-        forceDeleteAWSJob: Swift.Bool = false,
+        deleteStream: Swift.Bool? = nil,
+        forceDeleteAWSJob: Swift.Bool? = nil,
         otaUpdateId: Swift.String? = nil
     )
     {
@@ -14945,7 +14969,7 @@ extension DeprecateThingTypeInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if undoDeprecate != false {
+        if let undoDeprecate = self.undoDeprecate {
             try encodeContainer.encode(undoDeprecate, forKey: .undoDeprecate)
         }
     }
@@ -14966,11 +14990,11 @@ public struct DeprecateThingTypeInput: Swift.Equatable {
     /// This member is required.
     public var thingTypeName: Swift.String?
     /// Whether to undeprecate a deprecated thing type. If true, the thing type will not be deprecated anymore and you can associate it with things.
-    public var undoDeprecate: Swift.Bool
+    public var undoDeprecate: Swift.Bool?
 
     public init (
         thingTypeName: Swift.String? = nil,
-        undoDeprecate: Swift.Bool = false
+        undoDeprecate: Swift.Bool? = nil
     )
     {
         self.thingTypeName = thingTypeName
@@ -14979,7 +15003,7 @@ public struct DeprecateThingTypeInput: Swift.Equatable {
 }
 
 struct DeprecateThingTypeInputBody: Swift.Equatable {
-    let undoDeprecate: Swift.Bool
+    let undoDeprecate: Swift.Bool?
 }
 
 extension DeprecateThingTypeInputBody: Swift.Decodable {
@@ -14989,7 +15013,7 @@ extension DeprecateThingTypeInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let undoDeprecateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .undoDeprecate) ?? false
+        let undoDeprecateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .undoDeprecate)
         undoDeprecate = undoDeprecateDecoded
     }
 }
@@ -17322,7 +17346,7 @@ public struct DescribeFleetMetricOutputResponse: Swift.Equatable {
     public var queryString: Swift.String?
     /// The query version.
     public var queryVersion: Swift.String?
-    /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by [CW metric](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html).
+    /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by [CW metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html).
     public var unit: IoTClientTypes.FleetMetricUnit?
     /// The version of the fleet metric.
     public var version: Swift.Int
@@ -17866,6 +17890,7 @@ extension DescribeJobTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
             self.jobExecutionsRolloutConfig = output.jobExecutionsRolloutConfig
             self.jobTemplateArn = output.jobTemplateArn
             self.jobTemplateId = output.jobTemplateId
+            self.maintenanceWindows = output.maintenanceWindows
             self.presignedUrlConfig = output.presignedUrlConfig
             self.timeoutConfig = output.timeoutConfig
         } else {
@@ -17878,6 +17903,7 @@ extension DescribeJobTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
             self.jobExecutionsRolloutConfig = nil
             self.jobTemplateArn = nil
             self.jobTemplateId = nil
+            self.maintenanceWindows = nil
             self.presignedUrlConfig = nil
             self.timeoutConfig = nil
         }
@@ -17903,6 +17929,8 @@ public struct DescribeJobTemplateOutputResponse: Swift.Equatable {
     public var jobTemplateArn: Swift.String?
     /// The unique identifier of the job template.
     public var jobTemplateId: Swift.String?
+    /// Allows you to configure an optional maintenance window for the rollout of a job document to all devices in the target group for a job.
+    public var maintenanceWindows: [IoTClientTypes.MaintenanceWindow]?
     /// Configuration for pre-signed S3 URLs.
     public var presignedUrlConfig: IoTClientTypes.PresignedUrlConfig?
     /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
@@ -17918,6 +17946,7 @@ public struct DescribeJobTemplateOutputResponse: Swift.Equatable {
         jobExecutionsRolloutConfig: IoTClientTypes.JobExecutionsRolloutConfig? = nil,
         jobTemplateArn: Swift.String? = nil,
         jobTemplateId: Swift.String? = nil,
+        maintenanceWindows: [IoTClientTypes.MaintenanceWindow]? = nil,
         presignedUrlConfig: IoTClientTypes.PresignedUrlConfig? = nil,
         timeoutConfig: IoTClientTypes.TimeoutConfig? = nil
     )
@@ -17931,6 +17960,7 @@ public struct DescribeJobTemplateOutputResponse: Swift.Equatable {
         self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
         self.jobTemplateArn = jobTemplateArn
         self.jobTemplateId = jobTemplateId
+        self.maintenanceWindows = maintenanceWindows
         self.presignedUrlConfig = presignedUrlConfig
         self.timeoutConfig = timeoutConfig
     }
@@ -17948,6 +17978,7 @@ struct DescribeJobTemplateOutputResponseBody: Swift.Equatable {
     let abortConfig: IoTClientTypes.AbortConfig?
     let timeoutConfig: IoTClientTypes.TimeoutConfig?
     let jobExecutionsRetryConfig: IoTClientTypes.JobExecutionsRetryConfig?
+    let maintenanceWindows: [IoTClientTypes.MaintenanceWindow]?
 }
 
 extension DescribeJobTemplateOutputResponseBody: Swift.Decodable {
@@ -17961,6 +17992,7 @@ extension DescribeJobTemplateOutputResponseBody: Swift.Decodable {
         case jobExecutionsRolloutConfig
         case jobTemplateArn
         case jobTemplateId
+        case maintenanceWindows
         case presignedUrlConfig
         case timeoutConfig
     }
@@ -17989,6 +18021,17 @@ extension DescribeJobTemplateOutputResponseBody: Swift.Decodable {
         timeoutConfig = timeoutConfigDecoded
         let jobExecutionsRetryConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.JobExecutionsRetryConfig.self, forKey: .jobExecutionsRetryConfig)
         jobExecutionsRetryConfig = jobExecutionsRetryConfigDecoded
+        let maintenanceWindowsContainer = try containerValues.decodeIfPresent([IoTClientTypes.MaintenanceWindow?].self, forKey: .maintenanceWindows)
+        var maintenanceWindowsDecoded0:[IoTClientTypes.MaintenanceWindow]? = nil
+        if let maintenanceWindowsContainer = maintenanceWindowsContainer {
+            maintenanceWindowsDecoded0 = [IoTClientTypes.MaintenanceWindow]()
+            for structure0 in maintenanceWindowsContainer {
+                if let structure0 = structure0 {
+                    maintenanceWindowsDecoded0?.append(structure0)
+                }
+            }
+        }
+        maintenanceWindows = maintenanceWindowsDecoded0
     }
 }
 
@@ -25750,6 +25793,7 @@ extension IoTClientTypes.Job: Swift.Codable {
         case namespaceId
         case presignedUrlConfig
         case reasonCode
+        case scheduledJobRollouts
         case schedulingConfig
         case status
         case targetSelection
@@ -25815,6 +25859,12 @@ extension IoTClientTypes.Job: Swift.Codable {
         }
         if let reasonCode = self.reasonCode {
             try encodeContainer.encode(reasonCode, forKey: .reasonCode)
+        }
+        if let scheduledJobRollouts = scheduledJobRollouts {
+            var scheduledJobRolloutsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scheduledJobRollouts)
+            for scheduledjobrollout0 in scheduledJobRollouts {
+                try scheduledJobRolloutsContainer.encode(scheduledjobrollout0)
+            }
         }
         if let schedulingConfig = self.schedulingConfig {
             try encodeContainer.encode(schedulingConfig, forKey: .schedulingConfig)
@@ -25902,6 +25952,17 @@ extension IoTClientTypes.Job: Swift.Codable {
         isConcurrent = isConcurrentDecoded
         let schedulingConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.SchedulingConfig.self, forKey: .schedulingConfig)
         schedulingConfig = schedulingConfigDecoded
+        let scheduledJobRolloutsContainer = try containerValues.decodeIfPresent([IoTClientTypes.ScheduledJobRollout?].self, forKey: .scheduledJobRollouts)
+        var scheduledJobRolloutsDecoded0:[IoTClientTypes.ScheduledJobRollout]? = nil
+        if let scheduledJobRolloutsContainer = scheduledJobRolloutsContainer {
+            scheduledJobRolloutsDecoded0 = [IoTClientTypes.ScheduledJobRollout]()
+            for structure0 in scheduledJobRolloutsContainer {
+                if let structure0 = structure0 {
+                    scheduledJobRolloutsDecoded0?.append(structure0)
+                }
+            }
+        }
+        scheduledJobRollouts = scheduledJobRolloutsDecoded0
     }
 }
 
@@ -25944,6 +26005,8 @@ extension IoTClientTypes {
         public var presignedUrlConfig: IoTClientTypes.PresignedUrlConfig?
         /// If the job was updated, provides the reason code for the update.
         public var reasonCode: Swift.String?
+        /// Displays the next seven maintenance window occurrences and their start times.
+        public var scheduledJobRollouts: [IoTClientTypes.ScheduledJobRollout]?
         /// The configuration that allows you to schedule a job for a future date and time in addition to specifying the end behavior for each job execution.
         public var schedulingConfig: IoTClientTypes.SchedulingConfig?
         /// The status of the job, one of IN_PROGRESS, CANCELED, DELETION_IN_PROGRESS or COMPLETED.
@@ -25974,6 +26037,7 @@ extension IoTClientTypes {
             namespaceId: Swift.String? = nil,
             presignedUrlConfig: IoTClientTypes.PresignedUrlConfig? = nil,
             reasonCode: Swift.String? = nil,
+            scheduledJobRollouts: [IoTClientTypes.ScheduledJobRollout]? = nil,
             schedulingConfig: IoTClientTypes.SchedulingConfig? = nil,
             status: IoTClientTypes.JobStatus? = nil,
             targetSelection: IoTClientTypes.TargetSelection? = nil,
@@ -25999,6 +26063,7 @@ extension IoTClientTypes {
             self.namespaceId = namespaceId
             self.presignedUrlConfig = presignedUrlConfig
             self.reasonCode = reasonCode
+            self.scheduledJobRollouts = scheduledJobRollouts
             self.schedulingConfig = schedulingConfig
             self.status = status
             self.targetSelection = targetSelection
@@ -27404,7 +27469,7 @@ extension ListAttachedPoliciesInput: ClientRuntime.QueryItemProvider {
                 let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
                 items.append(pageSizeQueryItem)
             }
-            if recursive != false {
+            if let recursive = recursive {
                 let recursiveQueryItem = ClientRuntime.URLQueryItem(name: "recursive".urlPercentEncoding(), value: Swift.String(recursive).urlPercentEncoding())
                 items.append(recursiveQueryItem)
             }
@@ -27428,7 +27493,7 @@ public struct ListAttachedPoliciesInput: Swift.Equatable {
     /// The maximum number of results to be returned per request.
     public var pageSize: Swift.Int?
     /// When true, recursively list attached policies.
-    public var recursive: Swift.Bool
+    public var recursive: Swift.Bool?
     /// The group or principal for which the policies will be listed. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
     /// This member is required.
     public var target: Swift.String?
@@ -27436,7 +27501,7 @@ public struct ListAttachedPoliciesInput: Swift.Equatable {
     public init (
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
-        recursive: Swift.Bool = false,
+        recursive: Swift.Bool? = nil,
         target: Swift.String? = nil
     )
     {
@@ -27570,7 +27635,7 @@ extension ListAuditFindingsInput: Swift.Encodable {
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
         }
-        if listSuppressedFindings != false {
+        if let listSuppressedFindings = self.listSuppressedFindings {
             try encodeContainer.encode(listSuppressedFindings, forKey: .listSuppressedFindings)
         }
         if let maxResults = self.maxResults {
@@ -27603,7 +27668,7 @@ public struct ListAuditFindingsInput: Swift.Equatable {
     /// A filter to limit results to those found before the specified time. You must specify either the startTime and endTime or the taskId, but not both.
     public var endTime: ClientRuntime.Date?
     /// Boolean flag indicating whether only the suppressed findings or the unsuppressed findings should be listed. If this parameter isn't provided, the response will list both suppressed and unsuppressed findings.
-    public var listSuppressedFindings: Swift.Bool
+    public var listSuppressedFindings: Swift.Bool?
     /// The maximum number of results to return at one time. The default is 25.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -27618,7 +27683,7 @@ public struct ListAuditFindingsInput: Swift.Equatable {
     public init (
         checkName: Swift.String? = nil,
         endTime: ClientRuntime.Date? = nil,
-        listSuppressedFindings: Swift.Bool = false,
+        listSuppressedFindings: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceIdentifier: IoTClientTypes.ResourceIdentifier? = nil,
@@ -27645,7 +27710,7 @@ struct ListAuditFindingsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
-    let listSuppressedFindings: Swift.Bool
+    let listSuppressedFindings: Swift.Bool?
 }
 
 extension ListAuditFindingsInputBody: Swift.Decodable {
@@ -27676,7 +27741,7 @@ extension ListAuditFindingsInputBody: Swift.Decodable {
         startTime = startTimeDecoded
         let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
         endTime = endTimeDecoded
-        let listSuppressedFindingsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .listSuppressedFindings) ?? false
+        let listSuppressedFindingsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .listSuppressedFindings)
         listSuppressedFindings = listSuppressedFindingsDecoded
     }
 }
@@ -28122,7 +28187,7 @@ extension ListAuditSuppressionsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if ascendingOrder != false {
+        if let ascendingOrder = self.ascendingOrder {
             try encodeContainer.encode(ascendingOrder, forKey: .ascendingOrder)
         }
         if let checkName = self.checkName {
@@ -28148,7 +28213,7 @@ extension ListAuditSuppressionsInput: ClientRuntime.URLPathProvider {
 
 public struct ListAuditSuppressionsInput: Swift.Equatable {
     /// Determines whether suppressions are listed in ascending order by expiration date or not. If parameter isn't provided, ascendingOrder=true.
-    public var ascendingOrder: Swift.Bool
+    public var ascendingOrder: Swift.Bool?
     /// An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
     public var checkName: Swift.String?
     /// The maximum number of results to return at one time. The default is 25.
@@ -28159,7 +28224,7 @@ public struct ListAuditSuppressionsInput: Swift.Equatable {
     public var resourceIdentifier: IoTClientTypes.ResourceIdentifier?
 
     public init (
-        ascendingOrder: Swift.Bool = false,
+        ascendingOrder: Swift.Bool? = nil,
         checkName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -28177,7 +28242,7 @@ public struct ListAuditSuppressionsInput: Swift.Equatable {
 struct ListAuditSuppressionsInputBody: Swift.Equatable {
     let checkName: Swift.String?
     let resourceIdentifier: IoTClientTypes.ResourceIdentifier?
-    let ascendingOrder: Swift.Bool
+    let ascendingOrder: Swift.Bool?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -28197,7 +28262,7 @@ extension ListAuditSuppressionsInputBody: Swift.Decodable {
         checkName = checkNameDecoded
         let resourceIdentifierDecoded = try containerValues.decodeIfPresent(IoTClientTypes.ResourceIdentifier.self, forKey: .resourceIdentifier)
         resourceIdentifier = resourceIdentifierDecoded
-        let ascendingOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ascendingOrder) ?? false
+        let ascendingOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ascendingOrder)
         ascendingOrder = ascendingOrderDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -28468,7 +28533,7 @@ extension ListAuthorizersInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if ascendingOrder != false {
+            if let ascendingOrder = ascendingOrder {
                 let ascendingOrderQueryItem = ClientRuntime.URLQueryItem(name: "isAscendingOrder".urlPercentEncoding(), value: Swift.String(ascendingOrder).urlPercentEncoding())
                 items.append(ascendingOrderQueryItem)
             }
@@ -28497,7 +28562,7 @@ extension ListAuthorizersInput: ClientRuntime.URLPathProvider {
 
 public struct ListAuthorizersInput: Swift.Equatable {
     /// Return the list of authorizers in ascending alphabetical order.
-    public var ascendingOrder: Swift.Bool
+    public var ascendingOrder: Swift.Bool?
     /// A marker used to get the next set of results.
     public var marker: Swift.String?
     /// The maximum number of results to return at one time.
@@ -28506,7 +28571,7 @@ public struct ListAuthorizersInput: Swift.Equatable {
     public var status: IoTClientTypes.AuthorizerStatus?
 
     public init (
-        ascendingOrder: Swift.Bool = false,
+        ascendingOrder: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         status: IoTClientTypes.AuthorizerStatus? = nil
@@ -28766,7 +28831,7 @@ extension ListCACertificatesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if ascendingOrder != false {
+            if let ascendingOrder = ascendingOrder {
                 let ascendingOrderQueryItem = ClientRuntime.URLQueryItem(name: "isAscendingOrder".urlPercentEncoding(), value: Swift.String(ascendingOrder).urlPercentEncoding())
                 items.append(ascendingOrderQueryItem)
             }
@@ -28796,7 +28861,7 @@ extension ListCACertificatesInput: ClientRuntime.URLPathProvider {
 /// Input for the ListCACertificates operation.
 public struct ListCACertificatesInput: Swift.Equatable {
     /// Determines the order of the results.
-    public var ascendingOrder: Swift.Bool
+    public var ascendingOrder: Swift.Bool?
     /// The marker for the next set of results.
     public var marker: Swift.String?
     /// The result page size.
@@ -28805,7 +28870,7 @@ public struct ListCACertificatesInput: Swift.Equatable {
     public var templateName: Swift.String?
 
     public init (
-        ascendingOrder: Swift.Bool = false,
+        ascendingOrder: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         templateName: Swift.String? = nil
@@ -28922,7 +28987,7 @@ extension ListCertificatesByCAInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if ascendingOrder != false {
+            if let ascendingOrder = ascendingOrder {
                 let ascendingOrderQueryItem = ClientRuntime.URLQueryItem(name: "isAscendingOrder".urlPercentEncoding(), value: Swift.String(ascendingOrder).urlPercentEncoding())
                 items.append(ascendingOrderQueryItem)
             }
@@ -28951,7 +29016,7 @@ extension ListCertificatesByCAInput: ClientRuntime.URLPathProvider {
 /// The input to the ListCertificatesByCA operation.
 public struct ListCertificatesByCAInput: Swift.Equatable {
     /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
-    public var ascendingOrder: Swift.Bool
+    public var ascendingOrder: Swift.Bool?
     /// The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate.
     /// This member is required.
     public var caCertificateId: Swift.String?
@@ -28961,7 +29026,7 @@ public struct ListCertificatesByCAInput: Swift.Equatable {
     public var pageSize: Swift.Int?
 
     public init (
-        ascendingOrder: Swift.Bool = false,
+        ascendingOrder: Swift.Bool? = nil,
         caCertificateId: Swift.String? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
@@ -29078,7 +29143,7 @@ extension ListCertificatesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if ascendingOrder != false {
+            if let ascendingOrder = ascendingOrder {
                 let ascendingOrderQueryItem = ClientRuntime.URLQueryItem(name: "isAscendingOrder".urlPercentEncoding(), value: Swift.String(ascendingOrder).urlPercentEncoding())
                 items.append(ascendingOrderQueryItem)
             }
@@ -29104,14 +29169,14 @@ extension ListCertificatesInput: ClientRuntime.URLPathProvider {
 /// The input for the ListCertificates operation.
 public struct ListCertificatesInput: Swift.Equatable {
     /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
-    public var ascendingOrder: Swift.Bool
+    public var ascendingOrder: Swift.Bool?
     /// The marker for the next set of results.
     public var marker: Swift.String?
     /// The result page size.
     public var pageSize: Swift.Int?
 
     public init (
-        ascendingOrder: Swift.Bool = false,
+        ascendingOrder: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -31504,7 +31569,7 @@ extension ListOutgoingCertificatesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if ascendingOrder != false {
+            if let ascendingOrder = ascendingOrder {
                 let ascendingOrderQueryItem = ClientRuntime.URLQueryItem(name: "isAscendingOrder".urlPercentEncoding(), value: Swift.String(ascendingOrder).urlPercentEncoding())
                 items.append(ascendingOrderQueryItem)
             }
@@ -31530,14 +31595,14 @@ extension ListOutgoingCertificatesInput: ClientRuntime.URLPathProvider {
 /// The input to the ListOutgoingCertificates operation.
 public struct ListOutgoingCertificatesInput: Swift.Equatable {
     /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
-    public var ascendingOrder: Swift.Bool
+    public var ascendingOrder: Swift.Bool?
     /// The marker for the next set of results.
     public var marker: Swift.String?
     /// The result page size.
     public var pageSize: Swift.Int?
 
     public init (
-        ascendingOrder: Swift.Bool = false,
+        ascendingOrder: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -31652,7 +31717,7 @@ extension ListPoliciesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if ascendingOrder != false {
+            if let ascendingOrder = ascendingOrder {
                 let ascendingOrderQueryItem = ClientRuntime.URLQueryItem(name: "isAscendingOrder".urlPercentEncoding(), value: Swift.String(ascendingOrder).urlPercentEncoding())
                 items.append(ascendingOrderQueryItem)
             }
@@ -31678,14 +31743,14 @@ extension ListPoliciesInput: ClientRuntime.URLPathProvider {
 /// The input for the ListPolicies operation.
 public struct ListPoliciesInput: Swift.Equatable {
     /// Specifies the order for results. If true, the results are returned in ascending creation order.
-    public var ascendingOrder: Swift.Bool
+    public var ascendingOrder: Swift.Bool?
     /// The marker for the next set of results.
     public var marker: Swift.String?
     /// The result page size.
     public var pageSize: Swift.Int?
 
     public init (
-        ascendingOrder: Swift.Bool = false,
+        ascendingOrder: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -31810,7 +31875,7 @@ extension ListPolicyPrincipalsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if ascendingOrder != false {
+            if let ascendingOrder = ascendingOrder {
                 let ascendingOrderQueryItem = ClientRuntime.URLQueryItem(name: "isAscendingOrder".urlPercentEncoding(), value: Swift.String(ascendingOrder).urlPercentEncoding())
                 items.append(ascendingOrderQueryItem)
             }
@@ -31836,7 +31901,7 @@ extension ListPolicyPrincipalsInput: ClientRuntime.URLPathProvider {
 /// The input for the ListPolicyPrincipals operation.
 public struct ListPolicyPrincipalsInput: Swift.Equatable {
     /// Specifies the order for results. If true, the results are returned in ascending creation order.
-    public var ascendingOrder: Swift.Bool
+    public var ascendingOrder: Swift.Bool?
     /// The marker for the next set of results.
     public var marker: Swift.String?
     /// The result page size.
@@ -31846,7 +31911,7 @@ public struct ListPolicyPrincipalsInput: Swift.Equatable {
     public var policyName: Swift.String?
 
     public init (
-        ascendingOrder: Swift.Bool = false,
+        ascendingOrder: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         policyName: Swift.String? = nil
@@ -32090,7 +32155,7 @@ extension ListPrincipalPoliciesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if ascendingOrder != false {
+            if let ascendingOrder = ascendingOrder {
                 let ascendingOrderQueryItem = ClientRuntime.URLQueryItem(name: "isAscendingOrder".urlPercentEncoding(), value: Swift.String(ascendingOrder).urlPercentEncoding())
                 items.append(ascendingOrderQueryItem)
             }
@@ -32116,7 +32181,7 @@ extension ListPrincipalPoliciesInput: ClientRuntime.URLPathProvider {
 /// The input for the ListPrincipalPolicies operation.
 public struct ListPrincipalPoliciesInput: Swift.Equatable {
     /// Specifies the order for results. If true, results are returned in ascending creation order.
-    public var ascendingOrder: Swift.Bool
+    public var ascendingOrder: Swift.Bool?
     /// The marker for the next set of results.
     public var marker: Swift.String?
     /// The result page size.
@@ -32126,7 +32191,7 @@ public struct ListPrincipalPoliciesInput: Swift.Equatable {
     public var principal: Swift.String?
 
     public init (
-        ascendingOrder: Swift.Bool = false,
+        ascendingOrder: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         principal: Swift.String? = nil
@@ -32831,7 +32896,7 @@ extension ListRoleAliasesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if ascendingOrder != false {
+            if let ascendingOrder = ascendingOrder {
                 let ascendingOrderQueryItem = ClientRuntime.URLQueryItem(name: "isAscendingOrder".urlPercentEncoding(), value: Swift.String(ascendingOrder).urlPercentEncoding())
                 items.append(ascendingOrderQueryItem)
             }
@@ -32856,14 +32921,14 @@ extension ListRoleAliasesInput: ClientRuntime.URLPathProvider {
 
 public struct ListRoleAliasesInput: Swift.Equatable {
     /// Return the list of role aliases in ascending alphabetical order.
-    public var ascendingOrder: Swift.Bool
+    public var ascendingOrder: Swift.Bool?
     /// A marker used to get the next set of results.
     public var marker: Swift.String?
     /// The maximum number of results to return at one time.
     public var pageSize: Swift.Int?
 
     public init (
-        ascendingOrder: Swift.Bool = false,
+        ascendingOrder: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -33119,7 +33184,7 @@ extension ListSecurityProfilesForTargetInput: ClientRuntime.QueryItemProvider {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
-            if recursive != false {
+            if let recursive = recursive {
                 let recursiveQueryItem = ClientRuntime.URLQueryItem(name: "recursive".urlPercentEncoding(), value: Swift.String(recursive).urlPercentEncoding())
                 items.append(recursiveQueryItem)
             }
@@ -33146,7 +33211,7 @@ public struct ListSecurityProfilesForTargetInput: Swift.Equatable {
     /// The token for the next set of results.
     public var nextToken: Swift.String?
     /// If true, return child groups too.
-    public var recursive: Swift.Bool
+    public var recursive: Swift.Bool?
     /// The ARN of the target (thing group) whose attached security profiles you want to get.
     /// This member is required.
     public var securityProfileTargetArn: Swift.String?
@@ -33154,7 +33219,7 @@ public struct ListSecurityProfilesForTargetInput: Swift.Equatable {
     public init (
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        recursive: Swift.Bool = false,
+        recursive: Swift.Bool? = nil,
         securityProfileTargetArn: Swift.String? = nil
     )
     {
@@ -33418,7 +33483,7 @@ extension ListStreamsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if ascendingOrder != false {
+            if let ascendingOrder = ascendingOrder {
                 let ascendingOrderQueryItem = ClientRuntime.URLQueryItem(name: "isAscendingOrder".urlPercentEncoding(), value: Swift.String(ascendingOrder).urlPercentEncoding())
                 items.append(ascendingOrderQueryItem)
             }
@@ -33443,14 +33508,14 @@ extension ListStreamsInput: ClientRuntime.URLPathProvider {
 
 public struct ListStreamsInput: Swift.Equatable {
     /// Set to true to return the list of streams in ascending order.
-    public var ascendingOrder: Swift.Bool
+    public var ascendingOrder: Swift.Bool?
     /// The maximum number of results to return at a time.
     public var maxResults: Swift.Int?
     /// A token used to get the next set of results.
     public var nextToken: Swift.String?
 
     public init (
-        ascendingOrder: Swift.Bool = false,
+        ascendingOrder: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -35060,7 +35125,7 @@ extension ListThingsInThingGroupInput: ClientRuntime.QueryItemProvider {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
-            if recursive != false {
+            if let recursive = recursive {
                 let recursiveQueryItem = ClientRuntime.URLQueryItem(name: "recursive".urlPercentEncoding(), value: Swift.String(recursive).urlPercentEncoding())
                 items.append(recursiveQueryItem)
             }
@@ -35084,7 +35149,7 @@ public struct ListThingsInThingGroupInput: Swift.Equatable {
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
     /// When true, list things in this thing group and in all child groups as well.
-    public var recursive: Swift.Bool
+    public var recursive: Swift.Bool?
     /// The thing group name.
     /// This member is required.
     public var thingGroupName: Swift.String?
@@ -35092,7 +35157,7 @@ public struct ListThingsInThingGroupInput: Swift.Equatable {
     public init (
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        recursive: Swift.Bool = false,
+        recursive: Swift.Bool? = nil,
         thingGroupName: Swift.String? = nil
     )
     {
@@ -35204,7 +35269,7 @@ extension ListThingsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if usePrefixAttributeValue != false {
+            if let usePrefixAttributeValue = usePrefixAttributeValue {
                 let usePrefixAttributeValueQueryItem = ClientRuntime.URLQueryItem(name: "usePrefixAttributeValue".urlPercentEncoding(), value: Swift.String(usePrefixAttributeValue).urlPercentEncoding())
                 items.append(usePrefixAttributeValueQueryItem)
             }
@@ -35252,7 +35317,7 @@ public struct ListThingsInput: Swift.Equatable {
     /// The name of the thing type used to search for things.
     public var thingTypeName: Swift.String?
     /// When true, the action returns the thing resources with attribute values that start with the attributeValue provided. When false, or not present, the action returns only the thing resources with attribute values that match the entire attributeValue provided.
-    public var usePrefixAttributeValue: Swift.Bool
+    public var usePrefixAttributeValue: Swift.Bool?
 
     public init (
         attributeName: Swift.String? = nil,
@@ -35260,7 +35325,7 @@ public struct ListThingsInput: Swift.Equatable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         thingTypeName: Swift.String? = nil,
-        usePrefixAttributeValue: Swift.Bool = false
+        usePrefixAttributeValue: Swift.Bool? = nil
     )
     {
         self.attributeName = attributeName
@@ -36386,6 +36451,53 @@ extension IoTClientTypes {
         )
         {
             self.confidenceLevel = confidenceLevel
+        }
+    }
+
+}
+
+extension IoTClientTypes.MaintenanceWindow: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case durationInMinutes
+        case startTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let durationInMinutes = self.durationInMinutes {
+            try encodeContainer.encode(durationInMinutes, forKey: .durationInMinutes)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startTime)
+        startTime = startTimeDecoded
+        let durationInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInMinutes)
+        durationInMinutes = durationInMinutesDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// An optional configuration within the SchedulingConfig to setup a recurring maintenance window with a predetermined start time and duration for the rollout of a job document to all devices in a target group for a job.
+    public struct MaintenanceWindow: Swift.Equatable {
+        /// Displays the duration of the next maintenance window.
+        /// This member is required.
+        public var durationInMinutes: Swift.Int?
+        /// Displays the start time of the next maintenance window.
+        /// This member is required.
+        public var startTime: Swift.String?
+
+        public init (
+            durationInMinutes: Swift.Int? = nil,
+            startTime: Swift.String? = nil
+        )
+        {
+            self.durationInMinutes = durationInMinutes
+            self.startTime = startTime
         }
     }
 
@@ -38846,11 +38958,11 @@ extension RegisterCACertificateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if allowAutoRegistration != false {
+            if let allowAutoRegistration = allowAutoRegistration {
                 let allowAutoRegistrationQueryItem = ClientRuntime.URLQueryItem(name: "allowAutoRegistration".urlPercentEncoding(), value: Swift.String(allowAutoRegistration).urlPercentEncoding())
                 items.append(allowAutoRegistrationQueryItem)
             }
-            if setAsActive != false {
+            if let setAsActive = setAsActive {
                 let setAsActiveQueryItem = ClientRuntime.URLQueryItem(name: "setAsActive".urlPercentEncoding(), value: Swift.String(setAsActive).urlPercentEncoding())
                 items.append(setAsActiveQueryItem)
             }
@@ -38868,7 +38980,7 @@ extension RegisterCACertificateInput: ClientRuntime.URLPathProvider {
 /// The input to the RegisterCACertificate operation.
 public struct RegisterCACertificateInput: Swift.Equatable {
     /// Allows this CA certificate to be used for auto registration of device certificates.
-    public var allowAutoRegistration: Swift.Bool
+    public var allowAutoRegistration: Swift.Bool?
     /// The CA certificate.
     /// This member is required.
     public var caCertificate: Swift.String?
@@ -38877,18 +38989,18 @@ public struct RegisterCACertificateInput: Swift.Equatable {
     /// Information about the registration configuration.
     public var registrationConfig: IoTClientTypes.RegistrationConfig?
     /// A boolean value that specifies if the CA certificate is set to active. Valid values: ACTIVE | INACTIVE
-    public var setAsActive: Swift.Bool
+    public var setAsActive: Swift.Bool?
     /// Metadata which can be used to manage the CA certificate. For URI Request parameters use format: ...key1=value1&key2=value2... For the CLI command-line parameter use format: &&tags "key1=value1&key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
     public var tags: [IoTClientTypes.Tag]?
     /// The private key verification certificate. If certificateMode is SNI_ONLY, the verificationCertificate field must be empty. If certificateMode is DEFAULT or not provided, the verificationCertificate field must not be empty.
     public var verificationCertificate: Swift.String?
 
     public init (
-        allowAutoRegistration: Swift.Bool = false,
+        allowAutoRegistration: Swift.Bool? = nil,
         caCertificate: Swift.String? = nil,
         certificateMode: IoTClientTypes.CertificateMode? = nil,
         registrationConfig: IoTClientTypes.RegistrationConfig? = nil,
-        setAsActive: Swift.Bool = false,
+        setAsActive: Swift.Bool? = nil,
         tags: [IoTClientTypes.Tag]? = nil,
         verificationCertificate: Swift.String? = nil
     )
@@ -41143,10 +41255,46 @@ extension IoTClientTypes {
 
 }
 
+extension IoTClientTypes.ScheduledJobRollout: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case startTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let startTime = self.startTime {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startTime)
+        startTime = startTimeDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// Displays the next seven maintenance window occurrences and their start times.
+    public struct ScheduledJobRollout: Swift.Equatable {
+        /// Displays the start times of the next seven maintenance window occurrences.
+        public var startTime: Swift.String?
+
+        public init (
+            startTime: Swift.String? = nil
+        )
+        {
+            self.startTime = startTime
+        }
+    }
+
+}
+
 extension IoTClientTypes.SchedulingConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endBehavior
         case endTime
+        case maintenanceWindows
         case startTime
     }
 
@@ -41157,6 +41305,12 @@ extension IoTClientTypes.SchedulingConfig: Swift.Codable {
         }
         if let endTime = self.endTime {
             try encodeContainer.encode(endTime, forKey: .endTime)
+        }
+        if let maintenanceWindows = maintenanceWindows {
+            var maintenanceWindowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .maintenanceWindows)
+            for maintenancewindow0 in maintenanceWindows {
+                try maintenanceWindowsContainer.encode(maintenancewindow0)
+            }
         }
         if let startTime = self.startTime {
             try encodeContainer.encode(startTime, forKey: .startTime)
@@ -41171,6 +41325,17 @@ extension IoTClientTypes.SchedulingConfig: Swift.Codable {
         endTime = endTimeDecoded
         let endBehaviorDecoded = try containerValues.decodeIfPresent(IoTClientTypes.JobEndBehavior.self, forKey: .endBehavior)
         endBehavior = endBehaviorDecoded
+        let maintenanceWindowsContainer = try containerValues.decodeIfPresent([IoTClientTypes.MaintenanceWindow?].self, forKey: .maintenanceWindows)
+        var maintenanceWindowsDecoded0:[IoTClientTypes.MaintenanceWindow]? = nil
+        if let maintenanceWindowsContainer = maintenanceWindowsContainer {
+            maintenanceWindowsDecoded0 = [IoTClientTypes.MaintenanceWindow]()
+            for structure0 in maintenanceWindowsContainer {
+                if let structure0 = structure0 {
+                    maintenanceWindowsDecoded0?.append(structure0)
+                }
+            }
+        }
+        maintenanceWindows = maintenanceWindowsDecoded0
     }
 }
 
@@ -41179,19 +41344,23 @@ extension IoTClientTypes {
     public struct SchedulingConfig: Swift.Equatable {
         /// Specifies the end behavior for all job executions after a job reaches the selected endTime. If endTime is not selected when creating the job, then endBehavior does not apply.
         public var endBehavior: IoTClientTypes.JobEndBehavior?
-        /// The time a job will stop rollout of the job document to all devices in the target group for a job. The endTime must take place no later than two years from the current time and be scheduled a minimum of thirty minutes from the current time. The minimum duration between startTime and endTime is thirty minutes. The maximum duration between startTime and endTime is two years.
+        /// The time a job will stop rollout of the job document to all devices in the target group for a job. The endTime must take place no later than two years from the current time and be scheduled a minimum of thirty minutes from the current time. The minimum duration between startTime and endTime is thirty minutes. The maximum duration between startTime and endTime is two years. The date and time format for the endTime is YYYY-MM-DD for the date and HH:MM for the time.
         public var endTime: Swift.String?
-        /// The time a job will begin rollout of the job document to all devices in the target group for a job. The startTime can be scheduled up to a year in advance and must be scheduled a minimum of thirty minutes from the current time.
+        /// An optional configuration within the SchedulingConfig to setup a recurring maintenance window with a predetermined start time and duration for the rollout of a job document to all devices in a target group for a job.
+        public var maintenanceWindows: [IoTClientTypes.MaintenanceWindow]?
+        /// The time a job will begin rollout of the job document to all devices in the target group for a job. The startTime can be scheduled up to a year in advance and must be scheduled a minimum of thirty minutes from the current time. The date and time format for the startTime is YYYY-MM-DD for the date and HH:MM for the time.
         public var startTime: Swift.String?
 
         public init (
             endBehavior: IoTClientTypes.JobEndBehavior? = nil,
             endTime: Swift.String? = nil,
+            maintenanceWindows: [IoTClientTypes.MaintenanceWindow]? = nil,
             startTime: Swift.String? = nil
         )
         {
             self.endBehavior = endBehavior
             self.endTime = endTime
+            self.maintenanceWindows = maintenanceWindows
             self.startTime = startTime
         }
     }
@@ -42163,7 +42332,7 @@ extension SetV2LoggingOptionsInput: Swift.Encodable {
         if let defaultLogLevel = self.defaultLogLevel {
             try encodeContainer.encode(defaultLogLevel.rawValue, forKey: .defaultLogLevel)
         }
-        if disableAllLogs != false {
+        if let disableAllLogs = self.disableAllLogs {
             try encodeContainer.encode(disableAllLogs, forKey: .disableAllLogs)
         }
         if let roleArn = self.roleArn {
@@ -42182,13 +42351,13 @@ public struct SetV2LoggingOptionsInput: Swift.Equatable {
     /// The default logging level.
     public var defaultLogLevel: IoTClientTypes.LogLevel?
     /// If true all logs are disabled. The default is false.
-    public var disableAllLogs: Swift.Bool
+    public var disableAllLogs: Swift.Bool?
     /// The ARN of the role that allows IoT to write to Cloudwatch logs.
     public var roleArn: Swift.String?
 
     public init (
         defaultLogLevel: IoTClientTypes.LogLevel? = nil,
-        disableAllLogs: Swift.Bool = false,
+        disableAllLogs: Swift.Bool? = nil,
         roleArn: Swift.String? = nil
     )
     {
@@ -42201,7 +42370,7 @@ public struct SetV2LoggingOptionsInput: Swift.Equatable {
 struct SetV2LoggingOptionsInputBody: Swift.Equatable {
     let roleArn: Swift.String?
     let defaultLogLevel: IoTClientTypes.LogLevel?
-    let disableAllLogs: Swift.Bool
+    let disableAllLogs: Swift.Bool?
 }
 
 extension SetV2LoggingOptionsInputBody: Swift.Decodable {
@@ -42217,7 +42386,7 @@ extension SetV2LoggingOptionsInputBody: Swift.Decodable {
         roleArn = roleArnDecoded
         let defaultLogLevelDecoded = try containerValues.decodeIfPresent(IoTClientTypes.LogLevel.self, forKey: .defaultLogLevel)
         defaultLogLevel = defaultLogLevelDecoded
-        let disableAllLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableAllLogs) ?? false
+        let disableAllLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableAllLogs)
         disableAllLogs = disableAllLogsDecoded
     }
 }
@@ -47747,7 +47916,7 @@ extension UpdateCACertificateInput: Swift.Encodable {
         if let registrationConfig = self.registrationConfig {
             try encodeContainer.encode(registrationConfig, forKey: .registrationConfig)
         }
-        if removeAutoRegistration != false {
+        if let removeAutoRegistration = self.removeAutoRegistration {
             try encodeContainer.encode(removeAutoRegistration, forKey: .removeAutoRegistration)
         }
     }
@@ -47791,14 +47960,14 @@ public struct UpdateCACertificateInput: Swift.Equatable {
     /// Information about the registration configuration.
     public var registrationConfig: IoTClientTypes.RegistrationConfig?
     /// If true, removes auto registration.
-    public var removeAutoRegistration: Swift.Bool
+    public var removeAutoRegistration: Swift.Bool?
 
     public init (
         certificateId: Swift.String? = nil,
         newAutoRegistrationStatus: IoTClientTypes.AutoRegistrationStatus? = nil,
         newStatus: IoTClientTypes.CACertificateStatus? = nil,
         registrationConfig: IoTClientTypes.RegistrationConfig? = nil,
-        removeAutoRegistration: Swift.Bool = false
+        removeAutoRegistration: Swift.Bool? = nil
     )
     {
         self.certificateId = certificateId
@@ -47811,7 +47980,7 @@ public struct UpdateCACertificateInput: Swift.Equatable {
 
 struct UpdateCACertificateInputBody: Swift.Equatable {
     let registrationConfig: IoTClientTypes.RegistrationConfig?
-    let removeAutoRegistration: Swift.Bool
+    let removeAutoRegistration: Swift.Bool?
 }
 
 extension UpdateCACertificateInputBody: Swift.Decodable {
@@ -47824,7 +47993,7 @@ extension UpdateCACertificateInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let registrationConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.RegistrationConfig.self, forKey: .registrationConfig)
         registrationConfig = registrationConfigDecoded
-        let removeAutoRegistrationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeAutoRegistration) ?? false
+        let removeAutoRegistrationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeAutoRegistration)
         removeAutoRegistration = removeAutoRegistrationDecoded
     }
 }
@@ -48425,7 +48594,7 @@ extension UpdateDomainConfigurationInput: Swift.Encodable {
         if let domainConfigurationStatus = self.domainConfigurationStatus {
             try encodeContainer.encode(domainConfigurationStatus.rawValue, forKey: .domainConfigurationStatus)
         }
-        if removeAuthorizerConfig != false {
+        if let removeAuthorizerConfig = self.removeAuthorizerConfig {
             try encodeContainer.encode(removeAuthorizerConfig, forKey: .removeAuthorizerConfig)
         }
     }
@@ -48449,13 +48618,13 @@ public struct UpdateDomainConfigurationInput: Swift.Equatable {
     /// The status to which the domain configuration should be updated.
     public var domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus?
     /// Removes the authorization configuration from a domain.
-    public var removeAuthorizerConfig: Swift.Bool
+    public var removeAuthorizerConfig: Swift.Bool?
 
     public init (
         authorizerConfig: IoTClientTypes.AuthorizerConfig? = nil,
         domainConfigurationName: Swift.String? = nil,
         domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus? = nil,
-        removeAuthorizerConfig: Swift.Bool = false
+        removeAuthorizerConfig: Swift.Bool? = nil
     )
     {
         self.authorizerConfig = authorizerConfig
@@ -48468,7 +48637,7 @@ public struct UpdateDomainConfigurationInput: Swift.Equatable {
 struct UpdateDomainConfigurationInputBody: Swift.Equatable {
     let authorizerConfig: IoTClientTypes.AuthorizerConfig?
     let domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus?
-    let removeAuthorizerConfig: Swift.Bool
+    let removeAuthorizerConfig: Swift.Bool?
 }
 
 extension UpdateDomainConfigurationInputBody: Swift.Decodable {
@@ -48484,7 +48653,7 @@ extension UpdateDomainConfigurationInputBody: Swift.Decodable {
         authorizerConfig = authorizerConfigDecoded
         let domainConfigurationStatusDecoded = try containerValues.decodeIfPresent(IoTClientTypes.DomainConfigurationStatus.self, forKey: .domainConfigurationStatus)
         domainConfigurationStatus = domainConfigurationStatusDecoded
-        let removeAuthorizerConfigDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeAuthorizerConfig) ?? false
+        let removeAuthorizerConfigDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeAuthorizerConfig)
         removeAuthorizerConfig = removeAuthorizerConfigDecoded
     }
 }
@@ -49481,7 +49650,7 @@ extension UpdateProvisioningTemplateInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let preProvisioningHook = self.preProvisioningHook {
@@ -49511,7 +49680,7 @@ public struct UpdateProvisioningTemplateInput: Swift.Equatable {
     /// The description of the provisioning template.
     public var description: Swift.String?
     /// True to enable the provisioning template, otherwise false.
-    public var enabled: Swift.Bool
+    public var enabled: Swift.Bool?
     /// Updates the pre-provisioning hook template. Only supports template of type FLEET_PROVISIONING. For more information about provisioning template types, see [type](https://docs.aws.amazon.com/iot/latest/apireference/API_CreateProvisioningTemplate.html#iot-CreateProvisioningTemplate-request-type).
     public var preProvisioningHook: IoTClientTypes.ProvisioningHook?
     /// The ARN of the role associated with the provisioning template. This IoT role grants permission to provision a device.
@@ -49525,7 +49694,7 @@ public struct UpdateProvisioningTemplateInput: Swift.Equatable {
     public init (
         defaultVersionId: Swift.Int? = nil,
         description: Swift.String? = nil,
-        enabled: Swift.Bool = false,
+        enabled: Swift.Bool? = nil,
         preProvisioningHook: IoTClientTypes.ProvisioningHook? = nil,
         provisioningRoleArn: Swift.String? = nil,
         removePreProvisioningHook: Swift.Bool? = nil,
@@ -49544,7 +49713,7 @@ public struct UpdateProvisioningTemplateInput: Swift.Equatable {
 
 struct UpdateProvisioningTemplateInputBody: Swift.Equatable {
     let description: Swift.String?
-    let enabled: Swift.Bool
+    let enabled: Swift.Bool?
     let defaultVersionId: Swift.Int?
     let provisioningRoleArn: Swift.String?
     let preProvisioningHook: IoTClientTypes.ProvisioningHook?
@@ -49565,7 +49734,7 @@ extension UpdateProvisioningTemplateInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let defaultVersionIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultVersionId)
         defaultVersionId = defaultVersionIdDecoded
@@ -49978,13 +50147,13 @@ extension UpdateSecurityProfileInput: Swift.Encodable {
                 try behaviorsContainer.encode(behavior0)
             }
         }
-        if deleteAdditionalMetricsToRetain != false {
+        if let deleteAdditionalMetricsToRetain = self.deleteAdditionalMetricsToRetain {
             try encodeContainer.encode(deleteAdditionalMetricsToRetain, forKey: .deleteAdditionalMetricsToRetain)
         }
-        if deleteAlertTargets != false {
+        if let deleteAlertTargets = self.deleteAlertTargets {
             try encodeContainer.encode(deleteAlertTargets, forKey: .deleteAlertTargets)
         }
-        if deleteBehaviors != false {
+        if let deleteBehaviors = self.deleteBehaviors {
             try encodeContainer.encode(deleteBehaviors, forKey: .deleteBehaviors)
         }
         if let securityProfileDescription = self.securityProfileDescription {
@@ -50026,11 +50195,11 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
     /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
     public var behaviors: [IoTClientTypes.Behavior]?
     /// If true, delete all additionalMetricsToRetain defined for this security profile. If any additionalMetricsToRetain are defined in the current invocation, an exception occurs.
-    public var deleteAdditionalMetricsToRetain: Swift.Bool
+    public var deleteAdditionalMetricsToRetain: Swift.Bool?
     /// If true, delete all alertTargets defined for this security profile. If any alertTargets are defined in the current invocation, an exception occurs.
-    public var deleteAlertTargets: Swift.Bool
+    public var deleteAlertTargets: Swift.Bool?
     /// If true, delete all behaviors defined for this security profile. If any behaviors are defined in the current invocation, an exception occurs.
-    public var deleteBehaviors: Swift.Bool
+    public var deleteBehaviors: Swift.Bool?
     /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown.
     public var expectedVersion: Swift.Int?
     /// A description of the security profile.
@@ -50044,9 +50213,9 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
         additionalMetricsToRetainV2: [IoTClientTypes.MetricToRetain]? = nil,
         alertTargets: [Swift.String:IoTClientTypes.AlertTarget]? = nil,
         behaviors: [IoTClientTypes.Behavior]? = nil,
-        deleteAdditionalMetricsToRetain: Swift.Bool = false,
-        deleteAlertTargets: Swift.Bool = false,
-        deleteBehaviors: Swift.Bool = false,
+        deleteAdditionalMetricsToRetain: Swift.Bool? = nil,
+        deleteAlertTargets: Swift.Bool? = nil,
+        deleteBehaviors: Swift.Bool? = nil,
         expectedVersion: Swift.Int? = nil,
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil
@@ -50071,9 +50240,9 @@ struct UpdateSecurityProfileInputBody: Swift.Equatable {
     let alertTargets: [Swift.String:IoTClientTypes.AlertTarget]?
     let additionalMetricsToRetain: [Swift.String]?
     let additionalMetricsToRetainV2: [IoTClientTypes.MetricToRetain]?
-    let deleteBehaviors: Swift.Bool
-    let deleteAlertTargets: Swift.Bool
-    let deleteAdditionalMetricsToRetain: Swift.Bool
+    let deleteBehaviors: Swift.Bool?
+    let deleteAlertTargets: Swift.Bool?
+    let deleteAdditionalMetricsToRetain: Swift.Bool?
 }
 
 extension UpdateSecurityProfileInputBody: Swift.Decodable {
@@ -50136,11 +50305,11 @@ extension UpdateSecurityProfileInputBody: Swift.Decodable {
             }
         }
         additionalMetricsToRetainV2 = additionalMetricsToRetainV2Decoded0
-        let deleteBehaviorsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteBehaviors) ?? false
+        let deleteBehaviorsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteBehaviors)
         deleteBehaviors = deleteBehaviorsDecoded
-        let deleteAlertTargetsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteAlertTargets) ?? false
+        let deleteAlertTargetsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteAlertTargets)
         deleteAlertTargets = deleteAlertTargetsDecoded
-        let deleteAdditionalMetricsToRetainDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteAdditionalMetricsToRetain) ?? false
+        let deleteAdditionalMetricsToRetainDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteAdditionalMetricsToRetain)
         deleteAdditionalMetricsToRetain = deleteAdditionalMetricsToRetainDecoded
     }
 }
@@ -50686,7 +50855,7 @@ extension UpdateThingGroupsForThingInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if overrideDynamicGroups != false {
+        if let overrideDynamicGroups = self.overrideDynamicGroups {
             try encodeContainer.encode(overrideDynamicGroups, forKey: .overrideDynamicGroups)
         }
         if let thingGroupsToAdd = thingGroupsToAdd {
@@ -50715,7 +50884,7 @@ extension UpdateThingGroupsForThingInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateThingGroupsForThingInput: Swift.Equatable {
     /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
-    public var overrideDynamicGroups: Swift.Bool
+    public var overrideDynamicGroups: Swift.Bool?
     /// The groups to which the thing will be added.
     public var thingGroupsToAdd: [Swift.String]?
     /// The groups from which the thing will be removed.
@@ -50724,7 +50893,7 @@ public struct UpdateThingGroupsForThingInput: Swift.Equatable {
     public var thingName: Swift.String?
 
     public init (
-        overrideDynamicGroups: Swift.Bool = false,
+        overrideDynamicGroups: Swift.Bool? = nil,
         thingGroupsToAdd: [Swift.String]? = nil,
         thingGroupsToRemove: [Swift.String]? = nil,
         thingName: Swift.String? = nil
@@ -50741,7 +50910,7 @@ struct UpdateThingGroupsForThingInputBody: Swift.Equatable {
     let thingName: Swift.String?
     let thingGroupsToAdd: [Swift.String]?
     let thingGroupsToRemove: [Swift.String]?
-    let overrideDynamicGroups: Swift.Bool
+    let overrideDynamicGroups: Swift.Bool?
 }
 
 extension UpdateThingGroupsForThingInputBody: Swift.Decodable {
@@ -50778,7 +50947,7 @@ extension UpdateThingGroupsForThingInputBody: Swift.Decodable {
             }
         }
         thingGroupsToRemove = thingGroupsToRemoveDecoded0
-        let overrideDynamicGroupsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .overrideDynamicGroups) ?? false
+        let overrideDynamicGroupsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .overrideDynamicGroups)
         overrideDynamicGroups = overrideDynamicGroupsDecoded
     }
 }
@@ -50837,7 +51006,7 @@ extension UpdateThingInput: Swift.Encodable {
         if let expectedVersion = self.expectedVersion {
             try encodeContainer.encode(expectedVersion, forKey: .expectedVersion)
         }
-        if removeThingType != false {
+        if let removeThingType = self.removeThingType {
             try encodeContainer.encode(removeThingType, forKey: .removeThingType)
         }
         if let thingTypeName = self.thingTypeName {
@@ -50862,7 +51031,7 @@ public struct UpdateThingInput: Swift.Equatable {
     /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the UpdateThing request is rejected with a VersionConflictException.
     public var expectedVersion: Swift.Int?
     /// Remove a thing type association. If true, the association is removed.
-    public var removeThingType: Swift.Bool
+    public var removeThingType: Swift.Bool?
     /// The name of the thing to update. You can't change a thing's name. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing.
     /// This member is required.
     public var thingName: Swift.String?
@@ -50872,7 +51041,7 @@ public struct UpdateThingInput: Swift.Equatable {
     public init (
         attributePayload: IoTClientTypes.AttributePayload? = nil,
         expectedVersion: Swift.Int? = nil,
-        removeThingType: Swift.Bool = false,
+        removeThingType: Swift.Bool? = nil,
         thingName: Swift.String? = nil,
         thingTypeName: Swift.String? = nil
     )
@@ -50889,7 +51058,7 @@ struct UpdateThingInputBody: Swift.Equatable {
     let thingTypeName: Swift.String?
     let attributePayload: IoTClientTypes.AttributePayload?
     let expectedVersion: Swift.Int?
-    let removeThingType: Swift.Bool
+    let removeThingType: Swift.Bool?
 }
 
 extension UpdateThingInputBody: Swift.Decodable {
@@ -50908,7 +51077,7 @@ extension UpdateThingInputBody: Swift.Decodable {
         attributePayload = attributePayloadDecoded
         let expectedVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .expectedVersion)
         expectedVersion = expectedVersionDecoded
-        let removeThingTypeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeThingType) ?? false
+        let removeThingTypeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeThingType)
         removeThingType = removeThingTypeDecoded
     }
 }

@@ -65,7 +65,7 @@ extension CancelSolNetworkOperationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CancelSolNetworkOperationInput: Swift.Equatable {
-    /// The ID of a network operation occurrence.
+    /// The identifier of the network operation.
     /// This member is required.
     public var nsLcmOpOccId: Swift.String?
 
@@ -2210,7 +2210,7 @@ extension GetSolNetworkOperationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetSolNetworkOperationInput: Swift.Equatable {
-    /// The identifier of the operation occurrence.
+    /// The identifier of the network operation.
     /// This member is required.
     public var nsLcmOpOccId: Swift.String?
 
@@ -2257,7 +2257,7 @@ extension TnbClientTypes.GetSolNetworkOperationMetadata: Swift.Codable {
 }
 
 extension TnbClientTypes {
-    /// Metadata related to a network operation occurence. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
+    /// Metadata related to a network operation occurrence. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
     public struct GetSolNetworkOperationMetadata: Swift.Equatable {
         /// The date that the resource was created.
         /// This member is required.
@@ -2346,7 +2346,7 @@ public struct GetSolNetworkOperationOutputResponse: Swift.Equatable {
     /// Network operation ARN.
     /// This member is required.
     public var arn: Swift.String?
-    /// Error related to this specific network operation occurence.
+    /// Error related to this specific network operation occurrence.
     public var error: TnbClientTypes.ProblemDetails?
     /// ID of this network operation occurrence.
     public var id: Swift.String?
@@ -3220,15 +3220,27 @@ extension TnbClientTypes {
 
 }
 
+extension InstantiateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InstantiateSolNetworkInstanceInput(additionalParamsForNs: \(Swift.String(describing: additionalParamsForNs)), dryRun: \(Swift.String(describing: dryRun)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), tags: \"CONTENT_REDACTED\")"}
+}
+
 extension InstantiateSolNetworkInstanceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalParamsForNs
+        case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalParamsForNs = self.additionalParamsForNs {
             try encodeContainer.encode(additionalParamsForNs, forKey: .additionalParamsForNs)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -3263,32 +3275,49 @@ public struct InstantiateSolNetworkInstanceInput: Swift.Equatable {
     /// ID of the network instance.
     /// This member is required.
     public var nsInstanceId: Swift.String?
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
         additionalParamsForNs: ClientRuntime.Document? = nil,
         dryRun: Swift.Bool? = nil,
-        nsInstanceId: Swift.String? = nil
+        nsInstanceId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.additionalParamsForNs = additionalParamsForNs
         self.dryRun = dryRun
         self.nsInstanceId = nsInstanceId
+        self.tags = tags
     }
 }
 
 struct InstantiateSolNetworkInstanceInputBody: Swift.Equatable {
     let additionalParamsForNs: ClientRuntime.Document?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension InstantiateSolNetworkInstanceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalParamsForNs
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let additionalParamsForNsDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .additionalParamsForNs)
         additionalParamsForNs = additionalParamsForNsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -3324,6 +3353,11 @@ public enum InstantiateSolNetworkInstanceOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension InstantiateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InstantiateSolNetworkInstanceOutputResponse(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
+}
+
 extension InstantiateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3331,38 +3365,57 @@ extension InstantiateSolNetworkInstanceOutputResponse: ClientRuntime.HttpRespons
             let data = reader.toBytes().getData()
             let output: InstantiateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nsLcmOpOccId = output.nsLcmOpOccId
+            self.tags = output.tags
         } else {
             self.nsLcmOpOccId = nil
+            self.tags = nil
         }
     }
 }
 
 public struct InstantiateSolNetworkInstanceOutputResponse: Swift.Equatable {
-    /// The identifier of the network instance.
+    /// The identifier of the network operation.
     /// This member is required.
     public var nsLcmOpOccId: Swift.String?
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
-        nsLcmOpOccId: Swift.String? = nil
+        nsLcmOpOccId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.nsLcmOpOccId = nsLcmOpOccId
+        self.tags = tags
     }
 }
 
 struct InstantiateSolNetworkInstanceOutputResponseBody: Swift.Equatable {
     let nsLcmOpOccId: Swift.String?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension InstantiateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nsLcmOpOccId
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nsLcmOpOccIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nsLcmOpOccId)
         nsLcmOpOccId = nsLcmOpOccIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -3441,7 +3494,7 @@ extension TnbClientTypes.LcmOperationInfo: Swift.Codable {
 extension TnbClientTypes {
     /// Lifecycle management operation details on the network instance. Lifecycle management operations are deploy, update, or delete operations.
     public struct LcmOperationInfo: Swift.Equatable {
-        /// The identifier of the latest network lifecycle management operation occurrence.
+        /// The identifier of the network operation.
         /// This member is required.
         public var nsLcmOpOccId: Swift.String?
 
@@ -6322,6 +6375,27 @@ extension TnbClientTypes {
     }
 }
 
+extension TerminateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TerminateSolNetworkInstanceInput(nsInstanceId: \(Swift.String(describing: nsInstanceId)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension TerminateSolNetworkInstanceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
 extension TerminateSolNetworkInstanceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let nsInstanceId = nsInstanceId else {
@@ -6335,21 +6409,41 @@ public struct TerminateSolNetworkInstanceInput: Swift.Equatable {
     /// ID of the network instance.
     /// This member is required.
     public var nsInstanceId: Swift.String?
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
-        nsInstanceId: Swift.String? = nil
+        nsInstanceId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.nsInstanceId = nsInstanceId
+        self.tags = tags
     }
 }
 
 struct TerminateSolNetworkInstanceInputBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension TerminateSolNetworkInstanceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
 
     public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -6385,6 +6479,11 @@ public enum TerminateSolNetworkInstanceOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TerminateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TerminateSolNetworkInstanceOutputResponse(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
+}
+
 extension TerminateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6392,37 +6491,56 @@ extension TerminateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseB
             let data = reader.toBytes().getData()
             let output: TerminateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nsLcmOpOccId = output.nsLcmOpOccId
+            self.tags = output.tags
         } else {
             self.nsLcmOpOccId = nil
+            self.tags = nil
         }
     }
 }
 
 public struct TerminateSolNetworkInstanceOutputResponse: Swift.Equatable {
-    /// The identifier of the operation occurrence.
+    /// The identifier of the network operation.
     public var nsLcmOpOccId: Swift.String?
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
-        nsLcmOpOccId: Swift.String? = nil
+        nsLcmOpOccId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.nsLcmOpOccId = nsLcmOpOccId
+        self.tags = tags
     }
 }
 
 struct TerminateSolNetworkInstanceOutputResponseBody: Swift.Equatable {
     let nsLcmOpOccId: Swift.String?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension TerminateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nsLcmOpOccId
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nsLcmOpOccIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nsLcmOpOccId)
         nsLcmOpOccId = nsLcmOpOccIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -6745,9 +6863,15 @@ extension UpdateSolFunctionPackageOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateSolNetworkInstanceInput(modifyVnfInfoData: \(Swift.String(describing: modifyVnfInfoData)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), updateType: \(Swift.String(describing: updateType)), tags: \"CONTENT_REDACTED\")"}
+}
+
 extension UpdateSolNetworkInstanceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case modifyVnfInfoData
+        case tags
         case updateType
     }
 
@@ -6755,6 +6879,12 @@ extension UpdateSolNetworkInstanceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let modifyVnfInfoData = self.modifyVnfInfoData {
             try encodeContainer.encode(modifyVnfInfoData, forKey: .modifyVnfInfoData)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let updateType = self.updateType {
             try encodeContainer.encode(updateType.rawValue, forKey: .updateType)
@@ -6777,6 +6907,8 @@ public struct UpdateSolNetworkInstanceInput: Swift.Equatable {
     /// ID of the network instance.
     /// This member is required.
     public var nsInstanceId: Swift.String?
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    public var tags: [Swift.String:Swift.String]?
     /// The type of update.
     /// This member is required.
     public var updateType: TnbClientTypes.UpdateSolNetworkType?
@@ -6784,11 +6916,13 @@ public struct UpdateSolNetworkInstanceInput: Swift.Equatable {
     public init (
         modifyVnfInfoData: TnbClientTypes.UpdateSolNetworkModify? = nil,
         nsInstanceId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
         updateType: TnbClientTypes.UpdateSolNetworkType? = nil
     )
     {
         self.modifyVnfInfoData = modifyVnfInfoData
         self.nsInstanceId = nsInstanceId
+        self.tags = tags
         self.updateType = updateType
     }
 }
@@ -6796,11 +6930,13 @@ public struct UpdateSolNetworkInstanceInput: Swift.Equatable {
 struct UpdateSolNetworkInstanceInputBody: Swift.Equatable {
     let updateType: TnbClientTypes.UpdateSolNetworkType?
     let modifyVnfInfoData: TnbClientTypes.UpdateSolNetworkModify?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension UpdateSolNetworkInstanceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case modifyVnfInfoData
+        case tags
         case updateType
     }
 
@@ -6810,6 +6946,17 @@ extension UpdateSolNetworkInstanceInputBody: Swift.Decodable {
         updateType = updateTypeDecoded
         let modifyVnfInfoDataDecoded = try containerValues.decodeIfPresent(TnbClientTypes.UpdateSolNetworkModify.self, forKey: .modifyVnfInfoData)
         modifyVnfInfoData = modifyVnfInfoDataDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -6845,6 +6992,11 @@ public enum UpdateSolNetworkInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateSolNetworkInstanceOutputResponse(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
+}
+
 extension UpdateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6852,37 +7004,56 @@ extension UpdateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBind
             let data = reader.toBytes().getData()
             let output: UpdateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nsLcmOpOccId = output.nsLcmOpOccId
+            self.tags = output.tags
         } else {
             self.nsLcmOpOccId = nil
+            self.tags = nil
         }
     }
 }
 
 public struct UpdateSolNetworkInstanceOutputResponse: Swift.Equatable {
-    /// The identifier of the network instance operation occurrence.
+    /// The identifier of the network operation.
     public var nsLcmOpOccId: Swift.String?
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
-        nsLcmOpOccId: Swift.String? = nil
+        nsLcmOpOccId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.nsLcmOpOccId = nsLcmOpOccId
+        self.tags = tags
     }
 }
 
 struct UpdateSolNetworkInstanceOutputResponseBody: Swift.Equatable {
     let nsLcmOpOccId: Swift.String?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension UpdateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nsLcmOpOccId
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nsLcmOpOccIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nsLcmOpOccId)
         nsLcmOpOccId = nsLcmOpOccIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 

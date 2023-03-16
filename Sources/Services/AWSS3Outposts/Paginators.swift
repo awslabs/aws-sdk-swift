@@ -33,6 +33,36 @@ extension PaginatorSequence where Input == ListEndpointsInput, Output == ListEnd
     }
 }
 extension S3OutpostsClient {
+    /// Paginate over `[ListOutpostsWithS3OutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOutpostsWithS3Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOutpostsWithS3OutputResponse`
+    public func listOutpostsWithS3Paginated(input: ListOutpostsWithS3Input) -> ClientRuntime.PaginatorSequence<ListOutpostsWithS3Input, ListOutpostsWithS3OutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListOutpostsWithS3Input, ListOutpostsWithS3OutputResponse>(input: input, inputKey: \ListOutpostsWithS3Input.nextToken, outputKey: \ListOutpostsWithS3OutputResponse.nextToken, paginationFunction: self.listOutpostsWithS3(input:))
+    }
+}
+
+extension ListOutpostsWithS3Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListOutpostsWithS3Input {
+        return ListOutpostsWithS3Input(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListOutpostsWithS3Input, Output == ListOutpostsWithS3OutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listOutpostsWithS3Paginated`
+    /// to access the nested member `[S3OutpostsClientTypes.Outpost]`
+    /// - Returns: `[S3OutpostsClientTypes.Outpost]`
+    public func outposts() async throws -> [S3OutpostsClientTypes.Outpost] {
+        return try await self.asyncCompactMap { item in item.outposts }
+    }
+}
+extension S3OutpostsClient {
     /// Paginate over `[ListSharedEndpointsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

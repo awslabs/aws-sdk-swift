@@ -2478,7 +2478,7 @@ extension MediaLiveClientTypes.AvailConfiguration: Swift.Codable {
 extension MediaLiveClientTypes {
     /// Avail Configuration
     public struct AvailConfiguration: Swift.Equatable {
-        /// Ad avail settings.
+        /// Controls how SCTE-35 messages create cues. Splice Insert mode treats all segmentation signals traditionally. With Time Signal APOS mode only Time Signal Placement Opportunity and Break messages create segment breaks. With ESAM mode, signals are forwarded to an ESAM server for possible update.
         public var availSettings: MediaLiveClientTypes.AvailSettings?
 
         public init (
@@ -2527,9 +2527,9 @@ extension MediaLiveClientTypes {
     public struct AvailSettings: Swift.Equatable {
         /// Esam
         public var esam: MediaLiveClientTypes.Esam?
-        /// Scte35 Splice Insert
+        /// Typical configuration that applies breaks on splice inserts in addition to time signal placement opportunities, breaks, and advertisements.
         public var scte35SpliceInsert: MediaLiveClientTypes.Scte35SpliceInsert?
-        /// Scte35 Time Signal Apos
+        /// Atypical configuration that applies segment breaks only on SCTE-35 time signal placement opportunities and breaks.
         public var scte35TimeSignalApos: MediaLiveClientTypes.Scte35TimeSignalApos?
 
         public init (
@@ -4787,7 +4787,7 @@ extension MediaLiveClientTypes.CaptionSelector: Swift.Codable {
 }
 
 extension MediaLiveClientTypes {
-    /// Output groups for this Live Event. Output groups contain information about where streams should be distributed.
+    /// Caption Selector
     public struct CaptionSelector: Swift.Equatable {
         /// When specified this field indicates the three letter language code of the caption track to extract from the source.
         public var languageCode: Swift.String?
@@ -16846,7 +16846,7 @@ extension MediaLiveClientTypes {
         public var filecacheDuration: Swift.Int?
         /// Specify whether or not to use chunked transfer encoding to Akamai. User should contact Akamai to enable this feature.
         public var httpTransferMode: MediaLiveClientTypes.HlsAkamaiHttpTransferMode?
-        /// Number of retry attempts that will be made before the Live Event is put into an error state.
+        /// Number of retry attempts that will be made before the Live Event is put into an error state. Applies only if the CDN destination URI begins with "s3" or "mediastore". For other URIs, the value is always 3.
         public var numRetries: Swift.Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public var restartDelay: Swift.Int?
@@ -16921,7 +16921,7 @@ extension MediaLiveClientTypes {
         public var connectionRetryInterval: Swift.Int?
         /// Size in seconds of file cache for streaming outputs.
         public var filecacheDuration: Swift.Int?
-        /// Number of retry attempts that will be made before the Live Event is put into an error state.
+        /// Number of retry attempts that will be made before the Live Event is put into an error state. Applies only if the CDN destination URI begins with "s3" or "mediastore". For other URIs, the value is always 3.
         public var numRetries: Swift.Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public var restartDelay: Swift.Int?
@@ -18092,7 +18092,7 @@ extension MediaLiveClientTypes {
         public var filecacheDuration: Swift.Int?
         /// When set to temporal, output files are stored in non-persistent memory for faster reading and writing.
         public var mediaStoreStorageClass: MediaLiveClientTypes.HlsMediaStoreStorageClass?
-        /// Number of retry attempts that will be made before the Live Event is put into an error state.
+        /// Number of retry attempts that will be made before the Live Event is put into an error state. Applies only if the CDN destination URI begins with "s3" or "mediastore". For other URIs, the value is always 3.
         public var numRetries: Swift.Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public var restartDelay: Swift.Int?
@@ -18768,7 +18768,7 @@ extension MediaLiveClientTypes {
         public var filecacheDuration: Swift.Int?
         /// Specify whether or not to use chunked transfer encoding to WebDAV.
         public var httpTransferMode: MediaLiveClientTypes.HlsWebdavHttpTransferMode?
-        /// Number of retry attempts that will be made before the Live Event is put into an error state.
+        /// Number of retry attempts that will be made before the Live Event is put into an error state. Applies only if the CDN destination URI begins with "s3" or "mediastore". For other URIs, the value is always 3.
         public var numRetries: Swift.Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public var restartDelay: Swift.Int?
@@ -27960,6 +27960,7 @@ extension MediaLiveClientTypes.NielsenNaesIiNw: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case checkDigitString = "checkDigitString"
         case sid = "sid"
+        case timezone = "timezone"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -27970,6 +27971,9 @@ extension MediaLiveClientTypes.NielsenNaesIiNw: Swift.Codable {
         if let sid = self.sid {
             try encodeContainer.encode(sid, forKey: .sid)
         }
+        if let timezone = self.timezone {
+            try encodeContainer.encode(timezone.rawValue, forKey: .timezone)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -27978,6 +27982,8 @@ extension MediaLiveClientTypes.NielsenNaesIiNw: Swift.Codable {
         checkDigitString = checkDigitStringDecoded
         let sidDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .sid)
         sid = sidDecoded
+        let timezoneDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.NielsenWatermarkTimezones.self, forKey: .timezone)
+        timezone = timezoneDecoded
     }
 }
 
@@ -27990,14 +27996,18 @@ extension MediaLiveClientTypes {
         /// Enter the Nielsen Source ID (SID) to include in the watermark
         /// This member is required.
         public var sid: Swift.Double?
+        /// Choose the timezone for the time stamps in the watermark. If not provided, the timestamps will be in Coordinated Universal Time (UTC)
+        public var timezone: MediaLiveClientTypes.NielsenWatermarkTimezones?
 
         public init (
             checkDigitString: Swift.String? = nil,
-            sid: Swift.Double? = nil
+            sid: Swift.Double? = nil,
+            timezone: MediaLiveClientTypes.NielsenWatermarkTimezones? = nil
         )
         {
             self.checkDigitString = checkDigitString
             self.sid = sid
+            self.timezone = timezone
         }
     }
 
@@ -28032,6 +28042,63 @@ extension MediaLiveClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = NielsenPcmToId3TaggingState(rawValue: rawValue) ?? NielsenPcmToId3TaggingState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Nielsen Watermark Timezones
+    public enum NielsenWatermarkTimezones: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case americaPuertoRico
+        case usAlaska
+        case usArizona
+        case usCentral
+        case usEastern
+        case usHawaii
+        case usMountain
+        case usPacific
+        case usSamoa
+        case utc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NielsenWatermarkTimezones] {
+            return [
+                .americaPuertoRico,
+                .usAlaska,
+                .usArizona,
+                .usCentral,
+                .usEastern,
+                .usHawaii,
+                .usMountain,
+                .usPacific,
+                .usSamoa,
+                .utc,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .americaPuertoRico: return "AMERICA_PUERTO_RICO"
+            case .usAlaska: return "US_ALASKA"
+            case .usArizona: return "US_ARIZONA"
+            case .usCentral: return "US_CENTRAL"
+            case .usEastern: return "US_EASTERN"
+            case .usHawaii: return "US_HAWAII"
+            case .usMountain: return "US_MOUNTAIN"
+            case .usPacific: return "US_PACIFIC"
+            case .usSamoa: return "US_SAMOA"
+            case .utc: return "UTC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NielsenWatermarkTimezones(rawValue: rawValue) ?? NielsenWatermarkTimezones.sdkUnknown(rawValue)
         }
     }
 }
@@ -31973,7 +32040,7 @@ extension MediaLiveClientTypes.Scte35SpliceInsert: Swift.Codable {
 }
 
 extension MediaLiveClientTypes {
-    /// Scte35 Splice Insert
+    /// Typical configuration that applies breaks on splice inserts in addition to time signal placement opportunities, breaks, and advertisements.
     public struct Scte35SpliceInsert: Swift.Equatable {
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
         public var adAvailOffset: Swift.Int?
@@ -32140,7 +32207,7 @@ extension MediaLiveClientTypes.Scte35TimeSignalApos: Swift.Codable {
 }
 
 extension MediaLiveClientTypes {
-    /// Scte35 Time Signal Apos
+    /// Atypical configuration that applies segment breaks only on SCTE-35 time signal placement opportunities and breaks.
     public struct Scte35TimeSignalApos: Swift.Equatable {
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
         public var adAvailOffset: Swift.Int?

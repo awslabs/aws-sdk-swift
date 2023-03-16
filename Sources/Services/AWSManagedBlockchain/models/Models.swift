@@ -61,6 +61,7 @@ extension ManagedBlockchainClientTypes.Accessor: Swift.Codable {
         case creationDate = "CreationDate"
         case id = "Id"
         case status = "Status"
+        case tags = "Tags"
         case type = "Type"
     }
 
@@ -81,6 +82,12 @@ extension ManagedBlockchainClientTypes.Accessor: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, outputTagMap0) in tags {
+                try tagsContainer.encode(outputTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
         }
@@ -100,11 +107,22 @@ extension ManagedBlockchainClientTypes.Accessor: Swift.Codable {
         creationDate = creationDateDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
 extension ManagedBlockchainClientTypes {
-    /// The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is subject to change. We recommend that you use this feature only with test scenarios, and not in production environments. The properties of the Accessor.
+    /// The properties of the Accessor.
     public struct Accessor: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the accessor. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
@@ -116,6 +134,8 @@ extension ManagedBlockchainClientTypes {
         public var id: Swift.String?
         /// The current status of the accessor.
         public var status: ManagedBlockchainClientTypes.AccessorStatus?
+        /// The tags assigned to the Accessor. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        public var tags: [Swift.String:Swift.String]?
         /// The type of the accessor. Currently accessor type is restricted to BILLING_TOKEN.
         public var type: ManagedBlockchainClientTypes.AccessorType?
 
@@ -125,6 +145,7 @@ extension ManagedBlockchainClientTypes {
             creationDate: ClientRuntime.Date? = nil,
             id: Swift.String? = nil,
             status: ManagedBlockchainClientTypes.AccessorStatus? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
             type: ManagedBlockchainClientTypes.AccessorType? = nil
         )
         {
@@ -133,6 +154,7 @@ extension ManagedBlockchainClientTypes {
             self.creationDate = creationDate
             self.id = id
             self.status = status
+            self.tags = tags
             self.type = type
         }
     }
@@ -218,7 +240,7 @@ extension ManagedBlockchainClientTypes.AccessorSummary: Swift.Codable {
 }
 
 extension ManagedBlockchainClientTypes {
-    /// The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is subject to change. We recommend that you use this feature only with test scenarios, and not in production environments. A summary of accessor properties.
+    /// A summary of accessor properties.
     public struct AccessorSummary: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the accessor. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
@@ -337,6 +359,7 @@ extension CreateAccessorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessorType = "AccessorType"
         case clientRequestToken = "ClientRequestToken"
+        case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -346,6 +369,12 @@ extension CreateAccessorInput: Swift.Encodable {
         }
         if let clientRequestToken = self.clientRequestToken {
             try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, inputTagMap0) in tags {
+                try tagsContainer.encode(inputTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -363,26 +392,32 @@ public struct CreateAccessorInput: Swift.Equatable {
     /// This is a unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the Amazon Web Services CLI.
     /// This member is required.
     public var clientRequestToken: Swift.String?
+    /// Tags to assign to the Accessor. Each tag consists of a key and an optional value. You can specify multiple key-value pairs in a single request with an overall maximum of 50 tags allowed per resource. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
         accessorType: ManagedBlockchainClientTypes.AccessorType? = nil,
-        clientRequestToken: Swift.String? = nil
+        clientRequestToken: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.accessorType = accessorType
         self.clientRequestToken = clientRequestToken
+        self.tags = tags
     }
 }
 
 struct CreateAccessorInputBody: Swift.Equatable {
     let clientRequestToken: Swift.String?
     let accessorType: ManagedBlockchainClientTypes.AccessorType?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension CreateAccessorInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessorType = "AccessorType"
         case clientRequestToken = "ClientRequestToken"
+        case tags = "Tags"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -391,6 +426,17 @@ extension CreateAccessorInputBody: Swift.Decodable {
         clientRequestToken = clientRequestTokenDecoded
         let accessorTypeDecoded = try containerValues.decodeIfPresent(ManagedBlockchainClientTypes.AccessorType.self, forKey: .accessorType)
         accessorType = accessorTypeDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -411,6 +457,7 @@ extension CreateAccessorOutputError {
         case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -423,6 +470,7 @@ public enum CreateAccessorOutputError: Swift.Error, Swift.Equatable {
     case resourceAlreadyExistsException(ResourceAlreadyExistsException)
     case resourceLimitExceededException(ResourceLimitExceededException)
     case throttlingException(ThrottlingException)
+    case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -712,7 +760,7 @@ public struct CreateNetworkInput: Swift.Equatable {
     /// The name of the network.
     /// This member is required.
     public var name: Swift.String?
-    /// Tags to assign to the network. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+    /// Tags to assign to the network. Each tag consists of a key and an optional value. You can specify multiple key-value pairs in a single request with an overall maximum of 50 tags allowed per resource. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     public var tags: [Swift.String:Swift.String]?
     /// The voting rules used by the network to determine if a proposal is approved.
     /// This member is required.
@@ -941,7 +989,7 @@ public struct CreateNodeInput: Swift.Equatable {
     /// The properties of a node configuration.
     /// This member is required.
     public var nodeConfiguration: ManagedBlockchainClientTypes.NodeConfiguration?
-    /// Tags to assign to the node. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+    /// Tags to assign to the node. Each tag consists of a key and an optional value. You can specify multiple key-value pairs in a single request with an overall maximum of 50 tags allowed per resource. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -1132,7 +1180,7 @@ public struct CreateProposalInput: Swift.Equatable {
     /// The unique identifier of the network for which the proposal is made.
     /// This member is required.
     public var networkId: Swift.String?
-    /// Tags to assign to the proposal. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. If the proposal is for a network invitation, the invitation inherits the tags added to the proposal. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+    /// Tags to assign to the proposal. Each tag consists of a key and an optional value. You can specify multiple key-value pairs in a single request with an overall maximum of 50 tags allowed per resource. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -3809,7 +3857,7 @@ extension ManagedBlockchainClientTypes {
         ///
         /// * INACCESSIBLE_ENCRYPTION_KEY - The member is impaired and might not function as expected because it cannot access the specified customer managed key in KMS for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key or of revoking a grant isn't immediate. It might take some time for the member resource to discover that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
         public var status: ManagedBlockchainClientTypes.MemberStatus?
-        /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public var tags: [Swift.String:Swift.String]?
 
         public init (
@@ -3922,7 +3970,7 @@ extension ManagedBlockchainClientTypes {
         /// The name of the member.
         /// This member is required.
         public var name: Swift.String?
-        /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource.
+        /// Tags assigned to the member. Tags consist of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public var tags: [Swift.String:Swift.String]?
 
         public init (

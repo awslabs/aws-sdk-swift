@@ -8,8 +8,10 @@ extension AccessDeniedException {
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.errorCode = output.errorCode
             self.message = output.message
         } else {
+            self.errorCode = nil
             self.message = nil
         }
         self._headers = httpResponse.headers
@@ -28,23 +30,29 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// A coded string to provide more information about the access denied exception. You can use the error code to check the exception type.
+    public var errorCode: Swift.String?
     /// This member is required.
     public var message: Swift.String?
 
     public init (
+        errorCode: Swift.String? = nil,
         message: Swift.String? = nil
     )
     {
+        self.errorCode = errorCode
         self.message = message
     }
 }
 
 struct AccessDeniedExceptionBody: Swift.Equatable {
     let message: Swift.String?
+    let errorCode: Swift.String?
 }
 
 extension AccessDeniedExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode
         case message
     }
 
@@ -52,6 +60,8 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
     }
 }
 
@@ -1688,11 +1698,15 @@ extension CreateSubscriberOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: CreateSubscriberOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.resourceShareArn = output.resourceShareArn
+            self.resourceShareName = output.resourceShareName
             self.roleArn = output.roleArn
             self.s3BucketArn = output.s3BucketArn
             self.snsArn = output.snsArn
             self.subscriptionId = output.subscriptionId
         } else {
+            self.resourceShareArn = nil
+            self.resourceShareName = nil
             self.roleArn = nil
             self.s3BucketArn = nil
             self.snsArn = nil
@@ -1702,7 +1716,11 @@ extension CreateSubscriberOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateSubscriberOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) created by you to provide to the subscriber. For more information about ARNs and how to use them in policies, see [IAM identifiers in the Identity and Access Management (IAM) User Guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html). .
+    /// The Amazon Resource Name (ARN) which uniquely defines the AWS RAM resource share. Before accepting the RAM resource share invitation, you can view details related to the RAM resource share.
+    public var resourceShareArn: Swift.String?
+    /// The name of the resource share.
+    public var resourceShareName: Swift.String?
+    /// The Amazon Resource Name (ARN) created by you to provide to the subscriber. For more information about ARNs and how to use them in policies, see [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/subscriber-management.html).
     public var roleArn: Swift.String?
     /// The ARN for the Amazon S3 bucket.
     public var s3BucketArn: Swift.String?
@@ -1713,12 +1731,16 @@ public struct CreateSubscriberOutputResponse: Swift.Equatable {
     public var subscriptionId: Swift.String?
 
     public init (
+        resourceShareArn: Swift.String? = nil,
+        resourceShareName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         s3BucketArn: Swift.String? = nil,
         snsArn: Swift.String? = nil,
         subscriptionId: Swift.String? = nil
     )
     {
+        self.resourceShareArn = resourceShareArn
+        self.resourceShareName = resourceShareName
         self.roleArn = roleArn
         self.s3BucketArn = s3BucketArn
         self.snsArn = snsArn
@@ -1731,10 +1753,14 @@ struct CreateSubscriberOutputResponseBody: Swift.Equatable {
     let roleArn: Swift.String?
     let snsArn: Swift.String?
     let s3BucketArn: Swift.String?
+    let resourceShareArn: Swift.String?
+    let resourceShareName: Swift.String?
 }
 
 extension CreateSubscriberOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceShareArn
+        case resourceShareName
         case roleArn
         case s3BucketArn
         case snsArn
@@ -1751,6 +1777,10 @@ extension CreateSubscriberOutputResponseBody: Swift.Decodable {
         snsArn = snsArnDecoded
         let s3BucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketArn)
         s3BucketArn = s3BucketArnDecoded
+        let resourceShareArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceShareArn)
+        resourceShareArn = resourceShareArnDecoded
+        let resourceShareNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceShareName)
+        resourceShareName = resourceShareNameDecoded
     }
 }
 
@@ -1805,11 +1835,11 @@ public struct CreateSubscriptionNotificationConfigurationInput: Swift.Equatable 
     public var httpsApiKeyValue: Swift.String?
     /// The HTTPS method used for the notification subscription.
     public var httpsMethod: SecurityLakeClientTypes.HttpsMethod?
-    /// The Amazon Resource Name (ARN) of the EventBridge API destinations IAM role that you created.
+    /// The Amazon Resource Name (ARN) of the EventBridge API destinations IAM role that you created. For more information about ARNs and how to use them in policies, see [Managing data access](https://docs.aws.amazon.com//security-lake/latest/userguide/subscriber-data-access.html) and [Amazon Web Services Managed Policies](https://docs.aws.amazon.com/security-lake/latest/userguide/security-iam-awsmanpol.html) in the Amazon Security Lake User Guide.
     public var roleArn: Swift.String?
     /// The subscription endpoint in Security Lake. If you prefer notification with an HTTPs endpoint, populate this field.
     public var subscriptionEndpoint: Swift.String?
-    /// The subscription ID for the notification subscription/
+    /// The subscription ID for the notification subscription.
     /// This member is required.
     public var subscriptionId: Swift.String?
 
@@ -2345,7 +2375,7 @@ extension DeleteDatalakeAutoEnableInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteDatalakeAutoEnableInput: Swift.Equatable {
-    /// Delete Amazon Security Lake with the specified configuration settings to stop ingesting security data for new accounts in Security Lake.
+    /// Remove automatic enablement of configuration settings for new member accounts in Security Lake.
     /// This member is required.
     public var removeFromConfigurationForNewAccounts: [SecurityLakeClientTypes.AutoEnableNewRegionConfiguration]?
 
@@ -3963,6 +3993,7 @@ extension SecurityLakeClientTypes.LakeConfigurationResponse: Swift.Codable {
         case s3BucketArn
         case status
         case tagsMap
+        case updateStatus
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3996,6 +4027,9 @@ extension SecurityLakeClientTypes.LakeConfigurationResponse: Swift.Codable {
             for (dictKey0, tagsMap0) in tagsMap {
                 try tagsMapContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let updateStatus = self.updateStatus {
+            try encodeContainer.encode(updateStatus, forKey: .updateStatus)
         }
     }
 
@@ -4042,6 +4076,8 @@ extension SecurityLakeClientTypes.LakeConfigurationResponse: Swift.Codable {
         s3BucketArn = s3BucketArnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.SettingsStatus.self, forKey: .status)
         status = statusDecoded
+        let updateStatusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.UpdateStatus.self, forKey: .updateStatus)
+        updateStatus = updateStatusDecoded
     }
 }
 
@@ -4062,6 +4098,8 @@ extension SecurityLakeClientTypes {
         public var status: SecurityLakeClientTypes.SettingsStatus?
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define.
         public var tagsMap: [Swift.String:Swift.String]?
+        /// The status of the last UpdateDatalake or DeleteDatalake API request.
+        public var updateStatus: SecurityLakeClientTypes.UpdateStatus?
 
         public init (
             encryptionKey: Swift.String? = nil,
@@ -4070,7 +4108,8 @@ extension SecurityLakeClientTypes {
             retentionSettings: [SecurityLakeClientTypes.RetentionSetting]? = nil,
             s3BucketArn: Swift.String? = nil,
             status: SecurityLakeClientTypes.SettingsStatus? = nil,
-            tagsMap: [Swift.String:Swift.String]? = nil
+            tagsMap: [Swift.String:Swift.String]? = nil,
+            updateStatus: SecurityLakeClientTypes.UpdateStatus? = nil
         )
         {
             self.encryptionKey = encryptionKey
@@ -4080,6 +4119,52 @@ extension SecurityLakeClientTypes {
             self.s3BucketArn = s3BucketArn
             self.status = status
             self.tagsMap = tagsMap
+            self.updateStatus = updateStatus
+        }
+    }
+
+}
+
+extension SecurityLakeClientTypes.LastUpdateFailure: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case reason
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// The details of the last UpdateDatalake or DeleteDatalake API request which failed.
+    public struct LastUpdateFailure: Swift.Equatable {
+        /// The reason code for the failure of the last UpdateDatalake or DeleteDatalake API request.
+        public var code: Swift.String?
+        /// The reason for the failure of the last UpdateDatalakeor DeleteDatalake API request.
+        public var reason: Swift.String?
+
+        public init (
+            code: Swift.String? = nil,
+            reason: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.reason = reason
         }
     }
 
@@ -5404,6 +5489,8 @@ extension SecurityLakeClientTypes.SubscriberResource: Swift.Codable {
         case accountId
         case createdAt
         case externalId
+        case resourceShareArn
+        case resourceShareName
         case roleArn
         case s3BucketArn
         case snsArn
@@ -5433,6 +5520,12 @@ extension SecurityLakeClientTypes.SubscriberResource: Swift.Codable {
         }
         if let externalId = self.externalId {
             try encodeContainer.encode(externalId, forKey: .externalId)
+        }
+        if let resourceShareArn = self.resourceShareArn {
+            try encodeContainer.encode(resourceShareArn, forKey: .resourceShareArn)
+        }
+        if let resourceShareName = self.resourceShareName {
+            try encodeContainer.encode(resourceShareName, forKey: .resourceShareName)
         }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
@@ -5522,6 +5615,10 @@ extension SecurityLakeClientTypes.SubscriberResource: Swift.Codable {
         createdAt = createdAtDecoded
         let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
         updatedAt = updatedAtDecoded
+        let resourceShareArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceShareArn)
+        resourceShareArn = resourceShareArnDecoded
+        let resourceShareNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceShareName)
+        resourceShareName = resourceShareNameDecoded
     }
 }
 
@@ -5537,6 +5634,10 @@ extension SecurityLakeClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The external ID of the subscriber. The external ID lets the user that is assuming the role assert the circumstances in which they are operating. It also provides a way for the account owner to permit the role to be assumed only under specific circumstances.
         public var externalId: Swift.String?
+        /// The Amazon Resource Name (ARN) which uniquely defines the AWS RAM resource share. Before accepting the RAM resource share invitation, you can view details related to the RAM resource share. This field is available only for Lake Formation subscribers created after March 8, 2023.
+        public var resourceShareArn: Swift.String?
+        /// The name of the resource share.
+        public var resourceShareName: Swift.String?
         /// The Amazon Resource Name (ARN) specifying the role of the subscriber.
         public var roleArn: Swift.String?
         /// The ARN for the Amazon S3 bucket.
@@ -5567,6 +5668,8 @@ extension SecurityLakeClientTypes {
             accountId: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
             externalId: Swift.String? = nil,
+            resourceShareArn: Swift.String? = nil,
+            resourceShareName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             s3BucketArn: Swift.String? = nil,
             snsArn: Swift.String? = nil,
@@ -5584,6 +5687,8 @@ extension SecurityLakeClientTypes {
             self.accountId = accountId
             self.createdAt = createdAt
             self.externalId = externalId
+            self.resourceShareArn = resourceShareArn
+            self.resourceShareName = resourceShareName
             self.roleArn = roleArn
             self.s3BucketArn = s3BucketArn
             self.snsArn = snsArn
@@ -6058,6 +6163,61 @@ public struct UpdateDatalakeOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension SecurityLakeClientTypes.UpdateStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastUpdateFailure
+        case lastUpdateRequestId
+        case lastUpdateStatus
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastUpdateFailure = self.lastUpdateFailure {
+            try encodeContainer.encode(lastUpdateFailure, forKey: .lastUpdateFailure)
+        }
+        if let lastUpdateRequestId = self.lastUpdateRequestId {
+            try encodeContainer.encode(lastUpdateRequestId, forKey: .lastUpdateRequestId)
+        }
+        if let lastUpdateStatus = self.lastUpdateStatus {
+            try encodeContainer.encode(lastUpdateStatus.rawValue, forKey: .lastUpdateStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lastUpdateRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUpdateRequestId)
+        lastUpdateRequestId = lastUpdateRequestIdDecoded
+        let lastUpdateStatusDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.SettingsStatus.self, forKey: .lastUpdateStatus)
+        lastUpdateStatus = lastUpdateStatusDecoded
+        let lastUpdateFailureDecoded = try containerValues.decodeIfPresent(SecurityLakeClientTypes.LastUpdateFailure.self, forKey: .lastUpdateFailure)
+        lastUpdateFailure = lastUpdateFailureDecoded
+    }
+}
+
+extension SecurityLakeClientTypes {
+    /// The status of the last UpdateDatalake or DeleteDatalake API request. This is set to Completed after the configuration is updated, or removed if deletion of the data lake is successful.
+    public struct UpdateStatus: Swift.Equatable {
+        /// The details of the last UpdateDatalakeor DeleteDatalake API request which failed.
+        public var lastUpdateFailure: SecurityLakeClientTypes.LastUpdateFailure?
+        /// The unique ID for the UpdateDatalake or DeleteDatalake API request.
+        public var lastUpdateRequestId: Swift.String?
+        /// The status of the last UpdateDatalake or DeleteDatalake API request that was requested.
+        public var lastUpdateStatus: SecurityLakeClientTypes.SettingsStatus?
+
+        public init (
+            lastUpdateFailure: SecurityLakeClientTypes.LastUpdateFailure? = nil,
+            lastUpdateRequestId: Swift.String? = nil,
+            lastUpdateStatus: SecurityLakeClientTypes.SettingsStatus? = nil
+        )
+        {
+            self.lastUpdateFailure = lastUpdateFailure
+            self.lastUpdateRequestId = lastUpdateRequestId
+            self.lastUpdateStatus = lastUpdateStatus
+        }
+    }
+
+}
+
 extension UpdateSubscriberInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case externalId
@@ -6288,7 +6448,7 @@ public struct UpdateSubscriptionNotificationConfigurationInput: Swift.Equatable 
     public var httpsApiKeyValue: Swift.String?
     /// The HTTPS method used for the subscription notification.
     public var httpsMethod: SecurityLakeClientTypes.HttpsMethod?
-    /// The Amazon Resource Name (ARN) specifying the role of the subscriber.
+    /// The Amazon Resource Name (ARN) specifying the role of the subscriber. For more information about ARNs and how to use them in policies, see, see the [Managing data access](https://docs.aws.amazon.com//security-lake/latest/userguide/subscriber-data-access.html) and [Amazon Web Services Managed Policies](https://docs.aws.amazon.com/security-lake/latest/userguide/security-iam-awsmanpol.html)in the Amazon Security Lake User Guide.
     public var roleArn: Swift.String?
     /// The subscription endpoint in Security Lake.
     public var subscriptionEndpoint: Swift.String?

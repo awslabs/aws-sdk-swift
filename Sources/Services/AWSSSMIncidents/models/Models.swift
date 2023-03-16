@@ -238,7 +238,7 @@ extension SSMIncidentsClientTypes.AutomationExecution: Swift.Codable {
 
 extension SSMIncidentsClientTypes {
     /// The Systems Manager automation document process to start as the runbook at the beginning of the incident.
-    public enum AutomationExecution: Swift.Equatable, Swift.Hashable {
+    public enum AutomationExecution: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the automation process.
         case ssmexecutionarn(Swift.String)
         case sdkUnknown(Swift.String)
@@ -1675,7 +1675,7 @@ extension SSMIncidentsClientTypes.EventReference: Swift.Codable {
 
 extension SSMIncidentsClientTypes {
     /// An item referenced in a TimelineEvent that is involved in or somehow associated with an incident. You can specify an Amazon Resource Name (ARN) for an Amazon Web Services resource or a RelatedItem ID.
-    public enum EventReference: Swift.Equatable, Swift.Hashable {
+    public enum EventReference: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of an Amazon Web Services resource referenced in a TimelineEvent.
         case resource(Swift.String)
         /// The ID of a RelatedItem referenced in a TimelineEvent.
@@ -4365,7 +4365,7 @@ extension SSMIncidentsClientTypes.NotificationTargetItem: Swift.Codable {
 
 extension SSMIncidentsClientTypes {
     /// The SNS targets that are notified when updates are made to an incident.
-    public enum NotificationTargetItem: Swift.Equatable, Swift.Hashable {
+    public enum NotificationTargetItem: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the SNS topic.
         case snstopicarn(Swift.String)
         case sdkUnknown(Swift.String)

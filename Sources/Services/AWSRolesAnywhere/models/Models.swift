@@ -3090,7 +3090,7 @@ extension RolesAnywhereClientTypes.SourceData: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// The data field of the trust anchor depending on its type.
-    public enum SourceData: Swift.Equatable, Swift.Hashable {
+    public enum SourceData: Swift.Equatable {
         /// The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE.
         case x509certificatedata(Swift.String)
         /// The root certificate of the Certificate Manager Private Certificate Authority specified by this ARN is used in trust validation for [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) operations. Included for trust anchors of type AWS_ACM_PCA.

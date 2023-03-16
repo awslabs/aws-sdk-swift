@@ -6014,7 +6014,7 @@ extension IoTTwinMakerClientTypes.ListEntitiesFilter: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that filters items in a list of entities.
-    public enum ListEntitiesFilter: Swift.Equatable, Swift.Hashable {
+    public enum ListEntitiesFilter: Swift.Equatable {
         /// The parent of the entities in the list.
         case parententityid(Swift.String)
         /// The ID of the component type in the entities in the list.

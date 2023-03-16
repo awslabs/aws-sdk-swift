@@ -21,7 +21,7 @@ extension AccessDeniedException {
     }
 }
 
-/// You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct access keys.
+/// You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
 public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -975,7 +975,7 @@ extension QuickSightClientTypes {
         public var message: Swift.String?
         /// The type of the analysis error.
         public var type: QuickSightClientTypes.AnalysisErrorType?
-        ///
+        /// Lists the violated entities that caused the analysis error
         public var violatedEntities: [QuickSightClientTypes.Entity]?
 
         public init (
@@ -32018,7 +32018,7 @@ public struct GetSessionEmbedUrlInput: Swift.Equatable {
     ///
     /// * Invited nonfederated users
     ///
-    /// * Identity and Access Management (IAM) users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation
+    /// * IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation
     ///
     ///
     /// Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
@@ -46741,6 +46741,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.PivotTableOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cellStyle = "CellStyle"
+        case collapsedRowDimensionsVisibility = "CollapsedRowDimensionsVisibility"
         case columnHeaderStyle = "ColumnHeaderStyle"
         case columnNamesVisibility = "ColumnNamesVisibility"
         case metricPlacement = "MetricPlacement"
@@ -46755,6 +46756,9 @@ extension QuickSightClientTypes.PivotTableOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cellStyle = self.cellStyle {
             try encodeContainer.encode(cellStyle, forKey: .cellStyle)
+        }
+        if let collapsedRowDimensionsVisibility = self.collapsedRowDimensionsVisibility {
+            try encodeContainer.encode(collapsedRowDimensionsVisibility.rawValue, forKey: .collapsedRowDimensionsVisibility)
         }
         if let columnHeaderStyle = self.columnHeaderStyle {
             try encodeContainer.encode(columnHeaderStyle, forKey: .columnHeaderStyle)
@@ -46802,6 +46806,8 @@ extension QuickSightClientTypes.PivotTableOptions: Swift.Codable {
         rowFieldNamesStyle = rowFieldNamesStyleDecoded
         let rowAlternateColorOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RowAlternateColorOptions.self, forKey: .rowAlternateColorOptions)
         rowAlternateColorOptions = rowAlternateColorOptionsDecoded
+        let collapsedRowDimensionsVisibilityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.Visibility.self, forKey: .collapsedRowDimensionsVisibility)
+        collapsedRowDimensionsVisibility = collapsedRowDimensionsVisibilityDecoded
     }
 }
 
@@ -46810,6 +46816,8 @@ extension QuickSightClientTypes {
     public struct PivotTableOptions: Swift.Equatable {
         /// The table cell style of cells.
         public var cellStyle: QuickSightClientTypes.TableCellStyle?
+        /// The visibility setting of a pivot table's collapsed row dimension fields. If the value of this structure is HIDDEN, all collapsed columns in a pivot table are automatically hidden. The default value is VISIBLE.
+        public var collapsedRowDimensionsVisibility: QuickSightClientTypes.Visibility?
         /// The table cell style of the column header.
         public var columnHeaderStyle: QuickSightClientTypes.TableCellStyle?
         /// The visibility of the column names.
@@ -46829,6 +46837,7 @@ extension QuickSightClientTypes {
 
         public init (
             cellStyle: QuickSightClientTypes.TableCellStyle? = nil,
+            collapsedRowDimensionsVisibility: QuickSightClientTypes.Visibility? = nil,
             columnHeaderStyle: QuickSightClientTypes.TableCellStyle? = nil,
             columnNamesVisibility: QuickSightClientTypes.Visibility? = nil,
             metricPlacement: QuickSightClientTypes.PivotTableMetricPlacement? = nil,
@@ -46840,6 +46849,7 @@ extension QuickSightClientTypes {
         )
         {
             self.cellStyle = cellStyle
+            self.collapsedRowDimensionsVisibility = collapsedRowDimensionsVisibility
             self.columnHeaderStyle = columnHeaderStyle
             self.columnNamesVisibility = columnNamesVisibility
             self.metricPlacement = metricPlacement
@@ -49423,13 +49433,52 @@ extension RegisterUserOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case statePersistence = "StatePersistence"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let statePersistence = self.statePersistence {
+            try encodeContainer.encode(statePersistence, forKey: .statePersistence)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statePersistenceDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.StatePersistenceConfigurations.self, forKey: .statePersistence)
+        statePersistence = statePersistenceDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The feature configurations of an embedded Amazon QuickSight console.
+    public struct RegisteredUserConsoleFeatureConfigurations: Swift.Equatable {
+        /// The state persistence configurations of an embedded Amazon QuickSight console.
+        public var statePersistence: QuickSightClientTypes.StatePersistenceConfigurations?
+
+        public init (
+            statePersistence: QuickSightClientTypes.StatePersistenceConfigurations? = nil
+        )
+        {
+            self.statePersistence = statePersistence
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.RegisteredUserDashboardEmbeddingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case featureConfigurations = "FeatureConfigurations"
         case initialDashboardId = "InitialDashboardId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let featureConfigurations = self.featureConfigurations {
+            try encodeContainer.encode(featureConfigurations, forKey: .featureConfigurations)
+        }
         if let initialDashboardId = self.initialDashboardId {
             try encodeContainer.encode(initialDashboardId, forKey: .initialDashboardId)
         }
@@ -49439,21 +49488,62 @@ extension QuickSightClientTypes.RegisteredUserDashboardEmbeddingConfiguration: S
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let initialDashboardIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initialDashboardId)
         initialDashboardId = initialDashboardIdDecoded
+        let featureConfigurationsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations.self, forKey: .featureConfigurations)
+        featureConfigurations = featureConfigurationsDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// Information about the dashboard you want to embed.
     public struct RegisteredUserDashboardEmbeddingConfiguration: Swift.Equatable {
+        /// The feature configurations of an embbedded Amazon QuickSight dashboard.
+        public var featureConfigurations: QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations?
         /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard if the user has permissions to view it. If the user does not have permission to view this dashboard, they see a permissions error message.
         /// This member is required.
         public var initialDashboardId: Swift.String?
 
         public init (
+            featureConfigurations: QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations? = nil,
             initialDashboardId: Swift.String? = nil
         )
         {
+            self.featureConfigurations = featureConfigurations
             self.initialDashboardId = initialDashboardId
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case statePersistence = "StatePersistence"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let statePersistence = self.statePersistence {
+            try encodeContainer.encode(statePersistence, forKey: .statePersistence)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statePersistenceDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.StatePersistenceConfigurations.self, forKey: .statePersistence)
+        statePersistence = statePersistenceDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The feature configuration for an embedded dashboard.
+    public struct RegisteredUserDashboardFeatureConfigurations: Swift.Equatable {
+        /// The state persistence settings of an embedded dashboard.
+        public var statePersistence: QuickSightClientTypes.StatePersistenceConfigurations?
+
+        public init (
+            statePersistence: QuickSightClientTypes.StatePersistenceConfigurations? = nil
+        )
+        {
+            self.statePersistence = statePersistence
         }
     }
 
@@ -49604,11 +49694,15 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case featureConfigurations = "FeatureConfigurations"
         case initialPath = "InitialPath"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let featureConfigurations = self.featureConfigurations {
+            try encodeContainer.encode(featureConfigurations, forKey: .featureConfigurations)
+        }
         if let initialPath = self.initialPath {
             try encodeContainer.encode(initialPath, forKey: .initialPath)
         }
@@ -49618,12 +49712,16 @@ extension QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfigur
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let initialPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initialPath)
         initialPath = initialPathDecoded
+        let featureConfigurationsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations.self, forKey: .featureConfigurations)
+        featureConfigurations = featureConfigurationsDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// Information about the Amazon QuickSight console that you want to embed.
     public struct RegisteredUserQuickSightConsoleEmbeddingConfiguration: Swift.Equatable {
+        /// The embedding configuration of an embedded Amazon QuickSight console.
+        public var featureConfigurations: QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations?
         /// The initial URL path for the Amazon QuickSight console. InitialPath is required. The entry point URL is constrained to the following paths:
         ///
         /// * /start
@@ -49640,9 +49738,11 @@ extension QuickSightClientTypes {
         public var initialPath: Swift.String?
 
         public init (
+            featureConfigurations: QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations? = nil,
             initialPath: Swift.String? = nil
         )
         {
+            self.featureConfigurations = featureConfigurations
             self.initialPath = initialPath
         }
     }
@@ -55456,6 +55556,42 @@ extension QuickSightClientTypes {
         )
         {
             self.disableSsl = disableSsl
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.StatePersistenceConfigurations: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "Enabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if enabled != false {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        enabled = enabledDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The state perssitence configuration of an embedded dashboard.
+    public struct StatePersistenceConfigurations: Swift.Equatable {
+        /// Determines if a Amazon QuickSight dashboard's state persistence settings are turned on or off.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init (
+            enabled: Swift.Bool = false
+        )
+        {
+            self.enabled = enabled
         }
     }
 
@@ -62375,7 +62511,7 @@ public struct UpdateAccountSettingsInput: Swift.Equatable {
     /// The ID for the Amazon Web Services account that contains the Amazon QuickSight settings that you want to list.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The default namespace for this Amazon Web Services account. Currently, the default is default. Identity and Access Management (IAM) users that register for the first time with Amazon QuickSight provide an email address that becomes associated with the default namespace.
+    /// The default namespace for this Amazon Web Services account. Currently, the default is default. IAM users that register for the first time with Amazon QuickSight provide an email address that becomes associated with the default namespace.
     /// This member is required.
     public var defaultNamespace: Swift.String?
     /// The email address that you want Amazon QuickSight to send notifications to regarding your Amazon Web Services account or Amazon QuickSight subscription.
@@ -67428,7 +67564,7 @@ extension QuickSightClientTypes.User: Swift.Codable {
 extension QuickSightClientTypes {
     /// A registered user of Amazon QuickSight.
     public struct User: Swift.Equatable {
-        /// The active status of user. When you create an Amazon QuickSight user that’s not an IAM user or an Active Directory user, that user is inactive until they sign in and provide a password.
+        /// The active status of user. When you create an Amazon QuickSight user that's not an IAM user or an Active Directory user, that user is inactive until they sign in and provide a password.
         public var active: Swift.Bool
         /// The Amazon Resource Name (ARN) for the user.
         public var arn: Swift.String?

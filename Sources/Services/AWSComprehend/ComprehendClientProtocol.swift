@@ -21,20 +21,28 @@ public protocol ComprehendClientProtocol {
     func classifyDocument(input: ClassifyDocumentInput) async throws -> ClassifyDocumentOutputResponse
     /// Analyzes input text for the presence of personally identifiable information (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number.
     func containsPiiEntities(input: ContainsPiiEntitiesInput) async throws -> ContainsPiiEntitiesOutputResponse
+    /// Creates a dataset to upload training or test data for a model associated with a flywheel. For more information about datasets, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
+    func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutputResponse
     /// Creates a new document classifier that you can use to categorize documents. To create a classifier, you provide a set of training documents that labeled with the categories that you want to use. After the classifier is trained you can use it to categorize a set of labeled documents into the categories. For more information, see [Document Classification](https://docs.aws.amazon.com/comprehend/latest/dg/how-document-classification.html) in the Comprehend Developer Guide.
     func createDocumentClassifier(input: CreateDocumentClassifierInput) async throws -> CreateDocumentClassifierOutputResponse
     /// Creates a model-specific endpoint for synchronous inference for a previously trained custom model For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutputResponse
-    /// Creates an entity recognizer using submitted files. After your CreateEntityRecognizer request is submitted, you can check job status using the API.
+    /// Creates an entity recognizer using submitted files. After your CreateEntityRecognizer request is submitted, you can check job status using the DescribeEntityRecognizer API.
     func createEntityRecognizer(input: CreateEntityRecognizerInput) async throws -> CreateEntityRecognizerOutputResponse
+    /// A flywheel is an AWS resource that orchestrates the ongoing training of a model for custom classification or custom entity recognition. You can create a flywheel to start with an existing trained model, or Comprehend can create and train a new model. When you create the flywheel, Comprehend creates a data lake in your account. The data lake holds the training data and test data for all versions of the model. To use a flywheel with an existing trained model, you specify the active model version. Comprehend copies the model's training data and test data into the flywheel's data lake. To use the flywheel with a new model, you need to provide a dataset for training data (and optional test data) when you create the flywheel. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
+    func createFlywheel(input: CreateFlywheelInput) async throws -> CreateFlywheelOutputResponse
     /// Deletes a previously created document classifier Only those classifiers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the classifier into a DELETING state, and it is then removed by a background job. Once removed, the classifier disappears from your account and is no longer available for use.
     func deleteDocumentClassifier(input: DeleteDocumentClassifierInput) async throws -> DeleteDocumentClassifierOutputResponse
     /// Deletes a model-specific endpoint for a previously-trained custom model. All endpoints must be deleted in order for the model to be deleted. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutputResponse
     /// Deletes an entity recognizer. Only those recognizers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the recognizer into a DELETING state, and it is then removed by a background job. Once removed, the recognizer disappears from your account and is no longer available for use.
     func deleteEntityRecognizer(input: DeleteEntityRecognizerInput) async throws -> DeleteEntityRecognizerOutputResponse
+    /// Deletes a flywheel. When you delete the flywheel, Amazon Comprehend does not delete the data lake or the model associated with the flywheel. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
+    func deleteFlywheel(input: DeleteFlywheelInput) async throws -> DeleteFlywheelOutputResponse
     /// Deletes a resource-based policy that is attached to a custom model.
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
+    /// Returns information about the dataset that you specify. For more information about datasets, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
+    func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutputResponse
     /// Gets the properties associated with a document classification job. Use this operation to get the status of a classification job.
     func describeDocumentClassificationJob(input: DescribeDocumentClassificationJobInput) async throws -> DescribeDocumentClassificationJobOutputResponse
     /// Gets the properties associated with a document classifier.
@@ -49,6 +57,10 @@ public protocol ComprehendClientProtocol {
     func describeEntityRecognizer(input: DescribeEntityRecognizerInput) async throws -> DescribeEntityRecognizerOutputResponse
     /// Gets the status and details of an events detection job.
     func describeEventsDetectionJob(input: DescribeEventsDetectionJobInput) async throws -> DescribeEventsDetectionJobOutputResponse
+    /// Provides configuration information about the flywheel. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
+    func describeFlywheel(input: DescribeFlywheelInput) async throws -> DescribeFlywheelOutputResponse
+    /// Retrieve the configuration properties of a flywheel iteration. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
+    func describeFlywheelIteration(input: DescribeFlywheelIterationInput) async throws -> DescribeFlywheelIterationOutputResponse
     /// Gets the properties associated with a key phrases detection job. Use this operation to get the status of a detection job.
     func describeKeyPhrasesDetectionJob(input: DescribeKeyPhrasesDetectionJobInput) async throws -> DescribeKeyPhrasesDetectionJobOutputResponse
     /// Gets the properties associated with a PII entities detection job. For example, you can use this operation to get the job status.
@@ -77,6 +89,8 @@ public protocol ComprehendClientProtocol {
     func detectTargetedSentiment(input: DetectTargetedSentimentInput) async throws -> DetectTargetedSentimentOutputResponse
     /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your AWS account or another one. If the source model is in another AWS account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same AWS region that you're using when you import. You can't import a model that's in a different region.
     func importModel(input: ImportModelInput) async throws -> ImportModelOutputResponse
+    /// List the datasets that you have configured in this region. For more information about datasets, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
+    func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutputResponse
     /// Gets a list of the documentation classification jobs that you have submitted.
     func listDocumentClassificationJobs(input: ListDocumentClassificationJobsInput) async throws -> ListDocumentClassificationJobsOutputResponse
     /// Gets a list of the document classifiers that you have created.
@@ -95,6 +109,10 @@ public protocol ComprehendClientProtocol {
     func listEntityRecognizerSummaries(input: ListEntityRecognizerSummariesInput) async throws -> ListEntityRecognizerSummariesOutputResponse
     /// Gets a list of the events detection jobs that you have submitted.
     func listEventsDetectionJobs(input: ListEventsDetectionJobsInput) async throws -> ListEventsDetectionJobsOutputResponse
+    /// Information about the history of a flywheel iteration. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
+    func listFlywheelIterationHistory(input: ListFlywheelIterationHistoryInput) async throws -> ListFlywheelIterationHistoryOutputResponse
+    /// Gets a list of the flywheels that you have created.
+    func listFlywheels(input: ListFlywheelsInput) async throws -> ListFlywheelsOutputResponse
     /// Get a list of key phrase detection jobs that you have submitted.
     func listKeyPhrasesDetectionJobs(input: ListKeyPhrasesDetectionJobsInput) async throws -> ListKeyPhrasesDetectionJobsOutputResponse
     /// Gets a list of the PII entity detection jobs that you have submitted.
@@ -109,7 +127,7 @@ public protocol ComprehendClientProtocol {
     func listTopicsDetectionJobs(input: ListTopicsDetectionJobsInput) async throws -> ListTopicsDetectionJobsOutputResponse
     /// Attaches a resource-based policy to a custom model. You can use this policy to authorize an entity in another AWS account to import the custom model, which replicates it in Amazon Comprehend in their account.
     func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
-    /// Starts an asynchronous document classification job. Use the operation to track the progress of the job.
+    /// Starts an asynchronous document classification job. Use the DescribeDocumentClassificationJob operation to track the progress of the job.
     func startDocumentClassificationJob(input: StartDocumentClassificationJobInput) async throws -> StartDocumentClassificationJobOutputResponse
     /// Starts an asynchronous dominant language detection job for a collection of documents. Use the operation to track the status of a job.
     func startDominantLanguageDetectionJob(input: StartDominantLanguageDetectionJobInput) async throws -> StartDominantLanguageDetectionJobOutputResponse
@@ -117,13 +135,15 @@ public protocol ComprehendClientProtocol {
     func startEntitiesDetectionJob(input: StartEntitiesDetectionJobInput) async throws -> StartEntitiesDetectionJobOutputResponse
     /// Starts an asynchronous event detection job for a collection of documents.
     func startEventsDetectionJob(input: StartEventsDetectionJobInput) async throws -> StartEventsDetectionJobOutputResponse
+    /// Start the flywheel iteration.This operation uses any new datasets to train a new model version. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
+    func startFlywheelIteration(input: StartFlywheelIterationInput) async throws -> StartFlywheelIterationOutputResponse
     /// Starts an asynchronous key phrase detection job for a collection of documents. Use the operation to track the status of a job.
     func startKeyPhrasesDetectionJob(input: StartKeyPhrasesDetectionJobInput) async throws -> StartKeyPhrasesDetectionJobOutputResponse
     /// Starts an asynchronous PII entity detection job for a collection of documents.
     func startPiiEntitiesDetectionJob(input: StartPiiEntitiesDetectionJobInput) async throws -> StartPiiEntitiesDetectionJobOutputResponse
     /// Starts an asynchronous sentiment detection job for a collection of documents. Use the operation to track the status of a job.
     func startSentimentDetectionJob(input: StartSentimentDetectionJobInput) async throws -> StartSentimentDetectionJobOutputResponse
-    /// Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the operation to track the status of a job.
+    /// Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the DescribeTargetedSentimentDetectionJob operation to track the status of a job.
     func startTargetedSentimentDetectionJob(input: StartTargetedSentimentDetectionJobInput) async throws -> StartTargetedSentimentDetectionJobOutputResponse
     /// Starts an asynchronous topic detection job. Use the DescribeTopicDetectionJob operation to track the status of a job.
     func startTopicsDetectionJob(input: StartTopicsDetectionJobInput) async throws -> StartTopicsDetectionJobOutputResponse
@@ -151,6 +171,8 @@ public protocol ComprehendClientProtocol {
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates information about the specified endpoint. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutputResponse
+    /// Update the configuration information for an existing flywheel.
+    func updateFlywheel(input: UpdateFlywheelInput) async throws -> UpdateFlywheelOutputResponse
 }
 
 public protocol ComprehendClientConfigurationProtocol : AWSClientRuntime.AWSClientConfiguration {

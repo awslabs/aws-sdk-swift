@@ -23,6 +23,8 @@ public protocol S3OutpostsClientProtocol {
     ///
     /// * [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)
     func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutputResponse
+    /// Lists the Outposts with S3 on Outposts capacity for your Amazon Web Services account. Includes S3 on Outposts that you have access to as the Outposts owner, or as a shared user from Resource Access Manager (RAM).
+    func listOutpostsWithS3(input: ListOutpostsWithS3Input) async throws -> ListOutpostsWithS3OutputResponse
     /// Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM). Related actions include:
     ///
     /// * [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)

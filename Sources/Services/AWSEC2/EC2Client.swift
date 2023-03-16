@@ -1946,7 +1946,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new Spot Instances. You must specify whether the Spot Fleet should also terminate its Spot Instances. If you terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the instances continue to run until they are interrupted or you terminate them manually.
+    /// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should terminate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the instances continue to run until they are interrupted or you terminate them manually.
     public func cancelSpotFleetRequests(input: CancelSpotFleetRequestsInput) async throws -> CancelSpotFleetRequestsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5493,7 +5493,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Deletes the specified EC2 Fleet. After you delete an EC2 Fleet, it launches no new instances. You must specify whether a deleted EC2 Fleet should also terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. A deleted instant fleet with running instances is not supported. Restrictions
+    /// Deletes the specified EC2 Fleets. After you delete an EC2 Fleet, it launches no new instances. You must also specify whether a deleted EC2 Fleet should terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. A deleted instant fleet with running instances is not supported. Restrictions
     ///
     /// * You can delete up to 25 instant fleets in a single request. If you exceed this number, no instant fleets are deleted and an error is returned. There is no restriction on the number of fleets of type maintain or request that can be deleted in a single request.
     ///
@@ -11652,7 +11652,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Describes the specified Spot Instance requests. You can use DescribeSpotInstanceRequests to find a running Spot Instance by examining the response. If the status of the Spot Instance is fulfilled, the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances) with a filter to look for instances where the instance lifecycle is spot. We recommend that you set MaxResults to a value between 5 and 1000 to limit the number of results returned. This paginates the output, which makes the list more manageable and returns the results faster. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSpotInstanceRequests request to retrieve the remaining results. Spot Instance requests are deleted four hours after they are canceled and their instances are terminated.
+    /// Describes the specified Spot Instance requests. You can use DescribeSpotInstanceRequests to find a running Spot Instance by examining the response. If the status of the Spot Instance is fulfilled, the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances) with a filter to look for instances where the instance lifecycle is spot. We recommend that you set MaxResults to a value between 5 and 1000 to limit the number of items returned. This paginates the output, which makes the list more manageable and returns the items faster. If the list of items exceeds your MaxResults value, then that number of items is returned along with a NextToken value that can be passed to a subsequent DescribeSpotInstanceRequests request to retrieve the remaining items. Spot Instance requests are deleted four hours after they are canceled and their instances are terminated.
     public func describeSpotInstanceRequests(input: DescribeSpotInstanceRequestsInput) async throws -> DescribeSpotInstanceRequestsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -16417,7 +16417,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Import single or multi-volume disk images or EBS snapshots into an Amazon Machine Image (AMI). Amazon Web Services VM Import/Export strongly recommends specifying a value for either the --license-type or --usage-operation parameter when you create a new VM Import task. This ensures your operating system is licensed appropriately and your billing is optimized. For more information, see [Importing a VM as an image using VM Import/Export](https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html) in the VM Import/Export User Guide.
+    /// To import your virtual machines (VMs) with a console-based experience, you can use the Import virtual machine images to Amazon Web Services template in the [Migration Hub Orchestrator console](https://console.aws.amazon.com/migrationhub/orchestrator). For more information, see the [ Migration Hub Orchestrator User Guide ](https://docs.aws.amazon.com/migrationhub-orchestrator/latest/userguide/import-vm-images.html). Import single or multi-volume disk images or EBS snapshots into an Amazon Machine Image (AMI). Amazon Web Services VM Import/Export strongly recommends specifying a value for either the --license-type or --usage-operation parameter when you create a new VM Import task. This ensures your operating system is licensed appropriately and your billing is optimized. For more information, see [Importing a VM as an image using VM Import/Export](https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html) in the VM Import/Export User Guide.
     public func importImage(input: ImportImageInput) async throws -> ImportImageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -17082,7 +17082,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. You can use the Attribute parameter to specify the attribute or one of the following parameters: Description or LaunchPermission. Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an image, enable SriovNetSupport on an instance and create an AMI from the instance.
+    /// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. To specify the attribute, you can use the Attribute parameter, or one of the following parameters: Description, ImdsSupport, or LaunchPermission. Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an image, enable SriovNetSupport on an instance and create an AMI from the instance.
     public func modifyImageAttribute(input: ModifyImageAttributeInput) async throws -> ModifyImageAttributeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -18779,7 +18779,7 @@ extension EC2Client: EC2ClientProtocol {
     /// * Enable/disable the ability to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.
     ///
     ///
-    /// If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different different Amazon Web Services accounts or different Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web Services account owner must initiate a separate request to modify the peering connection options. For inter-region peering connections, you must use the Region for the requester VPC to modify the requester VPC peering options and the Region for the accepter VPC to modify the accepter VPC peering options. To verify which VPCs are the accepter and the requester for a VPC peering connection, use the [DescribeVpcPeeringConnections] command.
+    /// If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different Amazon Web Services accounts or different Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web Services account owner must initiate a separate request to modify the peering connection options. For inter-region peering connections, you must use the Region for the requester VPC to modify the requester VPC peering options and the Region for the accepter VPC to modify the accepter VPC peering options. To verify which VPCs are the accepter and the requester for a VPC peering connection, use the [DescribeVpcPeeringConnections] command.
     public func modifyVpcPeeringConnectionOptions(input: ModifyVpcPeeringConnectionOptionsInput) async throws -> ModifyVpcPeeringConnectionOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

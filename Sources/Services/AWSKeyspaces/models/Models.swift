@@ -86,11 +86,25 @@ extension KeyspacesClientTypes.CapacitySpecification: Swift.Codable {
 }
 
 extension KeyspacesClientTypes {
-    /// Amazon Keyspaces has two read/write capacity modes for processing reads and writes on your tables: • On-demand (default) • Provisioned The read/write capacity mode that you choose controls how you are charged for read and write throughput and how table throughput capacity is managed. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
+    /// Amazon Keyspaces has two read/write capacity modes for processing reads and writes on your tables:
+    ///
+    /// * On-demand (default)
+    ///
+    /// * Provisioned
+    ///
+    ///
+    /// The read/write capacity mode that you choose controls how you are charged for read and write throughput and how table throughput capacity is managed. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
     public struct CapacitySpecification: Swift.Equatable {
         /// The throughput capacity specified for read operations defined in read capacity units(RCUs).
         public var readCapacityUnits: Swift.Int?
-        /// The read/write throughput capacity mode for a table. The options are: • throughputMode:PAY_PER_REQUEST and • throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input. The default is throughput_mode:PAY_PER_REQUEST. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
+        /// The read/write throughput capacity mode for a table. The options are:
+        ///
+        /// * throughputMode:PAY_PER_REQUEST and
+        ///
+        /// * throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input.
+        ///
+        ///
+        /// The default is throughput_mode:PAY_PER_REQUEST. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
         /// This member is required.
         public var throughputMode: KeyspacesClientTypes.ThroughputMode?
         /// The throughput capacity specified for write operations defined in write capacity units(WCUs).
@@ -148,13 +162,27 @@ extension KeyspacesClientTypes.CapacitySpecificationSummary: Swift.Codable {
 }
 
 extension KeyspacesClientTypes {
-    /// The read/write throughput capacity mode for a table. The options are: • throughputMode:PAY_PER_REQUEST and • throughputMode:PROVISIONED. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
+    /// The read/write throughput capacity mode for a table. The options are:
+    ///
+    /// * throughputMode:PAY_PER_REQUEST and
+    ///
+    /// * throughputMode:PROVISIONED.
+    ///
+    ///
+    /// For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
     public struct CapacitySpecificationSummary: Swift.Equatable {
         /// The timestamp of the last operation that changed the provisioned throughput capacity of a table.
         public var lastUpdateToPayPerRequestTimestamp: ClientRuntime.Date?
         /// The throughput capacity specified for read operations defined in read capacity units(RCUs).
         public var readCapacityUnits: Swift.Int?
-        /// The read/write throughput capacity mode for a table. The options are: • throughputMode:PAY_PER_REQUEST and • throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input. The default is throughput_mode:PAY_PER_REQUEST. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
+        /// The read/write throughput capacity mode for a table. The options are:
+        ///
+        /// * throughputMode:PAY_PER_REQUEST and
+        ///
+        /// * throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input.
+        ///
+        ///
+        /// The default is throughput_mode:PAY_PER_REQUEST. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
         /// This member is required.
         public var throughputMode: KeyspacesClientTypes.ThroughputMode?
         /// The throughput capacity specified for write operations defined in write capacity units(WCUs).
@@ -174,6 +202,71 @@ extension KeyspacesClientTypes {
         }
     }
 
+}
+
+extension KeyspacesClientTypes.ClientSideTimestamps: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.ClientSideTimestampsStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension KeyspacesClientTypes {
+    /// The client-side timestamp setting of the table. For more information, see [How it works: Amazon Keyspaces client-side timestamps](https://docs.aws.amazon.com/keyspaces/latest/devguide/client-side-timestamps-how-it-works.html) in the Amazon Keyspaces Developer Guide.
+    public struct ClientSideTimestamps: Swift.Equatable {
+        /// Shows how to enable client-side timestamps settings for the specified table.
+        /// This member is required.
+        public var status: KeyspacesClientTypes.ClientSideTimestampsStatus?
+
+        public init (
+            status: KeyspacesClientTypes.ClientSideTimestampsStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension KeyspacesClientTypes {
+    public enum ClientSideTimestampsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientSideTimestampsStatus] {
+            return [
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ClientSideTimestampsStatus(rawValue: rawValue) ?? ClientSideTimestampsStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension KeyspacesClientTypes.ClusteringKey: Swift.Codable {
@@ -505,6 +598,7 @@ extension CreateKeyspaceOutputResponseBody: Swift.Decodable {
 extension CreateTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case capacitySpecification
+        case clientSideTimestamps
         case comment
         case defaultTimeToLive
         case encryptionSpecification
@@ -520,6 +614,9 @@ extension CreateTableInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacitySpecification = self.capacitySpecification {
             try encodeContainer.encode(capacitySpecification, forKey: .capacitySpecification)
+        }
+        if let clientSideTimestamps = self.clientSideTimestamps {
+            try encodeContainer.encode(clientSideTimestamps, forKey: .clientSideTimestamps)
         }
         if let comment = self.comment {
             try encodeContainer.encode(comment, forKey: .comment)
@@ -561,20 +658,69 @@ extension CreateTableInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateTableInput: Swift.Equatable {
-    /// Specifies the read/write throughput capacity mode for the table. The options are: • throughputMode:PAY_PER_REQUEST and • throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input. The default is throughput_mode:PAY_PER_REQUEST. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
+    /// Specifies the read/write throughput capacity mode for the table. The options are:
+    ///
+    /// * throughputMode:PAY_PER_REQUEST and
+    ///
+    /// * throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input.
+    ///
+    ///
+    /// The default is throughput_mode:PAY_PER_REQUEST. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
     public var capacitySpecification: KeyspacesClientTypes.CapacitySpecification?
+    /// Enables client-side timestamps for the table. By default, the setting is disabled. You can enable client-side timestamps with the following option:
+    ///
+    /// * status: "enabled"
+    ///
+    ///
+    /// Once client-side timestamps are enabled for a table, this setting cannot be disabled.
+    public var clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps?
     /// This parameter allows to enter a description of the table.
     public var comment: KeyspacesClientTypes.Comment?
     /// The default Time to Live setting in seconds for the table. For more information, see [Setting the default TTL value for a table](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL-how-it-works.html#ttl-howitworks_default_ttl) in the Amazon Keyspaces Developer Guide.
     public var defaultTimeToLive: Swift.Int?
-    /// Specifies how the encryption key for encryption at rest is managed for the table. You can choose one of the following KMS key (KMS key): • type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces. • type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input. The default is type:AWS_OWNED_KMS_KEY. For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Amazon Keyspaces Developer Guide.
+    /// Specifies how the encryption key for encryption at rest is managed for the table. You can choose one of the following KMS key (KMS key):
+    ///
+    /// * type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.
+    ///
+    /// * type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.
+    ///
+    ///
+    /// The default is type:AWS_OWNED_KMS_KEY. For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Amazon Keyspaces Developer Guide.
     public var encryptionSpecification: KeyspacesClientTypes.EncryptionSpecification?
     /// The name of the keyspace that the table is going to be created in.
     /// This member is required.
     public var keyspaceName: Swift.String?
-    /// Specifies if pointInTimeRecovery is enabled or disabled for the table. The options are: • ENABLED • DISABLED If it's not specified, the default is DISABLED. For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html) in the Amazon Keyspaces Developer Guide.
+    /// Specifies if pointInTimeRecovery is enabled or disabled for the table. The options are:
+    ///
+    /// * status=ENABLED
+    ///
+    /// * status=DISABLED
+    ///
+    ///
+    /// If it's not specified, the default is status=DISABLED. For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html) in the Amazon Keyspaces Developer Guide.
     public var pointInTimeRecovery: KeyspacesClientTypes.PointInTimeRecovery?
-    /// The schemaDefinition consists of the following parameters. For each column to be created: • name - The name of the column. • type - An Amazon Keyspaces data type. For more information, see [Data types](https://docs.aws.amazon.com/keyspaces/latest/devguide/cql.elements.html#cql.data-types) in the Amazon Keyspaces Developer Guide. The primary key of the table consists of the following columns: • partitionKeys - The partition key can be a single column, or it can be a compound value composed of two or more columns. The partition key portion of the primary key is required and determines how Amazon Keyspaces stores your data. • name - The name of each partition key column. • clusteringKeys - The optional clustering column portion of your primary key determines how the data is clustered and sorted within each partition. • name - The name of the clustering column. • orderBy - Sets the ascendant (ASC) or descendant (DESC) order modifier. To define a column as static use staticColumns - Static columns store values that are shared by all rows in the same partition: • name - The name of the column. • type - An Amazon Keyspaces data type.
+    /// The schemaDefinition consists of the following parameters. For each column to be created:
+    ///
+    /// * name - The name of the column.
+    ///
+    /// * type - An Amazon Keyspaces data type. For more information, see [Data types](https://docs.aws.amazon.com/keyspaces/latest/devguide/cql.elements.html#cql.data-types) in the Amazon Keyspaces Developer Guide.
+    ///
+    ///
+    /// The primary key of the table consists of the following columns:
+    ///
+    /// * partitionKeys - The partition key can be a single column, or it can be a compound value composed of two or more columns. The partition key portion of the primary key is required and determines how Amazon Keyspaces stores your data.
+    ///
+    /// * name - The name of each partition key column.
+    ///
+    /// * clusteringKeys - The optional clustering column portion of your primary key determines how the data is clustered and sorted within each partition.
+    ///
+    /// * name - The name of the clustering column.
+    ///
+    /// * orderBy - Sets the ascendant (ASC) or descendant (DESC) order modifier. To define a column as static use staticColumns - Static columns store values that are shared by all rows in the same partition:
+    ///
+    /// * name - The name of the column.
+    ///
+    /// * type - An Amazon Keyspaces data type.
     /// This member is required.
     public var schemaDefinition: KeyspacesClientTypes.SchemaDefinition?
     /// The name of the table.
@@ -582,11 +728,19 @@ public struct CreateTableInput: Swift.Equatable {
     public var tableName: Swift.String?
     /// A list of key-value pair tags to be attached to the resource. For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html) in the Amazon Keyspaces Developer Guide.
     public var tags: [KeyspacesClientTypes.Tag]?
-    /// Enables Time to Live custom settings for the table. The options are: • status:enabled • status:disabled The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see [Expiring data by using Amazon Keyspaces Time to Live (TTL)](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL.html) in the Amazon Keyspaces Developer Guide.
+    /// Enables Time to Live custom settings for the table. The options are:
+    ///
+    /// * status:enabled
+    ///
+    /// * status:disabled
+    ///
+    ///
+    /// The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see [Expiring data by using Amazon Keyspaces Time to Live (TTL)](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL.html) in the Amazon Keyspaces Developer Guide.
     public var ttl: KeyspacesClientTypes.TimeToLive?
 
     public init (
         capacitySpecification: KeyspacesClientTypes.CapacitySpecification? = nil,
+        clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps? = nil,
         comment: KeyspacesClientTypes.Comment? = nil,
         defaultTimeToLive: Swift.Int? = nil,
         encryptionSpecification: KeyspacesClientTypes.EncryptionSpecification? = nil,
@@ -599,6 +753,7 @@ public struct CreateTableInput: Swift.Equatable {
     )
     {
         self.capacitySpecification = capacitySpecification
+        self.clientSideTimestamps = clientSideTimestamps
         self.comment = comment
         self.defaultTimeToLive = defaultTimeToLive
         self.encryptionSpecification = encryptionSpecification
@@ -622,11 +777,13 @@ struct CreateTableInputBody: Swift.Equatable {
     let ttl: KeyspacesClientTypes.TimeToLive?
     let defaultTimeToLive: Swift.Int?
     let tags: [KeyspacesClientTypes.Tag]?
+    let clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps?
 }
 
 extension CreateTableInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case capacitySpecification
+        case clientSideTimestamps
         case comment
         case defaultTimeToLive
         case encryptionSpecification
@@ -669,6 +826,8 @@ extension CreateTableInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let clientSideTimestampsDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.ClientSideTimestamps.self, forKey: .clientSideTimestamps)
+        clientSideTimestamps = clientSideTimestampsDecoded
     }
 }
 
@@ -965,11 +1124,25 @@ extension KeyspacesClientTypes.EncryptionSpecification: Swift.Codable {
 }
 
 extension KeyspacesClientTypes {
-    /// Amazon Keyspaces encrypts and decrypts the table data at rest transparently and integrates with Key Management Service for storing and managing the encryption key. You can choose one of the following KMS keys (KMS keys): • Amazon Web Services owned key - This is the default encryption type. The key is owned by Amazon Keyspaces (no additional charge). • Customer managed key - This key is stored in your account and is created, owned, and managed by you. You have full control over the customer managed key (KMS charges apply). For more information about encryption at rest in Amazon Keyspaces, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Amazon Keyspaces Developer Guide. For more information about KMS, see [KMS management service concepts](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Key Management Service Developer Guide.
+    /// Amazon Keyspaces encrypts and decrypts the table data at rest transparently and integrates with Key Management Service for storing and managing the encryption key. You can choose one of the following KMS keys (KMS keys):
+    ///
+    /// * Amazon Web Services owned key - This is the default encryption type. The key is owned by Amazon Keyspaces (no additional charge).
+    ///
+    /// * Customer managed key - This key is stored in your account and is created, owned, and managed by you. You have full control over the customer managed key (KMS charges apply).
+    ///
+    ///
+    /// For more information about encryption at rest in Amazon Keyspaces, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Amazon Keyspaces Developer Guide. For more information about KMS, see [KMS management service concepts](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Key Management Service Developer Guide.
     public struct EncryptionSpecification: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the customer managed KMS key, for example kms_key_identifier:ARN.
         public var kmsKeyIdentifier: Swift.String?
-        /// The encryption option specified for the table. You can choose one of the following KMS keys (KMS keys): • type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces. • type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input. The default is type:AWS_OWNED_KMS_KEY. For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Amazon Keyspaces Developer Guide.
+        /// The encryption option specified for the table. You can choose one of the following KMS keys (KMS keys):
+        ///
+        /// * type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.
+        ///
+        /// * type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.
+        ///
+        ///
+        /// The default is type:AWS_OWNED_KMS_KEY. For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Amazon Keyspaces Developer Guide.
         /// This member is required.
         public var type: KeyspacesClientTypes.EncryptionType?
 
@@ -1246,6 +1419,7 @@ extension GetTableOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: GetTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capacitySpecification = output.capacitySpecification
+            self.clientSideTimestamps = output.clientSideTimestamps
             self.comment = output.comment
             self.creationTimestamp = output.creationTimestamp
             self.defaultTimeToLive = output.defaultTimeToLive
@@ -1259,6 +1433,7 @@ extension GetTableOutputResponse: ClientRuntime.HttpResponseBinding {
             self.ttl = output.ttl
         } else {
             self.capacitySpecification = nil
+            self.clientSideTimestamps = nil
             self.comment = nil
             self.creationTimestamp = nil
             self.defaultTimeToLive = nil
@@ -1275,13 +1450,19 @@ extension GetTableOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetTableOutputResponse: Swift.Equatable {
-    /// The read/write throughput capacity mode for a table. The options are: • throughputMode:PAY_PER_REQUEST • throughputMode:PROVISIONED
+    /// The read/write throughput capacity mode for a table. The options are:
+    ///
+    /// * throughputMode:PAY_PER_REQUEST
+    ///
+    /// * throughputMode:PROVISIONED
     public var capacitySpecification: KeyspacesClientTypes.CapacitySpecificationSummary?
+    /// The client-side timestamps setting of the table.
+    public var clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps?
     /// The the description of the specified table.
     public var comment: KeyspacesClientTypes.Comment?
     /// The creation timestamp of the specified table.
     public var creationTimestamp: ClientRuntime.Date?
-    /// The default Time to Live settings of the specified table.
+    /// The default Time to Live settings in seconds of the specified table.
     public var defaultTimeToLive: Swift.Int?
     /// The encryption settings of the specified table.
     public var encryptionSpecification: KeyspacesClientTypes.EncryptionSpecification?
@@ -1305,6 +1486,7 @@ public struct GetTableOutputResponse: Swift.Equatable {
 
     public init (
         capacitySpecification: KeyspacesClientTypes.CapacitySpecificationSummary? = nil,
+        clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps? = nil,
         comment: KeyspacesClientTypes.Comment? = nil,
         creationTimestamp: ClientRuntime.Date? = nil,
         defaultTimeToLive: Swift.Int? = nil,
@@ -1319,6 +1501,7 @@ public struct GetTableOutputResponse: Swift.Equatable {
     )
     {
         self.capacitySpecification = capacitySpecification
+        self.clientSideTimestamps = clientSideTimestamps
         self.comment = comment
         self.creationTimestamp = creationTimestamp
         self.defaultTimeToLive = defaultTimeToLive
@@ -1346,11 +1529,13 @@ struct GetTableOutputResponseBody: Swift.Equatable {
     let ttl: KeyspacesClientTypes.TimeToLive?
     let defaultTimeToLive: Swift.Int?
     let comment: KeyspacesClientTypes.Comment?
+    let clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps?
 }
 
 extension GetTableOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case capacitySpecification
+        case clientSideTimestamps
         case comment
         case creationTimestamp
         case defaultTimeToLive
@@ -1390,6 +1575,8 @@ extension GetTableOutputResponseBody: Swift.Decodable {
         defaultTimeToLive = defaultTimeToLiveDecoded
         let commentDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.Comment.self, forKey: .comment)
         comment = commentDecoded
+        let clientSideTimestampsDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.ClientSideTimestamps.self, forKey: .clientSideTimestamps)
+        clientSideTimestamps = clientSideTimestampsDecoded
     }
 }
 
@@ -2024,7 +2211,11 @@ extension KeyspacesClientTypes.PointInTimeRecovery: Swift.Codable {
 extension KeyspacesClientTypes {
     /// Point-in-time recovery (PITR) helps protect your Amazon Keyspaces tables from accidental write or delete operations by providing you continuous backups of your table data. For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html) in the Amazon Keyspaces Developer Guide.
     public struct PointInTimeRecovery: Swift.Equatable {
-        /// The options are: • ENABLED • DISABLED
+        /// The options are:
+        ///
+        /// * status=ENABLED
+        ///
+        /// * status=DISABLED
         /// This member is required.
         public var status: KeyspacesClientTypes.PointInTimeRecoveryStatus?
 
@@ -2233,11 +2424,32 @@ extension RestoreTableInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RestoreTableInput: Swift.Equatable {
-    /// Specifies the read/write throughput capacity mode for the target table. The options are: • throughputMode:PAY_PER_REQUEST • throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input. The default is throughput_mode:PAY_PER_REQUEST. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
+    /// Specifies the read/write throughput capacity mode for the target table. The options are:
+    ///
+    /// * throughputMode:PAY_PER_REQUEST
+    ///
+    /// * throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input.
+    ///
+    ///
+    /// The default is throughput_mode:PAY_PER_REQUEST. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
     public var capacitySpecificationOverride: KeyspacesClientTypes.CapacitySpecification?
-    /// Specifies the encryption settings for the target table. You can choose one of the following KMS key (KMS key): • type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces. • type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input. The default is type:AWS_OWNED_KMS_KEY. For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Amazon Keyspaces Developer Guide.
+    /// Specifies the encryption settings for the target table. You can choose one of the following KMS key (KMS key):
+    ///
+    /// * type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.
+    ///
+    /// * type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.
+    ///
+    ///
+    /// The default is type:AWS_OWNED_KMS_KEY. For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Amazon Keyspaces Developer Guide.
     public var encryptionSpecificationOverride: KeyspacesClientTypes.EncryptionSpecification?
-    /// Specifies the pointInTimeRecovery settings for the target table. The options are: • ENABLED • DISABLED If it's not specified, the default is DISABLED. For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html) in the Amazon Keyspaces Developer Guide.
+    /// Specifies the pointInTimeRecovery settings for the target table. The options are:
+    ///
+    /// * status=ENABLED
+    ///
+    /// * status=DISABLED
+    ///
+    ///
+    /// If it's not specified, the default is status=DISABLED. For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html) in the Amazon Keyspaces Developer Guide.
     public var pointInTimeRecoveryOverride: KeyspacesClientTypes.PointInTimeRecovery?
     /// The restore timestamp in ISO 8601 format.
     public var restoreTimestamp: ClientRuntime.Date?
@@ -3127,6 +3339,7 @@ extension UpdateTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addColumns
         case capacitySpecification
+        case clientSideTimestamps
         case defaultTimeToLive
         case encryptionSpecification
         case keyspaceName
@@ -3145,6 +3358,9 @@ extension UpdateTableInput: Swift.Encodable {
         }
         if let capacitySpecification = self.capacitySpecification {
             try encodeContainer.encode(capacitySpecification, forKey: .capacitySpecification)
+        }
+        if let clientSideTimestamps = self.clientSideTimestamps {
+            try encodeContainer.encode(clientSideTimestamps, forKey: .clientSideTimestamps)
         }
         if let defaultTimeToLive = self.defaultTimeToLive {
             try encodeContainer.encode(defaultTimeToLive, forKey: .defaultTimeToLive)
@@ -3174,28 +3390,68 @@ extension UpdateTableInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateTableInput: Swift.Equatable {
-    /// For each column to be added to the specified table: • name - The name of the column. • type - An Amazon Keyspaces data type. For more information, see [Data types](https://docs.aws.amazon.com/keyspaces/latest/devguide/cql.elements.html#cql.data-types) in the Amazon Keyspaces Developer Guide.
+    /// For each column to be added to the specified table:
+    ///
+    /// * name - The name of the column.
+    ///
+    /// * type - An Amazon Keyspaces data type. For more information, see [Data types](https://docs.aws.amazon.com/keyspaces/latest/devguide/cql.elements.html#cql.data-types) in the Amazon Keyspaces Developer Guide.
     public var addColumns: [KeyspacesClientTypes.ColumnDefinition]?
-    /// Modifies the read/write throughput capacity mode for the table. The options are: • throughputMode:PAY_PER_REQUEST and • throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input. The default is throughput_mode:PAY_PER_REQUEST. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
+    /// Modifies the read/write throughput capacity mode for the table. The options are:
+    ///
+    /// * throughputMode:PAY_PER_REQUEST and
+    ///
+    /// * throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input.
+    ///
+    ///
+    /// The default is throughput_mode:PAY_PER_REQUEST. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
     public var capacitySpecification: KeyspacesClientTypes.CapacitySpecification?
+    /// Enables client-side timestamps for the table. By default, the setting is disabled. You can enable client-side timestamps with the following option:
+    ///
+    /// * status: "enabled"
+    ///
+    ///
+    /// Once client-side timestamps are enabled for a table, this setting cannot be disabled.
+    public var clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps?
     /// The default Time to Live setting in seconds for the table. For more information, see [Setting the default TTL value for a table](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL-how-it-works.html#ttl-howitworks_default_ttl) in the Amazon Keyspaces Developer Guide.
     public var defaultTimeToLive: Swift.Int?
-    /// Modifies the encryption settings of the table. You can choose one of the following KMS key (KMS key): • type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces. • type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input. The default is AWS_OWNED_KMS_KEY. For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Amazon Keyspaces Developer Guide.
+    /// Modifies the encryption settings of the table. You can choose one of the following KMS key (KMS key):
+    ///
+    /// * type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.
+    ///
+    /// * type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.
+    ///
+    ///
+    /// The default is AWS_OWNED_KMS_KEY. For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Amazon Keyspaces Developer Guide.
     public var encryptionSpecification: KeyspacesClientTypes.EncryptionSpecification?
     /// The name of the keyspace the specified table is stored in.
     /// This member is required.
     public var keyspaceName: Swift.String?
-    /// Modifies the pointInTimeRecovery settings of the table. The options are: • ENABLED • DISABLED If it's not specified, the default is DISABLED. For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html) in the Amazon Keyspaces Developer Guide.
+    /// Modifies the pointInTimeRecovery settings of the table. The options are:
+    ///
+    /// * status=ENABLED
+    ///
+    /// * status=DISABLED
+    ///
+    ///
+    /// If it's not specified, the default is status=DISABLED. For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html) in the Amazon Keyspaces Developer Guide.
     public var pointInTimeRecovery: KeyspacesClientTypes.PointInTimeRecovery?
     /// The name of the table.
     /// This member is required.
     public var tableName: Swift.String?
-    /// Modifies Time to Live custom settings for the table. The options are: • status:enabled • status:disabled The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see [Expiring data by using Amazon Keyspaces Time to Live (TTL)](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL.html) in the Amazon Keyspaces Developer Guide.
+    /// Modifies Time to Live custom settings for the table. The options are:
+    ///
+    /// * status:enabled
+    ///
+    /// * status:disabled
+    ///
+    ///
+    /// The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see [Expiring data by using Amazon Keyspaces Time to Live (TTL)](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL.html) in the Amazon Keyspaces Developer Guide.
     public var ttl: KeyspacesClientTypes.TimeToLive?
 
     public init (
         addColumns: [KeyspacesClientTypes.ColumnDefinition]? = nil,
         capacitySpecification: KeyspacesClientTypes.CapacitySpecification? = nil,
+        clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps? = nil,
         defaultTimeToLive: Swift.Int? = nil,
         encryptionSpecification: KeyspacesClientTypes.EncryptionSpecification? = nil,
         keyspaceName: Swift.String? = nil,
@@ -3206,6 +3462,7 @@ public struct UpdateTableInput: Swift.Equatable {
     {
         self.addColumns = addColumns
         self.capacitySpecification = capacitySpecification
+        self.clientSideTimestamps = clientSideTimestamps
         self.defaultTimeToLive = defaultTimeToLive
         self.encryptionSpecification = encryptionSpecification
         self.keyspaceName = keyspaceName
@@ -3224,12 +3481,14 @@ struct UpdateTableInputBody: Swift.Equatable {
     let pointInTimeRecovery: KeyspacesClientTypes.PointInTimeRecovery?
     let ttl: KeyspacesClientTypes.TimeToLive?
     let defaultTimeToLive: Swift.Int?
+    let clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps?
 }
 
 extension UpdateTableInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addColumns
         case capacitySpecification
+        case clientSideTimestamps
         case defaultTimeToLive
         case encryptionSpecification
         case keyspaceName
@@ -3265,6 +3524,8 @@ extension UpdateTableInputBody: Swift.Decodable {
         ttl = ttlDecoded
         let defaultTimeToLiveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultTimeToLive)
         defaultTimeToLive = defaultTimeToLiveDecoded
+        let clientSideTimestampsDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.ClientSideTimestamps.self, forKey: .clientSideTimestamps)
+        clientSideTimestamps = clientSideTimestampsDecoded
     }
 }
 

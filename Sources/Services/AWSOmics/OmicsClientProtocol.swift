@@ -113,9 +113,9 @@ public protocol OmicsClientProtocol {
     func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutputResponse
     /// Starts an annotation import job.
     func startAnnotationImportJob(input: StartAnnotationImportJobInput) async throws -> StartAnnotationImportJobOutputResponse
-    /// Starts a read set activation job.
+    /// Activates an archived read set. To reduce storage charges, Amazon Omics archives unused read sets after 30 days.
     func startReadSetActivationJob(input: StartReadSetActivationJobInput) async throws -> StartReadSetActivationJobOutputResponse
-    /// Starts a read set export job.
+    /// Exports a read set to Amazon S3.
     func startReadSetExportJob(input: StartReadSetExportJobInput) async throws -> StartReadSetExportJobOutputResponse
     /// Starts a read set import job.
     func startReadSetImportJob(input: StartReadSetImportJobInput) async throws -> StartReadSetImportJobOutputResponse

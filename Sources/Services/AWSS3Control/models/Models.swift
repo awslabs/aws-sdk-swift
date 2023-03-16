@@ -54,6 +54,59 @@ extension S3ControlClientTypes {
 
 }
 
+extension S3ControlClientTypes.AccessControlTranslation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case owner = "Owner"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let owner = owner {
+            try container.encode(owner, forKey: ClientRuntime.Key("Owner"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ownerDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.OwnerOverride.self, forKey: .owner)
+        owner = ownerDecoded
+    }
+}
+
+extension S3ControlClientTypes.AccessControlTranslation: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// A container for information about access control for replicas. This is not supported by Amazon S3 on Outposts buckets.
+    public struct AccessControlTranslation: Swift.Equatable {
+        /// Specifies the replica ownership.
+        /// This member is required.
+        public var owner: S3ControlClientTypes.OwnerOverride?
+
+        public init (
+            owner: S3ControlClientTypes.OwnerOverride? = nil
+        )
+        {
+            self.owner = owner
+        }
+    }
+
+}
+
 extension S3ControlClientTypes.AccessPoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessPointArn = "AccessPointArn"
@@ -1316,31 +1369,39 @@ extension CreateAccessPointForObjectLambdaOutputResponse: ClientRuntime.HttpResp
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: CreateAccessPointForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.alias = output.alias
             self.objectLambdaAccessPointArn = output.objectLambdaAccessPointArn
         } else {
+            self.alias = nil
             self.objectLambdaAccessPointArn = nil
         }
     }
 }
 
 public struct CreateAccessPointForObjectLambdaOutputResponse: Swift.Equatable {
+    /// The alias of the Object Lambda Access Point.
+    public var alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
     /// Specifies the ARN for the Object Lambda Access Point.
     public var objectLambdaAccessPointArn: Swift.String?
 
     public init (
+        alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias? = nil,
         objectLambdaAccessPointArn: Swift.String? = nil
     )
     {
+        self.alias = alias
         self.objectLambdaAccessPointArn = objectLambdaAccessPointArn
     }
 }
 
 struct CreateAccessPointForObjectLambdaOutputResponseBody: Swift.Equatable {
     let objectLambdaAccessPointArn: Swift.String?
+    let alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
 }
 
 extension CreateAccessPointForObjectLambdaOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alias = "Alias"
         case objectLambdaAccessPointArn = "ObjectLambdaAccessPointArn"
     }
 
@@ -1348,6 +1409,8 @@ extension CreateAccessPointForObjectLambdaOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectLambdaAccessPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectLambdaAccessPointArn)
         objectLambdaAccessPointArn = objectLambdaAccessPointArnDecoded
+        let aliasDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ObjectLambdaAccessPointAlias.self, forKey: .alias)
+        alias = aliasDecoded
     }
 }
 
@@ -1416,7 +1479,7 @@ public struct CreateAccessPointInput: Swift.Equatable {
     /// The Amazon Web Services account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
     /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
@@ -1687,7 +1750,7 @@ extension CreateBucketInput: ClientRuntime.HeaderProvider {
         if let grantWriteACP = grantWriteACP {
             items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
         }
-        if objectLockEnabledForBucket != false {
+        if let objectLockEnabledForBucket = objectLockEnabledForBucket {
             items.add(Header(name: "x-amz-bucket-object-lock-enabled", value: Swift.String(objectLockEnabledForBucket)))
         }
         if let outpostId = outpostId {
@@ -1725,7 +1788,7 @@ public struct CreateBucketInput: Swift.Equatable {
     /// Allows grantee to write the ACL for the applicable bucket. This is not supported by Amazon S3 on Outposts buckets.
     public var grantWriteACP: Swift.String?
     /// Specifies whether you want S3 Object Lock to be enabled for the new bucket. This is not supported by Amazon S3 on Outposts buckets.
-    public var objectLockEnabledForBucket: Swift.Bool
+    public var objectLockEnabledForBucket: Swift.Bool?
     /// The ID of the Outposts where the bucket is being created. This ID is required by Amazon S3 on Outposts buckets.
     public var outpostId: Swift.String?
 
@@ -1738,7 +1801,7 @@ public struct CreateBucketInput: Swift.Equatable {
         grantReadACP: Swift.String? = nil,
         grantWrite: Swift.String? = nil,
         grantWriteACP: Swift.String? = nil,
-        objectLockEnabledForBucket: Swift.Bool = false,
+        objectLockEnabledForBucket: Swift.Bool? = nil,
         outpostId: Swift.String? = nil
     )
     {
@@ -1813,7 +1876,7 @@ extension CreateBucketOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateBucketOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     public var bucketArn: Swift.String?
     /// The location of the bucket.
     public var location: Swift.String?
@@ -2469,7 +2532,7 @@ public struct DeleteAccessPointInput: Swift.Equatable {
     /// The Amazon Web Services account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The name of the access point you want to delete. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
+    /// The name of the access point you want to delete. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
     /// This member is required.
     public var name: Swift.String?
 
@@ -2619,7 +2682,7 @@ public struct DeleteAccessPointPolicyInput: Swift.Equatable {
     /// The account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The name of the access point whose policy you want to delete. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
+    /// The name of the access point whose policy you want to delete. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
     /// This member is required.
     public var name: Swift.String?
 
@@ -2694,7 +2757,7 @@ public struct DeleteBucketInput: Swift.Equatable {
     /// The account ID that owns the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
-    /// Specifies the bucket being deleted. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// Specifies the bucket being deleted. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
 
@@ -2740,7 +2803,7 @@ public struct DeleteBucketLifecycleConfigurationInput: Swift.Equatable {
     /// The account ID of the lifecycle configuration to delete.
     /// This member is required.
     public var accountId: Swift.String?
-    /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
 
@@ -2844,7 +2907,7 @@ public struct DeleteBucketPolicyInput: Swift.Equatable {
     /// The account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
-    /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
 
@@ -2896,6 +2959,81 @@ public struct DeleteBucketPolicyOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DeleteBucketReplicationInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let accountId = accountId {
+            items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bucket = bucket else {
+            return nil
+        }
+        return "/v20180820/bucket/\(bucket.urlPercentEncoding())/replication"
+    }
+}
+
+public struct DeleteBucketReplicationInput: Swift.Equatable {
+    /// The Amazon Web Services account ID of the Outposts bucket to delete the replication configuration for.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// Specifies the S3 on Outposts bucket to delete the replication configuration for. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// This member is required.
+    public var bucket: Swift.String?
+
+    public init (
+        accountId: Swift.String? = nil,
+        bucket: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.bucket = bucket
+    }
+}
+
+struct DeleteBucketReplicationInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketReplicationInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketReplicationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension DeleteBucketReplicationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteBucketReplicationOutputError: Swift.Error, Swift.Equatable {
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteBucketReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteBucketReplicationOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DeleteBucketTaggingInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -2919,7 +3057,7 @@ public struct DeleteBucketTaggingInput: Swift.Equatable {
     /// The Amazon Web Services account ID of the Outposts bucket tag set to be removed.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The bucket ARN that has the tag set to be removed. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// The bucket ARN that has the tag set to be removed. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
 
@@ -3050,6 +3188,91 @@ extension DeleteJobTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DeleteJobTaggingOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension S3ControlClientTypes.DeleteMarkerReplication: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.DeleteMarkerReplicationStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension S3ControlClientTypes.DeleteMarkerReplication: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// Specifies whether S3 on Outposts replicates delete markers. If you specify a Filter element in your replication configuration, you must also include a DeleteMarkerReplication element. If your Filter includes a Tag element, the DeleteMarkerReplication element's Status child element must be set to Disabled, because S3 on Outposts does not support replicating delete markers for tag-based rules. For more information about delete marker replication, see [How delete operations affect replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html#outposts-replication-what-is-replicated) in the Amazon S3 User Guide.
+    public struct DeleteMarkerReplication: Swift.Equatable {
+        /// Indicates whether to replicate delete markers.
+        /// This member is required.
+        public var status: S3ControlClientTypes.DeleteMarkerReplicationStatus?
+
+        public init (
+            status: S3ControlClientTypes.DeleteMarkerReplicationStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension S3ControlClientTypes {
+    public enum DeleteMarkerReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeleteMarkerReplicationStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeleteMarkerReplicationStatus(rawValue: rawValue) ?? DeleteMarkerReplicationStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension S3ControlClientTypes.DeleteMultiRegionAccessPointInput: Swift.Codable {
@@ -3695,6 +3918,119 @@ extension DescribeMultiRegionAccessPointOperationOutputResponseBody: Swift.Decod
     }
 }
 
+extension S3ControlClientTypes.Destination: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessControlTranslation = "AccessControlTranslation"
+        case account = "Account"
+        case bucket = "Bucket"
+        case encryptionConfiguration = "EncryptionConfiguration"
+        case metrics = "Metrics"
+        case replicationTime = "ReplicationTime"
+        case storageClass = "StorageClass"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let accessControlTranslation = accessControlTranslation {
+            try container.encode(accessControlTranslation, forKey: ClientRuntime.Key("AccessControlTranslation"))
+        }
+        if let account = account {
+            try container.encode(account, forKey: ClientRuntime.Key("Account"))
+        }
+        if let bucket = bucket {
+            try container.encode(bucket, forKey: ClientRuntime.Key("Bucket"))
+        }
+        if let encryptionConfiguration = encryptionConfiguration {
+            try container.encode(encryptionConfiguration, forKey: ClientRuntime.Key("EncryptionConfiguration"))
+        }
+        if let metrics = metrics {
+            try container.encode(metrics, forKey: ClientRuntime.Key("Metrics"))
+        }
+        if let replicationTime = replicationTime {
+            try container.encode(replicationTime, forKey: ClientRuntime.Key("ReplicationTime"))
+        }
+        if let storageClass = storageClass {
+            try container.encode(storageClass, forKey: ClientRuntime.Key("StorageClass"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .account)
+        account = accountDecoded
+        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
+        bucket = bucketDecoded
+        let replicationTimeDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicationTime.self, forKey: .replicationTime)
+        replicationTime = replicationTimeDecoded
+        let accessControlTranslationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.AccessControlTranslation.self, forKey: .accessControlTranslation)
+        accessControlTranslation = accessControlTranslationDecoded
+        let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
+        encryptionConfiguration = encryptionConfigurationDecoded
+        let metricsDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.Metrics.self, forKey: .metrics)
+        metrics = metricsDecoded
+        let storageClassDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicationStorageClass.self, forKey: .storageClass)
+        storageClass = storageClassDecoded
+    }
+}
+
+extension S3ControlClientTypes.Destination: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// Specifies information about the replication destination bucket and its settings for an S3 on Outposts replication configuration.
+    public struct Destination: Swift.Equatable {
+        /// Specify this property only in a cross-account scenario (where the source and destination bucket owners are not the same), and you want to change replica ownership to the Amazon Web Services account that owns the destination bucket. If this property is not specified in the replication configuration, the replicas are owned by same Amazon Web Services account that owns the source object. This is not supported by Amazon S3 on Outposts buckets.
+        public var accessControlTranslation: S3ControlClientTypes.AccessControlTranslation?
+        /// The destination bucket owner's account ID.
+        public var account: Swift.String?
+        /// The Amazon Resource Name (ARN) of the access point for the destination bucket where you want S3 on Outposts to store the replication results.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// A container that provides information about encryption. If SourceSelectionCriteria is specified, you must specify this element. This is not supported by Amazon S3 on Outposts buckets.
+        public var encryptionConfiguration: S3ControlClientTypes.EncryptionConfiguration?
+        /// A container that specifies replication metrics-related settings.
+        public var metrics: S3ControlClientTypes.Metrics?
+        /// A container that specifies S3 Replication Time Control (S3 RTC) settings, including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. Must be specified together with a Metrics block. This is not supported by Amazon S3 on Outposts buckets.
+        public var replicationTime: S3ControlClientTypes.ReplicationTime?
+        /// The storage class to use when replicating objects. All objects stored on S3 on Outposts are stored in the OUTPOSTS storage class. S3 on Outposts uses the OUTPOSTS storage class to create the object replicas. Values other than OUTPOSTS are not supported by Amazon S3 on Outposts.
+        public var storageClass: S3ControlClientTypes.ReplicationStorageClass?
+
+        public init (
+            accessControlTranslation: S3ControlClientTypes.AccessControlTranslation? = nil,
+            account: Swift.String? = nil,
+            bucket: Swift.String? = nil,
+            encryptionConfiguration: S3ControlClientTypes.EncryptionConfiguration? = nil,
+            metrics: S3ControlClientTypes.Metrics? = nil,
+            replicationTime: S3ControlClientTypes.ReplicationTime? = nil,
+            storageClass: S3ControlClientTypes.ReplicationStorageClass? = nil
+        )
+        {
+            self.accessControlTranslation = accessControlTranslation
+            self.account = account
+            self.bucket = bucket
+            self.encryptionConfiguration = encryptionConfiguration
+            self.metrics = metrics
+            self.replicationTime = replicationTime
+            self.storageClass = storageClass
+        }
+    }
+
+}
+
 extension S3ControlClientTypes.DetailedStatusCodesMetrics: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isEnabled = "IsEnabled"
@@ -3742,6 +4078,58 @@ extension S3ControlClientTypes {
         )
         {
             self.isEnabled = isEnabled
+        }
+    }
+
+}
+
+extension S3ControlClientTypes.EncryptionConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicaKmsKeyID = "ReplicaKmsKeyID"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let replicaKmsKeyID = replicaKmsKeyID {
+            try container.encode(replicaKmsKeyID, forKey: ClientRuntime.Key("ReplicaKmsKeyID"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicaKmsKeyIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicaKmsKeyID)
+        replicaKmsKeyID = replicaKmsKeyIDDecoded
+    }
+}
+
+extension S3ControlClientTypes.EncryptionConfiguration: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// Specifies encryption-related information for an Amazon S3 bucket that is a destination for replicated objects. This is not supported by Amazon S3 on Outposts buckets.
+    public struct EncryptionConfiguration: Swift.Equatable {
+        /// Specifies the ID of the customer managed KMS key that's stored in Key Management Service (KMS) for the destination bucket. This ID is either the Amazon Resource Name (ARN) for the KMS key or the alias ARN for the KMS key. Amazon S3 uses this KMS key to encrypt replica objects. Amazon S3 supports only symmetric encryption KMS keys. For more information, see [Symmetric encryption KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks) in the Amazon Web Services Key Management Service Developer Guide.
+        public var replicaKmsKeyID: Swift.String?
+
+        public init (
+            replicaKmsKeyID: Swift.String? = nil
+        )
+        {
+            self.replicaKmsKeyID = replicaKmsKeyID
         }
     }
 
@@ -3899,6 +4287,91 @@ extension S3ControlClientTypes {
         }
     }
 
+}
+
+extension S3ControlClientTypes.ExistingObjectReplication: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ExistingObjectReplicationStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension S3ControlClientTypes.ExistingObjectReplication: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// An optional configuration to replicate existing source bucket objects. This is not supported by Amazon S3 on Outposts buckets.
+    public struct ExistingObjectReplication: Swift.Equatable {
+        /// Specifies whether Amazon S3 replicates existing source bucket objects.
+        /// This member is required.
+        public var status: S3ControlClientTypes.ExistingObjectReplicationStatus?
+
+        public init (
+            status: S3ControlClientTypes.ExistingObjectReplicationStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension S3ControlClientTypes {
+    public enum ExistingObjectReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExistingObjectReplicationStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExistingObjectReplicationStatus(rawValue: rawValue) ?? ExistingObjectReplicationStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension S3ControlClientTypes {
@@ -4233,10 +4706,12 @@ extension GetAccessPointForObjectLambdaOutputResponse: ClientRuntime.HttpRespons
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: GetAccessPointForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.alias = output.alias
             self.creationDate = output.creationDate
             self.name = output.name
             self.publicAccessBlockConfiguration = output.publicAccessBlockConfiguration
         } else {
+            self.alias = nil
             self.creationDate = nil
             self.name = nil
             self.publicAccessBlockConfiguration = nil
@@ -4245,6 +4720,8 @@ extension GetAccessPointForObjectLambdaOutputResponse: ClientRuntime.HttpRespons
 }
 
 public struct GetAccessPointForObjectLambdaOutputResponse: Swift.Equatable {
+    /// The alias of the Object Lambda Access Point.
+    public var alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
     /// The date and time when the specified Object Lambda Access Point was created.
     public var creationDate: ClientRuntime.Date?
     /// The name of the Object Lambda Access Point.
@@ -4253,11 +4730,13 @@ public struct GetAccessPointForObjectLambdaOutputResponse: Swift.Equatable {
     public var publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration?
 
     public init (
+        alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias? = nil,
         creationDate: ClientRuntime.Date? = nil,
         name: Swift.String? = nil,
         publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil
     )
     {
+        self.alias = alias
         self.creationDate = creationDate
         self.name = name
         self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
@@ -4268,10 +4747,12 @@ struct GetAccessPointForObjectLambdaOutputResponseBody: Swift.Equatable {
     let name: Swift.String?
     let publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration?
     let creationDate: ClientRuntime.Date?
+    let alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
 }
 
 extension GetAccessPointForObjectLambdaOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alias = "Alias"
         case creationDate = "CreationDate"
         case name = "Name"
         case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
@@ -4285,6 +4766,8 @@ extension GetAccessPointForObjectLambdaOutputResponseBody: Swift.Decodable {
         publicAccessBlockConfiguration = publicAccessBlockConfigurationDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationDate)
         creationDate = creationDateDecoded
+        let aliasDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ObjectLambdaAccessPointAlias.self, forKey: .alias)
+        alias = aliasDecoded
     }
 }
 
@@ -4311,7 +4794,7 @@ public struct GetAccessPointInput: Swift.Equatable {
     /// The Amazon Web Services account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The name of the access point whose configuration information you want to retrieve. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
+    /// The name of the access point whose configuration information you want to retrieve. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
     /// This member is required.
     public var name: Swift.String?
 
@@ -4630,7 +5113,7 @@ public struct GetAccessPointPolicyInput: Swift.Equatable {
     /// The account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The name of the access point whose policy you want to retrieve. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
+    /// The name of the access point whose policy you want to retrieve. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
     /// This member is required.
     public var name: Swift.String?
 
@@ -4948,7 +5431,7 @@ public struct GetBucketInput: Swift.Equatable {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
-    /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
 
@@ -4994,7 +5477,7 @@ public struct GetBucketLifecycleConfigurationInput: Swift.Equatable {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
 
@@ -5197,7 +5680,7 @@ public struct GetBucketPolicyInput: Swift.Equatable {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
-    /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
 
@@ -5280,6 +5763,112 @@ extension GetBucketPolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetBucketReplicationInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let accountId = accountId {
+            items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
+extension GetBucketReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bucket = bucket else {
+            return nil
+        }
+        return "/v20180820/bucket/\(bucket.urlPercentEncoding())/replication"
+    }
+}
+
+public struct GetBucketReplicationInput: Swift.Equatable {
+    /// The Amazon Web Services account ID of the Outposts bucket.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// Specifies the bucket to get the replication information for. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// This member is required.
+    public var bucket: Swift.String?
+
+    public init (
+        accountId: Swift.String? = nil,
+        bucket: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.bucket = bucket
+    }
+}
+
+struct GetBucketReplicationInputBody: Swift.Equatable {
+}
+
+extension GetBucketReplicationInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetBucketReplicationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension GetBucketReplicationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetBucketReplicationOutputError: Swift.Error, Swift.Equatable {
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetBucketReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetBucketReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.replicationConfiguration = output.replicationConfiguration
+        } else {
+            self.replicationConfiguration = nil
+        }
+    }
+}
+
+public struct GetBucketReplicationOutputResponse: Swift.Equatable {
+    /// A container for one or more replication rules. A replication configuration must have at least one rule and you can add up to 100 rules. The maximum size of a replication configuration is 128 KB.
+    public var replicationConfiguration: S3ControlClientTypes.ReplicationConfiguration?
+
+    public init (
+        replicationConfiguration: S3ControlClientTypes.ReplicationConfiguration? = nil
+    )
+    {
+        self.replicationConfiguration = replicationConfiguration
+    }
+}
+
+struct GetBucketReplicationOutputResponseBody: Swift.Equatable {
+    let replicationConfiguration: S3ControlClientTypes.ReplicationConfiguration?
+}
+
+extension GetBucketReplicationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationConfiguration = "ReplicationConfiguration"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigurationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicationConfiguration.self, forKey: .replicationConfiguration)
+        replicationConfiguration = replicationConfigurationDecoded
+    }
+}
+
 extension GetBucketTaggingInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -5303,7 +5892,7 @@ public struct GetBucketTaggingInput: Swift.Equatable {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
-    /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
 
@@ -7504,7 +8093,7 @@ extension S3ControlClientTypes {
         /// The ETag for the specified manifest object.
         /// This member is required.
         public var eTag: Swift.String?
-        /// The Amazon Resource Name (ARN) for a manifest object. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+        /// The Amazon Resource Name (ARN) for a manifest object. When you're using XML requests, you must replace special characters (such as carriage returns) in object keys with their equivalent XML entity codes. For more information, see [ XML-related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints) in the Amazon S3 User Guide.
         /// This member is required.
         public var objectArn: Swift.String?
         /// The optional version ID to identify a specific version of the manifest object.
@@ -7704,9 +8293,9 @@ extension S3ControlClientTypes {
         public var s3PutObjectAcl: S3ControlClientTypes.S3SetObjectAclOperation?
         /// Directs the specified job to run a PUT Copy object call on every object in the manifest.
         public var s3PutObjectCopy: S3ControlClientTypes.S3CopyObjectOperation?
-        /// Contains the configuration for an S3 Object Lock legal hold operation that an S3 Batch Operations job passes every object to the underlying PutObjectLegalHold API. For more information, see [Using S3 Object Lock legal hold with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-legal-hold.html) in the Amazon S3 User Guide.
+        /// Contains the configuration for an S3 Object Lock legal hold operation that an S3 Batch Operations job passes to every object to the underlying PutObjectLegalHold API operation. For more information, see [Using S3 Object Lock legal hold with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-legal-hold.html) in the Amazon S3 User Guide.
         public var s3PutObjectLegalHold: S3ControlClientTypes.S3SetObjectLegalHoldOperation?
-        /// Contains the configuration parameters for the Object Lock retention action for an S3 Batch Operations job. Batch Operations passes every object to the underlying PutObjectRetention API. For more information, see [Using S3 Object Lock retention with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html) in the Amazon S3 User Guide.
+        /// Contains the configuration parameters for the Object Lock retention action for an S3 Batch Operations job. Batch Operations passes every object to the underlying PutObjectRetention API operation. For more information, see [Using S3 Object Lock retention with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html) in the Amazon S3 User Guide.
         public var s3PutObjectRetention: S3ControlClientTypes.S3SetObjectRetentionOperation?
         /// Directs the specified job to run a PUT Object tagging call on every object in the manifest.
         public var s3PutObjectTagging: S3ControlClientTypes.S3SetObjectTaggingOperation?
@@ -8460,7 +9049,7 @@ extension S3ControlClientTypes.LifecycleRule: ClientRuntime.DynamicNodeEncoding 
 extension S3ControlClientTypes {
     /// The container for the Outposts bucket lifecycle rule.
     public struct LifecycleRule: Swift.Equatable {
-        /// Specifies the days since the initiation of an incomplete multipart upload that Amazon S3 waits before permanently removing all parts of the upload. For more information, see [ Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Policy](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config) in the Amazon S3 User Guide.
+        /// Specifies the days since the initiation of an incomplete multipart upload that Amazon S3 waits before permanently removing all parts of the upload. For more information, see [ Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config) in the Amazon S3 User Guide.
         public var abortIncompleteMultipartUpload: S3ControlClientTypes.AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
         public var expiration: S3ControlClientTypes.LifecycleExpiration?
@@ -8673,7 +9262,7 @@ extension S3ControlClientTypes {
         public var objectSizeGreaterThan: Swift.Int?
         /// Maximum object size to which the rule applies.
         public var objectSizeLessThan: Swift.Int?
-        /// Prefix identifying one or more objects to which the rule applies. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+        /// Prefix identifying one or more objects to which the rule applies. When you're using XML requests, you must replace special characters (such as carriage returns) in object keys with their equivalent XML entity codes. For more information, see [ XML-related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints) in the Amazon S3 User Guide.
         public var `prefix`: Swift.String?
         /// A container for a key-value name pair.
         public var tag: S3ControlClientTypes.S3Tag?
@@ -8714,7 +9303,7 @@ extension ListAccessPointsForObjectLambdaInput: ClientRuntime.QueryItemProvider 
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -8734,13 +9323,13 @@ public struct ListAccessPointsForObjectLambdaInput: Swift.Equatable {
     /// This member is required.
     public var accountId: Swift.String?
     /// The maximum number of access points that you want to include in the list. The response may contain fewer access points but will never contain more. If there are more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If the list has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
     public var nextToken: Swift.String?
 
     public init (
         accountId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -8868,7 +9457,7 @@ extension ListAccessPointsInput: ClientRuntime.QueryItemProvider {
                 let bucketQueryItem = ClientRuntime.URLQueryItem(name: "bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
                 items.append(bucketQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -8887,17 +9476,17 @@ public struct ListAccessPointsInput: Swift.Equatable {
     /// The Amazon Web Services account ID for the account that owns the specified access points.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     public var bucket: Swift.String?
     /// The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results.
     public var nextToken: Swift.String?
 
     public init (
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -9188,7 +9777,7 @@ extension ListMultiRegionAccessPointsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -9208,13 +9797,13 @@ public struct ListMultiRegionAccessPointsInput: Swift.Equatable {
     /// This member is required.
     public var accountId: Swift.String?
     /// Not currently used. Do not use this parameter.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Not currently used. Do not use this parameter.
     public var nextToken: Swift.String?
 
     public init (
         accountId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -9341,7 +9930,7 @@ extension ListRegionalBucketsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -9361,7 +9950,7 @@ public struct ListRegionalBucketsInput: Swift.Equatable {
     /// This member is required.
     public var accountId: Swift.String?
     ///
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     ///
     public var nextToken: Swift.String?
     /// The ID of the Outposts resource. This ID is required by Amazon S3 on Outposts buckets.
@@ -9369,7 +9958,7 @@ public struct ListRegionalBucketsInput: Swift.Equatable {
 
     public init (
         accountId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         outpostId: Swift.String? = nil
     )
@@ -9763,6 +10352,101 @@ extension S3ControlClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = MFADeleteStatus(rawValue: rawValue) ?? MFADeleteStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ControlClientTypes.Metrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventThreshold = "EventThreshold"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let eventThreshold = eventThreshold {
+            try container.encode(eventThreshold, forKey: ClientRuntime.Key("EventThreshold"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.MetricsStatus.self, forKey: .status)
+        status = statusDecoded
+        let eventThresholdDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicationTimeValue.self, forKey: .eventThreshold)
+        eventThreshold = eventThresholdDecoded
+    }
+}
+
+extension S3ControlClientTypes.Metrics: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// A container that specifies replication metrics-related settings.
+    public struct Metrics: Swift.Equatable {
+        /// A container that specifies the time threshold for emitting the s3:Replication:OperationMissedThreshold event. This is not supported by Amazon S3 on Outposts buckets.
+        public var eventThreshold: S3ControlClientTypes.ReplicationTimeValue?
+        /// Specifies whether replication metrics are enabled.
+        /// This member is required.
+        public var status: S3ControlClientTypes.MetricsStatus?
+
+        public init (
+            eventThreshold: S3ControlClientTypes.ReplicationTimeValue? = nil,
+            status: S3ControlClientTypes.MetricsStatus? = nil
+        )
+        {
+            self.eventThreshold = eventThreshold
+            self.status = status
+        }
+    }
+
+}
+
+extension S3ControlClientTypes {
+    public enum MetricsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricsStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MetricsStatus(rawValue: rawValue) ?? MetricsStatus.sdkUnknown(rawValue)
         }
     }
 }
@@ -10462,6 +11146,7 @@ extension NotFoundExceptionBody: Swift.Decodable {
 
 extension S3ControlClientTypes.ObjectLambdaAccessPoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alias = "Alias"
         case name = "Name"
         case objectLambdaAccessPointArn = "ObjectLambdaAccessPointArn"
     }
@@ -10470,6 +11155,9 @@ extension S3ControlClientTypes.ObjectLambdaAccessPoint: Swift.Codable {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if encoder.codingPath.isEmpty {
             try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let alias = alias {
+            try container.encode(alias, forKey: ClientRuntime.Key("Alias"))
         }
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))
@@ -10485,6 +11173,8 @@ extension S3ControlClientTypes.ObjectLambdaAccessPoint: Swift.Codable {
         name = nameDecoded
         let objectLambdaAccessPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectLambdaAccessPointArn)
         objectLambdaAccessPointArn = objectLambdaAccessPointArnDecoded
+        let aliasDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ObjectLambdaAccessPointAlias.self, forKey: .alias)
+        alias = aliasDecoded
     }
 }
 
@@ -10505,6 +11195,8 @@ extension S3ControlClientTypes.ObjectLambdaAccessPoint: ClientRuntime.DynamicNod
 extension S3ControlClientTypes {
     /// An access point with an attached Lambda function used to access transformed data from an Amazon S3 bucket.
     public struct ObjectLambdaAccessPoint: Swift.Equatable {
+        /// The alias of the Object Lambda Access Point.
+        public var alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
         /// The name of the Object Lambda Access Point.
         /// This member is required.
         public var name: Swift.String?
@@ -10512,15 +11204,111 @@ extension S3ControlClientTypes {
         public var objectLambdaAccessPointArn: Swift.String?
 
         public init (
+            alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias? = nil,
             name: Swift.String? = nil,
             objectLambdaAccessPointArn: Swift.String? = nil
         )
         {
+            self.alias = alias
             self.name = name
             self.objectLambdaAccessPointArn = objectLambdaAccessPointArn
         }
     }
 
+}
+
+extension S3ControlClientTypes.ObjectLambdaAccessPointAlias: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let value = value {
+            try container.encode(value, forKey: ClientRuntime.Key("Value"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ObjectLambdaAccessPointAliasStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension S3ControlClientTypes.ObjectLambdaAccessPointAlias: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// The alias of an Object Lambda Access Point. For more information, see [How to use a bucket-style alias for your S3 bucket Object Lambda Access Point](https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-use.html#ol-access-points-alias).
+    public struct ObjectLambdaAccessPointAlias: Swift.Equatable {
+        /// The status of the Object Lambda Access Point alias. If the status is PROVISIONING, the Object Lambda Access Point is provisioning the alias and the alias is not ready for use yet. If the status is READY, the Object Lambda Access Point alias is successfully provisioned and ready for use.
+        public var status: S3ControlClientTypes.ObjectLambdaAccessPointAliasStatus?
+        /// The alias value of the Object Lambda Access Point.
+        public var value: Swift.String?
+
+        public init (
+            status: S3ControlClientTypes.ObjectLambdaAccessPointAliasStatus? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.status = status
+            self.value = value
+        }
+    }
+
+}
+
+extension S3ControlClientTypes {
+    public enum ObjectLambdaAccessPointAliasStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case provisioning
+        case ready
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ObjectLambdaAccessPointAliasStatus] {
+            return [
+                .provisioning,
+                .ready,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .provisioning: return "PROVISIONING"
+            case .ready: return "READY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ObjectLambdaAccessPointAliasStatus(rawValue: rawValue) ?? ObjectLambdaAccessPointAliasStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension S3ControlClientTypes {
@@ -10924,6 +11712,35 @@ extension S3ControlClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = OutputSchemaVersion(rawValue: rawValue) ?? OutputSchemaVersion.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+    public enum OwnerOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case destination
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OwnerOverride] {
+            return [
+                .destination,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .destination: return "Destination"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OwnerOverride(rawValue: rawValue) ?? OwnerOverride.sdkUnknown(rawValue)
         }
     }
 }
@@ -11525,7 +12342,7 @@ public struct PutAccessPointPolicyInput: Swift.Equatable {
     /// The Amazon Web Services account ID for owner of the bucket associated with the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
+    /// The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
     /// This member is required.
     public var name: Swift.String?
     /// The policy that you want to apply to the specified access point. For more information about access point policies, see [Managing data access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide.
@@ -11780,7 +12597,7 @@ extension PutBucketPolicyInput: ClientRuntime.HeaderProvider {
         if let accountId = accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
-        if confirmRemoveSelfBucketAccess != false {
+        if let confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess {
             items.add(Header(name: "x-amz-confirm-remove-self-bucket-access", value: Swift.String(confirmRemoveSelfBucketAccess)))
         }
         return items
@@ -11800,11 +12617,11 @@ public struct PutBucketPolicyInput: Swift.Equatable {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
-    /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
     /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future. This is not supported by Amazon S3 on Outposts buckets.
-    public var confirmRemoveSelfBucketAccess: Swift.Bool
+    public var confirmRemoveSelfBucketAccess: Swift.Bool?
     /// The bucket policy as a JSON document.
     /// This member is required.
     public var policy: Swift.String?
@@ -11812,7 +12629,7 @@ public struct PutBucketPolicyInput: Swift.Equatable {
     public init (
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil,
-        confirmRemoveSelfBucketAccess: Swift.Bool = false,
+        confirmRemoveSelfBucketAccess: Swift.Bool? = nil,
         policy: Swift.String? = nil
     )
     {
@@ -11864,6 +12681,162 @@ extension PutBucketPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PutBucketPolicyOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+public struct PutBucketReplicationInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "PutBucketReplicationInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<PutBucketReplicationInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketReplicationOutputResponse>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let replicationConfiguration = input.operationInput.replicationConfiguration {
+                let xmlEncoder = encoder as! XMLEncoder
+                let replicationConfigurationdata = try xmlEncoder.encode(replicationConfiguration, withRootKey: "ReplicationConfiguration")
+                let replicationConfigurationbody = ClientRuntime.HttpBody.data(replicationConfigurationdata)
+                input.builder.withBody(replicationConfigurationbody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let replicationConfigurationdata = "{}".data(using: .utf8)!
+                    let replicationConfigurationbody = ClientRuntime.HttpBody.data(replicationConfigurationdata)
+                    input.builder.withBody(replicationConfigurationbody)
+                }
+            }
+        } catch let err {
+            throw SdkError<PutBucketReplicationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketReplicationInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketReplicationOutputResponse>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
+extension PutBucketReplicationInput: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension PutBucketReplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationConfiguration = "ReplicationConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let replicationConfiguration = replicationConfiguration {
+            try container.encode(replicationConfiguration, forKey: ClientRuntime.Key("ReplicationConfiguration"))
+        }
+    }
+}
+
+extension PutBucketReplicationInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let accountId = accountId {
+            items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
+extension PutBucketReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bucket = bucket else {
+            return nil
+        }
+        return "/v20180820/bucket/\(bucket.urlPercentEncoding())/replication"
+    }
+}
+
+public struct PutBucketReplicationInput: Swift.Equatable {
+    /// The Amazon Web Services account ID of the Outposts bucket.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// Specifies the S3 on Outposts bucket to set the configuration for. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// This member is required.
+    public var bucket: Swift.String?
+    ///
+    /// This member is required.
+    public var replicationConfiguration: S3ControlClientTypes.ReplicationConfiguration?
+
+    public init (
+        accountId: Swift.String? = nil,
+        bucket: Swift.String? = nil,
+        replicationConfiguration: S3ControlClientTypes.ReplicationConfiguration? = nil
+    )
+    {
+        self.accountId = accountId
+        self.bucket = bucket
+        self.replicationConfiguration = replicationConfiguration
+    }
+}
+
+struct PutBucketReplicationInputBody: Swift.Equatable {
+    let replicationConfiguration: S3ControlClientTypes.ReplicationConfiguration?
+}
+
+extension PutBucketReplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationConfiguration = "ReplicationConfiguration"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigurationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicationConfiguration.self, forKey: .replicationConfiguration)
+        replicationConfiguration = replicationConfigurationDecoded
+    }
+}
+
+extension PutBucketReplicationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension PutBucketReplicationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutBucketReplicationOutputError: Swift.Error, Swift.Equatable {
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutBucketReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct PutBucketReplicationOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -11960,7 +12933,7 @@ public struct PutBucketTaggingInput: Swift.Equatable {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
     ///
@@ -12986,6 +13959,7 @@ public struct PutStorageLensConfigurationTaggingOutputResponse: Swift.Equatable 
 extension S3ControlClientTypes.Region: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucket = "Bucket"
+        case bucketAccountId = "BucketAccountId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -12996,12 +13970,17 @@ extension S3ControlClientTypes.Region: Swift.Codable {
         if let bucket = bucket {
             try container.encode(bucket, forKey: ClientRuntime.Key("Bucket"))
         }
+        if let bucketAccountId = bucketAccountId {
+            try container.encode(bucketAccountId, forKey: ClientRuntime.Key("BucketAccountId"))
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
         bucket = bucketDecoded
+        let bucketAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketAccountId)
+        bucketAccountId = bucketAccountIdDecoded
     }
 }
 
@@ -13025,12 +14004,16 @@ extension S3ControlClientTypes {
         /// The name of the associated bucket for the Region.
         /// This member is required.
         public var bucket: Swift.String?
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket that's associated with this Multi-Region Access Point.
+        public var bucketAccountId: Swift.String?
 
         public init (
-            bucket: Swift.String? = nil
+            bucket: Swift.String? = nil,
+            bucketAccountId: Swift.String? = nil
         )
         {
             self.bucket = bucket
+            self.bucketAccountId = bucketAccountId
         }
     }
 
@@ -13039,6 +14022,7 @@ extension S3ControlClientTypes {
 extension S3ControlClientTypes.RegionReport: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucket = "Bucket"
+        case bucketAccountId = "BucketAccountId"
         case region = "Region"
     }
 
@@ -13049,6 +14033,9 @@ extension S3ControlClientTypes.RegionReport: Swift.Codable {
         }
         if let bucket = bucket {
             try container.encode(bucket, forKey: ClientRuntime.Key("Bucket"))
+        }
+        if let bucketAccountId = bucketAccountId {
+            try container.encode(bucketAccountId, forKey: ClientRuntime.Key("BucketAccountId"))
         }
         if let region = region {
             try container.encode(region, forKey: ClientRuntime.Key("Region"))
@@ -13061,6 +14048,8 @@ extension S3ControlClientTypes.RegionReport: Swift.Codable {
         bucket = bucketDecoded
         let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
         region = regionDecoded
+        let bucketAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketAccountId)
+        bucketAccountId = bucketAccountIdDecoded
     }
 }
 
@@ -13083,15 +14072,19 @@ extension S3ControlClientTypes {
     public struct RegionReport: Swift.Equatable {
         /// The name of the bucket.
         public var bucket: Swift.String?
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket that's associated with this Multi-Region Access Point.
+        public var bucketAccountId: Swift.String?
         /// The name of the Region.
         public var region: Swift.String?
 
         public init (
             bucket: Swift.String? = nil,
+            bucketAccountId: Swift.String? = nil,
             region: Swift.String? = nil
         )
         {
             self.bucket = bucket
+            self.bucketAccountId = bucketAccountId
             self.region = region
         }
     }
@@ -13193,6 +14186,515 @@ extension S3ControlClientTypes {
 
 }
 
+extension S3ControlClientTypes.ReplicaModifications: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicaModificationsStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension S3ControlClientTypes.ReplicaModifications: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// A filter that you can use to specify whether replica modification sync is enabled. S3 on Outposts replica modification sync can help you keep object metadata synchronized between replicas and source objects. By default, S3 on Outposts replicates metadata from the source objects to the replicas only. When replica modification sync is enabled, S3 on Outposts replicates metadata changes made to the replica copies back to the source object, making the replication bidirectional. To replicate object metadata modifications on replicas, you can specify this element and set the Status of this element to Enabled. You must enable replica modification sync on the source and destination buckets to replicate replica metadata changes between the source and the replicas.
+    public struct ReplicaModifications: Swift.Equatable {
+        /// Specifies whether S3 on Outposts replicates modifications to object metadata on replicas.
+        /// This member is required.
+        public var status: S3ControlClientTypes.ReplicaModificationsStatus?
+
+        public init (
+            status: S3ControlClientTypes.ReplicaModificationsStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension S3ControlClientTypes {
+    public enum ReplicaModificationsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicaModificationsStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReplicaModificationsStatus(rawValue: rawValue) ?? ReplicaModificationsStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ControlClientTypes.ReplicationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case role = "Role"
+        case rules = "Rules"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let role = role {
+            try container.encode(role, forKey: ClientRuntime.Key("Role"))
+        }
+        if let rules = rules {
+            var rulesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Rules"))
+            for replicationrule0 in rules {
+                try rulesContainer.encode(replicationrule0, forKey: ClientRuntime.Key("Rule"))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .role)
+        role = roleDecoded
+        if containerValues.contains(.rules) {
+            struct KeyVal0{struct Rule{}}
+            let rulesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Rule>.CodingKeys.self, forKey: .rules)
+            if let rulesWrappedContainer = rulesWrappedContainer {
+                let rulesContainer = try rulesWrappedContainer.decodeIfPresent([S3ControlClientTypes.ReplicationRule].self, forKey: .member)
+                var rulesBuffer:[S3ControlClientTypes.ReplicationRule]? = nil
+                if let rulesContainer = rulesContainer {
+                    rulesBuffer = [S3ControlClientTypes.ReplicationRule]()
+                    for structureContainer0 in rulesContainer {
+                        rulesBuffer?.append(structureContainer0)
+                    }
+                }
+                rules = rulesBuffer
+            } else {
+                rules = []
+            }
+        } else {
+            rules = nil
+        }
+    }
+}
+
+extension S3ControlClientTypes.ReplicationConfiguration: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// A container for one or more replication rules. A replication configuration must have at least one rule and you can add up to 100 rules. The maximum size of a replication configuration is 128 KB.
+    public struct ReplicationConfiguration: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that S3 on Outposts assumes when replicating objects. For information about S3 replication on Outposts configuration, see [Setting up replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/outposts-replication-how-setup.html) in the Amazon S3 User Guide.
+        /// This member is required.
+        public var role: Swift.String?
+        /// A container for one or more replication rules. A replication configuration must have at least one rule and can contain an array of 100 rules at the most.
+        /// This member is required.
+        public var rules: [S3ControlClientTypes.ReplicationRule]?
+
+        public init (
+            role: Swift.String? = nil,
+            rules: [S3ControlClientTypes.ReplicationRule]? = nil
+        )
+        {
+            self.role = role
+            self.rules = rules
+        }
+    }
+
+}
+
+extension S3ControlClientTypes.ReplicationRule: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucket = "Bucket"
+        case deleteMarkerReplication = "DeleteMarkerReplication"
+        case destination = "Destination"
+        case existingObjectReplication = "ExistingObjectReplication"
+        case filter = "Filter"
+        case id = "ID"
+        case `prefix` = "Prefix"
+        case priority = "Priority"
+        case sourceSelectionCriteria = "SourceSelectionCriteria"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let bucket = bucket {
+            try container.encode(bucket, forKey: ClientRuntime.Key("Bucket"))
+        }
+        if let deleteMarkerReplication = deleteMarkerReplication {
+            try container.encode(deleteMarkerReplication, forKey: ClientRuntime.Key("DeleteMarkerReplication"))
+        }
+        if let destination = destination {
+            try container.encode(destination, forKey: ClientRuntime.Key("Destination"))
+        }
+        if let existingObjectReplication = existingObjectReplication {
+            try container.encode(existingObjectReplication, forKey: ClientRuntime.Key("ExistingObjectReplication"))
+        }
+        if let filter = filter {
+            try container.encode(filter, forKey: ClientRuntime.Key("Filter"))
+        }
+        if let id = id {
+            try container.encode(id, forKey: ClientRuntime.Key("ID"))
+        }
+        if let `prefix` = `prefix` {
+            try container.encode(`prefix`, forKey: ClientRuntime.Key("Prefix"))
+        }
+        if let priority = priority {
+            try container.encode(priority, forKey: ClientRuntime.Key("Priority"))
+        }
+        if let sourceSelectionCriteria = sourceSelectionCriteria {
+            try container.encode(sourceSelectionCriteria, forKey: ClientRuntime.Key("SourceSelectionCriteria"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
+        priority = priorityDecoded
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicationRuleFilter.self, forKey: .filter)
+        filter = filterDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicationRuleStatus.self, forKey: .status)
+        status = statusDecoded
+        let sourceSelectionCriteriaDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.SourceSelectionCriteria.self, forKey: .sourceSelectionCriteria)
+        sourceSelectionCriteria = sourceSelectionCriteriaDecoded
+        let existingObjectReplicationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ExistingObjectReplication.self, forKey: .existingObjectReplication)
+        existingObjectReplication = existingObjectReplicationDecoded
+        let destinationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.Destination.self, forKey: .destination)
+        destination = destinationDecoded
+        let deleteMarkerReplicationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.DeleteMarkerReplication.self, forKey: .deleteMarkerReplication)
+        deleteMarkerReplication = deleteMarkerReplicationDecoded
+        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
+        bucket = bucketDecoded
+    }
+}
+
+extension S3ControlClientTypes.ReplicationRule: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// Specifies which S3 on Outposts objects to replicate and where to store the replicas.
+    public struct ReplicationRule: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the access point for the source Outposts bucket that you want S3 on Outposts to replicate the objects from.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// Specifies whether S3 on Outposts replicates delete markers. If you specify a Filter element in your replication configuration, you must also include a DeleteMarkerReplication element. If your Filter includes a Tag element, the DeleteMarkerReplication element's Status child element must be set to Disabled, because S3 on Outposts doesn't support replicating delete markers for tag-based rules. For more information about delete marker replication, see [How delete operations affect replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html#outposts-replication-what-is-replicated) in the Amazon S3 User Guide.
+        public var deleteMarkerReplication: S3ControlClientTypes.DeleteMarkerReplication?
+        /// A container for information about the replication destination and its configurations.
+        /// This member is required.
+        public var destination: S3ControlClientTypes.Destination?
+        /// An optional configuration to replicate existing source bucket objects. This is not supported by Amazon S3 on Outposts buckets.
+        public var existingObjectReplication: S3ControlClientTypes.ExistingObjectReplication?
+        /// A filter that identifies the subset of objects to which the replication rule applies. A Filter element must specify exactly one Prefix, Tag, or And child element.
+        public var filter: S3ControlClientTypes.ReplicationRuleFilter?
+        /// A unique identifier for the rule. The maximum value is 255 characters.
+        public var id: Swift.String?
+        /// An object key name prefix that identifies the object or objects to which the rule applies. The maximum prefix length is 1,024 characters. To include all objects in an Outposts bucket, specify an empty string. When you're using XML requests, you must replace special characters (such as carriage returns) in object keys with their equivalent XML entity codes. For more information, see [ XML-related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints) in the Amazon S3 User Guide.
+        @available(*, deprecated, message: "Prefix has been deprecated")
+        public var `prefix`: Swift.String?
+        /// The priority indicates which rule has precedence whenever two or more replication rules conflict. S3 on Outposts attempts to replicate objects according to all replication rules. However, if there are two or more rules with the same destination Outposts bucket, then objects will be replicated according to the rule with the highest priority. The higher the number, the higher the priority. For more information, see [Creating replication rules on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication-between-outposts.html) in the Amazon S3 User Guide.
+        public var priority: Swift.Int?
+        /// A container that describes additional filters for identifying the source Outposts objects that you want to replicate. You can choose to enable or disable the replication of these objects.
+        public var sourceSelectionCriteria: S3ControlClientTypes.SourceSelectionCriteria?
+        /// Specifies whether the rule is enabled.
+        /// This member is required.
+        public var status: S3ControlClientTypes.ReplicationRuleStatus?
+
+        public init (
+            bucket: Swift.String? = nil,
+            deleteMarkerReplication: S3ControlClientTypes.DeleteMarkerReplication? = nil,
+            destination: S3ControlClientTypes.Destination? = nil,
+            existingObjectReplication: S3ControlClientTypes.ExistingObjectReplication? = nil,
+            filter: S3ControlClientTypes.ReplicationRuleFilter? = nil,
+            id: Swift.String? = nil,
+            `prefix`: Swift.String? = nil,
+            priority: Swift.Int? = nil,
+            sourceSelectionCriteria: S3ControlClientTypes.SourceSelectionCriteria? = nil,
+            status: S3ControlClientTypes.ReplicationRuleStatus? = nil
+        )
+        {
+            self.bucket = bucket
+            self.deleteMarkerReplication = deleteMarkerReplication
+            self.destination = destination
+            self.existingObjectReplication = existingObjectReplication
+            self.filter = filter
+            self.id = id
+            self.`prefix` = `prefix`
+            self.priority = priority
+            self.sourceSelectionCriteria = sourceSelectionCriteria
+            self.status = status
+        }
+    }
+
+}
+
+extension S3ControlClientTypes.ReplicationRuleAndOperator: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case `prefix` = "Prefix"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let `prefix` = `prefix` {
+            try container.encode(`prefix`, forKey: ClientRuntime.Key("Prefix"))
+        }
+        if let tags = tags {
+            var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+            for s3tag0 in tags {
+                try tagsContainer.encode(s3tag0, forKey: ClientRuntime.Key("member"))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct member{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([S3ControlClientTypes.S3Tag].self, forKey: .member)
+                var tagsBuffer:[S3ControlClientTypes.S3Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [S3ControlClientTypes.S3Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+    }
+}
+
+extension S3ControlClientTypes.ReplicationRuleAndOperator: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// A container for specifying rule filters. The filters determine the subset of objects to which the rule applies. This element is required only if you specify more than one filter. For example:
+    ///
+    /// * If you specify both a Prefix and a Tag filter, wrap these filters in an And element.
+    ///
+    /// * If you specify a filter based on multiple tags, wrap the Tag elements in an And element.
+    public struct ReplicationRuleAndOperator: Swift.Equatable {
+        /// An object key name prefix that identifies the subset of objects that the rule applies to.
+        public var `prefix`: Swift.String?
+        /// An array of tags that contain key and value pairs.
+        public var tags: [S3ControlClientTypes.S3Tag]?
+
+        public init (
+            `prefix`: Swift.String? = nil,
+            tags: [S3ControlClientTypes.S3Tag]? = nil
+        )
+        {
+            self.`prefix` = `prefix`
+            self.tags = tags
+        }
+    }
+
+}
+
+extension S3ControlClientTypes.ReplicationRuleFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case and = "And"
+        case `prefix` = "Prefix"
+        case tag = "Tag"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let and = and {
+            try container.encode(and, forKey: ClientRuntime.Key("And"))
+        }
+        if let `prefix` = `prefix` {
+            try container.encode(`prefix`, forKey: ClientRuntime.Key("Prefix"))
+        }
+        if let tag = tag {
+            try container.encode(tag, forKey: ClientRuntime.Key("Tag"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+        let tagDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.S3Tag.self, forKey: .tag)
+        tag = tagDecoded
+        let andDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicationRuleAndOperator.self, forKey: .and)
+        and = andDecoded
+    }
+}
+
+extension S3ControlClientTypes.ReplicationRuleFilter: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// A filter that identifies the subset of objects to which the replication rule applies. A Filter element must specify exactly one Prefix, Tag, or And child element.
+    public struct ReplicationRuleFilter: Swift.Equatable {
+        /// A container for specifying rule filters. The filters determine the subset of objects that the rule applies to. This element is required only if you specify more than one filter. For example:
+        ///
+        /// * If you specify both a Prefix and a Tag filter, wrap these filters in an And element.
+        ///
+        /// * If you specify a filter based on multiple tags, wrap the Tag elements in an And element.
+        public var and: S3ControlClientTypes.ReplicationRuleAndOperator?
+        /// An object key name prefix that identifies the subset of objects that the rule applies to. When you're using XML requests, you must replace special characters (such as carriage returns) in object keys with their equivalent XML entity codes. For more information, see [ XML-related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints) in the Amazon S3 User Guide.
+        public var `prefix`: Swift.String?
+        /// A container for a key-value name pair.
+        public var tag: S3ControlClientTypes.S3Tag?
+
+        public init (
+            and: S3ControlClientTypes.ReplicationRuleAndOperator? = nil,
+            `prefix`: Swift.String? = nil,
+            tag: S3ControlClientTypes.S3Tag? = nil
+        )
+        {
+            self.and = and
+            self.`prefix` = `prefix`
+            self.tag = tag
+        }
+    }
+
+}
+
+extension S3ControlClientTypes {
+    public enum ReplicationRuleStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationRuleStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReplicationRuleStatus(rawValue: rawValue) ?? ReplicationRuleStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension S3ControlClientTypes {
     public enum ReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case completed
@@ -13229,6 +14731,207 @@ extension S3ControlClientTypes {
             self = ReplicationStatus(rawValue: rawValue) ?? ReplicationStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension S3ControlClientTypes {
+    public enum ReplicationStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deepArchive
+        case glacier
+        case glacierIr
+        case intelligentTiering
+        case onezoneIa
+        case outposts
+        case reducedRedundancy
+        case standard
+        case standardIa
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationStorageClass] {
+            return [
+                .deepArchive,
+                .glacier,
+                .glacierIr,
+                .intelligentTiering,
+                .onezoneIa,
+                .outposts,
+                .reducedRedundancy,
+                .standard,
+                .standardIa,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deepArchive: return "DEEP_ARCHIVE"
+            case .glacier: return "GLACIER"
+            case .glacierIr: return "GLACIER_IR"
+            case .intelligentTiering: return "INTELLIGENT_TIERING"
+            case .onezoneIa: return "ONEZONE_IA"
+            case .outposts: return "OUTPOSTS"
+            case .reducedRedundancy: return "REDUCED_REDUNDANCY"
+            case .standard: return "STANDARD"
+            case .standardIa: return "STANDARD_IA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReplicationStorageClass(rawValue: rawValue) ?? ReplicationStorageClass.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ControlClientTypes.ReplicationTime: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+        case time = "Time"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let time = time {
+            try container.encode(time, forKey: ClientRuntime.Key("Time"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicationTimeStatus.self, forKey: .status)
+        status = statusDecoded
+        let timeDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicationTimeValue.self, forKey: .time)
+        time = timeDecoded
+    }
+}
+
+extension S3ControlClientTypes.ReplicationTime: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// A container that specifies S3 Replication Time Control (S3 RTC) related information, including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. This is not supported by Amazon S3 on Outposts buckets.
+    public struct ReplicationTime: Swift.Equatable {
+        /// Specifies whether S3 Replication Time Control (S3 RTC) is enabled.
+        /// This member is required.
+        public var status: S3ControlClientTypes.ReplicationTimeStatus?
+        /// A container that specifies the time by which replication should be complete for all objects and operations on objects.
+        /// This member is required.
+        public var time: S3ControlClientTypes.ReplicationTimeValue?
+
+        public init (
+            status: S3ControlClientTypes.ReplicationTimeStatus? = nil,
+            time: S3ControlClientTypes.ReplicationTimeValue? = nil
+        )
+        {
+            self.status = status
+            self.time = time
+        }
+    }
+
+}
+
+extension S3ControlClientTypes {
+    public enum ReplicationTimeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationTimeStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReplicationTimeStatus(rawValue: rawValue) ?? ReplicationTimeStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ControlClientTypes.ReplicationTimeValue: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case minutes = "Minutes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let minutes = minutes {
+            try container.encode(minutes, forKey: ClientRuntime.Key("Minutes"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let minutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minutes)
+        minutes = minutesDecoded
+    }
+}
+
+extension S3ControlClientTypes.ReplicationTimeValue: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// A container that specifies the time value for S3 Replication Time Control (S3 RTC). This value is also used for the replication metrics EventThreshold element. This is not supported by Amazon S3 on Outposts buckets.
+    public struct ReplicationTimeValue: Swift.Equatable {
+        /// Contains an integer that specifies the time period in minutes. Valid value: 15
+        public var minutes: Swift.Int?
+
+        public init (
+            minutes: Swift.Int? = nil
+        )
+        {
+            self.minutes = minutes
+        }
+    }
+
 }
 
 extension S3ControlClientTypes {
@@ -13778,7 +15481,7 @@ extension S3ControlClientTypes.S3CopyObjectOperation: ClientRuntime.DynamicNodeE
 }
 
 extension S3ControlClientTypes {
-    /// Contains the configuration parameters for a PUT Copy object operation. S3 Batch Operations passes every object to the underlying PUT Copy object API. For more information about the parameters for this operation, see [PUT Object - Copy](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectCOPY.html).
+    /// Contains the configuration parameters for a PUT Copy object operation. S3 Batch Operations passes every object to the underlying CopyObject API operation. For more information about the parameters for this operation, see [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectCOPY.html).
     public struct S3CopyObjectOperation: Swift.Equatable {
         ///
         public var accessControlGrants: [S3ControlClientTypes.S3Grant]?
@@ -13786,7 +15489,7 @@ extension S3ControlClientTypes {
         public var bucketKeyEnabled: Swift.Bool
         ///
         public var cannedAccessControlList: S3ControlClientTypes.S3CannedAccessControlList?
-        /// Indicates the algorithm you want Amazon S3 to use to create the checksum. For more information see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CheckingObjectIntegrity.xml) in the Amazon S3 User Guide.
+        /// Indicates the algorithm that you want Amazon S3 to use to create the checksum. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CheckingObjectIntegrity.xml) in the Amazon S3 User Guide.
         public var checksumAlgorithm: S3ControlClientTypes.S3ChecksumAlgorithm?
         ///
         public var metadataDirective: S3ControlClientTypes.S3MetadataDirective?
@@ -13810,9 +15513,9 @@ extension S3ControlClientTypes {
         public var sseAwsKmsKeyId: Swift.String?
         ///
         public var storageClass: S3ControlClientTypes.S3StorageClass?
-        /// Specifies the folder prefix into which you would like the objects to be copied. For example, to copy objects into a folder named Folder1 in the destination bucket, set the TargetKeyPrefix to Folder1.
+        /// Specifies the folder prefix that you want the objects to be copied into. For example, to copy objects into a folder named Folder1 in the destination bucket, set the TargetKeyPrefix property to Folder1.
         public var targetKeyPrefix: Swift.String?
-        /// Specifies the destination bucket ARN for the batch copy operation. For example, to copy objects to a bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.
+        /// Specifies the destination bucket Amazon Resource Name (ARN) for the batch copy operation. For example, to copy objects to a bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.
         public var targetResource: Swift.String?
         ///
         public var unModifiedSinceConstraint: ClientRuntime.Date?
@@ -13871,7 +15574,7 @@ extension S3ControlClientTypes.S3DeleteObjectTaggingOperation: Swift.Codable {
 }
 
 extension S3ControlClientTypes {
-    /// Contains no configuration parameters because the DELETE Object tagging API only accepts the bucket name and key name as parameters, which are defined in the job's manifest.
+    /// Contains no configuration parameters because the DELETE Object tagging (DeleteObjectTagging) API operation accepts only the bucket name and key name as parameters, which are defined in the job's manifest.
     public struct S3DeleteObjectTaggingOperation: Swift.Equatable {
 
         public init () { }
@@ -14185,7 +15888,7 @@ extension S3ControlClientTypes.S3InitiateRestoreObjectOperation: ClientRuntime.D
 }
 
 extension S3ControlClientTypes {
-    /// Contains the configuration parameters for an S3 Initiate Restore Object job. S3 Batch Operations passes every object to the underlying POST Object restore API. For more information about the parameters for this operation, see [RestoreObject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html#RESTObjectPOSTrestore-restore-request).
+    /// Contains the configuration parameters for a POST Object restore job. S3 Batch Operations passes every object to the underlying RestoreObject API operation. For more information about the parameters for this operation, see [RestoreObject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html#RESTObjectPOSTrestore-restore-request).
     public struct S3InitiateRestoreObjectOperation: Swift.Equatable {
         /// This argument specifies how long the S3 Glacier or S3 Glacier Deep Archive object remains available in Amazon S3. S3 Initiate Restore Object jobs that target S3 Glacier and S3 Glacier Deep Archive objects require ExpirationInDays set to 1 or greater. Conversely, do not set ExpirationInDays when creating S3 Initiate Restore Object jobs that target S3 Intelligent-Tiering Archive Access and Deep Archive Access tier objects. Objects in S3 Intelligent-Tiering archive access tiers are not subject to restore expiry, so specifying ExpirationInDays results in restore request failure. S3 Batch Operations jobs can operate either on S3 Glacier and S3 Glacier Deep Archive storage class objects or on S3 Intelligent-Tiering Archive Access and Deep Archive Access storage tier objects, but not both types in the same job. If you need to restore objects of both types you must create separate Batch Operations jobs.
         public var expirationInDays: Swift.Int?
@@ -15001,7 +16704,7 @@ extension S3ControlClientTypes.S3SetObjectAclOperation: ClientRuntime.DynamicNod
 }
 
 extension S3ControlClientTypes {
-    /// Contains the configuration parameters for a Set Object ACL operation. S3 Batch Operations passes every object to the underlying PutObjectAcl API. For more information about the parameters for this operation, see [PutObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html).
+    /// Contains the configuration parameters for a PUT Object ACL operation. S3 Batch Operations passes every object to the underlying PutObjectAcl API operation. For more information about the parameters for this operation, see [PutObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html).
     public struct S3SetObjectAclOperation: Swift.Equatable {
         ///
         public var accessControlPolicy: S3ControlClientTypes.S3AccessControlPolicy?
@@ -15053,7 +16756,7 @@ extension S3ControlClientTypes.S3SetObjectLegalHoldOperation: ClientRuntime.Dyna
 }
 
 extension S3ControlClientTypes {
-    /// Contains the configuration for an S3 Object Lock legal hold operation that an S3 Batch Operations job passes every object to the underlying PutObjectLegalHold API. For more information, see [Using S3 Object Lock legal hold with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-legal-hold.html) in the Amazon S3 User Guide.
+    /// Contains the configuration for an S3 Object Lock legal hold operation that an S3 Batch Operations job passes to every object to the underlying PutObjectLegalHold API operation. For more information, see [Using S3 Object Lock legal hold with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-legal-hold.html) in the Amazon S3 User Guide.
     public struct S3SetObjectLegalHoldOperation: Swift.Equatable {
         /// Contains the Object Lock legal hold status to be applied to all objects in the Batch Operations job.
         /// This member is required.
@@ -15112,7 +16815,7 @@ extension S3ControlClientTypes.S3SetObjectRetentionOperation: ClientRuntime.Dyna
 }
 
 extension S3ControlClientTypes {
-    /// Contains the configuration parameters for the Object Lock retention action for an S3 Batch Operations job. Batch Operations passes every object to the underlying PutObjectRetention API. For more information, see [Using S3 Object Lock retention with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html) in the Amazon S3 User Guide.
+    /// Contains the configuration parameters for the Object Lock retention action for an S3 Batch Operations job. Batch Operations passes every object to the underlying PutObjectRetention API operation. For more information, see [Using S3 Object Lock retention with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html) in the Amazon S3 User Guide.
     public struct S3SetObjectRetentionOperation: Swift.Equatable {
         /// Indicates if the action should be applied to objects in the Batch Operations job even if they have Object Lock  GOVERNANCE type in place.
         public var bypassGovernanceRetention: Swift.Bool?
@@ -15189,7 +16892,7 @@ extension S3ControlClientTypes.S3SetObjectTaggingOperation: ClientRuntime.Dynami
 }
 
 extension S3ControlClientTypes {
-    /// Contains the configuration parameters for a Set Object Tagging operation. S3 Batch Operations passes every object to the underlying PUT Object tagging API. For more information about the parameters for this operation, see [PUT Object tagging](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTtagging.html).
+    /// Contains the configuration parameters for a PUT Object Tagging operation. S3 Batch Operations passes every object to the underlying PutObjectTagging API operation. For more information about the parameters for this operation, see [PutObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTtagging.html).
     public struct S3SetObjectTaggingOperation: Swift.Equatable {
         ///
         public var tagSet: [S3ControlClientTypes.S3Tag]?
@@ -15527,6 +17230,153 @@ extension S3ControlClientTypes {
         }
     }
 
+}
+
+extension S3ControlClientTypes.SourceSelectionCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicaModifications = "ReplicaModifications"
+        case sseKmsEncryptedObjects = "SseKmsEncryptedObjects"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let replicaModifications = replicaModifications {
+            try container.encode(replicaModifications, forKey: ClientRuntime.Key("ReplicaModifications"))
+        }
+        if let sseKmsEncryptedObjects = sseKmsEncryptedObjects {
+            try container.encode(sseKmsEncryptedObjects, forKey: ClientRuntime.Key("SseKmsEncryptedObjects"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sseKmsEncryptedObjectsDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.SseKmsEncryptedObjects.self, forKey: .sseKmsEncryptedObjects)
+        sseKmsEncryptedObjects = sseKmsEncryptedObjectsDecoded
+        let replicaModificationsDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicaModifications.self, forKey: .replicaModifications)
+        replicaModifications = replicaModificationsDecoded
+    }
+}
+
+extension S3ControlClientTypes.SourceSelectionCriteria: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// A container that describes additional filters for identifying the source objects that you want to replicate. You can choose to enable or disable the replication of these objects.
+    public struct SourceSelectionCriteria: Swift.Equatable {
+        /// A filter that you can use to specify whether replica modification sync is enabled. S3 on Outposts replica modification sync can help you keep object metadata synchronized between replicas and source objects. By default, S3 on Outposts replicates metadata from the source objects to the replicas only. When replica modification sync is enabled, S3 on Outposts replicates metadata changes made to the replica copies back to the source object, making the replication bidirectional. To replicate object metadata modifications on replicas, you can specify this element and set the Status of this element to Enabled. You must enable replica modification sync on the source and destination buckets to replicate replica metadata changes between the source and the replicas.
+        public var replicaModifications: S3ControlClientTypes.ReplicaModifications?
+        /// A filter that you can use to select Amazon S3 objects that are encrypted with server-side encryption by using Key Management Service (KMS) keys. If you include SourceSelectionCriteria in the replication configuration, this element is required. This is not supported by Amazon S3 on Outposts buckets.
+        public var sseKmsEncryptedObjects: S3ControlClientTypes.SseKmsEncryptedObjects?
+
+        public init (
+            replicaModifications: S3ControlClientTypes.ReplicaModifications? = nil,
+            sseKmsEncryptedObjects: S3ControlClientTypes.SseKmsEncryptedObjects? = nil
+        )
+        {
+            self.replicaModifications = replicaModifications
+            self.sseKmsEncryptedObjects = sseKmsEncryptedObjects
+        }
+    }
+
+}
+
+extension S3ControlClientTypes.SseKmsEncryptedObjects: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.SseKmsEncryptedObjectsStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension S3ControlClientTypes.SseKmsEncryptedObjects: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ControlClientTypes {
+    /// A container for filter information that you can use to select S3 objects that are encrypted with Key Management Service (KMS). This is not supported by Amazon S3 on Outposts buckets.
+    public struct SseKmsEncryptedObjects: Swift.Equatable {
+        /// Specifies whether Amazon S3 replicates objects that are created with server-side encryption by using an KMS key stored in Key Management Service.
+        /// This member is required.
+        public var status: S3ControlClientTypes.SseKmsEncryptedObjectsStatus?
+
+        public init (
+            status: S3ControlClientTypes.SseKmsEncryptedObjectsStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension S3ControlClientTypes {
+    public enum SseKmsEncryptedObjectsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SseKmsEncryptedObjectsStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SseKmsEncryptedObjectsStatus(rawValue: rawValue) ?? SseKmsEncryptedObjectsStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension S3ControlClientTypes.StorageLensAwsOrg: Swift.Codable {
@@ -16334,6 +18184,10 @@ extension UpdateJobPriorityInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
+            guard let priority = priority else {
+                let message = "Creating a URL Query Item failed. priority is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let priorityQueryItem = ClientRuntime.URLQueryItem(name: "priority".urlPercentEncoding(), value: Swift.String(priority).urlPercentEncoding())
             items.append(priorityQueryItem)
             return items
@@ -16359,12 +18213,12 @@ public struct UpdateJobPriorityInput: Swift.Equatable {
     public var jobId: Swift.String?
     /// The priority you want to assign to this job.
     /// This member is required.
-    public var priority: Swift.Int
+    public var priority: Swift.Int?
 
     public init (
         accountId: Swift.String? = nil,
         jobId: Swift.String? = nil,
-        priority: Swift.Int = 0
+        priority: Swift.Int? = nil
     )
     {
         self.accountId = accountId

@@ -237,7 +237,7 @@ extension TnbClient: TnbClientProtocol {
         return result
     }
 
-    /// Creates a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. For more information, see [Function packages](https://docs.aws.amazon.com/tnb/latest/ug/function-packages.html) in the Amazon Web Services Telco Network Builder User Guide. Creating a function package is the first step for creating a network in AWS TNB. This request creates an empty container with an ID. The next step is to upload the actual CSAR zip file into that empty container. To upload function package content, see [PutSolFunctionPackageContent](https://docs.aws.amazon.com/TNB/latest/APIReference/API_PutSolFunctionPackageContent.html).
+    /// Creates a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. For more information, see [Function packages](https://docs.aws.amazon.com/tnb/latest/ug/function-packages.html) in the Amazon Web Services Telco Network Builder User Guide. Creating a function package is the first step for creating a network in AWS TNB. This request creates an empty container with an ID. The next step is to upload the actual CSAR zip file into that empty container. To upload function package content, see [PutSolFunctionPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolFunctionPackageContent.html).
     public func createSolFunctionPackage(input: CreateSolFunctionPackageInput) async throws -> CreateSolFunctionPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -272,7 +272,7 @@ extension TnbClient: TnbClientProtocol {
         return result
     }
 
-    /// Creates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Creating a network instance is the third step after creating a network package. For more information about network instances, [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html) in the Amazon Web Services Telco Network Builder User Guide. Once you create a network instance, you can instantiate it. To instantiate a network, see [InstantiateSolNetworkInstance](https://docs.aws.amazon.com/TNB/latest/APIReference/API_InstantiateSolNetworkInstance.html).
+    /// Creates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Creating a network instance is the third step after creating a network package. For more information about network instances, [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html) in the Amazon Web Services Telco Network Builder User Guide. Once you create a network instance, you can instantiate it. To instantiate a network, see [InstantiateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_InstantiateSolNetworkInstance.html).
     public func createSolNetworkInstance(input: CreateSolNetworkInstanceInput) async throws -> CreateSolNetworkInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -307,7 +307,7 @@ extension TnbClient: TnbClientProtocol {
         return result
     }
 
-    /// Creates a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. For more information, see [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html) in the Amazon Web Services Telco Network Builder User Guide. A network package consists of a network service descriptor (NSD) file (required) and any additional files (optional), such as scripts specific to your needs. For example, if you have multiple function packages in your network package, you can use the NSD to define which network functions should run in certain VPCs, subnets, or EKS clusters. This request creates an empty network package container with an ID. Once you create a network package, you can upload the network package content using [PutSolNetworkPackageContent](https://docs.aws.amazon.com/TNB/latest/APIReference/API_PutSolNetworkPackageContent.html).
+    /// Creates a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. For more information, see [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html) in the Amazon Web Services Telco Network Builder User Guide. A network package consists of a network service descriptor (NSD) file (required) and any additional files (optional), such as scripts specific to your needs. For example, if you have multiple function packages in your network package, you can use the NSD to define which network functions should run in certain VPCs, subnets, or EKS clusters. This request creates an empty network package container with an ID. Once you create a network package, you can upload the network package content using [PutSolNetworkPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html).
     public func createSolNetworkPackage(input: CreateSolNetworkPackageInput) async throws -> CreateSolNetworkPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -342,7 +342,7 @@ extension TnbClient: TnbClientProtocol {
         return result
     }
 
-    /// Deletes a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. To delete a function package, the package must be in a disabled state. To disable a function package, see [UpdateSolFunctionPackage](https://docs.aws.amazon.com/TNB/latest/APIReference/API_UpdateSolFunctionPackage.html).
+    /// Deletes a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. To delete a function package, the package must be in a disabled state. To disable a function package, see [UpdateSolFunctionPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolFunctionPackage.html).
     public func deleteSolFunctionPackage(input: DeleteSolFunctionPackageInput) async throws -> DeleteSolFunctionPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -374,7 +374,7 @@ extension TnbClient: TnbClientProtocol {
         return result
     }
 
-    /// Deletes a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. To delete a network instance, the instance must be in a stopped or terminated state. To terminate a network instance, see [TerminateSolNetworkInstance](https://docs.aws.amazon.com/TNB/latest/APIReference/API_TerminateSolNetworkInstance.html).
+    /// Deletes a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. To delete a network instance, the instance must be in a stopped or terminated state. To terminate a network instance, see [TerminateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_TerminateSolNetworkInstance.html).
     public func deleteSolNetworkInstance(input: DeleteSolNetworkInstanceInput) async throws -> DeleteSolNetworkInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -406,7 +406,7 @@ extension TnbClient: TnbClientProtocol {
         return result
     }
 
-    /// Deletes network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. To delete a network package, the package must be in a disable state. To disable a network package, see [UpdateSolNetworkPackage](https://docs.aws.amazon.com/TNB/latest/APIReference/API_UpdateSolNetworkPackage.html).
+    /// Deletes network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. To delete a network package, the package must be in a disable state. To disable a network package, see [UpdateSolNetworkPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolNetworkPackage.html).
     public func deleteSolNetworkPackage(input: DeleteSolNetworkPackageInput) async throws -> DeleteSolNetworkPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -729,7 +729,7 @@ extension TnbClient: TnbClientProtocol {
         return result
     }
 
-    /// Instantiates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Before you can instantiate a network instance, you have to create a network instance. For more information, see [CreateSolNetworkInstance](https://docs.aws.amazon.com/TNB/latest/APIReference/API_CreateSolNetworkInstance.html).
+    /// Instantiates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Before you can instantiate a network instance, you have to create a network instance. For more information, see [CreateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_CreateSolNetworkInstance.html).
     public func instantiateSolNetworkInstance(input: InstantiateSolNetworkInstanceInput) async throws -> InstantiateSolNetworkInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1092,6 +1092,9 @@ extension TnbClient: TnbClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TerminateSolNetworkInstanceOutputResponse, TerminateSolNetworkInstanceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutputResponse>(xmlName: "TerminateSolNetworkInstanceInput"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<TerminateSolNetworkInstanceOutputResponse, TerminateSolNetworkInstanceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateSolNetworkInstanceOutputResponse, TerminateSolNetworkInstanceOutputError>(config: sigv4Config))
@@ -1239,7 +1242,7 @@ extension TnbClient: TnbClientProtocol {
         return result
     }
 
-    /// Validates function package content. This can be used as a dry run before uploading function package content with [PutSolFunctionPackageContent](https://docs.aws.amazon.com/TNB/latest/APIReference/API_PutSolFunctionPackageContent.html). A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
+    /// Validates function package content. This can be used as a dry run before uploading function package content with [PutSolFunctionPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolFunctionPackageContent.html). A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     public func validateSolFunctionPackageContent(input: ValidateSolFunctionPackageContentInput) async throws -> ValidateSolFunctionPackageContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1275,7 +1278,7 @@ extension TnbClient: TnbClientProtocol {
         return result
     }
 
-    /// Validates network package content. This can be used as a dry run before uploading network package content with [PutSolNetworkPackageContent](https://docs.aws.amazon.com/TNB/latest/APIReference/API_PutSolNetworkPackageContent.html). A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
+    /// Validates network package content. This can be used as a dry run before uploading network package content with [PutSolNetworkPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html). A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     public func validateSolNetworkPackageContent(input: ValidateSolNetworkPackageContentInput) async throws -> ValidateSolNetworkPackageContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

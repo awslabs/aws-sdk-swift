@@ -2514,7 +2514,7 @@ extension PipesClientTypes.MQBrokerAccessCredentials: Swift.Codable {
 
 extension PipesClientTypes {
     /// The Secrets Manager secret that stores your broker credentials.
-    public enum MQBrokerAccessCredentials: Swift.Equatable, Swift.Hashable {
+    public enum MQBrokerAccessCredentials: Swift.Equatable {
         /// The ARN of the Secrets Manager secret.
         case basicauth(Swift.String)
         case sdkUnknown(Swift.String)
@@ -2559,7 +2559,7 @@ extension PipesClientTypes.MSKAccessCredentials: Swift.Codable {
 
 extension PipesClientTypes {
     /// The Secrets Manager secret that stores your stream credentials.
-    public enum MSKAccessCredentials: Swift.Equatable, Swift.Hashable {
+    public enum MSKAccessCredentials: Swift.Equatable {
         /// The ARN of the Secrets Manager secret.
         case saslscram512auth(Swift.String)
         /// The ARN of the Secrets Manager secret.
@@ -5238,7 +5238,7 @@ extension PipesClientTypes.SelfManagedKafkaAccessConfigurationCredentials: Swift
 
 extension PipesClientTypes {
     /// The Secrets Manager secret that stores your stream credentials.
-    public enum SelfManagedKafkaAccessConfigurationCredentials: Swift.Equatable, Swift.Hashable {
+    public enum SelfManagedKafkaAccessConfigurationCredentials: Swift.Equatable {
         /// The ARN of the Secrets Manager secret.
         case basicauth(Swift.String)
         /// The ARN of the Secrets Manager secret.

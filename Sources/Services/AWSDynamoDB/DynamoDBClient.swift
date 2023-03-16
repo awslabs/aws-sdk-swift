@@ -371,7 +371,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided Regions. This operation only applies to [Version 2017.11.29](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html) of global tables. If you want to add a new replica table to a global table, each of the following conditions must be true:
+    /// Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided Regions. This operation only applies to [Version 2017.11.29 (Legacy)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html) of global tables. We recommend using [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) when creating new global tables, as it provides greater flexibility, higher efficiency and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you are using, see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [ Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html). If you want to add a new replica table to a global table, each of the following conditions must be true:
     ///
     /// * The table must have the same primary key as all of the other replicas.
     ///
@@ -540,7 +540,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the DELETING state, no error is returned. DynamoDB might continue to accept data read and write operations, such as GetItem and PutItem, on a table in the DELETING state until the table deletion is complete. When you delete a table, any indexes on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use the DescribeTable action to check the status of the table.
+    /// The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the DELETING state, no error is returned. This operation only applies to [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) of global tables. DynamoDB might continue to accept data read and write operations, such as GetItem and PutItem, on a table in the DELETING state until the table deletion is complete. When you delete a table, any indexes on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use the DescribeTable action to check the status of the table.
     public func deleteTable(input: DeleteTableInput) async throws -> DeleteTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -648,7 +648,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// Returns information about contributor insights, for a given table or global secondary index.
+    /// Returns information about contributor insights for a given table or global secondary index.
     public func describeContributorInsights(input: DescribeContributorInsightsInput) async throws -> DescribeContributorInsightsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -684,7 +684,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// Returns the regional endpoint information.
+    /// Returns the regional endpoint information. This action must be included in your VPC endpoint policies, or access to the DescribeEndpoints API will be denied. For more information on policy permissions, please see [Internetwork traffic privacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/inter-network-traffic-privacy.html#inter-network-traffic-DescribeEndpoints).
     public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -756,7 +756,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// Returns information about the specified global table. This operation only applies to [Version 2017.11.29](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html) of global tables. If you are using global tables [Version 2019.11.21](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) you can use [DescribeTable](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DescribeTable.html) instead.
+    /// Returns information about the specified global table. This operation only applies to [Version 2017.11.29 (Legacy)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html) of global tables. We recommend using [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) when creating new global tables, as it provides greater flexibility, higher efficiency and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you are using, see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [ Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
     public func describeGlobalTable(input: DescribeGlobalTableInput) async throws -> DescribeGlobalTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -792,7 +792,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// Describes Region-specific settings for a global table. This operation only applies to [Version 2017.11.29](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html) of global tables.
+    /// Describes Region-specific settings for a global table. This operation only applies to [Version 2017.11.29 (Legacy)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html) of global tables. We recommend using [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) when creating new global tables, as it provides greater flexibility, higher efficiency and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you are using, see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [ Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
     public func describeGlobalTableSettings(input: DescribeGlobalTableSettingsInput) async throws -> DescribeGlobalTableSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -958,7 +958,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table. If you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException. This is because DescribeTable uses an eventually consistent query, and the metadata for your table might not be available at that moment. Wait for a few seconds, and then try the DescribeTable request again.
+    /// Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table. This operation only applies to [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) of global tables. If you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException. This is because DescribeTable uses an eventually consistent query, and the metadata for your table might not be available at that moment. Wait for a few seconds, and then try the DescribeTable request again.
     public func describeTable(input: DescribeTableInput) async throws -> DescribeTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -994,7 +994,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// Describes auto scaling settings across replicas of the global table at once. This operation only applies to [Version 2019.11.21](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) of global tables.
+    /// Describes auto scaling settings across replicas of the global table at once. This operation only applies to [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) of global tables.
     public func describeTableReplicaAutoScaling(input: DescribeTableReplicaAutoScalingInput) async throws -> DescribeTableReplicaAutoScalingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1138,7 +1138,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// This operation allows you to perform reads and singleton writes on data stored in DynamoDB, using PartiQL. For PartiQL reads (SELECT statement), if the total number of processed items exceeds the maximum dataset size limit of 1 MB, the read stops and results are returned to the user as a LastEvaluatedKey value to continue the read in a subsequent operation. If the filter criteria in WHERE clause does not match any data, the read will return an empty result set. A single SELECT statement response can return up to the maximum number of items (if using the Limit parameter) or a maximum of 1 MB of data (and then apply any filtering to the results using WHERE clause). If LastEvaluatedKey is present in the response, you need to paginate the result set.
+    /// This operation allows you to perform reads and singleton writes on data stored in DynamoDB, using PartiQL. For PartiQL reads (SELECT statement), if the total number of processed items exceeds the maximum dataset size limit of 1 MB, the read stops and results are returned to the user as a LastEvaluatedKey value to continue the read in a subsequent operation. If the filter criteria in WHERE clause does not match any data, the read will return an empty result set. A single SELECT statement response can return up to the maximum number of items (if using the Limit parameter) or a maximum of 1 MB of data (and then apply any filtering to the results using WHERE clause). If LastEvaluatedKey is present in the response, you need to paginate the result set. If NextToken is present, you need to paginate the result set and include NextToken.
     public func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1450,7 +1450,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// Lists all global tables that have a replica in the specified Region. This operation only applies to [Version 2017.11.29](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html) of global tables.
+    /// Lists all global tables that have a replica in the specified Region. This operation only applies to [Version 2017.11.29 (Legacy)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html) of global tables. We recommend using [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) when creating new global tables, as it provides greater flexibility, higher efficiency and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you are using, see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [ Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
     public func listGlobalTables(input: ListGlobalTablesInput) async throws -> ListGlobalTablesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1855,7 +1855,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
     ///
     /// * There is a user error, such as an invalid data format.
     ///
-    /// * The aggregate size of the items in the transaction cannot exceed 4 MB.
+    /// * The aggregate size of the items in the transaction exceeded 4 MB.
     public func transactGetItems(input: TransactGetItemsInput) async throws -> TransactGetItemsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2066,7 +2066,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units. Although you can use UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity we recommend that you issue separate requests for adding or removing replicas. If global secondary indexes are specified, then the following conditions must also be met:
+    /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units. This operation only applies to [Version 2017.11.29 (Legacy)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html) of global tables. We recommend using [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) when creating new global tables, as it provides greater flexibility, higher efficiency and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you are using, see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [ Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html). This operation only applies to [Version 2017.11.29](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html) of global tables. If you are using global tables [Version 2019.11.21](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) you can use [DescribeTable](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DescribeTable.html) instead. Although you can use UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity we recommend that you issue separate requests for adding or removing replicas. If global secondary indexes are specified, then the following conditions must also be met:
     ///
     /// * The global secondary indexes must have the same name.
     ///
@@ -2108,7 +2108,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// Updates settings for a global table.
+    /// Updates settings for a global table. This operation only applies to [Version 2017.11.29 (Legacy)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html) of global tables. We recommend using [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) when creating new global tables, as it provides greater flexibility, higher efficiency and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you are using, see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [ Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
     public func updateGlobalTableSettings(input: UpdateGlobalTableSettingsInput) async throws -> UpdateGlobalTableSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2180,7 +2180,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. You can only perform one of the following operations at once:
+    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. This operation only applies to [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) of global tables. You can only perform one of the following operations at once:
     ///
     /// * Modify the provisioned throughput settings of the table.
     ///
@@ -2225,7 +2225,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
         return result
     }
 
-    /// Updates auto scaling settings on your global tables at once. This operation only applies to [Version 2019.11.21](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) of global tables.
+    /// Updates auto scaling settings on your global tables at once. This operation only applies to [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) of global tables.
     public func updateTableReplicaAutoScaling(input: UpdateTableReplicaAutoScalingInput) async throws -> UpdateTableReplicaAutoScalingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -1409,7 +1409,7 @@ extension AthenaClient: AthenaClientProtocol {
         return result
     }
 
-    /// Lists the data catalogs in the current Amazon Web Services account.
+    /// Lists the data catalogs in the current Amazon Web Services account. In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
     public func listDataCatalogs(input: ListDataCatalogsInput) async throws -> ListDataCatalogsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

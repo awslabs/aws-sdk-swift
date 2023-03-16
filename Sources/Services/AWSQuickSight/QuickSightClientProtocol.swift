@@ -73,7 +73,7 @@ public protocol QuickSightClientProtocol {
     func deleteTheme(input: DeleteThemeInput) async throws -> DeleteThemeOutputResponse
     /// Deletes the version of the theme that the specified theme alias points to. If you provide a specific alias, you delete the version of the theme that the alias points to.
     func deleteThemeAlias(input: DeleteThemeAliasInput) async throws -> DeleteThemeAliasOutputResponse
-    /// Deletes the Amazon QuickSight user that is associated with the identity of the Identity and Access Management (IAM) user or role that's making the call. The IAM user isn't deleted as a result of this call.
+    /// Deletes the Amazon QuickSight user that is associated with the identity of the IAM user or role that's making the call. The IAM user isn't deleted as a result of this call.
     func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
     /// Deletes a user identified by its principal ID.
     func deleteUserByPrincipalId(input: DeleteUserByPrincipalIdInput) async throws -> DeleteUserByPrincipalIdOutputResponse

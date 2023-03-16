@@ -254,7 +254,7 @@ public enum CreateAccessTokenOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAccessTokenOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAccessTokenOutputResponse(expiresTime: \(Swift.String(describing: expiresTime)), name: \(Swift.String(describing: name)), secret: \"CONTENT_REDACTED\")"}
+        "CreateAccessTokenOutputResponse(accessTokenId: \(Swift.String(describing: accessTokenId)), expiresTime: \(Swift.String(describing: expiresTime)), name: \(Swift.String(describing: name)), secret: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -263,10 +263,12 @@ extension CreateAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: CreateAccessTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accessTokenId = output.accessTokenId
             self.expiresTime = output.expiresTime
             self.name = output.name
             self.secret = output.secret
         } else {
+            self.accessTokenId = nil
             self.expiresTime = nil
             self.name = nil
             self.secret = nil
@@ -275,20 +277,27 @@ extension CreateAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateAccessTokenOutputResponse: Swift.Equatable {
+    /// The system-generated unique ID of the access token.
+    /// This member is required.
+    public var accessTokenId: Swift.String?
     /// The date and time the personal access token expires, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6). If not specified, the default is one year from creation.
+    /// This member is required.
     public var expiresTime: ClientRuntime.Date?
     /// The friendly name of the personal access token.
+    /// This member is required.
     public var name: Swift.String?
     /// The secret value of the personal access token.
     /// This member is required.
     public var secret: Swift.String?
 
     public init (
+        accessTokenId: Swift.String? = nil,
         expiresTime: ClientRuntime.Date? = nil,
         name: Swift.String? = nil,
         secret: Swift.String? = nil
     )
     {
+        self.accessTokenId = accessTokenId
         self.expiresTime = expiresTime
         self.name = name
         self.secret = secret
@@ -299,10 +308,12 @@ struct CreateAccessTokenOutputResponseBody: Swift.Equatable {
     let secret: Swift.String?
     let name: Swift.String?
     let expiresTime: ClientRuntime.Date?
+    let accessTokenId: Swift.String?
 }
 
 extension CreateAccessTokenOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessTokenId
         case expiresTime
         case name
         case secret
@@ -316,6 +327,8 @@ extension CreateAccessTokenOutputResponseBody: Swift.Decodable {
         name = nameDecoded
         let expiresTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expiresTime)
         expiresTime = expiresTimeDecoded
+        let accessTokenIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessTokenId)
+        accessTokenId = accessTokenIdDecoded
     }
 }
 
@@ -386,7 +399,7 @@ public struct CreateDevEnvironmentInput: Swift.Equatable {
     /// The Amazon EC2 instace type to use for the Dev Environment.
     /// This member is required.
     public var instanceType: CodeCatalystClientTypes.InstanceType?
-    /// Information about the amount of storage allocated to the Dev Environment. By default, a Dev Environment is configured to have 16GB of persistent storage. Valid values for persistent storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
+    /// Information about the amount of storage allocated to the Dev Environment. By default, a Dev Environment is configured to have 16GB of persistent storage when created from the Amazon CodeCatalyst console, but there is no default when programmatically creating a Dev Environment. Valid values for persistent storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
     /// This member is required.
     public var persistentStorage: CodeCatalystClientTypes.PersistentStorageConfiguration?
     /// The name of the project in the space.
@@ -2873,9 +2886,9 @@ extension CodeCatalystClientTypes.IdeConfiguration: Swift.Codable {
 extension CodeCatalystClientTypes {
     /// Information about the configuration of an integrated development environment (IDE) for a Dev Environment.
     public struct IdeConfiguration: Swift.Equatable {
-        /// The name of the IDE.
+        /// The name of the IDE. Valid values include Cloud9, IntelliJ, PyCharm, GoLand, and VSCode.
         public var name: Swift.String?
-        /// A link to the IDE runtime image.
+        /// A link to the IDE runtime image. This parameter is not required for VSCode.
         public var runtime: Swift.String?
 
         public init (
@@ -4024,6 +4037,7 @@ extension ListSourceRepositoryBranchesOutputResponse: ClientRuntime.HttpResponse
 
 public struct ListSourceRepositoryBranchesOutputResponse: Swift.Equatable {
     /// Information about the source branches.
+    /// This member is required.
     public var items: [CodeCatalystClientTypes.ListSourceRepositoryBranchesItem]?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
     public var nextToken: Swift.String?
@@ -4598,7 +4612,7 @@ extension CodeCatalystClientTypes {
         public var description: Swift.String?
         /// The friendly name of the space displayed to users.
         public var displayName: Swift.String?
-        /// We need to know what this is and the basic usage information so that third-party developers know how to use this data type.
+        /// The name of the space.
         /// This member is required.
         public var name: Swift.String?
         /// The Amazon Web Services Region where the space exists.
@@ -5144,6 +5158,156 @@ extension StopDevEnvironmentOutputResponseBody: Swift.Decodable {
         id = idDecoded
         let statusDecoded = try containerValues.decodeIfPresent(CodeCatalystClientTypes.DevEnvironmentStatus.self, forKey: .status)
         status = statusDecoded
+    }
+}
+
+extension StopDevEnvironmentSessionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let spaceName = spaceName else {
+            return nil
+        }
+        guard let projectName = projectName else {
+            return nil
+        }
+        guard let id = id else {
+            return nil
+        }
+        guard let sessionId = sessionId else {
+            return nil
+        }
+        return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/devEnvironments/\(id.urlPercentEncoding())/session/\(sessionId.urlPercentEncoding())"
+    }
+}
+
+public struct StopDevEnvironmentSessionInput: Swift.Equatable {
+    /// The system-generated unique ID of the Dev Environment. To obtain this ID, use [ListDevEnvironments].
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the project in the space.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The system-generated unique ID of the Dev Environment session. This ID is returned by [StartDevEnvironmentSession].
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init (
+        id: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.id = id
+        self.projectName = projectName
+        self.sessionId = sessionId
+        self.spaceName = spaceName
+    }
+}
+
+struct StopDevEnvironmentSessionInputBody: Swift.Equatable {
+}
+
+extension StopDevEnvironmentSessionInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension StopDevEnvironmentSessionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StopDevEnvironmentSessionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StopDevEnvironmentSessionOutputError: Swift.Error, Swift.Equatable {
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopDevEnvironmentSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: StopDevEnvironmentSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.id = output.id
+            self.projectName = output.projectName
+            self.sessionId = output.sessionId
+            self.spaceName = output.spaceName
+        } else {
+            self.id = nil
+            self.projectName = nil
+            self.sessionId = nil
+            self.spaceName = nil
+        }
+    }
+}
+
+public struct StopDevEnvironmentSessionOutputResponse: Swift.Equatable {
+    /// The system-generated unique ID of the Dev Environment.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the project in the space.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The system-generated unique ID of the Dev Environment session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init (
+        id: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.id = id
+        self.projectName = projectName
+        self.sessionId = sessionId
+        self.spaceName = spaceName
+    }
+}
+
+struct StopDevEnvironmentSessionOutputResponseBody: Swift.Equatable {
+    let spaceName: Swift.String?
+    let projectName: Swift.String?
+    let id: Swift.String?
+    let sessionId: Swift.String?
+}
+
+extension StopDevEnvironmentSessionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id
+        case projectName
+        case sessionId
+        case spaceName
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let spaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spaceName)
+        spaceName = spaceNameDecoded
+        let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
+        projectName = projectNameDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
     }
 }
 

@@ -35,6 +35,8 @@ public protocol IAMClientProtocol {
     ///
     /// * A list of client IDs (also known as audiences) that identify the application or applications allowed to authenticate using the OIDC provider
     ///
+    /// * A list of tags that are attached to the specified IAM OIDC provider
+    ///
     /// * A list of thumbprints of one or more server certificates that the IdP uses
     ///
     ///
@@ -209,7 +211,7 @@ public protocol IAMClientProtocol {
     func getLoginProfile(input: GetLoginProfileInput) async throws -> GetLoginProfileOutputResponse
     /// Returns information about the specified OpenID Connect (OIDC) provider resource object in IAM.
     func getOpenIDConnectProvider(input: GetOpenIDConnectProviderInput) async throws -> GetOpenIDConnectProviderOutputResponse
-    /// Retrieves the service last accessed data report for Organizations that was previously generated using the [GenerateOrganizationsAccessReport] operation. This operation retrieves the status of your report job and the report contents. Depending on the parameters that you passed when you generated the report, the data returned could include different information. For details, see [GenerateOrganizationsAccessReport]. To call this operation, you must be signed in to the management account in your organization. SCPs must be enabled for your organization root. You must have permissions to perform this operation. For more information, see [Refining permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html) in the IAM User Guide. For each service that principals in an account (root users, IAM users, or IAM roles) could access using SCPs, the operation returns details about the most recent access attempt. If there was no attempt, the service is listed without details about the most recent attempt to access the service. If the operation fails, it returns the reason that it failed. By default, the list is sorted by service namespace.
+    /// Retrieves the service last accessed data report for Organizations that was previously generated using the [GenerateOrganizationsAccessReport] operation. This operation retrieves the status of your report job and the report contents. Depending on the parameters that you passed when you generated the report, the data returned could include different information. For details, see [GenerateOrganizationsAccessReport]. To call this operation, you must be signed in to the management account in your organization. SCPs must be enabled for your organization root. You must have permissions to perform this operation. For more information, see [Refining permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html) in the IAM User Guide. For each service that principals in an account (root user, IAM users, or IAM roles) could access using SCPs, the operation returns details about the most recent access attempt. If there was no attempt, the service is listed without details about the most recent attempt to access the service. If the operation fails, it returns the reason that it failed. By default, the list is sorted by service namespace.
     func getOrganizationsAccessReport(input: GetOrganizationsAccessReportInput) async throws -> GetOrganizationsAccessReportOutputResponse
     /// Retrieves information about the specified managed policy, including the policy's default version and the total number of IAM users, groups, and roles to which the policy is attached. To retrieve the list of the specific users, groups, and roles that the policy is attached to, use [ListEntitiesForPolicy]. This operation returns metadata about the policy. To retrieve the actual policy document for a specific version of the policy, use [GetPolicyVersion]. This operation retrieves information about managed policies. To retrieve information about an inline policy that is embedded with an IAM user, group, or role, use [GetUserPolicy], [GetGroupPolicy], or [GetRolePolicy]. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutputResponse
@@ -388,7 +390,7 @@ public protocol IAMClientProtocol {
     ///
     /// * Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject. Or search for all resources with the key name Cost Center and the value 41200.
     ///
-    /// * Access control - Include tags in IAM user-based and resource-based policies. You can use tags to restrict access to only an OIDC provider that has a specified tag attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html) in the IAM User Guide.
+    /// * Access control - Include tags in IAM identity-based and resource-based policies. You can use tags to restrict access to only an OIDC provider that has a specified tag attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html) in the IAM User Guide.
     ///
     ///
     ///
@@ -460,7 +462,7 @@ public protocol IAMClientProtocol {
     ///
     /// * Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject. Or search for all resources with the key name Cost Center and the value 41200.
     ///
-    /// * Access control - Include tags in IAM user-based and resource-based policies. You can use tags to restrict access to only an IAM requesting user that has a specified tag attached. You can also restrict access to only those resources that have a certain tag attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html) in the IAM User Guide.
+    /// * Access control - Include tags in IAM identity-based and resource-based policies. You can use tags to restrict access to only an IAM requesting user that has a specified tag attached. You can also restrict access to only those resources that have a certain tag attached. For examples of policies that show how to use tags to control access, see [Control access using IAM tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html) in the IAM User Guide.
     ///
     /// * Cost allocation - Use tags to help track which individuals and teams are using which Amazon Web Services resources.
     ///

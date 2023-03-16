@@ -191,7 +191,7 @@ public struct BatchExecuteStatementInput: Swift.Equatable {
     public var statementName: Swift.String?
     /// A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statements run.
     public var withEvent: Swift.Bool?
-    /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
     public var workgroupName: Swift.String?
 
     public init (
@@ -339,7 +339,7 @@ public struct BatchExecuteStatementOutputResponse: Swift.Equatable {
     public var id: Swift.String?
     /// The name or ARN of the secret that enables access to the database.
     public var secretArn: Swift.String?
-    /// The serverless workgroup name. This element is not returned when connecting to a provisioned cluster.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This element is not returned when connecting to a provisioned cluster.
     public var workgroupName: Swift.String?
 
     public init (
@@ -902,7 +902,7 @@ public struct DescribeStatementOutputResponse: Swift.Equatable {
     public var subStatements: [RedshiftDataClientTypes.SubStatementData]?
     /// The date and time (UTC) that the metadata for the SQL statement was last updated. An example is the time the status last changed.
     public var updatedAt: ClientRuntime.Date?
-    /// The serverless workgroup name.
+    /// The serverless workgroup name or Amazon Resource Name (ARN).
     public var workgroupName: Swift.String?
 
     public init (
@@ -1130,7 +1130,7 @@ public struct DescribeTableInput: Swift.Equatable {
     public var secretArn: Swift.String?
     /// The table name. If no table is specified, then all tables for all matching schemas are returned. If no table and no schema is specified, then all tables for all schemas in the database are returned
     public var table: Swift.String?
-    /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
     public var workgroupName: Swift.String?
 
     public init (
@@ -1451,7 +1451,7 @@ public struct ExecuteStatementInput: Swift.Equatable {
     public var statementName: Swift.String?
     /// A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statement runs.
     public var withEvent: Swift.Bool?
-    /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
     public var workgroupName: Swift.String?
 
     public init (
@@ -1605,7 +1605,7 @@ public struct ExecuteStatementOutputResponse: Swift.Equatable {
     public var id: Swift.String?
     /// The name or ARN of the secret that enables access to the database.
     public var secretArn: Swift.String?
-    /// The serverless workgroup name. This element is not returned when connecting to a provisioned cluster.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This element is not returned when connecting to a provisioned cluster.
     public var workgroupName: Swift.String?
 
     public init (
@@ -2051,7 +2051,7 @@ public struct ListDatabasesInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
     public var secretArn: Swift.String?
-    /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
     public var workgroupName: Swift.String?
 
     public init (
@@ -2269,7 +2269,7 @@ public struct ListSchemasInput: Swift.Equatable {
     public var schemaPattern: Swift.String?
     /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
     public var secretArn: Swift.String?
-    /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
     public var workgroupName: Swift.String?
 
     public init (
@@ -2699,7 +2699,7 @@ public struct ListTablesInput: Swift.Equatable {
     public var secretArn: Swift.String?
     /// A pattern to filter results by table name. Within a table pattern, "%" means match any substring of 0 or more characters and "_" means match any one character. Only table name entries matching the search pattern are returned. If TablePattern is not specified, then all tables that match SchemaPatternare returned. If neither SchemaPattern or TablePattern are specified, then all tables are returned.
     public var tablePattern: Swift.String?
-    /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
     public var workgroupName: Swift.String?
 
     public init (

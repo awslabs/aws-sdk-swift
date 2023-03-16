@@ -23,6 +23,15 @@ extension ListFirewallConfigsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListFirewallConfigsInput, Output == ListFirewallConfigsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFirewallConfigsPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.FirewallConfig]`
+    /// - Returns: `[Route53ResolverClientTypes.FirewallConfig]`
+    public func firewallConfigs() async throws -> [Route53ResolverClientTypes.FirewallConfig] {
+        return try await self.asyncCompactMap { item in item.firewallConfigs }
+    }
+}
 extension Route53ResolverClient {
     /// Paginate over `[ListFirewallDomainListsOutputResponse]` results.
     ///
@@ -43,6 +52,15 @@ extension ListFirewallDomainListsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListFirewallDomainListsInput, Output == ListFirewallDomainListsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFirewallDomainListsPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.FirewallDomainListMetadata]`
+    /// - Returns: `[Route53ResolverClientTypes.FirewallDomainListMetadata]`
+    public func firewallDomainLists() async throws -> [Route53ResolverClientTypes.FirewallDomainListMetadata] {
+        return try await self.asyncCompactMap { item in item.firewallDomainLists }
+    }
 }
 extension Route53ResolverClient {
     /// Paginate over `[ListFirewallDomainsOutputResponse]` results.
@@ -65,6 +83,15 @@ extension ListFirewallDomainsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListFirewallDomainsInput, Output == ListFirewallDomainsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFirewallDomainsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func domains() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.domains }
+    }
 }
 extension Route53ResolverClient {
     /// Paginate over `[ListFirewallRuleGroupAssociationsOutputResponse]` results.
@@ -91,6 +118,15 @@ extension ListFirewallRuleGroupAssociationsInput: ClientRuntime.PaginateToken {
             vpcId: self.vpcId
         )}
 }
+
+extension PaginatorSequence where Input == ListFirewallRuleGroupAssociationsInput, Output == ListFirewallRuleGroupAssociationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFirewallRuleGroupAssociationsPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.FirewallRuleGroupAssociation]`
+    /// - Returns: `[Route53ResolverClientTypes.FirewallRuleGroupAssociation]`
+    public func firewallRuleGroupAssociations() async throws -> [Route53ResolverClientTypes.FirewallRuleGroupAssociation] {
+        return try await self.asyncCompactMap { item in item.firewallRuleGroupAssociations }
+    }
+}
 extension Route53ResolverClient {
     /// Paginate over `[ListFirewallRuleGroupsOutputResponse]` results.
     ///
@@ -111,6 +147,15 @@ extension ListFirewallRuleGroupsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListFirewallRuleGroupsInput, Output == ListFirewallRuleGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFirewallRuleGroupsPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.FirewallRuleGroupMetadata]`
+    /// - Returns: `[Route53ResolverClientTypes.FirewallRuleGroupMetadata]`
+    public func firewallRuleGroups() async throws -> [Route53ResolverClientTypes.FirewallRuleGroupMetadata] {
+        return try await self.asyncCompactMap { item in item.firewallRuleGroups }
+    }
 }
 extension Route53ResolverClient {
     /// Paginate over `[ListFirewallRulesOutputResponse]` results.
@@ -136,6 +181,15 @@ extension ListFirewallRulesInput: ClientRuntime.PaginateToken {
             priority: self.priority
         )}
 }
+
+extension PaginatorSequence where Input == ListFirewallRulesInput, Output == ListFirewallRulesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFirewallRulesPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.FirewallRule]`
+    /// - Returns: `[Route53ResolverClientTypes.FirewallRule]`
+    public func firewallRules() async throws -> [Route53ResolverClientTypes.FirewallRule] {
+        return try await self.asyncCompactMap { item in item.firewallRules }
+    }
+}
 extension Route53ResolverClient {
     /// Paginate over `[ListResolverConfigsOutputResponse]` results.
     ///
@@ -156,6 +210,15 @@ extension ListResolverConfigsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListResolverConfigsInput, Output == ListResolverConfigsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResolverConfigsPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.ResolverConfig]`
+    /// - Returns: `[Route53ResolverClientTypes.ResolverConfig]`
+    public func resolverConfigs() async throws -> [Route53ResolverClientTypes.ResolverConfig] {
+        return try await self.asyncCompactMap { item in item.resolverConfigs }
+    }
 }
 extension Route53ResolverClient {
     /// Paginate over `[ListResolverDnssecConfigsOutputResponse]` results.
@@ -179,6 +242,15 @@ extension ListResolverDnssecConfigsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListResolverDnssecConfigsInput, Output == ListResolverDnssecConfigsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResolverDnssecConfigsPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.ResolverDnssecConfig]`
+    /// - Returns: `[Route53ResolverClientTypes.ResolverDnssecConfig]`
+    public func resolverDnssecConfigs() async throws -> [Route53ResolverClientTypes.ResolverDnssecConfig] {
+        return try await self.asyncCompactMap { item in item.resolverDnssecConfigs }
+    }
+}
 extension Route53ResolverClient {
     /// Paginate over `[ListResolverEndpointIpAddressesOutputResponse]` results.
     ///
@@ -201,6 +273,15 @@ extension ListResolverEndpointIpAddressesInput: ClientRuntime.PaginateToken {
             resolverEndpointId: self.resolverEndpointId
         )}
 }
+
+extension PaginatorSequence where Input == ListResolverEndpointIpAddressesInput, Output == ListResolverEndpointIpAddressesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResolverEndpointIpAddressesPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.IpAddressResponse]`
+    /// - Returns: `[Route53ResolverClientTypes.IpAddressResponse]`
+    public func ipAddresses() async throws -> [Route53ResolverClientTypes.IpAddressResponse] {
+        return try await self.asyncCompactMap { item in item.ipAddresses }
+    }
+}
 extension Route53ResolverClient {
     /// Paginate over `[ListResolverEndpointsOutputResponse]` results.
     ///
@@ -222,6 +303,15 @@ extension ListResolverEndpointsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListResolverEndpointsInput, Output == ListResolverEndpointsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResolverEndpointsPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.ResolverEndpoint]`
+    /// - Returns: `[Route53ResolverClientTypes.ResolverEndpoint]`
+    public func resolverEndpoints() async throws -> [Route53ResolverClientTypes.ResolverEndpoint] {
+        return try await self.asyncCompactMap { item in item.resolverEndpoints }
+    }
 }
 extension Route53ResolverClient {
     /// Paginate over `[ListResolverQueryLogConfigAssociationsOutputResponse]` results.
@@ -247,6 +337,15 @@ extension ListResolverQueryLogConfigAssociationsInput: ClientRuntime.PaginateTok
             sortOrder: self.sortOrder
         )}
 }
+
+extension PaginatorSequence where Input == ListResolverQueryLogConfigAssociationsInput, Output == ListResolverQueryLogConfigAssociationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResolverQueryLogConfigAssociationsPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.ResolverQueryLogConfigAssociation]`
+    /// - Returns: `[Route53ResolverClientTypes.ResolverQueryLogConfigAssociation]`
+    public func resolverQueryLogConfigAssociations() async throws -> [Route53ResolverClientTypes.ResolverQueryLogConfigAssociation] {
+        return try await self.asyncCompactMap { item in item.resolverQueryLogConfigAssociations }
+    }
+}
 extension Route53ResolverClient {
     /// Paginate over `[ListResolverQueryLogConfigsOutputResponse]` results.
     ///
@@ -271,6 +370,15 @@ extension ListResolverQueryLogConfigsInput: ClientRuntime.PaginateToken {
             sortOrder: self.sortOrder
         )}
 }
+
+extension PaginatorSequence where Input == ListResolverQueryLogConfigsInput, Output == ListResolverQueryLogConfigsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResolverQueryLogConfigsPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.ResolverQueryLogConfig]`
+    /// - Returns: `[Route53ResolverClientTypes.ResolverQueryLogConfig]`
+    public func resolverQueryLogConfigs() async throws -> [Route53ResolverClientTypes.ResolverQueryLogConfig] {
+        return try await self.asyncCompactMap { item in item.resolverQueryLogConfigs }
+    }
+}
 extension Route53ResolverClient {
     /// Paginate over `[ListResolverRuleAssociationsOutputResponse]` results.
     ///
@@ -292,6 +400,15 @@ extension ListResolverRuleAssociationsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListResolverRuleAssociationsInput, Output == ListResolverRuleAssociationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResolverRuleAssociationsPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.ResolverRuleAssociation]`
+    /// - Returns: `[Route53ResolverClientTypes.ResolverRuleAssociation]`
+    public func resolverRuleAssociations() async throws -> [Route53ResolverClientTypes.ResolverRuleAssociation] {
+        return try await self.asyncCompactMap { item in item.resolverRuleAssociations }
+    }
 }
 extension Route53ResolverClient {
     /// Paginate over `[ListResolverRulesOutputResponse]` results.
@@ -315,6 +432,15 @@ extension ListResolverRulesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListResolverRulesInput, Output == ListResolverRulesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResolverRulesPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.ResolverRule]`
+    /// - Returns: `[Route53ResolverClientTypes.ResolverRule]`
+    public func resolverRules() async throws -> [Route53ResolverClientTypes.ResolverRule] {
+        return try await self.asyncCompactMap { item in item.resolverRules }
+    }
+}
 extension Route53ResolverClient {
     /// Paginate over `[ListTagsForResourceOutputResponse]` results.
     ///
@@ -336,4 +462,13 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
             nextToken: token,
             resourceArn: self.resourceArn
         )}
+}
+
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.Tag]`
+    /// - Returns: `[Route53ResolverClientTypes.Tag]`
+    public func tags() async throws -> [Route53ResolverClientTypes.Tag] {
+        return try await self.asyncCompactMap { item in item.tags }
+    }
 }

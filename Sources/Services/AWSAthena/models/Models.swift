@@ -2130,7 +2130,7 @@ extension AthenaClientTypes.DataCatalog: Swift.Codable {
 }
 
 extension AthenaClientTypes {
-    /// Contains information about a data catalog in an Amazon Web Services account.
+    /// Contains information about a data catalog in an Amazon Web Services account. In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
     public struct DataCatalog: Swift.Equatable {
         /// An optional description of the data catalog.
         public var description: Swift.String?
@@ -2987,7 +2987,7 @@ extension AthenaClientTypes {
     public struct EngineVersion: Swift.Equatable {
         /// Read only. The engine version on which the query runs. If the user requests a valid engine version other than Auto, the effective engine version is the same as the engine version that the user requested. If the user requests Auto, the effective engine version is chosen by Athena. When a request to update the engine version is made by a CreateWorkGroup or UpdateWorkGroup operation, the EffectiveEngineVersion field is ignored.
         public var effectiveEngineVersion: Swift.String?
-        /// The engine version requested by the user. Possible values are determined by the output of ListEngineVersions, including Auto. The default is Auto.
+        /// The engine version requested by the user. Possible values are determined by the output of ListEngineVersions, including AUTO. The default is AUTO.
         public var selectedEngineVersion: Swift.String?
 
         public init (
@@ -8398,6 +8398,7 @@ extension AthenaClientTypes.QueryExecution: Swift.Codable {
         case statementType = "StatementType"
         case statistics = "Statistics"
         case status = "Status"
+        case substatementType = "SubstatementType"
         case workGroup = "WorkGroup"
     }
 
@@ -8435,6 +8436,9 @@ extension AthenaClientTypes.QueryExecution: Swift.Codable {
         }
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
+        }
+        if let substatementType = self.substatementType {
+            try encodeContainer.encode(substatementType, forKey: .substatementType)
         }
         if let workGroup = self.workGroup {
             try encodeContainer.encode(workGroup, forKey: .workGroup)
@@ -8474,6 +8478,8 @@ extension AthenaClientTypes.QueryExecution: Swift.Codable {
             }
         }
         executionParameters = executionParametersDecoded0
+        let substatementTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .substatementType)
+        substatementType = substatementTypeDecoded
     }
 }
 
@@ -8500,6 +8506,8 @@ extension AthenaClientTypes {
         public var statistics: AthenaClientTypes.QueryExecutionStatistics?
         /// The completion date, current state, submission time, and state change reason (if applicable) for the query execution.
         public var status: AthenaClientTypes.QueryExecutionStatus?
+        /// The kind of query statement that was run.
+        public var substatementType: Swift.String?
         /// The name of the workgroup in which the query ran.
         public var workGroup: Swift.String?
 
@@ -8514,6 +8522,7 @@ extension AthenaClientTypes {
             statementType: AthenaClientTypes.StatementType? = nil,
             statistics: AthenaClientTypes.QueryExecutionStatistics? = nil,
             status: AthenaClientTypes.QueryExecutionStatus? = nil,
+            substatementType: Swift.String? = nil,
             workGroup: Swift.String? = nil
         )
         {
@@ -8527,6 +8536,7 @@ extension AthenaClientTypes {
             self.statementType = statementType
             self.statistics = statistics
             self.status = status
+            self.substatementType = substatementType
             self.workGroup = workGroup
         }
     }

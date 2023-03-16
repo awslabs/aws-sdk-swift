@@ -1355,13 +1355,13 @@ extension Macie2ClientTypes.BucketCountByEncryptionType: Swift.Codable {
 }
 
 extension Macie2ClientTypes {
-    /// Provides information about the number of S3 buckets that use certain types of server-side encryption by default or don't encrypt new objects by default. For detailed information about these settings, see [Setting default server-side encryption behavior for Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-encryption.html) in the Amazon Simple Storage Service User Guide.
+    /// Provides information about the number of S3 buckets whose settings do or don't specify default server-side encryption behavior for objects that are added to the buckets. For detailed information about these settings, see [Setting default server-side encryption behavior for Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-encryption.html) in the Amazon Simple Storage Service User Guide.
     public struct BucketCountByEncryptionType: Swift.Equatable {
-        /// The total number of buckets that use an KMS key to encrypt new objects by default, either an Amazon Web Services managed key or a customer managed key. These buckets use KMS encryption (SSE-KMS) by default.
+        /// The total number of buckets whose default encryption settings are configured to encrypt new objects with an Amazon Web Services managed KMS key or a customer managed KMS key. By default, these buckets encrypt new objects automatically using SSE-KMS encryption.
         public var kmsManaged: Swift.Int?
-        /// The total number of buckets that use an Amazon S3 managed key to encrypt new objects by default. These buckets use Amazon S3 managed encryption (SSE-S3) by default.
+        /// The total number of buckets whose default encryption settings are configured to encrypt new objects with an Amazon S3 managed key. By default, these buckets encrypt new objects automatically using SSE-S3 encryption.
         public var s3Managed: Swift.Int?
-        /// The total number of buckets that don't encrypt new objects by default. Default encryption is disabled for these buckets.
+        /// The total number of buckets that don't specify default server-side encryption behavior for new objects. Default encryption settings aren't configured for these buckets.
         public var unencrypted: Swift.Int?
         /// The total number of buckets that Amazon Macie doesn't have current encryption metadata for. Macie can't provide current data about the default encryption settings for these buckets.
         public var unknown: Swift.Int?
@@ -1422,7 +1422,7 @@ extension Macie2ClientTypes.BucketCountBySharedAccessType: Swift.Codable {
 extension Macie2ClientTypes {
     /// Provides information about the number of S3 buckets that are or aren't shared with other Amazon Web Services accounts, Amazon CloudFront origin access identities (OAIs), or CloudFront origin access controls (OACs). In this data, an Amazon Macie organization is defined as a set of Macie accounts that are centrally managed as a group of related accounts through Organizations or by Macie invitation.
     public struct BucketCountBySharedAccessType: Swift.Equatable {
-        /// The total number of buckets that are shared with one or more of the following or any combination of the following: an Amazon Web Services account that isn't in the same Amazon Macie organization, an Amazon CloudFront OAI, or a CloudFront OAC.
+        /// The total number of buckets that are shared with one or more of the following or any combination of the following: an Amazon CloudFront OAI, a CloudFront OAC, or an Amazon Web Services account that isn't in the same Amazon Macie organization.
         public var external: Swift.Int?
         /// The total number of buckets that are shared with one or more Amazon Web Services accounts in the same Amazon Macie organization. These buckets aren't shared with Amazon CloudFront OAIs or OACs.
         public var `internal`: Swift.Int?
@@ -1479,7 +1479,7 @@ extension Macie2ClientTypes.BucketCountPolicyAllowsUnencryptedObjectUploads: Swi
 }
 
 extension Macie2ClientTypes {
-    /// Provides information about the number of S3 buckets whose bucket policies do or don't require server-side encryption of objects when objects are uploaded to the buckets.
+    /// Provides information about the number of S3 buckets whose bucket policies do or don't require server-side encryption of objects when objects are added to the buckets.
     public struct BucketCountPolicyAllowsUnencryptedObjectUploads: Swift.Equatable {
         /// The total number of buckets that don't have a bucket policy or have a bucket policy that doesn't require server-side encryption of new objects. If a bucket policy exists, the policy doesn't require PutObject requests to include a valid server-side encryption header: the x-amz-server-side-encryption header with a value of AES256 or aws:kms, or the x-amz-server-side-encryption-customer-algorithm header with a value of AES256.
         public var allowsUnencryptedObjectUploads: Swift.Int?
@@ -1862,7 +1862,7 @@ extension Macie2ClientTypes {
     public struct BucketMetadata: Swift.Equatable {
         /// The unique identifier for the Amazon Web Services account that owns the bucket.
         public var accountId: Swift.String?
-        /// Specifies whether the bucket policy for the bucket requires server-side encryption of objects when objects are uploaded to the bucket. Possible values are:
+        /// Specifies whether the bucket policy for the bucket requires server-side encryption of objects when objects are added to the bucket. Possible values are:
         ///
         /// * FALSE - The bucket policy requires server-side encryption of new objects. PutObject requests must include a valid server-side encryption header.
         ///
@@ -1905,11 +1905,11 @@ extension Macie2ClientTypes {
         public var replicationDetails: Macie2ClientTypes.ReplicationDetails?
         /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive). This value is null if automated sensitive data discovery is currently disabled for your account.
         public var sensitivityScore: Swift.Int?
-        /// Specifies whether the bucket encrypts new objects by default and, if so, the type of server-side encryption that's used.
+        /// The default server-side encryption settings for the bucket.
         public var serverSideEncryption: Macie2ClientTypes.BucketServerSideEncryption?
         /// Specifies whether the bucket is shared with another Amazon Web Services account, an Amazon CloudFront origin access identity (OAI), or a CloudFront origin access control (OAC). Possible values are:
         ///
-        /// * EXTERNAL - The bucket is shared with one or more of the following or any combination of the following: an Amazon Web Services account that isn't part of your Amazon Macie organization, a CloudFront OAI, or a CloudFront OAC.
+        /// * EXTERNAL - The bucket is shared with one or more of the following or any combination of the following: a CloudFront OAI, a CloudFront OAC, or an Amazon Web Services account that isn't part of your Amazon Macie organization.
         ///
         /// * INTERNAL - The bucket is shared with one or more Amazon Web Services accounts that are part of your Amazon Macie organization. It isn't shared with a CloudFront OAI or OAC.
         ///
@@ -2192,15 +2192,15 @@ extension Macie2ClientTypes.BucketServerSideEncryption: Swift.Codable {
 extension Macie2ClientTypes {
     /// Provides information about the default server-side encryption settings for an S3 bucket. For detailed information about these settings, see [Setting default server-side encryption behavior for Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-encryption.html) in the Amazon Simple Storage Service User Guide.
     public struct BucketServerSideEncryption: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) or unique identifier (key ID) for the KMS key that's used by default to encrypt objects that are added to the bucket. This value is null if the bucket uses an Amazon S3 managed key to encrypt new objects or the bucket doesn't encrypt new objects by default.
+        /// The Amazon Resource Name (ARN) or unique identifier (key ID) for the KMS key that's used by default to encrypt objects that are added to the bucket. This value is null if the bucket is configured to use an Amazon S3 managed key to encrypt new objects.
         public var kmsMasterKeyId: Swift.String?
-        /// The type of server-side encryption that's used by default when storing new objects in the bucket. Possible values are:
+        /// The server-side encryption algorithm that's used by default to encrypt objects that are added to the bucket. Possible values are:
         ///
         /// * AES256 - New objects are encrypted with an Amazon S3 managed key. They use SSE-S3 encryption.
         ///
         /// * aws:kms - New objects are encrypted with an KMS key (kmsMasterKeyId), either an Amazon Web Services managed key or a customer managed key. They use SSE-KMS encryption.
         ///
-        /// * NONE - New objects aren't encrypted by default. Default encryption is disabled for the bucket.
+        /// * NONE - The bucket's default encryption settings don't specify server-side encryption behavior for new objects.
         public var type: Macie2ClientTypes.ModelType?
 
         public init (
@@ -6940,7 +6940,7 @@ public struct EnableOrganizationAdminAccountOutputResponse: Swift.Equatable {
 }
 
 extension Macie2ClientTypes {
-    /// The type of server-side encryption that's used to encrypt an S3 object or objects in an S3 bucket. Possible values are:
+    /// The server-side encryption algorithm that was used to encrypt an S3 object or is used by default to encrypt objects that are added to an S3 bucket. Possible values are:
     public enum EncryptionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case aes256
         case `none`
@@ -8345,9 +8345,9 @@ public struct GetBucketStatisticsOutputResponse: Swift.Equatable {
     public var bucketCount: Swift.Int?
     /// The total number of buckets that are publicly accessible due to a combination of permissions settings for each bucket.
     public var bucketCountByEffectivePermission: Macie2ClientTypes.BucketCountByEffectivePermission?
-    /// The total number of buckets that use certain types of server-side encryption to encrypt new objects by default. This object also reports the total number of buckets that don't encrypt new objects by default.
+    /// The total number of buckets whose settings do or don't specify default server-side encryption behavior for objects that are added to the buckets.
     public var bucketCountByEncryptionType: Macie2ClientTypes.BucketCountByEncryptionType?
-    /// The total number of buckets whose bucket policies do or don't require server-side encryption of objects when objects are uploaded to the buckets.
+    /// The total number of buckets whose bucket policies do or don't require server-side encryption of objects when objects are added to the buckets.
     public var bucketCountByObjectEncryptionRequirement: Macie2ClientTypes.BucketCountPolicyAllowsUnencryptedObjectUploads?
     /// The total number of buckets that are or aren't shared with other Amazon Web Services accounts, Amazon CloudFront origin access identities (OAIs), or CloudFront origin access controls (OACs).
     public var bucketCountBySharedAccessType: Macie2ClientTypes.BucketCountBySharedAccessType?
@@ -11202,7 +11202,7 @@ extension Macie2ClientTypes {
         public var arn: Swift.String?
         /// The unique identifier for the IAM user who performed the action.
         public var principalId: Swift.String?
-        /// The user name of the IAM user who performed the action.
+        /// The username of the IAM user who performed the action.
         public var userName: Swift.String?
 
         public init (
@@ -15100,7 +15100,7 @@ extension Macie2ClientTypes {
         public var kmsManaged: Swift.Int?
         /// The total number of objects that are encrypted with an Amazon S3 managed key. The objects use Amazon S3 managed encryption (SSE-S3).
         public var s3Managed: Swift.Int?
-        /// The total number of objects that aren't encrypted or use client-side encryption.
+        /// The total number of objects that use client-side encryption or aren't encrypted.
         public var unencrypted: Swift.Int?
         /// The total number of objects that Amazon Macie doesn't have current encryption metadata for. Macie can't provide current data about the encryption settings for these objects.
         public var unknown: Swift.Int?
@@ -16395,7 +16395,7 @@ extension Macie2ClientTypes.S3Bucket: Swift.Codable {
 extension Macie2ClientTypes {
     /// Provides information about the S3 bucket that a finding applies to.
     public struct S3Bucket: Swift.Equatable {
-        /// Specifies whether the bucket policy for the bucket requires server-side encryption of objects when objects are uploaded to the bucket. Possible values are:
+        /// Specifies whether the bucket policy for the bucket requires server-side encryption of objects when objects are added to the bucket. Possible values are:
         ///
         /// * FALSE - The bucket policy requires server-side encryption of new objects. PutObject requests must include a valid server-side encryption header.
         ///
@@ -16410,7 +16410,7 @@ extension Macie2ClientTypes {
         public var arn: Swift.String?
         /// The date and time, in UTC and extended ISO 8601 format, when the bucket was created. This value can also indicate when changes such as edits to the bucket's policy were most recently made to the bucket, relative to when the finding was created or last updated.
         public var createdAt: ClientRuntime.Date?
-        /// The type of server-side encryption that's used by default to encrypt objects in the bucket.
+        /// The default server-side encryption settings for the bucket.
         public var defaultServerSideEncryption: Macie2ClientTypes.ServerSideEncryption?
         /// The name of the bucket.
         public var name: Swift.String?
@@ -17017,7 +17017,7 @@ extension Macie2ClientTypes {
         public var path: Swift.String?
         /// Specifies whether the object is publicly accessible due to the combination of permissions settings that apply to the object.
         public var publicAccess: Swift.Bool?
-        /// The type of server-side encryption that's used to encrypt the object.
+        /// The type of server-side encryption that was used to encrypt the object.
         public var serverSideEncryption: Macie2ClientTypes.ServerSideEncryption?
         /// The total storage size, in bytes, of the object.
         public var size: Swift.Int?
@@ -18225,9 +18225,9 @@ extension Macie2ClientTypes.SensitivityInspectionTemplatesEntry: Swift.Codable {
 extension Macie2ClientTypes {
     /// Provides information about the sensitivity inspection template for an Amazon Macie account. Macie uses the template's settings when it performs automated sensitive data discovery for the account.
     public struct SensitivityInspectionTemplatesEntry: Swift.Equatable {
-        /// The unique identifier for the sensitivity inspection template for the account.
+        /// The unique identifier for the sensitivity inspection template.
         public var id: Swift.String?
-        /// The name of the sensitivity inspection template for the account: automated-sensitive-data-discovery.
+        /// The name of the sensitivity inspection template: automated-sensitive-data-discovery.
         public var name: Swift.String?
 
         public init (
@@ -18268,9 +18268,9 @@ extension Macie2ClientTypes.ServerSideEncryption: Swift.Codable {
 }
 
 extension Macie2ClientTypes {
-    /// Provides information about the server-side encryption settings for an S3 bucket or S3 object.
+    /// Provides information about the default server-side encryption settings for an S3 bucket or the encryption settings for an S3 object.
     public struct ServerSideEncryption: Swift.Equatable {
-        /// The server-side encryption algorithm that's used when storing data in the bucket or object. If default encryption is disabled for the bucket or the object isn't encrypted using server-side encryption, this value is NONE.
+        /// The server-side encryption algorithm that's used when storing data in the bucket or object. If default encryption settings aren't configured for the bucket or the object isn't encrypted using server-side encryption, this value is NONE.
         public var encryptionType: Macie2ClientTypes.EncryptionType?
         /// The Amazon Resource Name (ARN) or unique identifier (key ID) for the KMS key that's used to encrypt data in the bucket or the object. This value is null if an KMS key isn't used to encrypt the data.
         public var kmsMasterKeyId: Swift.String?

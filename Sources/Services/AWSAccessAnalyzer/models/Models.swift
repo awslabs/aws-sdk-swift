@@ -626,7 +626,7 @@ extension AccessAnalyzerClientTypes.AclGrantee: Swift.Codable {
 
 extension AccessAnalyzerClientTypes {
     /// You specify each grantee as a type-value pair using one of these types. You can specify only one type of grantee. For more information, see [PutBucketAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAcl.html).
-    public enum AclGrantee: Swift.Equatable, Swift.Hashable {
+    public enum AclGrantee: Swift.Equatable {
         /// The value specified is the canonical user ID of an Amazon Web Services account.
         case id(Swift.String)
         /// Used for granting permissions to a predefined group.

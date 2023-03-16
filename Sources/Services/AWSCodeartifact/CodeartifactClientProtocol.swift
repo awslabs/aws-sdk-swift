@@ -43,6 +43,8 @@ import ClientRuntime
 ///
 /// * DeleteDomainPermissionsPolicy: Deletes the resource policy that is set on a domain.
 ///
+/// * DeletePackage: Deletes a package and all associated package versions.
+///
 /// * DeletePackageVersions: Deletes versions of a package. After a package has been deleted, it can be republished, but its assets and metadata cannot be restored because they have been permanently removed from storage.
 ///
 /// * DeleteRepository: Deletes a repository.
@@ -98,6 +100,8 @@ import ClientRuntime
 ///
 /// * ListRepositoriesInDomain: Returns a list of the repositories in a domain.
 ///
+/// * PublishPackageVersion: Creates a new package version containing one or more assets.
+///
 /// * PutDomainPermissionsPolicy: Attaches a resource policy to a domain.
 ///
 /// * PutPackageOriginConfiguration: Sets the package origin configuration for a package, which determine how new versions of the package can be added to a specific repository.
@@ -122,7 +126,7 @@ public protocol CodeartifactClientProtocol {
     func deleteDomainPermissionsPolicy(input: DeleteDomainPermissionsPolicyInput) async throws -> DeleteDomainPermissionsPolicyOutputResponse
     /// Deletes a package and all associated package versions. A deleted package cannot be restored. To delete one or more package versions, use the [DeletePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DeletePackageVersions.html) API.
     func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutputResponse
-    /// Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, [ListackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html)), but you can restore them using [UpdatePackageVersionsStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html).
+    /// Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html)), but you can restore them using [UpdatePackageVersionsStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html).
     func deletePackageVersions(input: DeletePackageVersionsInput) async throws -> DeletePackageVersionsOutputResponse
     /// Deletes a repository.
     func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutputResponse
@@ -176,6 +180,8 @@ public protocol CodeartifactClientProtocol {
     func listRepositoriesInDomain(input: ListRepositoriesInDomainInput) async throws -> ListRepositoriesInDomainOutputResponse
     /// Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// Creates a new package version containing one or more assets (or files). The unfinished flag can be used to keep the package version in the Unfinished state until all of it’s assets have been uploaded (see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status.html#package-version-status) in the CodeArtifact user guide). To set the package version’s status to Published, omit the unfinished flag when uploading the final asset, or set the status using [UpdatePackageVersionStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html). Once a package version’s status is set to Published, it cannot change back to Unfinished. Only generic packages can be published using this API.
+    func publishPackageVersion(input: PublishPackageVersionInput) async throws -> PublishPackageVersionOutputResponse
     /// Sets a resource policy on a domain that specifies permissions to access it. When you call PutDomainPermissionsPolicy, the resource policy on the domain is ignored when evaluting permissions. This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being able to update the resource policy.
     func putDomainPermissionsPolicy(input: PutDomainPermissionsPolicyInput) async throws -> PutDomainPermissionsPolicyOutputResponse
     /// Sets the package origin configuration for a package. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package origin controls and configuration, see [Editing package origin controls](https://docs.aws.amazon.com/codeartifact/latest/ug/package-origin-controls.html) in the CodeArtifact User Guide. PutPackageOriginConfiguration can be called on a package that doesn't yet exist in the repository. When called on a package that does not exist, a package is created in the repository with no versions and the requested restrictions are set on the package. This can be used to preemptively block ingesting or retaining any versions from external connections or upstream repositories, or to block publishing any versions of the package into the repository before connecting any package managers or publishers to the repository.

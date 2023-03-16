@@ -5,7 +5,7 @@ import ClientRuntime
 
 /// Amazon Managed Blockchain is a fully managed service for creating and managing blockchain networks using open-source frameworks. Blockchain allows you to build applications where multiple parties can securely and transparently run transactions and share data without the need for a trusted, central authority. Managed Blockchain supports the Hyperledger Fabric and Ethereum open-source frameworks. Because of fundamental differences between the frameworks, some API actions or data types may only apply in the context of one framework and not the other. For example, actions related to Hyperledger Fabric network members such as CreateMember and DeleteMember don't apply to Ethereum. The description for each action indicates the framework or frameworks to which it applies. Data types and properties that apply only in the context of a particular framework are similarly indicated.
 public protocol ManagedBlockchainClientProtocol {
-    /// The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is subject to change. We recommend that you use this feature only with test scenarios, and not in production environments. Creates a new accessor for use with Managed Blockchain Ethereum nodes. An accessor object is a container that has the information required for token based access to your Ethereum nodes.
+    /// Creates a new accessor for use with Managed Blockchain Ethereum nodes. An accessor contains information required for token based access to your Ethereum nodes.
     func createAccessor(input: CreateAccessorInput) async throws -> CreateAccessorOutputResponse
     /// Creates a member within a Managed Blockchain network. Applies only to Hyperledger Fabric.
     func createMember(input: CreateMemberInput) async throws -> CreateMemberOutputResponse
@@ -15,13 +15,13 @@ public protocol ManagedBlockchainClientProtocol {
     func createNode(input: CreateNodeInput) async throws -> CreateNodeOutputResponse
     /// Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal. Applies only to Hyperledger Fabric.
     func createProposal(input: CreateProposalInput) async throws -> CreateProposalOutputResponse
-    /// The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is subject to change. We recommend that you use this feature only with test scenarios, and not in production environments. Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the information required for token based access to your Ethereum nodes including, the BILLING_TOKEN. After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION. An accessor in the PENDING_DELETION state can’t be used for new WebSocket requests or HTTP requests. However, WebSocket connections that were initiated while the accessor was in the AVAILABLE state remain open until they expire (up to 2 hours).
+    /// Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the information required for token based access to your Ethereum nodes including, the BILLING_TOKEN. After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION. An accessor in the PENDING_DELETION state can’t be used for new WebSocket requests or HTTP requests. However, WebSocket connections that were initiated while the accessor was in the AVAILABLE state remain open until they expire (up to 2 hours).
     func deleteAccessor(input: DeleteAccessorInput) async throws -> DeleteAccessorOutputResponse
     /// Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last Amazon Web Services account, the network is deleted also. Applies only to Hyperledger Fabric.
     func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutputResponse
     /// Deletes a node that your Amazon Web Services account owns. All data on the node is lost and cannot be recovered. Applies to Hyperledger Fabric and Ethereum.
     func deleteNode(input: DeleteNodeInput) async throws -> DeleteNodeOutputResponse
-    /// The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is subject to change. We recommend that you use this feature only with test scenarios, and not in production environments. Returns detailed information about an accessor. An accessor object is a container that has the information required for token based access to your Ethereum nodes.
+    /// Returns detailed information about an accessor. An accessor object is a container that has the information required for token based access to your Ethereum nodes.
     func getAccessor(input: GetAccessorInput) async throws -> GetAccessorOutputResponse
     /// Returns detailed information about a member. Applies only to Hyperledger Fabric.
     func getMember(input: GetMemberInput) async throws -> GetMemberOutputResponse
@@ -31,7 +31,7 @@ public protocol ManagedBlockchainClientProtocol {
     func getNode(input: GetNodeInput) async throws -> GetNodeOutputResponse
     /// Returns detailed information about a proposal. Applies only to Hyperledger Fabric.
     func getProposal(input: GetProposalInput) async throws -> GetProposalOutputResponse
-    /// The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is subject to change. We recommend that you use this feature only with test scenarios, and not in production environments. Returns a list of the accessors and their properties. Accessor objects are containers that have the information required for token based access to your Ethereum nodes.
+    /// Returns a list of the accessors and their properties. Accessor objects are containers that have the information required for token based access to your Ethereum nodes.
     func listAccessors(input: ListAccessorsInput) async throws -> ListAccessorsOutputResponse
     /// Returns a list of all invitations for the current Amazon Web Services account. Applies only to Hyperledger Fabric.
     func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutputResponse

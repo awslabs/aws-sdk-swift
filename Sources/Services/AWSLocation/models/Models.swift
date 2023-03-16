@@ -7100,12 +7100,12 @@ public struct GetMapGlyphsInput: Swift.Equatable {
     /// * VectorGrabStandardLight, VectorGrabStandardDark – Noto Sans Regular | Noto Sans Medium | Noto Sans Bold
     ///
     ///
-    /// Valid font stacks for [Open Data (Preview)](https://docs.aws.amazon.com/location/latest/developerguide/open-data.html) styles:
+    /// Valid font stacks for [Open Data](https://docs.aws.amazon.com/location/latest/developerguide/open-data.html) styles:
     ///
-    /// * VectorOpenDataStandardLight – Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember Condensed RC Regular,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold
+    /// * VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark – Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember Condensed RC Regular,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold
     ///
     ///
-    /// The fonts used by VectorOpenDataStandardLight are combined fonts that use Amazon Ember for most glyphs but Noto Sans for glyphs unsupported by Amazon Ember.
+    /// The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans for glyphs unsupported by Amazon Ember.
     /// This member is required.
     public var fontStack: Swift.String?
     /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
@@ -10414,9 +10414,15 @@ extension LocationClientTypes {
         /// * VectorGrabStandardDark – The Grab Standard Dark map style provides a dark variation of the standard basemap covering Southeast Asia.
         ///
         ///
-        /// Grab provides maps only for countries in Southeast Asia, and is only available in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see [GrabMaps countries and area covered](https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area). Valid [Open Data (Preview) map styles](https://docs.aws.amazon.com/location/latest/developerguide/open-data.html):
+        /// Grab provides maps only for countries in Southeast Asia, and is only available in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see [GrabMaps countries and area covered](https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area). Valid [Open Data map styles](https://docs.aws.amazon.com/location/latest/developerguide/open-data.html):
         ///
-        /// * VectorOpenDataStandardLight – The Open Data Standard Light (preview) map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads, minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries. Open Data maps is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Open Data is in preview release](https://docs.aws.amazon.com/location/latest/developerguide/open-data.html#open-data-preview).
+        /// * VectorOpenDataStandardLight – The Open Data Standard Light map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads, minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.
+        ///
+        /// * VectorOpenDataStandardDark – Open Data Standard Dark is a dark-themed map style that provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads, minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.
+        ///
+        /// * VectorOpenDataVisualizationLight – The Open Data Visualization Light map style is a light-themed style with muted colors and fewer features that aids in understanding overlaid data.
+        ///
+        /// * VectorOpenDataVisualizationDark – The Open Data Visualization Dark map style is a dark-themed style with muted colors and fewer features that aids in understanding overlaid data.
         /// This member is required.
         public var style: Swift.String?
 
