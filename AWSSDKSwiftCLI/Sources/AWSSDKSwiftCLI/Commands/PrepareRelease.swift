@@ -35,18 +35,26 @@ struct PrepareReleaseCommand: ParsableCommand {
 
 // MARK: - Prepare Release
 
+/// Prepares a release for the specified repository.
 struct PrepareRelease {
     enum Repo: String, ExpressibleByArgument {
         case awsSdkSwift = "aws-sdk-swift"
         case smithySwift = "smithy-swift"
     }
     
+    /// The repository type to prepare the release
+    /// This dictates which files are staged for commit
     let repoType: Repo
+    
+    /// The path to the package repository
     let repoPath: String
     
     typealias DiffChecker = (_ branch: String, _ version: Version) throws -> Bool
+    /// Returns true if the repsoitory has changes given the current branch and the version to compare, otherwise returns false
     let diffChecker: DiffChecker
     
+    /// Prepares a release for the specified repository.
+    /// If the respository doesn't have any changes, then this does nothing.
     func run() throws {
         try FileManager.default.changeWorkingDirectory(repoPath)
         
@@ -134,7 +142,17 @@ struct PrepareRelease {
     }
 }
 
+// MARK: - Factory
+
 extension PrepareRelease {
+    /// Returns the standard release preparer.
+    /// This configures the diff checker to return true if the repository has local changes or if the specified branch is different than the specified version.
+    ///
+    /// - Parameters:
+    ///   - repoType: The repository type to prepare the release
+    ///   - repoPath: The path to the package repository
+    ///
+    /// - Returns: The standard release preparer
     static func standard(
         repoType: Repo,
         repoPath: String

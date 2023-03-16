@@ -46,11 +46,20 @@ struct GeneratePackageManifestCommand: ParsableCommand {
 
 // MARK: - Generate Package Manifest
 
+/// Generates a new package manifest with the provided parameters
 struct GeneratePackageManifest {
+    /// The path to the package repository
     let repoPath: String
+    /// The name of the package manifest file, usually `Package.swift`
     let packageFileName: String
+    /// The version to set for the ClientRuntime dependency
+    /// /// If `nil` then the version is set to the corresponding value defined in `packageDependencies.plist`
     let clientRuntimeVersion: Version?
+    /// The verstion to set for the CRT depdenency
+    /// If `nil` then the version is set to the corresponding value defined in `packageDependencies.plist`
     let crtVersion: Version?
+    /// The list of services to include as products
+    /// If `nil` then the list is populated with the names of all items within the `Sources/Services` directory
     let services: [String]?
     
     typealias BuildPackageManifest = (
@@ -58,8 +67,10 @@ struct GeneratePackageManifest {
         _ crtVersion: Version,
         _ services: [String]
     ) throws -> String
+    /// Returns the contents of the package manifest file given the versions of dependencies and the list of services.
     let buildPackageManifest: BuildPackageManifest
     
+    /// Generates a package manifest file and saves it to `packageFileName`
     func run() throws {
         try FileManager.default.changeWorkingDirectory(repoPath)
         let contents = try generatePackageManifestContents()
@@ -102,7 +113,14 @@ struct GeneratePackageManifest {
     /// - Returns: The versions for ClientRuntime and CRT.
     func resolveVersions() throws -> (clientRuntime: Version, crt: Version) {
         log("Resolving versions of dependencies...")
-        let packageDependencies = LazyValue { try PackageDependencies.load() }
+        let packageDependencies = LazyValue {
+            do {
+                return try PackageDependencies.load()
+            } catch let error as Error {
+                log(level: .error, "\(error.message)")
+                fatalError(error.message)
+            }
+        }
         let resolvedClientRuntime: Version
         let resolvedCRT: Version
     
@@ -110,7 +128,7 @@ struct GeneratePackageManifest {
             resolvedClientRuntime = explicitVersion
             log("Using ClientRuntime version provided: \(resolvedClientRuntime.description)")
         } else {
-            resolvedClientRuntime = try packageDependencies.value().clientRuntimeVersion
+            resolvedClientRuntime = packageDependencies.value.clientRuntimeVersion
             log("Using ClientRuntime version loaded from file: \(resolvedClientRuntime.description)")
         }
         
@@ -118,7 +136,7 @@ struct GeneratePackageManifest {
             resolvedCRT = explicitVersion
             log("Using CRT version provided: \(resolvedCRT.description)")
         } else {
-            resolvedCRT = try packageDependencies.value().awsCRTSwiftVersion
+            resolvedCRT = packageDependencies.value.awsCRTSwiftVersion
             log("Using CRT version loaded from file: \(resolvedCRT.description)")
         }
         
@@ -154,7 +172,20 @@ struct GeneratePackageManifest {
     }
 }
 
+// MARK: - Factory
+
 extension GeneratePackageManifest {
+    /// Returns the standard  package manifest generator
+    /// This configures `buildPackageManifest` to use `PackageManifestBuilder`
+    ///
+    /// - Parameters:
+    ///   - repoPath: The path to the package repository
+    ///   - packageFileName: The name of the package manifest file, usually `Package.swift`
+    ///   - clientRuntimeVersion: The version to set for the ClientRuntime dependency
+    ///   - crtVersion: The verstion to set for the CRT depdenency
+    ///   - services: The list of services to include as products
+    ///
+    /// - Returns: the standard package manifest generator
     static func standard(
         repoPath: String,
         packageFileName: String,

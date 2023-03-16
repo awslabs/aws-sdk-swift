@@ -35,8 +35,9 @@ extension Process {
     }
 }
 
-/// Runs the process and prints out the process's full command.
 func _run(_ process: Process) throws {
+    // If debug and we have a non-nil test runner, then use that
+    // This allows developers to intercept processes when they run to assert that it is the expected process
     #if DEBUG
     if let testRunner = ProcessRunner.testRunner {
         try testRunner.run(process)
@@ -46,15 +47,20 @@ func _run(_ process: Process) throws {
     try ProcessRunner.standard.run(process)
 }
 
+/// A simple struct that runs a process
 struct ProcessRunner {
     let run: (Process) throws -> Void
     
+    /// Creates the standard runner to be used by the release version of this CLI
+    ///
+    /// Runs the process and prints out the process's full command.
     static let standard = ProcessRunner { process in
         log("Running process: \(process.commandString)")
         try process.run()
     }
     
     #if DEBUG
+    // Set this to a non-nil value in tests to intercept when a process is run
     static var testRunner: ProcessRunner? = nil
     #endif
 }

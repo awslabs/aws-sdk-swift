@@ -9,8 +9,11 @@ import ArgumentParser
 import Foundation
 import PackageDescription
 
-struct SyncClientRuntimeVersion: ParsableCommand {
+// MARK: - Command
+
+struct SyncClientRuntimeVersionCommand: ParsableCommand {
     static var configuration = CommandConfiguration(
+        commandName: "sync-client-runtime-version",
         abstract: "Sets the version of ClientRuntime in aws-sdk-swift to the version defined in smithy-swift"
     )
     
@@ -21,14 +24,32 @@ struct SyncClientRuntimeVersion: ParsableCommand {
     var smithySwiftPath: String?
     
     func run() throws {
-        try FileManager.default.changeWorkingDirectory(repoPath)
-        try syncClientRuntimeVersion()
+        let syncClientRuntimeVersion = SyncClientRuntimeVersion(
+            repoPath: repoPath,
+            smithySwiftPath: smithySwiftPath
+        )
+        try syncClientRuntimeVersion.run()
     }
 }
 
-// MARK: - Helpers
+// MARK: - SyncClientRuntimeVersion
 
-extension SyncClientRuntimeVersion {
+/// Retrieves the version for ClientRuntime from the `smithy-swift` repository and stores the version in `packageDependencies.plist`
+struct SyncClientRuntimeVersion {
+    /// The path to the package repository
+    let repoPath: String
+    /// The path to the smithy-swift repository
+    /// If `nil`, then this it defaults to a path next to the specified `repoPath`, aka `<repoPath>/../smithy-swift`
+    let smithySwiftPath: String?
+    
+    /// Retrieves the version for ClientRuntime from the `smithy-swift` repository and stores the version in `packageDependencies.plist`
+    func run() throws {
+        try FileManager.default.changeWorkingDirectory(repoPath)
+        try syncClientRuntimeVersion()
+    }
+    
+    // MARK: - Helpers
+    
     /// Returns the path to the `smithy-swift` repository.
     ///
     /// - Returns: The path to the `smithy-swift` repository
