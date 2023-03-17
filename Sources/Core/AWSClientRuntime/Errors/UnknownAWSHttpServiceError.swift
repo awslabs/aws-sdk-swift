@@ -23,6 +23,10 @@ public struct UnknownAWSHttpServiceError: AWSHttpServiceError, Equatable {
     public var _retryable: Bool = false
 
     public var _type: ErrorType = .unknown
+
+    public var _errorCode: String? { _errorType }
+
+    public var _smithyErrorTypeName: String? { nil }
 }
 
 extension UnknownAWSHttpServiceError {
