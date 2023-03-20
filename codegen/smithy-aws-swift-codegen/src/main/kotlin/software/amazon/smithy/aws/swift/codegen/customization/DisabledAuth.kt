@@ -15,6 +15,7 @@ internal val DISABLED_AUTH_OPERATIONS: Map<String, Set<String>> = mapOf(
         "com.amazonaws.sts#AssumeRoleWithSAML",
         "com.amazonaws.sts#AssumeRoleWithWebIdentity"
     ),
+    // operations with missing optional auth: https://docs.aws.amazon.com/cognito/latest/developerguide/security_iam_service-with-iam.html
     "com.amazonaws.cognitoidentity#AWSCognitoIdentityService" to setOf(
         "com.amazonaws.cognitoidentity#GetId",
         "com.amazonaws.cognitoidentity#GetOpenIdToken",
@@ -48,7 +49,7 @@ internal val DISABLED_AUTH_OPERATIONS: Map<String, Set<String>> = mapOf(
         "com.amazonaws.cognitoidentityprovider#UpdateUserAttributes",
         "com.amazonaws.cognitoidentityprovider#VerifySoftwareToken",
         "com.amazonaws.cognitoidentityprovider#VerifyUserAttribute",
-    ) // operations with missing optional auth: [] per documentation https://docs.aws.amazon.com/cognito/latest/developerguide/security_iam_service-with-iam.html
+    )
 )
 // TODO: If or when the service team adds this trait to their model, we can remove this customization
 class DisabledAuth(private val disabledAuth: Map<String, Set<String>> = DISABLED_AUTH_OPERATIONS) : SwiftIntegration {
