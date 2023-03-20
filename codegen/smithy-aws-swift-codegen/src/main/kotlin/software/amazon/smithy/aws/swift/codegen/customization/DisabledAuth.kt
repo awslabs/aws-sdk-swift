@@ -15,14 +15,39 @@ internal val DISABLED_AUTH_OPERATIONS: Map<String, Set<String>> = mapOf(
         "com.amazonaws.sts#AssumeRoleWithSAML",
         "com.amazonaws.sts#AssumeRoleWithWebIdentity"
     ),
+    "com.amazonaws.cognitoidentity#AWSCognitoIdentityService" to setOf(
+        "com.amazonaws.cognitoidentity#GetId",
+        "com.amazonaws.cognitoidentity#GetOpenIdToken",
+        "com.amazonaws.cognitoidentity#UnlinkIdentity",
+        "com.amazonaws.cognitoidentity#GetCredentialsForIdentity",
+    ),
     "com.amazonaws.cognitoidentityprovider#AWSCognitoIdentityProviderService" to setOf(
+        "com.amazonaws.cognitoidentityprovider#AssociateSoftwareToken",
+        "com.amazonaws.cognitoidentityprovider#ChangePassword",
         "com.amazonaws.cognitoidentityprovider#ConfirmDevice",
+        "com.amazonaws.cognitoidentityprovider#ConfirmForgotPassword",
+        "com.amazonaws.cognitoidentityprovider#ConfirmSignUp",
+        "com.amazonaws.cognitoidentityprovider#DeleteUser",
+        "com.amazonaws.cognitoidentityprovider#DeleteUserAttributes",
         "com.amazonaws.cognitoidentityprovider#ForgetDevice",
+        "com.amazonaws.cognitoidentityprovider#ForgotPassword",
         "com.amazonaws.cognitoidentityprovider#GetDevice",
+        "com.amazonaws.cognitoidentityprovider#GetUser",
+        "com.amazonaws.cognitoidentityprovider#GetUserAttributeVerificationCode",
         "com.amazonaws.cognitoidentityprovider#GlobalSignOut",
+        "com.amazonaws.cognitoidentityprovider#InitiateAuth",
         "com.amazonaws.cognitoidentityprovider#ListDevices",
+        "com.amazonaws.cognitoidentityprovider#ResendConfirmationCode",
+        "com.amazonaws.cognitoidentityprovider#RespondToAuthChallenge",
         "com.amazonaws.cognitoidentityprovider#RevokeToken",
-        "com.amazonaws.cognitoidentityprovider#UpdateDeviceStatus"
+        "com.amazonaws.cognitoidentityprovider#SetUserMFAPreference",
+        "com.amazonaws.cognitoidentityprovider#SetUserSettings",
+        "com.amazonaws.cognitoidentityprovider#SignUp",
+        "com.amazonaws.cognitoidentityprovider#UpdateAuthEventFeedback",
+        "com.amazonaws.cognitoidentityprovider#UpdateDeviceStatus",
+        "com.amazonaws.cognitoidentityprovider#UpdateUserAttributes",
+        "com.amazonaws.cognitoidentityprovider#VerifySoftwareToken",
+        "com.amazonaws.cognitoidentityprovider#VerifyUserAttribute",
     ) // operations with missing optional auth: [] per documentation https://docs.aws.amazon.com/cognito/latest/developerguide/security_iam_service-with-iam.html
 )
 // TODO: If or when the service team adds this trait to their model, we can remove this customization
