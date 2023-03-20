@@ -22,7 +22,7 @@ public extension UnknownServiceError {
     var _errorCode: String? { _errorType }
 }
 
-public extension AWSHttpServiceError {
+public extension AWSHttpServiceError where Self: NamedModel {
 
-    var _errorCode: String? { _smithyErrorTypeName }
+    var _errorCode: String? { Self.modelName }
 }
