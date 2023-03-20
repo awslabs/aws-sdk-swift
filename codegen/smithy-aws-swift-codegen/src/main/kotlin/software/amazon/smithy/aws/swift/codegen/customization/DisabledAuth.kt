@@ -15,7 +15,11 @@ internal val DISABLED_AUTH_OPERATIONS: Map<String, Set<String>> = mapOf(
         "com.amazonaws.sts#AssumeRoleWithSAML",
         "com.amazonaws.sts#AssumeRoleWithWebIdentity"
     ),
-    // operations with missing optional auth: https://docs.aws.amazon.com/cognito/latest/developerguide/security_iam_service-with-iam.html
+    // Operations with missing optional auth: https://docs.aws.amazon.com/cognito/latest/developerguide/security_iam_service-with-iam.html
+    //
+    // Some of the following operations do correctly have the `optionalAuth` trait applied and therefore do not need this customization
+    // but maintaining the diff of operations that have the trait and which don't is a nightmare and so
+    // we are applying the trait to all operations listed in the documentation linked above.
     "com.amazonaws.cognitoidentity#AWSCognitoIdentityService" to setOf(
         "com.amazonaws.cognitoidentity#GetId",
         "com.amazonaws.cognitoidentity#GetOpenIdToken",
