@@ -114,6 +114,29 @@ public enum BatchMeterUsageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BatchMeterUsageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .disabledApiException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidCustomerIdentifierException(let error): return error
+        case .invalidProductCodeException(let error): return error
+        case .invalidTagException(let error): return error
+        case .invalidUsageAllocationsException(let error): return error
+        case .invalidUsageDimensionException(let error): return error
+        case .throttlingException(let error): return error
+        case .timestampOutOfBoundsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BatchMeterUsageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -210,6 +233,9 @@ public struct CustomerNotEntitledException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CustomerNotEntitledException" }
+
     public var message: Swift.String?
 
     public init (
@@ -262,6 +288,9 @@ public struct DisabledApiException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DisabledApiException" }
+
     public var message: Swift.String?
 
     public init (
@@ -314,6 +343,9 @@ public struct DuplicateRequestException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateRequestException" }
+
     public var message: Swift.String?
 
     public init (
@@ -366,6 +398,9 @@ public struct ExpiredTokenException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ExpiredTokenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -418,6 +453,9 @@ public struct InternalServiceErrorException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServiceErrorException" }
+
     public var message: Swift.String?
 
     public init (
@@ -470,6 +508,9 @@ public struct InvalidCustomerIdentifierException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCustomerIdentifierException" }
+
     public var message: Swift.String?
 
     public init (
@@ -522,6 +563,9 @@ public struct InvalidEndpointRegionException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidEndpointRegionException" }
+
     public var message: Swift.String?
 
     public init (
@@ -574,6 +618,9 @@ public struct InvalidProductCodeException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidProductCodeException" }
+
     public var message: Swift.String?
 
     public init (
@@ -626,6 +673,9 @@ public struct InvalidPublicKeyVersionException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPublicKeyVersionException" }
+
     public var message: Swift.String?
 
     public init (
@@ -678,6 +728,9 @@ public struct InvalidRegionException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRegionException" }
+
     public var message: Swift.String?
 
     public init (
@@ -730,6 +783,9 @@ public struct InvalidTagException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTagException" }
+
     public var message: Swift.String?
 
     public init (
@@ -782,6 +838,9 @@ public struct InvalidTokenException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTokenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -834,6 +893,9 @@ public struct InvalidUsageAllocationsException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidUsageAllocationsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -886,6 +948,9 @@ public struct InvalidUsageDimensionException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidUsageDimensionException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1074,6 +1139,30 @@ public enum MeterUsageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension MeterUsageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customerNotEntitledException(let error): return error
+        case .duplicateRequestException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidEndpointRegionException(let error): return error
+        case .invalidProductCodeException(let error): return error
+        case .invalidTagException(let error): return error
+        case .invalidUsageAllocationsException(let error): return error
+        case .invalidUsageDimensionException(let error): return error
+        case .throttlingException(let error): return error
+        case .timestampOutOfBoundsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension MeterUsageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1141,6 +1230,9 @@ public struct PlatformNotSupportedException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PlatformNotSupportedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1276,6 +1368,28 @@ public enum RegisterUsageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RegisterUsageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customerNotEntitledException(let error): return error
+        case .disabledApiException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidProductCodeException(let error): return error
+        case .invalidPublicKeyVersionException(let error): return error
+        case .invalidRegionException(let error): return error
+        case .platformNotSupportedException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RegisterUsageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1404,6 +1518,25 @@ public enum ResolveCustomerOutputError: Swift.Error, Swift.Equatable {
     case invalidTokenException(InvalidTokenException)
     case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ResolveCustomerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .disabledApiException(let error): return error
+        case .expiredTokenException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidTokenException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ResolveCustomerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1541,6 +1674,9 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottlingException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1593,6 +1729,9 @@ public struct TimestampOutOfBoundsException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TimestampOutOfBoundsException" }
+
     public var message: Swift.String?
 
     public init (

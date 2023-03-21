@@ -28,6 +28,9 @@ public struct ActivityDoesNotExist: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ActivityDoesNotExist" }
+
     public var message: Swift.String?
 
     public init (
@@ -130,6 +133,9 @@ public struct ActivityLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ActivityLimitExceeded" }
+
     public var message: Swift.String?
 
     public init (
@@ -519,6 +525,9 @@ public struct ActivityWorkerLimitExceeded: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ActivityWorkerLimitExceeded" }
+
     public var message: Swift.String?
 
     public init (
@@ -771,6 +780,23 @@ public enum CreateActivityOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateActivityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .activityLimitExceeded(let error): return error
+        case .invalidName(let error): return error
+        case .tooManyTags(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateActivityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1016,6 +1042,30 @@ public enum CreateStateMachineOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateStateMachineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArn(let error): return error
+        case .invalidDefinition(let error): return error
+        case .invalidLoggingConfiguration(let error): return error
+        case .invalidName(let error): return error
+        case .invalidTracingConfiguration(let error): return error
+        case .stateMachineAlreadyExists(let error): return error
+        case .stateMachineDeleting(let error): return error
+        case .stateMachineLimitExceeded(let error): return error
+        case .stateMachineTypeNotSupported(let error): return error
+        case .tooManyTags(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateStateMachineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1139,6 +1189,21 @@ public enum DeleteActivityOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteActivityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArn(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteActivityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1221,6 +1286,22 @@ public enum DeleteStateMachineOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteStateMachineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArn(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteStateMachineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1301,6 +1382,22 @@ public enum DescribeActivityOutputError: Swift.Error, Swift.Equatable {
     case activityDoesNotExist(ActivityDoesNotExist)
     case invalidArn(InvalidArn)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeActivityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .activityDoesNotExist(let error): return error
+        case .invalidArn(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeActivityOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1450,6 +1547,22 @@ public enum DescribeExecutionOutputError: Swift.Error, Swift.Equatable {
     case executionDoesNotExist(ExecutionDoesNotExist)
     case invalidArn(InvalidArn)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeExecutionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .executionDoesNotExist(let error): return error
+        case .invalidArn(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeExecutionOutputResponse: Swift.CustomDebugStringConvertible {
@@ -1717,6 +1830,22 @@ public enum DescribeMapRunOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeMapRunOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArn(let error): return error
+        case .resourceNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeMapRunOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1929,6 +2058,22 @@ public enum DescribeStateMachineForExecutionOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeStateMachineForExecutionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .executionDoesNotExist(let error): return error
+        case .invalidArn(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeStateMachineForExecutionOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "DescribeStateMachineForExecutionOutputResponse(label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), updateDate: \(Swift.String(describing: updateDate)), definition: \"CONTENT_REDACTED\")"}
@@ -2130,6 +2275,22 @@ public enum DescribeStateMachineOutputError: Swift.Error, Swift.Equatable {
     case invalidArn(InvalidArn)
     case stateMachineDoesNotExist(StateMachineDoesNotExist)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeStateMachineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArn(let error): return error
+        case .stateMachineDoesNotExist(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeStateMachineOutputResponse: Swift.CustomDebugStringConvertible {
@@ -2363,6 +2524,9 @@ public struct ExecutionAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ExecutionAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -2415,6 +2579,9 @@ public struct ExecutionDoesNotExist: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ExecutionDoesNotExist" }
+
     public var message: Swift.String?
 
     public init (
@@ -2517,6 +2684,9 @@ public struct ExecutionLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ExecutionLimitExceeded" }
+
     public var message: Swift.String?
 
     public init (
@@ -2953,6 +3123,23 @@ public enum GetActivityTaskOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetActivityTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .activityDoesNotExist(let error): return error
+        case .activityWorkerLimitExceeded(let error): return error
+        case .invalidArn(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetActivityTaskOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetActivityTaskOutputResponse(taskToken: \(Swift.String(describing: taskToken)), input: \"CONTENT_REDACTED\")"}
@@ -3129,6 +3316,23 @@ public enum GetExecutionHistoryOutputError: Swift.Error, Swift.Equatable {
     case invalidArn(InvalidArn)
     case invalidToken(InvalidToken)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetExecutionHistoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .executionDoesNotExist(let error): return error
+        case .invalidArn(let error): return error
+        case .invalidToken(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetExecutionHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3864,6 +4068,9 @@ public struct InvalidArn: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidArn" }
+
     public var message: Swift.String?
 
     public init (
@@ -3916,6 +4123,9 @@ public struct InvalidDefinition: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDefinition" }
+
     public var message: Swift.String?
 
     public init (
@@ -3968,6 +4178,9 @@ public struct InvalidExecutionInput: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidExecutionInput" }
+
     public var message: Swift.String?
 
     public init (
@@ -4020,6 +4233,9 @@ public struct InvalidLoggingConfiguration: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidLoggingConfiguration" }
+
     public var message: Swift.String?
 
     public init (
@@ -4072,6 +4288,9 @@ public struct InvalidName: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidName" }
+
     public var message: Swift.String?
 
     public init (
@@ -4124,6 +4343,9 @@ public struct InvalidOutput: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidOutput" }
+
     public var message: Swift.String?
 
     public init (
@@ -4176,6 +4398,9 @@ public struct InvalidToken: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidToken" }
+
     public var message: Swift.String?
 
     public init (
@@ -4228,6 +4453,9 @@ public struct InvalidTracingConfiguration: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTracingConfiguration" }
+
     public var message: Swift.String?
 
     public init (
@@ -4666,6 +4894,21 @@ public enum ListActivitiesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListActivitiesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidToken(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListActivitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4854,6 +5097,26 @@ public enum ListExecutionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListExecutionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArn(let error): return error
+        case .invalidToken(let error): return error
+        case .resourceNotFound(let error): return error
+        case .stateMachineDoesNotExist(let error): return error
+        case .stateMachineTypeNotSupported(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5013,6 +5276,23 @@ public enum ListMapRunsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListMapRunsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .executionDoesNotExist(let error): return error
+        case .invalidArn(let error): return error
+        case .invalidToken(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListMapRunsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5155,6 +5435,21 @@ public enum ListStateMachinesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListStateMachinesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidToken(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListStateMachinesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5285,6 +5580,22 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case invalidArn(InvalidArn)
     case resourceNotFound(ResourceNotFound)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArn(let error): return error
+        case .resourceNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6011,6 +6322,9 @@ public struct MissingRequiredParameter: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MissingRequiredParameter" }
+
     public var message: Swift.String?
 
     public init (
@@ -6065,6 +6379,9 @@ public struct ResourceNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFound" }
+
     public var message: Swift.String?
     public var resourceName: Swift.String?
 
@@ -6201,6 +6518,23 @@ public enum SendTaskFailureOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SendTaskFailureOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidToken(let error): return error
+        case .taskDoesNotExist(let error): return error
+        case .taskTimedOut(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SendTaskFailureOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6283,6 +6617,23 @@ public enum SendTaskHeartbeatOutputError: Swift.Error, Swift.Equatable {
     case taskDoesNotExist(TaskDoesNotExist)
     case taskTimedOut(TaskTimedOut)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SendTaskHeartbeatOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidToken(let error): return error
+        case .taskDoesNotExist(let error): return error
+        case .taskTimedOut(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SendTaskHeartbeatOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6387,6 +6738,24 @@ public enum SendTaskSuccessOutputError: Swift.Error, Swift.Equatable {
     case taskDoesNotExist(TaskDoesNotExist)
     case taskTimedOut(TaskTimedOut)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SendTaskSuccessOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidOutput(let error): return error
+        case .invalidToken(let error): return error
+        case .taskDoesNotExist(let error): return error
+        case .taskTimedOut(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SendTaskSuccessOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6535,6 +6904,28 @@ public enum StartExecutionOutputError: Swift.Error, Swift.Equatable {
     case stateMachineDoesNotExist(StateMachineDoesNotExist)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartExecutionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .executionAlreadyExists(let error): return error
+        case .executionLimitExceeded(let error): return error
+        case .invalidArn(let error): return error
+        case .invalidExecutionInput(let error): return error
+        case .invalidName(let error): return error
+        case .stateMachineDeleting(let error): return error
+        case .stateMachineDoesNotExist(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6709,6 +7100,26 @@ public enum StartSyncExecutionOutputError: Swift.Error, Swift.Equatable {
     case stateMachineDoesNotExist(StateMachineDoesNotExist)
     case stateMachineTypeNotSupported(StateMachineTypeNotSupported)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartSyncExecutionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArn(let error): return error
+        case .invalidExecutionInput(let error): return error
+        case .invalidName(let error): return error
+        case .stateMachineDeleting(let error): return error
+        case .stateMachineDoesNotExist(let error): return error
+        case .stateMachineTypeNotSupported(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartSyncExecutionOutputResponse: Swift.CustomDebugStringConvertible {
@@ -7052,6 +7463,9 @@ public struct StateMachineAlreadyExists: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StateMachineAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -7104,6 +7518,9 @@ public struct StateMachineDeleting: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StateMachineDeleting" }
+
     public var message: Swift.String?
 
     public init (
@@ -7156,6 +7573,9 @@ public struct StateMachineDoesNotExist: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StateMachineDoesNotExist" }
+
     public var message: Swift.String?
 
     public init (
@@ -7208,6 +7628,9 @@ public struct StateMachineLimitExceeded: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StateMachineLimitExceeded" }
+
     public var message: Swift.String?
 
     public init (
@@ -7406,6 +7829,9 @@ public struct StateMachineTypeNotSupported: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StateMachineTypeNotSupported" }
+
     public var message: Swift.String?
 
     public init (
@@ -7533,6 +7959,23 @@ public enum StopExecutionOutputError: Swift.Error, Swift.Equatable {
     case invalidArn(InvalidArn)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopExecutionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .executionDoesNotExist(let error): return error
+        case .invalidArn(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StopExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7756,6 +8199,23 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArn(let error): return error
+        case .resourceNotFound(let error): return error
+        case .tooManyTags(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -7826,6 +8286,9 @@ public struct TaskDoesNotExist: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TaskDoesNotExist" }
+
     public var message: Swift.String?
 
     public init (
@@ -8388,6 +8851,9 @@ public struct TaskTimedOut: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TaskTimedOut" }
+
     public var message: Swift.String?
 
     public init (
@@ -8514,6 +8980,9 @@ public struct TooManyTags: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTags" }
+
     public var message: Swift.String?
     public var resourceName: Swift.String?
 
@@ -8679,6 +9148,22 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArn(let error): return error
+        case .resourceNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8797,6 +9282,23 @@ public enum UpdateMapRunOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFound(ResourceNotFound)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateMapRunOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArn(let error): return error
+        case .resourceNotFound(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateMapRunOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8946,6 +9448,28 @@ public enum UpdateStateMachineOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateStateMachineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArn(let error): return error
+        case .invalidDefinition(let error): return error
+        case .invalidLoggingConfiguration(let error): return error
+        case .invalidTracingConfiguration(let error): return error
+        case .missingRequiredParameter(let error): return error
+        case .stateMachineDeleting(let error): return error
+        case .stateMachineDoesNotExist(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateStateMachineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9016,6 +9540,9 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ValidationException" }
+
     public var message: Swift.String?
     /// The input does not satisfy the constraints specified by an Amazon Web Services service.
     public var reason: SFNClientTypes.ValidationExceptionReason?

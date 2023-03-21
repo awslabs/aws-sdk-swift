@@ -312,6 +312,23 @@ public enum DescribeDimensionKeysOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDimensionKeysOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDimensionKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1149,6 +1166,23 @@ public enum GetDimensionKeyDetailsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDimensionKeyDetailsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDimensionKeyDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1284,6 +1318,23 @@ public enum GetResourceMetadataOutputError: Swift.Error, Swift.Equatable {
     case invalidArgumentException(InvalidArgumentException)
     case notAuthorizedException(NotAuthorizedException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetResourceMetadataOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetResourceMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1549,6 +1600,23 @@ public enum GetResourceMetricsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetResourceMetricsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetResourceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1665,6 +1733,9 @@ public struct InternalServiceError: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServiceError" }
+
     public var message: Swift.String?
 
     public init (
@@ -1717,6 +1788,9 @@ public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidArgumentException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1877,6 +1951,23 @@ public enum ListAvailableResourceDimensionsOutputError: Swift.Error, Swift.Equat
     case invalidArgumentException(InvalidArgumentException)
     case notAuthorizedException(NotAuthorizedException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAvailableResourceDimensionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAvailableResourceDimensionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2081,6 +2172,23 @@ public enum ListAvailableResourceMetricsOutputError: Swift.Error, Swift.Equatabl
     case invalidArgumentException(InvalidArgumentException)
     case notAuthorizedException(NotAuthorizedException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAvailableResourceMetricsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAvailableResourceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2364,6 +2472,9 @@ public struct NotAuthorizedException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotAuthorizedException" }
+
     public var message: Swift.String?
 
     public init (

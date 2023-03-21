@@ -58,6 +58,22 @@ public enum DeleteLexiconOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteLexiconOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .lexiconNotFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteLexiconOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -154,6 +170,22 @@ public enum DescribeVoicesOutputError: Swift.Error, Swift.Equatable {
     case invalidNextTokenException(InvalidNextTokenException)
     case serviceFailureException(ServiceFailureException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeVoicesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidNextTokenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeVoicesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -274,6 +306,9 @@ public struct EngineNotSupportedException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EngineNotSupportedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -387,6 +422,22 @@ public enum GetLexiconOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetLexiconOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .lexiconNotFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetLexiconOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -495,6 +546,23 @@ public enum GetSpeechSynthesisTaskOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetSpeechSynthesisTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidTaskIdException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .synthesisTaskNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetSpeechSynthesisTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -562,6 +630,9 @@ public struct InvalidLexiconException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidLexiconException" }
+
     public var message: Swift.String?
 
     public init (
@@ -614,6 +685,9 @@ public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidNextTokenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -666,6 +740,9 @@ public struct InvalidS3BucketException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidS3BucketException" }
+
     public var message: Swift.String?
 
     public init (
@@ -718,6 +795,9 @@ public struct InvalidS3KeyException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidS3KeyException" }
+
     public var message: Swift.String?
 
     public init (
@@ -770,6 +850,9 @@ public struct InvalidSampleRateException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSampleRateException" }
+
     public var message: Swift.String?
 
     public init (
@@ -822,6 +905,9 @@ public struct InvalidSnsTopicArnException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSnsTopicArnException" }
+
     public var message: Swift.String?
 
     public init (
@@ -874,6 +960,9 @@ public struct InvalidSsmlException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSsmlException" }
+
     public var message: Swift.String?
 
     public init (
@@ -926,6 +1015,9 @@ public struct InvalidTaskIdException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTaskIdException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1112,6 +1204,9 @@ public struct LanguageNotSupportedException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LanguageNotSupportedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1344,6 +1439,9 @@ public struct LexiconNotFoundException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LexiconNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1396,6 +1494,9 @@ public struct LexiconSizeExceededException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LexiconSizeExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1484,6 +1585,22 @@ public enum ListLexiconsOutputError: Swift.Error, Swift.Equatable {
     case invalidNextTokenException(InvalidNextTokenException)
     case serviceFailureException(ServiceFailureException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListLexiconsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidNextTokenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListLexiconsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1626,6 +1743,22 @@ public enum ListSpeechSynthesisTasksOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListSpeechSynthesisTasksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidNextTokenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListSpeechSynthesisTasksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1712,6 +1845,9 @@ public struct MarksNotSupportedForFormatException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MarksNotSupportedForFormatException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1764,6 +1900,9 @@ public struct MaxLexemeLengthExceededException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaxLexemeLengthExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1816,6 +1955,9 @@ public struct MaxLexiconsNumberExceededException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaxLexiconsNumberExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1975,6 +2117,27 @@ public enum PutLexiconOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutLexiconOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidLexiconException(let error): return error
+        case .lexiconSizeExceededException(let error): return error
+        case .maxLexemeLengthExceededException(let error): return error
+        case .maxLexiconsNumberExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .unsupportedPlsAlphabetException(let error): return error
+        case .unsupportedPlsLanguageException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutLexiconOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2011,6 +2174,9 @@ public struct ServiceFailureException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceFailureException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2101,6 +2267,9 @@ public struct SsmlMarksNotSupportedForTextTypeException: AWSClientRuntime.AWSHtt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SsmlMarksNotSupportedForTextTypeException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2378,6 +2547,32 @@ public enum StartSpeechSynthesisTaskOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartSpeechSynthesisTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .engineNotSupportedException(let error): return error
+        case .invalidS3BucketException(let error): return error
+        case .invalidS3KeyException(let error): return error
+        case .invalidSampleRateException(let error): return error
+        case .invalidSnsTopicArnException(let error): return error
+        case .invalidSsmlException(let error): return error
+        case .languageNotSupportedException(let error): return error
+        case .lexiconNotFoundException(let error): return error
+        case .marksNotSupportedForFormatException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .ssmlMarksNotSupportedForTextTypeException(let error): return error
+        case .textLengthExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartSpeechSynthesisTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2644,6 +2839,9 @@ public struct SynthesisTaskNotFoundException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SynthesisTaskNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3027,6 +3225,29 @@ public enum SynthesizeSpeechOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SynthesizeSpeechOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .engineNotSupportedException(let error): return error
+        case .invalidSampleRateException(let error): return error
+        case .invalidSsmlException(let error): return error
+        case .languageNotSupportedException(let error): return error
+        case .lexiconNotFoundException(let error): return error
+        case .marksNotSupportedForFormatException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .ssmlMarksNotSupportedForTextTypeException(let error): return error
+        case .textLengthExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SynthesizeSpeechOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
@@ -3155,6 +3376,9 @@ public struct TextLengthExceededException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TextLengthExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3239,6 +3463,9 @@ public struct UnsupportedPlsAlphabetException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedPlsAlphabetException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3291,6 +3518,9 @@ public struct UnsupportedPlsLanguageException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedPlsLanguageException" }
+
     public var message: Swift.String?
 
     public init (

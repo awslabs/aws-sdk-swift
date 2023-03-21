@@ -122,6 +122,27 @@ public enum AddTagsToOnPremisesInstancesOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddTagsToOnPremisesInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .instanceLimitExceededException(let error): return error
+        case .instanceNameRequiredException(let error): return error
+        case .instanceNotRegisteredException(let error): return error
+        case .invalidInstanceNameException(let error): return error
+        case .invalidTagException(let error): return error
+        case .tagLimitExceededException(let error): return error
+        case .tagRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddTagsToOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -264,6 +285,9 @@ public struct AlarmsLimitExceededException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AlarmsLimitExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -362,6 +386,9 @@ public struct ApplicationAlreadyExistsException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApplicationAlreadyExistsException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -415,6 +442,9 @@ public struct ApplicationDoesNotExistException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApplicationDoesNotExistException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -553,6 +583,9 @@ public struct ApplicationLimitExceededException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApplicationLimitExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -606,6 +639,9 @@ public struct ApplicationNameRequiredException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApplicationNameRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -694,6 +730,9 @@ public struct ArnNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ArnNotSupportedException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -964,6 +1003,26 @@ public enum BatchGetApplicationRevisionsOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BatchGetApplicationRevisionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .batchLimitExceededException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidRevisionException(let error): return error
+        case .revisionRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BatchGetApplicationRevisionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1124,6 +1183,24 @@ public enum BatchGetApplicationsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BatchGetApplicationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .batchLimitExceededException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BatchGetApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1281,6 +1358,27 @@ public enum BatchGetDeploymentGroupsOutputError: Swift.Error, Swift.Equatable {
     case invalidApplicationNameException(InvalidApplicationNameException)
     case invalidDeploymentGroupNameException(InvalidDeploymentGroupNameException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchGetDeploymentGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .batchLimitExceededException(let error): return error
+        case .deploymentConfigDoesNotExistException(let error): return error
+        case .deploymentGroupNameRequiredException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidDeploymentGroupNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension BatchGetDeploymentGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1450,6 +1548,27 @@ public enum BatchGetDeploymentInstancesOutputError: Swift.Error, Swift.Equatable
     case invalidDeploymentIdException(InvalidDeploymentIdException)
     case invalidInstanceNameException(InvalidInstanceNameException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchGetDeploymentInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .batchLimitExceededException(let error): return error
+        case .deploymentDoesNotExistException(let error): return error
+        case .deploymentIdRequiredException(let error): return error
+        case .instanceIdRequiredException(let error): return error
+        case .invalidComputePlatformException(let error): return error
+        case .invalidDeploymentIdException(let error): return error
+        case .invalidInstanceNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension BatchGetDeploymentInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1630,6 +1749,29 @@ public enum BatchGetDeploymentTargetsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BatchGetDeploymentTargetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentDoesNotExistException(let error): return error
+        case .deploymentIdRequiredException(let error): return error
+        case .deploymentNotStartedException(let error): return error
+        case .deploymentTargetDoesNotExistException(let error): return error
+        case .deploymentTargetIdRequiredException(let error): return error
+        case .deploymentTargetListSizeExceededException(let error): return error
+        case .instanceDoesNotExistException(let error): return error
+        case .invalidDeploymentIdException(let error): return error
+        case .invalidDeploymentTargetIdException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BatchGetDeploymentTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1775,6 +1917,23 @@ public enum BatchGetDeploymentsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BatchGetDeploymentsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .batchLimitExceededException(let error): return error
+        case .deploymentIdRequiredException(let error): return error
+        case .invalidDeploymentIdException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BatchGetDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1913,6 +2072,23 @@ public enum BatchGetOnPremisesInstancesOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BatchGetOnPremisesInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .batchLimitExceededException(let error): return error
+        case .instanceNameRequiredException(let error): return error
+        case .invalidInstanceNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BatchGetOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1990,6 +2166,9 @@ public struct BatchLimitExceededException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BatchLimitExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -2147,6 +2326,9 @@ public struct BucketNameFilterRequiredException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BucketNameFilterRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -2452,6 +2634,28 @@ public enum ContinueDeploymentOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ContinueDeploymentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentAlreadyCompletedException(let error): return error
+        case .deploymentDoesNotExistException(let error): return error
+        case .deploymentIdRequiredException(let error): return error
+        case .deploymentIsNotInReadyStateException(let error): return error
+        case .invalidDeploymentIdException(let error): return error
+        case .invalidDeploymentStatusException(let error): return error
+        case .invalidDeploymentWaitTypeException(let error): return error
+        case .unsupportedActionForDeploymentTypeException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ContinueDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2577,6 +2781,26 @@ public enum CreateApplicationOutputError: Swift.Error, Swift.Equatable {
     case invalidComputePlatformException(InvalidComputePlatformException)
     case invalidTagsToAddException(InvalidTagsToAddException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateApplicationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationAlreadyExistsException(let error): return error
+        case .applicationLimitExceededException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidComputePlatformException(let error): return error
+        case .invalidTagsToAddException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2745,6 +2969,27 @@ public enum CreateDeploymentConfigOutputError: Swift.Error, Swift.Equatable {
     case invalidMinimumHealthyHostValueException(InvalidMinimumHealthyHostValueException)
     case invalidTrafficRoutingConfigurationException(InvalidTrafficRoutingConfigurationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDeploymentConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentConfigAlreadyExistsException(let error): return error
+        case .deploymentConfigLimitExceededException(let error): return error
+        case .deploymentConfigNameRequiredException(let error): return error
+        case .invalidComputePlatformException(let error): return error
+        case .invalidDeploymentConfigNameException(let error): return error
+        case .invalidMinimumHealthyHostValueException(let error): return error
+        case .invalidTrafficRoutingConfigurationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3202,6 +3447,53 @@ public enum CreateDeploymentGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateDeploymentGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .alarmsLimitExceededException(let error): return error
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .deploymentConfigDoesNotExistException(let error): return error
+        case .deploymentGroupAlreadyExistsException(let error): return error
+        case .deploymentGroupLimitExceededException(let error): return error
+        case .deploymentGroupNameRequiredException(let error): return error
+        case .eCSServiceMappingLimitExceededException(let error): return error
+        case .invalidAlarmConfigException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidAutoRollbackConfigException(let error): return error
+        case .invalidAutoScalingGroupException(let error): return error
+        case .invalidBlueGreenDeploymentConfigurationException(let error): return error
+        case .invalidDeploymentConfigNameException(let error): return error
+        case .invalidDeploymentGroupNameException(let error): return error
+        case .invalidDeploymentStyleException(let error): return error
+        case .invalidEC2TagCombinationException(let error): return error
+        case .invalidEC2TagException(let error): return error
+        case .invalidECSServiceException(let error): return error
+        case .invalidInputException(let error): return error
+        case .invalidLoadBalancerInfoException(let error): return error
+        case .invalidOnPremisesTagCombinationException(let error): return error
+        case .invalidRoleException(let error): return error
+        case .invalidTagException(let error): return error
+        case .invalidTagsToAddException(let error): return error
+        case .invalidTargetGroupPairException(let error): return error
+        case .invalidTrafficRoutingConfigurationException(let error): return error
+        case .invalidTriggerConfigException(let error): return error
+        case .lifecycleHookLimitExceededException(let error): return error
+        case .roleRequiredException(let error): return error
+        case .tagSetListLimitExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .triggerTargetsLimitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3491,6 +3783,46 @@ public enum CreateDeploymentOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateDeploymentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .alarmsLimitExceededException(let error): return error
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .deploymentConfigDoesNotExistException(let error): return error
+        case .deploymentGroupDoesNotExistException(let error): return error
+        case .deploymentGroupNameRequiredException(let error): return error
+        case .deploymentLimitExceededException(let error): return error
+        case .descriptionTooLongException(let error): return error
+        case .invalidAlarmConfigException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidAutoRollbackConfigException(let error): return error
+        case .invalidAutoScalingGroupException(let error): return error
+        case .invalidDeploymentConfigNameException(let error): return error
+        case .invalidDeploymentGroupNameException(let error): return error
+        case .invalidFileExistsBehaviorException(let error): return error
+        case .invalidGitHubAccountTokenException(let error): return error
+        case .invalidIgnoreApplicationStopFailuresValueException(let error): return error
+        case .invalidLoadBalancerInfoException(let error): return error
+        case .invalidRevisionException(let error): return error
+        case .invalidRoleException(let error): return error
+        case .invalidTargetInstancesException(let error): return error
+        case .invalidTrafficRoutingConfigurationException(let error): return error
+        case .invalidUpdateOutdatedInstancesOnlyValueException(let error): return error
+        case .revisionDoesNotExistException(let error): return error
+        case .revisionRequiredException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3608,6 +3940,23 @@ public enum DeleteApplicationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteApplicationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationNameRequiredException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidRoleException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3693,6 +4042,24 @@ public enum DeleteDeploymentConfigOutputError: Swift.Error, Swift.Equatable {
     case invalidDeploymentConfigNameException(InvalidDeploymentConfigNameException)
     case invalidOperationException(InvalidOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDeploymentConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentConfigInUseException(let error): return error
+        case .deploymentConfigNameRequiredException(let error): return error
+        case .invalidDeploymentConfigNameException(let error): return error
+        case .invalidOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3795,6 +4162,25 @@ public enum DeleteDeploymentGroupOutputError: Swift.Error, Swift.Equatable {
     case invalidDeploymentGroupNameException(InvalidDeploymentGroupNameException)
     case invalidRoleException(InvalidRoleException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDeploymentGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationNameRequiredException(let error): return error
+        case .deploymentGroupNameRequiredException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidDeploymentGroupNameException(let error): return error
+        case .invalidRoleException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3926,6 +4312,25 @@ public enum DeleteGitHubAccountTokenOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteGitHubAccountTokenOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .gitHubAccountTokenDoesNotExistException(let error): return error
+        case .gitHubAccountTokenNameRequiredException(let error): return error
+        case .invalidGitHubAccountTokenNameException(let error): return error
+        case .operationNotSupportedException(let error): return error
+        case .resourceValidationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteGitHubAccountTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4035,6 +4440,20 @@ public enum DeleteResourcesByExternalIdOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteResourcesByExternalIdOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteResourcesByExternalIdOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4071,6 +4490,9 @@ public struct DeploymentAlreadyCompletedException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentAlreadyCompletedException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -4124,6 +4546,9 @@ public struct DeploymentConfigAlreadyExistsException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentConfigAlreadyExistsException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -4177,6 +4602,9 @@ public struct DeploymentConfigDoesNotExistException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentConfigDoesNotExistException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -4230,6 +4658,9 @@ public struct DeploymentConfigInUseException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentConfigInUseException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -4368,6 +4799,9 @@ public struct DeploymentConfigLimitExceededException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentConfigLimitExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -4421,6 +4855,9 @@ public struct DeploymentConfigNameRequiredException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentConfigNameRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -4521,6 +4958,9 @@ public struct DeploymentDoesNotExistException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentDoesNotExistException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -4574,6 +5014,9 @@ public struct DeploymentGroupAlreadyExistsException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentGroupAlreadyExistsException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -4627,6 +5070,9 @@ public struct DeploymentGroupDoesNotExistException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentGroupDoesNotExistException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -4985,6 +5431,9 @@ public struct DeploymentGroupLimitExceededException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentGroupLimitExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -5038,6 +5487,9 @@ public struct DeploymentGroupNameRequiredException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentGroupNameRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -5091,6 +5543,9 @@ public struct DeploymentIdRequiredException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentIdRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -5496,6 +5951,9 @@ public struct DeploymentIsNotInReadyStateException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentIsNotInReadyStateException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -5549,6 +6007,9 @@ public struct DeploymentLimitExceededException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentLimitExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -5602,6 +6063,9 @@ public struct DeploymentNotStartedException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentNotStartedException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -6023,6 +6487,9 @@ public struct DeploymentTargetDoesNotExistException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentTargetDoesNotExistException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -6076,6 +6543,9 @@ public struct DeploymentTargetIdRequiredException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentTargetIdRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -6129,6 +6599,9 @@ public struct DeploymentTargetListSizeExceededException: AWSClientRuntime.AWSHtt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DeploymentTargetListSizeExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -6331,6 +6804,22 @@ public enum DeregisterOnPremisesInstanceOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeregisterOnPremisesInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .instanceNameRequiredException(let error): return error
+        case .invalidInstanceNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeregisterOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6367,6 +6856,9 @@ public struct DescriptionTooLongException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DescriptionTooLongException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -6697,6 +7189,9 @@ public struct ECSServiceMappingLimitExceededException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ECSServiceMappingLimitExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -7385,6 +7880,23 @@ public enum GetApplicationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetApplicationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7519,6 +8031,26 @@ public enum GetApplicationRevisionOutputError: Swift.Error, Swift.Equatable {
     case revisionDoesNotExistException(RevisionDoesNotExistException)
     case revisionRequiredException(RevisionRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetApplicationRevisionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidRevisionException(let error): return error
+        case .revisionDoesNotExistException(let error): return error
+        case .revisionRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetApplicationRevisionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7660,6 +8192,24 @@ public enum GetDeploymentConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDeploymentConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentConfigDoesNotExistException(let error): return error
+        case .deploymentConfigNameRequiredException(let error): return error
+        case .invalidComputePlatformException(let error): return error
+        case .invalidDeploymentConfigNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7796,6 +8346,27 @@ public enum GetDeploymentGroupOutputError: Swift.Error, Swift.Equatable {
     case invalidApplicationNameException(InvalidApplicationNameException)
     case invalidDeploymentGroupNameException(InvalidDeploymentGroupNameException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDeploymentGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .deploymentConfigDoesNotExistException(let error): return error
+        case .deploymentGroupDoesNotExistException(let error): return error
+        case .deploymentGroupNameRequiredException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidDeploymentGroupNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7985,6 +8556,27 @@ public enum GetDeploymentInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDeploymentInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentDoesNotExistException(let error): return error
+        case .deploymentIdRequiredException(let error): return error
+        case .instanceDoesNotExistException(let error): return error
+        case .instanceIdRequiredException(let error): return error
+        case .invalidComputePlatformException(let error): return error
+        case .invalidDeploymentIdException(let error): return error
+        case .invalidInstanceNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDeploymentInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8052,6 +8644,23 @@ public enum GetDeploymentOutputError: Swift.Error, Swift.Equatable {
     case deploymentIdRequiredException(DeploymentIdRequiredException)
     case invalidDeploymentIdException(InvalidDeploymentIdException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDeploymentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentDoesNotExistException(let error): return error
+        case .deploymentIdRequiredException(let error): return error
+        case .invalidDeploymentIdException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8191,6 +8800,28 @@ public enum GetDeploymentTargetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDeploymentTargetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentDoesNotExistException(let error): return error
+        case .deploymentIdRequiredException(let error): return error
+        case .deploymentNotStartedException(let error): return error
+        case .deploymentTargetDoesNotExistException(let error): return error
+        case .deploymentTargetIdRequiredException(let error): return error
+        case .invalidDeploymentIdException(let error): return error
+        case .invalidDeploymentTargetIdException(let error): return error
+        case .invalidInstanceNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDeploymentTargetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8307,6 +8938,23 @@ public enum GetOnPremisesInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetOnPremisesInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .instanceNameRequiredException(let error): return error
+        case .instanceNotRegisteredException(let error): return error
+        case .invalidInstanceNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8375,6 +9023,9 @@ public struct GitHubAccountTokenDoesNotExistException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "GitHubAccountTokenDoesNotExistException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -8428,6 +9079,9 @@ public struct GitHubAccountTokenNameRequiredException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "GitHubAccountTokenNameRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -8597,6 +9251,9 @@ public struct IamArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IamArnRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -8650,6 +9307,9 @@ public struct IamSessionArnAlreadyRegisteredException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IamSessionArnAlreadyRegisteredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -8703,6 +9363,9 @@ public struct IamUserArnAlreadyRegisteredException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IamUserArnAlreadyRegisteredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -8756,6 +9419,9 @@ public struct IamUserArnRequiredException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IamUserArnRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -8842,6 +9508,9 @@ public struct InstanceDoesNotExistException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InstanceDoesNotExistException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -8896,6 +9565,9 @@ public struct InstanceIdRequiredException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InstanceIdRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -9056,6 +9728,9 @@ public struct InstanceLimitExceededException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InstanceLimitExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -9109,6 +9784,9 @@ public struct InstanceNameAlreadyRegisteredException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InstanceNameAlreadyRegisteredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -9162,6 +9840,9 @@ public struct InstanceNameRequiredException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InstanceNameRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -9215,6 +9896,9 @@ public struct InstanceNotRegisteredException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InstanceNotRegisteredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -9580,6 +10264,9 @@ public struct InvalidAlarmConfigException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidAlarmConfigException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -9633,6 +10320,9 @@ public struct InvalidApplicationNameException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidApplicationNameException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -9686,6 +10376,9 @@ public struct InvalidArnException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidArnException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -9739,6 +10432,9 @@ public struct InvalidAutoRollbackConfigException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidAutoRollbackConfigException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -9792,6 +10488,9 @@ public struct InvalidAutoScalingGroupException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidAutoScalingGroupException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -9845,6 +10544,9 @@ public struct InvalidBlueGreenDeploymentConfigurationException: AWSClientRuntime
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidBlueGreenDeploymentConfigurationException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -9898,6 +10600,9 @@ public struct InvalidBucketNameFilterException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidBucketNameFilterException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -9951,6 +10656,9 @@ public struct InvalidComputePlatformException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidComputePlatformException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10004,6 +10712,9 @@ public struct InvalidDeployedStateFilterException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDeployedStateFilterException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10057,6 +10768,9 @@ public struct InvalidDeploymentConfigNameException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDeploymentConfigNameException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10110,6 +10824,9 @@ public struct InvalidDeploymentGroupNameException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDeploymentGroupNameException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10163,6 +10880,9 @@ public struct InvalidDeploymentIdException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDeploymentIdException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10216,6 +10936,9 @@ public struct InvalidDeploymentInstanceTypeException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDeploymentInstanceTypeException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10269,6 +10992,9 @@ public struct InvalidDeploymentStatusException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDeploymentStatusException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10322,6 +11048,9 @@ public struct InvalidDeploymentStyleException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDeploymentStyleException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10375,6 +11104,9 @@ public struct InvalidDeploymentTargetIdException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDeploymentTargetIdException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10428,6 +11160,9 @@ public struct InvalidDeploymentWaitTypeException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDeploymentWaitTypeException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10481,6 +11216,9 @@ public struct InvalidEC2TagCombinationException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidEC2TagCombinationException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10534,6 +11272,9 @@ public struct InvalidEC2TagException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidEC2TagException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10587,6 +11328,9 @@ public struct InvalidECSServiceException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidECSServiceException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10640,6 +11384,9 @@ public struct InvalidExternalIdException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidExternalIdException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10693,6 +11440,9 @@ public struct InvalidFileExistsBehaviorException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidFileExistsBehaviorException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10746,6 +11496,9 @@ public struct InvalidGitHubAccountTokenException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidGitHubAccountTokenException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10799,6 +11552,9 @@ public struct InvalidGitHubAccountTokenNameException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidGitHubAccountTokenNameException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10852,6 +11608,9 @@ public struct InvalidIamSessionArnException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidIamSessionArnException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10905,6 +11664,9 @@ public struct InvalidIamUserArnException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidIamUserArnException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -10958,6 +11720,9 @@ public struct InvalidIgnoreApplicationStopFailuresValueException: AWSClientRunti
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidIgnoreApplicationStopFailuresValueException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11011,6 +11776,9 @@ public struct InvalidInputException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidInputException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11064,6 +11832,9 @@ public struct InvalidInstanceNameException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidInstanceNameException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11117,6 +11888,9 @@ public struct InvalidInstanceStatusException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidInstanceStatusException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11170,6 +11944,9 @@ public struct InvalidInstanceTypeException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidInstanceTypeException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11223,6 +12000,9 @@ public struct InvalidKeyPrefixFilterException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidKeyPrefixFilterException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11276,6 +12056,9 @@ public struct InvalidLifecycleEventHookExecutionIdException: AWSClientRuntime.AW
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidLifecycleEventHookExecutionIdException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11329,6 +12112,9 @@ public struct InvalidLifecycleEventHookExecutionStatusException: AWSClientRuntim
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidLifecycleEventHookExecutionStatusException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11382,6 +12168,9 @@ public struct InvalidLoadBalancerInfoException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidLoadBalancerInfoException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11435,6 +12224,9 @@ public struct InvalidMinimumHealthyHostValueException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidMinimumHealthyHostValueException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11488,6 +12280,9 @@ public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidNextTokenException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11541,6 +12336,9 @@ public struct InvalidOnPremisesTagCombinationException: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidOnPremisesTagCombinationException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11594,6 +12392,9 @@ public struct InvalidOperationException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidOperationException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11647,6 +12448,9 @@ public struct InvalidRegistrationStatusException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRegistrationStatusException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11700,6 +12504,9 @@ public struct InvalidRevisionException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRevisionException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11753,6 +12560,9 @@ public struct InvalidRoleException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRoleException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11806,6 +12616,9 @@ public struct InvalidSortByException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSortByException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11859,6 +12672,9 @@ public struct InvalidSortOrderException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSortOrderException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11912,6 +12728,9 @@ public struct InvalidTagException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTagException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -11965,6 +12784,9 @@ public struct InvalidTagFilterException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTagFilterException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -12018,6 +12840,9 @@ public struct InvalidTagsToAddException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTagsToAddException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -12071,6 +12896,9 @@ public struct InvalidTargetFilterNameException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTargetFilterNameException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -12124,6 +12952,9 @@ public struct InvalidTargetGroupPairException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTargetGroupPairException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -12185,6 +13016,9 @@ public struct InvalidTargetInstancesException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTargetInstancesException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -12238,6 +13072,9 @@ public struct InvalidTimeRangeException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTimeRangeException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -12291,6 +13128,9 @@ public struct InvalidTrafficRoutingConfigurationException: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTrafficRoutingConfigurationException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -12344,6 +13184,9 @@ public struct InvalidTriggerConfigException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTriggerConfigException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -12397,6 +13240,9 @@ public struct InvalidUpdateOutdatedInstancesOnlyValueException: AWSClientRuntime
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidUpdateOutdatedInstancesOnlyValueException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -12828,6 +13674,9 @@ public struct LifecycleEventAlreadyCompletedException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LifecycleEventAlreadyCompletedException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -12925,6 +13774,9 @@ public struct LifecycleHookLimitExceededException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LifecycleHookLimitExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -13135,6 +13987,30 @@ public enum ListApplicationRevisionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListApplicationRevisionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .bucketNameFilterRequiredException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidBucketNameFilterException(let error): return error
+        case .invalidDeployedStateFilterException(let error): return error
+        case .invalidKeyPrefixFilterException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .invalidSortByException(let error): return error
+        case .invalidSortOrderException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListApplicationRevisionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13266,6 +14142,21 @@ public enum ListApplicationsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListApplicationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidNextTokenException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13395,6 +14286,21 @@ extension ListDeploymentConfigsOutputError {
 public enum ListDeploymentConfigsOutputError: Swift.Error, Swift.Equatable {
     case invalidNextTokenException(InvalidNextTokenException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDeploymentConfigsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidNextTokenException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDeploymentConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13545,6 +14451,24 @@ public enum ListDeploymentGroupsOutputError: Swift.Error, Swift.Equatable {
     case invalidApplicationNameException(InvalidApplicationNameException)
     case invalidNextTokenException(InvalidNextTokenException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDeploymentGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDeploymentGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13779,6 +14703,30 @@ public enum ListDeploymentInstancesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListDeploymentInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentDoesNotExistException(let error): return error
+        case .deploymentIdRequiredException(let error): return error
+        case .deploymentNotStartedException(let error): return error
+        case .invalidComputePlatformException(let error): return error
+        case .invalidDeploymentIdException(let error): return error
+        case .invalidDeploymentInstanceTypeException(let error): return error
+        case .invalidInstanceStatusException(let error): return error
+        case .invalidInstanceTypeException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .invalidTargetFilterNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListDeploymentInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13971,6 +14919,28 @@ public enum ListDeploymentTargetsOutputError: Swift.Error, Swift.Equatable {
     case invalidInstanceTypeException(InvalidInstanceTypeException)
     case invalidNextTokenException(InvalidNextTokenException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDeploymentTargetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentDoesNotExistException(let error): return error
+        case .deploymentIdRequiredException(let error): return error
+        case .deploymentNotStartedException(let error): return error
+        case .invalidDeploymentIdException(let error): return error
+        case .invalidDeploymentInstanceTypeException(let error): return error
+        case .invalidInstanceStatusException(let error): return error
+        case .invalidInstanceTypeException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDeploymentTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14207,6 +15177,31 @@ public enum ListDeploymentsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListDeploymentsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .deploymentGroupDoesNotExistException(let error): return error
+        case .deploymentGroupNameRequiredException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidDeploymentGroupNameException(let error): return error
+        case .invalidDeploymentStatusException(let error): return error
+        case .invalidExternalIdException(let error): return error
+        case .invalidInputException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .invalidTimeRangeException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -14340,6 +15335,23 @@ public enum ListGitHubAccountTokenNamesOutputError: Swift.Error, Swift.Equatable
     case operationNotSupportedException(OperationNotSupportedException)
     case resourceValidationException(ResourceValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListGitHubAccountTokenNamesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidNextTokenException(let error): return error
+        case .operationNotSupportedException(let error): return error
+        case .resourceValidationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListGitHubAccountTokenNamesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14515,6 +15527,23 @@ public enum ListOnPremisesInstancesOutputError: Swift.Error, Swift.Equatable {
     case invalidRegistrationStatusException(InvalidRegistrationStatusException)
     case invalidTagFilterException(InvalidTagFilterException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListOnPremisesInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidNextTokenException(let error): return error
+        case .invalidRegistrationStatusException(let error): return error
+        case .invalidTagFilterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14697,6 +15726,23 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case invalidArnException(InvalidArnException)
     case resourceArnRequiredException(ResourceArnRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .arnNotSupportedException(let error): return error
+        case .invalidArnException(let error): return error
+        case .resourceArnRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14960,6 +16006,9 @@ public struct MultipleIamArnsProvidedException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MultipleIamArnsProvidedException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -15072,6 +16121,9 @@ public struct OperationNotSupportedException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OperationNotSupportedException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -15234,6 +16286,27 @@ public enum PutLifecycleEventHookExecutionStatusOutputError: Swift.Error, Swift.
     case lifecycleEventAlreadyCompletedException(LifecycleEventAlreadyCompletedException)
     case unsupportedActionForDeploymentTypeException(UnsupportedActionForDeploymentTypeException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutLifecycleEventHookExecutionStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentDoesNotExistException(let error): return error
+        case .deploymentIdRequiredException(let error): return error
+        case .invalidDeploymentIdException(let error): return error
+        case .invalidLifecycleEventHookExecutionIdException(let error): return error
+        case .invalidLifecycleEventHookExecutionStatusException(let error): return error
+        case .lifecycleEventAlreadyCompletedException(let error): return error
+        case .unsupportedActionForDeploymentTypeException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutLifecycleEventHookExecutionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15429,6 +16502,26 @@ public enum RegisterApplicationRevisionOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RegisterApplicationRevisionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .descriptionTooLongException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidRevisionException(let error): return error
+        case .revisionRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RegisterApplicationRevisionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -15550,6 +16643,30 @@ public enum RegisterOnPremisesInstanceOutputError: Swift.Error, Swift.Equatable 
     case invalidInstanceNameException(InvalidInstanceNameException)
     case multipleIamArnsProvidedException(MultipleIamArnsProvidedException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RegisterOnPremisesInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .iamArnRequiredException(let error): return error
+        case .iamSessionArnAlreadyRegisteredException(let error): return error
+        case .iamUserArnAlreadyRegisteredException(let error): return error
+        case .iamUserArnRequiredException(let error): return error
+        case .instanceNameAlreadyRegisteredException(let error): return error
+        case .instanceNameRequiredException(let error): return error
+        case .invalidIamSessionArnException(let error): return error
+        case .invalidIamUserArnException(let error): return error
+        case .invalidInstanceNameException(let error): return error
+        case .multipleIamArnsProvidedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RegisterOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15771,6 +16888,27 @@ public enum RemoveTagsFromOnPremisesInstancesOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveTagsFromOnPremisesInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .instanceLimitExceededException(let error): return error
+        case .instanceNameRequiredException(let error): return error
+        case .instanceNotRegisteredException(let error): return error
+        case .invalidInstanceNameException(let error): return error
+        case .invalidTagException(let error): return error
+        case .tagLimitExceededException(let error): return error
+        case .tagRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveTagsFromOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -15807,6 +16945,9 @@ public struct ResourceArnRequiredException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceArnRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -15860,6 +17001,9 @@ public struct ResourceValidationException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceValidationException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -15913,6 +17057,9 @@ public struct RevisionDoesNotExistException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RevisionDoesNotExistException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -16133,6 +17280,9 @@ public struct RevisionRequiredException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RevisionRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -16186,6 +17336,9 @@ public struct RoleRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RoleRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -16428,6 +17581,26 @@ public enum SkipWaitTimeForInstanceTerminationOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SkipWaitTimeForInstanceTerminationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentAlreadyCompletedException(let error): return error
+        case .deploymentDoesNotExistException(let error): return error
+        case .deploymentIdRequiredException(let error): return error
+        case .deploymentNotStartedException(let error): return error
+        case .invalidDeploymentIdException(let error): return error
+        case .unsupportedActionForDeploymentTypeException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SkipWaitTimeForInstanceTerminationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -16561,6 +17734,26 @@ public enum StopDeploymentOutputError: Swift.Error, Swift.Equatable {
     case invalidDeploymentIdException(InvalidDeploymentIdException)
     case unsupportedActionForDeploymentTypeException(UnsupportedActionForDeploymentTypeException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopDeploymentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .deploymentAlreadyCompletedException(let error): return error
+        case .deploymentDoesNotExistException(let error): return error
+        case .deploymentGroupDoesNotExistException(let error): return error
+        case .deploymentIdRequiredException(let error): return error
+        case .invalidDeploymentIdException(let error): return error
+        case .unsupportedActionForDeploymentTypeException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StopDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16818,6 +18011,9 @@ public struct TagLimitExceededException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagLimitExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -16871,6 +18067,9 @@ public struct TagRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagRequiredException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -17007,6 +18206,28 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationDoesNotExistException(let error): return error
+        case .arnNotSupportedException(let error): return error
+        case .deploymentConfigDoesNotExistException(let error): return error
+        case .deploymentGroupDoesNotExistException(let error): return error
+        case .invalidArnException(let error): return error
+        case .invalidTagsToAddException(let error): return error
+        case .resourceArnRequiredException(let error): return error
+        case .tagRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -17043,6 +18264,9 @@ public struct TagSetListLimitExceededException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagSetListLimitExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -17388,6 +18612,9 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottlingException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -17836,6 +19063,9 @@ public struct TriggerTargetsLimitExceededException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TriggerTargetsLimitExceededException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -17889,6 +19119,9 @@ public struct UnsupportedActionForDeploymentTypeException: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedActionForDeploymentTypeException" }
+
     /// The message that corresponds to the exception thrown by CodeDeploy.
     public var message: Swift.String?
 
@@ -18025,6 +19258,28 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationDoesNotExistException(let error): return error
+        case .arnNotSupportedException(let error): return error
+        case .deploymentConfigDoesNotExistException(let error): return error
+        case .deploymentGroupDoesNotExistException(let error): return error
+        case .invalidArnException(let error): return error
+        case .invalidTagsToAddException(let error): return error
+        case .resourceArnRequiredException(let error): return error
+        case .tagRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -18121,6 +19376,24 @@ public enum UpdateApplicationOutputError: Swift.Error, Swift.Equatable {
     case applicationNameRequiredException(ApplicationNameRequiredException)
     case invalidApplicationNameException(InvalidApplicationNameException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateApplicationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .applicationAlreadyExistsException(let error): return error
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -18531,6 +19804,51 @@ public enum UpdateDeploymentGroupOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case triggerTargetsLimitExceededException(TriggerTargetsLimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateDeploymentGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .alarmsLimitExceededException(let error): return error
+        case .applicationDoesNotExistException(let error): return error
+        case .applicationNameRequiredException(let error): return error
+        case .deploymentConfigDoesNotExistException(let error): return error
+        case .deploymentGroupAlreadyExistsException(let error): return error
+        case .deploymentGroupDoesNotExistException(let error): return error
+        case .deploymentGroupNameRequiredException(let error): return error
+        case .eCSServiceMappingLimitExceededException(let error): return error
+        case .invalidAlarmConfigException(let error): return error
+        case .invalidApplicationNameException(let error): return error
+        case .invalidAutoRollbackConfigException(let error): return error
+        case .invalidAutoScalingGroupException(let error): return error
+        case .invalidBlueGreenDeploymentConfigurationException(let error): return error
+        case .invalidDeploymentConfigNameException(let error): return error
+        case .invalidDeploymentGroupNameException(let error): return error
+        case .invalidDeploymentStyleException(let error): return error
+        case .invalidEC2TagCombinationException(let error): return error
+        case .invalidEC2TagException(let error): return error
+        case .invalidECSServiceException(let error): return error
+        case .invalidInputException(let error): return error
+        case .invalidLoadBalancerInfoException(let error): return error
+        case .invalidOnPremisesTagCombinationException(let error): return error
+        case .invalidRoleException(let error): return error
+        case .invalidTagException(let error): return error
+        case .invalidTargetGroupPairException(let error): return error
+        case .invalidTrafficRoutingConfigurationException(let error): return error
+        case .invalidTriggerConfigException(let error): return error
+        case .lifecycleHookLimitExceededException(let error): return error
+        case .tagSetListLimitExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .triggerTargetsLimitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {

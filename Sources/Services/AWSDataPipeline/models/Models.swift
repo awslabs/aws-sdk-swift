@@ -115,6 +115,24 @@ public enum ActivatePipelineOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ActivatePipelineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ActivatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -226,6 +244,24 @@ public enum AddTagsOutputError: Swift.Error, Swift.Equatable {
     case pipelineDeletedException(PipelineDeletedException)
     case pipelineNotFoundException(PipelineNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AddTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AddTagsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -361,6 +397,22 @@ public enum CreatePipelineOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreatePipelineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -493,6 +545,24 @@ public enum DeactivatePipelineOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeactivatePipelineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeactivatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -577,6 +647,23 @@ public enum DeletePipelineOutputError: Swift.Error, Swift.Equatable {
     case invalidRequestException(InvalidRequestException)
     case pipelineNotFoundException(PipelineNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeletePipelineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeletePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -713,6 +800,24 @@ public enum DescribeObjectsOutputError: Swift.Error, Swift.Equatable {
     case pipelineDeletedException(PipelineDeletedException)
     case pipelineNotFoundException(PipelineNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeObjectsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -876,6 +981,24 @@ public enum DescribePipelinesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribePipelinesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribePipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1031,6 +1154,25 @@ public enum EvaluateExpressionOutputError: Swift.Error, Swift.Equatable {
     case pipelineNotFoundException(PipelineNotFoundException)
     case taskNotFoundException(TaskNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension EvaluateExpressionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .taskNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension EvaluateExpressionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1221,6 +1363,24 @@ public enum GetPipelineDefinitionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetPipelineDefinitionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetPipelineDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1381,6 +1541,9 @@ public struct InternalServiceError: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServiceError" }
+
     /// Description of the error message.
     public var message: Swift.String?
 
@@ -1434,6 +1597,9 @@ public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRequestException" }
+
     /// Description of the error message.
     public var message: Swift.String?
 
@@ -1531,6 +1697,22 @@ public enum ListPipelinesOutputError: Swift.Error, Swift.Equatable {
     case internalServiceError(InternalServiceError)
     case invalidRequestException(InvalidRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPipelinesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListPipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1916,6 +2098,9 @@ public struct PipelineDeletedException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PipelineDeletedException" }
+
     /// Description of the error message.
     public var message: Swift.String?
 
@@ -2116,6 +2301,9 @@ public struct PipelineNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PipelineNotFoundException" }
+
     /// Description of the error message.
     public var message: Swift.String?
 
@@ -2312,6 +2500,23 @@ public enum PollForTaskOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PollForTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .taskNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PollForTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2502,6 +2707,24 @@ public enum PutPipelineDefinitionOutputError: Swift.Error, Swift.Equatable {
     case pipelineDeletedException(PipelineDeletedException)
     case pipelineNotFoundException(PipelineNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutPipelineDefinitionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutPipelineDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2758,6 +2981,24 @@ public enum QueryObjectsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension QueryObjectsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension QueryObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2931,6 +3172,24 @@ public enum RemoveTagsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3043,6 +3302,25 @@ public enum ReportTaskProgressOutputError: Swift.Error, Swift.Equatable {
     case pipelineNotFoundException(PipelineNotFoundException)
     case taskNotFoundException(TaskNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ReportTaskProgressOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .taskNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ReportTaskProgressOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3183,6 +3461,22 @@ public enum ReportTaskRunnerHeartbeatOutputError: Swift.Error, Swift.Equatable {
     case internalServiceError(InternalServiceError)
     case invalidRequestException(InvalidRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ReportTaskRunnerHeartbeatOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ReportTaskRunnerHeartbeatOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3388,6 +3682,24 @@ public enum SetStatusOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SetStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SetStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3526,6 +3838,25 @@ public enum SetTaskStatusOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SetTaskStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .taskNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SetTaskStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3610,6 +3941,9 @@ public struct TaskNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TaskNotFoundException" }
+
     /// Description of the error message.
     public var message: Swift.String?
 
@@ -3897,6 +4231,24 @@ public enum ValidatePipelineDefinitionOutputError: Swift.Error, Swift.Equatable 
     case pipelineDeletedException(PipelineDeletedException)
     case pipelineNotFoundException(PipelineNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ValidatePipelineDefinitionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .pipelineDeletedException(let error): return error
+        case .pipelineNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ValidatePipelineDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {

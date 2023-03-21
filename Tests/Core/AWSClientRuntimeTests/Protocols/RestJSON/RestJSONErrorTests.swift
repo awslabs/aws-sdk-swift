@@ -69,6 +69,7 @@ public struct ComplexError: AWSHttpServiceError {
     public var _retryable: Bool = true
     public var _statusCode: HttpStatusCode?
     public var _type: ErrorType = .client
+    public static var _modelName: String { "ComplexError" }
     public var header: String?
     public var topLevel: String?
 

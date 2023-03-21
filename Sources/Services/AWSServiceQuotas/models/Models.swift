@@ -28,6 +28,9 @@ public struct AWSServiceAccessNotEnabledException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AWSServiceAccessNotEnabledException" }
+
     public var message: Swift.String?
 
     public init (
@@ -80,6 +83,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -168,6 +174,28 @@ public enum AssociateServiceQuotaTemplateOutputError: Swift.Error, Swift.Equatab
     case templatesNotAvailableInRegionException(TemplatesNotAvailableInRegionException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AssociateServiceQuotaTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSServiceAccessNotEnabledException(let error): return error
+        case .dependencyAccessDeniedException(let error): return error
+        case .noAvailableOrganizationException(let error): return error
+        case .organizationNotInAllFeaturesModeException(let error): return error
+        case .serviceException(let error): return error
+        case .templatesNotAvailableInRegionException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AssociateServiceQuotaTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -292,6 +320,29 @@ public enum DeleteServiceQuotaIncreaseRequestFromTemplateOutputError: Swift.Erro
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteServiceQuotaIncreaseRequestFromTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSServiceAccessNotEnabledException(let error): return error
+        case .dependencyAccessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .noAvailableOrganizationException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .serviceException(let error): return error
+        case .templatesNotAvailableInRegionException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteServiceQuotaIncreaseRequestFromTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -328,6 +379,9 @@ public struct DependencyAccessDeniedException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DependencyAccessDeniedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -416,6 +470,28 @@ public enum DisassociateServiceQuotaTemplateOutputError: Swift.Error, Swift.Equa
     case templatesNotAvailableInRegionException(TemplatesNotAvailableInRegionException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateServiceQuotaTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSServiceAccessNotEnabledException(let error): return error
+        case .dependencyAccessDeniedException(let error): return error
+        case .noAvailableOrganizationException(let error): return error
+        case .serviceException(let error): return error
+        case .serviceQuotaTemplateNotInUseException(let error): return error
+        case .templatesNotAvailableInRegionException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateServiceQuotaTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -610,6 +686,25 @@ public enum GetAWSDefaultServiceQuotaOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetAWSDefaultServiceQuotaOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetAWSDefaultServiceQuotaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -713,6 +808,28 @@ public enum GetAssociationForServiceQuotaTemplateOutputError: Swift.Error, Swift
     case templatesNotAvailableInRegionException(TemplatesNotAvailableInRegionException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetAssociationForServiceQuotaTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSServiceAccessNotEnabledException(let error): return error
+        case .dependencyAccessDeniedException(let error): return error
+        case .noAvailableOrganizationException(let error): return error
+        case .serviceException(let error): return error
+        case .serviceQuotaTemplateNotInUseException(let error): return error
+        case .templatesNotAvailableInRegionException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetAssociationForServiceQuotaTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -832,6 +949,25 @@ public enum GetRequestedServiceQuotaChangeOutputError: Swift.Error, Swift.Equata
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetRequestedServiceQuotaChangeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetRequestedServiceQuotaChangeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -987,6 +1123,29 @@ public enum GetServiceQuotaIncreaseRequestFromTemplateOutputError: Swift.Error, 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetServiceQuotaIncreaseRequestFromTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSServiceAccessNotEnabledException(let error): return error
+        case .dependencyAccessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .noAvailableOrganizationException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .serviceException(let error): return error
+        case .templatesNotAvailableInRegionException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetServiceQuotaIncreaseRequestFromTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1119,6 +1278,25 @@ public enum GetServiceQuotaOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetServiceQuotaOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetServiceQuotaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1186,6 +1364,9 @@ public struct IllegalArgumentException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IllegalArgumentException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1238,6 +1419,9 @@ public struct InvalidPaginationTokenException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPaginationTokenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1290,6 +1474,9 @@ public struct InvalidResourceStateException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidResourceStateException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1418,6 +1605,26 @@ public enum ListAWSDefaultServiceQuotasOutputError: Swift.Error, Swift.Equatable
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAWSDefaultServiceQuotasOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .invalidPaginationTokenException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAWSDefaultServiceQuotasOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1609,6 +1816,26 @@ public enum ListRequestedServiceQuotaChangeHistoryByQuotaOutputError: Swift.Erro
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListRequestedServiceQuotaChangeHistoryByQuotaOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .invalidPaginationTokenException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1782,6 +2009,26 @@ public enum ListRequestedServiceQuotaChangeHistoryOutputError: Swift.Error, Swif
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListRequestedServiceQuotaChangeHistoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .invalidPaginationTokenException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListRequestedServiceQuotaChangeHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1963,6 +2210,28 @@ public enum ListServiceQuotaIncreaseRequestsInTemplateOutputError: Swift.Error, 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListServiceQuotaIncreaseRequestsInTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSServiceAccessNotEnabledException(let error): return error
+        case .dependencyAccessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .noAvailableOrganizationException(let error): return error
+        case .serviceException(let error): return error
+        case .templatesNotAvailableInRegionException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListServiceQuotaIncreaseRequestsInTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2127,6 +2396,26 @@ public enum ListServiceQuotasOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListServiceQuotasOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .invalidPaginationTokenException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListServiceQuotasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2276,6 +2565,25 @@ public enum ListServicesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListServicesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .invalidPaginationTokenException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListServicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2412,6 +2720,25 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2567,6 +2894,9 @@ public struct NoAvailableOrganizationException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoAvailableOrganizationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2619,6 +2949,9 @@ public struct NoSuchResourceException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchResourceException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2671,6 +3004,9 @@ public struct OrganizationNotInAllFeaturesModeException: AWSClientRuntime.AWSHtt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OrganizationNotInAllFeaturesModeException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2871,6 +3207,30 @@ public enum PutServiceQuotaIncreaseRequestIntoTemplateOutputError: Swift.Error, 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutServiceQuotaIncreaseRequestIntoTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSServiceAccessNotEnabledException(let error): return error
+        case .dependencyAccessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .noAvailableOrganizationException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .quotaExceededException(let error): return error
+        case .serviceException(let error): return error
+        case .templatesNotAvailableInRegionException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutServiceQuotaIncreaseRequestIntoTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2938,6 +3298,9 @@ public struct QuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "QuotaExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3119,6 +3482,29 @@ public enum RequestServiceQuotaIncreaseOutputError: Swift.Error, Swift.Equatable
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RequestServiceQuotaIncreaseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .dependencyAccessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .invalidResourceStateException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .quotaExceededException(let error): return error
+        case .resourceAlreadyExistsException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RequestServiceQuotaIncreaseOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3394,6 +3780,9 @@ public struct ResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceAlreadyExistsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3446,6 +3835,9 @@ public struct ServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3825,6 +4217,9 @@ public struct ServiceQuotaTemplateNotInUseException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceQuotaTemplateNotInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3924,6 +4319,9 @@ public struct TagPolicyViolationException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagPolicyViolationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4057,6 +4455,27 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .serviceException(let error): return error
+        case .tagPolicyViolationException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4093,6 +4512,9 @@ public struct TemplatesNotAvailableInRegionException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TemplatesNotAvailableInRegionException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4145,6 +4567,9 @@ public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyRequestsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4197,6 +4622,9 @@ public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTagsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4324,6 +4752,25 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .illegalArgumentException(let error): return error
+        case .noSuchResourceException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {

@@ -124,6 +124,22 @@ public enum AcceptDirectConnectGatewayAssociationProposalOutputError: Swift.Erro
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AcceptDirectConnectGatewayAssociationProposalOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AcceptDirectConnectGatewayAssociationProposalOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -319,6 +335,22 @@ public enum AllocateConnectionOnInterconnectOutputError: Swift.Error, Swift.Equa
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AllocateConnectionOnInterconnectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AllocateConnectionOnInterconnectOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -762,6 +794,24 @@ public enum AllocateHostedConnectionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AllocateHostedConnectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AllocateHostedConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1151,6 +1201,24 @@ public enum AllocatePrivateVirtualInterfaceOutputError: Swift.Error, Swift.Equat
     case duplicateTagKeysException(DuplicateTagKeysException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AllocatePrivateVirtualInterfaceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AllocatePrivateVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1592,6 +1660,24 @@ public enum AllocatePublicVirtualInterfaceOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AllocatePublicVirtualInterfaceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AllocatePublicVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2031,6 +2117,24 @@ public enum AllocateTransitVirtualInterfaceOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AllocateTransitVirtualInterfaceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AllocateTransitVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2155,6 +2259,22 @@ public enum AssociateConnectionWithLagOutputError: Swift.Error, Swift.Equatable 
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AssociateConnectionWithLagOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AssociateConnectionWithLagOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2529,6 +2649,22 @@ public enum AssociateHostedConnectionOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AssociateHostedConnectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AssociateHostedConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2928,6 +3064,22 @@ public enum AssociateMacSecKeyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateMacSecKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateMacSecKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3071,6 +3223,22 @@ public enum AssociateVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AssociateVirtualInterfaceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AssociateVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3764,6 +3932,22 @@ public enum ConfirmConnectionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ConfirmConnectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ConfirmConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3892,6 +4076,22 @@ public enum ConfirmCustomerAgreementOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ConfirmCustomerAgreementOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ConfirmCustomerAgreementOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4031,6 +4231,22 @@ public enum ConfirmPrivateVirtualInterfaceOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ConfirmPrivateVirtualInterfaceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ConfirmPrivateVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4160,6 +4376,22 @@ public enum ConfirmPublicVirtualInterfaceOutputError: Swift.Error, Swift.Equatab
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ConfirmPublicVirtualInterfaceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ConfirmPublicVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4304,6 +4536,22 @@ public enum ConfirmTransitVirtualInterfaceOutputError: Swift.Error, Swift.Equata
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ConfirmTransitVirtualInterfaceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ConfirmTransitVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4789,6 +5037,22 @@ public enum CreateBGPPeerOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateBGPPeerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateBGPPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4990,6 +5254,24 @@ public enum CreateConnectionOutputError: Swift.Error, Swift.Equatable {
     case duplicateTagKeysException(DuplicateTagKeysException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateConnectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5401,6 +5683,22 @@ public enum CreateDirectConnectGatewayAssociationOutputError: Swift.Error, Swift
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateDirectConnectGatewayAssociationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateDirectConnectGatewayAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5588,6 +5886,22 @@ public enum CreateDirectConnectGatewayAssociationProposalOutputError: Swift.Erro
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateDirectConnectGatewayAssociationProposalOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateDirectConnectGatewayAssociationProposalOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5711,6 +6025,22 @@ public enum CreateDirectConnectGatewayOutputError: Swift.Error, Swift.Equatable 
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDirectConnectGatewayOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDirectConnectGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5902,6 +6232,24 @@ public enum CreateInterconnectOutputError: Swift.Error, Swift.Equatable {
     case duplicateTagKeysException(DuplicateTagKeysException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateInterconnectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateInterconnectOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6309,6 +6657,24 @@ public enum CreateLagOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateLagOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateLagOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6680,6 +7046,24 @@ public enum CreatePrivateVirtualInterfaceOutputError: Swift.Error, Swift.Equatab
     case duplicateTagKeysException(DuplicateTagKeysException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreatePrivateVirtualInterfaceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreatePrivateVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7108,6 +7492,24 @@ public enum CreatePublicVirtualInterfaceOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreatePublicVirtualInterfaceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreatePublicVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7534,6 +7936,24 @@ public enum CreateTransitVirtualInterfaceOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateTransitVirtualInterfaceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateTransitVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7727,6 +8147,22 @@ public enum DeleteBGPPeerOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteBGPPeerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteBGPPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7838,6 +8274,22 @@ public enum DeleteConnectionOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteConnectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8224,6 +8676,22 @@ public enum DeleteDirectConnectGatewayAssociationOutputError: Swift.Error, Swift
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDirectConnectGatewayAssociationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDirectConnectGatewayAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8335,6 +8803,22 @@ public enum DeleteDirectConnectGatewayAssociationProposalOutputError: Swift.Erro
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDirectConnectGatewayAssociationProposalOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteDirectConnectGatewayAssociationProposalOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8450,6 +8934,22 @@ public enum DeleteDirectConnectGatewayOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDirectConnectGatewayOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDirectConnectGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8561,6 +9061,22 @@ public enum DeleteInterconnectOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteInterconnectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteInterconnectOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8688,6 +9204,22 @@ public enum DeleteLagOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteLagOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteLagOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9046,6 +9578,22 @@ public enum DeleteVirtualInterfaceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteVirtualInterfaceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9199,6 +9747,22 @@ public enum DescribeConnectionLoaOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeConnectionLoaOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeConnectionLoaOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9361,6 +9925,22 @@ public enum DescribeConnectionsOnInterconnectOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeConnectionsOnInterconnectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeConnectionsOnInterconnectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9433,6 +10013,22 @@ public enum DescribeConnectionsOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeConnectionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9535,6 +10131,22 @@ public enum DescribeCustomerMetadataOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeCustomerMetadataOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeCustomerMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9720,6 +10332,22 @@ public enum DescribeDirectConnectGatewayAssociationProposalsOutputError: Swift.E
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDirectConnectGatewayAssociationProposalsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeDirectConnectGatewayAssociationProposalsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9913,6 +10541,22 @@ public enum DescribeDirectConnectGatewayAssociationsOutputError: Swift.Error, Sw
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDirectConnectGatewayAssociationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDirectConnectGatewayAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10080,6 +10724,22 @@ public enum DescribeDirectConnectGatewayAttachmentsOutputError: Swift.Error, Swi
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDirectConnectGatewayAttachmentsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDirectConnectGatewayAttachmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10235,6 +10895,22 @@ public enum DescribeDirectConnectGatewaysOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDirectConnectGatewaysOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDirectConnectGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10365,6 +11041,22 @@ public enum DescribeHostedConnectionsOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeHostedConnectionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeHostedConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10513,6 +11205,22 @@ public enum DescribeInterconnectLoaOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeInterconnectLoaOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeInterconnectLoaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10623,6 +11331,22 @@ public enum DescribeInterconnectsOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeInterconnectsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeInterconnectsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10744,6 +11468,22 @@ public enum DescribeLagsOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeLagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeLagsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10892,6 +11632,22 @@ public enum DescribeLoaOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeLoaOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeLoaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10994,6 +11750,22 @@ public enum DescribeLocationsOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeLocationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11129,6 +11901,22 @@ public enum DescribeRouterConfigurationOutputError: Swift.Error, Swift.Equatable
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeRouterConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeRouterConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11286,6 +12074,22 @@ public enum DescribeTagsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11386,6 +12190,22 @@ public enum DescribeVirtualGatewaysOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeVirtualGatewaysOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeVirtualGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11521,6 +12341,22 @@ public enum DescribeVirtualInterfacesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeVirtualInterfacesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeVirtualInterfacesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11597,6 +12433,9 @@ public struct DirectConnectClientException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DirectConnectClientException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12302,6 +13141,9 @@ public struct DirectConnectServerException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DirectConnectServerException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12411,6 +13253,22 @@ public enum DisassociateConnectionFromLagOutputError: Swift.Error, Swift.Equatab
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateConnectionFromLagOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateConnectionFromLagOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12787,6 +13645,22 @@ public enum DisassociateMacSecKeyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisassociateMacSecKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisassociateMacSecKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12873,6 +13747,9 @@ public struct DuplicateTagKeysException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateTagKeysException" }
+
     public var message: Swift.String?
 
     public init (
@@ -13689,6 +14566,22 @@ public enum ListVirtualInterfaceTestHistoryOutputError: Swift.Error, Swift.Equat
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListVirtualInterfaceTestHistoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListVirtualInterfaceTestHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15262,6 +16155,22 @@ public enum StartBgpFailoverTestOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartBgpFailoverTestOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartBgpFailoverTestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -15373,6 +16282,22 @@ public enum StopBgpFailoverTestOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopBgpFailoverTestOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StopBgpFailoverTestOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15563,6 +16488,24 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -15599,6 +16542,9 @@ public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTagsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -15722,6 +16668,22 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -15826,6 +16788,22 @@ public enum UpdateConnectionOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateConnectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16236,6 +17214,22 @@ public enum UpdateDirectConnectGatewayAssociationOutputError: Swift.Error, Swift
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateDirectConnectGatewayAssociationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateDirectConnectGatewayAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -16360,6 +17354,22 @@ public enum UpdateDirectConnectGatewayOutputError: Swift.Error, Swift.Equatable 
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateDirectConnectGatewayOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateDirectConnectGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16509,6 +17519,22 @@ public enum UpdateLagOutputError: Swift.Error, Swift.Equatable {
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateLagOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateLagOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16901,6 +17927,22 @@ public enum UpdateVirtualInterfaceAttributesOutputError: Swift.Error, Swift.Equa
     case directConnectClientException(DirectConnectClientException)
     case directConnectServerException(DirectConnectServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateVirtualInterfaceAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directConnectClientException(let error): return error
+        case .directConnectServerException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateVirtualInterfaceAttributesOutputResponse: ClientRuntime.HttpResponseBinding {

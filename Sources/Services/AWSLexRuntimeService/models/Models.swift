@@ -143,6 +143,9 @@ public struct BadGatewayException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BadGatewayException" }
+
     public var message: Swift.String?
 
     public init (
@@ -195,6 +198,9 @@ public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BadRequestException" }
+
     public var message: Swift.String?
 
     public init (
@@ -329,6 +335,9 @@ public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConflictException" }
+
     public var message: Swift.String?
 
     public init (
@@ -461,6 +470,25 @@ public enum DeleteSessionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteSessionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -564,6 +592,9 @@ public struct DependencyFailedException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DependencyFailedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1024,6 +1055,24 @@ public enum GetSessionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetSessionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetSessionOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetSessionOutputResponse(dialogAction: \(Swift.String(describing: dialogAction)), recentIntentSummaryView: \(Swift.String(describing: recentIntentSummaryView)), sessionId: \(Swift.String(describing: sessionId)), activeContexts: \"CONTENT_REDACTED\", sessionAttributes: \"CONTENT_REDACTED\")"}
@@ -1331,6 +1380,9 @@ public struct InternalFailureException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalFailureException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1388,6 +1440,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     public var message: Swift.String?
     public var retryAfterSeconds: Swift.String?
 
@@ -1443,6 +1498,9 @@ public struct LoopDetectedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LoopDetectedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1533,6 +1591,9 @@ public struct NotAcceptableException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotAcceptableException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1585,6 +1646,9 @@ public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1857,6 +1921,31 @@ public enum PostContentOutputError: Swift.Error, Swift.Equatable {
     case requestTimeoutException(RequestTimeoutException)
     case unsupportedMediaTypeException(UnsupportedMediaTypeException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PostContentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badGatewayException(let error): return error
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .dependencyFailedException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .loopDetectedException(let error): return error
+        case .notAcceptableException(let error): return error
+        case .notFoundException(let error): return error
+        case .requestTimeoutException(let error): return error
+        case .unsupportedMediaTypeException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PostContentOutputResponse: Swift.CustomDebugStringConvertible {
@@ -2268,6 +2357,28 @@ public enum PostTextOutputError: Swift.Error, Swift.Equatable {
     case loopDetectedException(LoopDetectedException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PostTextOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badGatewayException(let error): return error
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .dependencyFailedException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .loopDetectedException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PostTextOutputResponse: Swift.CustomDebugStringConvertible {
@@ -2799,6 +2910,28 @@ public enum PutSessionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutSessionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badGatewayException(let error): return error
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .dependencyFailedException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notAcceptableException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutSessionOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "PutSessionOutputResponse(audioStream: \(Swift.String(describing: audioStream)), contentType: \(Swift.String(describing: contentType)), dialogState: \(Swift.String(describing: dialogState)), intentName: \(Swift.String(describing: intentName)), messageFormat: \(Swift.String(describing: messageFormat)), sessionAttributes: \(Swift.String(describing: sessionAttributes)), sessionId: \(Swift.String(describing: sessionId)), slotToElicit: \(Swift.String(describing: slotToElicit)), slots: \(Swift.String(describing: slots)), activeContexts: \"CONTENT_REDACTED\", encodedMessage: \"CONTENT_REDACTED\", message: \"CONTENT_REDACTED\")"}
@@ -2986,6 +3119,9 @@ public struct RequestTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RequestTimeoutException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3150,6 +3286,9 @@ public struct UnsupportedMediaTypeException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedMediaTypeException" }
+
     public var message: Swift.String?
 
     public init (

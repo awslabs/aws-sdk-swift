@@ -434,6 +434,9 @@ public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BadRequestException" }
+
     public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
     public var message: Swift.String?
     /// The request id associated with the call responsible for the exception.
@@ -1192,6 +1195,27 @@ public enum CreateMediaCapturePipelineOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateMediaCapturePipelineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateMediaCapturePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1391,6 +1415,27 @@ public enum CreateMediaConcatenationPipelineOutputError: Swift.Error, Swift.Equa
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateMediaConcatenationPipelineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateMediaConcatenationPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1594,6 +1639,27 @@ public enum CreateMediaLiveConnectorPipelineOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateMediaLiveConnectorPipelineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateMediaLiveConnectorPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1736,6 +1802,27 @@ public enum DeleteMediaCapturePipelineOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteMediaCapturePipelineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteMediaCapturePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1809,6 +1896,27 @@ public enum DeleteMediaPipelineOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteMediaPipelineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteMediaPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1898,6 +2006,9 @@ public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ForbiddenException" }
+
     public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
     public var message: Swift.String?
     /// The request id associated with the call responsible for the exception.
@@ -2004,6 +2115,27 @@ public enum GetMediaCapturePipelineOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetMediaCapturePipelineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetMediaCapturePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2108,6 +2240,27 @@ public enum GetMediaPipelineOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetMediaPipelineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetMediaPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2308,6 +2461,27 @@ public enum ListMediaCapturePipelinesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListMediaCapturePipelinesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListMediaCapturePipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2450,6 +2624,27 @@ public enum ListMediaPipelinesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListMediaPipelinesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListMediaPipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2585,6 +2780,27 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3612,6 +3828,9 @@ public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotFoundException" }
+
     public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
     public var message: Swift.String?
     /// The request id associated with the call responsible for the exception.
@@ -3788,6 +4007,9 @@ public struct ResourceLimitExceededException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceLimitExceededException" }
+
     public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
     public var message: Swift.String?
     /// The request id associated with the call responsible for the exception.
@@ -3969,6 +4191,9 @@ public struct ServiceFailureException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceFailureException" }
+
     public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
     public var message: Swift.String?
     /// The request id associated with the call responsible for the exception.
@@ -4040,6 +4265,9 @@ public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceUnavailableException" }
+
     public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
     public var message: Swift.String?
     /// The request id associated with the call responsible for the exception.
@@ -4280,6 +4508,27 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4320,6 +4569,9 @@ public struct ThrottledClientException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottledClientException" }
+
     public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
     public var message: Swift.String?
     /// The request id associated with the call responsible for the exception.
@@ -4427,6 +4679,9 @@ public struct UnauthorizedClientException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnauthorizedClientException" }
+
     public var code: ChimeSDKMediaPipelinesClientTypes.ErrorCode?
     public var message: Swift.String?
     /// The request id associated with the call responsible for the exception.
@@ -4583,6 +4838,27 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {

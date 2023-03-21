@@ -187,6 +187,26 @@ public enum ActivateKeySigningKeyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ActivateKeySigningKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .invalidInput(let error): return error
+        case .invalidKeySigningKeyStatus(let error): return error
+        case .invalidKMSArn(let error): return error
+        case .invalidSigningStatus(let error): return error
+        case .noSuchKeySigningKey(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ActivateKeySigningKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -587,6 +607,28 @@ public enum AssociateVPCWithHostedZoneOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateVPCWithHostedZoneOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .conflictingDomainExists(let error): return error
+        case .invalidInput(let error): return error
+        case .invalidVPCId(let error): return error
+        case .limitsExceeded(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .priorRequestNotComplete(let error): return error
+        case .publicZoneVPCAssociation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateVPCWithHostedZoneOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -958,6 +1000,26 @@ public enum ChangeCidrCollectionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ChangeCidrCollectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cidrBlockInUseException(let error): return error
+        case .cidrCollectionVersionMismatchException(let error): return error
+        case .concurrentModification(let error): return error
+        case .invalidInput(let error): return error
+        case .limitsExceeded(let error): return error
+        case .noSuchCidrCollectionException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ChangeCidrCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1186,6 +1248,25 @@ public enum ChangeResourceRecordSetsOutputError: Swift.Error, Swift.Equatable {
     case noSuchHostedZone(NoSuchHostedZone)
     case priorRequestNotComplete(PriorRequestNotComplete)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ChangeResourceRecordSetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidChangeBatch(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchHealthCheck(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .priorRequestNotComplete(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ChangeResourceRecordSetsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1429,6 +1510,25 @@ public enum ChangeTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ChangeTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchHealthCheck(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .priorRequestNotComplete(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ChangeTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1465,6 +1565,9 @@ public struct CidrBlockInUseException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CidrBlockInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1660,6 +1763,9 @@ public struct CidrCollectionAlreadyExistsException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CidrCollectionAlreadyExistsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1838,6 +1944,9 @@ public struct CidrCollectionInUseException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CidrCollectionInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1889,6 +1998,9 @@ public struct CidrCollectionVersionMismatchException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CidrCollectionVersionMismatchException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2401,6 +2513,9 @@ public struct ConcurrentModification: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConcurrentModification" }
+
     ///
     public var message: Swift.String?
 
@@ -2459,6 +2574,9 @@ public struct ConflictingDomainExists: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConflictingDomainExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -2510,6 +2628,9 @@ public struct ConflictingTypes: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConflictingTypes" }
+
     ///
     public var message: Swift.String?
 
@@ -2640,6 +2761,24 @@ public enum CreateCidrCollectionOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case limitsExceeded(LimitsExceeded)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateCidrCollectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cidrCollectionAlreadyExistsException(let error): return error
+        case .concurrentModification(let error): return error
+        case .invalidInput(let error): return error
+        case .limitsExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateCidrCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2802,6 +2941,23 @@ public enum CreateHealthCheckOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case tooManyHealthChecks(TooManyHealthChecks)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateHealthCheckOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .healthCheckAlreadyExists(let error): return error
+        case .invalidInput(let error): return error
+        case .tooManyHealthChecks(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateHealthCheckOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3014,6 +3170,29 @@ public enum CreateHostedZoneOutputError: Swift.Error, Swift.Equatable {
     case noSuchDelegationSet(NoSuchDelegationSet)
     case tooManyHostedZones(TooManyHostedZones)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateHostedZoneOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .conflictingDomainExists(let error): return error
+        case .delegationSetNotAvailable(let error): return error
+        case .delegationSetNotReusable(let error): return error
+        case .hostedZoneAlreadyExists(let error): return error
+        case .invalidDomainName(let error): return error
+        case .invalidInput(let error): return error
+        case .invalidVPCId(let error): return error
+        case .noSuchDelegationSet(let error): return error
+        case .tooManyHostedZones(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateHostedZoneOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3271,6 +3450,30 @@ public enum CreateKeySigningKeyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateKeySigningKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidInput(let error): return error
+        case .invalidKeySigningKeyName(let error): return error
+        case .invalidKeySigningKeyStatus(let error): return error
+        case .invalidKMSArn(let error): return error
+        case .invalidSigningStatus(let error): return error
+        case .keySigningKeyAlreadyExists(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .tooManyKeySigningKeys(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateKeySigningKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
@@ -3443,6 +3646,26 @@ public enum CreateQueryLoggingConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateQueryLoggingConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .insufficientCloudWatchLogsResourcePolicy(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchCloudWatchLogsLogGroup(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .queryLoggingConfigAlreadyExists(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateQueryLoggingConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
@@ -3603,6 +3826,27 @@ public enum CreateReusableDelegationSetOutputError: Swift.Error, Swift.Equatable
     case invalidInput(InvalidInput)
     case limitsExceeded(LimitsExceeded)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateReusableDelegationSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .delegationSetAlreadyCreated(let error): return error
+        case .delegationSetAlreadyReusable(let error): return error
+        case .delegationSetNotAvailable(let error): return error
+        case .hostedZoneNotFound(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidInput(let error): return error
+        case .limitsExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateReusableDelegationSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3895,6 +4139,25 @@ public enum CreateTrafficPolicyInstanceOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateTrafficPolicyInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .noSuchTrafficPolicy(let error): return error
+        case .tooManyTrafficPolicyInstances(let error): return error
+        case .trafficPolicyInstanceAlreadyExists(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateTrafficPolicyInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
@@ -3973,6 +4236,24 @@ public enum CreateTrafficPolicyOutputError: Swift.Error, Swift.Equatable {
     case tooManyTrafficPolicies(TooManyTrafficPolicies)
     case trafficPolicyAlreadyExists(TrafficPolicyAlreadyExists)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateTrafficPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .invalidTrafficPolicyDocument(let error): return error
+        case .tooManyTrafficPolicies(let error): return error
+        case .trafficPolicyAlreadyExists(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateTrafficPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4143,6 +4424,25 @@ public enum CreateTrafficPolicyVersionOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateTrafficPolicyVersionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .invalidInput(let error): return error
+        case .invalidTrafficPolicyDocument(let error): return error
+        case .noSuchTrafficPolicy(let error): return error
+        case .tooManyTrafficPolicyVersionsForCurrentPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateTrafficPolicyVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
@@ -4299,6 +4599,25 @@ public enum CreateVPCAssociationAuthorizationOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateVPCAssociationAuthorizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .invalidInput(let error): return error
+        case .invalidVPCId(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .tooManyVPCAssociationAuthorizations(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateVPCAssociationAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4378,6 +4697,9 @@ public struct DNSSECNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equata
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DNSSECNotFound" }
+
     public var message: Swift.String?
 
     public init (
@@ -4536,6 +4858,27 @@ public enum DeactivateKeySigningKeyOutputError: Swift.Error, Swift.Equatable {
     case keySigningKeyInUse(KeySigningKeyInUse)
     case noSuchKeySigningKey(NoSuchKeySigningKey)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeactivateKeySigningKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .invalidInput(let error): return error
+        case .invalidKeySigningKeyStatus(let error): return error
+        case .invalidSigningStatus(let error): return error
+        case .keySigningKeyInParentDSRecord(let error): return error
+        case .keySigningKeyInUse(let error): return error
+        case .noSuchKeySigningKey(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeactivateKeySigningKeyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4698,6 +5041,9 @@ public struct DelegationSetAlreadyCreated: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DelegationSetAlreadyCreated" }
+
     ///
     public var message: Swift.String?
 
@@ -4750,6 +5096,9 @@ public struct DelegationSetAlreadyReusable: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DelegationSetAlreadyReusable" }
+
     ///
     public var message: Swift.String?
 
@@ -4802,6 +5151,9 @@ public struct DelegationSetInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DelegationSetInUse" }
+
     ///
     public var message: Swift.String?
 
@@ -4854,6 +5206,9 @@ public struct DelegationSetNotAvailable: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DelegationSetNotAvailable" }
+
     ///
     public var message: Swift.String?
 
@@ -4906,6 +5261,9 @@ public struct DelegationSetNotReusable: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DelegationSetNotReusable" }
+
     ///
     public var message: Swift.String?
 
@@ -4991,6 +5349,24 @@ public enum DeleteCidrCollectionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteCidrCollectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cidrCollectionInUseException(let error): return error
+        case .concurrentModification(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchCidrCollectionException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteCidrCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -5056,6 +5432,23 @@ public enum DeleteHealthCheckOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case noSuchHealthCheck(NoSuchHealthCheck)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteHealthCheckOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .healthCheckInUse(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchHealthCheck(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteHealthCheckOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5128,6 +5521,25 @@ public enum DeleteHostedZoneOutputError: Swift.Error, Swift.Equatable {
     case noSuchHostedZone(NoSuchHostedZone)
     case priorRequestNotComplete(PriorRequestNotComplete)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteHostedZoneOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .hostedZoneNotEmpty(let error): return error
+        case .invalidDomainName(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .priorRequestNotComplete(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteHostedZoneOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5243,6 +5655,26 @@ public enum DeleteKeySigningKeyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteKeySigningKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .invalidInput(let error): return error
+        case .invalidKeySigningKeyStatus(let error): return error
+        case .invalidKMSArn(let error): return error
+        case .invalidSigningStatus(let error): return error
+        case .noSuchKeySigningKey(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteKeySigningKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5341,6 +5773,23 @@ public enum DeleteQueryLoggingConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteQueryLoggingConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchQueryLoggingConfig(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteQueryLoggingConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -5408,6 +5857,24 @@ public enum DeleteReusableDelegationSetOutputError: Swift.Error, Swift.Equatable
     case invalidInput(InvalidInput)
     case noSuchDelegationSet(NoSuchDelegationSet)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteReusableDelegationSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .delegationSetInUse(let error): return error
+        case .delegationSetNotReusable(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchDelegationSet(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteReusableDelegationSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5518,6 +5985,23 @@ public enum DeleteTrafficPolicyInstanceOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteTrafficPolicyInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchTrafficPolicyInstance(let error): return error
+        case .priorRequestNotComplete(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteTrafficPolicyInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -5554,6 +6038,24 @@ public enum DeleteTrafficPolicyOutputError: Swift.Error, Swift.Equatable {
     case noSuchTrafficPolicy(NoSuchTrafficPolicy)
     case trafficPolicyInUse(TrafficPolicyInUse)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteTrafficPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchTrafficPolicy(let error): return error
+        case .trafficPolicyInUse(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteTrafficPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5668,6 +6170,25 @@ public enum DeleteVPCAssociationAuthorizationOutputError: Swift.Error, Swift.Equ
     case noSuchHostedZone(NoSuchHostedZone)
     case vPCAssociationAuthorizationNotFound(VPCAssociationAuthorizationNotFound)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteVPCAssociationAuthorizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .invalidInput(let error): return error
+        case .invalidVPCId(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .vPCAssociationAuthorizationNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteVPCAssociationAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5809,6 +6330,28 @@ public enum DisableHostedZoneDNSSECOutputError: Swift.Error, Swift.Equatable {
     case keySigningKeyInParentDSRecord(KeySigningKeyInParentDSRecord)
     case noSuchHostedZone(NoSuchHostedZone)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisableHostedZoneDNSSECOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .dNSSECNotFound(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidInput(let error): return error
+        case .invalidKeySigningKeyStatus(let error): return error
+        case .invalidKMSArn(let error): return error
+        case .keySigningKeyInParentDSRecord(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisableHostedZoneDNSSECOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5968,6 +6511,25 @@ public enum DisassociateVPCFromHostedZoneOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisassociateVPCFromHostedZoneOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .invalidVPCId(let error): return error
+        case .lastVPCAssociation(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .vPCAssociationNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisassociateVPCFromHostedZoneOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6077,6 +6639,29 @@ public enum EnableHostedZoneDNSSECOutputError: Swift.Error, Swift.Equatable {
     case keySigningKeyWithActiveStatusNotFound(KeySigningKeyWithActiveStatusNotFound)
     case noSuchHostedZone(NoSuchHostedZone)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension EnableHostedZoneDNSSECOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .dNSSECNotFound(let error): return error
+        case .hostedZonePartiallyDelegated(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidInput(let error): return error
+        case .invalidKeySigningKeyStatus(let error): return error
+        case .invalidKMSArn(let error): return error
+        case .keySigningKeyWithActiveStatusNotFound(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension EnableHostedZoneDNSSECOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6375,6 +6960,21 @@ public enum GetAccountLimitOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetAccountLimitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetAccountLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6484,6 +7084,22 @@ public enum GetChangeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetChangeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchChange(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetChangeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6565,6 +7181,20 @@ extension GetCheckerIpRangesOutputError {
 
 public enum GetCheckerIpRangesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCheckerIpRangesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetCheckerIpRangesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6681,6 +7311,23 @@ public enum GetDNSSECOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case noSuchHostedZone(NoSuchHostedZone)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDNSSECOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetDNSSECOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6847,6 +7494,22 @@ public enum GetGeoLocationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetGeoLocationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchGeoLocation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetGeoLocationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6928,6 +7591,20 @@ extension GetHealthCheckCountOutputError {
 
 public enum GetHealthCheckCountOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetHealthCheckCountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetHealthCheckCountOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7060,6 +7737,22 @@ public enum GetHealthCheckLastFailureReasonOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetHealthCheckLastFailureReasonOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchHealthCheck(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetHealthCheckLastFailureReasonOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7143,6 +7836,23 @@ public enum GetHealthCheckOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case noSuchHealthCheck(NoSuchHealthCheck)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetHealthCheckOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .incompatibleVersion(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchHealthCheck(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetHealthCheckOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7241,6 +7951,22 @@ public enum GetHealthCheckStatusOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case noSuchHealthCheck(NoSuchHealthCheck)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetHealthCheckStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchHealthCheck(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetHealthCheckStatusOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7343,6 +8069,21 @@ extension GetHostedZoneCountOutputError {
 public enum GetHostedZoneCountOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetHostedZoneCountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetHostedZoneCountOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7489,6 +8230,23 @@ public enum GetHostedZoneLimitOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetHostedZoneLimitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .hostedZoneNotPrivate(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetHostedZoneLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7564,6 +8322,22 @@ public enum GetHostedZoneOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case noSuchHostedZone(NoSuchHostedZone)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetHostedZoneOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetHostedZoneOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7698,6 +8472,22 @@ public enum GetQueryLoggingConfigOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case noSuchQueryLoggingConfig(NoSuchQueryLoggingConfig)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetQueryLoggingConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchQueryLoggingConfig(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetQueryLoggingConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7837,6 +8627,22 @@ public enum GetReusableDelegationSetLimitOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetReusableDelegationSetLimitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchDelegationSet(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetReusableDelegationSetLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7914,6 +8720,23 @@ public enum GetReusableDelegationSetOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case noSuchDelegationSet(NoSuchDelegationSet)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetReusableDelegationSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .delegationSetNotReusable(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchDelegationSet(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetReusableDelegationSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8039,6 +8862,20 @@ public enum GetTrafficPolicyInstanceCountOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetTrafficPolicyInstanceCountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetTrafficPolicyInstanceCountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8137,6 +8974,22 @@ public enum GetTrafficPolicyInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetTrafficPolicyInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchTrafficPolicyInstance(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetTrafficPolicyInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8201,6 +9054,22 @@ public enum GetTrafficPolicyOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case noSuchTrafficPolicy(NoSuchTrafficPolicy)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetTrafficPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchTrafficPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetTrafficPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8381,6 +9250,9 @@ public struct HealthCheckAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HealthCheckAlreadyExists" }
+
     ///
     public var message: Swift.String?
 
@@ -8760,6 +9632,9 @@ public struct HealthCheckInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HealthCheckInUse" }
+
     ///
     public var message: Swift.String?
 
@@ -8984,6 +9859,9 @@ public struct HealthCheckVersionMismatch: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HealthCheckVersionMismatch" }
+
     public var message: Swift.String?
 
     public init (
@@ -9140,6 +10018,9 @@ public struct HostedZoneAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HostedZoneAlreadyExists" }
+
     ///
     public var message: Swift.String?
 
@@ -9354,6 +10235,9 @@ public struct HostedZoneNotEmpty: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HostedZoneNotEmpty" }
+
     ///
     public var message: Swift.String?
 
@@ -9406,6 +10290,9 @@ public struct HostedZoneNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HostedZoneNotFound" }
+
     ///
     public var message: Swift.String?
 
@@ -9458,6 +10345,9 @@ public struct HostedZoneNotPrivate: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HostedZoneNotPrivate" }
+
     ///
     public var message: Swift.String?
 
@@ -9572,6 +10462,9 @@ public struct HostedZonePartiallyDelegated: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HostedZonePartiallyDelegated" }
+
     public var message: Swift.String?
 
     public init (
@@ -9698,6 +10591,9 @@ public struct IncompatibleVersion: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IncompatibleVersion" }
+
     public var message: Swift.String?
 
     public init (
@@ -9759,6 +10655,9 @@ public struct InsufficientCloudWatchLogsResourcePolicy: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsufficientCloudWatchLogsResourcePolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -9845,6 +10744,9 @@ public struct InvalidArgument: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidArgument" }
+
     ///
     public var message: Swift.String?
 
@@ -9899,6 +10801,9 @@ public struct InvalidChangeBatch: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidChangeBatch" }
+
     public var message: Swift.String?
     ///
     public var messages: [Swift.String]?
@@ -9975,6 +10880,9 @@ public struct InvalidDomainName: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDomainName" }
+
     ///
     public var message: Swift.String?
 
@@ -10027,6 +10935,9 @@ public struct InvalidInput: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidInput" }
+
     ///
     public var message: Swift.String?
 
@@ -10079,6 +10990,9 @@ public struct InvalidKMSArn: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidKMSArn" }
+
     public var message: Swift.String?
 
     public init (
@@ -10130,6 +11044,9 @@ public struct InvalidKeySigningKeyName: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidKeySigningKeyName" }
+
     public var message: Swift.String?
 
     public init (
@@ -10181,6 +11098,9 @@ public struct InvalidKeySigningKeyStatus: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidKeySigningKeyStatus" }
+
     public var message: Swift.String?
 
     public init (
@@ -10232,6 +11152,9 @@ public struct InvalidPaginationToken: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPaginationToken" }
+
     public var message: Swift.String?
 
     public init (
@@ -10283,6 +11206,9 @@ public struct InvalidSigningStatus: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSigningStatus" }
+
     public var message: Swift.String?
 
     public init (
@@ -10334,6 +11260,9 @@ public struct InvalidTrafficPolicyDocument: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTrafficPolicyDocument" }
+
     ///
     public var message: Swift.String?
 
@@ -10386,6 +11315,9 @@ public struct InvalidVPCId: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidVPCId" }
+
     ///
     public var message: Swift.String?
 
@@ -10654,6 +11586,9 @@ public struct KeySigningKeyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KeySigningKeyAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -10705,6 +11640,9 @@ public struct KeySigningKeyInParentDSRecord: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KeySigningKeyInParentDSRecord" }
+
     public var message: Swift.String?
 
     public init (
@@ -10756,6 +11694,9 @@ public struct KeySigningKeyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KeySigningKeyInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -10807,6 +11748,9 @@ public struct KeySigningKeyWithActiveStatusNotFound: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KeySigningKeyWithActiveStatusNotFound" }
+
     public var message: Swift.String?
 
     public init (
@@ -10858,6 +11802,9 @@ public struct LastVPCAssociation: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LastVPCAssociation" }
+
     ///
     public var message: Swift.String?
 
@@ -10910,6 +11857,9 @@ public struct LimitsExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equata
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitsExceeded" }
+
     ///
     public var message: Swift.String?
 
@@ -11088,6 +12038,23 @@ public enum ListCidrBlocksOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListCidrBlocksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchCidrCollectionException(let error): return error
+        case .noSuchCidrLocationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListCidrBlocksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11223,6 +12190,21 @@ extension ListCidrCollectionsOutputError {
 public enum ListCidrCollectionsOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListCidrCollectionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListCidrCollectionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11370,6 +12352,22 @@ public enum ListCidrLocationsOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case noSuchCidrCollectionException(NoSuchCidrCollectionException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListCidrLocationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchCidrCollectionException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListCidrLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11524,6 +12522,21 @@ extension ListGeoLocationsOutputError {
 public enum ListGeoLocationsOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListGeoLocationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListGeoLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11710,6 +12723,22 @@ public enum ListHealthChecksOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListHealthChecksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .incompatibleVersion(let error): return error
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListHealthChecksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11891,6 +12920,22 @@ public enum ListHostedZonesByNameOutputError: Swift.Error, Swift.Equatable {
     case invalidDomainName(InvalidDomainName)
     case invalidInput(InvalidInput)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListHostedZonesByNameOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidDomainName(let error): return error
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListHostedZonesByNameOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12109,6 +13154,22 @@ public enum ListHostedZonesByVPCOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListHostedZonesByVPCOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .invalidPaginationToken(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListHostedZonesByVPCOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12269,6 +13330,23 @@ public enum ListHostedZonesOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case noSuchDelegationSet(NoSuchDelegationSet)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListHostedZonesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .delegationSetNotReusable(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchDelegationSet(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListHostedZonesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12454,6 +13532,23 @@ public enum ListQueryLoggingConfigsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListQueryLoggingConfigsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .invalidPaginationToken(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListQueryLoggingConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12634,6 +13729,22 @@ public enum ListResourceRecordSetsOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case noSuchHostedZone(NoSuchHostedZone)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListResourceRecordSetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListResourceRecordSetsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12818,6 +13929,21 @@ public enum ListReusableDelegationSetsOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListReusableDelegationSetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListReusableDelegationSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12994,6 +14120,25 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchHealthCheck(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .priorRequestNotComplete(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13164,6 +14309,25 @@ public enum ListTagsForResourcesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTagsForResourcesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchHealthCheck(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .priorRequestNotComplete(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTagsForResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13292,6 +14456,21 @@ extension ListTrafficPoliciesOutputError {
 public enum ListTrafficPoliciesOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTrafficPoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTrafficPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13478,6 +14657,23 @@ public enum ListTrafficPolicyInstancesByHostedZoneOutputError: Swift.Error, Swif
     case noSuchHostedZone(NoSuchHostedZone)
     case noSuchTrafficPolicyInstance(NoSuchTrafficPolicyInstance)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTrafficPolicyInstancesByHostedZoneOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .noSuchTrafficPolicyInstance(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTrafficPolicyInstancesByHostedZoneOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13694,6 +14890,23 @@ public enum ListTrafficPolicyInstancesByPolicyOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTrafficPolicyInstancesByPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchTrafficPolicy(let error): return error
+        case .noSuchTrafficPolicyInstance(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTrafficPolicyInstancesByPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13894,6 +15107,22 @@ public enum ListTrafficPolicyInstancesOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTrafficPolicyInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchTrafficPolicyInstance(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTrafficPolicyInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -14086,6 +15315,22 @@ public enum ListTrafficPolicyVersionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTrafficPolicyVersionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchTrafficPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTrafficPolicyVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -14261,6 +15506,23 @@ public enum ListVPCAssociationAuthorizationsOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListVPCAssociationAuthorizationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .invalidPaginationToken(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListVPCAssociationAuthorizationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -14419,6 +15681,9 @@ public struct NoSuchChange: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchChange" }
+
     public var message: Swift.String?
 
     public init (
@@ -14470,6 +15735,9 @@ public struct NoSuchCidrCollectionException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchCidrCollectionException" }
+
     public var message: Swift.String?
 
     public init (
@@ -14521,6 +15789,9 @@ public struct NoSuchCidrLocationException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchCidrLocationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -14572,6 +15843,9 @@ public struct NoSuchCloudWatchLogsLogGroup: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchCloudWatchLogsLogGroup" }
+
     public var message: Swift.String?
 
     public init (
@@ -14623,6 +15897,9 @@ public struct NoSuchDelegationSet: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchDelegationSet" }
+
     ///
     public var message: Swift.String?
 
@@ -14675,6 +15952,9 @@ public struct NoSuchGeoLocation: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchGeoLocation" }
+
     ///
     public var message: Swift.String?
 
@@ -14727,6 +16007,9 @@ public struct NoSuchHealthCheck: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchHealthCheck" }
+
     ///
     public var message: Swift.String?
 
@@ -14779,6 +16062,9 @@ public struct NoSuchHostedZone: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchHostedZone" }
+
     ///
     public var message: Swift.String?
 
@@ -14831,6 +16117,9 @@ public struct NoSuchKeySigningKey: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchKeySigningKey" }
+
     public var message: Swift.String?
 
     public init (
@@ -14882,6 +16171,9 @@ public struct NoSuchQueryLoggingConfig: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchQueryLoggingConfig" }
+
     public var message: Swift.String?
 
     public init (
@@ -14933,6 +16225,9 @@ public struct NoSuchTrafficPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchTrafficPolicy" }
+
     ///
     public var message: Swift.String?
 
@@ -14985,6 +16280,9 @@ public struct NoSuchTrafficPolicyInstance: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchTrafficPolicyInstance" }
+
     ///
     public var message: Swift.String?
 
@@ -15037,6 +16335,9 @@ public struct NotAuthorizedException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotAuthorizedException" }
+
     ///
     public var message: Swift.String?
 
@@ -15089,6 +16390,9 @@ public struct PriorRequestNotComplete: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PriorRequestNotComplete" }
+
     public var message: Swift.String?
 
     public init (
@@ -15140,6 +16444,9 @@ public struct PublicZoneVPCAssociation: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PublicZoneVPCAssociation" }
+
     ///
     public var message: Swift.String?
 
@@ -15267,6 +16574,9 @@ public struct QueryLoggingConfigAlreadyExists: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "QueryLoggingConfigAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -16443,6 +17753,22 @@ public enum TestDNSAnswerOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TestDNSAnswerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TestDNSAnswerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -16583,6 +17909,9 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottlingException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16634,6 +17963,9 @@ public struct TooManyHealthChecks: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyHealthChecks" }
+
     public var message: Swift.String?
 
     public init (
@@ -16685,6 +18017,9 @@ public struct TooManyHostedZones: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyHostedZones" }
+
     ///
     public var message: Swift.String?
 
@@ -16737,6 +18072,9 @@ public struct TooManyKeySigningKeys: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyKeySigningKeys" }
+
     public var message: Swift.String?
 
     public init (
@@ -16788,6 +18126,9 @@ public struct TooManyTrafficPolicies: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTrafficPolicies" }
+
     ///
     public var message: Swift.String?
 
@@ -16840,6 +18181,9 @@ public struct TooManyTrafficPolicyInstances: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTrafficPolicyInstances" }
+
     ///
     public var message: Swift.String?
 
@@ -16892,6 +18236,9 @@ public struct TooManyTrafficPolicyVersionsForCurrentPolicy: AWSClientRuntime.AWS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTrafficPolicyVersionsForCurrentPolicy" }
+
     ///
     public var message: Swift.String?
 
@@ -16944,6 +18291,9 @@ public struct TooManyVPCAssociationAuthorizations: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyVPCAssociationAuthorizations" }
+
     ///
     public var message: Swift.String?
 
@@ -17103,6 +18453,9 @@ public struct TrafficPolicyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TrafficPolicyAlreadyExists" }
+
     ///
     public var message: Swift.String?
 
@@ -17155,6 +18508,9 @@ public struct TrafficPolicyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TrafficPolicyInUse" }
+
     ///
     public var message: Swift.String?
 
@@ -17348,6 +18704,9 @@ public struct TrafficPolicyInstanceAlreadyExists: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TrafficPolicyInstanceAlreadyExists" }
+
     ///
     public var message: Swift.String?
 
@@ -17870,6 +19229,23 @@ public enum UpdateHealthCheckOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateHealthCheckOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .healthCheckVersionMismatch(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchHealthCheck(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateHealthCheckOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -18009,6 +19385,23 @@ public enum UpdateHostedZoneCommentOutputError: Swift.Error, Swift.Equatable {
     case noSuchHostedZone(NoSuchHostedZone)
     case priorRequestNotComplete(PriorRequestNotComplete)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateHostedZoneCommentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .noSuchHostedZone(let error): return error
+        case .priorRequestNotComplete(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateHostedZoneCommentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -18159,6 +19552,23 @@ public enum UpdateTrafficPolicyCommentOutputError: Swift.Error, Swift.Equatable 
     case invalidInput(InvalidInput)
     case noSuchTrafficPolicy(NoSuchTrafficPolicy)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateTrafficPolicyCommentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModification(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchTrafficPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateTrafficPolicyCommentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -18333,6 +19743,25 @@ public enum UpdateTrafficPolicyInstanceOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateTrafficPolicyInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .conflictingTypes(let error): return error
+        case .invalidInput(let error): return error
+        case .noSuchTrafficPolicy(let error): return error
+        case .noSuchTrafficPolicyInstance(let error): return error
+        case .priorRequestNotComplete(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateTrafficPolicyInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -18463,6 +19892,9 @@ public struct VPCAssociationAuthorizationNotFound: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "VPCAssociationAuthorizationNotFound" }
+
     ///
     public var message: Swift.String?
 
@@ -18515,6 +19947,9 @@ public struct VPCAssociationNotFound: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "VPCAssociationNotFound" }
+
     /// The specified VPC or hosted zone weren't found.
     public var message: Swift.String?
 

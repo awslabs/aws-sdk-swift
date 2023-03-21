@@ -287,6 +287,9 @@ public struct AcceleratorNotDisabledException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AcceleratorNotDisabledException" }
+
     public var message: Swift.String?
 
     public init (
@@ -339,6 +342,9 @@ public struct AcceleratorNotFoundException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AcceleratorNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -423,6 +429,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -554,6 +563,27 @@ public enum AddCustomRoutingEndpointsOutputError: Swift.Error, Swift.Equatable {
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AddCustomRoutingEndpointsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .endpointAlreadyExistsException(let error): return error
+        case .endpointGroupNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AddCustomRoutingEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -721,6 +751,26 @@ public enum AddEndpointsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddEndpointsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .endpointGroupNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .limitExceededException(let error): return error
+        case .transactionInProgressException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -857,6 +907,25 @@ public enum AdvertiseByoipCidrOutputError: Swift.Error, Swift.Equatable {
     case internalServiceErrorException(InternalServiceErrorException)
     case invalidArgumentException(InvalidArgumentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AdvertiseByoipCidrOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .byoipCidrNotFoundException(let error): return error
+        case .incorrectCidrStateException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AdvertiseByoipCidrOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1047,6 +1116,23 @@ public enum AllowCustomRoutingTrafficOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AllowCustomRoutingTrafficOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .endpointGroupNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AllowCustomRoutingTrafficOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1083,6 +1169,9 @@ public struct AssociatedEndpointGroupFoundException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AssociatedEndpointGroupFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1135,6 +1224,9 @@ public struct AssociatedListenerFoundException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AssociatedListenerFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1321,6 +1413,9 @@ public struct ByoipCidrNotFoundException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ByoipCidrNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1511,6 +1606,9 @@ public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConflictException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1694,6 +1792,23 @@ public enum CreateAcceleratorOutputError: Swift.Error, Swift.Equatable {
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateAcceleratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1898,6 +2013,24 @@ public enum CreateCustomRoutingAcceleratorOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateCustomRoutingAcceleratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2074,6 +2207,28 @@ public enum CreateCustomRoutingEndpointGroupOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateCustomRoutingEndpointGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .accessDeniedException(let error): return error
+        case .endpointGroupAlreadyExistsException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidPortRangeException(let error): return error
+        case .limitExceededException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateCustomRoutingEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2229,6 +2384,25 @@ public enum CreateCustomRoutingListenerOutputError: Swift.Error, Swift.Equatable
     case invalidPortRangeException(InvalidPortRangeException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateCustomRoutingListenerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidPortRangeException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateCustomRoutingListenerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2500,6 +2674,27 @@ public enum CreateEndpointGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateEndpointGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .accessDeniedException(let error): return error
+        case .endpointGroupAlreadyExistsException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .limitExceededException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2680,6 +2875,25 @@ public enum CreateListenerOutputError: Swift.Error, Swift.Equatable {
     case invalidPortRangeException(InvalidPortRangeException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateListenerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidPortRangeException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateListenerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3432,6 +3646,25 @@ public enum DeleteAcceleratorOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteAcceleratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotDisabledException(let error): return error
+        case .acceleratorNotFoundException(let error): return error
+        case .associatedListenerFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3520,6 +3753,25 @@ public enum DeleteCustomRoutingAcceleratorOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteCustomRoutingAcceleratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotDisabledException(let error): return error
+        case .acceleratorNotFoundException(let error): return error
+        case .associatedListenerFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3602,6 +3854,23 @@ public enum DeleteCustomRoutingEndpointGroupOutputError: Swift.Error, Swift.Equa
     case internalServiceErrorException(InternalServiceErrorException)
     case invalidArgumentException(InvalidArgumentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteCustomRoutingEndpointGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .endpointGroupNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteCustomRoutingEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3690,6 +3959,24 @@ public enum DeleteCustomRoutingListenerOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteCustomRoutingListenerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .associatedEndpointGroupFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteCustomRoutingListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3772,6 +4059,23 @@ public enum DeleteEndpointGroupOutputError: Swift.Error, Swift.Equatable {
     case internalServiceErrorException(InternalServiceErrorException)
     case invalidArgumentException(InvalidArgumentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteEndpointGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .endpointGroupNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3858,6 +4162,24 @@ public enum DeleteListenerOutputError: Swift.Error, Swift.Equatable {
     case invalidArgumentException(InvalidArgumentException)
     case listenerNotFoundException(ListenerNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteListenerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .associatedEndpointGroupFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteListenerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4017,6 +4339,23 @@ public enum DenyCustomRoutingTrafficOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DenyCustomRoutingTrafficOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .endpointGroupNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DenyCustomRoutingTrafficOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4103,6 +4442,25 @@ public enum DeprovisionByoipCidrOutputError: Swift.Error, Swift.Equatable {
     case internalServiceErrorException(InternalServiceErrorException)
     case invalidArgumentException(InvalidArgumentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeprovisionByoipCidrOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .byoipCidrNotFoundException(let error): return error
+        case .incorrectCidrStateException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeprovisionByoipCidrOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4220,6 +4578,23 @@ public enum DescribeAcceleratorAttributesOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeAcceleratorAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4333,6 +4708,23 @@ public enum DescribeAcceleratorOutputError: Swift.Error, Swift.Equatable {
     case internalServiceErrorException(InternalServiceErrorException)
     case invalidArgumentException(InvalidArgumentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAcceleratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4450,6 +4842,23 @@ public enum DescribeCustomRoutingAcceleratorAttributesOutputError: Swift.Error, 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeCustomRoutingAcceleratorAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeCustomRoutingAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4563,6 +4972,23 @@ public enum DescribeCustomRoutingAcceleratorOutputError: Swift.Error, Swift.Equa
     case internalServiceErrorException(InternalServiceErrorException)
     case invalidArgumentException(InvalidArgumentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeCustomRoutingAcceleratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4680,6 +5106,23 @@ public enum DescribeCustomRoutingEndpointGroupOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeCustomRoutingEndpointGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .endpointGroupNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeCustomRoutingEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4793,6 +5236,23 @@ public enum DescribeCustomRoutingListenerOutputError: Swift.Error, Swift.Equatab
     case invalidArgumentException(InvalidArgumentException)
     case listenerNotFoundException(ListenerNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeCustomRoutingListenerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeCustomRoutingListenerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4910,6 +5370,23 @@ public enum DescribeEndpointGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeEndpointGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .endpointGroupNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5023,6 +5500,23 @@ public enum DescribeListenerOutputError: Swift.Error, Swift.Equatable {
     case invalidArgumentException(InvalidArgumentException)
     case listenerNotFoundException(ListenerNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeListenerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeListenerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5209,6 +5703,9 @@ public struct EndpointAlreadyExistsException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EndpointAlreadyExistsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5540,6 +6037,9 @@ public struct EndpointGroupAlreadyExistsException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EndpointGroupAlreadyExistsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5592,6 +6092,9 @@ public struct EndpointGroupNotFoundException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EndpointGroupNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5690,6 +6193,9 @@ public struct EndpointNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EndpointNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5812,6 +6318,9 @@ public struct IncorrectCidrStateException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IncorrectCidrStateException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5864,6 +6373,9 @@ public struct InternalServiceErrorException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServiceErrorException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5916,6 +6428,9 @@ public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidArgumentException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5968,6 +6483,9 @@ public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidNextTokenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6020,6 +6538,9 @@ public struct InvalidPortRangeException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPortRangeException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6204,6 +6725,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6313,6 +6837,23 @@ public enum ListAcceleratorsOutputError: Swift.Error, Swift.Equatable {
     case invalidArgumentException(InvalidArgumentException)
     case invalidNextTokenException(InvalidNextTokenException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAcceleratorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAcceleratorsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6462,6 +7003,24 @@ public enum ListByoipCidrsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListByoipCidrsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListByoipCidrsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6605,6 +7164,23 @@ public enum ListCustomRoutingAcceleratorsOutputError: Swift.Error, Swift.Equatab
     case invalidArgumentException(InvalidArgumentException)
     case invalidNextTokenException(InvalidNextTokenException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListCustomRoutingAcceleratorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListCustomRoutingAcceleratorsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6767,6 +7343,24 @@ public enum ListCustomRoutingEndpointGroupsOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListCustomRoutingEndpointGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListCustomRoutingEndpointGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6925,6 +7519,24 @@ public enum ListCustomRoutingListenersOutputError: Swift.Error, Swift.Equatable 
     case invalidArgumentException(InvalidArgumentException)
     case invalidNextTokenException(InvalidNextTokenException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListCustomRoutingListenersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListCustomRoutingListenersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7098,6 +7710,24 @@ public enum ListCustomRoutingPortMappingsByDestinationOutputError: Swift.Error, 
     case invalidArgumentException(InvalidArgumentException)
     case invalidNextTokenException(InvalidNextTokenException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListCustomRoutingPortMappingsByDestinationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .endpointNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListCustomRoutingPortMappingsByDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7274,6 +7904,25 @@ public enum ListCustomRoutingPortMappingsOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListCustomRoutingPortMappingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .endpointGroupNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListCustomRoutingPortMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7432,6 +8081,24 @@ public enum ListEndpointGroupsOutputError: Swift.Error, Swift.Equatable {
     case invalidNextTokenException(InvalidNextTokenException)
     case listenerNotFoundException(ListenerNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListEndpointGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListEndpointGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7594,6 +8261,24 @@ public enum ListListenersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListListenersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListListenersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7726,6 +8411,23 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case internalServiceErrorException(InternalServiceErrorException)
     case invalidArgumentException(InvalidArgumentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7881,6 +8583,9 @@ public struct ListenerNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ListenerNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8217,6 +8922,25 @@ public enum ProvisionByoipCidrOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ProvisionByoipCidrOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .incorrectCidrStateException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ProvisionByoipCidrOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8363,6 +9087,26 @@ public enum RemoveCustomRoutingEndpointsOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveCustomRoutingEndpointsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .endpointGroupNotFoundException(let error): return error
+        case .endpointNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveCustomRoutingEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8474,6 +9218,25 @@ public enum RemoveEndpointsOutputError: Swift.Error, Swift.Equatable {
     case invalidArgumentException(InvalidArgumentException)
     case transactionInProgressException(TransactionInProgressException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RemoveEndpointsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .endpointGroupNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .transactionInProgressException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RemoveEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8677,6 +9440,23 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8713,6 +9493,9 @@ public struct TransactionInProgressException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TransactionInProgressException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8838,6 +9621,23 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8958,6 +9758,24 @@ public enum UpdateAcceleratorAttributesOutputError: Swift.Error, Swift.Equatable
     case internalServiceErrorException(InternalServiceErrorException)
     case invalidArgumentException(InvalidArgumentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateAcceleratorAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .accessDeniedException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9113,6 +9931,24 @@ public enum UpdateAcceleratorOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateAcceleratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .accessDeniedException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9266,6 +10102,24 @@ public enum UpdateCustomRoutingAcceleratorAttributesOutputError: Swift.Error, Sw
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateCustomRoutingAcceleratorAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .accessDeniedException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateCustomRoutingAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9417,6 +10271,23 @@ public enum UpdateCustomRoutingAcceleratorOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateCustomRoutingAcceleratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .acceleratorNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9559,6 +10430,25 @@ public enum UpdateCustomRoutingListenerOutputError: Swift.Error, Swift.Equatable
     case limitExceededException(LimitExceededException)
     case listenerNotFoundException(ListenerNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateCustomRoutingListenerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidPortRangeException(let error): return error
+        case .limitExceededException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateCustomRoutingListenerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9800,6 +10690,25 @@ public enum UpdateEndpointGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateEndpointGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .endpointGroupNotFoundException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9967,6 +10876,25 @@ public enum UpdateListenerOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateListenerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidPortRangeException(let error): return error
+        case .limitExceededException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10084,6 +11012,25 @@ public enum WithdrawByoipCidrOutputError: Swift.Error, Swift.Equatable {
     case internalServiceErrorException(InternalServiceErrorException)
     case invalidArgumentException(InvalidArgumentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension WithdrawByoipCidrOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .byoipCidrNotFoundException(let error): return error
+        case .incorrectCidrStateException(let error): return error
+        case .internalServiceErrorException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension WithdrawByoipCidrOutputResponse: ClientRuntime.HttpResponseBinding {

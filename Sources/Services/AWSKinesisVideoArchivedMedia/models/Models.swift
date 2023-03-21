@@ -28,6 +28,9 @@ public struct ClientLimitExceededException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ClientLimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -769,6 +772,29 @@ public enum GetClipOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetClipOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientLimitExceededException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidCodecPrivateDataException(let error): return error
+        case .invalidMediaFrameException(let error): return error
+        case .missingCodecPrivateDataException(let error): return error
+        case .noDataRetentionException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unsupportedStreamMediaTypeException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetClipOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
@@ -990,6 +1016,28 @@ public enum GetDASHStreamingSessionURLOutputError: Swift.Error, Swift.Equatable 
     case resourceNotFoundException(ResourceNotFoundException)
     case unsupportedStreamMediaTypeException(UnsupportedStreamMediaTypeException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDASHStreamingSessionURLOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientLimitExceededException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidCodecPrivateDataException(let error): return error
+        case .missingCodecPrivateDataException(let error): return error
+        case .noDataRetentionException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unsupportedStreamMediaTypeException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetDASHStreamingSessionURLOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1228,6 +1276,28 @@ public enum GetHLSStreamingSessionURLOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case unsupportedStreamMediaTypeException(UnsupportedStreamMediaTypeException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetHLSStreamingSessionURLOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientLimitExceededException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidCodecPrivateDataException(let error): return error
+        case .missingCodecPrivateDataException(let error): return error
+        case .noDataRetentionException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unsupportedStreamMediaTypeException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetHLSStreamingSessionURLOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1495,6 +1565,24 @@ public enum GetImagesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetImagesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientLimitExceededException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetImagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1665,6 +1753,24 @@ public enum GetMediaForFragmentListOutputError: Swift.Error, Swift.Equatable {
     case notAuthorizedException(NotAuthorizedException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetMediaForFragmentListOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientLimitExceededException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetMediaForFragmentListOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2105,6 +2211,9 @@ public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidArgumentException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2157,6 +2266,9 @@ public struct InvalidCodecPrivateDataException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCodecPrivateDataException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2209,6 +2321,9 @@ public struct InvalidMediaFrameException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidMediaFrameException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2358,6 +2473,24 @@ public enum ListFragmentsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListFragmentsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientLimitExceededException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListFragmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2444,6 +2577,9 @@ public struct MissingCodecPrivateDataException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MissingCodecPrivateDataException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2496,6 +2632,9 @@ public struct NoDataRetentionException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoDataRetentionException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2548,6 +2687,9 @@ public struct NotAuthorizedException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotAuthorizedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2600,6 +2742,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2699,6 +2844,9 @@ public struct UnsupportedStreamMediaTypeException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedStreamMediaTypeException" }
+
     public var message: Swift.String?
 
     public init (
