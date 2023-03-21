@@ -24,5 +24,5 @@ public extension UnknownServiceError {
 
 public extension AWSHttpServiceError {
 
-    var _errorCode: String? { _modelName }
+    var _errorCode: String? { Self._modelName }
 }
