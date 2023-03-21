@@ -100,7 +100,9 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
                 public var _retryable: Swift.Bool = false
                 public var _isThrottling: Swift.Bool = false
                 public var _type: ClientRuntime.ErrorType = .client
-                public var _smithyErrorTypeName: Swift.String? { "ComplexError" }
+                /// The name (without namespace) of the model this error is based upon.
+                public var _modelName: Swift.String { "ComplexError" }
+            
                 public var nested: EC2ProtocolClientTypes.ComplexNestedErrorData?
                 public var topLevel: Swift.String?
             

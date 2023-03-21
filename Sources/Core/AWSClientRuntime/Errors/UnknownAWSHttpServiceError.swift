@@ -26,7 +26,9 @@ public struct UnknownAWSHttpServiceError: AWSHttpServiceError, Equatable {
 
     public var _errorCode: String? { _errorType }
 
-    public var _smithyErrorTypeName: String? { nil }
+    /// The name (without namespace) of the model this error is based upon.
+    /// For an unknown error, this is an empty string.
+    public var _modelName: String { "" }
 }
 
 extension UnknownAWSHttpServiceError {

@@ -104,7 +104,9 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                 public var _retryable: Swift.Bool = false
                 public var _isThrottling: Swift.Bool = false
                 public var _type: ClientRuntime.ErrorType = .client
-                public var _smithyErrorTypeName: Swift.String? { "ComplexXMLError" }
+                /// The name (without namespace) of the model this error is based upon.
+                public var _modelName: Swift.String { "ComplexXMLError" }
+            
                 public var header: Swift.String?
                 public var nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData?
                 public var topLevel: Swift.String?
