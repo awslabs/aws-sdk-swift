@@ -110,6 +110,9 @@ public struct ConcurrentUpdateException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConcurrentUpdateException" }
+
     public var message: Swift.String?
 
     public init (
@@ -439,6 +442,24 @@ public enum DeleteScalingPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteScalingPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentUpdateException(let error): return error
+        case .internalServiceException(let error): return error
+        case .objectNotFoundException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -636,6 +657,24 @@ public enum DeleteScheduledActionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteScheduledActionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentUpdateException(let error): return error
+        case .internalServiceException(let error): return error
+        case .objectNotFoundException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteScheduledActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -818,6 +857,24 @@ public enum DeregisterScalableTargetOutputError: Swift.Error, Swift.Equatable {
     case objectNotFoundException(ObjectNotFoundException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeregisterScalableTargetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentUpdateException(let error): return error
+        case .internalServiceException(let error): return error
+        case .objectNotFoundException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeregisterScalableTargetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1036,6 +1093,24 @@ public enum DescribeScalableTargetsOutputError: Swift.Error, Swift.Equatable {
     case invalidNextTokenException(InvalidNextTokenException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeScalableTargetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentUpdateException(let error): return error
+        case .internalServiceException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeScalableTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1304,6 +1379,24 @@ public enum DescribeScalingActivitiesOutputError: Swift.Error, Swift.Equatable {
     case invalidNextTokenException(InvalidNextTokenException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeScalingActivitiesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentUpdateException(let error): return error
+        case .internalServiceException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeScalingActivitiesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1588,6 +1681,25 @@ public enum DescribeScalingPoliciesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeScalingPoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentUpdateException(let error): return error
+        case .failedResourceAccessException(let error): return error
+        case .internalServiceException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeScalingPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1868,6 +1980,24 @@ public enum DescribeScheduledActionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeScheduledActionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentUpdateException(let error): return error
+        case .internalServiceException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeScheduledActionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1954,6 +2084,9 @@ public struct FailedResourceAccessException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FailedResourceAccessException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2006,6 +2139,9 @@ public struct InternalServiceException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServiceException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2058,6 +2194,9 @@ public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidNextTokenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2110,6 +2249,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2450,6 +2592,9 @@ public struct ObjectNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ObjectNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2788,6 +2933,26 @@ public enum PutScalingPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutScalingPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentUpdateException(let error): return error
+        case .failedResourceAccessException(let error): return error
+        case .internalServiceException(let error): return error
+        case .limitExceededException(let error): return error
+        case .objectNotFoundException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3107,6 +3272,25 @@ public enum PutScheduledActionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutScheduledActionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentUpdateException(let error): return error
+        case .internalServiceException(let error): return error
+        case .limitExceededException(let error): return error
+        case .objectNotFoundException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutScheduledActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3365,6 +3549,24 @@ public enum RegisterScalableTargetOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RegisterScalableTargetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentUpdateException(let error): return error
+        case .internalServiceException(let error): return error
+        case .limitExceededException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RegisterScalableTargetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5138,6 +5340,9 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ValidationException" }
+
     public var message: Swift.String?
 
     public init (

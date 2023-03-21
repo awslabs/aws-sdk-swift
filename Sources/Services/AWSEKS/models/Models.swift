@@ -90,6 +90,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -805,6 +808,26 @@ public enum AssociateEncryptionConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateEncryptionConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -970,6 +993,26 @@ public enum AssociateIdentityProviderConfigOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateIdentityProviderConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateIdentityProviderConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1091,6 +1134,9 @@ public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BadRequestException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1216,6 +1262,9 @@ public struct ClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ClientException" }
+
     public var addonName: Swift.String?
     /// The Amazon EKS cluster associated with the exception.
     public var clusterName: Swift.String?
@@ -2244,6 +2293,26 @@ public enum CreateAddonOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateAddonOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateAddonOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2501,6 +2570,27 @@ public enum CreateClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unsupportedAvailabilityZoneException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2725,6 +2815,26 @@ public enum CreateFargateProfileOutputError: Swift.Error, Swift.Equatable {
     case serverException(ServerException)
     case unsupportedAvailabilityZoneException(UnsupportedAvailabilityZoneException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateFargateProfileOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverException(let error): return error
+        case .unsupportedAvailabilityZoneException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateFargateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3112,6 +3222,27 @@ public enum CreateNodegroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateNodegroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateNodegroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3239,6 +3370,25 @@ public enum DeleteAddonOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteAddonOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteAddonOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3339,6 +3489,25 @@ public enum DeleteClusterOutputError: Swift.Error, Swift.Equatable {
     case serverException(ServerException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteClusterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3447,6 +3616,24 @@ public enum DeleteFargateProfileOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serverException(ServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteFargateProfileOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteFargateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3561,6 +3748,26 @@ public enum DeleteNodegroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteNodegroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteNodegroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3663,6 +3870,26 @@ public enum DeregisterClusterOutputError: Swift.Error, Swift.Equatable {
     case serverException(ServerException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeregisterClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .clientException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeregisterClusterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3784,6 +4011,23 @@ public enum DescribeAddonConfigurationOutputError: Swift.Error, Swift.Equatable 
     case resourceNotFoundException(ResourceNotFoundException)
     case serverException(ServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAddonConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAddonConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3930,6 +4174,25 @@ public enum DescribeAddonOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serverException(ServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAddonOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAddonOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4093,6 +4356,23 @@ public enum DescribeAddonVersionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeAddonVersionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeAddonVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4227,6 +4507,24 @@ public enum DescribeClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4348,6 +4646,24 @@ public enum DescribeFargateProfileOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serverException(ServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeFargateProfileOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeFargateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4477,6 +4793,25 @@ public enum DescribeIdentityProviderConfigOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeIdentityProviderConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeIdentityProviderConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4601,6 +4936,25 @@ public enum DescribeNodegroupOutputError: Swift.Error, Swift.Equatable {
     case serverException(ServerException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeNodegroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeNodegroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4734,6 +5088,24 @@ public enum DescribeUpdateOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serverException(ServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeUpdateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeUpdateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4875,6 +5247,26 @@ public enum DisassociateIdentityProviderConfigOutputError: Swift.Error, Swift.Eq
     case resourceNotFoundException(ResourceNotFoundException)
     case serverException(ServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateIdentityProviderConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateIdentityProviderConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5533,6 +5925,9 @@ public struct InvalidParameterException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParameterException" }
+
     public var addonName: Swift.String?
     /// The Amazon EKS cluster associated with the exception.
     public var clusterName: Swift.String?
@@ -5622,6 +6017,9 @@ public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRequestException" }
+
     public var addonName: Swift.String?
     /// The Amazon EKS cluster associated with the exception.
     public var clusterName: Swift.String?
@@ -6050,6 +6448,25 @@ public enum ListAddonsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListAddonsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListAddonsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6196,6 +6613,24 @@ public enum ListClustersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListClustersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .serverException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6338,6 +6773,24 @@ public enum ListFargateProfilesOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serverException(ServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListFargateProfilesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListFargateProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6486,6 +6939,25 @@ public enum ListIdentityProviderConfigsOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListIdentityProviderConfigsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListIdentityProviderConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6632,6 +7104,25 @@ public enum ListNodegroupsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListNodegroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListNodegroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6745,6 +7236,22 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6895,6 +7402,24 @@ public enum ListUpdatesOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serverException(ServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListUpdatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListUpdatesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7822,6 +8347,9 @@ public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8478,6 +9006,28 @@ public enum RegisterClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RegisterClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .resourcePropagationDelayException(let error): return error
+        case .serverException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RegisterClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8643,6 +9193,9 @@ public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceInUseException" }
+
     public var addonName: Swift.String?
     /// The Amazon EKS cluster associated with the exception.
     public var clusterName: Swift.String?
@@ -8722,6 +9275,9 @@ public struct ResourceLimitExceededException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceLimitExceededException" }
+
     /// The Amazon EKS cluster associated with the exception.
     public var clusterName: Swift.String?
     public var message: Swift.String?
@@ -8798,6 +9354,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     public var addonName: Swift.String?
     /// The Amazon EKS cluster associated with the exception.
     public var clusterName: Swift.String?
@@ -8881,6 +9440,9 @@ public struct ResourcePropagationDelayException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourcePropagationDelayException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8939,6 +9501,9 @@ public struct ServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServerException" }
+
     public var addonName: Swift.String?
     /// The Amazon EKS cluster associated with the exception.
     public var clusterName: Swift.String?
@@ -9014,6 +9579,9 @@ public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceUnavailableException" }
+
     public var message: Swift.String?
 
     public init (
@@ -9130,6 +9698,22 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9264,6 +9848,9 @@ public struct UnsupportedAvailabilityZoneException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedAvailabilityZoneException" }
+
     /// The Amazon EKS cluster associated with the exception.
     public var clusterName: Swift.String?
     public var message: Swift.String?
@@ -9398,6 +9985,22 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9668,6 +10271,26 @@ public enum UpdateAddonOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateAddonOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateAddonOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9820,6 +10443,26 @@ public enum UpdateClusterConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateClusterConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateClusterConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9959,6 +10602,26 @@ public enum UpdateClusterVersionOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serverException(ServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateClusterVersionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateClusterVersionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10214,6 +10877,26 @@ public enum UpdateNodegroupConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateNodegroupConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateNodegroupConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10396,6 +11079,26 @@ public enum UpdateNodegroupVersionOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serverException(ServerException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateNodegroupVersionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateNodegroupVersionOutputResponse: ClientRuntime.HttpResponseBinding {

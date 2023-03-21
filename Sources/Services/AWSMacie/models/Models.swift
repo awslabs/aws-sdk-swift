@@ -30,6 +30,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     public var message: Swift.String?
     /// Resource type that caused the exception
     public var resourceType: Swift.String?
@@ -136,6 +139,23 @@ public enum AssociateMemberAccountOutputError: Swift.Error, Swift.Equatable {
     case invalidInputException(InvalidInputException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AssociateMemberAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalException(let error): return error
+        case .invalidInputException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AssociateMemberAccountOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -246,6 +266,24 @@ public enum AssociateS3ResourcesOutputError: Swift.Error, Swift.Equatable {
     case invalidInputException(InvalidInputException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AssociateS3ResourcesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalException(let error): return error
+        case .invalidInputException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AssociateS3ResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -462,6 +500,22 @@ public enum DisassociateMemberAccountOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisassociateMemberAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalException(let error): return error
+        case .invalidInputException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisassociateMemberAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -568,6 +622,23 @@ public enum DisassociateS3ResourcesOutputError: Swift.Error, Swift.Equatable {
     case internalException(InternalException)
     case invalidInputException(InvalidInputException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateS3ResourcesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalException(let error): return error
+        case .invalidInputException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateS3ResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -703,6 +774,9 @@ public struct InternalException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalException" }
+
     /// Error code for the exception
     public var errorCode: Swift.String?
     public var message: Swift.String?
@@ -767,6 +841,9 @@ public struct InvalidInputException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidInputException" }
+
     /// Error code for the exception
     public var errorCode: Swift.String?
     /// Field that has invalid input
@@ -839,6 +916,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     /// Error code for the exception
     public var errorCode: Swift.String?
     public var message: Swift.String?
@@ -962,6 +1042,22 @@ public enum ListMemberAccountsOutputError: Swift.Error, Swift.Equatable {
     case internalException(InternalException)
     case invalidInputException(InvalidInputException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListMemberAccountsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalException(let error): return error
+        case .invalidInputException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListMemberAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1119,6 +1215,23 @@ public enum ListS3ResourcesOutputError: Swift.Error, Swift.Equatable {
     case internalException(InternalException)
     case invalidInputException(InvalidInputException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListS3ResourcesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalException(let error): return error
+        case .invalidInputException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListS3ResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1533,6 +1646,23 @@ public enum UpdateS3ResourcesOutputError: Swift.Error, Swift.Equatable {
     case internalException(InternalException)
     case invalidInputException(InvalidInputException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateS3ResourcesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalException(let error): return error
+        case .invalidInputException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateS3ResourcesOutputResponse: ClientRuntime.HttpResponseBinding {

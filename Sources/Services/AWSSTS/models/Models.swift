@@ -265,6 +265,24 @@ public enum AssumeRoleOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssumeRoleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .expiredTokenException(let error): return error
+        case .malformedPolicyDocumentException(let error): return error
+        case .packedPolicyTooLargeException(let error): return error
+        case .regionDisabledException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssumeRoleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -496,6 +514,26 @@ public enum AssumeRoleWithSAMLOutputError: Swift.Error, Swift.Equatable {
     case packedPolicyTooLargeException(PackedPolicyTooLargeException)
     case regionDisabledException(RegionDisabledException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AssumeRoleWithSAMLOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .expiredTokenException(let error): return error
+        case .iDPRejectedClaimException(let error): return error
+        case .invalidIdentityTokenException(let error): return error
+        case .malformedPolicyDocumentException(let error): return error
+        case .packedPolicyTooLargeException(let error): return error
+        case .regionDisabledException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AssumeRoleWithSAMLOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -803,6 +841,27 @@ public enum AssumeRoleWithWebIdentityOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssumeRoleWithWebIdentityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .expiredTokenException(let error): return error
+        case .iDPCommunicationErrorException(let error): return error
+        case .iDPRejectedClaimException(let error): return error
+        case .invalidIdentityTokenException(let error): return error
+        case .malformedPolicyDocumentException(let error): return error
+        case .packedPolicyTooLargeException(let error): return error
+        case .regionDisabledException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssumeRoleWithWebIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1089,6 +1148,21 @@ public enum DecodeAuthorizationMessageOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DecodeAuthorizationMessageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidAuthorizationMessageException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DecodeAuthorizationMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1157,6 +1231,9 @@ public struct ExpiredTokenException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ExpiredTokenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1295,6 +1372,20 @@ public enum GetAccessKeyInfoOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetAccessKeyInfoOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetAccessKeyInfoOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1415,6 +1506,20 @@ extension GetCallerIdentityOutputError {
 
 public enum GetCallerIdentityOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCallerIdentityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetCallerIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1647,6 +1752,23 @@ public enum GetFederationTokenOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetFederationTokenOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .malformedPolicyDocumentException(let error): return error
+        case .packedPolicyTooLargeException(let error): return error
+        case .regionDisabledException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetFederationTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1798,6 +1920,21 @@ public enum GetSessionTokenOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetSessionTokenOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .regionDisabledException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetSessionTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1866,6 +2003,9 @@ public struct IDPCommunicationErrorException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IDPCommunicationErrorException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1917,6 +2057,9 @@ public struct IDPRejectedClaimException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IDPRejectedClaimException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1968,6 +2111,9 @@ public struct InvalidAuthorizationMessageException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidAuthorizationMessageException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2019,6 +2165,9 @@ public struct InvalidIdentityTokenException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidIdentityTokenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2070,6 +2219,9 @@ public struct MalformedPolicyDocumentException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MalformedPolicyDocumentException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2121,6 +2273,9 @@ public struct PackedPolicyTooLargeException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PackedPolicyTooLargeException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2207,6 +2362,9 @@ public struct RegionDisabledException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RegionDisabledException" }
+
     public var message: Swift.String?
 
     public init (

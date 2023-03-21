@@ -300,6 +300,24 @@ public enum AddRoleToDBClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddRoleToDBClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBClusterRoleAlreadyExistsFault(let error): return error
+        case .dBClusterRoleQuotaExceededFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddRoleToDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -407,6 +425,24 @@ public enum AddRoleToDBInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddRoleToDBInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBInstanceRoleAlreadyExistsFault(let error): return error
+        case .dBInstanceRoleQuotaExceededFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddRoleToDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -511,6 +547,22 @@ public enum AddSourceIdentifierToSubscriptionOutputError: Swift.Error, Swift.Equ
     case sourceNotFoundFault(SourceNotFoundFault)
     case subscriptionNotFoundFault(SubscriptionNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AddSourceIdentifierToSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .sourceNotFoundFault(let error): return error
+        case .subscriptionNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AddSourceIdentifierToSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -671,6 +723,26 @@ public enum AddTagsToResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddTagsToResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .blueGreenDeploymentNotFoundFault(let error): return error
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBProxyNotFoundFault(let error): return error
+        case .dBProxyTargetGroupNotFoundFault(let error): return error
+        case .dBSnapshotNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -815,6 +887,23 @@ public enum ApplyPendingMaintenanceActionOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ApplyPendingMaintenanceActionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ApplyPendingMaintenanceActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -943,6 +1032,9 @@ public struct AuthorizationAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AuthorizationAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -994,6 +1086,9 @@ public struct AuthorizationNotFoundFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AuthorizationNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -1045,6 +1140,9 @@ public struct AuthorizationQuotaExceededFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AuthorizationQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -1187,6 +1285,24 @@ public enum AuthorizeDBSecurityGroupIngressOutputError: Swift.Error, Swift.Equat
     case dBSecurityGroupNotFoundFault(DBSecurityGroupNotFoundFault)
     case invalidDBSecurityGroupStateFault(InvalidDBSecurityGroupStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AuthorizeDBSecurityGroupIngressOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationAlreadyExistsFault(let error): return error
+        case .authorizationQuotaExceededFault(let error): return error
+        case .dBSecurityGroupNotFoundFault(let error): return error
+        case .invalidDBSecurityGroupStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AuthorizeDBSecurityGroupIngressOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1473,6 +1589,22 @@ public enum BacktrackDBClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BacktrackDBClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BacktrackDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1599,6 +1731,9 @@ public struct BackupPolicyNotFoundFault: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BackupPolicyNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -1877,6 +2012,9 @@ public struct BlueGreenDeploymentAlreadyExistsFault: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BlueGreenDeploymentAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -1928,6 +2066,9 @@ public struct BlueGreenDeploymentNotFoundFault: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BlueGreenDeploymentNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -2074,6 +2215,22 @@ public enum CancelExportTaskOutputError: Swift.Error, Swift.Equatable {
     case exportTaskNotFoundFault(ExportTaskNotFoundFault)
     case invalidExportTaskStateFault(InvalidExportTaskStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CancelExportTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .exportTaskNotFoundFault(let error): return error
+        case .invalidExportTaskStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CancelExportTaskOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2481,6 +2638,9 @@ public struct CertificateNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CertificateNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -3139,6 +3299,23 @@ public enum CopyDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CopyDBClusterParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupAlreadyExistsFault(let error): return error
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .dBParameterGroupQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CopyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3368,6 +3545,26 @@ public enum CopyDBClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CopyDBClusterSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterSnapshotAlreadyExistsFault(let error): return error
+        case .dBClusterSnapshotNotFoundFault(let error): return error
+        case .invalidDBClusterSnapshotStateFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .snapshotQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CopyDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3554,6 +3751,23 @@ public enum CopyDBParameterGroupOutputError: Swift.Error, Swift.Equatable {
     case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
     case dBParameterGroupQuotaExceededFault(DBParameterGroupQuotaExceededFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CopyDBParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupAlreadyExistsFault(let error): return error
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .dBParameterGroupQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CopyDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3816,6 +4030,26 @@ public enum CopyDBSnapshotOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CopyDBSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customAvailabilityZoneNotFoundFault(let error): return error
+        case .dBSnapshotAlreadyExistsFault(let error): return error
+        case .dBSnapshotNotFoundFault(let error): return error
+        case .invalidDBSnapshotStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .snapshotQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CopyDBSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4002,6 +4236,23 @@ public enum CopyOptionGroupOutputError: Swift.Error, Swift.Equatable {
     case optionGroupNotFoundFault(OptionGroupNotFoundFault)
     case optionGroupQuotaExceededFault(OptionGroupQuotaExceededFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CopyOptionGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .optionGroupAlreadyExistsFault(let error): return error
+        case .optionGroupNotFoundFault(let error): return error
+        case .optionGroupQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CopyOptionGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4215,6 +4466,31 @@ public enum CreateBlueGreenDeploymentOutputError: Swift.Error, Swift.Equatable {
     case sourceClusterNotSupportedFault(SourceClusterNotSupportedFault)
     case sourceDatabaseNotSupportedFault(SourceDatabaseNotSupportedFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateBlueGreenDeploymentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .blueGreenDeploymentAlreadyExistsFault(let error): return error
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBClusterParameterGroupNotFoundFault(let error): return error
+        case .dBClusterQuotaExceededFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .instanceQuotaExceededFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .sourceClusterNotSupportedFault(let error): return error
+        case .sourceDatabaseNotSupportedFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateBlueGreenDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4445,6 +4721,24 @@ public enum CreateCustomDBEngineVersionOutputError: Swift.Error, Swift.Equatable
     case ec2ImagePropertiesNotSupportedFault(Ec2ImagePropertiesNotSupportedFault)
     case kMSKeyNotAccessibleFault(KMSKeyNotAccessibleFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateCustomDBEngineVersionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customDBEngineVersionAlreadyExistsFault(let error): return error
+        case .customDBEngineVersionQuotaExceededFault(let error): return error
+        case .ec2ImagePropertiesNotSupportedFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5153,6 +5447,26 @@ public enum CreateDBClusterEndpointOutputError: Swift.Error, Swift.Equatable {
     case invalidDBClusterStateFault(InvalidDBClusterStateFault)
     case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDBClusterEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterEndpointAlreadyExistsFault(let error): return error
+        case .dBClusterEndpointQuotaExceededFault(let error): return error
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDBClusterEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6207,6 +6521,38 @@ public enum CreateDBClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateDBClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterAlreadyExistsFault(let error): return error
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBClusterParameterGroupNotFoundFault(let error): return error
+        case .dBClusterQuotaExceededFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBSubnetGroupDoesNotCoverEnoughAZs(let error): return error
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .domainNotFoundFault(let error): return error
+        case .globalClusterNotFoundFault(let error): return error
+        case .insufficientStorageClusterCapacityFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .invalidDBSubnetGroupStateFault(let error): return error
+        case .invalidGlobalClusterStateFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6395,6 +6741,22 @@ public enum CreateDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateDBClusterParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupAlreadyExistsFault(let error): return error
+        case .dBParameterGroupQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6574,6 +6936,25 @@ public enum CreateDBClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
     case invalidDBClusterStateFault(InvalidDBClusterStateFault)
     case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDBClusterSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBClusterSnapshotAlreadyExistsFault(let error): return error
+        case .invalidDBClusterSnapshotStateFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .snapshotQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7695,6 +8076,41 @@ public enum CreateDBInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateDBInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationNotFoundFault(let error): return error
+        case .backupPolicyNotFoundFault(let error): return error
+        case .certificateNotFoundFault(let error): return error
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBInstanceAlreadyExistsFault(let error): return error
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .dBSecurityGroupNotFoundFault(let error): return error
+        case .dBSubnetGroupDoesNotCoverEnoughAZs(let error): return error
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .domainNotFoundFault(let error): return error
+        case .instanceQuotaExceededFault(let error): return error
+        case .insufficientDBInstanceCapacityFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .networkTypeNotSupported(let error): return error
+        case .optionGroupNotFoundFault(let error): return error
+        case .provisionedIopsNotAvailableInAZFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .storageTypeNotSupportedFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8428,6 +8844,40 @@ public enum CreateDBInstanceReadReplicaOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateDBInstanceReadReplicaOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceAlreadyExistsFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .dBSecurityGroupNotFoundFault(let error): return error
+        case .dBSubnetGroupDoesNotCoverEnoughAZs(let error): return error
+        case .dBSubnetGroupNotAllowedFault(let error): return error
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .domainNotFoundFault(let error): return error
+        case .instanceQuotaExceededFault(let error): return error
+        case .insufficientDBInstanceCapacityFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .invalidDBSubnetGroupFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .networkTypeNotSupported(let error): return error
+        case .optionGroupNotFoundFault(let error): return error
+        case .provisionedIopsNotAvailableInAZFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .storageTypeNotSupportedFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateDBInstanceReadReplicaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8636,6 +9086,22 @@ public enum CreateDBParameterGroupOutputError: Swift.Error, Swift.Equatable {
     case dBParameterGroupAlreadyExistsFault(DBParameterGroupAlreadyExistsFault)
     case dBParameterGroupQuotaExceededFault(DBParameterGroupQuotaExceededFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDBParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupAlreadyExistsFault(let error): return error
+        case .dBParameterGroupQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8888,6 +9354,25 @@ public enum CreateDBProxyEndpointOutputError: Swift.Error, Swift.Equatable {
     case invalidDBProxyStateFault(InvalidDBProxyStateFault)
     case invalidSubnet(InvalidSubnet)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDBProxyEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBProxyEndpointAlreadyExistsFault(let error): return error
+        case .dBProxyEndpointQuotaExceededFault(let error): return error
+        case .dBProxyNotFoundFault(let error): return error
+        case .invalidDBProxyStateFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDBProxyEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9210,6 +9695,23 @@ public enum CreateDBProxyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateDBProxyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBProxyAlreadyExistsFault(let error): return error
+        case .dBProxyQuotaExceededFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateDBProxyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9382,6 +9884,23 @@ public enum CreateDBSecurityGroupOutputError: Swift.Error, Swift.Equatable {
     case dBSecurityGroupNotSupportedFault(DBSecurityGroupNotSupportedFault)
     case dBSecurityGroupQuotaExceededFault(DBSecurityGroupQuotaExceededFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDBSecurityGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBSecurityGroupAlreadyExistsFault(let error): return error
+        case .dBSecurityGroupNotSupportedFault(let error): return error
+        case .dBSecurityGroupQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDBSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9560,6 +10079,24 @@ public enum CreateDBSnapshotOutputError: Swift.Error, Swift.Equatable {
     case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
     case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDBSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBSnapshotAlreadyExistsFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .snapshotQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDBSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9774,6 +10311,25 @@ public enum CreateDBSubnetGroupOutputError: Swift.Error, Swift.Equatable {
     case dBSubnetQuotaExceededFault(DBSubnetQuotaExceededFault)
     case invalidSubnet(InvalidSubnet)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDBSubnetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBSubnetGroupAlreadyExistsFault(let error): return error
+        case .dBSubnetGroupDoesNotCoverEnoughAZs(let error): return error
+        case .dBSubnetGroupQuotaExceededFault(let error): return error
+        case .dBSubnetQuotaExceededFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10059,6 +10615,27 @@ public enum CreateEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateEventSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .eventSubscriptionQuotaExceededFault(let error): return error
+        case .sNSInvalidTopicFault(let error): return error
+        case .sNSNoAuthorizationFault(let error): return error
+        case .sNSTopicArnNotFoundFault(let error): return error
+        case .sourceNotFoundFault(let error): return error
+        case .subscriptionAlreadyExistFault(let error): return error
+        case .subscriptionCategoryNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10237,6 +10814,24 @@ public enum CreateGlobalClusterOutputError: Swift.Error, Swift.Equatable {
     case globalClusterQuotaExceededFault(GlobalClusterQuotaExceededFault)
     case invalidDBClusterStateFault(InvalidDBClusterStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateGlobalClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .globalClusterAlreadyExistsFault(let error): return error
+        case .globalClusterQuotaExceededFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10455,6 +11050,22 @@ public enum CreateOptionGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateOptionGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .optionGroupAlreadyExistsFault(let error): return error
+        case .optionGroupQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateOptionGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10522,6 +11133,9 @@ public struct CustomAvailabilityZoneNotFoundFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CustomAvailabilityZoneNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -10618,6 +11232,9 @@ public struct CustomDBEngineVersionAlreadyExistsFault: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CustomDBEngineVersionAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -10669,6 +11286,9 @@ public struct CustomDBEngineVersionNotFoundFault: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CustomDBEngineVersionNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -10720,6 +11340,9 @@ public struct CustomDBEngineVersionQuotaExceededFault: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CustomDBEngineVersionQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -11828,6 +12451,9 @@ public struct DBClusterAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -11972,6 +12598,9 @@ public struct DBClusterBacktrackNotFoundFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterBacktrackNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -12211,6 +12840,9 @@ public struct DBClusterEndpointAlreadyExistsFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterEndpointAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -12262,6 +12894,9 @@ public struct DBClusterEndpointNotFoundFault: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterEndpointNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -12313,6 +12948,9 @@ public struct DBClusterEndpointQuotaExceededFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterEndpointQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -12429,6 +13067,9 @@ public struct DBClusterNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -12590,6 +13231,9 @@ public struct DBClusterParameterGroupNotFoundFault: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterParameterGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -12641,6 +13285,9 @@ public struct DBClusterQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -12753,6 +13400,9 @@ public struct DBClusterRoleAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterRoleAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -12804,6 +13454,9 @@ public struct DBClusterRoleNotFoundFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterRoleNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -12855,6 +13508,9 @@ public struct DBClusterRoleQuotaExceededFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterRoleQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -13219,6 +13875,9 @@ public struct DBClusterSnapshotAlreadyExistsFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterSnapshotAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -13412,6 +14071,9 @@ public struct DBClusterSnapshotNotFoundFault: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBClusterSnapshotNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -15234,6 +15896,9 @@ public struct DBInstanceAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBInstanceAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -15622,6 +16287,9 @@ public struct DBInstanceAutomatedBackupNotFoundFault: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBInstanceAutomatedBackupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -15673,6 +16341,9 @@ public struct DBInstanceAutomatedBackupQuotaExceededFault: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBInstanceAutomatedBackupQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -15759,6 +16430,9 @@ public struct DBInstanceNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBInstanceNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -15871,6 +16545,9 @@ public struct DBInstanceRoleAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBInstanceRoleAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -15922,6 +16599,9 @@ public struct DBInstanceRoleNotFoundFault: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBInstanceRoleNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -15973,6 +16653,9 @@ public struct DBInstanceRoleQuotaExceededFault: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBInstanceRoleQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -16089,6 +16772,9 @@ public struct DBLogFileNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBLogFileNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -16205,6 +16891,9 @@ public struct DBParameterGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBParameterGroupAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -16256,6 +16945,9 @@ public struct DBParameterGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBParameterGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -16307,6 +16999,9 @@ public struct DBParameterGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBParameterGroupQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -16668,6 +17363,9 @@ public struct DBProxyAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBProxyAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -16906,6 +17604,9 @@ public struct DBProxyEndpointAlreadyExistsFault: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBProxyEndpointAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -16957,6 +17658,9 @@ public struct DBProxyEndpointNotFoundFault: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBProxyEndpointNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -17008,6 +17712,9 @@ public struct DBProxyEndpointQuotaExceededFault: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBProxyEndpointQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -17135,6 +17842,9 @@ public struct DBProxyNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBProxyNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -17186,6 +17896,9 @@ public struct DBProxyQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBProxyQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -17395,6 +18108,9 @@ public struct DBProxyTargetAlreadyRegisteredFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBProxyTargetAlreadyRegisteredFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -17551,6 +18267,9 @@ public struct DBProxyTargetGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBProxyTargetGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -17602,6 +18321,9 @@ public struct DBProxyTargetNotFoundFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBProxyTargetNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -17800,6 +18522,9 @@ public struct DBSecurityGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBSecurityGroupAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -17904,6 +18629,9 @@ public struct DBSecurityGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBSecurityGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -17955,6 +18683,9 @@ public struct DBSecurityGroupNotSupportedFault: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBSecurityGroupNotSupportedFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -18006,6 +18737,9 @@ public struct DBSecurityGroupQuotaExceededFault: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBSecurityGroupQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -18464,6 +19198,9 @@ public struct DBSnapshotAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBSnapshotAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -18657,6 +19394,9 @@ public struct DBSnapshotNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBSnapshotNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -18862,6 +19602,9 @@ public struct DBSubnetGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBSubnetGroupAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -18913,6 +19656,9 @@ public struct DBSubnetGroupDoesNotCoverEnoughAZs: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBSubnetGroupDoesNotCoverEnoughAZs" }
+
     public var message: Swift.String?
 
     public init (
@@ -18964,6 +19710,9 @@ public struct DBSubnetGroupNotAllowedFault: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBSubnetGroupNotAllowedFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -19015,6 +19764,9 @@ public struct DBSubnetGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBSubnetGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -19066,6 +19818,9 @@ public struct DBSubnetGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBSubnetGroupQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -19117,6 +19872,9 @@ public struct DBSubnetQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBSubnetQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -19168,6 +19926,9 @@ public struct DBUpgradeDependencyFailureFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DBUpgradeDependencyFailureFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -19274,6 +20035,22 @@ public enum DeleteBlueGreenDeploymentOutputError: Swift.Error, Swift.Equatable {
     case blueGreenDeploymentNotFoundFault(BlueGreenDeploymentNotFoundFault)
     case invalidBlueGreenDeploymentStateFault(InvalidBlueGreenDeploymentStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteBlueGreenDeploymentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .blueGreenDeploymentNotFoundFault(let error): return error
+        case .invalidBlueGreenDeploymentStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteBlueGreenDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -19397,6 +20174,22 @@ public enum DeleteCustomDBEngineVersionOutputError: Swift.Error, Swift.Equatable
     case customDBEngineVersionNotFoundFault(CustomDBEngineVersionNotFoundFault)
     case invalidCustomDBEngineVersionStateFault(InvalidCustomDBEngineVersionStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteCustomDBEngineVersionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customDBEngineVersionNotFoundFault(let error): return error
+        case .invalidCustomDBEngineVersionStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -19966,6 +20759,23 @@ public enum DeleteDBClusterEndpointOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDBClusterEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterEndpointNotFoundFault(let error): return error
+        case .invalidDBClusterEndpointStateFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDBClusterEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -20250,6 +21060,25 @@ public enum DeleteDBClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDBClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBClusterSnapshotAlreadyExistsFault(let error): return error
+        case .invalidDBClusterSnapshotStateFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .snapshotQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -20368,6 +21197,22 @@ public enum DeleteDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDBClusterParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .invalidDBParameterGroupStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -20446,6 +21291,22 @@ public enum DeleteDBClusterSnapshotOutputError: Swift.Error, Swift.Equatable {
     case dBClusterSnapshotNotFoundFault(DBClusterSnapshotNotFoundFault)
     case invalidDBClusterSnapshotStateFault(InvalidDBClusterSnapshotStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDBClusterSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterSnapshotNotFoundFault(let error): return error
+        case .invalidDBClusterSnapshotStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteDBClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -20568,6 +21429,22 @@ public enum DeleteDBInstanceAutomatedBackupOutputError: Swift.Error, Swift.Equat
     case dBInstanceAutomatedBackupNotFoundFault(DBInstanceAutomatedBackupNotFoundFault)
     case invalidDBInstanceAutomatedBackupStateFault(InvalidDBInstanceAutomatedBackupStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDBInstanceAutomatedBackupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceAutomatedBackupNotFoundFault(let error): return error
+        case .invalidDBInstanceAutomatedBackupStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteDBInstanceAutomatedBackupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -20733,6 +21610,26 @@ public enum DeleteDBInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDBInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceAutomatedBackupQuotaExceededFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBSnapshotAlreadyExistsFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .snapshotQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -20851,6 +21748,22 @@ public enum DeleteDBParameterGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDBParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .invalidDBParameterGroupStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -20928,6 +21841,22 @@ public enum DeleteDBProxyEndpointOutputError: Swift.Error, Swift.Equatable {
     case dBProxyEndpointNotFoundFault(DBProxyEndpointNotFoundFault)
     case invalidDBProxyEndpointStateFault(InvalidDBProxyEndpointStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDBProxyEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBProxyEndpointNotFoundFault(let error): return error
+        case .invalidDBProxyEndpointStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteDBProxyEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -21039,6 +21968,22 @@ public enum DeleteDBProxyOutputError: Swift.Error, Swift.Equatable {
     case dBProxyNotFoundFault(DBProxyNotFoundFault)
     case invalidDBProxyStateFault(InvalidDBProxyStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDBProxyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBProxyNotFoundFault(let error): return error
+        case .invalidDBProxyStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteDBProxyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -21161,6 +22106,22 @@ public enum DeleteDBSecurityGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDBSecurityGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBSecurityGroupNotFoundFault(let error): return error
+        case .invalidDBSecurityGroupStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDBSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -21239,6 +22200,22 @@ public enum DeleteDBSnapshotOutputError: Swift.Error, Swift.Equatable {
     case dBSnapshotNotFoundFault(DBSnapshotNotFoundFault)
     case invalidDBSnapshotStateFault(InvalidDBSnapshotStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDBSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBSnapshotNotFoundFault(let error): return error
+        case .invalidDBSnapshotStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteDBSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -21355,6 +22332,23 @@ public enum DeleteDBSubnetGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDBSubnetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .invalidDBSubnetGroupStateFault(let error): return error
+        case .invalidDBSubnetStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -21433,6 +22427,22 @@ public enum DeleteEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
     case invalidEventSubscriptionStateFault(InvalidEventSubscriptionStateFault)
     case subscriptionNotFoundFault(SubscriptionNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteEventSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidEventSubscriptionStateFault(let error): return error
+        case .subscriptionNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -21546,6 +22556,22 @@ public enum DeleteGlobalClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteGlobalClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .globalClusterNotFoundFault(let error): return error
+        case .invalidGlobalClusterStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -21656,6 +22682,22 @@ public enum DeleteOptionGroupOutputError: Swift.Error, Swift.Equatable {
     case invalidOptionGroupStateFault(InvalidOptionGroupStateFault)
     case optionGroupNotFoundFault(OptionGroupNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteOptionGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidOptionGroupStateFault(let error): return error
+        case .optionGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteOptionGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -21826,6 +22868,24 @@ public enum DeregisterDBProxyTargetsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeregisterDBProxyTargetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBProxyNotFoundFault(let error): return error
+        case .dBProxyTargetGroupNotFoundFault(let error): return error
+        case .dBProxyTargetNotFoundFault(let error): return error
+        case .invalidDBProxyStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeregisterDBProxyTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -21873,6 +22933,20 @@ extension DescribeAccountAttributesOutputError {
 
 public enum DescribeAccountAttributesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAccountAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAccountAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -22070,6 +23144,21 @@ public enum DescribeBlueGreenDeploymentsOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeBlueGreenDeploymentsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .blueGreenDeploymentNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeBlueGreenDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -22265,6 +23354,21 @@ extension DescribeCertificatesOutputError {
 public enum DescribeCertificatesOutputError: Swift.Error, Swift.Equatable {
     case certificateNotFoundFault(CertificateNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeCertificatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .certificateNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -22506,6 +23610,22 @@ public enum DescribeDBClusterBacktracksOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDBClusterBacktracksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterBacktrackNotFoundFault(let error): return error
+        case .dBClusterNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDBClusterBacktracksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -22712,6 +23832,21 @@ public enum DescribeDBClusterEndpointsOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDBClusterEndpointsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDBClusterEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -22907,6 +24042,21 @@ extension DescribeDBClusterParameterGroupsOutputError {
 public enum DescribeDBClusterParameterGroupsOutputError: Swift.Error, Swift.Equatable {
     case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDBClusterParameterGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeDBClusterParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -23119,6 +24269,21 @@ public enum DescribeDBClusterParametersOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDBClusterParametersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDBClusterParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -23255,6 +24420,21 @@ extension DescribeDBClusterSnapshotAttributesOutputError {
 public enum DescribeDBClusterSnapshotAttributesOutputError: Swift.Error, Swift.Equatable {
     case dBClusterSnapshotNotFoundFault(DBClusterSnapshotNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDBClusterSnapshotAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterSnapshotNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeDBClusterSnapshotAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -23506,6 +24686,21 @@ public enum DescribeDBClusterSnapshotsOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDBClusterSnapshotsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterSnapshotNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDBClusterSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -23733,6 +24928,21 @@ extension DescribeDBClustersOutputError: WaiterTypedError {
 public enum DescribeDBClustersOutputError: Swift.Error, Swift.Equatable {
     case dBClusterNotFoundFault(DBClusterNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDBClustersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeDBClustersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -24051,6 +25261,20 @@ public enum DescribeDBEngineVersionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDBEngineVersionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDBEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -24287,6 +25511,21 @@ public enum DescribeDBInstanceAutomatedBackupsOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDBInstanceAutomatedBackupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceAutomatedBackupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDBInstanceAutomatedBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -24505,6 +25744,21 @@ extension DescribeDBInstancesOutputError: WaiterTypedError {
 public enum DescribeDBInstancesOutputError: Swift.Error, Swift.Equatable {
     case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDBInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeDBInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -24794,6 +26048,21 @@ public enum DescribeDBLogFilesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDBLogFilesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDBLogFilesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -24990,6 +26259,21 @@ extension DescribeDBParameterGroupsOutputError {
 public enum DescribeDBParameterGroupsOutputError: Swift.Error, Swift.Equatable {
     case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDBParameterGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeDBParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -25201,6 +26485,21 @@ public enum DescribeDBParametersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDBParametersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDBParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -25394,6 +26693,21 @@ extension DescribeDBProxiesOutputError {
 public enum DescribeDBProxiesOutputError: Swift.Error, Swift.Equatable {
     case dBProxyNotFoundFault(DBProxyNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDBProxiesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBProxyNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeDBProxiesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -25601,6 +26915,22 @@ public enum DescribeDBProxyEndpointsOutputError: Swift.Error, Swift.Equatable {
     case dBProxyEndpointNotFoundFault(DBProxyEndpointNotFoundFault)
     case dBProxyNotFoundFault(DBProxyNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDBProxyEndpointsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBProxyEndpointNotFoundFault(let error): return error
+        case .dBProxyNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeDBProxyEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -25811,6 +27141,23 @@ public enum DescribeDBProxyTargetGroupsOutputError: Swift.Error, Swift.Equatable
     case dBProxyTargetGroupNotFoundFault(DBProxyTargetGroupNotFoundFault)
     case invalidDBProxyStateFault(InvalidDBProxyStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDBProxyTargetGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBProxyNotFoundFault(let error): return error
+        case .dBProxyTargetGroupNotFoundFault(let error): return error
+        case .invalidDBProxyStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeDBProxyTargetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -26025,6 +27372,24 @@ public enum DescribeDBProxyTargetsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDBProxyTargetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBProxyNotFoundFault(let error): return error
+        case .dBProxyTargetGroupNotFoundFault(let error): return error
+        case .dBProxyTargetNotFoundFault(let error): return error
+        case .invalidDBProxyStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDBProxyTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -26220,6 +27585,21 @@ public enum DescribeDBSecurityGroupsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDBSecurityGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBSecurityGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDBSecurityGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -26356,6 +27736,21 @@ extension DescribeDBSnapshotAttributesOutputError {
 public enum DescribeDBSnapshotAttributesOutputError: Swift.Error, Swift.Equatable {
     case dBSnapshotNotFoundFault(DBSnapshotNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDBSnapshotAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBSnapshotNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeDBSnapshotAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -26622,6 +28017,21 @@ public enum DescribeDBSnapshotsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDBSnapshotsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBSnapshotNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDBSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -26818,6 +28228,21 @@ public enum DescribeDBSubnetGroupsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDBSubnetGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDBSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -27011,6 +28436,20 @@ extension DescribeEngineDefaultClusterParametersOutputError {
 
 public enum DescribeEngineDefaultClusterParametersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEngineDefaultClusterParametersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEngineDefaultClusterParametersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -27274,6 +28713,20 @@ public enum DescribeEngineDefaultParametersOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeEngineDefaultParametersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeEngineDefaultParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -27416,6 +28869,20 @@ extension DescribeEventCategoriesOutputError {
 
 public enum DescribeEventCategoriesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEventCategoriesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEventCategoriesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -27602,6 +29069,21 @@ extension DescribeEventSubscriptionsOutputError {
 public enum DescribeEventSubscriptionsOutputError: Swift.Error, Swift.Equatable {
     case subscriptionNotFoundFault(SubscriptionNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEventSubscriptionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .subscriptionNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEventSubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -27897,6 +29379,20 @@ public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeEventsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -28134,6 +29630,21 @@ public enum DescribeExportTasksOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeExportTasksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .exportTaskNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeExportTasksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -28328,6 +29839,21 @@ extension DescribeGlobalClustersOutputError {
 public enum DescribeGlobalClustersOutputError: Swift.Error, Swift.Equatable {
     case globalClusterNotFoundFault(GlobalClusterNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeGlobalClustersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .globalClusterNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeGlobalClustersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -28555,6 +30081,20 @@ extension DescribeOptionGroupOptionsOutputError {
 
 public enum DescribeOptionGroupOptionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeOptionGroupOptionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeOptionGroupOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -28795,6 +30335,21 @@ extension DescribeOptionGroupsOutputError {
 public enum DescribeOptionGroupsOutputError: Swift.Error, Swift.Equatable {
     case optionGroupNotFoundFault(OptionGroupNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeOptionGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .optionGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeOptionGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -29075,6 +30630,20 @@ public enum DescribeOrderableDBInstanceOptionsOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeOrderableDBInstanceOptionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeOrderableDBInstanceOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -29273,6 +30842,21 @@ extension DescribePendingMaintenanceActionsOutputError {
 public enum DescribePendingMaintenanceActionsOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribePendingMaintenanceActionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribePendingMaintenanceActionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -29708,6 +31292,21 @@ public enum DescribeReservedDBInstancesOfferingsOutputError: Swift.Error, Swift.
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeReservedDBInstancesOfferingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .reservedDBInstancesOfferingNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeReservedDBInstancesOfferingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -29797,6 +31396,21 @@ extension DescribeReservedDBInstancesOutputError {
 public enum DescribeReservedDBInstancesOutputError: Swift.Error, Swift.Equatable {
     case reservedDBInstanceNotFoundFault(ReservedDBInstanceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeReservedDBInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .reservedDBInstanceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeReservedDBInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -29995,6 +31609,20 @@ public enum DescribeSourceRegionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeSourceRegionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeSourceRegionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -30135,6 +31763,22 @@ public enum DescribeValidDBInstanceModificationsOutputError: Swift.Error, Swift.
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeValidDBInstanceModificationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeValidDBInstanceModificationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -30267,6 +31911,9 @@ public struct DomainNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DomainNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -30452,6 +32099,22 @@ public enum DownloadDBLogFilePortionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DownloadDBLogFilePortionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBLogFileNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DownloadDBLogFilePortionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -30611,6 +32274,9 @@ public struct Ec2ImagePropertiesNotSupportedFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "Ec2ImagePropertiesNotSupportedFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -31201,6 +32867,9 @@ public struct EventSubscriptionQuotaExceededFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EventSubscriptionQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -31515,6 +33184,9 @@ public struct ExportTaskAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ExportTaskAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -31566,6 +33238,9 @@ public struct ExportTaskNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ExportTaskNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -31675,6 +33350,23 @@ public enum FailoverDBClusterOutputError: Swift.Error, Swift.Equatable {
     case invalidDBClusterStateFault(InvalidDBClusterStateFault)
     case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension FailoverDBClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension FailoverDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -31804,6 +33496,24 @@ public enum FailoverGlobalClusterOutputError: Swift.Error, Swift.Equatable {
     case invalidDBClusterStateFault(InvalidDBClusterStateFault)
     case invalidGlobalClusterStateFault(InvalidGlobalClusterStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension FailoverGlobalClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .globalClusterNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidGlobalClusterStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension FailoverGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -32213,6 +33923,9 @@ public struct GlobalClusterAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "GlobalClusterAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -32355,6 +34068,9 @@ public struct GlobalClusterNotFoundFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "GlobalClusterNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -32406,6 +34122,9 @@ public struct GlobalClusterQuotaExceededFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "GlobalClusterQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -32537,6 +34256,9 @@ public struct IamRoleMissingPermissionsFault: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IamRoleMissingPermissionsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -32588,6 +34310,9 @@ public struct IamRoleNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IamRoleNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -32639,6 +34364,9 @@ public struct InstanceQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InstanceQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -32690,6 +34418,9 @@ public struct InsufficientAvailableIPsInSubnetFault: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsufficientAvailableIPsInSubnetFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -32741,6 +34472,9 @@ public struct InsufficientDBClusterCapacityFault: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsufficientDBClusterCapacityFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -32792,6 +34526,9 @@ public struct InsufficientDBInstanceCapacityFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsufficientDBInstanceCapacityFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -32843,6 +34580,9 @@ public struct InsufficientStorageClusterCapacityFault: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsufficientStorageClusterCapacityFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -32894,6 +34634,9 @@ public struct InvalidBlueGreenDeploymentStateFault: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidBlueGreenDeploymentStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -32945,6 +34688,9 @@ public struct InvalidCustomDBEngineVersionStateFault: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCustomDBEngineVersionStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -32996,6 +34742,9 @@ public struct InvalidDBClusterCapacityFault: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBClusterCapacityFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33047,6 +34796,9 @@ public struct InvalidDBClusterEndpointStateFault: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBClusterEndpointStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33098,6 +34850,9 @@ public struct InvalidDBClusterSnapshotStateFault: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBClusterSnapshotStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33149,6 +34904,9 @@ public struct InvalidDBClusterStateFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBClusterStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33200,6 +34958,9 @@ public struct InvalidDBInstanceAutomatedBackupStateFault: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBInstanceAutomatedBackupStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33251,6 +35012,9 @@ public struct InvalidDBInstanceStateFault: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBInstanceStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33302,6 +35066,9 @@ public struct InvalidDBParameterGroupStateFault: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBParameterGroupStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33353,6 +35120,9 @@ public struct InvalidDBProxyEndpointStateFault: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBProxyEndpointStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33404,6 +35174,9 @@ public struct InvalidDBProxyStateFault: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBProxyStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33455,6 +35228,9 @@ public struct InvalidDBSecurityGroupStateFault: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBSecurityGroupStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33506,6 +35282,9 @@ public struct InvalidDBSnapshotStateFault: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBSnapshotStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33557,6 +35336,9 @@ public struct InvalidDBSubnetGroupFault: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBSubnetGroupFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33608,6 +35390,9 @@ public struct InvalidDBSubnetGroupStateFault: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBSubnetGroupStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33659,6 +35444,9 @@ public struct InvalidDBSubnetStateFault: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDBSubnetStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33710,6 +35498,9 @@ public struct InvalidEventSubscriptionStateFault: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidEventSubscriptionStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33761,6 +35552,9 @@ public struct InvalidExportOnlyFault: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidExportOnlyFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33812,6 +35606,9 @@ public struct InvalidExportSourceStateFault: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidExportSourceStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33863,6 +35660,9 @@ public struct InvalidExportTaskStateFault: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidExportTaskStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33914,6 +35714,9 @@ public struct InvalidGlobalClusterStateFault: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidGlobalClusterStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -33965,6 +35768,9 @@ public struct InvalidOptionGroupStateFault: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidOptionGroupStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -34016,6 +35822,9 @@ public struct InvalidRestoreFault: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRestoreFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -34067,6 +35876,9 @@ public struct InvalidS3BucketFault: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidS3BucketFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -34118,6 +35930,9 @@ public struct InvalidSubnet: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSubnet" }
+
     public var message: Swift.String?
 
     public init (
@@ -34169,6 +35984,9 @@ public struct InvalidVPCNetworkStateFault: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidVPCNetworkStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -34220,6 +36038,9 @@ public struct KMSKeyNotAccessibleFault: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSKeyNotAccessibleFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -34359,6 +36180,26 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case dBProxyTargetGroupNotFoundFault(DBProxyTargetGroupNotFoundFault)
     case dBSnapshotNotFoundFault(DBSnapshotNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .blueGreenDeploymentNotFoundFault(let error): return error
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBProxyNotFoundFault(let error): return error
+        case .dBProxyTargetGroupNotFoundFault(let error): return error
+        case .dBSnapshotNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -34610,6 +36451,23 @@ public enum ModifyActivityStreamOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyActivityStreamOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyActivityStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -34779,6 +36637,21 @@ public enum ModifyCertificatesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyCertificatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .certificateNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -34929,6 +36802,23 @@ public enum ModifyCurrentDBClusterCapacityOutputError: Swift.Error, Swift.Equata
     case invalidDBClusterCapacityFault(InvalidDBClusterCapacityFault)
     case invalidDBClusterStateFault(InvalidDBClusterStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyCurrentDBClusterCapacityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .invalidDBClusterCapacityFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyCurrentDBClusterCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -35114,6 +37004,22 @@ public enum ModifyCustomDBEngineVersionOutputError: Swift.Error, Swift.Equatable
     case customDBEngineVersionNotFoundFault(CustomDBEngineVersionNotFoundFault)
     case invalidCustomDBEngineVersionStateFault(InvalidCustomDBEngineVersionStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyCustomDBEngineVersionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customDBEngineVersionNotFoundFault(let error): return error
+        case .invalidCustomDBEngineVersionStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -35770,6 +37676,25 @@ public enum ModifyDBClusterEndpointOutputError: Swift.Error, Swift.Equatable {
     case invalidDBClusterStateFault(InvalidDBClusterStateFault)
     case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyDBClusterEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterEndpointNotFoundFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .invalidDBClusterEndpointStateFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyDBClusterEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -36567,6 +38492,32 @@ public enum ModifyDBClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyDBClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterAlreadyExistsFault(let error): return error
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBClusterParameterGroupNotFoundFault(let error): return error
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .domainNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .invalidDBSecurityGroupStateFault(let error): return error
+        case .invalidDBSubnetGroupStateFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -36715,6 +38666,22 @@ public enum ModifyDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatab
     case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
     case invalidDBParameterGroupStateFault(InvalidDBParameterGroupStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyDBClusterParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .invalidDBParameterGroupStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -36925,6 +38892,23 @@ public enum ModifyDBClusterSnapshotAttributeOutputError: Swift.Error, Swift.Equa
     case invalidDBClusterSnapshotStateFault(InvalidDBClusterSnapshotStateFault)
     case sharedSnapshotQuotaExceededFault(SharedSnapshotQuotaExceededFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyDBClusterSnapshotAttributeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterSnapshotNotFoundFault(let error): return error
+        case .invalidDBClusterSnapshotStateFault(let error): return error
+        case .sharedSnapshotQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyDBClusterSnapshotAttributeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -37797,6 +39781,40 @@ public enum ModifyDBInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyDBInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationNotFoundFault(let error): return error
+        case .backupPolicyNotFoundFault(let error): return error
+        case .certificateNotFoundFault(let error): return error
+        case .dBInstanceAlreadyExistsFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .dBSecurityGroupNotFoundFault(let error): return error
+        case .dBUpgradeDependencyFailureFault(let error): return error
+        case .domainNotFoundFault(let error): return error
+        case .insufficientDBInstanceCapacityFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .invalidDBSecurityGroupStateFault(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .networkTypeNotSupported(let error): return error
+        case .optionGroupNotFoundFault(let error): return error
+        case .provisionedIopsNotAvailableInAZFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .storageTypeNotSupportedFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -37947,6 +39965,22 @@ public enum ModifyDBParameterGroupOutputError: Swift.Error, Swift.Equatable {
     case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
     case invalidDBParameterGroupStateFault(InvalidDBParameterGroupStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyDBParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .invalidDBParameterGroupStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -38111,6 +40145,24 @@ public enum ModifyDBProxyEndpointOutputError: Swift.Error, Swift.Equatable {
     case invalidDBProxyEndpointStateFault(InvalidDBProxyEndpointStateFault)
     case invalidDBProxyStateFault(InvalidDBProxyStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyDBProxyEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBProxyEndpointAlreadyExistsFault(let error): return error
+        case .dBProxyEndpointNotFoundFault(let error): return error
+        case .invalidDBProxyEndpointStateFault(let error): return error
+        case .invalidDBProxyStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyDBProxyEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -38355,6 +40407,23 @@ public enum ModifyDBProxyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyDBProxyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBProxyAlreadyExistsFault(let error): return error
+        case .dBProxyNotFoundFault(let error): return error
+        case .invalidDBProxyStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyDBProxyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -38500,6 +40569,23 @@ public enum ModifyDBProxyTargetGroupOutputError: Swift.Error, Swift.Equatable {
     case dBProxyTargetGroupNotFoundFault(DBProxyTargetGroupNotFoundFault)
     case invalidDBProxyStateFault(InvalidDBProxyStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyDBProxyTargetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBProxyNotFoundFault(let error): return error
+        case .dBProxyTargetGroupNotFoundFault(let error): return error
+        case .invalidDBProxyStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyDBProxyTargetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -38702,6 +40788,23 @@ public enum ModifyDBSnapshotAttributeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyDBSnapshotAttributeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBSnapshotNotFoundFault(let error): return error
+        case .invalidDBSnapshotStateFault(let error): return error
+        case .sharedSnapshotQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyDBSnapshotAttributeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -38845,6 +40948,21 @@ extension ModifyDBSnapshotOutputError {
 public enum ModifyDBSnapshotOutputError: Swift.Error, Swift.Equatable {
     case dBSnapshotNotFoundFault(DBSnapshotNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyDBSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBSnapshotNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyDBSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -39012,6 +41130,25 @@ public enum ModifyDBSubnetGroupOutputError: Swift.Error, Swift.Equatable {
     case invalidSubnet(InvalidSubnet)
     case subnetAlreadyInUse(SubnetAlreadyInUse)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyDBSubnetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBSubnetGroupDoesNotCoverEnoughAZs(let error): return error
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .dBSubnetQuotaExceededFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .subnetAlreadyInUse(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyDBSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -39204,6 +41341,26 @@ public enum ModifyEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyEventSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .eventSubscriptionQuotaExceededFault(let error): return error
+        case .sNSInvalidTopicFault(let error): return error
+        case .sNSNoAuthorizationFault(let error): return error
+        case .sNSTopicArnNotFoundFault(let error): return error
+        case .subscriptionCategoryNotFoundFault(let error): return error
+        case .subscriptionNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -39371,6 +41528,24 @@ public enum ModifyGlobalClusterOutputError: Swift.Error, Swift.Equatable {
     case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
     case invalidGlobalClusterStateFault(InvalidGlobalClusterStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyGlobalClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .globalClusterNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .invalidGlobalClusterStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -39570,6 +41745,22 @@ public enum ModifyOptionGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyOptionGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidOptionGroupStateFault(let error): return error
+        case .optionGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyOptionGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -39637,6 +41828,9 @@ public struct NetworkTypeNotSupported: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NetworkTypeNotSupported" }
+
     public var message: Swift.String?
 
     public init (
@@ -40206,6 +42400,9 @@ public struct OptionGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OptionGroupAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -40302,6 +42499,9 @@ public struct OptionGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OptionGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -40783,6 +42983,9 @@ public struct OptionGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OptionGroupQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -42118,6 +44321,9 @@ public struct PointInTimeRestoreNotEnabledFault: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PointInTimeRestoreNotEnabledFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -42295,6 +44501,22 @@ public enum PromoteReadReplicaDBClusterOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PromoteReadReplicaDBClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PromoteReadReplicaDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -42446,6 +44668,22 @@ public enum PromoteReadReplicaOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PromoteReadReplicaOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PromoteReadReplicaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -42513,6 +44751,9 @@ public struct ProvisionedIopsNotAvailableInAZFault: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ProvisionedIopsNotAvailableInAZFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -42668,6 +44909,23 @@ public enum PurchaseReservedDBInstancesOfferingOutputError: Swift.Error, Swift.E
     case reservedDBInstanceQuotaExceededFault(ReservedDBInstanceQuotaExceededFault)
     case reservedDBInstancesOfferingNotFoundFault(ReservedDBInstancesOfferingNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PurchaseReservedDBInstancesOfferingOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .reservedDBInstanceAlreadyExistsFault(let error): return error
+        case .reservedDBInstanceQuotaExceededFault(let error): return error
+        case .reservedDBInstancesOfferingNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PurchaseReservedDBInstancesOfferingOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -42840,6 +45098,23 @@ public enum RebootDBClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RebootDBClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RebootDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -42963,6 +45238,22 @@ public enum RebootDBInstanceOutputError: Swift.Error, Swift.Equatable {
     case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
     case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RebootDBInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RebootDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -43220,6 +45511,29 @@ public enum RegisterDBProxyTargetsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RegisterDBProxyTargetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBProxyNotFoundFault(let error): return error
+        case .dBProxyTargetAlreadyRegisteredFault(let error): return error
+        case .dBProxyTargetGroupNotFoundFault(let error): return error
+        case .insufficientAvailableIPsInSubnetFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .invalidDBProxyStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RegisterDBProxyTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -43360,6 +45674,23 @@ public enum RemoveFromGlobalClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveFromGlobalClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .globalClusterNotFoundFault(let error): return error
+        case .invalidGlobalClusterStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveFromGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -43496,6 +45827,23 @@ public enum RemoveRoleFromDBClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveRoleFromDBClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBClusterRoleNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveRoleFromDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -43601,6 +45949,23 @@ public enum RemoveRoleFromDBInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveRoleFromDBInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBInstanceRoleNotFoundFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveRoleFromDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -43691,6 +46056,22 @@ public enum RemoveSourceIdentifierFromSubscriptionOutputError: Swift.Error, Swif
     case sourceNotFoundFault(SourceNotFoundFault)
     case subscriptionNotFoundFault(SubscriptionNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RemoveSourceIdentifierFromSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .sourceNotFoundFault(let error): return error
+        case .subscriptionNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RemoveSourceIdentifierFromSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -43849,6 +46230,26 @@ public enum RemoveTagsFromResourceOutputError: Swift.Error, Swift.Equatable {
     case dBProxyTargetGroupNotFoundFault(DBProxyTargetGroupNotFoundFault)
     case dBSnapshotNotFoundFault(DBSnapshotNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RemoveTagsFromResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .blueGreenDeploymentNotFoundFault(let error): return error
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBProxyNotFoundFault(let error): return error
+        case .dBProxyTargetGroupNotFoundFault(let error): return error
+        case .dBSnapshotNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -44129,6 +46530,9 @@ public struct ReservedDBInstanceAlreadyExistsFault: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReservedDBInstanceAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -44180,6 +46584,9 @@ public struct ReservedDBInstanceNotFoundFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReservedDBInstanceNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -44231,6 +46638,9 @@ public struct ReservedDBInstanceQuotaExceededFault: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReservedDBInstanceQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -44433,6 +46843,9 @@ public struct ReservedDBInstancesOfferingNotFoundFault: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReservedDBInstancesOfferingNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -44575,6 +46988,22 @@ public enum ResetDBClusterParameterGroupOutputError: Swift.Error, Swift.Equatabl
     case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
     case invalidDBParameterGroupStateFault(InvalidDBParameterGroupStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ResetDBClusterParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .invalidDBParameterGroupStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ResetDBClusterParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -44749,6 +47178,22 @@ public enum ResetDBParameterGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ResetDBParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .invalidDBParameterGroupStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ResetDBParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -44817,6 +47262,9 @@ public struct ResourceNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -45533,6 +47981,34 @@ public enum RestoreDBClusterFromS3OutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RestoreDBClusterFromS3OutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterAlreadyExistsFault(let error): return error
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBClusterParameterGroupNotFoundFault(let error): return error
+        case .dBClusterQuotaExceededFault(let error): return error
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .domainNotFoundFault(let error): return error
+        case .insufficientStorageClusterCapacityFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBSubnetGroupStateFault(let error): return error
+        case .invalidS3BucketFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RestoreDBClusterFromS3OutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -46138,6 +48614,38 @@ public enum RestoreDBClusterFromSnapshotOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RestoreDBClusterFromSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterAlreadyExistsFault(let error): return error
+        case .dBClusterParameterGroupNotFoundFault(let error): return error
+        case .dBClusterQuotaExceededFault(let error): return error
+        case .dBClusterSnapshotNotFoundFault(let error): return error
+        case .dBSnapshotNotFoundFault(let error): return error
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .domainNotFoundFault(let error): return error
+        case .insufficientDBClusterCapacityFault(let error): return error
+        case .insufficientStorageClusterCapacityFault(let error): return error
+        case .invalidDBClusterSnapshotStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .invalidDBSnapshotStateFault(let error): return error
+        case .invalidRestoreFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .optionGroupNotFoundFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RestoreDBClusterFromSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -46721,6 +49229,38 @@ public enum RestoreDBClusterToPointInTimeOutputError: Swift.Error, Swift.Equatab
     case optionGroupNotFoundFault(OptionGroupNotFoundFault)
     case storageQuotaExceededFault(StorageQuotaExceededFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RestoreDBClusterToPointInTimeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterAlreadyExistsFault(let error): return error
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBClusterParameterGroupNotFoundFault(let error): return error
+        case .dBClusterQuotaExceededFault(let error): return error
+        case .dBClusterSnapshotNotFoundFault(let error): return error
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .domainNotFoundFault(let error): return error
+        case .insufficientDBClusterCapacityFault(let error): return error
+        case .insufficientStorageClusterCapacityFault(let error): return error
+        case .invalidDBClusterSnapshotStateFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBSnapshotStateFault(let error): return error
+        case .invalidRestoreFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .optionGroupNotFoundFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RestoreDBClusterToPointInTimeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -47426,6 +49966,42 @@ public enum RestoreDBInstanceFromDBSnapshotOutputError: Swift.Error, Swift.Equat
     case storageQuotaExceededFault(StorageQuotaExceededFault)
     case storageTypeNotSupportedFault(StorageTypeNotSupportedFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RestoreDBInstanceFromDBSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationNotFoundFault(let error): return error
+        case .backupPolicyNotFoundFault(let error): return error
+        case .dBClusterSnapshotNotFoundFault(let error): return error
+        case .dBInstanceAlreadyExistsFault(let error): return error
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .dBSecurityGroupNotFoundFault(let error): return error
+        case .dBSnapshotNotFoundFault(let error): return error
+        case .dBSubnetGroupDoesNotCoverEnoughAZs(let error): return error
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .domainNotFoundFault(let error): return error
+        case .instanceQuotaExceededFault(let error): return error
+        case .insufficientDBInstanceCapacityFault(let error): return error
+        case .invalidDBSnapshotStateFault(let error): return error
+        case .invalidRestoreFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .networkTypeNotSupported(let error): return error
+        case .optionGroupNotFoundFault(let error): return error
+        case .provisionedIopsNotAvailableInAZFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .storageTypeNotSupportedFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RestoreDBInstanceFromDBSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -48286,6 +50862,38 @@ public enum RestoreDBInstanceFromS3OutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RestoreDBInstanceFromS3OutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationNotFoundFault(let error): return error
+        case .backupPolicyNotFoundFault(let error): return error
+        case .dBInstanceAlreadyExistsFault(let error): return error
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .dBSecurityGroupNotFoundFault(let error): return error
+        case .dBSubnetGroupDoesNotCoverEnoughAZs(let error): return error
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .instanceQuotaExceededFault(let error): return error
+        case .insufficientDBInstanceCapacityFault(let error): return error
+        case .invalidS3BucketFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .networkTypeNotSupported(let error): return error
+        case .optionGroupNotFoundFault(let error): return error
+        case .provisionedIopsNotAvailableInAZFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .storageTypeNotSupportedFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RestoreDBInstanceFromS3OutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -49023,6 +51631,43 @@ public enum RestoreDBInstanceToPointInTimeOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RestoreDBInstanceToPointInTimeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationNotFoundFault(let error): return error
+        case .backupPolicyNotFoundFault(let error): return error
+        case .dBInstanceAlreadyExistsFault(let error): return error
+        case .dBInstanceAutomatedBackupNotFoundFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBParameterGroupNotFoundFault(let error): return error
+        case .dBSecurityGroupNotFoundFault(let error): return error
+        case .dBSubnetGroupDoesNotCoverEnoughAZs(let error): return error
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .domainNotFoundFault(let error): return error
+        case .instanceQuotaExceededFault(let error): return error
+        case .insufficientDBInstanceCapacityFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .invalidRestoreFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .networkTypeNotSupported(let error): return error
+        case .optionGroupNotFoundFault(let error): return error
+        case .pointInTimeRestoreNotEnabledFault(let error): return error
+        case .provisionedIopsNotAvailableInAZFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .storageTypeNotSupportedFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RestoreDBInstanceToPointInTimeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -49226,6 +51871,23 @@ public enum RevokeDBSecurityGroupIngressOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RevokeDBSecurityGroupIngressOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationNotFoundFault(let error): return error
+        case .dBSecurityGroupNotFoundFault(let error): return error
+        case .invalidDBSecurityGroupStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RevokeDBSecurityGroupIngressOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -49293,6 +51955,9 @@ public struct SNSInvalidTopicFault: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SNSInvalidTopicFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -49344,6 +52009,9 @@ public struct SNSNoAuthorizationFault: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SNSNoAuthorizationFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -49395,6 +52063,9 @@ public struct SNSTopicArnNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SNSTopicArnNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -49706,6 +52377,9 @@ public struct SharedSnapshotQuotaExceededFault: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SharedSnapshotQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -49757,6 +52431,9 @@ public struct SnapshotQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SnapshotQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -49808,6 +52485,9 @@ public struct SourceClusterNotSupportedFault: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SourceClusterNotSupportedFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -49859,6 +52539,9 @@ public struct SourceDatabaseNotSupportedFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SourceDatabaseNotSupportedFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -49910,6 +52593,9 @@ public struct SourceNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SourceNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -50177,6 +52863,26 @@ public enum StartActivityStreamOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartActivityStreamOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartActivityStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -50340,6 +53046,23 @@ public enum StartDBClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartDBClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -50490,6 +53213,25 @@ public enum StartDBInstanceAutomatedBackupsReplicationOutputError: Swift.Error, 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartDBInstanceAutomatedBackupsReplicationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceAutomatedBackupQuotaExceededFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .storageTypeNotSupportedFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartDBInstanceAutomatedBackupsReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -50617,6 +53359,31 @@ public enum StartDBInstanceOutputError: Swift.Error, Swift.Equatable {
     case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
     case kMSKeyNotAccessibleFault(KMSKeyNotAccessibleFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartDBInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationNotFoundFault(let error): return error
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBSubnetGroupDoesNotCoverEnoughAZs(let error): return error
+        case .dBSubnetGroupNotFoundFault(let error): return error
+        case .insufficientDBInstanceCapacityFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -50866,6 +53633,30 @@ public enum StartExportTaskOutputError: Swift.Error, Swift.Equatable {
     case invalidS3BucketFault(InvalidS3BucketFault)
     case kMSKeyNotAccessibleFault(KMSKeyNotAccessibleFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartExportTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBClusterSnapshotNotFoundFault(let error): return error
+        case .dBSnapshotNotFoundFault(let error): return error
+        case .exportTaskAlreadyExistsFault(let error): return error
+        case .iamRoleMissingPermissionsFault(let error): return error
+        case .iamRoleNotFoundFault(let error): return error
+        case .invalidExportOnlyFault(let error): return error
+        case .invalidExportSourceStateFault(let error): return error
+        case .invalidS3BucketFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartExportTaskOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -51184,6 +53975,25 @@ public enum StopActivityStreamOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StopActivityStreamOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .dBInstanceNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StopActivityStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -51317,6 +54127,23 @@ public enum StopDBClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StopDBClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBClusterNotFoundFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StopDBClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -51426,6 +54253,22 @@ public enum StopDBInstanceAutomatedBackupsReplicationOutputError: Swift.Error, S
     case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
     case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopDBInstanceAutomatedBackupsReplicationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StopDBInstanceAutomatedBackupsReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -51556,6 +54399,25 @@ public enum StopDBInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StopDBInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .dBSnapshotAlreadyExistsFault(let error): return error
+        case .invalidDBClusterStateFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .snapshotQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StopDBInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -51623,6 +54485,9 @@ public struct StorageQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StorageQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -51674,6 +54539,9 @@ public struct StorageTypeNotSupportedFault: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StorageTypeNotSupportedFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -51790,6 +54658,9 @@ public struct SubnetAlreadyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SubnetAlreadyInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -51841,6 +54712,9 @@ public struct SubscriptionAlreadyExistFault: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SubscriptionAlreadyExistFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -51892,6 +54766,9 @@ public struct SubscriptionCategoryNotFoundFault: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SubscriptionCategoryNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -51943,6 +54820,9 @@ public struct SubscriptionNotFoundFault: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SubscriptionNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -52049,6 +54929,22 @@ public enum SwitchoverBlueGreenDeploymentOutputError: Swift.Error, Swift.Equatab
     case blueGreenDeploymentNotFoundFault(BlueGreenDeploymentNotFoundFault)
     case invalidBlueGreenDeploymentStateFault(InvalidBlueGreenDeploymentStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SwitchoverBlueGreenDeploymentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .blueGreenDeploymentNotFoundFault(let error): return error
+        case .invalidBlueGreenDeploymentStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SwitchoverBlueGreenDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -52227,6 +55123,22 @@ public enum SwitchoverReadReplicaOutputError: Swift.Error, Swift.Equatable {
     case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
     case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SwitchoverReadReplicaOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dBInstanceNotFoundFault(let error): return error
+        case .invalidDBInstanceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SwitchoverReadReplicaOutputResponse: ClientRuntime.HttpResponseBinding {

@@ -661,6 +661,21 @@ public enum GetDeploymentsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDeploymentsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -794,6 +809,21 @@ public enum GetDeviceRegistrationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDeviceRegistrationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDeviceRegistrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -871,6 +901,9 @@ public struct InternalServiceException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServiceException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1170,6 +1203,21 @@ extension SendHeartbeatOutputError {
 public enum SendHeartbeatOutputError: Swift.Error, Swift.Equatable {
     case internalServiceException(InternalServiceException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SendHeartbeatOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SendHeartbeatOutputResponse: ClientRuntime.HttpResponseBinding {

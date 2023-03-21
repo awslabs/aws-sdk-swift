@@ -28,6 +28,9 @@ public struct ContainerNotFoundException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ContainerNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -111,6 +114,23 @@ public enum DeleteObjectOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteObjectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .objectNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteObjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -176,6 +196,23 @@ public enum DescribeObjectOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case objectNotFoundException(ObjectNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeObjectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .objectNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeObjectOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -309,6 +346,24 @@ public enum GetObjectOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetObjectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .objectNotFoundException(let error): return error
+        case .requestedRangeNotSatisfiableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetObjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
@@ -437,6 +492,9 @@ public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerError" }
+
     public var message: Swift.String?
 
     public init (
@@ -660,6 +718,22 @@ public enum ListItemsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListItemsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListItemsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -746,6 +820,9 @@ public struct ObjectNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ObjectNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -913,6 +990,22 @@ public enum PutObjectOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutObjectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutObjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1000,6 +1093,9 @@ public struct RequestedRangeNotSatisfiableException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RequestedRangeNotSatisfiableException" }
+
     public var message: Swift.String?
 
     public init (

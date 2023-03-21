@@ -312,6 +312,21 @@ public enum GenerateDataSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GenerateDataSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .marketplaceCommerceAnalyticsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GenerateDataSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -380,6 +395,9 @@ public struct MarketplaceCommerceAnalyticsException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MarketplaceCommerceAnalyticsException" }
+
     /// This message describes details of the error.
     public var message: Swift.String?
 
@@ -568,6 +586,21 @@ extension StartSupportDataExportOutputError {
 public enum StartSupportDataExportOutputError: Swift.Error, Swift.Equatable {
     case marketplaceCommerceAnalyticsException(MarketplaceCommerceAnalyticsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartSupportDataExportOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .marketplaceCommerceAnalyticsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartSupportDataExportOutputResponse: ClientRuntime.HttpResponseBinding {

@@ -28,6 +28,9 @@ public struct AccountHasOngoingImportException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccountHasOngoingImportException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -81,6 +84,9 @@ public struct AccountNotFoundException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccountNotFoundException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -134,6 +140,9 @@ public struct AccountNotRegisteredException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccountNotRegisteredException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -187,6 +196,9 @@ public struct AccountRegisteredException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccountRegisteredException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -334,6 +346,34 @@ public enum AddTagsOutputError: Swift.Error, Swift.Equatable {
     case tagsLimitExceededException(TagsLimitExceededException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AddTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .channelNotFoundException(let error): return error
+        case .cloudTrailARNInvalidException(let error): return error
+        case .conflictException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .invalidTagParameterException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .resourceTypeNotSupportedException(let error): return error
+        case .tagsLimitExceededException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AddTagsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -814,6 +854,30 @@ public enum CancelQueryOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CancelQueryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .conflictException(let error): return error
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .inactiveQueryException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .queryIdNotFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CancelQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -893,6 +957,9 @@ public struct CannotDelegateManagementAccountException: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CannotDelegateManagementAccountException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -991,6 +1058,9 @@ public struct ChannelARNInvalidException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ChannelARNInvalidException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -1044,6 +1114,9 @@ public struct ChannelAlreadyExistsException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ChannelAlreadyExistsException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -1097,6 +1170,9 @@ public struct ChannelExistsForEDSException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ChannelExistsForEDSException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -1150,6 +1226,9 @@ public struct ChannelMaxLimitExceededException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ChannelMaxLimitExceededException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -1203,6 +1282,9 @@ public struct ChannelNotFoundException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ChannelNotFoundException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -1256,6 +1338,9 @@ public struct CloudTrailARNInvalidException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudTrailARNInvalidException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -1309,6 +1394,9 @@ public struct CloudTrailAccessNotEnabledException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudTrailAccessNotEnabledException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -1362,6 +1450,9 @@ public struct CloudTrailInvalidClientTokenIdException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudTrailInvalidClientTokenIdException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -1415,6 +1506,9 @@ public struct CloudWatchLogsDeliveryUnavailableException: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudWatchLogsDeliveryUnavailableException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -1468,6 +1562,9 @@ public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConflictException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -1647,6 +1744,32 @@ public enum CreateChannelOutputError: Swift.Error, Swift.Equatable {
     case tagsLimitExceededException(TagsLimitExceededException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateChannelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .channelAlreadyExistsException(let error): return error
+        case .channelMaxLimitExceededException(let error): return error
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .invalidEventDataStoreCategoryException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidSourceException(let error): return error
+        case .invalidTagParameterException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .tagsLimitExceededException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1966,6 +2089,38 @@ public enum CreateEventDataStoreOutputError: Swift.Error, Swift.Equatable {
     case organizationsNotInUseException(OrganizationsNotInUseException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateEventDataStoreOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailAccessNotEnabledException(let error): return error
+        case .conflictException(let error): return error
+        case .eventDataStoreAlreadyExistsException(let error): return error
+        case .eventDataStoreMaxLimitExceededException(let error): return error
+        case .insufficientDependencyServiceAccessPermissionException(let error): return error
+        case .insufficientEncryptionPolicyException(let error): return error
+        case .invalidEventSelectorsException(let error): return error
+        case .invalidKmsKeyIdException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidTagParameterException(let error): return error
+        case .kmsException(let error): return error
+        case .kmsKeyNotFoundException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .organizationNotInAllFeaturesModeException(let error): return error
+        case .organizationsNotInUseException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2431,6 +2586,51 @@ public enum CreateTrailOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateTrailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailAccessNotEnabledException(let error): return error
+        case .cloudTrailInvalidClientTokenIdException(let error): return error
+        case .cloudWatchLogsDeliveryUnavailableException(let error): return error
+        case .conflictException(let error): return error
+        case .insufficientDependencyServiceAccessPermissionException(let error): return error
+        case .insufficientEncryptionPolicyException(let error): return error
+        case .insufficientS3BucketPolicyException(let error): return error
+        case .insufficientSnsTopicPolicyException(let error): return error
+        case .invalidCloudWatchLogsLogGroupArnException(let error): return error
+        case .invalidCloudWatchLogsRoleArnException(let error): return error
+        case .invalidKmsKeyIdException(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidS3BucketNameException(let error): return error
+        case .invalidS3PrefixException(let error): return error
+        case .invalidSnsTopicNameException(let error): return error
+        case .invalidTagParameterException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .kmsException(let error): return error
+        case .kmsKeyDisabledException(let error): return error
+        case .kmsKeyNotFoundException(let error): return error
+        case .maximumNumberOfTrailsExceededException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .organizationNotInAllFeaturesModeException(let error): return error
+        case .organizationsNotInUseException(let error): return error
+        case .s3BucketDoesNotExistException(let error): return error
+        case .tagsLimitExceededException(let error): return error
+        case .trailAlreadyExistsException(let error): return error
+        case .trailNotProvidedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateTrailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2737,6 +2937,9 @@ public struct DelegatedAdminAccountLimitExceededException: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DelegatedAdminAccountLimitExceededException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -2838,6 +3041,24 @@ public enum DeleteChannelOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedException(OperationNotPermittedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteChannelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .channelARNInvalidException(let error): return error
+        case .channelNotFoundException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteChannelOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2942,6 +3163,32 @@ public enum DeleteEventDataStoreOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteEventDataStoreOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .channelExistsForEDSException(let error): return error
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .eventDataStoreHasOngoingImportException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .eventDataStoreTerminationProtectedException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .insufficientDependencyServiceAccessPermissionException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3030,6 +3277,26 @@ public enum DeleteResourcePolicyOutputError: Swift.Error, Swift.Equatable {
     case resourceTypeNotSupportedException(ResourceTypeNotSupportedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteResourcePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedException(let error): return error
+        case .resourceARNNotValidException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .resourcePolicyNotFoundException(let error): return error
+        case .resourceTypeNotSupportedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3129,6 +3396,30 @@ public enum DeleteTrailOutputError: Swift.Error, Swift.Equatable {
     case trailNotFoundException(TrailNotFoundException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteTrailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailARNInvalidException(let error): return error
+        case .conflictException(let error): return error
+        case .insufficientDependencyServiceAccessPermissionException(let error): return error
+        case .invalidHomeRegionException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .trailNotFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteTrailOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3286,6 +3577,31 @@ public enum DeregisterOrganizationDelegatedAdminOutputError: Swift.Error, Swift.
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeregisterOrganizationDelegatedAdminOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accountNotFoundException(let error): return error
+        case .accountNotRegisteredException(let error): return error
+        case .cloudTrailAccessNotEnabledException(let error): return error
+        case .conflictException(let error): return error
+        case .insufficientDependencyServiceAccessPermissionException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notOrganizationManagementAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .organizationNotInAllFeaturesModeException(let error): return error
+        case .organizationsNotInUseException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeregisterOrganizationDelegatedAdminOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3392,6 +3708,28 @@ public enum DescribeQueryOutputError: Swift.Error, Swift.Equatable {
     case queryIdNotFoundException(QueryIdNotFoundException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeQueryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .queryIdNotFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeQueryOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3600,6 +3938,24 @@ public enum DescribeTrailsOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedException(OperationNotPermittedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTrailsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidTrailNameException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeTrailsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4059,6 +4415,9 @@ public struct EventDataStoreARNInvalidException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EventDataStoreARNInvalidException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -4112,6 +4471,9 @@ public struct EventDataStoreAlreadyExistsException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EventDataStoreAlreadyExistsException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -4165,6 +4527,9 @@ public struct EventDataStoreHasOngoingImportException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EventDataStoreHasOngoingImportException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -4218,6 +4583,9 @@ public struct EventDataStoreMaxLimitExceededException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EventDataStoreMaxLimitExceededException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -4271,6 +4639,9 @@ public struct EventDataStoreNotFoundException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EventDataStoreNotFoundException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -4359,6 +4730,9 @@ public struct EventDataStoreTerminationProtectedException: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EventDataStoreTerminationProtectedException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -4551,6 +4925,24 @@ public enum GetChannelOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetChannelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .channelARNInvalidException(let error): return error
+        case .channelNotFoundException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4729,6 +5121,26 @@ public enum GetEventDataStoreOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedException(OperationNotPermittedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetEventDataStoreOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4974,6 +5386,26 @@ public enum GetEventSelectorsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetEventSelectorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailARNInvalidException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .trailNotFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetEventSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5127,6 +5559,24 @@ public enum GetImportOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedException(OperationNotPermittedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetImportOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .importNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetImportOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5354,6 +5804,27 @@ public enum GetInsightSelectorsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetInsightSelectorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailARNInvalidException(let error): return error
+        case .insightNotEnabledException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .trailNotFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetInsightSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5539,6 +6010,31 @@ public enum GetQueryResultsOutputError: Swift.Error, Swift.Equatable {
     case queryIdNotFoundException(QueryIdNotFoundException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetQueryResultsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .insufficientEncryptionPolicyException(let error): return error
+        case .invalidMaxResultsException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .queryIdNotFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetQueryResultsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5729,6 +6225,26 @@ public enum GetResourcePolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetResourcePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedException(let error): return error
+        case .resourceARNNotValidException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .resourcePolicyNotFoundException(let error): return error
+        case .resourceTypeNotSupportedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5858,6 +6374,25 @@ public enum GetTrailOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetTrailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailARNInvalidException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .trailNotFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetTrailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5976,6 +6511,25 @@ public enum GetTrailStatusOutputError: Swift.Error, Swift.Equatable {
     case trailNotFoundException(TrailNotFoundException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetTrailStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailARNInvalidException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .trailNotFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetTrailStatusOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6316,6 +6870,9 @@ public struct ImportNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ImportNotFoundException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -6608,6 +7165,9 @@ public struct InactiveEventDataStoreException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InactiveEventDataStoreException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -6661,6 +7221,9 @@ public struct InactiveQueryException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InactiveQueryException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -6789,6 +7352,9 @@ public struct InsightNotEnabledException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsightNotEnabledException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -6909,6 +7475,9 @@ public struct InsufficientDependencyServiceAccessPermissionException: AWSClientR
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsufficientDependencyServiceAccessPermissionException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -6962,6 +7531,9 @@ public struct InsufficientEncryptionPolicyException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsufficientEncryptionPolicyException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7015,6 +7587,9 @@ public struct InsufficientS3BucketPolicyException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsufficientS3BucketPolicyException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7068,6 +7643,9 @@ public struct InsufficientSnsTopicPolicyException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsufficientSnsTopicPolicyException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7121,6 +7699,9 @@ public struct InvalidCloudWatchLogsLogGroupArnException: AWSClientRuntime.AWSHtt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCloudWatchLogsLogGroupArnException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7174,6 +7755,9 @@ public struct InvalidCloudWatchLogsRoleArnException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCloudWatchLogsRoleArnException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7227,6 +7811,9 @@ public struct InvalidDateRangeException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDateRangeException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7280,6 +7867,9 @@ public struct InvalidEventCategoryException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidEventCategoryException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7333,6 +7923,9 @@ public struct InvalidEventDataStoreCategoryException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidEventDataStoreCategoryException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7386,6 +7979,9 @@ public struct InvalidEventDataStoreStatusException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidEventDataStoreStatusException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7447,6 +8043,9 @@ public struct InvalidEventSelectorsException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidEventSelectorsException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7500,6 +8099,9 @@ public struct InvalidHomeRegionException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidHomeRegionException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7553,6 +8155,9 @@ public struct InvalidImportSourceException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidImportSourceException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7606,6 +8211,9 @@ public struct InvalidInsightSelectorsException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidInsightSelectorsException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7659,6 +8267,9 @@ public struct InvalidKmsKeyIdException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidKmsKeyIdException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7712,6 +8323,9 @@ public struct InvalidLookupAttributesException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidLookupAttributesException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7765,6 +8379,9 @@ public struct InvalidMaxResultsException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidMaxResultsException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7818,6 +8435,9 @@ public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidNextTokenException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7871,6 +8491,9 @@ public struct InvalidParameterCombinationException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParameterCombinationException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7924,6 +8547,9 @@ public struct InvalidParameterException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParameterException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -7977,6 +8603,9 @@ public struct InvalidQueryStatementException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidQueryStatementException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8030,6 +8659,9 @@ public struct InvalidQueryStatusException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidQueryStatusException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8083,6 +8715,9 @@ public struct InvalidS3BucketNameException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidS3BucketNameException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8136,6 +8771,9 @@ public struct InvalidS3PrefixException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidS3PrefixException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8189,6 +8827,9 @@ public struct InvalidSnsTopicNameException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSnsTopicNameException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8242,6 +8883,9 @@ public struct InvalidSourceException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSourceException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8295,6 +8939,9 @@ public struct InvalidTagParameterException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTagParameterException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8348,6 +8995,9 @@ public struct InvalidTimeRangeException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTimeRangeException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8401,6 +9051,9 @@ public struct InvalidTokenException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTokenException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8464,6 +9117,9 @@ public struct InvalidTrailNameException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTrailNameException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8517,6 +9173,9 @@ public struct KmsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KmsException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8571,6 +9230,9 @@ public struct KmsKeyDisabledException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KmsKeyDisabledException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8624,6 +9286,9 @@ public struct KmsKeyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KmsKeyNotFoundException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -8734,6 +9399,23 @@ public enum ListChannelsOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedException(OperationNotPermittedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListChannelsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidNextTokenException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8883,6 +9565,25 @@ public enum ListEventDataStoresOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedException(OperationNotPermittedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListEventDataStoresOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidMaxResultsException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListEventDataStoresOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9041,6 +9742,23 @@ public enum ListImportFailuresOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedException(OperationNotPermittedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListImportFailuresOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidNextTokenException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListImportFailuresOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9216,6 +9934,25 @@ public enum ListImportsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListImportsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListImportsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9374,6 +10111,24 @@ public enum ListPublicKeysOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedException(OperationNotPermittedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPublicKeysOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidTimeRangeException(let error): return error
+        case .invalidTokenException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListPublicKeysOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9587,6 +10342,31 @@ public enum ListQueriesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListQueriesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .invalidDateRangeException(let error): return error
+        case .invalidMaxResultsException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidQueryStatusException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9760,6 +10540,30 @@ public enum ListTagsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailARNInvalidException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .invalidTokenException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .resourceTypeNotSupportedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9890,6 +10694,22 @@ public enum ListTrailsOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedException(OperationNotPermittedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTrailsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTrailsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10203,6 +11023,27 @@ public enum LookupEventsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension LookupEventsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidEventCategoryException(let error): return error
+        case .invalidLookupAttributesException(let error): return error
+        case .invalidMaxResultsException(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .invalidTimeRangeException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension LookupEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10290,6 +11131,9 @@ public struct MaxConcurrentQueriesException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaxConcurrentQueriesException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -10343,6 +11187,9 @@ public struct MaximumNumberOfTrailsExceededException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaximumNumberOfTrailsExceededException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -10396,6 +11243,9 @@ public struct NoManagementAccountSLRExistsException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoManagementAccountSLRExistsException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -10449,6 +11299,9 @@ public struct NotOrganizationManagementAccountException: AWSClientRuntime.AWSHtt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotOrganizationManagementAccountException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -10502,6 +11355,9 @@ public struct NotOrganizationMasterAccountException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotOrganizationMasterAccountException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -10555,6 +11411,9 @@ public struct OperationNotPermittedException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OperationNotPermittedException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -10608,6 +11467,9 @@ public struct OrganizationNotInAllFeaturesModeException: AWSClientRuntime.AWSHtt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OrganizationNotInAllFeaturesModeException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -10661,6 +11523,9 @@ public struct OrganizationsNotInUseException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OrganizationsNotInUseException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -10902,6 +11767,30 @@ public enum PutEventSelectorsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutEventSelectorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailARNInvalidException(let error): return error
+        case .insufficientDependencyServiceAccessPermissionException(let error): return error
+        case .invalidEventSelectorsException(let error): return error
+        case .invalidHomeRegionException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .trailNotFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutEventSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11100,6 +11989,33 @@ public enum PutInsightSelectorsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutInsightSelectorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailARNInvalidException(let error): return error
+        case .insufficientEncryptionPolicyException(let error): return error
+        case .insufficientS3BucketPolicyException(let error): return error
+        case .invalidHomeRegionException(let error): return error
+        case .invalidInsightSelectorsException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .kmsException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .s3BucketDoesNotExistException(let error): return error
+        case .trailNotFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutInsightSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11259,6 +12175,26 @@ public enum PutResourcePolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutResourcePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedException(let error): return error
+        case .resourceARNNotValidException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .resourcePolicyNotValidException(let error): return error
+        case .resourceTypeNotSupportedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11391,6 +12327,9 @@ public struct QueryIdNotFoundException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "QueryIdNotFoundException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -11722,6 +12661,33 @@ public enum RegisterOrganizationDelegatedAdminOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RegisterOrganizationDelegatedAdminOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accountNotFoundException(let error): return error
+        case .accountRegisteredException(let error): return error
+        case .cannotDelegateManagementAccountException(let error): return error
+        case .cloudTrailAccessNotEnabledException(let error): return error
+        case .conflictException(let error): return error
+        case .delegatedAdminAccountLimitExceededException(let error): return error
+        case .insufficientDependencyServiceAccessPermissionException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notOrganizationManagementAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .organizationNotInAllFeaturesModeException(let error): return error
+        case .organizationsNotInUseException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RegisterOrganizationDelegatedAdminOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -11851,6 +12817,32 @@ public enum RemoveTagsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .channelNotFoundException(let error): return error
+        case .cloudTrailARNInvalidException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .invalidTagParameterException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .resourceTypeNotSupportedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -11933,6 +12925,9 @@ public struct ResourceARNNotValidException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceARNNotValidException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -11986,6 +12981,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -12039,6 +13037,9 @@ public struct ResourcePolicyNotFoundException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourcePolicyNotFoundException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -12098,6 +13099,9 @@ public struct ResourcePolicyNotValidException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourcePolicyNotValidException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -12208,6 +13212,9 @@ public struct ResourceTypeNotSupportedException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceTypeNotSupportedException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -12327,6 +13334,33 @@ public enum RestoreEventDataStoreOutputError: Swift.Error, Swift.Equatable {
     case organizationsNotInUseException(OrganizationsNotInUseException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RestoreEventDataStoreOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailAccessNotEnabledException(let error): return error
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .eventDataStoreMaxLimitExceededException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .insufficientDependencyServiceAccessPermissionException(let error): return error
+        case .invalidEventDataStoreStatusException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .organizationNotInAllFeaturesModeException(let error): return error
+        case .organizationsNotInUseException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RestoreEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12505,6 +13539,9 @@ public struct S3BucketDoesNotExistException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "S3BucketDoesNotExistException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -12798,6 +13835,32 @@ public enum StartImportOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartImportOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accountHasOngoingImportException(let error): return error
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .importNotFoundException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .insufficientEncryptionPolicyException(let error): return error
+        case .invalidEventDataStoreCategoryException(let error): return error
+        case .invalidEventDataStoreStatusException(let error): return error
+        case .invalidImportSourceException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartImportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13007,6 +14070,30 @@ public enum StartLoggingOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartLoggingOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailARNInvalidException(let error): return error
+        case .conflictException(let error): return error
+        case .insufficientDependencyServiceAccessPermissionException(let error): return error
+        case .invalidHomeRegionException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .trailNotFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -13126,6 +14213,34 @@ public enum StartQueryOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartQueryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .insufficientEncryptionPolicyException(let error): return error
+        case .insufficientS3BucketPolicyException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidQueryStatementException(let error): return error
+        case .invalidS3BucketNameException(let error): return error
+        case .invalidS3PrefixException(let error): return error
+        case .maxConcurrentQueriesException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .s3BucketDoesNotExistException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13241,6 +14356,24 @@ public enum StopImportOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedException(OperationNotPermittedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopImportOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .importNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StopImportOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13462,6 +14595,30 @@ public enum StopLoggingOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StopLoggingOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailARNInvalidException(let error): return error
+        case .conflictException(let error): return error
+        case .insufficientDependencyServiceAccessPermissionException(let error): return error
+        case .invalidHomeRegionException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .trailNotFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StopLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -13545,6 +14702,9 @@ public struct TagsLimitExceededException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagsLimitExceededException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -13784,6 +14944,9 @@ public struct TrailAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TrailAlreadyExistsException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -13892,6 +15055,9 @@ public struct TrailNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TrailNotFoundException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -13945,6 +15111,9 @@ public struct TrailNotProvidedException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TrailNotProvidedException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -13998,6 +15167,9 @@ public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedOperationException" }
+
     /// Brief description of the exception returned by the request.
     public var message: Swift.String?
 
@@ -14147,6 +15319,30 @@ public enum UpdateChannelOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedException(OperationNotPermittedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateChannelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .channelAlreadyExistsException(let error): return error
+        case .channelARNInvalidException(let error): return error
+        case .channelNotFoundException(let error): return error
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .invalidEventDataStoreCategoryException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14435,6 +15631,38 @@ public enum UpdateEventDataStoreOutputError: Swift.Error, Swift.Equatable {
     case organizationsNotInUseException(OrganizationsNotInUseException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateEventDataStoreOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailAccessNotEnabledException(let error): return error
+        case .eventDataStoreARNInvalidException(let error): return error
+        case .eventDataStoreHasOngoingImportException(let error): return error
+        case .eventDataStoreNotFoundException(let error): return error
+        case .inactiveEventDataStoreException(let error): return error
+        case .insufficientDependencyServiceAccessPermissionException(let error): return error
+        case .insufficientEncryptionPolicyException(let error): return error
+        case .invalidEventSelectorsException(let error): return error
+        case .invalidKmsKeyIdException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .kmsException(let error): return error
+        case .kmsKeyNotFoundException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .organizationNotInAllFeaturesModeException(let error): return error
+        case .organizationsNotInUseException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14859,6 +16087,52 @@ public enum UpdateTrailOutputError: Swift.Error, Swift.Equatable {
     case trailNotProvidedException(TrailNotProvidedException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateTrailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudTrailAccessNotEnabledException(let error): return error
+        case .cloudTrailARNInvalidException(let error): return error
+        case .cloudTrailInvalidClientTokenIdException(let error): return error
+        case .cloudWatchLogsDeliveryUnavailableException(let error): return error
+        case .conflictException(let error): return error
+        case .insufficientDependencyServiceAccessPermissionException(let error): return error
+        case .insufficientEncryptionPolicyException(let error): return error
+        case .insufficientS3BucketPolicyException(let error): return error
+        case .insufficientSnsTopicPolicyException(let error): return error
+        case .invalidCloudWatchLogsLogGroupArnException(let error): return error
+        case .invalidCloudWatchLogsRoleArnException(let error): return error
+        case .invalidEventSelectorsException(let error): return error
+        case .invalidHomeRegionException(let error): return error
+        case .invalidKmsKeyIdException(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3BucketNameException(let error): return error
+        case .invalidS3PrefixException(let error): return error
+        case .invalidSnsTopicNameException(let error): return error
+        case .invalidTrailNameException(let error): return error
+        case .kmsException(let error): return error
+        case .kmsKeyDisabledException(let error): return error
+        case .kmsKeyNotFoundException(let error): return error
+        case .noManagementAccountSLRExistsException(let error): return error
+        case .notOrganizationMasterAccountException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .organizationNotInAllFeaturesModeException(let error): return error
+        case .organizationsNotInUseException(let error): return error
+        case .s3BucketDoesNotExistException(let error): return error
+        case .trailNotFoundException(let error): return error
+        case .trailNotProvidedException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateTrailOutputResponse: ClientRuntime.HttpResponseBinding {

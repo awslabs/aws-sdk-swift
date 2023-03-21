@@ -93,6 +93,9 @@ public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BadRequestException" }
+
     public var message: Swift.String?
 
     public init (
@@ -807,6 +810,9 @@ public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConflictException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1007,6 +1013,24 @@ public enum CreateCallAnalyticsCategoryOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateCallAnalyticsCategoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateCallAnalyticsCategoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1177,6 +1201,24 @@ public enum CreateLanguageModelOutputError: Swift.Error, Swift.Equatable {
     case internalFailureException(InternalFailureException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateLanguageModelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateLanguageModelOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1376,6 +1418,24 @@ public enum CreateMedicalVocabularyOutputError: Swift.Error, Swift.Equatable {
     case internalFailureException(InternalFailureException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateMedicalVocabularyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateMedicalVocabularyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1612,6 +1672,24 @@ public enum CreateVocabularyFilterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateVocabularyFilterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateVocabularyFilterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1826,6 +1904,24 @@ public enum CreateVocabularyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateVocabularyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateVocabularyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1971,6 +2067,24 @@ public enum DeleteCallAnalyticsCategoryOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteCallAnalyticsCategoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteCallAnalyticsCategoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2041,6 +2155,23 @@ public enum DeleteCallAnalyticsJobOutputError: Swift.Error, Swift.Equatable {
     case internalFailureException(InternalFailureException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteCallAnalyticsJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteCallAnalyticsJobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2115,6 +2246,23 @@ public enum DeleteLanguageModelOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteLanguageModelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteLanguageModelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2185,6 +2333,23 @@ public enum DeleteMedicalTranscriptionJobOutputError: Swift.Error, Swift.Equatab
     case internalFailureException(InternalFailureException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteMedicalTranscriptionJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteMedicalTranscriptionJobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2261,6 +2426,24 @@ public enum DeleteMedicalVocabularyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteMedicalVocabularyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteMedicalVocabularyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2331,6 +2514,23 @@ public enum DeleteTranscriptionJobOutputError: Swift.Error, Swift.Equatable {
     case internalFailureException(InternalFailureException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteTranscriptionJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteTranscriptionJobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2407,6 +2607,24 @@ public enum DeleteVocabularyFilterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteVocabularyFilterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteVocabularyFilterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2481,6 +2699,24 @@ public enum DeleteVocabularyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteVocabularyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteVocabularyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2553,6 +2789,24 @@ public enum DescribeLanguageModelOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeLanguageModelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeLanguageModelOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2660,6 +2914,24 @@ public enum GetCallAnalyticsCategoryOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetCallAnalyticsCategoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetCallAnalyticsCategoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2763,6 +3035,24 @@ public enum GetCallAnalyticsJobOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCallAnalyticsJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetCallAnalyticsJobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2870,6 +3160,24 @@ public enum GetMedicalTranscriptionJobOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetMedicalTranscriptionJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetMedicalTranscriptionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2973,6 +3281,24 @@ public enum GetMedicalVocabularyOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetMedicalVocabularyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetMedicalVocabularyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3130,6 +3456,24 @@ public enum GetTranscriptionJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetTranscriptionJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetTranscriptionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3233,6 +3577,24 @@ public enum GetVocabularyFilterOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetVocabularyFilterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetVocabularyFilterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3368,6 +3730,24 @@ public enum GetVocabularyOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetVocabularyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetVocabularyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3576,6 +3956,9 @@ public struct InternalFailureException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalFailureException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4133,6 +4516,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4231,6 +4617,23 @@ public enum ListCallAnalyticsCategoriesOutputError: Swift.Error, Swift.Equatable
     case internalFailureException(InternalFailureException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListCallAnalyticsCategoriesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListCallAnalyticsCategoriesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4373,6 +4776,23 @@ public enum ListCallAnalyticsJobsOutputError: Swift.Error, Swift.Equatable {
     case internalFailureException(InternalFailureException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListCallAnalyticsJobsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListCallAnalyticsJobsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4527,6 +4947,23 @@ public enum ListLanguageModelsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListLanguageModelsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListLanguageModelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4667,6 +5104,23 @@ public enum ListMedicalTranscriptionJobsOutputError: Swift.Error, Swift.Equatabl
     case internalFailureException(InternalFailureException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListMedicalTranscriptionJobsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListMedicalTranscriptionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4821,6 +5275,23 @@ public enum ListMedicalVocabulariesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListMedicalVocabulariesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListMedicalVocabulariesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4953,6 +5424,24 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5095,6 +5584,23 @@ public enum ListTranscriptionJobsOutputError: Swift.Error, Swift.Equatable {
     case internalFailureException(InternalFailureException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTranscriptionJobsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTranscriptionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5249,6 +5755,23 @@ public enum ListVocabulariesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListVocabulariesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListVocabulariesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5395,6 +5918,23 @@ public enum ListVocabularyFiltersOutputError: Swift.Error, Swift.Equatable {
     case internalFailureException(InternalFailureException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListVocabularyFiltersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListVocabularyFiltersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6224,6 +6764,9 @@ public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7020,6 +7563,24 @@ public enum StartCallAnalyticsJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartCallAnalyticsJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartCallAnalyticsJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7341,6 +7902,24 @@ public enum StartMedicalTranscriptionJobOutputError: Swift.Error, Swift.Equatabl
     case internalFailureException(InternalFailureException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartMedicalTranscriptionJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartMedicalTranscriptionJobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7746,6 +8325,24 @@ public enum StartTranscriptionJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartTranscriptionJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartTranscriptionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8095,6 +8692,25 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8946,6 +9562,25 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -9061,6 +9696,25 @@ public enum UpdateCallAnalyticsCategoryOutputError: Swift.Error, Swift.Equatable
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateCallAnalyticsCategoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateCallAnalyticsCategoryOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9198,6 +9852,25 @@ public enum UpdateMedicalVocabularyOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateMedicalVocabularyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateMedicalVocabularyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9385,6 +10058,24 @@ public enum UpdateVocabularyFilterOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateVocabularyFilterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateVocabularyFilterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9577,6 +10268,25 @@ public enum UpdateVocabularyOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateVocabularyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .internalFailureException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateVocabularyOutputResponse: ClientRuntime.HttpResponseBinding {

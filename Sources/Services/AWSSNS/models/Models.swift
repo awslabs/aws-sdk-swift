@@ -163,6 +163,24 @@ public enum AddPermissionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddPermissionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddPermissionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -198,6 +216,9 @@ public struct AuthorizationErrorException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AuthorizationErrorException" }
+
     public var message: Swift.String?
 
     public init (
@@ -249,6 +270,9 @@ public struct BatchEntryIdsNotDistinctException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BatchEntryIdsNotDistinctException" }
+
     public var message: Swift.String?
 
     public init (
@@ -300,6 +324,9 @@ public struct BatchRequestTooLongException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BatchRequestTooLongException" }
+
     public var message: Swift.String?
 
     public init (
@@ -468,6 +495,24 @@ public enum CheckIfPhoneNumberIsOptedOutOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CheckIfPhoneNumberIsOptedOutOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .throttledException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CheckIfPhoneNumberIsOptedOutOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -540,6 +585,9 @@ public struct ConcurrentAccessException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConcurrentAccessException" }
+
     public var message: Swift.String?
 
     public init (
@@ -665,6 +713,26 @@ public enum ConfirmSubscriptionOutputError: Swift.Error, Swift.Equatable {
     case notFoundException(NotFoundException)
     case subscriptionLimitExceededException(SubscriptionLimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ConfirmSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .filterPolicyLimitExceededException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .subscriptionLimitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ConfirmSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -830,6 +898,23 @@ public enum CreatePlatformApplicationOutputError: Swift.Error, Swift.Equatable {
     case internalErrorException(InternalErrorException)
     case invalidParameterException(InvalidParameterException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreatePlatformApplicationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreatePlatformApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1009,6 +1094,24 @@ public enum CreatePlatformEndpointOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreatePlatformEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreatePlatformEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1138,6 +1241,26 @@ public enum CreateSMSSandboxPhoneNumberOutputError: Swift.Error, Swift.Equatable
     case throttledException(ThrottledException)
     case userErrorException(UserErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateSMSSandboxPhoneNumberOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .optedOutException(let error): return error
+        case .throttledException(let error): return error
+        case .userErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateSMSSandboxPhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1347,6 +1470,29 @@ public enum CreateTopicOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateTopicOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .concurrentAccessException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidSecurityException(let error): return error
+        case .staleTagException(let error): return error
+        case .tagLimitExceededException(let error): return error
+        case .tagPolicyException(let error): return error
+        case .topicLimitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateTopicOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1462,6 +1608,23 @@ public enum DeleteEndpointOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1542,6 +1705,23 @@ public enum DeletePlatformApplicationOutputError: Swift.Error, Swift.Equatable {
     case internalErrorException(InternalErrorException)
     case invalidParameterException(InvalidParameterException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeletePlatformApplicationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeletePlatformApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1629,6 +1809,26 @@ public enum DeleteSMSSandboxPhoneNumberOutputError: Swift.Error, Swift.Equatable
     case throttledException(ThrottledException)
     case userErrorException(UserErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteSMSSandboxPhoneNumberOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttledException(let error): return error
+        case .userErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteSMSSandboxPhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1720,6 +1920,27 @@ public enum DeleteTopicOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteTopicOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .concurrentAccessException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .staleTagException(let error): return error
+        case .tagPolicyException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteTopicOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1755,6 +1976,9 @@ public struct EmptyBatchRequestException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EmptyBatchRequestException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1877,6 +2101,9 @@ public struct EndpointDisabledException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EndpointDisabledException" }
+
     /// Message for endpoint disabled.
     public var message: Swift.String?
 
@@ -1929,6 +2156,9 @@ public struct FilterPolicyLimitExceededException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FilterPolicyLimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2028,6 +2258,25 @@ public enum GetDataProtectionPolicyOutputError: Swift.Error, Swift.Equatable {
     case invalidSecurityException(InvalidSecurityException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDataProtectionPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidSecurityException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetDataProtectionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2144,6 +2393,24 @@ public enum GetEndpointAttributesOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetEndpointAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetEndpointAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2284,6 +2551,24 @@ public enum GetPlatformApplicationAttributesOutputError: Swift.Error, Swift.Equa
     case invalidParameterException(InvalidParameterException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetPlatformApplicationAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetPlatformApplicationAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2459,6 +2744,24 @@ public enum GetSMSAttributesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetSMSAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .throttledException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetSMSAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2561,6 +2864,23 @@ public enum GetSMSSandboxAccountStatusOutputError: Swift.Error, Swift.Equatable 
     case internalErrorException(InternalErrorException)
     case throttledException(ThrottledException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSMSSandboxAccountStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .throttledException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetSMSSandboxAccountStatusOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2678,6 +2998,24 @@ public enum GetSubscriptionAttributesOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSubscriptionAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetSubscriptionAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2857,6 +3195,25 @@ public enum GetTopicAttributesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetTopicAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidSecurityException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetTopicAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2987,6 +3344,9 @@ public struct InternalErrorException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalErrorException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3038,6 +3398,9 @@ public struct InvalidBatchEntryIdException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidBatchEntryIdException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3089,6 +3452,9 @@ public struct InvalidParameterException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParameterException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3140,6 +3506,9 @@ public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParameterValueException" }
+
     /// The parameter of an entry in a request doesn't abide by the specification.
     public var message: Swift.String?
 
@@ -3192,6 +3561,9 @@ public struct InvalidSecurityException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSecurityException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3243,6 +3615,9 @@ public struct KMSAccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSAccessDeniedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3294,6 +3669,9 @@ public struct KMSDisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSDisabledException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3345,6 +3723,9 @@ public struct KMSInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSInvalidStateException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3396,6 +3777,9 @@ public struct KMSNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3447,6 +3831,9 @@ public struct KMSOptInRequired: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSOptInRequired" }
+
     public var message: Swift.String?
 
     public init (
@@ -3498,6 +3885,9 @@ public struct KMSThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSThrottlingException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3675,6 +4065,24 @@ public enum ListEndpointsByPlatformApplicationOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListEndpointsByPlatformApplicationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListEndpointsByPlatformApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3830,6 +4238,25 @@ public enum ListOriginationNumbersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListOriginationNumbersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .throttledException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListOriginationNumbersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3972,6 +4399,24 @@ public enum ListPhoneNumbersOptedOutOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListPhoneNumbersOptedOutOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .throttledException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListPhoneNumbersOptedOutOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4111,6 +4556,23 @@ public enum ListPlatformApplicationsOutputError: Swift.Error, Swift.Equatable {
     case internalErrorException(InternalErrorException)
     case invalidParameterException(InvalidParameterException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPlatformApplicationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListPlatformApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4268,6 +4730,25 @@ public enum ListSMSSandboxPhoneNumbersOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListSMSSandboxPhoneNumbersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttledException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListSMSSandboxPhoneNumbersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4423,6 +4904,24 @@ public enum ListSubscriptionsByTopicOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListSubscriptionsByTopicOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListSubscriptionsByTopicOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4562,6 +5061,23 @@ public enum ListSubscriptionsOutputError: Swift.Error, Swift.Equatable {
     case internalErrorException(InternalErrorException)
     case invalidParameterException(InvalidParameterException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSubscriptionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListSubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4709,6 +5225,25 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .concurrentAccessException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tagPolicyException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4836,6 +5371,23 @@ public enum ListTopicsOutputError: Swift.Error, Swift.Equatable {
     case internalErrorException(InternalErrorException)
     case invalidParameterException(InvalidParameterException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTopicsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTopicsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4997,6 +5549,9 @@ public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5133,6 +5688,24 @@ public enum OptInPhoneNumberOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension OptInPhoneNumberOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .throttledException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension OptInPhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -5169,6 +5742,9 @@ public struct OptedOutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OptedOutException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5402,6 +5978,9 @@ public struct PlatformApplicationDisabledException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PlatformApplicationDisabledException" }
+
     /// Message for platform application disabled.
     public var message: Swift.String?
 
@@ -5570,6 +6149,40 @@ public enum PublishBatchOutputError: Swift.Error, Swift.Equatable {
     case tooManyEntriesInBatchRequestException(TooManyEntriesInBatchRequestException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PublishBatchOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .batchEntryIdsNotDistinctException(let error): return error
+        case .batchRequestTooLongException(let error): return error
+        case .emptyBatchRequestException(let error): return error
+        case .endpointDisabledException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidBatchEntryIdException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidSecurityException(let error): return error
+        case .kMSAccessDeniedException(let error): return error
+        case .kMSDisabledException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .kMSNotFoundException(let error): return error
+        case .kMSOptInRequired(let error): return error
+        case .kMSThrottlingException(let error): return error
+        case .notFoundException(let error): return error
+        case .platformApplicationDisabledException(let error): return error
+        case .tooManyEntriesInBatchRequestException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PublishBatchOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6105,6 +6718,35 @@ public enum PublishOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PublishOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .endpointDisabledException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidSecurityException(let error): return error
+        case .kMSAccessDeniedException(let error): return error
+        case .kMSDisabledException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .kMSNotFoundException(let error): return error
+        case .kMSOptInRequired(let error): return error
+        case .kMSThrottlingException(let error): return error
+        case .notFoundException(let error): return error
+        case .platformApplicationDisabledException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PublishOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6245,6 +6887,25 @@ public enum PutDataProtectionPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutDataProtectionPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidSecurityException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutDataProtectionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6341,6 +7002,24 @@ public enum RemovePermissionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemovePermissionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemovePermissionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6376,6 +7055,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6634,6 +7316,24 @@ public enum SetEndpointAttributesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SetEndpointAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SetEndpointAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6809,6 +7509,24 @@ public enum SetPlatformApplicationAttributesOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SetPlatformApplicationAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SetPlatformApplicationAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6943,6 +7661,24 @@ public enum SetSMSAttributesOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case throttledException(ThrottledException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetSMSAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .throttledException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetSMSAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7082,6 +7818,25 @@ public enum SetSubscriptionAttributesOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetSubscriptionAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .filterPolicyLimitExceededException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetSubscriptionAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7274,6 +8029,25 @@ public enum SetTopicAttributesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SetTopicAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidSecurityException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SetTopicAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -7309,6 +8083,9 @@ public struct StaleTagException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StaleTagException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7551,6 +8328,27 @@ public enum SubscribeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SubscribeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .filterPolicyLimitExceededException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidSecurityException(let error): return error
+        case .notFoundException(let error): return error
+        case .subscriptionLimitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SubscribeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7694,6 +8492,9 @@ public struct SubscriptionLimitExceededException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SubscriptionLimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7792,6 +8593,9 @@ public struct TagLimitExceededException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagLimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7843,6 +8647,9 @@ public struct TagPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagPolicyException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7986,6 +8793,27 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .concurrentAccessException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .staleTagException(let error): return error
+        case .tagLimitExceededException(let error): return error
+        case .tagPolicyException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8021,6 +8849,9 @@ public struct ThrottledException: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottledException" }
+
     /// Throttled request.
     public var message: Swift.String?
 
@@ -8073,6 +8904,9 @@ public struct TooManyEntriesInBatchRequestException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyEntriesInBatchRequestException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8159,6 +8993,9 @@ public struct TopicLimitExceededException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TopicLimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8259,6 +9096,25 @@ public enum UnsubscribeOutputError: Swift.Error, Swift.Equatable {
     case invalidSecurityException(InvalidSecurityException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UnsubscribeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidSecurityException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UnsubscribeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8388,6 +9244,27 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .concurrentAccessException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .staleTagException(let error): return error
+        case .tagLimitExceededException(let error): return error
+        case .tagPolicyException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8423,6 +9300,9 @@ public struct UserErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UserErrorException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8474,6 +9354,9 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ValidationException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -8528,6 +9411,9 @@ public struct VerificationException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "VerificationException" }
+
     /// This member is required.
     public var message: Swift.String?
     /// The status of the verification error.
@@ -8651,6 +9537,26 @@ public enum VerifySMSSandboxPhoneNumberOutputError: Swift.Error, Swift.Equatable
     case throttledException(ThrottledException)
     case verificationException(VerificationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension VerifySMSSandboxPhoneNumberOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationErrorException(let error): return error
+        case .internalErrorException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttledException(let error): return error
+        case .verificationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension VerifySMSSandboxPhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {

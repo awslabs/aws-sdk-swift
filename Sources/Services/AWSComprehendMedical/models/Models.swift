@@ -533,6 +533,24 @@ public enum DescribeEntitiesDetectionV2JobOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeEntitiesDetectionV2JobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeEntitiesDetectionV2JobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -648,6 +666,24 @@ public enum DescribeICD10CMInferenceJobOutputError: Swift.Error, Swift.Equatable
     case resourceNotFoundException(ResourceNotFoundException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeICD10CMInferenceJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeICD10CMInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -767,6 +803,24 @@ public enum DescribePHIDetectionJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribePHIDetectionJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribePHIDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -884,6 +938,24 @@ public enum DescribeRxNormInferenceJobOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeRxNormInferenceJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeRxNormInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -999,6 +1071,24 @@ public enum DescribeSNOMEDCTInferenceJobOutputError: Swift.Error, Swift.Equatabl
     case resourceNotFoundException(ResourceNotFoundException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeSNOMEDCTInferenceJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeSNOMEDCTInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1120,6 +1210,26 @@ public enum DetectEntitiesOutputError: Swift.Error, Swift.Equatable {
     case textSizeLimitExceededException(TextSizeLimitExceededException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DetectEntitiesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidEncodingException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .textSizeLimitExceededException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DetectEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1293,6 +1403,26 @@ public enum DetectEntitiesV2OutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DetectEntitiesV2OutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidEncodingException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .textSizeLimitExceededException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DetectEntitiesV2OutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1462,6 +1592,26 @@ public enum DetectPHIOutputError: Swift.Error, Swift.Equatable {
     case textSizeLimitExceededException(TextSizeLimitExceededException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DetectPHIOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidEncodingException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .textSizeLimitExceededException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DetectPHIOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2548,6 +2698,26 @@ public enum InferICD10CMOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension InferICD10CMOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidEncodingException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .textSizeLimitExceededException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension InferICD10CMOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2699,6 +2869,26 @@ public enum InferRxNormOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension InferRxNormOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidEncodingException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .textSizeLimitExceededException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension InferRxNormOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2848,6 +3038,26 @@ public enum InferSNOMEDCTOutputError: Swift.Error, Swift.Equatable {
     case textSizeLimitExceededException(TextSizeLimitExceededException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension InferSNOMEDCTOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidEncodingException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .textSizeLimitExceededException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension InferSNOMEDCTOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3013,6 +3223,9 @@ public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3065,6 +3278,9 @@ public struct InvalidEncodingException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidEncodingException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3117,6 +3333,9 @@ public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRequestException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3318,6 +3537,24 @@ public enum ListEntitiesDetectionV2JobsOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListEntitiesDetectionV2JobsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListEntitiesDetectionV2JobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3475,6 +3712,24 @@ public enum ListICD10CMInferenceJobsOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListICD10CMInferenceJobsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListICD10CMInferenceJobsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3636,6 +3891,24 @@ public enum ListPHIDetectionJobsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListPHIDetectionJobsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListPHIDetectionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3795,6 +4068,24 @@ public enum ListRxNormInferenceJobsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListRxNormInferenceJobsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListRxNormInferenceJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3952,6 +4243,24 @@ public enum ListSNOMEDCTInferenceJobsOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSNOMEDCTInferenceJobsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListSNOMEDCTInferenceJobsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4172,6 +4481,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5428,6 +5740,9 @@ public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceUnavailableException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5603,6 +5918,24 @@ public enum StartEntitiesDetectionV2JobOutputError: Swift.Error, Swift.Equatable
     case resourceNotFoundException(ResourceNotFoundException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartEntitiesDetectionV2JobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartEntitiesDetectionV2JobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5797,6 +6130,24 @@ public enum StartICD10CMInferenceJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartICD10CMInferenceJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartICD10CMInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5987,6 +6338,24 @@ public enum StartPHIDetectionJobOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartPHIDetectionJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartPHIDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6181,6 +6550,24 @@ public enum StartRxNormInferenceJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartRxNormInferenceJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartRxNormInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6373,6 +6760,24 @@ public enum StartSNOMEDCTInferenceJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartSNOMEDCTInferenceJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartSNOMEDCTInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6486,6 +6891,23 @@ public enum StopEntitiesDetectionV2JobOutputError: Swift.Error, Swift.Equatable 
     case invalidRequestException(InvalidRequestException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopEntitiesDetectionV2JobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StopEntitiesDetectionV2JobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6603,6 +7025,23 @@ public enum StopICD10CMInferenceJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StopICD10CMInferenceJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StopICD10CMInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6718,6 +7157,23 @@ public enum StopPHIDetectionJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StopPHIDetectionJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StopPHIDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6831,6 +7287,23 @@ public enum StopRxNormInferenceJobOutputError: Swift.Error, Swift.Equatable {
     case invalidRequestException(InvalidRequestException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopRxNormInferenceJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StopRxNormInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6950,6 +7423,24 @@ public enum StopSNOMEDCTInferenceJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StopSNOMEDCTInferenceJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StopSNOMEDCTInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7017,6 +7508,9 @@ public struct TextSizeLimitExceededException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TextSizeLimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7069,6 +7563,9 @@ public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyRequestsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7211,6 +7708,9 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ValidationException" }
+
     public var message: Swift.String?
 
     public init (

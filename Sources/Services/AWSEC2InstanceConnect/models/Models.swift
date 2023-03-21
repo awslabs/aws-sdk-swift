@@ -28,6 +28,9 @@ public struct AuthException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AuthException" }
+
     public var message: Swift.String?
 
     public init (
@@ -80,6 +83,9 @@ public struct EC2InstanceNotFoundException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EC2InstanceNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -132,6 +138,9 @@ public struct EC2InstanceStateInvalidException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EC2InstanceStateInvalidException" }
+
     public var message: Swift.String?
 
     public init (
@@ -184,6 +193,9 @@ public struct EC2InstanceTypeInvalidException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EC2InstanceTypeInvalidException" }
+
     public var message: Swift.String?
 
     public init (
@@ -236,6 +248,9 @@ public struct EC2InstanceUnavailableException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EC2InstanceUnavailableException" }
+
     public var message: Swift.String?
 
     public init (
@@ -288,6 +303,9 @@ public struct InvalidArgsException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidArgsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -432,6 +450,27 @@ public enum SendSSHPublicKeyOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SendSSHPublicKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authException(let error): return error
+        case .eC2InstanceNotFoundException(let error): return error
+        case .eC2InstanceStateInvalidException(let error): return error
+        case .eC2InstanceUnavailableException(let error): return error
+        case .invalidArgsException(let error): return error
+        case .serviceException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SendSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -600,6 +639,31 @@ public enum SendSerialConsoleSSHPublicKeyOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SendSerialConsoleSSHPublicKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authException(let error): return error
+        case .eC2InstanceNotFoundException(let error): return error
+        case .eC2InstanceStateInvalidException(let error): return error
+        case .eC2InstanceTypeInvalidException(let error): return error
+        case .eC2InstanceUnavailableException(let error): return error
+        case .invalidArgsException(let error): return error
+        case .serialConsoleAccessDisabledException(let error): return error
+        case .serialConsoleSessionLimitExceededException(let error): return error
+        case .serialConsoleSessionUnavailableException(let error): return error
+        case .serviceException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SendSerialConsoleSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -677,6 +741,9 @@ public struct SerialConsoleAccessDisabledException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SerialConsoleAccessDisabledException" }
+
     public var message: Swift.String?
 
     public init (
@@ -729,6 +796,9 @@ public struct SerialConsoleSessionLimitExceededException: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SerialConsoleSessionLimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -781,6 +851,9 @@ public struct SerialConsoleSessionUnavailableException: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SerialConsoleSessionUnavailableException" }
+
     public var message: Swift.String?
 
     public init (
@@ -833,6 +906,9 @@ public struct ServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceException" }
+
     public var message: Swift.String?
 
     public init (
@@ -885,6 +961,9 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottlingException" }
+
     public var message: Swift.String?
 
     public init (

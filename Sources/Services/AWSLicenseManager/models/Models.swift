@@ -84,6 +84,27 @@ public enum AcceptGrantOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AcceptGrantOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AcceptGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -171,6 +192,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -270,6 +294,9 @@ public struct AuthorizationException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AuthorizationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -474,6 +501,28 @@ public enum CheckInLicenseOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CheckInLicenseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .conflictException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CheckInLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -659,6 +708,31 @@ public enum CheckoutBorrowLicenseOutputError: Swift.Error, Swift.Equatable {
     case unsupportedDigitalSignatureMethodException(UnsupportedDigitalSignatureMethodException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CheckoutBorrowLicenseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .entitlementNotAllowedException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .noEntitlementsAllowedException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .redirectException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unsupportedDigitalSignatureMethodException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CheckoutBorrowLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -966,6 +1040,30 @@ public enum CheckoutLicenseOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CheckoutLicenseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .noEntitlementsAllowedException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .redirectException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unsupportedDigitalSignatureMethodException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CheckoutLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1144,6 +1242,9 @@ public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConflictException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1441,6 +1542,27 @@ public enum CreateGrantOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateGrantOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1667,6 +1789,27 @@ public enum CreateGrantVersionOutputError: Swift.Error, Swift.Equatable {
     case serverInternalException(ServerInternalException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateGrantVersionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateGrantVersionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1954,6 +2097,26 @@ public enum CreateLicenseConfigurationOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateLicenseConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2099,6 +2262,26 @@ public enum CreateLicenseConversionTaskForResourceOutputError: Swift.Error, Swif
     case serverInternalException(ServerInternalException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateLicenseConversionTaskForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateLicenseConversionTaskForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2531,6 +2714,28 @@ public enum CreateLicenseManagerReportGeneratorOutputError: Swift.Error, Swift.E
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateLicenseManagerReportGeneratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateLicenseManagerReportGeneratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2604,6 +2809,27 @@ public enum CreateLicenseOutputError: Swift.Error, Swift.Equatable {
     case serverInternalException(ServerInternalException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateLicenseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .redirectException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2916,6 +3142,28 @@ public enum CreateLicenseVersionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateLicenseVersionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .conflictException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .redirectException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateLicenseVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3134,6 +3382,28 @@ public enum CreateTokenOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateTokenOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .redirectException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3348,6 +3618,27 @@ public enum DeleteGrantOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteGrantOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3485,6 +3776,25 @@ public enum DeleteLicenseConfigurationOutputError: Swift.Error, Swift.Equatable 
     case rateLimitExceededException(RateLimitExceededException)
     case serverInternalException(ServerInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteLicenseConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3642,6 +3952,28 @@ public enum DeleteLicenseManagerReportGeneratorOutputError: Swift.Error, Swift.E
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteLicenseManagerReportGeneratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteLicenseManagerReportGeneratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3686,6 +4018,28 @@ public enum DeleteLicenseOutputError: Swift.Error, Swift.Equatable {
     case serverInternalException(ServerInternalException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteLicenseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .conflictException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .redirectException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3819,6 +4173,27 @@ public enum DeleteTokenOutputError: Swift.Error, Swift.Equatable {
     case serverInternalException(ServerInternalException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteTokenOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .redirectException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteTokenOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4137,6 +4512,9 @@ public struct EntitlementNotAllowedException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EntitlementNotAllowedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4432,6 +4810,27 @@ public enum ExtendLicenseConsumptionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ExtendLicenseConsumptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ExtendLicenseConsumptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4511,6 +4910,9 @@ public struct FailedDependencyException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FailedDependencyException" }
+
     public var errorCode: Swift.String?
     public var message: Swift.String?
 
@@ -4627,6 +5029,9 @@ public struct FilterLimitExceededException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FilterLimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4753,6 +5158,25 @@ public enum GetAccessTokenOutputError: Swift.Error, Swift.Equatable {
     case serverInternalException(ServerInternalException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetAccessTokenOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4890,6 +5314,27 @@ public enum GetGrantOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetGrantOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5007,6 +5452,25 @@ public enum GetLicenseConfigurationOutputError: Swift.Error, Swift.Equatable {
     case rateLimitExceededException(RateLimitExceededException)
     case serverInternalException(ServerInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetLicenseConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5333,6 +5797,25 @@ public enum GetLicenseConversionTaskOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetLicenseConversionTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetLicenseConversionTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5598,6 +6081,28 @@ public enum GetLicenseManagerReportGeneratorOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetLicenseManagerReportGeneratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetLicenseManagerReportGeneratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5669,6 +6174,26 @@ public enum GetLicenseOutputError: Swift.Error, Swift.Equatable {
     case serverInternalException(ServerInternalException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetLicenseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5792,6 +6317,26 @@ public enum GetLicenseUsageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetLicenseUsageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetLicenseUsageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5887,6 +6432,24 @@ public enum GetServiceSettingsOutputError: Swift.Error, Swift.Equatable {
     case rateLimitExceededException(RateLimitExceededException)
     case serverInternalException(ServerInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetServiceSettingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetServiceSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6394,6 +6957,9 @@ public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParameterValueException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6446,6 +7012,9 @@ public struct InvalidResourceStateException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidResourceStateException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7820,6 +8389,9 @@ public struct LicenseUsageException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LicenseUsageException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7948,6 +8520,26 @@ public enum ListAssociationsForLicenseConfigurationOutputError: Swift.Error, Swi
     case rateLimitExceededException(RateLimitExceededException)
     case serverInternalException(ServerInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAssociationsForLicenseConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .filterLimitExceededException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAssociationsForLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8161,6 +8753,27 @@ public enum ListDistributedGrantsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListDistributedGrantsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListDistributedGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8321,6 +8934,25 @@ public enum ListFailuresForLicenseConfigurationOperationsOutputError: Swift.Erro
     case rateLimitExceededException(RateLimitExceededException)
     case serverInternalException(ServerInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListFailuresForLicenseConfigurationOperationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListFailuresForLicenseConfigurationOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8528,6 +9160,26 @@ public enum ListLicenseConfigurationsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListLicenseConfigurationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .filterLimitExceededException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListLicenseConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8699,6 +9351,25 @@ public enum ListLicenseConversionTasksOutputError: Swift.Error, Swift.Equatable 
     case rateLimitExceededException(RateLimitExceededException)
     case serverInternalException(ServerInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListLicenseConversionTasksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListLicenseConversionTasksOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8882,6 +9553,28 @@ public enum ListLicenseManagerReportGeneratorsOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListLicenseManagerReportGeneratorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListLicenseManagerReportGeneratorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9044,6 +9737,25 @@ public enum ListLicenseSpecificationsForResourceOutputError: Swift.Error, Swift.
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListLicenseSpecificationsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListLicenseSpecificationsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9204,6 +9916,25 @@ public enum ListLicenseVersionsOutputError: Swift.Error, Swift.Equatable {
     case rateLimitExceededException(RateLimitExceededException)
     case serverInternalException(ServerInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListLicenseVersionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListLicenseVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9413,6 +10144,26 @@ public enum ListLicensesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListLicensesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListLicensesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9605,6 +10356,27 @@ public enum ListReceivedGrantsForOrganizationOutputError: Swift.Error, Swift.Equ
     case serverInternalException(ServerInternalException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListReceivedGrantsForOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListReceivedGrantsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9818,6 +10590,27 @@ public enum ListReceivedGrantsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListReceivedGrantsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListReceivedGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9997,6 +10790,27 @@ public enum ListReceivedLicensesForOrganizationOutputError: Swift.Error, Swift.E
     case serverInternalException(ServerInternalException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListReceivedLicensesForOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListReceivedLicensesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10210,6 +11024,27 @@ public enum ListReceivedLicensesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListReceivedLicensesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListReceivedLicensesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10399,6 +11234,27 @@ public enum ListResourceInventoryOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListResourceInventoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .failedDependencyException(let error): return error
+        case .filterLimitExceededException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListResourceInventoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10535,6 +11391,25 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case rateLimitExceededException(RateLimitExceededException)
     case serverInternalException(ServerInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10724,6 +11599,25 @@ public enum ListTokensOutputError: Swift.Error, Swift.Equatable {
     case serverInternalException(ServerInternalException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTokensOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTokensOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10920,6 +11814,26 @@ public enum ListUsageForLicenseConfigurationOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListUsageForLicenseConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .filterLimitExceededException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListUsageForLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11096,6 +12010,9 @@ public struct NoEntitlementsAllowedException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoEntitlementsAllowedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11371,6 +12288,9 @@ public struct RateLimitExceededException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RateLimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11545,6 +12465,9 @@ public struct RedirectException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RedirectException" }
+
     public var location: Swift.String?
     public var message: Swift.String?
 
@@ -11654,6 +12577,27 @@ public enum RejectGrantOutputError: Swift.Error, Swift.Equatable {
     case serverInternalException(ServerInternalException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RejectGrantOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RejectGrantOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12202,6 +13146,9 @@ public struct ResourceLimitExceededException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceLimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12254,6 +13201,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12392,6 +13342,9 @@ public struct ServerInternalException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServerInternalException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12564,6 +13517,25 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case rateLimitExceededException(RateLimitExceededException)
     case serverInternalException(ServerInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12750,6 +13722,9 @@ public struct UnsupportedDigitalSignatureMethodException: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedDigitalSignatureMethodException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12877,6 +13852,25 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case rateLimitExceededException(RateLimitExceededException)
     case serverInternalException(ServerInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13089,6 +14083,26 @@ public enum UpdateLicenseConfigurationOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateLicenseConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -13276,6 +14290,28 @@ public enum UpdateLicenseManagerReportGeneratorOutputError: Swift.Error, Swift.E
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateLicenseManagerReportGeneratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serverInternalException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateLicenseManagerReportGeneratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -13416,6 +14452,27 @@ public enum UpdateLicenseSpecificationsForResourceOutputError: Swift.Error, Swif
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateLicenseSpecificationsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidResourceStateException(let error): return error
+        case .licenseUsageException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateLicenseSpecificationsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -13539,6 +14596,25 @@ public enum UpdateServiceSettingsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateServiceSettingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .rateLimitExceededException(let error): return error
+        case .serverInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateServiceSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -13575,6 +14651,9 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ValidationException" }
+
     public var message: Swift.String?
 
     public init (

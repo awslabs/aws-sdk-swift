@@ -132,6 +132,9 @@ public struct ChannelInsufficientPermission: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ChannelInsufficientPermission" }
+
     public var message: Swift.String?
 
     public init (
@@ -184,6 +187,9 @@ public struct ChannelNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ChannelNotFound" }
+
     public var message: Swift.String?
 
     public init (
@@ -236,6 +242,9 @@ public struct ChannelUnsupportedSchema: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ChannelUnsupportedSchema" }
+
     public var message: Swift.String?
 
     public init (
@@ -288,6 +297,9 @@ public struct DuplicatedAuditEventId: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicatedAuditEventId" }
+
     public var message: Swift.String?
 
     public init (
@@ -340,6 +352,9 @@ public struct InvalidChannelARN: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidChannelARN" }
+
     public var message: Swift.String?
 
     public init (
@@ -484,6 +499,26 @@ public enum PutAuditEventsOutputError: Swift.Error, Swift.Equatable {
     case invalidChannelARN(InvalidChannelARN)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutAuditEventsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .channelInsufficientPermission(let error): return error
+        case .channelNotFound(let error): return error
+        case .channelUnsupportedSchema(let error): return error
+        case .duplicatedAuditEventId(let error): return error
+        case .invalidChannelARN(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutAuditEventsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -641,6 +676,9 @@ public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedOperationException" }
+
     public var message: Swift.String?
 
     public init (

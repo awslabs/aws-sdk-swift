@@ -92,6 +92,24 @@ public enum AcceptDomainTransferFromAnotherAwsAccountOutputError: Swift.Error, S
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AcceptDomainTransferFromAnotherAwsAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .domainLimitExceeded(let error): return error
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AcceptDomainTransferFromAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -225,6 +243,26 @@ public enum AssociateDelegationSignerToDomainOutputError: Swift.Error, Swift.Equ
     case tLDRulesViolation(TLDRulesViolation)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AssociateDelegationSignerToDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dnssecLimitExceeded(let error): return error
+        case .duplicateRequest(let error): return error
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .tLDRulesViolation(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AssociateDelegationSignerToDomainOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -418,6 +456,23 @@ public enum CancelDomainTransferToAnotherAwsAccountOutputError: Swift.Error, Swi
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CancelDomainTransferToAnotherAwsAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CancelDomainTransferToAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -554,6 +609,22 @@ public enum CheckDomainAvailabilityOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CheckDomainAvailabilityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CheckDomainAvailabilityOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -694,6 +765,22 @@ public enum CheckDomainTransferabilityOutputError: Swift.Error, Swift.Equatable 
     case invalidInput(InvalidInput)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CheckDomainTransferabilityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CheckDomainTransferabilityOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1870,6 +1957,24 @@ public enum DeleteDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .duplicateRequest(let error): return error
+        case .invalidInput(let error): return error
+        case .tLDRulesViolation(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2011,6 +2116,23 @@ public enum DeleteTagsForDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteTagsForDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteTagsForDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2091,6 +2213,22 @@ public enum DisableDomainAutoRenewOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisableDomainAutoRenewOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisableDomainAutoRenewOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2180,6 +2318,25 @@ public enum DisableDomainTransferLockOutputError: Swift.Error, Swift.Equatable {
     case tLDRulesViolation(TLDRulesViolation)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisableDomainTransferLockOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .duplicateRequest(let error): return error
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .tLDRulesViolation(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisableDomainTransferLockOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2313,6 +2470,25 @@ public enum DisassociateDelegationSignerFromDomainOutputError: Swift.Error, Swif
     case tLDRulesViolation(TLDRulesViolation)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateDelegationSignerFromDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .duplicateRequest(let error): return error
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .tLDRulesViolation(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateDelegationSignerFromDomainOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2477,6 +2653,9 @@ public struct DnssecLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DnssecLimitExceeded" }
+
     public var message: Swift.String?
 
     public init (
@@ -2634,6 +2813,9 @@ public struct DomainLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DomainLimitExceeded" }
+
     /// The number of domains has exceeded the allowed threshold for the account.
     public var message: Swift.String?
 
@@ -2917,6 +3099,9 @@ public struct DuplicateRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateRequest" }
+
     /// The request is already in progress for the domain.
     public var message: Swift.String?
 
@@ -3018,6 +3203,23 @@ public enum EnableDomainAutoRenewOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension EnableDomainAutoRenewOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .tLDRulesViolation(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension EnableDomainAutoRenewOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3105,6 +3307,25 @@ public enum EnableDomainTransferLockOutputError: Swift.Error, Swift.Equatable {
     case tLDRulesViolation(TLDRulesViolation)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension EnableDomainTransferLockOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .duplicateRequest(let error): return error
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .tLDRulesViolation(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension EnableDomainTransferLockOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3866,6 +4087,23 @@ public enum GetContactReachabilityStatusOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetContactReachabilityStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetContactReachabilityStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3988,6 +4226,22 @@ public enum GetDomainDetailOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDomainDetailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetDomainDetailOutputResponse: Swift.CustomDebugStringConvertible {
@@ -4383,6 +4637,22 @@ public enum GetDomainSuggestionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDomainSuggestionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDomainSuggestionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4502,6 +4772,21 @@ extension GetOperationDetailOutputError {
 public enum GetOperationDetailOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetOperationDetailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetOperationDetailOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4652,6 +4937,9 @@ public struct InvalidInput: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidInput" }
+
     /// The requested item is not acceptable. For example, for an OperationId it might refer to the ID of an operation that is already completed. For a domain name, it might not be a valid domain name or belong to the requester account.
     public var message: Swift.String?
 
@@ -4827,6 +5115,21 @@ extension ListDomainsOutputError {
 public enum ListDomainsOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDomainsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5056,6 +5359,21 @@ public enum ListOperationsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListOperationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5241,6 +5559,22 @@ public enum ListPricesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListPricesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListPricesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5374,6 +5708,23 @@ public enum ListTagsForDomainOutputError: Swift.Error, Swift.Equatable {
     case operationLimitExceeded(OperationLimitExceeded)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForDomainOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5511,6 +5862,9 @@ public struct OperationLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OperationLimitExceeded" }
+
     /// The number of operations or jobs running exceeded the allowed threshold for the account.
     public var message: Swift.String?
 
@@ -5943,6 +6297,23 @@ public enum PushDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PushDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PushDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6197,6 +6568,26 @@ public enum RegisterDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RegisterDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .domainLimitExceeded(let error): return error
+        case .duplicateRequest(let error): return error
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .tLDRulesViolation(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RegisterDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6312,6 +6703,23 @@ public enum RejectDomainTransferFromAnotherAwsAccountOutputError: Swift.Error, S
     case operationLimitExceeded(OperationLimitExceeded)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RejectDomainTransferFromAnotherAwsAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RejectDomainTransferFromAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6460,6 +6868,25 @@ public enum RenewDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RenewDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .duplicateRequest(let error): return error
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .tLDRulesViolation(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RenewDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6572,6 +6999,23 @@ public enum ResendContactReachabilityEmailOutputError: Swift.Error, Swift.Equata
     case operationLimitExceeded(OperationLimitExceeded)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ResendContactReachabilityEmailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ResendContactReachabilityEmailOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6705,6 +7149,21 @@ public enum ResendOperationAuthorizationOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ResendOperationAuthorizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ResendOperationAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6786,6 +7245,22 @@ public enum RetrieveDomainAuthCodeOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RetrieveDomainAuthCodeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RetrieveDomainAuthCodeOutputResponse: Swift.CustomDebugStringConvertible {
@@ -6981,6 +7456,9 @@ public struct TLDRulesViolation: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TLDRulesViolation" }
+
     /// The top-level domain does not support this operation.
     public var message: Swift.String?
 
@@ -7295,6 +7773,26 @@ public enum TransferDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TransferDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .domainLimitExceeded(let error): return error
+        case .duplicateRequest(let error): return error
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .tLDRulesViolation(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TransferDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7427,6 +7925,24 @@ public enum TransferDomainToAnotherAwsAccountOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TransferDomainToAnotherAwsAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .duplicateRequest(let error): return error
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TransferDomainToAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7550,6 +8066,9 @@ public struct UnsupportedTLD: AWSClientRuntime.AWSHttpServiceError, Swift.Equata
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedTLD" }
+
     /// Amazon Route 53 does not support this top-level domain (TLD).
     public var message: Swift.String?
 
@@ -7709,6 +8228,25 @@ public enum UpdateDomainContactOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateDomainContactOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .duplicateRequest(let error): return error
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .tLDRulesViolation(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateDomainContactOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7864,6 +8402,25 @@ public enum UpdateDomainContactPrivacyOutputError: Swift.Error, Swift.Equatable 
     case tLDRulesViolation(TLDRulesViolation)
     case unsupportedTLD(UnsupportedTLD)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateDomainContactPrivacyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .duplicateRequest(let error): return error
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .tLDRulesViolation(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateDomainContactPrivacyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8030,6 +8587,25 @@ public enum UpdateDomainNameserversOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateDomainNameserversOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .duplicateRequest(let error): return error
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .tLDRulesViolation(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateDomainNameserversOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8171,6 +8747,23 @@ public enum UpdateTagsForDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateTagsForDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .operationLimitExceeded(let error): return error
+        case .unsupportedTLD(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateTagsForDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8285,6 +8878,21 @@ extension ViewBillingOutputError {
 public enum ViewBillingOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ViewBillingOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidInput(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ViewBillingOutputResponse: ClientRuntime.HttpResponseBinding {

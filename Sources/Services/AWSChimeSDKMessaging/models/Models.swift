@@ -199,6 +199,28 @@ public enum AssociateChannelFlowOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateChannelFlowOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateChannelFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -237,6 +259,9 @@ public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BadRequestException" }
+
     public var code: ChimeSDKMessagingClientTypes.ErrorCode?
     public var message: Swift.String?
 
@@ -563,6 +588,28 @@ public enum BatchCreateChannelMembershipOutputError: Swift.Error, Swift.Equatabl
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchCreateChannelMembershipOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension BatchCreateChannelMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1160,6 +1207,27 @@ public enum ChannelFlowCallbackOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ChannelFlowCallbackOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ChannelFlowCallbackOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2428,6 +2496,9 @@ public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConflictException" }
+
     public var code: ChimeSDKMessagingClientTypes.ErrorCode?
     public var message: Swift.String?
 
@@ -2566,6 +2637,28 @@ public enum CreateChannelBanOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateChannelBanOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateChannelBanOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2781,6 +2874,28 @@ public enum CreateChannelFlowOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateChannelFlowOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateChannelFlowOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3184,6 +3299,29 @@ public enum CreateChannelMembershipOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateChannelMembershipOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateChannelMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3352,6 +3490,28 @@ public enum CreateChannelModeratorOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateChannelModeratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateChannelModeratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3437,6 +3597,28 @@ public enum CreateChannelOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateChannelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3566,6 +3748,26 @@ public enum DeleteChannelBanOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteChannelBanOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteChannelBanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3639,6 +3841,27 @@ public enum DeleteChannelFlowOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteChannelFlowOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteChannelFlowOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3819,6 +4042,27 @@ public enum DeleteChannelMembershipOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteChannelMembershipOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteChannelMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3932,6 +4176,26 @@ public enum DeleteChannelMessageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteChannelMessageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteChannelMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4028,6 +4292,26 @@ public enum DeleteChannelModeratorOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteChannelModeratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteChannelModeratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4068,6 +4352,26 @@ public enum DeleteChannelOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteChannelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteChannelOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4166,6 +4470,27 @@ public enum DescribeChannelBanOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeChannelBanOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeChannelBanOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4270,6 +4595,26 @@ public enum DescribeChannelFlowOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeChannelFlowOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeChannelFlowOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4458,6 +4803,26 @@ public enum DescribeChannelMembershipForAppInstanceUserOutputError: Swift.Error,
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeChannelMembershipForAppInstanceUserOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeChannelMembershipForAppInstanceUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4604,6 +4969,27 @@ public enum DescribeChannelMembershipOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeChannelMembershipOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeChannelMembershipOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4744,6 +5130,26 @@ public enum DescribeChannelModeratedByAppInstanceUserOutputError: Swift.Error, S
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeChannelModeratedByAppInstanceUserOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeChannelModeratedByAppInstanceUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4873,6 +5279,27 @@ public enum DescribeChannelModeratorOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeChannelModeratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeChannelModeratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4944,6 +5371,26 @@ public enum DescribeChannelOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeChannelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeChannelOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5075,6 +5522,28 @@ public enum DisassociateChannelFlowOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateChannelFlowOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateChannelFlowOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5276,6 +5745,9 @@ public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ForbiddenException" }
+
     public var code: ChimeSDKMessagingClientTypes.ErrorCode?
     public var message: Swift.String?
 
@@ -5393,6 +5865,26 @@ public enum GetChannelMembershipPreferencesOutputError: Swift.Error, Swift.Equat
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetChannelMembershipPreferencesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetChannelMembershipPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5561,6 +6053,27 @@ public enum GetChannelMessageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetChannelMessageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetChannelMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5706,6 +6219,26 @@ public enum GetChannelMessageStatusOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetChannelMessageStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetChannelMessageStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5795,6 +6328,25 @@ public enum GetMessagingSessionEndpointOutputError: Swift.Error, Swift.Equatable
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetMessagingSessionEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetMessagingSessionEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6072,6 +6624,26 @@ public enum ListChannelBansOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListChannelBansOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListChannelBansOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "ListChannelBansOutputResponse(channelArn: \(Swift.String(describing: channelArn)), channelBans: \(Swift.String(describing: channelBans)), nextToken: \"CONTENT_REDACTED\")"}
@@ -6241,6 +6813,26 @@ public enum ListChannelFlowsOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListChannelFlowsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListChannelFlowsOutputResponse: Swift.CustomDebugStringConvertible {
@@ -6415,6 +7007,26 @@ public enum ListChannelMembershipsForAppInstanceUserOutputError: Swift.Error, Sw
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListChannelMembershipsForAppInstanceUserOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListChannelMembershipsForAppInstanceUserOutputResponse: Swift.CustomDebugStringConvertible {
@@ -6604,6 +7216,26 @@ public enum ListChannelMembershipsOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListChannelMembershipsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListChannelMembershipsOutputResponse: Swift.CustomDebugStringConvertible {
@@ -6821,6 +7453,26 @@ public enum ListChannelMessagesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListChannelMessagesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListChannelMessagesOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "ListChannelMessagesOutputResponse(channelArn: \(Swift.String(describing: channelArn)), channelMessages: \(Swift.String(describing: channelMessages)), subChannelId: \(Swift.String(describing: subChannelId)), nextToken: \"CONTENT_REDACTED\")"}
@@ -7014,6 +7666,26 @@ public enum ListChannelModeratorsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListChannelModeratorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListChannelModeratorsOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "ListChannelModeratorsOutputResponse(channelArn: \(Swift.String(describing: channelArn)), channelModerators: \(Swift.String(describing: channelModerators)), nextToken: \"CONTENT_REDACTED\")"}
@@ -7184,6 +7856,26 @@ public enum ListChannelsAssociatedWithChannelFlowOutputError: Swift.Error, Swift
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListChannelsAssociatedWithChannelFlowOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListChannelsAssociatedWithChannelFlowOutputResponse: Swift.CustomDebugStringConvertible {
@@ -7447,6 +8139,26 @@ public enum ListChannelsModeratedByAppInstanceUserOutputError: Swift.Error, Swif
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListChannelsModeratedByAppInstanceUserOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListChannelsModeratedByAppInstanceUserOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "ListChannelsModeratedByAppInstanceUserOutputResponse(channels: \(Swift.String(describing: channels)), nextToken: \"CONTENT_REDACTED\")"}
@@ -7542,6 +8254,26 @@ public enum ListChannelsOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListChannelsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListChannelsOutputResponse: Swift.CustomDebugStringConvertible {
@@ -7717,6 +8449,26 @@ public enum ListSubChannelsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListSubChannelsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListSubChannelsOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "ListSubChannelsOutputResponse(channelArn: \(Swift.String(describing: channelArn)), subChannels: \(Swift.String(describing: subChannels)), nextToken: \"CONTENT_REDACTED\")"}
@@ -7865,6 +8617,26 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8027,6 +8799,9 @@ public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotFoundException" }
+
     public var code: ChimeSDKMessagingClientTypes.ErrorCode?
     public var message: Swift.String?
 
@@ -8426,6 +9201,27 @@ public enum PutChannelMembershipPreferencesOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutChannelMembershipPreferencesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutChannelMembershipPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8609,6 +9405,27 @@ public enum RedactChannelMessageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RedactChannelMessageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RedactChannelMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8698,6 +9515,9 @@ public struct ResourceLimitExceededException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceLimitExceededException" }
+
     public var code: ChimeSDKMessagingClientTypes.ErrorCode?
     public var message: Swift.String?
 
@@ -8866,6 +9686,26 @@ public enum SearchChannelsOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SearchChannelsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SearchChannelsOutputResponse: Swift.CustomDebugStringConvertible {
@@ -9273,6 +10113,27 @@ public enum SendChannelMessageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SendChannelMessageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SendChannelMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9372,6 +10233,9 @@ public struct ServiceFailureException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceFailureException" }
+
     public var code: ChimeSDKMessagingClientTypes.ErrorCode?
     public var message: Swift.String?
 
@@ -9433,6 +10297,9 @@ public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceUnavailableException" }
+
     public var code: ChimeSDKMessagingClientTypes.ErrorCode?
     public var message: Swift.String?
 
@@ -9712,6 +10579,27 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .resourceLimitExceededException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -9750,6 +10638,9 @@ public struct ThrottledClientException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottledClientException" }
+
     public var code: ChimeSDKMessagingClientTypes.ErrorCode?
     public var message: Swift.String?
 
@@ -9811,6 +10702,9 @@ public struct UnauthorizedClientException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnauthorizedClientException" }
+
     public var code: ChimeSDKMessagingClientTypes.ErrorCode?
     public var message: Swift.String?
 
@@ -9959,6 +10853,26 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -10087,6 +11001,27 @@ public enum UpdateChannelFlowOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateChannelFlowOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateChannelFlowOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10370,6 +11305,27 @@ public enum UpdateChannelMessageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateChannelMessageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateChannelMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10473,6 +11429,27 @@ public enum UpdateChannelOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateChannelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10618,6 +11595,27 @@ public enum UpdateChannelReadMarkerOutputError: Swift.Error, Swift.Equatable {
     case throttledClientException(ThrottledClientException)
     case unauthorizedClientException(UnauthorizedClientException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateChannelReadMarkerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .conflictException(let error): return error
+        case .forbiddenException(let error): return error
+        case .serviceFailureException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .throttledClientException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateChannelReadMarkerOutputResponse: ClientRuntime.HttpResponseBinding {

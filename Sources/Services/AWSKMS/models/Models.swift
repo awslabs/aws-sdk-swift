@@ -138,6 +138,9 @@ public struct AlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AlreadyExistsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -249,6 +252,25 @@ public enum CancelKeyDeletionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CancelKeyDeletionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CancelKeyDeletionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -316,6 +338,9 @@ public struct CloudHsmClusterInUseException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmClusterInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -377,6 +402,9 @@ public struct CloudHsmClusterInvalidConfigurationException: AWSClientRuntime.AWS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmClusterInvalidConfigurationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -429,6 +457,9 @@ public struct CloudHsmClusterNotActiveException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmClusterNotActiveException" }
+
     public var message: Swift.String?
 
     public init (
@@ -481,6 +512,9 @@ public struct CloudHsmClusterNotFoundException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmClusterNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -533,6 +567,9 @@ public struct CloudHsmClusterNotRelatedException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmClusterNotRelatedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -635,6 +672,25 @@ public enum ConnectCustomKeyStoreOutputError: Swift.Error, Swift.Equatable {
     case customKeyStoreNotFoundException(CustomKeyStoreNotFoundException)
     case kMSInternalException(KMSInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ConnectCustomKeyStoreOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmClusterInvalidConfigurationException(let error): return error
+        case .cloudHsmClusterNotActiveException(let error): return error
+        case .customKeyStoreInvalidStateException(let error): return error
+        case .customKeyStoreNotFoundException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ConnectCustomKeyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -868,6 +924,27 @@ public enum CreateAliasOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateAliasOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .alreadyExistsException(let error): return error
+        case .dependencyTimeoutException(let error): return error
+        case .invalidAliasNameException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1105,6 +1182,37 @@ public enum CreateCustomKeyStoreOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateCustomKeyStoreOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmClusterInUseException(let error): return error
+        case .cloudHsmClusterInvalidConfigurationException(let error): return error
+        case .cloudHsmClusterNotActiveException(let error): return error
+        case .cloudHsmClusterNotFoundException(let error): return error
+        case .customKeyStoreNameInUseException(let error): return error
+        case .incorrectTrustAnchorException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .limitExceededException(let error): return error
+        case .xksProxyIncorrectAuthenticationCredentialException(let error): return error
+        case .xksProxyInvalidConfigurationException(let error): return error
+        case .xksProxyInvalidResponseException(let error): return error
+        case .xksProxyUriEndpointInUseException(let error): return error
+        case .xksProxyUriInUseException(let error): return error
+        case .xksProxyUriUnreachableException(let error): return error
+        case .xksProxyVpcEndpointServiceInUseException(let error): return error
+        case .xksProxyVpcEndpointServiceInvalidConfigurationException(let error): return error
+        case .xksProxyVpcEndpointServiceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateCustomKeyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1333,6 +1441,28 @@ public enum CreateGrantOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateGrantOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .invalidArnException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateGrantOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1682,6 +1812,33 @@ public enum CreateKeyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmClusterInvalidConfigurationException(let error): return error
+        case .customKeyStoreInvalidStateException(let error): return error
+        case .customKeyStoreNotFoundException(let error): return error
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .limitExceededException(let error): return error
+        case .malformedPolicyDocumentException(let error): return error
+        case .tagException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .xksKeyAlreadyInUseException(let error): return error
+        case .xksKeyInvalidConfigurationException(let error): return error
+        case .xksKeyNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1749,6 +1906,9 @@ public struct CustomKeyStoreHasCMKsException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CustomKeyStoreHasCMKsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1811,6 +1971,9 @@ public struct CustomKeyStoreInvalidStateException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CustomKeyStoreInvalidStateException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1863,6 +2026,9 @@ public struct CustomKeyStoreNameInUseException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CustomKeyStoreNameInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1915,6 +2081,9 @@ public struct CustomKeyStoreNotFoundException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CustomKeyStoreNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2468,6 +2637,30 @@ public enum DecryptOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DecryptOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .incorrectKeyException(let error): return error
+        case .invalidCiphertextException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .invalidKeyUsageException(let error): return error
+        case .keyUnavailableException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DecryptOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "DecryptOutputResponse(encryptionAlgorithm: \(Swift.String(describing: encryptionAlgorithm)), keyId: \(Swift.String(describing: keyId)), plaintext: \"CONTENT_REDACTED\")"}
@@ -2610,6 +2803,24 @@ public enum DeleteAliasOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteAliasOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2694,6 +2905,24 @@ public enum DeleteCustomKeyStoreOutputError: Swift.Error, Swift.Equatable {
     case customKeyStoreNotFoundException(CustomKeyStoreNotFoundException)
     case kMSInternalException(KMSInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteCustomKeyStoreOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customKeyStoreHasCMKsException(let error): return error
+        case .customKeyStoreInvalidStateException(let error): return error
+        case .customKeyStoreNotFoundException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteCustomKeyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2793,6 +3022,26 @@ public enum DeleteImportedKeyMaterialOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteImportedKeyMaterialOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteImportedKeyMaterialOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2829,6 +3078,9 @@ public struct DependencyTimeoutException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DependencyTimeoutException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2962,6 +3214,23 @@ public enum DescribeCustomKeyStoresOutputError: Swift.Error, Swift.Equatable {
     case invalidMarkerException(InvalidMarkerException)
     case kMSInternalException(KMSInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeCustomKeyStoresOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customKeyStoreNotFoundException(let error): return error
+        case .invalidMarkerException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeCustomKeyStoresOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3145,6 +3414,24 @@ public enum DescribeKeyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3271,6 +3558,25 @@ public enum DisableKeyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisableKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisableKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3370,6 +3676,27 @@ public enum DisableKeyRotationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisableKeyRotationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisableKeyRotationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3406,6 +3733,9 @@ public struct DisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DisabledException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3506,6 +3836,23 @@ public enum DisconnectCustomKeyStoreOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisconnectCustomKeyStoreOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customKeyStoreInvalidStateException(let error): return error
+        case .customKeyStoreNotFoundException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisconnectCustomKeyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3601,6 +3948,26 @@ public enum EnableKeyOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension EnableKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension EnableKeyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3700,6 +4067,27 @@ public enum EnableKeyRotationOutputError: Swift.Error, Swift.Equatable {
     case notFoundException(NotFoundException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension EnableKeyRotationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension EnableKeyRotationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3885,6 +4273,28 @@ public enum EncryptOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension EncryptOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .invalidKeyUsageException(let error): return error
+        case .keyUnavailableException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension EncryptOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4042,6 +4452,9 @@ public struct ExpiredImportTokenException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ExpiredImportTokenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4233,6 +4646,28 @@ public enum GenerateDataKeyOutputError: Swift.Error, Swift.Equatable {
     case kMSInvalidStateException(KMSInvalidStateException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GenerateDataKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .invalidKeyUsageException(let error): return error
+        case .keyUnavailableException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GenerateDataKeyOutputResponse: Swift.CustomDebugStringConvertible {
@@ -4457,6 +4892,29 @@ public enum GenerateDataKeyPairOutputError: Swift.Error, Swift.Equatable {
     case notFoundException(NotFoundException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GenerateDataKeyPairOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .invalidKeyUsageException(let error): return error
+        case .keyUnavailableException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GenerateDataKeyPairOutputResponse: Swift.CustomDebugStringConvertible {
@@ -4703,6 +5161,29 @@ public enum GenerateDataKeyPairWithoutPlaintextOutputError: Swift.Error, Swift.E
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GenerateDataKeyPairWithoutPlaintextOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .invalidKeyUsageException(let error): return error
+        case .keyUnavailableException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GenerateDataKeyPairWithoutPlaintextOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4941,6 +5422,28 @@ public enum GenerateDataKeyWithoutPlaintextOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GenerateDataKeyWithoutPlaintextOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .invalidKeyUsageException(let error): return error
+        case .keyUnavailableException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GenerateDataKeyWithoutPlaintextOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5129,6 +5632,27 @@ public enum GenerateMacOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GenerateMacOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .disabledException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .invalidKeyUsageException(let error): return error
+        case .keyUnavailableException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GenerateMacOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5279,6 +5803,25 @@ public enum GenerateRandomOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GenerateRandomOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customKeyStoreInvalidStateException(let error): return error
+        case .customKeyStoreNotFoundException(let error): return error
+        case .dependencyTimeoutException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GenerateRandomOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GenerateRandomOutputResponse(plaintext: \"CONTENT_REDACTED\")"}
@@ -5423,6 +5966,25 @@ public enum GetKeyPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetKeyPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetKeyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5549,6 +6111,26 @@ public enum GetKeyRotationStatusOutputError: Swift.Error, Swift.Equatable {
     case notFoundException(NotFoundException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetKeyRotationStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetKeyRotationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5703,6 +6285,26 @@ public enum GetParametersForImportOutputError: Swift.Error, Swift.Equatable {
     case notFoundException(NotFoundException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetParametersForImportOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetParametersForImportOutputResponse: Swift.CustomDebugStringConvertible {
@@ -5902,6 +6504,30 @@ public enum GetPublicKeyOutputError: Swift.Error, Swift.Equatable {
     case notFoundException(NotFoundException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetPublicKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .invalidArnException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .invalidKeyUsageException(let error): return error
+        case .keyUnavailableException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6439,6 +7065,30 @@ public enum ImportKeyMaterialOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ImportKeyMaterialOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .expiredImportTokenException(let error): return error
+        case .incorrectKeyMaterialException(let error): return error
+        case .invalidArnException(let error): return error
+        case .invalidCiphertextException(let error): return error
+        case .invalidImportTokenException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ImportKeyMaterialOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6475,6 +7125,9 @@ public struct IncorrectKeyException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IncorrectKeyException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6527,6 +7180,9 @@ public struct IncorrectKeyMaterialException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IncorrectKeyMaterialException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6579,6 +7235,9 @@ public struct IncorrectTrustAnchorException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IncorrectTrustAnchorException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6631,6 +7290,9 @@ public struct InvalidAliasNameException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidAliasNameException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6683,6 +7345,9 @@ public struct InvalidArnException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidArnException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6735,6 +7400,9 @@ public struct InvalidCiphertextException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCiphertextException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6787,6 +7455,9 @@ public struct InvalidGrantIdException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidGrantIdException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6839,6 +7510,9 @@ public struct InvalidGrantTokenException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidGrantTokenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6891,6 +7565,9 @@ public struct InvalidImportTokenException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidImportTokenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6950,6 +7627,9 @@ public struct InvalidKeyUsageException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidKeyUsageException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7002,6 +7682,9 @@ public struct InvalidMarkerException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidMarkerException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7054,6 +7737,9 @@ public struct KMSInternalException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSInternalException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7106,6 +7792,9 @@ public struct KMSInvalidMacException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSInvalidMacException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7158,6 +7847,9 @@ public struct KMSInvalidSignatureException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSInvalidSignatureException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7214,6 +7906,9 @@ public struct KMSInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSInvalidStateException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7767,6 +8462,9 @@ public struct KeyUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KeyUnavailableException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7854,6 +8552,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7986,6 +8687,25 @@ public enum ListAliasesOutputError: Swift.Error, Swift.Equatable {
     case kMSInternalException(KMSInternalException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAliasesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .invalidMarkerException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8195,6 +8915,27 @@ public enum ListGrantsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListGrantsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .invalidGrantIdException(let error): return error
+        case .invalidMarkerException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8374,6 +9115,25 @@ public enum ListKeyPoliciesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListKeyPoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListKeyPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8527,6 +9287,23 @@ public enum ListKeysOutputError: Swift.Error, Swift.Equatable {
     case invalidMarkerException(InvalidMarkerException)
     case kMSInternalException(KMSInternalException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListKeysOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidMarkerException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListKeysOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8706,6 +9483,24 @@ public enum ListResourceTagsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListResourceTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArnException(let error): return error
+        case .invalidMarkerException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListResourceTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8878,6 +9673,25 @@ public enum ListRetirableGrantsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListRetirableGrantsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .invalidMarkerException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListRetirableGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9012,6 +9826,9 @@ public struct MalformedPolicyDocumentException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MalformedPolicyDocumentException" }
+
     public var message: Swift.String?
 
     public init (
@@ -9240,6 +10057,9 @@ public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -9447,6 +10267,28 @@ public enum PutKeyPolicyOutputError: Swift.Error, Swift.Equatable {
     case notFoundException(NotFoundException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutKeyPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .limitExceededException(let error): return error
+        case .malformedPolicyDocumentException(let error): return error
+        case .notFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutKeyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9688,6 +10530,30 @@ public enum ReEncryptOutputError: Swift.Error, Swift.Equatable {
     case kMSInvalidStateException(KMSInvalidStateException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ReEncryptOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .incorrectKeyException(let error): return error
+        case .invalidCiphertextException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .invalidKeyUsageException(let error): return error
+        case .keyUnavailableException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ReEncryptOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9955,6 +10821,30 @@ public enum ReplicateKeyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ReplicateKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .alreadyExistsException(let error): return error
+        case .disabledException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .limitExceededException(let error): return error
+        case .malformedPolicyDocumentException(let error): return error
+        case .notFoundException(let error): return error
+        case .tagException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ReplicateKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10132,6 +11022,27 @@ public enum RetireGrantOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RetireGrantOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .invalidGrantIdException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RetireGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -10242,6 +11153,26 @@ public enum RevokeGrantOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RevokeGrantOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .invalidGrantIdException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RevokeGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -10347,6 +11278,25 @@ public enum ScheduleKeyDeletionOutputError: Swift.Error, Swift.Equatable {
     case kMSInvalidStateException(KMSInvalidStateException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ScheduleKeyDeletionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ScheduleKeyDeletionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10590,6 +11540,28 @@ public enum SignOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SignOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .invalidKeyUsageException(let error): return error
+        case .keyUnavailableException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10787,6 +11759,9 @@ public struct TagException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10925,6 +11900,26 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .tagException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -10961,6 +11956,9 @@ public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedOperationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11097,6 +12095,25 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .tagException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -11203,6 +12220,25 @@ public enum UpdateAliasOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateAliasOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .limitExceededException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11418,6 +12454,37 @@ public enum UpdateCustomKeyStoreOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateCustomKeyStoreOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmClusterInvalidConfigurationException(let error): return error
+        case .cloudHsmClusterNotActiveException(let error): return error
+        case .cloudHsmClusterNotFoundException(let error): return error
+        case .cloudHsmClusterNotRelatedException(let error): return error
+        case .customKeyStoreInvalidStateException(let error): return error
+        case .customKeyStoreNameInUseException(let error): return error
+        case .customKeyStoreNotFoundException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .xksProxyIncorrectAuthenticationCredentialException(let error): return error
+        case .xksProxyInvalidConfigurationException(let error): return error
+        case .xksProxyInvalidResponseException(let error): return error
+        case .xksProxyUriEndpointInUseException(let error): return error
+        case .xksProxyUriInUseException(let error): return error
+        case .xksProxyUriUnreachableException(let error): return error
+        case .xksProxyVpcEndpointServiceInUseException(let error): return error
+        case .xksProxyVpcEndpointServiceInvalidConfigurationException(let error): return error
+        case .xksProxyVpcEndpointServiceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateCustomKeyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -11524,6 +12591,25 @@ public enum UpdateKeyDescriptionOutputError: Swift.Error, Swift.Equatable {
     case kMSInvalidStateException(KMSInvalidStateException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateKeyDescriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateKeyDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11634,6 +12720,26 @@ public enum UpdatePrimaryRegionOutputError: Swift.Error, Swift.Equatable {
     case notFoundException(NotFoundException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdatePrimaryRegionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .disabledException(let error): return error
+        case .invalidArnException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdatePrimaryRegionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11945,6 +13051,28 @@ public enum VerifyMacOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension VerifyMacOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .disabledException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .invalidKeyUsageException(let error): return error
+        case .keyUnavailableException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidMacException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension VerifyMacOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12042,6 +13170,29 @@ public enum VerifyOutputError: Swift.Error, Swift.Equatable {
     case kMSInvalidStateException(KMSInvalidStateException)
     case notFoundException(NotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension VerifyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .dependencyTimeoutException(let error): return error
+        case .disabledException(let error): return error
+        case .invalidGrantTokenException(let error): return error
+        case .invalidKeyUsageException(let error): return error
+        case .keyUnavailableException(let error): return error
+        case .kMSInternalException(let error): return error
+        case .kMSInvalidSignatureException(let error): return error
+        case .kMSInvalidStateException(let error): return error
+        case .notFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension VerifyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12160,6 +13311,9 @@ public struct XksKeyAlreadyInUseException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "XksKeyAlreadyInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12247,6 +13401,9 @@ public struct XksKeyInvalidConfigurationException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "XksKeyInvalidConfigurationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12299,6 +13456,9 @@ public struct XksKeyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "XksKeyNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12515,6 +13675,9 @@ public struct XksProxyIncorrectAuthenticationCredentialException: AWSClientRunti
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "XksProxyIncorrectAuthenticationCredentialException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12567,6 +13730,9 @@ public struct XksProxyInvalidConfigurationException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "XksProxyInvalidConfigurationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12619,6 +13785,9 @@ public struct XksProxyInvalidResponseException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "XksProxyInvalidResponseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12671,6 +13840,9 @@ public struct XksProxyUriEndpointInUseException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "XksProxyUriEndpointInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12723,6 +13895,9 @@ public struct XksProxyUriInUseException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "XksProxyUriInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12775,6 +13950,9 @@ public struct XksProxyUriUnreachableException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "XksProxyUriUnreachableException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12827,6 +14005,9 @@ public struct XksProxyVpcEndpointServiceInUseException: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "XksProxyVpcEndpointServiceInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12879,6 +14060,9 @@ public struct XksProxyVpcEndpointServiceInvalidConfigurationException: AWSClient
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "XksProxyVpcEndpointServiceInvalidConfigurationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12931,6 +14115,9 @@ public struct XksProxyVpcEndpointServiceNotFoundException: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "XksProxyVpcEndpointServiceNotFoundException" }
+
     public var message: Swift.String?
 
     public init (

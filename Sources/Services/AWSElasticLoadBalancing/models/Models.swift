@@ -93,6 +93,9 @@ public struct AccessPointNotFoundException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessPointNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -253,6 +256,23 @@ public enum AddTagsOutputError: Swift.Error, Swift.Equatable {
     case duplicateTagKeysException(DuplicateTagKeysException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AddTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AddTagsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -468,6 +488,23 @@ public enum ApplySecurityGroupsToLoadBalancerOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ApplySecurityGroupsToLoadBalancerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .invalidSecurityGroupException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ApplySecurityGroupsToLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -640,6 +677,24 @@ public enum AttachLoadBalancerToSubnetsOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AttachLoadBalancerToSubnetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .invalidSubnetException(let error): return error
+        case .subnetNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AttachLoadBalancerToSubnetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -796,6 +851,9 @@ public struct CertificateNotFoundException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CertificateNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -900,6 +958,21 @@ extension ConfigureHealthCheckOutputError {
 public enum ConfigureHealthCheckOutputError: Swift.Error, Swift.Equatable {
     case accessPointNotFoundException(AccessPointNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ConfigureHealthCheckOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ConfigureHealthCheckOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1125,6 +1198,24 @@ public enum CreateAppCookieStickinessPolicyOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateAppCookieStickinessPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .duplicatePolicyNameException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .tooManyPoliciesException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateAppCookieStickinessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1231,6 +1322,24 @@ public enum CreateLBCookieStickinessPolicyOutputError: Swift.Error, Swift.Equata
     case invalidConfigurationRequestException(InvalidConfigurationRequestException)
     case tooManyPoliciesException(TooManyPoliciesException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateLBCookieStickinessPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .duplicatePolicyNameException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .tooManyPoliciesException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateLBCookieStickinessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1602,6 +1711,25 @@ public enum CreateLoadBalancerListenersOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateLoadBalancerListenersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .certificateNotFoundException(let error): return error
+        case .duplicateListenerException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .unsupportedProtocolException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateLoadBalancerListenersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1654,6 +1782,32 @@ public enum CreateLoadBalancerOutputError: Swift.Error, Swift.Equatable {
     case tooManyTagsException(TooManyTagsException)
     case unsupportedProtocolException(UnsupportedProtocolException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateLoadBalancerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .certificateNotFoundException(let error): return error
+        case .duplicateAccessPointNameException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .invalidSchemeException(let error): return error
+        case .invalidSecurityGroupException(let error): return error
+        case .invalidSubnetException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .subnetNotFoundException(let error): return error
+        case .tooManyAccessPointsException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unsupportedProtocolException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1834,6 +1988,25 @@ public enum CreateLoadBalancerPolicyOutputError: Swift.Error, Swift.Equatable {
     case policyTypeNotFoundException(PolicyTypeNotFoundException)
     case tooManyPoliciesException(TooManyPoliciesException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateLoadBalancerPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .duplicatePolicyNameException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .policyTypeNotFoundException(let error): return error
+        case .tooManyPoliciesException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateLoadBalancerPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2036,6 +2209,21 @@ public enum DeleteLoadBalancerListenersOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteLoadBalancerListenersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteLoadBalancerListenersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2064,6 +2252,20 @@ extension DeleteLoadBalancerOutputError {
 
 public enum DeleteLoadBalancerOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteLoadBalancerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2159,6 +2361,22 @@ public enum DeleteLoadBalancerPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteLoadBalancerPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteLoadBalancerPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2195,6 +2413,9 @@ public struct DependencyThrottleException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DependencyThrottleException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2327,6 +2548,22 @@ public enum DeregisterInstancesFromLoadBalancerOutputError: Swift.Error, Swift.E
     case accessPointNotFoundException(AccessPointNotFoundException)
     case invalidEndPointException(InvalidEndPointException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeregisterInstancesFromLoadBalancerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .invalidEndPointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeregisterInstancesFromLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2462,6 +2699,20 @@ extension DescribeAccountLimitsOutputError {
 
 public enum DescribeAccountLimitsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAccountLimitsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2640,6 +2891,22 @@ public enum DescribeInstanceHealthOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeInstanceHealthOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .invalidEndPointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeInstanceHealthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2768,6 +3035,22 @@ public enum DescribeLoadBalancerAttributesOutputError: Swift.Error, Swift.Equata
     case accessPointNotFoundException(AccessPointNotFoundException)
     case loadBalancerAttributeNotFoundException(LoadBalancerAttributeNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeLoadBalancerAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .loadBalancerAttributeNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeLoadBalancerAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2917,6 +3200,22 @@ public enum DescribeLoadBalancerPoliciesOutputError: Swift.Error, Swift.Equatabl
     case accessPointNotFoundException(AccessPointNotFoundException)
     case policyNotFoundException(PolicyNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeLoadBalancerPoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeLoadBalancerPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3070,6 +3369,21 @@ extension DescribeLoadBalancerPolicyTypesOutputError {
 public enum DescribeLoadBalancerPolicyTypesOutputError: Swift.Error, Swift.Equatable {
     case policyTypeNotFoundException(PolicyTypeNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeLoadBalancerPolicyTypesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .policyTypeNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeLoadBalancerPolicyTypesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3249,6 +3563,22 @@ public enum DescribeLoadBalancersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeLoadBalancersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .dependencyThrottleException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3411,6 +3741,21 @@ extension DescribeTagsOutputError {
 public enum DescribeTagsOutputError: Swift.Error, Swift.Equatable {
     case accessPointNotFoundException(AccessPointNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3581,6 +3926,22 @@ public enum DetachLoadBalancerFromSubnetsOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DetachLoadBalancerFromSubnetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DetachLoadBalancerFromSubnetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3749,6 +4110,22 @@ public enum DisableAvailabilityZonesForLoadBalancerOutputError: Swift.Error, Swi
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisableAvailabilityZonesForLoadBalancerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisableAvailabilityZonesForLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3834,6 +4211,9 @@ public struct DuplicateAccessPointNameException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateAccessPointNameException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3885,6 +4265,9 @@ public struct DuplicateListenerException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateListenerException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3936,6 +4319,9 @@ public struct DuplicatePolicyNameException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicatePolicyNameException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3987,6 +4373,9 @@ public struct DuplicateTagKeysException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateTagKeysException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4117,6 +4506,21 @@ extension EnableAvailabilityZonesForLoadBalancerOutputError {
 public enum EnableAvailabilityZonesForLoadBalancerOutputError: Swift.Error, Swift.Equatable {
     case accessPointNotFoundException(AccessPointNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension EnableAvailabilityZonesForLoadBalancerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension EnableAvailabilityZonesForLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4408,6 +4812,9 @@ public struct InvalidConfigurationRequestException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidConfigurationRequestException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4459,6 +4866,9 @@ public struct InvalidEndPointException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidEndPointException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4510,6 +4920,9 @@ public struct InvalidSchemeException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSchemeException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4561,6 +4974,9 @@ public struct InvalidSecurityGroupException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSecurityGroupException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4612,6 +5028,9 @@ public struct InvalidSubnetException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSubnetException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4908,6 +5327,9 @@ public struct ListenerNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ListenerNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4959,6 +5381,9 @@ public struct LoadBalancerAttributeNotFoundException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LoadBalancerAttributeNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5511,6 +5936,23 @@ public enum ModifyLoadBalancerAttributesOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyLoadBalancerAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .loadBalancerAttributeNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyLoadBalancerAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5589,6 +6031,9 @@ public struct OperationNotPermittedException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OperationNotPermittedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6027,6 +6472,9 @@ public struct PolicyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PolicyNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6159,6 +6607,9 @@ public struct PolicyTypeNotFoundException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PolicyTypeNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6291,6 +6742,22 @@ public enum RegisterInstancesWithLoadBalancerOutputError: Swift.Error, Swift.Equ
     case accessPointNotFoundException(AccessPointNotFoundException)
     case invalidEndPointException(InvalidEndPointException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RegisterInstancesWithLoadBalancerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .invalidEndPointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RegisterInstancesWithLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6485,6 +6952,21 @@ public enum RemoveTagsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6594,6 +7076,25 @@ public enum SetLoadBalancerListenerSSLCertificateOutputError: Swift.Error, Swift
     case listenerNotFoundException(ListenerNotFoundException)
     case unsupportedProtocolException(UnsupportedProtocolException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetLoadBalancerListenerSSLCertificateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .certificateNotFoundException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .unsupportedProtocolException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetLoadBalancerListenerSSLCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6727,6 +7228,23 @@ public enum SetLoadBalancerPoliciesForBackendServerOutputError: Swift.Error, Swi
     case invalidConfigurationRequestException(InvalidConfigurationRequestException)
     case policyNotFoundException(PolicyNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetLoadBalancerPoliciesForBackendServerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetLoadBalancerPoliciesForBackendServerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6864,6 +7382,24 @@ public enum SetLoadBalancerPoliciesOfListenerOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SetLoadBalancerPoliciesOfListenerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessPointNotFoundException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SetLoadBalancerPoliciesOfListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6945,6 +7481,9 @@ public struct SubnetNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SubnetNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7148,6 +7687,9 @@ public struct TooManyAccessPointsException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyAccessPointsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7199,6 +7741,9 @@ public struct TooManyPoliciesException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyPoliciesException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7250,6 +7795,9 @@ public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTagsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7301,6 +7849,9 @@ public struct UnsupportedProtocolException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedProtocolException" }
+
     public var message: Swift.String?
 
     public init (

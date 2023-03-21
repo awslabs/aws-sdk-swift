@@ -87,6 +87,9 @@ public struct ActiveDirectoryError: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ActiveDirectoryError" }
+
     /// The directory ID of the directory that an error pertains to.
     /// This member is required.
     public var activeDirectoryId: Swift.String?
@@ -647,6 +650,23 @@ public enum AssociateFileSystemAliasesOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateFileSystemAliasesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateFileSystemAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1092,6 +1112,9 @@ public struct BackupBeingCopied: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BackupBeingCopied" }
+
     /// The ID of the source backup. Specifies the backup that you are copying.
     public var backupId: Swift.String?
     /// A detailed error message.
@@ -1188,6 +1211,9 @@ public struct BackupInProgress: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BackupInProgress" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -1303,6 +1329,9 @@ public struct BackupNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equata
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BackupNotFound" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -1358,6 +1387,9 @@ public struct BackupRestoring: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BackupRestoring" }
+
     /// The ID of a file system being restored from the backup.
     public var fileSystemId: Swift.String?
     /// A detailed error message.
@@ -1455,6 +1487,9 @@ public struct BadRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BadRequest" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -1559,6 +1594,25 @@ public enum CancelDataRepositoryTaskOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CancelDataRepositoryTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .dataRepositoryTaskEnded(let error): return error
+        case .dataRepositoryTaskNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CancelDataRepositoryTaskOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1863,6 +1917,31 @@ public enum CopyBackupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CopyBackupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .backupNotFound(let error): return error
+        case .badRequest(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .incompatibleRegionForMultiAZ(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidDestinationKmsKey(let error): return error
+        case .invalidRegion(let error): return error
+        case .invalidSourceKmsKey(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .sourceBackupUnavailable(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CopyBackupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2034,6 +2113,28 @@ public enum CreateBackupOutputError: Swift.Error, Swift.Equatable {
     case unsupportedOperation(UnsupportedOperation)
     case volumeNotFound(VolumeNotFound)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateBackupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .backupInProgress(let error): return error
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .volumeNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateBackupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2253,6 +2354,26 @@ public enum CreateDataRepositoryAssociationOutputError: Swift.Error, Swift.Equat
     case serviceLimitExceeded(ServiceLimitExceeded)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDataRepositoryAssociationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDataRepositoryAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2478,6 +2599,27 @@ public enum CreateDataRepositoryTaskOutputError: Swift.Error, Swift.Equatable {
     case serviceLimitExceeded(ServiceLimitExceeded)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDataRepositoryTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .dataRepositoryTaskExecuting(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDataRepositoryTaskOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2849,6 +2991,27 @@ public enum CreateFileCacheOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateFileCacheOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidNetworkSettings(let error): return error
+        case .invalidPerUnitStorageThroughput(let error): return error
+        case .missingFileCacheConfiguration(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateFileCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3170,6 +3333,29 @@ public enum CreateFileSystemFromBackupOutputError: Swift.Error, Swift.Equatable 
     case missingFileSystemConfiguration(MissingFileSystemConfiguration)
     case serviceLimitExceeded(ServiceLimitExceeded)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateFileSystemFromBackupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .activeDirectoryError(let error): return error
+        case .backupNotFound(let error): return error
+        case .badRequest(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidNetworkSettings(let error): return error
+        case .invalidPerUnitStorageThroughput(let error): return error
+        case .missingFileSystemConfiguration(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateFileSystemFromBackupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4010,6 +4196,30 @@ public enum CreateFileSystemOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateFileSystemOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .activeDirectoryError(let error): return error
+        case .badRequest(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidExportPath(let error): return error
+        case .invalidImportPath(let error): return error
+        case .invalidNetworkSettings(let error): return error
+        case .invalidPerUnitStorageThroughput(let error): return error
+        case .missingFileSystemConfiguration(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4711,6 +4921,24 @@ public enum CreateSnapshotOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .internalServerError(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .volumeNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4928,6 +5156,27 @@ public enum CreateStorageVirtualMachineOutputError: Swift.Error, Swift.Equatable
     case serviceLimitExceeded(ServiceLimitExceeded)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateStorageVirtualMachineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .activeDirectoryError(let error): return error
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateStorageVirtualMachineOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5162,6 +5411,28 @@ public enum CreateVolumeFromBackupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateVolumeFromBackupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .backupNotFound(let error): return error
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .missingVolumeConfiguration(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .storageVirtualMachineNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateVolumeFromBackupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5358,6 +5629,28 @@ public enum CreateVolumeOutputError: Swift.Error, Swift.Equatable {
     case storageVirtualMachineNotFound(StorageVirtualMachineNotFound)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateVolumeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .missingVolumeConfiguration(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .storageVirtualMachineNotFound(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5702,6 +5995,9 @@ public struct DataRepositoryAssociationNotFound: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DataRepositoryAssociationNotFound" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -6161,6 +6457,9 @@ public struct DataRepositoryTaskEnded: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DataRepositoryTaskEnded" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -6214,6 +6513,9 @@ public struct DataRepositoryTaskExecuting: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DataRepositoryTaskExecuting" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -6445,6 +6747,9 @@ public struct DataRepositoryTaskNotFound: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DataRepositoryTaskNotFound" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -6680,6 +6985,27 @@ public enum DeleteBackupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteBackupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .backupBeingCopied(let error): return error
+        case .backupInProgress(let error): return error
+        case .backupNotFound(let error): return error
+        case .backupRestoring(let error): return error
+        case .badRequest(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteBackupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6834,6 +7160,25 @@ public enum DeleteDataRepositoryAssociationOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDataRepositoryAssociationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .dataRepositoryAssociationNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDataRepositoryAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6983,6 +7328,25 @@ public enum DeleteFileCacheOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case serviceLimitExceeded(ServiceLimitExceeded)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteFileCacheOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .fileCacheNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteFileCacheOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7442,6 +7806,25 @@ public enum DeleteFileSystemOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteFileSystemOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7753,6 +8136,23 @@ public enum DeleteSnapshotOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .internalServerError(let error): return error
+        case .snapshotNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7890,6 +8290,24 @@ public enum DeleteStorageVirtualMachineOutputError: Swift.Error, Swift.Equatable
     case internalServerError(InternalServerError)
     case storageVirtualMachineNotFound(StorageVirtualMachineNotFound)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteStorageVirtualMachineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .storageVirtualMachineNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteStorageVirtualMachineOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8216,6 +8634,24 @@ public enum DeleteVolumeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteVolumeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .volumeNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8413,6 +8849,25 @@ public enum DescribeBackupsOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case volumeNotFound(VolumeNotFound)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeBackupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .backupNotFound(let error): return error
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .volumeNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8613,6 +9068,25 @@ public enum DescribeDataRepositoryAssociationsOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDataRepositoryAssociationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .dataRepositoryAssociationNotFound(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidDataRepositoryType(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDataRepositoryAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8808,6 +9282,24 @@ public enum DescribeDataRepositoryTasksOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDataRepositoryTasksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .dataRepositoryTaskNotFound(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDataRepositoryTasksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8975,6 +9467,23 @@ public enum DescribeFileCachesOutputError: Swift.Error, Swift.Equatable {
     case fileCacheNotFound(FileCacheNotFound)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeFileCachesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .fileCacheNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeFileCachesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9148,6 +9657,23 @@ public enum DescribeFileSystemAliasesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeFileSystemAliasesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeFileSystemAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9317,6 +9843,23 @@ public enum DescribeFileSystemsOutputError: Swift.Error, Swift.Equatable {
     case fileSystemNotFound(FileSystemNotFound)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeFileSystemsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeFileSystemsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9513,6 +10056,23 @@ public enum DescribeSnapshotsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeSnapshotsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .internalServerError(let error): return error
+        case .snapshotNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9704,6 +10264,23 @@ public enum DescribeStorageVirtualMachinesOutputError: Swift.Error, Swift.Equata
     case internalServerError(InternalServerError)
     case storageVirtualMachineNotFound(StorageVirtualMachineNotFound)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeStorageVirtualMachinesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .internalServerError(let error): return error
+        case .storageVirtualMachineNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeStorageVirtualMachinesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9899,6 +10476,23 @@ public enum DescribeVolumesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeVolumesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .internalServerError(let error): return error
+        case .volumeNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10069,6 +10663,23 @@ public enum DisassociateFileSystemAliasesOutputError: Swift.Error, Swift.Equatab
     case fileSystemNotFound(FileSystemNotFound)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateFileSystemAliasesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateFileSystemAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11160,6 +11771,9 @@ public struct FileCacheNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FileCacheNotFound" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -11765,6 +12379,9 @@ public struct FileSystemNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FileSystemNotFound" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -11999,6 +12616,9 @@ public struct IncompatibleParameterError: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IncompatibleParameterError" }
+
     /// A detailed error message.
     public var message: Swift.String?
     /// A parameter that is incompatible with the earlier request.
@@ -12061,6 +12681,9 @@ public struct IncompatibleRegionForMultiAZ: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IncompatibleRegionForMultiAZ" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -12146,6 +12769,9 @@ public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerError" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -12199,6 +12825,9 @@ public struct InvalidDataRepositoryType: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDataRepositoryType" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -12252,6 +12881,9 @@ public struct InvalidDestinationKmsKey: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDestinationKmsKey" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -12305,6 +12937,9 @@ public struct InvalidExportPath: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidExportPath" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -12358,6 +12993,9 @@ public struct InvalidImportPath: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidImportPath" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -12417,6 +13055,9 @@ public struct InvalidNetworkSettings: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidNetworkSettings" }
+
     /// The route table ID is either invalid or not part of the VPC specified.
     public var invalidRouteTableId: Swift.String?
     /// The security group ID is either invalid or not part of the VPC specified.
@@ -12494,6 +13135,9 @@ public struct InvalidPerUnitStorageThroughput: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPerUnitStorageThroughput" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -12547,6 +13191,9 @@ public struct InvalidRegion: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRegion" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -12600,6 +13247,9 @@ public struct InvalidSourceKmsKey: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSourceKmsKey" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -12763,6 +13413,25 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case resourceDoesNotSupportTagging(ResourceDoesNotSupportTagging)
     case resourceNotFound(ResourceNotFound)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .internalServerError(let error): return error
+        case .notServiceResourceError(let error): return error
+        case .resourceDoesNotSupportTagging(let error): return error
+        case .resourceNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13275,6 +13944,9 @@ public struct MissingFileCacheConfiguration: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MissingFileCacheConfiguration" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -13328,6 +14000,9 @@ public struct MissingFileSystemConfiguration: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MissingFileSystemConfiguration" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -13381,6 +14056,9 @@ public struct MissingVolumeConfiguration: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MissingVolumeConfiguration" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -13533,6 +14211,9 @@ public struct NotServiceResourceError: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotServiceResourceError" }
+
     /// A detailed error message.
     public var message: Swift.String?
     /// The Amazon Resource Name (ARN) of the non-Amazon FSx resource.
@@ -14810,6 +15491,25 @@ public enum ReleaseFileSystemNfsV3LocksOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ReleaseFileSystemNfsV3LocksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ReleaseFileSystemNfsV3LocksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -14937,6 +15637,9 @@ public struct ResourceDoesNotSupportTagging: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceDoesNotSupportTagging" }
+
     /// A detailed error message.
     public var message: Swift.String?
     /// The Amazon Resource Name (ARN) of the resource that doesn't support tagging.
@@ -15001,6 +15704,9 @@ public struct ResourceNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFound" }
+
     /// A detailed error message.
     public var message: Swift.String?
     /// The resource ARN of the resource that can't be found.
@@ -15226,6 +15932,23 @@ public enum RestoreVolumeFromSnapshotOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case volumeNotFound(VolumeNotFound)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RestoreVolumeFromSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .internalServerError(let error): return error
+        case .volumeNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RestoreVolumeFromSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15728,6 +16451,9 @@ public struct ServiceLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceLimitExceeded" }
+
     /// Enumeration of the service limit that was exceeded.
     /// This member is required.
     public var limit: FSxClientTypes.ServiceLimit?
@@ -16064,6 +16790,9 @@ public struct SnapshotNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SnapshotNotFound" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -16119,6 +16848,9 @@ public struct SourceBackupUnavailable: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SourceBackupUnavailable" }
+
     /// The ID of the source backup. Specifies the backup that you are copying.
     public var backupId: Swift.String?
     /// A detailed error message.
@@ -16563,6 +17295,9 @@ public struct StorageVirtualMachineNotFound: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StorageVirtualMachineNotFound" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -16981,6 +17716,25 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .internalServerError(let error): return error
+        case .notServiceResourceError(let error): return error
+        case .resourceDoesNotSupportTagging(let error): return error
+        case .resourceNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -17126,6 +17880,9 @@ public struct UnsupportedOperation: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedOperation" }
+
     /// A detailed error message.
     public var message: Swift.String?
 
@@ -17257,6 +18014,25 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .internalServerError(let error): return error
+        case .notServiceResourceError(let error): return error
+        case .resourceDoesNotSupportTagging(let error): return error
+        case .resourceNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -17380,6 +18156,25 @@ public enum UpdateDataRepositoryAssociationOutputError: Swift.Error, Swift.Equat
     case internalServerError(InternalServerError)
     case serviceLimitExceeded(ServiceLimitExceeded)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateDataRepositoryAssociationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .dataRepositoryAssociationNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateDataRepositoryAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -17562,6 +18357,27 @@ public enum UpdateFileCacheOutputError: Swift.Error, Swift.Equatable {
     case serviceLimitExceeded(ServiceLimitExceeded)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateFileCacheOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .fileCacheNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .missingFileCacheConfiguration(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateFileCacheOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -18117,6 +18933,28 @@ public enum UpdateFileSystemOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateFileSystemOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .fileSystemNotFound(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidNetworkSettings(let error): return error
+        case .missingFileSystemConfiguration(let error): return error
+        case .serviceLimitExceeded(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -18572,6 +19410,23 @@ public enum UpdateSnapshotOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .internalServerError(let error): return error
+        case .snapshotNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -18730,6 +19585,25 @@ public enum UpdateStorageVirtualMachineOutputError: Swift.Error, Swift.Equatable
     case storageVirtualMachineNotFound(StorageVirtualMachineNotFound)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateStorageVirtualMachineOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .storageVirtualMachineNotFound(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateStorageVirtualMachineOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -18932,6 +19806,25 @@ public enum UpdateVolumeOutputError: Swift.Error, Swift.Equatable {
     case missingVolumeConfiguration(MissingVolumeConfiguration)
     case volumeNotFound(VolumeNotFound)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateVolumeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequest(let error): return error
+        case .incompatibleParameterError(let error): return error
+        case .internalServerError(let error): return error
+        case .missingVolumeConfiguration(let error): return error
+        case .volumeNotFound(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -19320,6 +20213,9 @@ public struct VolumeNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equata
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "VolumeNotFound" }
+
     /// A detailed error message.
     public var message: Swift.String?
 

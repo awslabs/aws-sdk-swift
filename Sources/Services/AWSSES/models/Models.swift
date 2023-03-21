@@ -27,6 +27,9 @@ public struct AccountSendingPausedException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccountSendingPausedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -127,6 +130,9 @@ public struct AlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AlreadyExistsException" }
+
     public var message: Swift.String?
     /// Indicates that a resource could not be created because the resource name already exists.
     public var name: Swift.String?
@@ -686,6 +692,9 @@ public struct CannotDeleteException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CannotDeleteException" }
+
     public var message: Swift.String?
     /// Indicates that a resource could not be deleted because no resource with the specified name exists.
     public var name: Swift.String?
@@ -808,6 +817,23 @@ public enum CloneReceiptRuleSetOutputError: Swift.Error, Swift.Equatable {
     case limitExceededException(LimitExceededException)
     case ruleSetDoesNotExistException(RuleSetDoesNotExistException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CloneReceiptRuleSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .alreadyExistsException(let error): return error
+        case .limitExceededException(let error): return error
+        case .ruleSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CloneReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1016,6 +1042,9 @@ public struct ConfigurationSetAlreadyExistsException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConfigurationSetAlreadyExistsException" }
+
     /// Indicates that the configuration set does not exist.
     public var configurationSetName: Swift.String?
     public var message: Swift.String?
@@ -1115,6 +1144,9 @@ public struct ConfigurationSetDoesNotExistException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConfigurationSetDoesNotExistException" }
+
     /// Indicates that the configuration set does not exist.
     public var configurationSetName: Swift.String?
     public var message: Swift.String?
@@ -1176,6 +1208,9 @@ public struct ConfigurationSetSendingPausedException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConfigurationSetSendingPausedException" }
+
     /// The name of the configuration set for which email sending is disabled.
     public var configurationSetName: Swift.String?
     public var message: Swift.String?
@@ -1346,6 +1381,26 @@ public enum CreateConfigurationSetEventDestinationOutputError: Swift.Error, Swif
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateConfigurationSetEventDestinationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetDoesNotExistException(let error): return error
+        case .eventDestinationAlreadyExistsException(let error): return error
+        case .invalidCloudWatchDestinationException(let error): return error
+        case .invalidFirehoseDestinationException(let error): return error
+        case .invalidSNSDestinationException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateConfigurationSetEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1427,6 +1482,23 @@ public enum CreateConfigurationSetOutputError: Swift.Error, Swift.Equatable {
     case invalidConfigurationSetException(InvalidConfigurationSetException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateConfigurationSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetAlreadyExistsException(let error): return error
+        case .invalidConfigurationSetException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1522,6 +1594,23 @@ public enum CreateConfigurationSetTrackingOptionsOutputError: Swift.Error, Swift
     case invalidTrackingOptionsException(InvalidTrackingOptionsException)
     case trackingOptionsAlreadyExistsException(TrackingOptionsAlreadyExistsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateConfigurationSetTrackingOptionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetDoesNotExistException(let error): return error
+        case .invalidTrackingOptionsException(let error): return error
+        case .trackingOptionsAlreadyExistsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateConfigurationSetTrackingOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1669,6 +1758,24 @@ public enum CreateCustomVerificationEmailTemplateOutputError: Swift.Error, Swift
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateCustomVerificationEmailTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customVerificationEmailInvalidContentException(let error): return error
+        case .customVerificationEmailTemplateAlreadyExistsException(let error): return error
+        case .fromEmailAddressNotVerifiedException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1747,6 +1854,22 @@ public enum CreateReceiptFilterOutputError: Swift.Error, Swift.Equatable {
     case alreadyExistsException(AlreadyExistsException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateReceiptFilterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .alreadyExistsException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateReceiptFilterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1863,6 +1986,27 @@ public enum CreateReceiptRuleOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateReceiptRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .alreadyExistsException(let error): return error
+        case .invalidLambdaFunctionException(let error): return error
+        case .invalidS3ConfigurationException(let error): return error
+        case .invalidSnsTopicException(let error): return error
+        case .limitExceededException(let error): return error
+        case .ruleDoesNotExistException(let error): return error
+        case .ruleSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateReceiptRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1950,6 +2094,22 @@ public enum CreateReceiptRuleSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateReceiptRuleSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .alreadyExistsException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2033,6 +2193,23 @@ public enum CreateTemplateOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .alreadyExistsException(let error): return error
+        case .invalidTemplateException(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2106,6 +2283,9 @@ public struct CustomVerificationEmailInvalidContentException: AWSClientRuntime.A
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CustomVerificationEmailInvalidContentException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2234,6 +2414,9 @@ public struct CustomVerificationEmailTemplateAlreadyExistsException: AWSClientRu
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CustomVerificationEmailTemplateAlreadyExistsException" }
+
     /// Indicates that the provided custom verification email template with the specified template name already exists.
     public var customVerificationEmailTemplateName: Swift.String?
     public var message: Swift.String?
@@ -2295,6 +2478,9 @@ public struct CustomVerificationEmailTemplateDoesNotExistException: AWSClientRun
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CustomVerificationEmailTemplateDoesNotExistException" }
+
     /// Indicates that the provided custom verification email template does not exist.
     public var customVerificationEmailTemplateName: Swift.String?
     public var message: Swift.String?
@@ -2411,6 +2597,22 @@ public enum DeleteConfigurationSetEventDestinationOutputError: Swift.Error, Swif
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteConfigurationSetEventDestinationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetDoesNotExistException(let error): return error
+        case .eventDestinationDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteConfigurationSetEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2488,6 +2690,21 @@ extension DeleteConfigurationSetOutputError {
 public enum DeleteConfigurationSetOutputError: Swift.Error, Swift.Equatable {
     case configurationSetDoesNotExistException(ConfigurationSetDoesNotExistException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteConfigurationSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2571,6 +2788,22 @@ public enum DeleteConfigurationSetTrackingOptionsOutputError: Swift.Error, Swift
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteConfigurationSetTrackingOptionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetDoesNotExistException(let error): return error
+        case .trackingOptionsDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteConfigurationSetTrackingOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2648,6 +2881,20 @@ public enum DeleteCustomVerificationEmailTemplateOutputError: Swift.Error, Swift
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteCustomVerificationEmailTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2722,6 +2969,20 @@ extension DeleteIdentityOutputError {
 
 public enum DeleteIdentityOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteIdentityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2813,6 +3074,20 @@ public enum DeleteIdentityPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteIdentityPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteIdentityPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2888,6 +3163,20 @@ extension DeleteReceiptFilterOutputError {
 
 public enum DeleteReceiptFilterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteReceiptFilterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteReceiptFilterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2981,6 +3270,21 @@ public enum DeleteReceiptRuleOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteReceiptRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .ruleSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteReceiptRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3060,6 +3364,21 @@ public enum DeleteReceiptRuleSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteReceiptRuleSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cannotDeleteException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3137,6 +3456,20 @@ public enum DeleteTemplateOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3211,6 +3544,20 @@ extension DeleteVerifiedEmailAddressOutputError {
 
 public enum DeleteVerifiedEmailAddressOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteVerifiedEmailAddressOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteVerifiedEmailAddressOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3295,6 +3642,20 @@ extension DescribeActiveReceiptRuleSetOutputError {
 
 public enum DescribeActiveReceiptRuleSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeActiveReceiptRuleSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeActiveReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3470,6 +3831,21 @@ extension DescribeConfigurationSetOutputError {
 public enum DescribeConfigurationSetOutputError: Swift.Error, Swift.Equatable {
     case configurationSetDoesNotExistException(ConfigurationSetDoesNotExistException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeConfigurationSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3654,6 +4030,22 @@ public enum DescribeReceiptRuleOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeReceiptRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .ruleDoesNotExistException(let error): return error
+        case .ruleSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeReceiptRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3763,6 +4155,21 @@ extension DescribeReceiptRuleSetOutputError {
 public enum DescribeReceiptRuleSetOutputError: Swift.Error, Swift.Equatable {
     case ruleSetDoesNotExistException(RuleSetDoesNotExistException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeReceiptRuleSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .ruleSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4190,6 +4597,9 @@ public struct EventDestinationAlreadyExistsException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EventDestinationAlreadyExistsException" }
+
     /// Indicates that the configuration set does not exist.
     public var configurationSetName: Swift.String?
     /// Indicates that the event destination does not exist.
@@ -4261,6 +4671,9 @@ public struct EventDestinationDoesNotExistException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EventDestinationDoesNotExistException" }
+
     /// Indicates that the configuration set does not exist.
     public var configurationSetName: Swift.String?
     /// Indicates that the event destination does not exist.
@@ -4427,6 +4840,9 @@ public struct FromEmailAddressNotVerifiedException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FromEmailAddressNotVerifiedException" }
+
     /// Indicates that the from email address associated with the custom verification email template is not verified.
     public var fromEmailAddress: Swift.String?
     public var message: Swift.String?
@@ -4497,6 +4913,20 @@ extension GetAccountSendingEnabledOutputError {
 
 public enum GetAccountSendingEnabledOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetAccountSendingEnabledOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetAccountSendingEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4608,6 +5038,21 @@ extension GetCustomVerificationEmailTemplateOutputError {
 public enum GetCustomVerificationEmailTemplateOutputError: Swift.Error, Swift.Equatable {
     case customVerificationEmailTemplateDoesNotExistException(CustomVerificationEmailTemplateDoesNotExistException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCustomVerificationEmailTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customVerificationEmailTemplateDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4795,6 +5240,20 @@ public enum GetIdentityDkimAttributesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetIdentityDkimAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetIdentityDkimAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4948,6 +5407,20 @@ public enum GetIdentityMailFromDomainAttributesOutputError: Swift.Error, Swift.E
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetIdentityMailFromDomainAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetIdentityMailFromDomainAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5099,6 +5572,20 @@ extension GetIdentityNotificationAttributesOutputError {
 
 public enum GetIdentityNotificationAttributesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetIdentityNotificationAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetIdentityNotificationAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5266,6 +5753,20 @@ public enum GetIdentityPoliciesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetIdentityPoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetIdentityPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5419,6 +5920,20 @@ public enum GetIdentityVerificationAttributesOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetIdentityVerificationAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetIdentityVerificationAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5516,6 +6031,20 @@ extension GetSendQuotaOutputError {
 
 public enum GetSendQuotaOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSendQuotaOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetSendQuotaOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5617,6 +6146,20 @@ extension GetSendStatisticsOutputError {
 
 public enum GetSendStatisticsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSendStatisticsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetSendStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5744,6 +6287,21 @@ extension GetTemplateOutputError {
 public enum GetTemplateOutputError: Swift.Error, Swift.Equatable {
     case templateDoesNotExistException(TemplateDoesNotExistException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .templateDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6135,6 +6693,9 @@ public struct InvalidCloudWatchDestinationException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCloudWatchDestinationException" }
+
     /// Indicates that the configuration set does not exist.
     public var configurationSetName: Swift.String?
     /// Indicates that the event destination does not exist.
@@ -6202,6 +6763,9 @@ public struct InvalidConfigurationSetException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidConfigurationSetException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6253,6 +6817,9 @@ public struct InvalidDeliveryOptionsException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDeliveryOptionsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6308,6 +6875,9 @@ public struct InvalidFirehoseDestinationException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidFirehoseDestinationException" }
+
     /// Indicates that the configuration set does not exist.
     public var configurationSetName: Swift.String?
     /// Indicates that the event destination does not exist.
@@ -6377,6 +6947,9 @@ public struct InvalidLambdaFunctionException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidLambdaFunctionException" }
+
     /// Indicates that the ARN of the function was not found.
     public var functionArn: Swift.String?
     public var message: Swift.String?
@@ -6436,6 +7009,9 @@ public struct InvalidPolicyException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPolicyException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6489,6 +7065,9 @@ public struct InvalidRenderingParameterException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRenderingParameterException" }
+
     public var message: Swift.String?
     public var templateName: Swift.String?
 
@@ -6549,6 +7128,9 @@ public struct InvalidS3ConfigurationException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidS3ConfigurationException" }
+
     /// Indicated that the S3 Bucket was not found.
     public var bucket: Swift.String?
     public var message: Swift.String?
@@ -6612,6 +7194,9 @@ public struct InvalidSNSDestinationException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSNSDestinationException" }
+
     /// Indicates that the configuration set does not exist.
     public var configurationSetName: Swift.String?
     /// Indicates that the event destination does not exist.
@@ -6681,6 +7266,9 @@ public struct InvalidSnsTopicException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSnsTopicException" }
+
     public var message: Swift.String?
     /// Indicates that the topic does not exist.
     public var topic: Swift.String?
@@ -6742,6 +7330,9 @@ public struct InvalidTemplateException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTemplateException" }
+
     public var message: Swift.String?
     public var templateName: Swift.String?
 
@@ -6804,6 +7395,9 @@ public struct InvalidTrackingOptionsException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTrackingOptionsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6990,6 +7584,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7090,6 +7687,20 @@ extension ListConfigurationSetsOutputError {
 
 public enum ListConfigurationSetsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListConfigurationSetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListConfigurationSetsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7236,6 +7847,20 @@ extension ListCustomVerificationEmailTemplatesOutputError {
 
 public enum ListCustomVerificationEmailTemplatesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListCustomVerificationEmailTemplatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListCustomVerificationEmailTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7395,6 +8020,20 @@ public enum ListIdentitiesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListIdentitiesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListIdentitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7532,6 +8171,20 @@ public enum ListIdentityPoliciesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListIdentityPoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListIdentityPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7630,6 +8283,20 @@ extension ListReceiptFiltersOutputError {
 
 public enum ListReceiptFiltersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListReceiptFiltersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListReceiptFiltersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7755,6 +8422,20 @@ extension ListReceiptRuleSetsOutputError {
 
 public enum ListReceiptRuleSetsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListReceiptRuleSetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListReceiptRuleSetsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7902,6 +8583,20 @@ public enum ListTemplatesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTemplatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8009,6 +8704,20 @@ public enum ListVerifiedEmailAddressesOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListVerifiedEmailAddressesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListVerifiedEmailAddressesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8094,6 +8803,9 @@ public struct MailFromDomainNotVerifiedException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MailFromDomainNotVerifiedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8274,6 +8986,9 @@ public struct MessageRejected: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MessageRejected" }
+
     public var message: Swift.String?
 
     public init (
@@ -8382,6 +9097,9 @@ public struct MissingRenderingAttributeException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MissingRenderingAttributeException" }
+
     public var message: Swift.String?
     public var templateName: Swift.String?
 
@@ -8475,6 +9193,9 @@ public struct ProductionAccessNotGrantedException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ProductionAccessNotGrantedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8582,6 +9303,22 @@ public enum PutConfigurationSetDeliveryOptionsOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutConfigurationSetDeliveryOptionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetDoesNotExistException(let error): return error
+        case .invalidDeliveryOptionsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutConfigurationSetDeliveryOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8683,6 +9420,21 @@ extension PutIdentityPolicyOutputError {
 public enum PutIdentityPolicyOutputError: Swift.Error, Swift.Equatable {
     case invalidPolicyException(InvalidPolicyException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutIdentityPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidPolicyException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutIdentityPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9393,6 +10145,22 @@ public enum ReorderReceiptRuleSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ReorderReceiptRuleSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .ruleDoesNotExistException(let error): return error
+        case .ruleSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ReorderReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -9486,6 +10254,9 @@ public struct RuleDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RuleDoesNotExistException" }
+
     public var message: Swift.String?
     /// Indicates that the named receipt rule does not exist.
     public var name: Swift.String?
@@ -9547,6 +10318,9 @@ public struct RuleSetDoesNotExistException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RuleSetDoesNotExistException" }
+
     public var message: Swift.String?
     /// Indicates that the named receipt rule set does not exist.
     public var name: Swift.String?
@@ -9919,6 +10693,21 @@ public enum SendBounceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SendBounceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .messageRejected(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SendBounceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10230,6 +11019,26 @@ public enum SendBulkTemplatedEmailOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SendBulkTemplatedEmailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accountSendingPausedException(let error): return error
+        case .configurationSetDoesNotExistException(let error): return error
+        case .configurationSetSendingPausedException(let error): return error
+        case .mailFromDomainNotVerifiedException(let error): return error
+        case .messageRejected(let error): return error
+        case .templateDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SendBulkTemplatedEmailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10387,6 +11196,25 @@ public enum SendCustomVerificationEmailOutputError: Swift.Error, Swift.Equatable
     case messageRejected(MessageRejected)
     case productionAccessNotGrantedException(ProductionAccessNotGrantedException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SendCustomVerificationEmailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetDoesNotExistException(let error): return error
+        case .customVerificationEmailTemplateDoesNotExistException(let error): return error
+        case .fromEmailAddressNotVerifiedException(let error): return error
+        case .messageRejected(let error): return error
+        case .productionAccessNotGrantedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SendCustomVerificationEmailOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10725,6 +11553,25 @@ public enum SendEmailOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SendEmailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accountSendingPausedException(let error): return error
+        case .configurationSetDoesNotExistException(let error): return error
+        case .configurationSetSendingPausedException(let error): return error
+        case .mailFromDomainNotVerifiedException(let error): return error
+        case .messageRejected(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SendEmailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10986,6 +11833,25 @@ public enum SendRawEmailOutputError: Swift.Error, Swift.Equatable {
     case mailFromDomainNotVerifiedException(MailFromDomainNotVerifiedException)
     case messageRejected(MessageRejected)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SendRawEmailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accountSendingPausedException(let error): return error
+        case .configurationSetDoesNotExistException(let error): return error
+        case .configurationSetSendingPausedException(let error): return error
+        case .mailFromDomainNotVerifiedException(let error): return error
+        case .messageRejected(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SendRawEmailOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11275,6 +12141,26 @@ public enum SendTemplatedEmailOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SendTemplatedEmailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accountSendingPausedException(let error): return error
+        case .configurationSetDoesNotExistException(let error): return error
+        case .configurationSetSendingPausedException(let error): return error
+        case .mailFromDomainNotVerifiedException(let error): return error
+        case .messageRejected(let error): return error
+        case .templateDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SendTemplatedEmailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11385,6 +12271,21 @@ public enum SetActiveReceiptRuleSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SetActiveReceiptRuleSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .ruleSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SetActiveReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -11474,6 +12375,20 @@ public enum SetIdentityDkimEnabledOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SetIdentityDkimEnabledOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SetIdentityDkimEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -11561,6 +12476,20 @@ extension SetIdentityFeedbackForwardingEnabledOutputError {
 
 public enum SetIdentityFeedbackForwardingEnabledOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetIdentityFeedbackForwardingEnabledOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetIdentityFeedbackForwardingEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11664,6 +12593,20 @@ public enum SetIdentityHeadersInNotificationsEnabledOutputError: Swift.Error, Sw
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SetIdentityHeadersInNotificationsEnabledOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SetIdentityHeadersInNotificationsEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -11761,6 +12704,20 @@ extension SetIdentityMailFromDomainOutputError {
 
 public enum SetIdentityMailFromDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetIdentityMailFromDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetIdentityMailFromDomainOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11861,6 +12818,20 @@ extension SetIdentityNotificationTopicOutputError {
 
 public enum SetIdentityNotificationTopicOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetIdentityNotificationTopicOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetIdentityNotificationTopicOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11965,6 +12936,22 @@ public enum SetReceiptRulePositionOutputError: Swift.Error, Swift.Equatable {
     case ruleDoesNotExistException(RuleDoesNotExistException)
     case ruleSetDoesNotExistException(RuleSetDoesNotExistException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetReceiptRulePositionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .ruleDoesNotExistException(let error): return error
+        case .ruleSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetReceiptRulePositionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12146,6 +13133,9 @@ public struct TemplateDoesNotExistException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TemplateDoesNotExistException" }
+
     public var message: Swift.String?
     public var templateName: Swift.String?
 
@@ -12307,6 +13297,23 @@ public enum TestRenderTemplateOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TestRenderTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidRenderingParameterException(let error): return error
+        case .missingRenderingAttributeException(let error): return error
+        case .templateDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TestRenderTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12443,6 +13450,9 @@ public struct TrackingOptionsAlreadyExistsException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TrackingOptionsAlreadyExistsException" }
+
     /// Indicates that a TrackingOptions object already exists in the specified configuration set.
     public var configurationSetName: Swift.String?
     public var message: Swift.String?
@@ -12504,6 +13514,9 @@ public struct TrackingOptionsDoesNotExistException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TrackingOptionsDoesNotExistException" }
+
     /// Indicates that a TrackingOptions object does not exist in the specified configuration set.
     public var configurationSetName: Swift.String?
     public var message: Swift.String?
@@ -12601,6 +13614,20 @@ extension UpdateAccountSendingEnabledOutputError {
 
 public enum UpdateAccountSendingEnabledOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateAccountSendingEnabledOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateAccountSendingEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12701,6 +13728,25 @@ public enum UpdateConfigurationSetEventDestinationOutputError: Swift.Error, Swif
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateConfigurationSetEventDestinationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetDoesNotExistException(let error): return error
+        case .eventDestinationDoesNotExistException(let error): return error
+        case .invalidCloudWatchDestinationException(let error): return error
+        case .invalidFirehoseDestinationException(let error): return error
+        case .invalidSNSDestinationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateConfigurationSetEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -12792,6 +13838,21 @@ public enum UpdateConfigurationSetReputationMetricsEnabledOutputError: Swift.Err
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateConfigurationSetReputationMetricsEnabledOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateConfigurationSetReputationMetricsEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -12880,6 +13941,21 @@ extension UpdateConfigurationSetSendingEnabledOutputError {
 public enum UpdateConfigurationSetSendingEnabledOutputError: Swift.Error, Swift.Equatable {
     case configurationSetDoesNotExistException(ConfigurationSetDoesNotExistException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateConfigurationSetSendingEnabledOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateConfigurationSetSendingEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12974,6 +14050,23 @@ public enum UpdateConfigurationSetTrackingOptionsOutputError: Swift.Error, Swift
     case invalidTrackingOptionsException(InvalidTrackingOptionsException)
     case trackingOptionsDoesNotExistException(TrackingOptionsDoesNotExistException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateConfigurationSetTrackingOptionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .configurationSetDoesNotExistException(let error): return error
+        case .invalidTrackingOptionsException(let error): return error
+        case .trackingOptionsDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateConfigurationSetTrackingOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13114,6 +14207,23 @@ public enum UpdateCustomVerificationEmailTemplateOutputError: Swift.Error, Swift
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateCustomVerificationEmailTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .customVerificationEmailInvalidContentException(let error): return error
+        case .customVerificationEmailTemplateDoesNotExistException(let error): return error
+        case .fromEmailAddressNotVerifiedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -13214,6 +14324,26 @@ public enum UpdateReceiptRuleOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateReceiptRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidLambdaFunctionException(let error): return error
+        case .invalidS3ConfigurationException(let error): return error
+        case .invalidSnsTopicException(let error): return error
+        case .limitExceededException(let error): return error
+        case .ruleDoesNotExistException(let error): return error
+        case .ruleSetDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateReceiptRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -13292,6 +14422,22 @@ public enum UpdateTemplateOutputError: Swift.Error, Swift.Equatable {
     case invalidTemplateException(InvalidTemplateException)
     case templateDoesNotExistException(TemplateDoesNotExistException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidTemplateException(let error): return error
+        case .templateDoesNotExistException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13409,6 +14555,20 @@ extension VerifyDomainDkimOutputError {
 
 public enum VerifyDomainDkimOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension VerifyDomainDkimOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension VerifyDomainDkimOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13538,6 +14698,20 @@ public enum VerifyDomainIdentityOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension VerifyDomainIdentityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension VerifyDomainIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13648,6 +14822,20 @@ public enum VerifyEmailAddressOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension VerifyEmailAddressOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension VerifyEmailAddressOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -13722,6 +14910,20 @@ extension VerifyEmailIdentityOutputError {
 
 public enum VerifyEmailIdentityOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension VerifyEmailIdentityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension VerifyEmailIdentityOutputResponse: ClientRuntime.HttpResponseBinding {

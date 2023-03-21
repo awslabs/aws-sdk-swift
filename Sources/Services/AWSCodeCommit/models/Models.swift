@@ -28,6 +28,9 @@ public struct ActorDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ActorDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -231,6 +234,9 @@ public struct ApprovalRuleContentRequiredException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApprovalRuleContentRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -284,6 +290,9 @@ public struct ApprovalRuleDoesNotExistException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApprovalRuleDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -392,6 +401,9 @@ public struct ApprovalRuleNameAlreadyExistsException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApprovalRuleNameAlreadyExistsException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -445,6 +457,9 @@ public struct ApprovalRuleNameRequiredException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApprovalRuleNameRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -648,6 +663,9 @@ public struct ApprovalRuleTemplateContentRequiredException: AWSClientRuntime.AWS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApprovalRuleTemplateContentRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -701,6 +719,9 @@ public struct ApprovalRuleTemplateDoesNotExistException: AWSClientRuntime.AWSHtt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApprovalRuleTemplateDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -754,6 +775,9 @@ public struct ApprovalRuleTemplateInUseException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApprovalRuleTemplateInUseException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -807,6 +831,9 @@ public struct ApprovalRuleTemplateNameAlreadyExistsException: AWSClientRuntime.A
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApprovalRuleTemplateNameAlreadyExistsException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -860,6 +887,9 @@ public struct ApprovalRuleTemplateNameRequiredException: AWSClientRuntime.AWSHtt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApprovalRuleTemplateNameRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -990,6 +1020,9 @@ public struct ApprovalStateRequiredException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ApprovalStateRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -1122,6 +1155,32 @@ public enum AssociateApprovalRuleTemplateWithRepositoryOutputError: Swift.Error,
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateApprovalRuleTemplateWithRepositoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleTemplateDoesNotExistException(let error): return error
+        case .approvalRuleTemplateNameRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidApprovalRuleTemplateNameException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .maximumRuleTemplatesAssociatedWithRepositoryException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateApprovalRuleTemplateWithRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1158,6 +1217,9 @@ public struct AuthorDoesNotExistException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AuthorDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -1351,6 +1413,30 @@ public enum BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError: Swift
     case maximumRepositoryNamesExceededException(MaximumRepositoryNamesExceededException)
     case repositoryNamesRequiredException(RepositoryNamesRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleTemplateDoesNotExistException(let error): return error
+        case .approvalRuleTemplateNameRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidApprovalRuleTemplateNameException(let error): return error
+        case .maximumRepositoryNamesExceededException(let error): return error
+        case .repositoryNamesRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1715,6 +1801,41 @@ public enum BatchDescribeMergeConflictsOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BatchDescribeMergeConflictsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitDoesNotExistException(let error): return error
+        case .commitRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidCommitException(let error): return error
+        case .invalidConflictDetailLevelException(let error): return error
+        case .invalidConflictResolutionStrategyException(let error): return error
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidMaxConflictFilesException(let error): return error
+        case .invalidMaxMergeHunksException(let error): return error
+        case .invalidMergeOptionException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .maximumFileContentToLoadExceededException(let error): return error
+        case .maximumItemsToCompareExceededException(let error): return error
+        case .mergeOptionRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .tipsDivergenceExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BatchDescribeMergeConflictsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1995,6 +2116,30 @@ public enum BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError: Sw
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleTemplateDoesNotExistException(let error): return error
+        case .approvalRuleTemplateNameRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidApprovalRuleTemplateNameException(let error): return error
+        case .maximumRepositoryNamesExceededException(let error): return error
+        case .repositoryNamesRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2234,6 +2379,30 @@ public enum BatchGetCommitsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BatchGetCommitsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitIdsLimitExceededException(let error): return error
+        case .commitIdsListRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BatchGetCommitsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2400,6 +2569,28 @@ public enum BatchGetRepositoriesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BatchGetRepositoriesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .maximumRepositoryNamesExceededException(let error): return error
+        case .repositoryNamesRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BatchGetRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2496,6 +2687,9 @@ public struct BeforeCommitIdAndAfterCommitIdAreSameException: AWSClientRuntime.A
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BeforeCommitIdAndAfterCommitIdAreSameException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -2549,6 +2743,9 @@ public struct BlobIdDoesNotExistException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BlobIdDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -2602,6 +2799,9 @@ public struct BlobIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BlobIdRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -2718,6 +2918,9 @@ public struct BranchDoesNotExistException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BranchDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -2816,6 +3019,9 @@ public struct BranchNameExistsException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BranchNameExistsException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -2869,6 +3075,9 @@ public struct BranchNameIsTagNameException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BranchNameIsTagNameException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -2922,6 +3131,9 @@ public struct BranchNameRequiredException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BranchNameRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -2975,6 +3187,9 @@ public struct CannotDeleteApprovalRuleFromTemplateException: AWSClientRuntime.AW
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CannotDeleteApprovalRuleFromTemplateException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -3028,6 +3243,9 @@ public struct CannotModifyApprovalRuleFromTemplateException: AWSClientRuntime.AW
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CannotModifyApprovalRuleFromTemplateException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -3116,6 +3334,9 @@ public struct ClientRequestTokenRequiredException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ClientRequestTokenRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -3318,6 +3539,9 @@ public struct CommentContentRequiredException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommentContentRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -3371,6 +3595,9 @@ public struct CommentContentSizeLimitExceededException: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommentContentSizeLimitExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -3424,6 +3651,9 @@ public struct CommentDeletedException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommentDeletedException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -3477,6 +3707,9 @@ public struct CommentDoesNotExistException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommentDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -3530,6 +3763,9 @@ public struct CommentIdRequiredException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommentIdRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -3583,6 +3819,9 @@ public struct CommentNotCreatedByCallerException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommentNotCreatedByCallerException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -3967,6 +4206,9 @@ public struct CommitDoesNotExistException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommitDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -4020,6 +4262,9 @@ public struct CommitIdDoesNotExistException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommitIdDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -4073,6 +4318,9 @@ public struct CommitIdRequiredException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommitIdRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -4126,6 +4374,9 @@ public struct CommitIdsLimitExceededException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommitIdsLimitExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -4179,6 +4430,9 @@ public struct CommitIdsListRequiredException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommitIdsListRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -4232,6 +4486,9 @@ public struct CommitMessageLengthExceededException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommitMessageLengthExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -4285,6 +4542,9 @@ public struct CommitRequiredException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CommitRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -4338,6 +4598,9 @@ public struct ConcurrentReferenceUpdateException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConcurrentReferenceUpdateException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -4829,6 +5092,27 @@ public enum CreateApprovalRuleTemplateOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateApprovalRuleTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleTemplateContentRequiredException(let error): return error
+        case .approvalRuleTemplateNameAlreadyExistsException(let error): return error
+        case .approvalRuleTemplateNameRequiredException(let error): return error
+        case .invalidApprovalRuleTemplateContentException(let error): return error
+        case .invalidApprovalRuleTemplateDescriptionException(let error): return error
+        case .invalidApprovalRuleTemplateNameException(let error): return error
+        case .numberOfRuleTemplatesExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4992,6 +5276,34 @@ public enum CreateBranchOutputError: Swift.Error, Swift.Equatable {
     case repositoryDoesNotExistException(RepositoryDoesNotExistException)
     case repositoryNameRequiredException(RepositoryNameRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateBranchOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .branchNameExistsException(let error): return error
+        case .branchNameRequiredException(let error): return error
+        case .commitDoesNotExistException(let error): return error
+        case .commitIdRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidBranchNameException(let error): return error
+        case .invalidCommitIdException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateBranchOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5293,6 +5605,58 @@ public enum CreateCommitOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateCommitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .branchDoesNotExistException(let error): return error
+        case .branchNameIsTagNameException(let error): return error
+        case .branchNameRequiredException(let error): return error
+        case .commitMessageLengthExceededException(let error): return error
+        case .directoryNameConflictsWithFileNameException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .fileContentAndSourceFileSpecifiedException(let error): return error
+        case .fileContentSizeLimitExceededException(let error): return error
+        case .fileDoesNotExistException(let error): return error
+        case .fileEntryRequiredException(let error): return error
+        case .fileModeRequiredException(let error): return error
+        case .fileNameConflictsWithDirectoryNameException(let error): return error
+        case .filePathConflictsWithSubmodulePathException(let error): return error
+        case .folderContentSizeLimitExceededException(let error): return error
+        case .invalidBranchNameException(let error): return error
+        case .invalidDeletionParameterException(let error): return error
+        case .invalidEmailException(let error): return error
+        case .invalidFileModeException(let error): return error
+        case .invalidParentCommitIdException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .maximumFileEntriesExceededException(let error): return error
+        case .nameLengthExceededException(let error): return error
+        case .noChangeException(let error): return error
+        case .parentCommitDoesNotExistException(let error): return error
+        case .parentCommitIdOutdatedException(let error): return error
+        case .parentCommitIdRequiredException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .putFileEntryConflictException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .restrictedSourceFileException(let error): return error
+        case .samePathRequestException(let error): return error
+        case .sourceFileOrContentRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateCommitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5539,6 +5903,35 @@ public enum CreatePullRequestApprovalRuleOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreatePullRequestApprovalRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleContentRequiredException(let error): return error
+        case .approvalRuleNameAlreadyExistsException(let error): return error
+        case .approvalRuleNameRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidApprovalRuleContentException(let error): return error
+        case .invalidApprovalRuleNameException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .numberOfRulesExceededException(let error): return error
+        case .pullRequestAlreadyClosedException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreatePullRequestApprovalRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5748,6 +6141,45 @@ public enum CreatePullRequestOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreatePullRequestOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientRequestTokenRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .idempotencyParameterMismatchException(let error): return error
+        case .invalidClientRequestTokenException(let error): return error
+        case .invalidDescriptionException(let error): return error
+        case .invalidReferenceNameException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .invalidTargetException(let error): return error
+        case .invalidTargetsException(let error): return error
+        case .invalidTitleException(let error): return error
+        case .maximumOpenPullRequestsExceededException(let error): return error
+        case .multipleRepositoriesInPullRequestException(let error): return error
+        case .referenceDoesNotExistException(let error): return error
+        case .referenceNameRequiredException(let error): return error
+        case .referenceTypeNotSupportedException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .sourceAndDestinationAreSameException(let error): return error
+        case .targetRequiredException(let error): return error
+        case .targetsRequiredException(let error): return error
+        case .titleRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreatePullRequestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5921,6 +6353,34 @@ public enum CreateRepositoryOutputError: Swift.Error, Swift.Equatable {
     case tagPolicyException(TagPolicyException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateRepositoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidRepositoryDescriptionException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .invalidSystemTagUsageException(let error): return error
+        case .invalidTagsMapException(let error): return error
+        case .repositoryLimitExceededException(let error): return error
+        case .repositoryNameExistsException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .tagPolicyException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6228,6 +6688,56 @@ public enum CreateUnreferencedMergeCommitOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateUnreferencedMergeCommitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitDoesNotExistException(let error): return error
+        case .commitMessageLengthExceededException(let error): return error
+        case .commitRequiredException(let error): return error
+        case .concurrentReferenceUpdateException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .fileContentSizeLimitExceededException(let error): return error
+        case .fileModeRequiredException(let error): return error
+        case .folderContentSizeLimitExceededException(let error): return error
+        case .invalidCommitException(let error): return error
+        case .invalidConflictDetailLevelException(let error): return error
+        case .invalidConflictResolutionException(let error): return error
+        case .invalidConflictResolutionStrategyException(let error): return error
+        case .invalidEmailException(let error): return error
+        case .invalidFileModeException(let error): return error
+        case .invalidMergeOptionException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidReplacementContentException(let error): return error
+        case .invalidReplacementTypeException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .manualMergeRequiredException(let error): return error
+        case .maximumConflictResolutionEntriesExceededException(let error): return error
+        case .maximumFileContentToLoadExceededException(let error): return error
+        case .maximumItemsToCompareExceededException(let error): return error
+        case .mergeOptionRequiredException(let error): return error
+        case .multipleConflictResolutionEntriesException(let error): return error
+        case .nameLengthExceededException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .replacementContentRequiredException(let error): return error
+        case .replacementTypeRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .tipsDivergenceExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateUnreferencedMergeCommitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6305,6 +6815,9 @@ public struct DefaultBranchCannotBeDeletedException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DefaultBranchCannotBeDeletedException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -6404,6 +6917,23 @@ public enum DeleteApprovalRuleTemplateOutputError: Swift.Error, Swift.Equatable 
     case approvalRuleTemplateNameRequiredException(ApprovalRuleTemplateNameRequiredException)
     case invalidApprovalRuleTemplateNameException(InvalidApprovalRuleTemplateNameException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteApprovalRuleTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleTemplateInUseException(let error): return error
+        case .approvalRuleTemplateNameRequiredException(let error): return error
+        case .invalidApprovalRuleTemplateNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6552,6 +7082,31 @@ public enum DeleteBranchOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteBranchOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .branchNameRequiredException(let error): return error
+        case .defaultBranchCannotBeDeletedException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidBranchNameException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteBranchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6668,6 +7223,24 @@ public enum DeleteCommentContentOutputError: Swift.Error, Swift.Equatable {
     case commentIdRequiredException(CommentIdRequiredException)
     case invalidCommentIdException(InvalidCommentIdException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteCommentContentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commentDeletedException(let error): return error
+        case .commentDoesNotExistException(let error): return error
+        case .commentIdRequiredException(let error): return error
+        case .invalidCommentIdException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteCommentContentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6946,6 +7519,42 @@ public enum DeleteFileOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteFileOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .branchDoesNotExistException(let error): return error
+        case .branchNameIsTagNameException(let error): return error
+        case .branchNameRequiredException(let error): return error
+        case .commitMessageLengthExceededException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .fileDoesNotExistException(let error): return error
+        case .invalidBranchNameException(let error): return error
+        case .invalidEmailException(let error): return error
+        case .invalidParentCommitIdException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .nameLengthExceededException(let error): return error
+        case .parentCommitDoesNotExistException(let error): return error
+        case .parentCommitIdOutdatedException(let error): return error
+        case .parentCommitIdRequiredException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteFileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7126,6 +7735,32 @@ public enum DeletePullRequestApprovalRuleOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeletePullRequestApprovalRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleNameRequiredException(let error): return error
+        case .cannotDeleteApprovalRuleFromTemplateException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidApprovalRuleNameException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .pullRequestAlreadyClosedException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeletePullRequestApprovalRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7249,6 +7884,27 @@ public enum DeleteRepositoryOutputError: Swift.Error, Swift.Equatable {
     case invalidRepositoryNameException(InvalidRepositoryNameException)
     case repositoryNameRequiredException(RepositoryNameRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteRepositoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7507,6 +8163,43 @@ public enum DescribeMergeConflictsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeMergeConflictsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitDoesNotExistException(let error): return error
+        case .commitRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .fileDoesNotExistException(let error): return error
+        case .invalidCommitException(let error): return error
+        case .invalidConflictDetailLevelException(let error): return error
+        case .invalidConflictResolutionStrategyException(let error): return error
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidMaxMergeHunksException(let error): return error
+        case .invalidMergeOptionException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .maximumFileContentToLoadExceededException(let error): return error
+        case .maximumItemsToCompareExceededException(let error): return error
+        case .mergeOptionRequiredException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .tipsDivergenceExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeMergeConflictsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7753,6 +8446,33 @@ public enum DescribePullRequestEventsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribePullRequestEventsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .actorDoesNotExistException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidActorArnException(let error): return error
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidMaxResultsException(let error): return error
+        case .invalidPullRequestEventTypeException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribePullRequestEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7895,6 +8615,9 @@ public struct DirectoryNameConflictsWithFileNameException: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DirectoryNameConflictsWithFileNameException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -8025,6 +8748,31 @@ public enum DisassociateApprovalRuleTemplateFromRepositoryOutputError: Swift.Err
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisassociateApprovalRuleTemplateFromRepositoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleTemplateDoesNotExistException(let error): return error
+        case .approvalRuleTemplateNameRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidApprovalRuleTemplateNameException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisassociateApprovalRuleTemplateFromRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8061,6 +8809,9 @@ public struct EncryptionIntegrityChecksFailedException: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EncryptionIntegrityChecksFailedException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -8114,6 +8865,9 @@ public struct EncryptionKeyAccessDeniedException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EncryptionKeyAccessDeniedException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -8167,6 +8921,9 @@ public struct EncryptionKeyDisabledException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EncryptionKeyDisabledException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -8220,6 +8977,9 @@ public struct EncryptionKeyNotFoundException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EncryptionKeyNotFoundException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -8273,6 +9033,9 @@ public struct EncryptionKeyUnavailableException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EncryptionKeyUnavailableException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -8401,6 +9164,31 @@ public enum EvaluatePullRequestApprovalRulesOutputError: Swift.Error, Swift.Equa
     case revisionIdRequiredException(RevisionIdRequiredException)
     case revisionNotCurrentException(RevisionNotCurrentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension EvaluatePullRequestApprovalRulesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidRevisionIdException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .revisionIdRequiredException(let error): return error
+        case .revisionNotCurrentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension EvaluatePullRequestApprovalRulesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8625,6 +9413,9 @@ public struct FileContentAndSourceFileSpecifiedException: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FileContentAndSourceFileSpecifiedException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -8678,6 +9469,9 @@ public struct FileContentRequiredException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FileContentRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -8731,6 +9525,9 @@ public struct FileContentSizeLimitExceededException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FileContentSizeLimitExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -8784,6 +9581,9 @@ public struct FileDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FileDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -8837,6 +9637,9 @@ public struct FileEntryRequiredException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FileEntryRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -8945,6 +9748,9 @@ public struct FileModeRequiredException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FileModeRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -9088,6 +9894,9 @@ public struct FileNameConflictsWithDirectoryNameException: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FileNameConflictsWithDirectoryNameException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -9141,6 +9950,9 @@ public struct FilePathConflictsWithSubmodulePathException: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FilePathConflictsWithSubmodulePathException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -9249,6 +10061,9 @@ public struct FileTooLargeException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FileTooLargeException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -9357,6 +10172,9 @@ public struct FolderContentSizeLimitExceededException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FolderContentSizeLimitExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -9410,6 +10228,9 @@ public struct FolderDoesNotExistException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FolderDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -9509,6 +10330,23 @@ public enum GetApprovalRuleTemplateOutputError: Swift.Error, Swift.Equatable {
     case approvalRuleTemplateNameRequiredException(ApprovalRuleTemplateNameRequiredException)
     case invalidApprovalRuleTemplateNameException(InvalidApprovalRuleTemplateNameException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetApprovalRuleTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleTemplateDoesNotExistException(let error): return error
+        case .approvalRuleTemplateNameRequiredException(let error): return error
+        case .invalidApprovalRuleTemplateNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9659,6 +10497,32 @@ public enum GetBlobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetBlobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .blobIdDoesNotExistException(let error): return error
+        case .blobIdRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .fileTooLargeException(let error): return error
+        case .invalidBlobIdException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetBlobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9804,6 +10668,31 @@ public enum GetBranchOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetBranchOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .branchDoesNotExistException(let error): return error
+        case .branchNameRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidBranchNameException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetBranchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9930,6 +10819,29 @@ public enum GetCommentOutputError: Swift.Error, Swift.Equatable {
     case encryptionKeyUnavailableException(EncryptionKeyUnavailableException)
     case invalidCommentIdException(InvalidCommentIdException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCommentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commentDeletedException(let error): return error
+        case .commentDoesNotExistException(let error): return error
+        case .commentIdRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidCommentIdException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetCommentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10089,6 +11001,27 @@ public enum GetCommentReactionsOutputError: Swift.Error, Swift.Equatable {
     case invalidMaxResultsException(InvalidMaxResultsException)
     case invalidReactionUserArnException(InvalidReactionUserArnException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCommentReactionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commentDeletedException(let error): return error
+        case .commentDoesNotExistException(let error): return error
+        case .commentIdRequiredException(let error): return error
+        case .invalidCommentIdException(let error): return error
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidMaxResultsException(let error): return error
+        case .invalidReactionUserArnException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetCommentReactionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10293,6 +11226,33 @@ public enum GetCommentsForComparedCommitOutputError: Swift.Error, Swift.Equatabl
     case repositoryDoesNotExistException(RepositoryDoesNotExistException)
     case repositoryNameRequiredException(RepositoryNameRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCommentsForComparedCommitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitDoesNotExistException(let error): return error
+        case .commitIdRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidCommitIdException(let error): return error
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidMaxResultsException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetCommentsForComparedCommitOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10517,6 +11477,37 @@ public enum GetCommentsForPullRequestOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetCommentsForPullRequestOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitDoesNotExistException(let error): return error
+        case .commitIdRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidCommitIdException(let error): return error
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidMaxResultsException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .repositoryNotAssociatedWithPullRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetCommentsForPullRequestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10679,6 +11670,31 @@ public enum GetCommitOutputError: Swift.Error, Swift.Equatable {
     case repositoryDoesNotExistException(RepositoryDoesNotExistException)
     case repositoryNameRequiredException(RepositoryNameRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCommitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitIdDoesNotExistException(let error): return error
+        case .commitIdRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidCommitIdException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetCommitOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10897,6 +11913,36 @@ public enum GetDifferencesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDifferencesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitDoesNotExistException(let error): return error
+        case .commitRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidCommitException(let error): return error
+        case .invalidCommitIdException(let error): return error
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidMaxResultsException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .pathDoesNotExistException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDifferencesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11076,6 +12122,34 @@ public enum GetFileOutputError: Swift.Error, Swift.Equatable {
     case repositoryDoesNotExistException(RepositoryDoesNotExistException)
     case repositoryNameRequiredException(RepositoryNameRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetFileOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitDoesNotExistException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .fileDoesNotExistException(let error): return error
+        case .fileTooLargeException(let error): return error
+        case .invalidCommitException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetFileOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11292,6 +12366,33 @@ public enum GetFolderOutputError: Swift.Error, Swift.Equatable {
     case repositoryDoesNotExistException(RepositoryDoesNotExistException)
     case repositoryNameRequiredException(RepositoryNameRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetFolderOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitDoesNotExistException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .folderDoesNotExistException(let error): return error
+        case .invalidCommitException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetFolderOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11577,6 +12678,33 @@ public enum GetMergeCommitOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetMergeCommitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitDoesNotExistException(let error): return error
+        case .commitRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidCommitException(let error): return error
+        case .invalidConflictDetailLevelException(let error): return error
+        case .invalidConflictResolutionStrategyException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetMergeCommitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11847,6 +12975,42 @@ public enum GetMergeConflictsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetMergeConflictsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitDoesNotExistException(let error): return error
+        case .commitRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidCommitException(let error): return error
+        case .invalidConflictDetailLevelException(let error): return error
+        case .invalidConflictResolutionStrategyException(let error): return error
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidDestinationCommitSpecifierException(let error): return error
+        case .invalidMaxConflictFilesException(let error): return error
+        case .invalidMergeOptionException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .invalidSourceCommitSpecifierException(let error): return error
+        case .maximumFileContentToLoadExceededException(let error): return error
+        case .maximumItemsToCompareExceededException(let error): return error
+        case .mergeOptionRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .tipsDivergenceExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetMergeConflictsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12101,6 +13265,36 @@ public enum GetMergeOptionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetMergeOptionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitDoesNotExistException(let error): return error
+        case .commitRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidCommitException(let error): return error
+        case .invalidConflictDetailLevelException(let error): return error
+        case .invalidConflictResolutionStrategyException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .maximumFileContentToLoadExceededException(let error): return error
+        case .maximumItemsToCompareExceededException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .tipsDivergenceExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetMergeOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12286,6 +13480,30 @@ public enum GetPullRequestApprovalStatesOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetPullRequestApprovalStatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidRevisionIdException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .revisionIdRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetPullRequestApprovalStatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12418,6 +13636,28 @@ public enum GetPullRequestOutputError: Swift.Error, Swift.Equatable {
     case pullRequestDoesNotExistException(PullRequestDoesNotExistException)
     case pullRequestIdRequiredException(PullRequestIdRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetPullRequestOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetPullRequestOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12563,6 +13803,30 @@ public enum GetPullRequestOverrideStateOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetPullRequestOverrideStateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidRevisionIdException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .revisionIdRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetPullRequestOverrideStateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12699,6 +13963,28 @@ public enum GetRepositoryOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetRepositoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12826,6 +14112,28 @@ public enum GetRepositoryTriggersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetRepositoryTriggersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetRepositoryTriggersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12913,6 +14221,9 @@ public struct IdempotencyParameterMismatchException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IdempotencyParameterMismatchException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -12966,6 +14277,9 @@ public struct InvalidActorArnException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidActorArnException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13019,6 +14333,9 @@ public struct InvalidApprovalRuleContentException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidApprovalRuleContentException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13072,6 +14389,9 @@ public struct InvalidApprovalRuleNameException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidApprovalRuleNameException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13125,6 +14445,9 @@ public struct InvalidApprovalRuleTemplateContentException: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidApprovalRuleTemplateContentException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13178,6 +14501,9 @@ public struct InvalidApprovalRuleTemplateDescriptionException: AWSClientRuntime.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidApprovalRuleTemplateDescriptionException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13231,6 +14557,9 @@ public struct InvalidApprovalRuleTemplateNameException: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidApprovalRuleTemplateNameException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13284,6 +14613,9 @@ public struct InvalidApprovalStateException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidApprovalStateException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13337,6 +14669,9 @@ public struct InvalidAuthorArnException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidAuthorArnException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13390,6 +14725,9 @@ public struct InvalidBlobIdException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidBlobIdException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13443,6 +14781,9 @@ public struct InvalidBranchNameException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidBranchNameException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13496,6 +14837,9 @@ public struct InvalidClientRequestTokenException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidClientRequestTokenException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13549,6 +14893,9 @@ public struct InvalidCommentIdException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCommentIdException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13602,6 +14949,9 @@ public struct InvalidCommitException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCommitException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13655,6 +15005,9 @@ public struct InvalidCommitIdException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCommitIdException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13708,6 +15061,9 @@ public struct InvalidConflictDetailLevelException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidConflictDetailLevelException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13761,6 +15117,9 @@ public struct InvalidConflictResolutionException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidConflictResolutionException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13814,6 +15173,9 @@ public struct InvalidConflictResolutionStrategyException: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidConflictResolutionStrategyException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13867,6 +15229,9 @@ public struct InvalidContinuationTokenException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidContinuationTokenException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13920,6 +15285,9 @@ public struct InvalidDeletionParameterException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDeletionParameterException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -13973,6 +15341,9 @@ public struct InvalidDescriptionException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDescriptionException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14026,6 +15397,9 @@ public struct InvalidDestinationCommitSpecifierException: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDestinationCommitSpecifierException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14079,6 +15453,9 @@ public struct InvalidEmailException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidEmailException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14132,6 +15509,9 @@ public struct InvalidFileLocationException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidFileLocationException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14185,6 +15565,9 @@ public struct InvalidFileModeException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidFileModeException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14238,6 +15621,9 @@ public struct InvalidFilePositionException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidFilePositionException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14291,6 +15677,9 @@ public struct InvalidMaxConflictFilesException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidMaxConflictFilesException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14344,6 +15733,9 @@ public struct InvalidMaxMergeHunksException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidMaxMergeHunksException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14397,6 +15789,9 @@ public struct InvalidMaxResultsException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidMaxResultsException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14450,6 +15845,9 @@ public struct InvalidMergeOptionException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidMergeOptionException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14503,6 +15901,9 @@ public struct InvalidOrderException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidOrderException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14556,6 +15957,9 @@ public struct InvalidOverrideStatusException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidOverrideStatusException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14609,6 +16013,9 @@ public struct InvalidParentCommitIdException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParentCommitIdException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14662,6 +16069,9 @@ public struct InvalidPathException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPathException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14715,6 +16125,9 @@ public struct InvalidPullRequestEventTypeException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPullRequestEventTypeException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14768,6 +16181,9 @@ public struct InvalidPullRequestIdException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPullRequestIdException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14821,6 +16237,9 @@ public struct InvalidPullRequestStatusException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPullRequestStatusException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14874,6 +16293,9 @@ public struct InvalidPullRequestStatusUpdateException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPullRequestStatusUpdateException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14927,6 +16349,9 @@ public struct InvalidReactionUserArnException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidReactionUserArnException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -14980,6 +16405,9 @@ public struct InvalidReactionValueException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidReactionValueException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15033,6 +16461,9 @@ public struct InvalidReferenceNameException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidReferenceNameException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15086,6 +16517,9 @@ public struct InvalidRelativeFileVersionEnumException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRelativeFileVersionEnumException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15139,6 +16573,9 @@ public struct InvalidReplacementContentException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidReplacementContentException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15192,6 +16629,9 @@ public struct InvalidReplacementTypeException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidReplacementTypeException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15245,6 +16685,9 @@ public struct InvalidRepositoryDescriptionException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRepositoryDescriptionException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15298,6 +16741,9 @@ public struct InvalidRepositoryNameException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRepositoryNameException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15351,6 +16797,9 @@ public struct InvalidRepositoryTriggerBranchNameException: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRepositoryTriggerBranchNameException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15404,6 +16853,9 @@ public struct InvalidRepositoryTriggerCustomDataException: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRepositoryTriggerCustomDataException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15457,6 +16909,9 @@ public struct InvalidRepositoryTriggerDestinationArnException: AWSClientRuntime.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRepositoryTriggerDestinationArnException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15510,6 +16965,9 @@ public struct InvalidRepositoryTriggerEventsException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRepositoryTriggerEventsException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15563,6 +17021,9 @@ public struct InvalidRepositoryTriggerNameException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRepositoryTriggerNameException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15616,6 +17077,9 @@ public struct InvalidRepositoryTriggerRegionException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRepositoryTriggerRegionException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15669,6 +17133,9 @@ public struct InvalidResourceArnException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidResourceArnException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15722,6 +17189,9 @@ public struct InvalidRevisionIdException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRevisionIdException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15775,6 +17245,9 @@ public struct InvalidRuleContentSha256Exception: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRuleContentSha256Exception" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15828,6 +17301,9 @@ public struct InvalidSortByException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSortByException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15881,6 +17357,9 @@ public struct InvalidSourceCommitSpecifierException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSourceCommitSpecifierException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15934,6 +17413,9 @@ public struct InvalidSystemTagUsageException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSystemTagUsageException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -15987,6 +17469,9 @@ public struct InvalidTagKeysListException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTagKeysListException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -16040,6 +17525,9 @@ public struct InvalidTagsMapException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTagsMapException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -16093,6 +17581,9 @@ public struct InvalidTargetBranchException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTargetBranchException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -16146,6 +17637,9 @@ public struct InvalidTargetException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTargetException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -16199,6 +17693,9 @@ public struct InvalidTargetsException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTargetsException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -16252,6 +17749,9 @@ public struct InvalidTitleException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTitleException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -16415,6 +17915,22 @@ public enum ListApprovalRuleTemplatesOutputError: Swift.Error, Swift.Equatable {
     case invalidContinuationTokenException(InvalidContinuationTokenException)
     case invalidMaxResultsException(InvalidMaxResultsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListApprovalRuleTemplatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidMaxResultsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListApprovalRuleTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16589,6 +18105,30 @@ public enum ListAssociatedApprovalRuleTemplatesForRepositoryOutputError: Swift.E
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListAssociatedApprovalRuleTemplatesForRepositoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidMaxResultsException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -16746,6 +18286,29 @@ public enum ListBranchesOutputError: Swift.Error, Swift.Equatable {
     case repositoryDoesNotExistException(RepositoryDoesNotExistException)
     case repositoryNameRequiredException(RepositoryNameRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListBranchesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListBranchesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16951,6 +18514,33 @@ public enum ListPullRequestsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListPullRequestsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorDoesNotExistException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidAuthorArnException(let error): return error
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidMaxResultsException(let error): return error
+        case .invalidPullRequestStatusException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListPullRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -17124,6 +18714,30 @@ public enum ListRepositoriesForApprovalRuleTemplateOutputError: Swift.Error, Swi
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListRepositoriesForApprovalRuleTemplateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleTemplateDoesNotExistException(let error): return error
+        case .approvalRuleTemplateNameRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidApprovalRuleTemplateNameException(let error): return error
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidMaxResultsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListRepositoriesForApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -17282,6 +18896,23 @@ public enum ListRepositoriesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListRepositoriesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidContinuationTokenException(let error): return error
+        case .invalidOrderException(let error): return error
+        case .invalidSortByException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -17431,6 +19062,24 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidRepositoryNameException(let error): return error
+        case .invalidResourceArnException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .resourceArnRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -17572,6 +19221,9 @@ public struct ManualMergeRequiredException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ManualMergeRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -17625,6 +19277,9 @@ public struct MaximumBranchesExceededException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaximumBranchesExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -17678,6 +19333,9 @@ public struct MaximumConflictResolutionEntriesExceededException: AWSClientRuntim
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaximumConflictResolutionEntriesExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -17731,6 +19389,9 @@ public struct MaximumFileContentToLoadExceededException: AWSClientRuntime.AWSHtt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaximumFileContentToLoadExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -17784,6 +19445,9 @@ public struct MaximumFileEntriesExceededException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaximumFileEntriesExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -17837,6 +19501,9 @@ public struct MaximumItemsToCompareExceededException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaximumItemsToCompareExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -17890,6 +19557,9 @@ public struct MaximumNumberOfApprovalsExceededException: AWSClientRuntime.AWSHtt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaximumNumberOfApprovalsExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -17943,6 +19613,9 @@ public struct MaximumOpenPullRequestsExceededException: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaximumOpenPullRequestsExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -17996,6 +19669,9 @@ public struct MaximumRepositoryNamesExceededException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaximumRepositoryNamesExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -18049,6 +19725,9 @@ public struct MaximumRepositoryTriggersExceededException: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaximumRepositoryTriggersExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -18102,6 +19781,9 @@ public struct MaximumRuleTemplatesAssociatedWithRepositoryException: AWSClientRu
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MaximumRuleTemplatesAssociatedWithRepositoryException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -18271,6 +19953,39 @@ public enum MergeBranchesByFastForwardOutputError: Swift.Error, Swift.Equatable 
     case repositoryNameRequiredException(RepositoryNameRequiredException)
     case tipsDivergenceExceededException(TipsDivergenceExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension MergeBranchesByFastForwardOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .branchDoesNotExistException(let error): return error
+        case .branchNameIsTagNameException(let error): return error
+        case .branchNameRequiredException(let error): return error
+        case .commitDoesNotExistException(let error): return error
+        case .commitRequiredException(let error): return error
+        case .concurrentReferenceUpdateException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidBranchNameException(let error): return error
+        case .invalidCommitException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .invalidTargetBranchException(let error): return error
+        case .manualMergeRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .tipsDivergenceExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension MergeBranchesByFastForwardOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -18592,6 +20307,59 @@ public enum MergeBranchesBySquashOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension MergeBranchesBySquashOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .branchDoesNotExistException(let error): return error
+        case .branchNameIsTagNameException(let error): return error
+        case .branchNameRequiredException(let error): return error
+        case .commitDoesNotExistException(let error): return error
+        case .commitMessageLengthExceededException(let error): return error
+        case .commitRequiredException(let error): return error
+        case .concurrentReferenceUpdateException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .fileContentSizeLimitExceededException(let error): return error
+        case .fileModeRequiredException(let error): return error
+        case .folderContentSizeLimitExceededException(let error): return error
+        case .invalidBranchNameException(let error): return error
+        case .invalidCommitException(let error): return error
+        case .invalidConflictDetailLevelException(let error): return error
+        case .invalidConflictResolutionException(let error): return error
+        case .invalidConflictResolutionStrategyException(let error): return error
+        case .invalidEmailException(let error): return error
+        case .invalidFileModeException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidReplacementContentException(let error): return error
+        case .invalidReplacementTypeException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .invalidTargetBranchException(let error): return error
+        case .manualMergeRequiredException(let error): return error
+        case .maximumConflictResolutionEntriesExceededException(let error): return error
+        case .maximumFileContentToLoadExceededException(let error): return error
+        case .maximumItemsToCompareExceededException(let error): return error
+        case .multipleConflictResolutionEntriesException(let error): return error
+        case .nameLengthExceededException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .replacementContentRequiredException(let error): return error
+        case .replacementTypeRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .tipsDivergenceExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension MergeBranchesBySquashOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -18911,6 +20679,59 @@ public enum MergeBranchesByThreeWayOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension MergeBranchesByThreeWayOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .branchDoesNotExistException(let error): return error
+        case .branchNameIsTagNameException(let error): return error
+        case .branchNameRequiredException(let error): return error
+        case .commitDoesNotExistException(let error): return error
+        case .commitMessageLengthExceededException(let error): return error
+        case .commitRequiredException(let error): return error
+        case .concurrentReferenceUpdateException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .fileContentSizeLimitExceededException(let error): return error
+        case .fileModeRequiredException(let error): return error
+        case .folderContentSizeLimitExceededException(let error): return error
+        case .invalidBranchNameException(let error): return error
+        case .invalidCommitException(let error): return error
+        case .invalidConflictDetailLevelException(let error): return error
+        case .invalidConflictResolutionException(let error): return error
+        case .invalidConflictResolutionStrategyException(let error): return error
+        case .invalidEmailException(let error): return error
+        case .invalidFileModeException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidReplacementContentException(let error): return error
+        case .invalidReplacementTypeException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .invalidTargetBranchException(let error): return error
+        case .manualMergeRequiredException(let error): return error
+        case .maximumConflictResolutionEntriesExceededException(let error): return error
+        case .maximumFileContentToLoadExceededException(let error): return error
+        case .maximumItemsToCompareExceededException(let error): return error
+        case .multipleConflictResolutionEntriesException(let error): return error
+        case .nameLengthExceededException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .replacementContentRequiredException(let error): return error
+        case .replacementTypeRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .tipsDivergenceExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension MergeBranchesByThreeWayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -19218,6 +21039,9 @@ public struct MergeOptionRequiredException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MergeOptionRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -19409,6 +21233,39 @@ public enum MergePullRequestByFastForwardOutputError: Swift.Error, Swift.Equatab
     case repositoryNotAssociatedWithPullRequestException(RepositoryNotAssociatedWithPullRequestException)
     case tipOfSourceReferenceIsDifferentException(TipOfSourceReferenceIsDifferentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension MergePullRequestByFastForwardOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentReferenceUpdateException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidCommitIdException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .manualMergeRequiredException(let error): return error
+        case .pullRequestAlreadyClosedException(let error): return error
+        case .pullRequestApprovalRulesNotSatisfiedException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .referenceDoesNotExistException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .repositoryNotAssociatedWithPullRequestException(let error): return error
+        case .tipOfSourceReferenceIsDifferentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension MergePullRequestByFastForwardOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -19705,6 +21562,58 @@ public enum MergePullRequestBySquashOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension MergePullRequestBySquashOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitMessageLengthExceededException(let error): return error
+        case .concurrentReferenceUpdateException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .fileContentSizeLimitExceededException(let error): return error
+        case .folderContentSizeLimitExceededException(let error): return error
+        case .invalidCommitIdException(let error): return error
+        case .invalidConflictDetailLevelException(let error): return error
+        case .invalidConflictResolutionException(let error): return error
+        case .invalidConflictResolutionStrategyException(let error): return error
+        case .invalidEmailException(let error): return error
+        case .invalidFileModeException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidReplacementContentException(let error): return error
+        case .invalidReplacementTypeException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .manualMergeRequiredException(let error): return error
+        case .maximumConflictResolutionEntriesExceededException(let error): return error
+        case .maximumFileContentToLoadExceededException(let error): return error
+        case .maximumItemsToCompareExceededException(let error): return error
+        case .multipleConflictResolutionEntriesException(let error): return error
+        case .nameLengthExceededException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .pullRequestAlreadyClosedException(let error): return error
+        case .pullRequestApprovalRulesNotSatisfiedException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .replacementContentRequiredException(let error): return error
+        case .replacementTypeRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .repositoryNotAssociatedWithPullRequestException(let error): return error
+        case .tipOfSourceReferenceIsDifferentException(let error): return error
+        case .tipsDivergenceExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension MergePullRequestBySquashOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -19999,6 +21908,58 @@ public enum MergePullRequestByThreeWayOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension MergePullRequestByThreeWayOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commitMessageLengthExceededException(let error): return error
+        case .concurrentReferenceUpdateException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .fileContentSizeLimitExceededException(let error): return error
+        case .folderContentSizeLimitExceededException(let error): return error
+        case .invalidCommitIdException(let error): return error
+        case .invalidConflictDetailLevelException(let error): return error
+        case .invalidConflictResolutionException(let error): return error
+        case .invalidConflictResolutionStrategyException(let error): return error
+        case .invalidEmailException(let error): return error
+        case .invalidFileModeException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidReplacementContentException(let error): return error
+        case .invalidReplacementTypeException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .manualMergeRequiredException(let error): return error
+        case .maximumConflictResolutionEntriesExceededException(let error): return error
+        case .maximumFileContentToLoadExceededException(let error): return error
+        case .maximumItemsToCompareExceededException(let error): return error
+        case .multipleConflictResolutionEntriesException(let error): return error
+        case .nameLengthExceededException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .pullRequestAlreadyClosedException(let error): return error
+        case .pullRequestApprovalRulesNotSatisfiedException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .replacementContentRequiredException(let error): return error
+        case .replacementTypeRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .repositoryNotAssociatedWithPullRequestException(let error): return error
+        case .tipOfSourceReferenceIsDifferentException(let error): return error
+        case .tipsDivergenceExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension MergePullRequestByThreeWayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -20066,6 +22027,9 @@ public struct MultipleConflictResolutionEntriesException: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MultipleConflictResolutionEntriesException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -20119,6 +22083,9 @@ public struct MultipleRepositoriesInPullRequestException: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MultipleRepositoriesInPullRequestException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -20172,6 +22139,9 @@ public struct NameLengthExceededException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NameLengthExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -20225,6 +22195,9 @@ public struct NoChangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoChangeException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -20278,6 +22251,9 @@ public struct NumberOfRuleTemplatesExceededException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NumberOfRuleTemplatesExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -20331,6 +22307,9 @@ public struct NumberOfRulesExceededException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NumberOfRulesExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -20554,6 +22533,9 @@ public struct OverrideAlreadySetException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OverrideAlreadySetException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -20705,6 +22687,35 @@ public enum OverridePullRequestApprovalRulesOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension OverridePullRequestApprovalRulesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidOverrideStatusException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidRevisionIdException(let error): return error
+        case .overrideAlreadySetException(let error): return error
+        case .overrideStatusRequiredException(let error): return error
+        case .pullRequestAlreadyClosedException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .revisionIdRequiredException(let error): return error
+        case .revisionNotCurrentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension OverridePullRequestApprovalRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -20773,6 +22784,9 @@ public struct OverrideStatusRequiredException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OverrideStatusRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -20826,6 +22840,9 @@ public struct ParentCommitDoesNotExistException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ParentCommitDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -20879,6 +22896,9 @@ public struct ParentCommitIdOutdatedException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ParentCommitIdOutdatedException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -20932,6 +22952,9 @@ public struct ParentCommitIdRequiredException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ParentCommitIdRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -20985,6 +23008,9 @@ public struct PathDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PathDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -21038,6 +23064,9 @@ public struct PathRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PathRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -21239,6 +23268,43 @@ public enum PostCommentForComparedCommitOutputError: Swift.Error, Swift.Equatabl
     case repositoryDoesNotExistException(RepositoryDoesNotExistException)
     case repositoryNameRequiredException(RepositoryNameRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PostCommentForComparedCommitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .beforeCommitIdAndAfterCommitIdAreSameException(let error): return error
+        case .clientRequestTokenRequiredException(let error): return error
+        case .commentContentRequiredException(let error): return error
+        case .commentContentSizeLimitExceededException(let error): return error
+        case .commitDoesNotExistException(let error): return error
+        case .commitIdRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .idempotencyParameterMismatchException(let error): return error
+        case .invalidClientRequestTokenException(let error): return error
+        case .invalidCommitIdException(let error): return error
+        case .invalidFileLocationException(let error): return error
+        case .invalidFilePositionException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidRelativeFileVersionEnumException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .pathDoesNotExistException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PostCommentForComparedCommitOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -21540,6 +23606,47 @@ public enum PostCommentForPullRequestOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PostCommentForPullRequestOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .beforeCommitIdAndAfterCommitIdAreSameException(let error): return error
+        case .clientRequestTokenRequiredException(let error): return error
+        case .commentContentRequiredException(let error): return error
+        case .commentContentSizeLimitExceededException(let error): return error
+        case .commitDoesNotExistException(let error): return error
+        case .commitIdRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .idempotencyParameterMismatchException(let error): return error
+        case .invalidClientRequestTokenException(let error): return error
+        case .invalidCommitIdException(let error): return error
+        case .invalidFileLocationException(let error): return error
+        case .invalidFilePositionException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidRelativeFileVersionEnumException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .pathDoesNotExistException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .repositoryNotAssociatedWithPullRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PostCommentForPullRequestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -21758,6 +23865,28 @@ public enum PostCommentReplyOutputError: Swift.Error, Swift.Equatable {
     case invalidClientRequestTokenException(InvalidClientRequestTokenException)
     case invalidCommentIdException(InvalidCommentIdException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PostCommentReplyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientRequestTokenRequiredException(let error): return error
+        case .commentContentRequiredException(let error): return error
+        case .commentContentSizeLimitExceededException(let error): return error
+        case .commentDoesNotExistException(let error): return error
+        case .commentIdRequiredException(let error): return error
+        case .idempotencyParameterMismatchException(let error): return error
+        case .invalidClientRequestTokenException(let error): return error
+        case .invalidCommentIdException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PostCommentReplyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -21986,6 +24115,9 @@ public struct PullRequestAlreadyClosedException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PullRequestAlreadyClosedException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -22039,6 +24171,9 @@ public struct PullRequestApprovalRulesNotSatisfiedException: AWSClientRuntime.AW
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PullRequestApprovalRulesNotSatisfiedException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -22092,6 +24227,9 @@ public struct PullRequestCannotBeApprovedByAuthorException: AWSClientRuntime.AWS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PullRequestCannotBeApprovedByAuthorException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -22210,6 +24348,9 @@ public struct PullRequestDoesNotExistException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PullRequestDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -22451,6 +24592,9 @@ public struct PullRequestIdRequiredException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PullRequestIdRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -22691,6 +24835,9 @@ public struct PullRequestStatusRequiredException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PullRequestStatusRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -22908,6 +25055,27 @@ public enum PutCommentReactionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutCommentReactionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commentDeletedException(let error): return error
+        case .commentDoesNotExistException(let error): return error
+        case .commentIdRequiredException(let error): return error
+        case .invalidCommentIdException(let error): return error
+        case .invalidReactionValueException(let error): return error
+        case .reactionLimitExceededException(let error): return error
+        case .reactionValueRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutCommentReactionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -23010,6 +25178,9 @@ public struct PutFileEntryConflictException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PutFileEntryConflictException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -23264,6 +25435,50 @@ public enum PutFileOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutFileOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .branchDoesNotExistException(let error): return error
+        case .branchNameIsTagNameException(let error): return error
+        case .branchNameRequiredException(let error): return error
+        case .commitMessageLengthExceededException(let error): return error
+        case .directoryNameConflictsWithFileNameException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .fileContentRequiredException(let error): return error
+        case .fileContentSizeLimitExceededException(let error): return error
+        case .fileNameConflictsWithDirectoryNameException(let error): return error
+        case .filePathConflictsWithSubmodulePathException(let error): return error
+        case .folderContentSizeLimitExceededException(let error): return error
+        case .invalidBranchNameException(let error): return error
+        case .invalidDeletionParameterException(let error): return error
+        case .invalidEmailException(let error): return error
+        case .invalidFileModeException(let error): return error
+        case .invalidParentCommitIdException(let error): return error
+        case .invalidPathException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .nameLengthExceededException(let error): return error
+        case .parentCommitDoesNotExistException(let error): return error
+        case .parentCommitIdOutdatedException(let error): return error
+        case .parentCommitIdRequiredException(let error): return error
+        case .pathRequiredException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .sameFileContentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutFileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -23464,6 +25679,41 @@ public enum PutRepositoryTriggersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutRepositoryTriggersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .invalidRepositoryTriggerBranchNameException(let error): return error
+        case .invalidRepositoryTriggerCustomDataException(let error): return error
+        case .invalidRepositoryTriggerDestinationArnException(let error): return error
+        case .invalidRepositoryTriggerEventsException(let error): return error
+        case .invalidRepositoryTriggerNameException(let error): return error
+        case .invalidRepositoryTriggerRegionException(let error): return error
+        case .maximumBranchesExceededException(let error): return error
+        case .maximumRepositoryTriggersExceededException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .repositoryTriggerBranchNameListRequiredException(let error): return error
+        case .repositoryTriggerDestinationArnRequiredException(let error): return error
+        case .repositoryTriggerEventsListRequiredException(let error): return error
+        case .repositoryTriggerNameRequiredException(let error): return error
+        case .repositoryTriggersListRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutRepositoryTriggersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -23599,6 +25849,9 @@ public struct ReactionLimitExceededException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReactionLimitExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -23707,6 +25960,9 @@ public struct ReactionValueRequiredException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReactionValueRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -23760,6 +26016,9 @@ public struct ReferenceDoesNotExistException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReferenceDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -23813,6 +26072,9 @@ public struct ReferenceNameRequiredException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReferenceNameRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -23866,6 +26128,9 @@ public struct ReferenceTypeNotSupportedException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReferenceTypeNotSupportedException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -24018,6 +26283,9 @@ public struct ReplacementContentRequiredException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReplacementContentRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -24109,6 +26377,9 @@ public struct ReplacementTypeRequiredException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReplacementTypeRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -24162,6 +26433,9 @@ public struct RepositoryDoesNotExistException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RepositoryDoesNotExistException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -24215,6 +26489,9 @@ public struct RepositoryLimitExceededException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RepositoryLimitExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -24393,6 +26670,9 @@ public struct RepositoryNameExistsException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RepositoryNameExistsException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -24491,6 +26771,9 @@ public struct RepositoryNameRequiredException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RepositoryNameRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -24544,6 +26827,9 @@ public struct RepositoryNamesRequiredException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RepositoryNamesRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -24597,6 +26883,9 @@ public struct RepositoryNotAssociatedWithPullRequestException: AWSClientRuntime.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RepositoryNotAssociatedWithPullRequestException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -24752,6 +27041,9 @@ public struct RepositoryTriggerBranchNameListRequiredException: AWSClientRuntime
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RepositoryTriggerBranchNameListRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -24805,6 +27097,9 @@ public struct RepositoryTriggerDestinationArnRequiredException: AWSClientRuntime
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RepositoryTriggerDestinationArnRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -24896,6 +27191,9 @@ public struct RepositoryTriggerEventsListRequiredException: AWSClientRuntime.AWS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RepositoryTriggerEventsListRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -24994,6 +27292,9 @@ public struct RepositoryTriggerNameRequiredException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RepositoryTriggerNameRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -25047,6 +27348,9 @@ public struct RepositoryTriggersListRequiredException: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RepositoryTriggersListRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -25100,6 +27404,9 @@ public struct ResourceArnRequiredException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceArnRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -25153,6 +27460,9 @@ public struct RestrictedSourceFileException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RestrictedSourceFileException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -25206,6 +27516,9 @@ public struct RevisionIdRequiredException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RevisionIdRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -25259,6 +27572,9 @@ public struct RevisionNotCurrentException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RevisionNotCurrentException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -25312,6 +27628,9 @@ public struct SameFileContentException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SameFileContentException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -25365,6 +27684,9 @@ public struct SamePathRequestException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SamePathRequestException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -25497,6 +27819,9 @@ public struct SourceAndDestinationAreSameException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SourceAndDestinationAreSameException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -25550,6 +27875,9 @@ public struct SourceFileOrContentRequiredException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SourceFileOrContentRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -25769,6 +28097,9 @@ public struct TagKeysListRequiredException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagKeysListRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -25822,6 +28153,9 @@ public struct TagPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagPolicyException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -25960,6 +28294,29 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidRepositoryNameException(let error): return error
+        case .invalidResourceArnException(let error): return error
+        case .invalidSystemTagUsageException(let error): return error
+        case .invalidTagsMapException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .resourceArnRequiredException(let error): return error
+        case .tagPolicyException(let error): return error
+        case .tagsMapRequiredException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -25996,6 +28353,9 @@ public struct TagsMapRequiredException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagsMapRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -26106,6 +28466,9 @@ public struct TargetRequiredException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TargetRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -26159,6 +28522,9 @@ public struct TargetsRequiredException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TargetsRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -26322,6 +28688,41 @@ public enum TestRepositoryTriggersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TestRepositoryTriggersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .invalidRepositoryTriggerBranchNameException(let error): return error
+        case .invalidRepositoryTriggerCustomDataException(let error): return error
+        case .invalidRepositoryTriggerDestinationArnException(let error): return error
+        case .invalidRepositoryTriggerEventsException(let error): return error
+        case .invalidRepositoryTriggerNameException(let error): return error
+        case .invalidRepositoryTriggerRegionException(let error): return error
+        case .maximumBranchesExceededException(let error): return error
+        case .maximumRepositoryTriggersExceededException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .repositoryTriggerBranchNameListRequiredException(let error): return error
+        case .repositoryTriggerDestinationArnRequiredException(let error): return error
+        case .repositoryTriggerEventsListRequiredException(let error): return error
+        case .repositoryTriggerNameRequiredException(let error): return error
+        case .repositoryTriggersListRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TestRepositoryTriggersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -26418,6 +28819,9 @@ public struct TipOfSourceReferenceIsDifferentException: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TipOfSourceReferenceIsDifferentException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -26471,6 +28875,9 @@ public struct TipsDivergenceExceededException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TipsDivergenceExceededException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -26524,6 +28931,9 @@ public struct TitleRequiredException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TitleRequiredException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -26577,6 +28987,9 @@ public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTagsException" }
+
     /// Any message associated with the exception.
     public var message: Swift.String?
 
@@ -26715,6 +29128,29 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidRepositoryNameException(let error): return error
+        case .invalidResourceArnException(let error): return error
+        case .invalidSystemTagUsageException(let error): return error
+        case .invalidTagKeysListException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .resourceArnRequiredException(let error): return error
+        case .tagKeysListRequiredException(let error): return error
+        case .tagPolicyException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -26828,6 +29264,26 @@ public enum UpdateApprovalRuleTemplateContentOutputError: Swift.Error, Swift.Equ
     case invalidApprovalRuleTemplateNameException(InvalidApprovalRuleTemplateNameException)
     case invalidRuleContentSha256Exception(InvalidRuleContentSha256Exception)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateApprovalRuleTemplateContentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleTemplateContentRequiredException(let error): return error
+        case .approvalRuleTemplateDoesNotExistException(let error): return error
+        case .approvalRuleTemplateNameRequiredException(let error): return error
+        case .invalidApprovalRuleTemplateContentException(let error): return error
+        case .invalidApprovalRuleTemplateNameException(let error): return error
+        case .invalidRuleContentSha256Exception(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateApprovalRuleTemplateContentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -26961,6 +29417,24 @@ public enum UpdateApprovalRuleTemplateDescriptionOutputError: Swift.Error, Swift
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateApprovalRuleTemplateDescriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleTemplateDoesNotExistException(let error): return error
+        case .approvalRuleTemplateNameRequiredException(let error): return error
+        case .invalidApprovalRuleTemplateDescriptionException(let error): return error
+        case .invalidApprovalRuleTemplateNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateApprovalRuleTemplateDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -27090,6 +29564,24 @@ public enum UpdateApprovalRuleTemplateNameOutputError: Swift.Error, Swift.Equata
     case approvalRuleTemplateNameRequiredException(ApprovalRuleTemplateNameRequiredException)
     case invalidApprovalRuleTemplateNameException(InvalidApprovalRuleTemplateNameException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateApprovalRuleTemplateNameOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleTemplateDoesNotExistException(let error): return error
+        case .approvalRuleTemplateNameAlreadyExistsException(let error): return error
+        case .approvalRuleTemplateNameRequiredException(let error): return error
+        case .invalidApprovalRuleTemplateNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateApprovalRuleTemplateNameOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -27227,6 +29719,27 @@ public enum UpdateCommentOutputError: Swift.Error, Swift.Equatable {
     case commentNotCreatedByCallerException(CommentNotCreatedByCallerException)
     case invalidCommentIdException(InvalidCommentIdException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateCommentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .commentContentRequiredException(let error): return error
+        case .commentContentSizeLimitExceededException(let error): return error
+        case .commentDeletedException(let error): return error
+        case .commentDoesNotExistException(let error): return error
+        case .commentIdRequiredException(let error): return error
+        case .commentNotCreatedByCallerException(let error): return error
+        case .invalidCommentIdException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateCommentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -27372,6 +29885,31 @@ public enum UpdateDefaultBranchOutputError: Swift.Error, Swift.Equatable {
     case repositoryDoesNotExistException(RepositoryDoesNotExistException)
     case repositoryNameRequiredException(RepositoryNameRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateDefaultBranchOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .branchDoesNotExistException(let error): return error
+        case .branchNameRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidBranchNameException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateDefaultBranchOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -27534,6 +30072,36 @@ public enum UpdatePullRequestApprovalRuleContentOutputError: Swift.Error, Swift.
     case pullRequestDoesNotExistException(PullRequestDoesNotExistException)
     case pullRequestIdRequiredException(PullRequestIdRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdatePullRequestApprovalRuleContentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalRuleContentRequiredException(let error): return error
+        case .approvalRuleDoesNotExistException(let error): return error
+        case .approvalRuleNameRequiredException(let error): return error
+        case .cannotModifyApprovalRuleFromTemplateException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidApprovalRuleContentException(let error): return error
+        case .invalidApprovalRuleNameException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidRuleContentSha256Exception(let error): return error
+        case .pullRequestAlreadyClosedException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdatePullRequestApprovalRuleContentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -27704,6 +30272,36 @@ public enum UpdatePullRequestApprovalStateOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdatePullRequestApprovalStateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .approvalStateRequiredException(let error): return error
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidApprovalStateException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidRevisionIdException(let error): return error
+        case .maximumNumberOfApprovalsExceededException(let error): return error
+        case .pullRequestAlreadyClosedException(let error): return error
+        case .pullRequestCannotBeApprovedByAuthorException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .revisionIdRequiredException(let error): return error
+        case .revisionNotCurrentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdatePullRequestApprovalStateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -27803,6 +30401,25 @@ public enum UpdatePullRequestDescriptionOutputError: Swift.Error, Swift.Equatabl
     case pullRequestDoesNotExistException(PullRequestDoesNotExistException)
     case pullRequestIdRequiredException(PullRequestIdRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdatePullRequestDescriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidDescriptionException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .pullRequestAlreadyClosedException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdatePullRequestDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -27950,6 +30567,31 @@ public enum UpdatePullRequestStatusOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdatePullRequestStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidPullRequestStatusException(let error): return error
+        case .invalidPullRequestStatusUpdateException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .pullRequestStatusRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdatePullRequestStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -28083,6 +30725,26 @@ public enum UpdatePullRequestTitleOutputError: Swift.Error, Swift.Equatable {
     case pullRequestIdRequiredException(PullRequestIdRequiredException)
     case titleRequiredException(TitleRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdatePullRequestTitleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidPullRequestIdException(let error): return error
+        case .invalidTitleException(let error): return error
+        case .pullRequestAlreadyClosedException(let error): return error
+        case .pullRequestDoesNotExistException(let error): return error
+        case .pullRequestIdRequiredException(let error): return error
+        case .titleRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdatePullRequestTitleOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -28226,6 +30888,29 @@ public enum UpdateRepositoryDescriptionOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateRepositoryDescriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .encryptionIntegrityChecksFailedException(let error): return error
+        case .encryptionKeyAccessDeniedException(let error): return error
+        case .encryptionKeyDisabledException(let error): return error
+        case .encryptionKeyNotFoundException(let error): return error
+        case .encryptionKeyUnavailableException(let error): return error
+        case .invalidRepositoryDescriptionException(let error): return error
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateRepositoryDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -28324,6 +31009,24 @@ public enum UpdateRepositoryNameOutputError: Swift.Error, Swift.Equatable {
     case repositoryNameExistsException(RepositoryNameExistsException)
     case repositoryNameRequiredException(RepositoryNameRequiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateRepositoryNameOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidRepositoryNameException(let error): return error
+        case .repositoryDoesNotExistException(let error): return error
+        case .repositoryNameExistsException(let error): return error
+        case .repositoryNameRequiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateRepositoryNameOutputResponse: ClientRuntime.HttpResponseBinding {

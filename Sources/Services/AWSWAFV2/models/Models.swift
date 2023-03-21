@@ -398,6 +398,25 @@ public enum AssociateWebACLOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateWebACLOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFUnavailableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1012,6 +1031,29 @@ public enum CheckCapacityOutputError: Swift.Error, Swift.Equatable {
     case wAFSubscriptionNotFoundException(WAFSubscriptionNotFoundException)
     case wAFUnavailableEntityException(WAFUnavailableEntityException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CheckCapacityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFExpiredManagedRuleGroupVersionException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFInvalidResourceException(let error): return error
+        case .wAFLimitsExceededException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFSubscriptionNotFoundException(let error): return error
+        case .wAFUnavailableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CheckCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2292,6 +2334,28 @@ public enum CreateIPSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateIPSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFDuplicateItemException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFLimitsExceededException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .wAFTagOperationException(let error): return error
+        case .wAFTagOperationInternalErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2493,6 +2557,28 @@ public enum CreateRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
     case wAFTagOperationException(WAFTagOperationException)
     case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateRegexPatternSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFDuplicateItemException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFLimitsExceededException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .wAFTagOperationException(let error): return error
+        case .wAFTagOperationInternalErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2751,6 +2837,31 @@ public enum CreateRuleGroupOutputError: Swift.Error, Swift.Equatable {
     case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
     case wAFUnavailableEntityException(WAFUnavailableEntityException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateRuleGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFDuplicateItemException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFLimitsExceededException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .wAFSubscriptionNotFoundException(let error): return error
+        case .wAFTagOperationException(let error): return error
+        case .wAFTagOperationInternalErrorException(let error): return error
+        case .wAFUnavailableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3063,6 +3174,34 @@ public enum CreateWebACLOutputError: Swift.Error, Swift.Equatable {
     case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
     case wAFUnavailableEntityException(WAFUnavailableEntityException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateWebACLOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFConfigurationWarningException(let error): return error
+        case .wAFDuplicateItemException(let error): return error
+        case .wAFExpiredManagedRuleGroupVersionException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFInvalidResourceException(let error): return error
+        case .wAFLimitsExceededException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .wAFSubscriptionNotFoundException(let error): return error
+        case .wAFTagOperationException(let error): return error
+        case .wAFTagOperationInternalErrorException(let error): return error
+        case .wAFUnavailableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3452,6 +3591,25 @@ public enum DeleteFirewallManagerRuleGroupsOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteFirewallManagerRuleGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteFirewallManagerRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3620,6 +3778,28 @@ public enum DeleteIPSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteIPSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFAssociatedItemException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .wAFTagOperationException(let error): return error
+        case .wAFTagOperationInternalErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3708,6 +3888,25 @@ public enum DeleteLoggingConfigurationOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteLoggingConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3790,6 +3989,23 @@ public enum DeletePermissionPolicyOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case wAFNonexistentItemException(WAFNonexistentItemException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeletePermissionPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeletePermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3929,6 +4145,28 @@ public enum DeleteRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteRegexPatternSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFAssociatedItemException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .wAFTagOperationException(let error): return error
+        case .wAFTagOperationInternalErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4064,6 +4302,28 @@ public enum DeleteRuleGroupOutputError: Swift.Error, Swift.Equatable {
     case wAFTagOperationException(WAFTagOperationException)
     case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteRuleGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFAssociatedItemException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .wAFTagOperationException(let error): return error
+        case .wAFTagOperationInternalErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4203,6 +4463,28 @@ public enum DeleteWebACLOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteWebACLOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFAssociatedItemException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .wAFTagOperationException(let error): return error
+        case .wAFTagOperationInternalErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4333,6 +4615,26 @@ public enum DescribeManagedRuleGroupOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidResourceException(WAFInvalidResourceException)
     case wAFNonexistentItemException(WAFNonexistentItemException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeManagedRuleGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFExpiredManagedRuleGroupVersionException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFInvalidResourceException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeManagedRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4551,6 +4853,24 @@ public enum DisassociateWebACLOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case wAFNonexistentItemException(WAFNonexistentItemException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateWebACLOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5228,6 +5548,24 @@ public enum GenerateMobileSdkReleaseUrlOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GenerateMobileSdkReleaseUrlOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GenerateMobileSdkReleaseUrlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5439,6 +5777,24 @@ public enum GetIPSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetIPSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5564,6 +5920,24 @@ public enum GetLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case wAFNonexistentItemException(WAFNonexistentItemException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetLoggingConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5713,6 +6087,24 @@ public enum GetManagedRuleSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetManagedRuleSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetManagedRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5853,6 +6245,24 @@ public enum GetMobileSdkReleaseOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetMobileSdkReleaseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetMobileSdkReleaseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5966,6 +6376,23 @@ public enum GetPermissionPolicyOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case wAFNonexistentItemException(WAFNonexistentItemException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetPermissionPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetPermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6140,6 +6567,24 @@ public enum GetRateBasedStatementManagedKeysOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetRateBasedStatementManagedKeysOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetRateBasedStatementManagedKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6295,6 +6740,24 @@ public enum GetRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case wAFNonexistentItemException(WAFNonexistentItemException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetRegexPatternSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6461,6 +6924,24 @@ public enum GetRuleGroupOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case wAFNonexistentItemException(WAFNonexistentItemException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetRuleGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6644,6 +7125,23 @@ public enum GetSampledRequestsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetSampledRequestsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetSampledRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6802,6 +7300,25 @@ public enum GetWebACLForResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetWebACLForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFUnavailableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetWebACLForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6947,6 +7464,24 @@ public enum GetWebACLOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case wAFNonexistentItemException(WAFNonexistentItemException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetWebACLOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8219,6 +8754,24 @@ public enum ListAvailableManagedRuleGroupVersionsOutputError: Swift.Error, Swift
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListAvailableManagedRuleGroupVersionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListAvailableManagedRuleGroupVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8391,6 +8944,23 @@ public enum ListAvailableManagedRuleGroupsOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListAvailableManagedRuleGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListAvailableManagedRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8551,6 +9121,23 @@ public enum ListIPSetsOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidOperationException(WAFInvalidOperationException)
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListIPSetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListIPSetsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8715,6 +9302,23 @@ public enum ListLoggingConfigurationsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListLoggingConfigurationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListLoggingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8877,6 +9481,23 @@ public enum ListManagedRuleSetsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListManagedRuleSetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListManagedRuleSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9033,6 +9654,23 @@ public enum ListMobileSdkReleasesOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidOperationException(WAFInvalidOperationException)
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListMobileSdkReleasesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListMobileSdkReleasesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9197,6 +9835,23 @@ public enum ListRegexPatternSetsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListRegexPatternSetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListRegexPatternSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9343,6 +9998,24 @@ public enum ListResourcesForWebACLOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case wAFNonexistentItemException(WAFNonexistentItemException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListResourcesForWebACLOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListResourcesForWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9495,6 +10168,23 @@ public enum ListRuleGroupsOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidOperationException(WAFInvalidOperationException)
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListRuleGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9661,6 +10351,26 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFTagOperationException(let error): return error
+        case .wAFTagOperationInternalErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9812,6 +10522,23 @@ public enum ListWebACLsOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidOperationException(WAFInvalidOperationException)
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListWebACLsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListWebACLsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11426,6 +12153,28 @@ public enum PutLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutLoggingConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFLimitsExceededException(let error): return error
+        case .wAFLogDestinationPermissionIssueException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .wAFServiceLinkedRoleErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11624,6 +12373,25 @@ public enum PutManagedRuleSetVersionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutManagedRuleSetVersionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutManagedRuleSetVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11765,6 +12533,24 @@ public enum PutPermissionPolicyOutputError: Swift.Error, Swift.Equatable {
     case wAFInvalidPermissionPolicyException(WAFInvalidPermissionPolicyException)
     case wAFNonexistentItemException(WAFNonexistentItemException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutPermissionPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFInvalidPermissionPolicyException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutPermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14366,6 +15152,27 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFLimitsExceededException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFTagOperationException(let error): return error
+        case .wAFTagOperationInternalErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -14710,6 +15517,26 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFTagOperationException(let error): return error
+        case .wAFTagOperationInternalErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -14901,6 +15728,27 @@ public enum UpdateIPSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateIPSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFDuplicateItemException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFLimitsExceededException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -15087,6 +15935,25 @@ public enum UpdateManagedRuleSetVersionExpiryDateOutputError: Swift.Error, Swift
     case wAFNonexistentItemException(WAFNonexistentItemException)
     case wAFOptimisticLockException(WAFOptimisticLockException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateManagedRuleSetVersionExpiryDateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateManagedRuleSetVersionExpiryDateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15310,6 +16177,27 @@ public enum UpdateRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
     case wAFNonexistentItemException(WAFNonexistentItemException)
     case wAFOptimisticLockException(WAFOptimisticLockException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateRegexPatternSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFDuplicateItemException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFLimitsExceededException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15555,6 +16443,30 @@ public enum UpdateRuleGroupOutputError: Swift.Error, Swift.Equatable {
     case wAFSubscriptionNotFoundException(WAFSubscriptionNotFoundException)
     case wAFUnavailableEntityException(WAFUnavailableEntityException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateRuleGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFConfigurationWarningException(let error): return error
+        case .wAFDuplicateItemException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFLimitsExceededException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .wAFSubscriptionNotFoundException(let error): return error
+        case .wAFUnavailableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15867,6 +16779,32 @@ public enum UpdateWebACLOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateWebACLOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .wAFConfigurationWarningException(let error): return error
+        case .wAFDuplicateItemException(let error): return error
+        case .wAFExpiredManagedRuleGroupVersionException(let error): return error
+        case .wAFInternalErrorException(let error): return error
+        case .wAFInvalidOperationException(let error): return error
+        case .wAFInvalidParameterException(let error): return error
+        case .wAFInvalidResourceException(let error): return error
+        case .wAFLimitsExceededException(let error): return error
+        case .wAFNonexistentItemException(let error): return error
+        case .wAFOptimisticLockException(let error): return error
+        case .wAFSubscriptionNotFoundException(let error): return error
+        case .wAFUnavailableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -16093,6 +17031,9 @@ public struct WAFAssociatedItemException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFAssociatedItemException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16145,6 +17086,9 @@ public struct WAFConfigurationWarningException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFConfigurationWarningException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16197,6 +17141,9 @@ public struct WAFDuplicateItemException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFDuplicateItemException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16249,6 +17196,9 @@ public struct WAFExpiredManagedRuleGroupVersionException: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFExpiredManagedRuleGroupVersionException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16301,6 +17251,9 @@ public struct WAFInternalErrorException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFInternalErrorException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16353,6 +17306,9 @@ public struct WAFInvalidOperationException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFInvalidOperationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16419,6 +17375,9 @@ public struct WAFInvalidParameterException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFInvalidParameterException" }
+
     /// The settings where the invalid parameter was found.
     public var field: WAFV2ClientTypes.ParameterExceptionField?
     public var message: Swift.String?
@@ -16508,6 +17467,9 @@ public struct WAFInvalidPermissionPolicyException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFInvalidPermissionPolicyException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16560,6 +17522,9 @@ public struct WAFInvalidResourceException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFInvalidResourceException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16612,6 +17577,9 @@ public struct WAFLimitsExceededException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFLimitsExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16664,6 +17632,9 @@ public struct WAFLogDestinationPermissionIssueException: AWSClientRuntime.AWSHtt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFLogDestinationPermissionIssueException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16716,6 +17687,9 @@ public struct WAFNonexistentItemException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFNonexistentItemException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16768,6 +17742,9 @@ public struct WAFOptimisticLockException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFOptimisticLockException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16820,6 +17797,9 @@ public struct WAFServiceLinkedRoleErrorException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFServiceLinkedRoleErrorException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16872,6 +17852,9 @@ public struct WAFSubscriptionNotFoundException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFSubscriptionNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16924,6 +17907,9 @@ public struct WAFTagOperationException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFTagOperationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -16976,6 +17962,9 @@ public struct WAFTagOperationInternalErrorException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFTagOperationInternalErrorException" }
+
     public var message: Swift.String?
 
     public init (
@@ -17028,6 +18017,9 @@ public struct WAFUnavailableEntityException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WAFUnavailableEntityException" }
+
     public var message: Swift.String?
 
     public init (

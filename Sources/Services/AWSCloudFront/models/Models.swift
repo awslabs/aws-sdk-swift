@@ -27,6 +27,9 @@ public struct AccessDenied: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDenied" }
+
     public var message: Swift.String?
 
     public init (
@@ -582,6 +585,25 @@ public enum AssociateAliasOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateAliasOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .illegalUpdate(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .tooManyDistributionCNAMEs(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -617,6 +639,9 @@ public struct BatchTooLarge: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BatchTooLarge" }
+
     public var message: Swift.String?
 
     public init (
@@ -668,6 +693,9 @@ public struct CNAMEAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CNAMEAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -1141,6 +1169,9 @@ public struct CachePolicyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CachePolicyAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -1511,6 +1542,9 @@ public struct CachePolicyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CachePolicyInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -1962,6 +1996,9 @@ public struct CannotChangeImmutablePublicKeyFields: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CannotChangeImmutablePublicKeyFields" }
+
     public var message: Swift.String?
 
     public init (
@@ -2122,6 +2159,9 @@ public struct CloudFrontOriginAccessIdentityAlreadyExists: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudFrontOriginAccessIdentityAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -2237,6 +2277,9 @@ public struct CloudFrontOriginAccessIdentityInUse: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudFrontOriginAccessIdentityInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -2958,6 +3001,9 @@ public struct ContinuousDeploymentPolicyAlreadyExists: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ContinuousDeploymentPolicyAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -3083,6 +3129,9 @@ public struct ContinuousDeploymentPolicyInUse: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ContinuousDeploymentPolicyInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -3810,6 +3859,83 @@ public enum CopyDistributionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CopyDistributionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cNAMEAlreadyExists(let error): return error
+        case .distributionAlreadyExists(let error): return error
+        case .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidDefaultRootObject(let error): return error
+        case .invalidErrorCode(let error): return error
+        case .invalidForwardCookies(let error): return error
+        case .invalidFunctionAssociation(let error): return error
+        case .invalidGeoRestrictionParameter(let error): return error
+        case .invalidHeadersForS3Origin(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .invalidLambdaFunctionAssociation(let error): return error
+        case .invalidLocationCode(let error): return error
+        case .invalidMinimumProtocolVersion(let error): return error
+        case .invalidOrigin(let error): return error
+        case .invalidOriginAccessControl(let error): return error
+        case .invalidOriginAccessIdentity(let error): return error
+        case .invalidOriginKeepaliveTimeout(let error): return error
+        case .invalidOriginReadTimeout(let error): return error
+        case .invalidProtocolSettings(let error): return error
+        case .invalidQueryStringParameters(let error): return error
+        case .invalidRelativePath(let error): return error
+        case .invalidRequiredProtocol(let error): return error
+        case .invalidResponseCode(let error): return error
+        case .invalidTTLOrder(let error): return error
+        case .invalidViewerCertificate(let error): return error
+        case .invalidWebACLId(let error): return error
+        case .missingBody(let error): return error
+        case .noSuchCachePolicy(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .noSuchFieldLevelEncryptionConfig(let error): return error
+        case .noSuchOrigin(let error): return error
+        case .noSuchOriginRequestPolicy(let error): return error
+        case .noSuchRealtimeLogConfig(let error): return error
+        case .noSuchResponseHeadersPolicy(let error): return error
+        case .preconditionFailed(let error): return error
+        case .realtimeLogConfigOwnerMismatch(let error): return error
+        case .tooManyCacheBehaviors(let error): return error
+        case .tooManyCertificates(let error): return error
+        case .tooManyCookieNamesInWhiteList(let error): return error
+        case .tooManyDistributionCNAMEs(let error): return error
+        case .tooManyDistributions(let error): return error
+        case .tooManyDistributionsAssociatedToCachePolicy(let error): return error
+        case .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(let error): return error
+        case .tooManyDistributionsAssociatedToKeyGroup(let error): return error
+        case .tooManyDistributionsAssociatedToOriginRequestPolicy(let error): return error
+        case .tooManyDistributionsAssociatedToResponseHeadersPolicy(let error): return error
+        case .tooManyDistributionsWithFunctionAssociations(let error): return error
+        case .tooManyDistributionsWithLambdaAssociations(let error): return error
+        case .tooManyDistributionsWithSingleFunctionARN(let error): return error
+        case .tooManyFunctionAssociations(let error): return error
+        case .tooManyHeadersInForwardedValues(let error): return error
+        case .tooManyKeyGroupsAssociatedToDistribution(let error): return error
+        case .tooManyLambdaFunctionAssociations(let error): return error
+        case .tooManyOriginCustomHeaders(let error): return error
+        case .tooManyOriginGroupsPerDistribution(let error): return error
+        case .tooManyOrigins(let error): return error
+        case .tooManyQueryStringParameters(let error): return error
+        case .tooManyTrustedSigners(let error): return error
+        case .trustedKeyGroupDoesNotExist(let error): return error
+        case .trustedSignerDoesNotExist(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CopyDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -4010,6 +4136,28 @@ public enum CreateCachePolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateCachePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cachePolicyAlreadyExists(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .tooManyCachePolicies(let error): return error
+        case .tooManyCookiesInCachePolicy(let error): return error
+        case .tooManyHeadersInCachePolicy(let error): return error
+        case .tooManyQueryStringsInCachePolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -4203,6 +4351,25 @@ public enum CreateCloudFrontOriginAccessIdentityOutputError: Swift.Error, Swift.
     case missingBody(MissingBody)
     case tooManyCloudFrontOriginAccessIdentities(TooManyCloudFrontOriginAccessIdentities)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateCloudFrontOriginAccessIdentityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudFrontOriginAccessIdentityAlreadyExists(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .missingBody(let error): return error
+        case .tooManyCloudFrontOriginAccessIdentities(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4400,6 +4567,26 @@ public enum CreateContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equa
     case stagingDistributionInUse(StagingDistributionInUse)
     case tooManyContinuousDeploymentPolicies(TooManyContinuousDeploymentPolicies)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateContinuousDeploymentPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .continuousDeploymentPolicyAlreadyExists(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .stagingDistributionInUse(let error): return error
+        case .tooManyContinuousDeploymentPolicies(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4715,6 +4902,85 @@ public enum CreateDistributionOutputError: Swift.Error, Swift.Equatable {
     case trustedKeyGroupDoesNotExist(TrustedKeyGroupDoesNotExist)
     case trustedSignerDoesNotExist(TrustedSignerDoesNotExist)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDistributionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cNAMEAlreadyExists(let error): return error
+        case .continuousDeploymentPolicyInUse(let error): return error
+        case .distributionAlreadyExists(let error): return error
+        case .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(let error): return error
+        case .illegalOriginAccessConfiguration(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidDefaultRootObject(let error): return error
+        case .invalidDomainNameForOriginAccessControl(let error): return error
+        case .invalidErrorCode(let error): return error
+        case .invalidForwardCookies(let error): return error
+        case .invalidFunctionAssociation(let error): return error
+        case .invalidGeoRestrictionParameter(let error): return error
+        case .invalidHeadersForS3Origin(let error): return error
+        case .invalidLambdaFunctionAssociation(let error): return error
+        case .invalidLocationCode(let error): return error
+        case .invalidMinimumProtocolVersion(let error): return error
+        case .invalidOrigin(let error): return error
+        case .invalidOriginAccessControl(let error): return error
+        case .invalidOriginAccessIdentity(let error): return error
+        case .invalidOriginKeepaliveTimeout(let error): return error
+        case .invalidOriginReadTimeout(let error): return error
+        case .invalidProtocolSettings(let error): return error
+        case .invalidQueryStringParameters(let error): return error
+        case .invalidRelativePath(let error): return error
+        case .invalidRequiredProtocol(let error): return error
+        case .invalidResponseCode(let error): return error
+        case .invalidTTLOrder(let error): return error
+        case .invalidViewerCertificate(let error): return error
+        case .invalidWebACLId(let error): return error
+        case .missingBody(let error): return error
+        case .noSuchCachePolicy(let error): return error
+        case .noSuchContinuousDeploymentPolicy(let error): return error
+        case .noSuchFieldLevelEncryptionConfig(let error): return error
+        case .noSuchOrigin(let error): return error
+        case .noSuchOriginRequestPolicy(let error): return error
+        case .noSuchRealtimeLogConfig(let error): return error
+        case .noSuchResponseHeadersPolicy(let error): return error
+        case .realtimeLogConfigOwnerMismatch(let error): return error
+        case .tooManyCacheBehaviors(let error): return error
+        case .tooManyCertificates(let error): return error
+        case .tooManyCookieNamesInWhiteList(let error): return error
+        case .tooManyDistributionCNAMEs(let error): return error
+        case .tooManyDistributions(let error): return error
+        case .tooManyDistributionsAssociatedToCachePolicy(let error): return error
+        case .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(let error): return error
+        case .tooManyDistributionsAssociatedToKeyGroup(let error): return error
+        case .tooManyDistributionsAssociatedToOriginAccessControl(let error): return error
+        case .tooManyDistributionsAssociatedToOriginRequestPolicy(let error): return error
+        case .tooManyDistributionsAssociatedToResponseHeadersPolicy(let error): return error
+        case .tooManyDistributionsWithFunctionAssociations(let error): return error
+        case .tooManyDistributionsWithLambdaAssociations(let error): return error
+        case .tooManyDistributionsWithSingleFunctionARN(let error): return error
+        case .tooManyFunctionAssociations(let error): return error
+        case .tooManyHeadersInForwardedValues(let error): return error
+        case .tooManyKeyGroupsAssociatedToDistribution(let error): return error
+        case .tooManyLambdaFunctionAssociations(let error): return error
+        case .tooManyOriginCustomHeaders(let error): return error
+        case .tooManyOriginGroupsPerDistribution(let error): return error
+        case .tooManyOrigins(let error): return error
+        case .tooManyQueryStringParameters(let error): return error
+        case .tooManyTrustedSigners(let error): return error
+        case .trustedKeyGroupDoesNotExist(let error): return error
+        case .trustedSignerDoesNotExist(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5041,6 +5307,84 @@ public enum CreateDistributionWithTagsOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateDistributionWithTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cNAMEAlreadyExists(let error): return error
+        case .continuousDeploymentPolicyInUse(let error): return error
+        case .distributionAlreadyExists(let error): return error
+        case .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidDefaultRootObject(let error): return error
+        case .invalidDomainNameForOriginAccessControl(let error): return error
+        case .invalidErrorCode(let error): return error
+        case .invalidForwardCookies(let error): return error
+        case .invalidFunctionAssociation(let error): return error
+        case .invalidGeoRestrictionParameter(let error): return error
+        case .invalidHeadersForS3Origin(let error): return error
+        case .invalidLambdaFunctionAssociation(let error): return error
+        case .invalidLocationCode(let error): return error
+        case .invalidMinimumProtocolVersion(let error): return error
+        case .invalidOrigin(let error): return error
+        case .invalidOriginAccessControl(let error): return error
+        case .invalidOriginAccessIdentity(let error): return error
+        case .invalidOriginKeepaliveTimeout(let error): return error
+        case .invalidOriginReadTimeout(let error): return error
+        case .invalidProtocolSettings(let error): return error
+        case .invalidQueryStringParameters(let error): return error
+        case .invalidRelativePath(let error): return error
+        case .invalidRequiredProtocol(let error): return error
+        case .invalidResponseCode(let error): return error
+        case .invalidTagging(let error): return error
+        case .invalidTTLOrder(let error): return error
+        case .invalidViewerCertificate(let error): return error
+        case .invalidWebACLId(let error): return error
+        case .missingBody(let error): return error
+        case .noSuchCachePolicy(let error): return error
+        case .noSuchContinuousDeploymentPolicy(let error): return error
+        case .noSuchFieldLevelEncryptionConfig(let error): return error
+        case .noSuchOrigin(let error): return error
+        case .noSuchOriginRequestPolicy(let error): return error
+        case .noSuchRealtimeLogConfig(let error): return error
+        case .noSuchResponseHeadersPolicy(let error): return error
+        case .realtimeLogConfigOwnerMismatch(let error): return error
+        case .tooManyCacheBehaviors(let error): return error
+        case .tooManyCertificates(let error): return error
+        case .tooManyCookieNamesInWhiteList(let error): return error
+        case .tooManyDistributionCNAMEs(let error): return error
+        case .tooManyDistributions(let error): return error
+        case .tooManyDistributionsAssociatedToCachePolicy(let error): return error
+        case .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(let error): return error
+        case .tooManyDistributionsAssociatedToKeyGroup(let error): return error
+        case .tooManyDistributionsAssociatedToOriginRequestPolicy(let error): return error
+        case .tooManyDistributionsAssociatedToResponseHeadersPolicy(let error): return error
+        case .tooManyDistributionsWithFunctionAssociations(let error): return error
+        case .tooManyDistributionsWithLambdaAssociations(let error): return error
+        case .tooManyDistributionsWithSingleFunctionARN(let error): return error
+        case .tooManyFunctionAssociations(let error): return error
+        case .tooManyHeadersInForwardedValues(let error): return error
+        case .tooManyKeyGroupsAssociatedToDistribution(let error): return error
+        case .tooManyLambdaFunctionAssociations(let error): return error
+        case .tooManyOriginCustomHeaders(let error): return error
+        case .tooManyOriginGroupsPerDistribution(let error): return error
+        case .tooManyOrigins(let error): return error
+        case .tooManyQueryStringParameters(let error): return error
+        case .tooManyTrustedSigners(let error): return error
+        case .trustedKeyGroupDoesNotExist(let error): return error
+        case .trustedSignerDoesNotExist(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateDistributionWithTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -5240,6 +5584,28 @@ public enum CreateFieldLevelEncryptionConfigOutputError: Swift.Error, Swift.Equa
     case tooManyFieldLevelEncryptionContentTypeProfiles(TooManyFieldLevelEncryptionContentTypeProfiles)
     case tooManyFieldLevelEncryptionQueryArgProfiles(TooManyFieldLevelEncryptionQueryArgProfiles)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateFieldLevelEncryptionConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .fieldLevelEncryptionConfigAlreadyExists(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchFieldLevelEncryptionProfile(let error): return error
+        case .queryArgProfileEmpty(let error): return error
+        case .tooManyFieldLevelEncryptionConfigs(let error): return error
+        case .tooManyFieldLevelEncryptionContentTypeProfiles(let error): return error
+        case .tooManyFieldLevelEncryptionQueryArgProfiles(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5442,6 +5808,28 @@ public enum CreateFieldLevelEncryptionProfileOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateFieldLevelEncryptionProfileOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .fieldLevelEncryptionProfileAlreadyExists(let error): return error
+        case .fieldLevelEncryptionProfileSizeExceeded(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchPublicKey(let error): return error
+        case .tooManyFieldLevelEncryptionEncryptionEntities(let error): return error
+        case .tooManyFieldLevelEncryptionFieldPatterns(let error): return error
+        case .tooManyFieldLevelEncryptionProfiles(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -5634,6 +6022,25 @@ public enum CreateFunctionOutputError: Swift.Error, Swift.Equatable {
     case tooManyFunctions(TooManyFunctions)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateFunctionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .functionAlreadyExists(let error): return error
+        case .functionSizeLimitExceeded(let error): return error
+        case .invalidArgument(let error): return error
+        case .tooManyFunctions(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5843,6 +6250,27 @@ public enum CreateInvalidationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateInvalidationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .batchTooLarge(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .missingBody(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .tooManyInvalidationsInProgress(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateInvalidationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
@@ -6025,6 +6453,24 @@ public enum CreateKeyGroupOutputError: Swift.Error, Swift.Equatable {
     case tooManyKeyGroups(TooManyKeyGroups)
     case tooManyPublicKeysInKeyGroup(TooManyPublicKeysInKeyGroup)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateKeyGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .keyGroupAlreadyExists(let error): return error
+        case .tooManyKeyGroups(let error): return error
+        case .tooManyPublicKeysInKeyGroup(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6227,6 +6673,24 @@ public enum CreateMonitoringSubscriptionOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateMonitoringSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .monitoringSubscriptionAlreadyExists(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateMonitoringSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -6397,6 +6861,23 @@ public enum CreateOriginAccessControlOutputError: Swift.Error, Swift.Equatable {
     case originAccessControlAlreadyExists(OriginAccessControlAlreadyExists)
     case tooManyOriginAccessControls(TooManyOriginAccessControls)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateOriginAccessControlOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .originAccessControlAlreadyExists(let error): return error
+        case .tooManyOriginAccessControls(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6599,6 +7080,28 @@ public enum CreateOriginRequestPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateOriginRequestPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .originRequestPolicyAlreadyExists(let error): return error
+        case .tooManyCookiesInOriginRequestPolicy(let error): return error
+        case .tooManyHeadersInOriginRequestPolicy(let error): return error
+        case .tooManyOriginRequestPolicies(let error): return error
+        case .tooManyQueryStringsInOriginRequestPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -6787,6 +7290,23 @@ public enum CreatePublicKeyOutputError: Swift.Error, Swift.Equatable {
     case publicKeyAlreadyExists(PublicKeyAlreadyExists)
     case tooManyPublicKeys(TooManyPublicKeys)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreatePublicKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .publicKeyAlreadyExists(let error): return error
+        case .tooManyPublicKeys(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreatePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7021,6 +7541,24 @@ public enum CreateRealtimeLogConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateRealtimeLogConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .realtimeLogConfigAlreadyExists(let error): return error
+        case .tooManyRealtimeLogConfigs(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7199,6 +7737,28 @@ public enum CreateResponseHeadersPolicyOutputError: Swift.Error, Swift.Equatable
     case tooManyRemoveHeadersInResponseHeadersPolicy(TooManyRemoveHeadersInResponseHeadersPolicy)
     case tooManyResponseHeadersPolicies(TooManyResponseHeadersPolicies)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateResponseHeadersPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .responseHeadersPolicyAlreadyExists(let error): return error
+        case .tooLongCSPInResponseHeadersPolicy(let error): return error
+        case .tooManyCustomHeadersInResponseHeadersPolicy(let error): return error
+        case .tooManyRemoveHeadersInResponseHeadersPolicy(let error): return error
+        case .tooManyResponseHeadersPolicies(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7410,6 +7970,33 @@ public enum CreateStreamingDistributionOutputError: Swift.Error, Swift.Equatable
     case tooManyTrustedSigners(TooManyTrustedSigners)
     case trustedSignerDoesNotExist(TrustedSignerDoesNotExist)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateStreamingDistributionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cNAMEAlreadyExists(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidOrigin(let error): return error
+        case .invalidOriginAccessControl(let error): return error
+        case .invalidOriginAccessIdentity(let error): return error
+        case .missingBody(let error): return error
+        case .streamingDistributionAlreadyExists(let error): return error
+        case .tooManyStreamingDistributionCNAMEs(let error): return error
+        case .tooManyStreamingDistributions(let error): return error
+        case .tooManyTrustedSigners(let error): return error
+        case .trustedSignerDoesNotExist(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7634,6 +8221,34 @@ public enum CreateStreamingDistributionWithTagsOutputError: Swift.Error, Swift.E
     case tooManyTrustedSigners(TooManyTrustedSigners)
     case trustedSignerDoesNotExist(TrustedSignerDoesNotExist)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateStreamingDistributionWithTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cNAMEAlreadyExists(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidOrigin(let error): return error
+        case .invalidOriginAccessControl(let error): return error
+        case .invalidOriginAccessIdentity(let error): return error
+        case .invalidTagging(let error): return error
+        case .missingBody(let error): return error
+        case .streamingDistributionAlreadyExists(let error): return error
+        case .tooManyStreamingDistributionCNAMEs(let error): return error
+        case .tooManyStreamingDistributions(let error): return error
+        case .tooManyTrustedSigners(let error): return error
+        case .trustedSignerDoesNotExist(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateStreamingDistributionWithTagsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8410,6 +9025,26 @@ public enum DeleteCachePolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteCachePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cachePolicyInUse(let error): return error
+        case .illegalDelete(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchCachePolicy(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8493,6 +9128,25 @@ public enum DeleteCloudFrontOriginAccessIdentityOutputError: Swift.Error, Swift.
     case noSuchCloudFrontOriginAccessIdentity(NoSuchCloudFrontOriginAccessIdentity)
     case preconditionFailed(PreconditionFailed)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteCloudFrontOriginAccessIdentityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cloudFrontOriginAccessIdentityInUse(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchCloudFrontOriginAccessIdentity(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8579,6 +9233,26 @@ public enum DeleteContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equa
     case noSuchContinuousDeploymentPolicy(NoSuchContinuousDeploymentPolicy)
     case preconditionFailed(PreconditionFailed)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteContinuousDeploymentPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .continuousDeploymentPolicyInUse(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchContinuousDeploymentPolicy(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8685,6 +9359,25 @@ public enum DeleteDistributionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDistributionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .distributionNotDisabled(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8769,6 +9462,25 @@ public enum DeleteFieldLevelEncryptionConfigOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteFieldLevelEncryptionConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .fieldLevelEncryptionConfigInUse(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchFieldLevelEncryptionConfig(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8851,6 +9563,25 @@ public enum DeleteFieldLevelEncryptionProfileOutputError: Swift.Error, Swift.Equ
     case noSuchFieldLevelEncryptionProfile(NoSuchFieldLevelEncryptionProfile)
     case preconditionFailed(PreconditionFailed)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteFieldLevelEncryptionProfileOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .fieldLevelEncryptionProfileInUse(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchFieldLevelEncryptionProfile(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8938,6 +9669,25 @@ public enum DeleteFunctionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteFunctionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .functionInUse(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchFunctionExists(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -9020,6 +9770,24 @@ public enum DeleteKeyGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteKeyGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchResource(let error): return error
+        case .preconditionFailed(let error): return error
+        case .resourceInUse(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -9086,6 +9854,24 @@ public enum DeleteMonitoringSubscriptionOutputError: Swift.Error, Swift.Equatabl
     case noSuchMonitoringSubscription(NoSuchMonitoringSubscription)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteMonitoringSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .noSuchMonitoringSubscription(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteMonitoringSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9170,6 +9956,25 @@ public enum DeleteOriginAccessControlOutputError: Swift.Error, Swift.Equatable {
     case originAccessControlInUse(OriginAccessControlInUse)
     case preconditionFailed(PreconditionFailed)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteOriginAccessControlOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchOriginAccessControl(let error): return error
+        case .originAccessControlInUse(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9258,6 +10063,26 @@ public enum DeleteOriginRequestPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteOriginRequestPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .illegalDelete(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchOriginRequestPolicy(let error): return error
+        case .originRequestPolicyInUse(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -9340,6 +10165,25 @@ public enum DeletePublicKeyOutputError: Swift.Error, Swift.Equatable {
     case preconditionFailed(PreconditionFailed)
     case publicKeyInUse(PublicKeyInUse)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeletePublicKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchPublicKey(let error): return error
+        case .preconditionFailed(let error): return error
+        case .publicKeyInUse(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeletePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9455,6 +10299,24 @@ public enum DeleteRealtimeLogConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteRealtimeLogConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchRealtimeLogConfig(let error): return error
+        case .realtimeLogConfigInUse(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -9539,6 +10401,26 @@ public enum DeleteResponseHeadersPolicyOutputError: Swift.Error, Swift.Equatable
     case preconditionFailed(PreconditionFailed)
     case responseHeadersPolicyInUse(ResponseHeadersPolicyInUse)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteResponseHeadersPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .illegalDelete(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchResponseHeadersPolicy(let error): return error
+        case .preconditionFailed(let error): return error
+        case .responseHeadersPolicyInUse(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9626,6 +10508,25 @@ public enum DeleteStreamingDistributionOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteStreamingDistributionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchStreamingDistribution(let error): return error
+        case .preconditionFailed(let error): return error
+        case .streamingDistributionNotDisabled(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -9705,6 +10606,22 @@ public enum DescribeFunctionOutputError: Swift.Error, Swift.Equatable {
     case noSuchFunctionExists(NoSuchFunctionExists)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeFunctionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .noSuchFunctionExists(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9953,6 +10870,9 @@ public struct DistributionAlreadyExists: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DistributionAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -10576,6 +11496,9 @@ public struct DistributionNotDisabled: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DistributionNotDisabled" }
+
     public var message: Swift.String?
 
     public init (
@@ -11335,6 +12258,9 @@ public struct FieldLevelEncryptionConfigAlreadyExists: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FieldLevelEncryptionConfigAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -11386,6 +12312,9 @@ public struct FieldLevelEncryptionConfigInUse: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FieldLevelEncryptionConfigInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -11616,6 +12545,9 @@ public struct FieldLevelEncryptionProfileAlreadyExists: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FieldLevelEncryptionProfileAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -11752,6 +12684,9 @@ public struct FieldLevelEncryptionProfileInUse: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FieldLevelEncryptionProfileInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -11907,6 +12842,9 @@ public struct FieldLevelEncryptionProfileSizeExceeded: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FieldLevelEncryptionProfileSizeExceeded" }
+
     public var message: Swift.String?
 
     public init (
@@ -12376,6 +13314,9 @@ public struct FunctionAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FunctionAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -12638,6 +13579,9 @@ public struct FunctionInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FunctionInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -12906,6 +13850,9 @@ public struct FunctionSizeLimitExceeded: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FunctionSizeLimitExceeded" }
+
     public var message: Swift.String?
 
     public init (
@@ -13238,6 +14185,22 @@ public enum GetCachePolicyConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetCachePolicyConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchCachePolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetCachePolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -13342,6 +14305,22 @@ public enum GetCachePolicyOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
     case noSuchCachePolicy(NoSuchCachePolicy)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCachePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchCachePolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13449,6 +14428,22 @@ public enum GetCloudFrontOriginAccessIdentityConfigOutputError: Swift.Error, Swi
     case accessDenied(AccessDenied)
     case noSuchCloudFrontOriginAccessIdentity(NoSuchCloudFrontOriginAccessIdentity)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCloudFrontOriginAccessIdentityConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchCloudFrontOriginAccessIdentity(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetCloudFrontOriginAccessIdentityConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13559,6 +14554,22 @@ public enum GetCloudFrontOriginAccessIdentityOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetCloudFrontOriginAccessIdentityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchCloudFrontOriginAccessIdentity(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -13664,6 +14675,22 @@ public enum GetContinuousDeploymentPolicyConfigOutputError: Swift.Error, Swift.E
     case accessDenied(AccessDenied)
     case noSuchContinuousDeploymentPolicy(NoSuchContinuousDeploymentPolicy)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetContinuousDeploymentPolicyConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchContinuousDeploymentPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetContinuousDeploymentPolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13772,6 +14799,22 @@ public enum GetContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetContinuousDeploymentPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchContinuousDeploymentPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -13877,6 +14920,22 @@ public enum GetDistributionConfigOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
     case noSuchDistribution(NoSuchDistribution)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDistributionConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetDistributionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13987,6 +15046,22 @@ public enum GetDistributionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDistributionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -14092,6 +15167,22 @@ public enum GetFieldLevelEncryptionConfigOutputError: Swift.Error, Swift.Equatab
     case accessDenied(AccessDenied)
     case noSuchFieldLevelEncryptionConfig(NoSuchFieldLevelEncryptionConfig)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetFieldLevelEncryptionConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchFieldLevelEncryptionConfig(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14200,6 +15291,22 @@ public enum GetFieldLevelEncryptionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetFieldLevelEncryptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchFieldLevelEncryptionConfig(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetFieldLevelEncryptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -14306,6 +15413,22 @@ public enum GetFieldLevelEncryptionProfileConfigOutputError: Swift.Error, Swift.
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetFieldLevelEncryptionProfileConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchFieldLevelEncryptionProfile(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetFieldLevelEncryptionProfileConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -14410,6 +15533,22 @@ public enum GetFieldLevelEncryptionProfileOutputError: Swift.Error, Swift.Equata
     case accessDenied(AccessDenied)
     case noSuchFieldLevelEncryptionProfile(NoSuchFieldLevelEncryptionProfile)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetFieldLevelEncryptionProfileOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchFieldLevelEncryptionProfile(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14533,6 +15672,22 @@ public enum GetFunctionOutputError: Swift.Error, Swift.Equatable {
     case noSuchFunctionExists(NoSuchFunctionExists)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetFunctionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .noSuchFunctionExists(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetFunctionOutputResponse: Swift.CustomDebugStringConvertible {
@@ -14669,6 +15824,23 @@ public enum GetInvalidationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetInvalidationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .noSuchInvalidation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetInvalidationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -14763,6 +15935,21 @@ extension GetKeyGroupConfigOutputError {
 public enum GetKeyGroupConfigOutputError: Swift.Error, Swift.Equatable {
     case noSuchResource(NoSuchResource)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetKeyGroupConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .noSuchResource(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetKeyGroupConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14867,6 +16054,21 @@ extension GetKeyGroupOutputError {
 public enum GetKeyGroupOutputError: Swift.Error, Swift.Equatable {
     case noSuchResource(NoSuchResource)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetKeyGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .noSuchResource(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14979,6 +16181,24 @@ public enum GetMonitoringSubscriptionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetMonitoringSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .noSuchMonitoringSubscription(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetMonitoringSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -15074,6 +16294,22 @@ public enum GetOriginAccessControlConfigOutputError: Swift.Error, Swift.Equatabl
     case accessDenied(AccessDenied)
     case noSuchOriginAccessControl(NoSuchOriginAccessControl)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetOriginAccessControlConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchOriginAccessControl(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetOriginAccessControlConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15182,6 +16418,22 @@ public enum GetOriginAccessControlOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetOriginAccessControlOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchOriginAccessControl(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -15286,6 +16538,22 @@ public enum GetOriginRequestPolicyConfigOutputError: Swift.Error, Swift.Equatabl
     case accessDenied(AccessDenied)
     case noSuchOriginRequestPolicy(NoSuchOriginRequestPolicy)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetOriginRequestPolicyConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchOriginRequestPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetOriginRequestPolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15394,6 +16662,22 @@ public enum GetOriginRequestPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetOriginRequestPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchOriginRequestPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -15500,6 +16784,22 @@ public enum GetPublicKeyConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetPublicKeyConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchPublicKey(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetPublicKeyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -15604,6 +16904,22 @@ public enum GetPublicKeyOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
     case noSuchPublicKey(NoSuchPublicKey)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetPublicKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchPublicKey(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15759,6 +17075,23 @@ public enum GetRealtimeLogConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetRealtimeLogConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchRealtimeLogConfig(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -15852,6 +17185,22 @@ public enum GetResponseHeadersPolicyConfigOutputError: Swift.Error, Swift.Equata
     case accessDenied(AccessDenied)
     case noSuchResponseHeadersPolicy(NoSuchResponseHeadersPolicy)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetResponseHeadersPolicyConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchResponseHeadersPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetResponseHeadersPolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15958,6 +17307,22 @@ public enum GetResponseHeadersPolicyOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
     case noSuchResponseHeadersPolicy(NoSuchResponseHeadersPolicy)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetResponseHeadersPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchResponseHeadersPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16067,6 +17432,22 @@ public enum GetStreamingDistributionConfigOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetStreamingDistributionConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchStreamingDistribution(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetStreamingDistributionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -16173,6 +17554,22 @@ public enum GetStreamingDistributionOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
     case noSuchStreamingDistribution(NoSuchStreamingDistribution)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetStreamingDistributionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .noSuchStreamingDistribution(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16409,6 +17806,9 @@ public struct IllegalDelete: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IllegalDelete" }
+
     public var message: Swift.String?
 
     public init (
@@ -16460,6 +17860,9 @@ public struct IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: AWS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior" }
+
     public var message: Swift.String?
 
     public init (
@@ -16511,6 +17914,9 @@ public struct IllegalOriginAccessConfiguration: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IllegalOriginAccessConfiguration" }
+
     public var message: Swift.String?
 
     public init (
@@ -16562,6 +17968,9 @@ public struct IllegalUpdate: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IllegalUpdate" }
+
     public var message: Swift.String?
 
     public init (
@@ -16613,6 +18022,9 @@ public struct InconsistentQuantities: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InconsistentQuantities" }
+
     public var message: Swift.String?
 
     public init (
@@ -16664,6 +18076,9 @@ public struct InvalidArgument: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidArgument" }
+
     public var message: Swift.String?
 
     public init (
@@ -16715,6 +18130,9 @@ public struct InvalidDefaultRootObject: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDefaultRootObject" }
+
     public var message: Swift.String?
 
     public init (
@@ -16766,6 +18184,9 @@ public struct InvalidDomainNameForOriginAccessControl: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidDomainNameForOriginAccessControl" }
+
     public var message: Swift.String?
 
     public init (
@@ -16817,6 +18238,9 @@ public struct InvalidErrorCode: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidErrorCode" }
+
     public var message: Swift.String?
 
     public init (
@@ -16868,6 +18292,9 @@ public struct InvalidForwardCookies: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidForwardCookies" }
+
     public var message: Swift.String?
 
     public init (
@@ -16919,6 +18346,9 @@ public struct InvalidFunctionAssociation: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidFunctionAssociation" }
+
     public var message: Swift.String?
 
     public init (
@@ -16970,6 +18400,9 @@ public struct InvalidGeoRestrictionParameter: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidGeoRestrictionParameter" }
+
     public var message: Swift.String?
 
     public init (
@@ -17021,6 +18454,9 @@ public struct InvalidHeadersForS3Origin: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidHeadersForS3Origin" }
+
     public var message: Swift.String?
 
     public init (
@@ -17072,6 +18508,9 @@ public struct InvalidIfMatchVersion: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidIfMatchVersion" }
+
     public var message: Swift.String?
 
     public init (
@@ -17123,6 +18562,9 @@ public struct InvalidLambdaFunctionAssociation: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidLambdaFunctionAssociation" }
+
     public var message: Swift.String?
 
     public init (
@@ -17174,6 +18616,9 @@ public struct InvalidLocationCode: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidLocationCode" }
+
     public var message: Swift.String?
 
     public init (
@@ -17225,6 +18670,9 @@ public struct InvalidMinimumProtocolVersion: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidMinimumProtocolVersion" }
+
     public var message: Swift.String?
 
     public init (
@@ -17276,6 +18724,9 @@ public struct InvalidOrigin: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidOrigin" }
+
     public var message: Swift.String?
 
     public init (
@@ -17311,6 +18762,9 @@ public struct InvalidOriginAccessControl: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidOriginAccessControl" }
+
     public var message: Swift.String?
 
     public init (
@@ -17362,6 +18816,9 @@ public struct InvalidOriginAccessIdentity: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidOriginAccessIdentity" }
+
     public var message: Swift.String?
 
     public init (
@@ -17429,6 +18886,9 @@ public struct InvalidOriginKeepaliveTimeout: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidOriginKeepaliveTimeout" }
+
     public var message: Swift.String?
 
     public init (
@@ -17480,6 +18940,9 @@ public struct InvalidOriginReadTimeout: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidOriginReadTimeout" }
+
     public var message: Swift.String?
 
     public init (
@@ -17531,6 +18994,9 @@ public struct InvalidProtocolSettings: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidProtocolSettings" }
+
     public var message: Swift.String?
 
     public init (
@@ -17582,6 +19048,9 @@ public struct InvalidQueryStringParameters: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidQueryStringParameters" }
+
     public var message: Swift.String?
 
     public init (
@@ -17633,6 +19102,9 @@ public struct InvalidRelativePath: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRelativePath" }
+
     public var message: Swift.String?
 
     public init (
@@ -17684,6 +19156,9 @@ public struct InvalidRequiredProtocol: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRequiredProtocol" }
+
     public var message: Swift.String?
 
     public init (
@@ -17735,6 +19210,9 @@ public struct InvalidResponseCode: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidResponseCode" }
+
     public var message: Swift.String?
 
     public init (
@@ -17786,6 +19264,9 @@ public struct InvalidTTLOrder: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTTLOrder" }
+
     public var message: Swift.String?
 
     public init (
@@ -17837,6 +19318,9 @@ public struct InvalidTagging: AWSClientRuntime.AWSHttpServiceError, Swift.Equata
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTagging" }
+
     public var message: Swift.String?
 
     public init (
@@ -17888,6 +19372,9 @@ public struct InvalidViewerCertificate: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidViewerCertificate" }
+
     public var message: Swift.String?
 
     public init (
@@ -17939,6 +19426,9 @@ public struct InvalidWebACLId: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidWebACLId" }
+
     public var message: Swift.String?
 
     public init (
@@ -18513,6 +20003,9 @@ public struct KeyGroupAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KeyGroupAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -19187,6 +20680,23 @@ public enum ListCachePoliciesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListCachePoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchCachePolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListCachePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -19298,6 +20808,21 @@ extension ListCloudFrontOriginAccessIdentitiesOutputError {
 public enum ListCloudFrontOriginAccessIdentitiesOutputError: Swift.Error, Swift.Equatable {
     case invalidArgument(InvalidArgument)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListCloudFrontOriginAccessIdentitiesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListCloudFrontOriginAccessIdentitiesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -19437,6 +20962,22 @@ public enum ListConflictingAliasesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListConflictingAliasesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListConflictingAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -19551,6 +21092,23 @@ public enum ListContinuousDeploymentPoliciesOutputError: Swift.Error, Swift.Equa
     case invalidArgument(InvalidArgument)
     case noSuchContinuousDeploymentPolicy(NoSuchContinuousDeploymentPolicy)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListContinuousDeploymentPoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchContinuousDeploymentPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListContinuousDeploymentPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -19677,6 +21235,23 @@ public enum ListDistributionsByCachePolicyIdOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListDistributionsByCachePolicyIdOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchCachePolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListDistributionsByCachePolicyIdOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -19797,6 +21372,22 @@ public enum ListDistributionsByKeyGroupOutputError: Swift.Error, Swift.Equatable
     case invalidArgument(InvalidArgument)
     case noSuchResource(NoSuchResource)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDistributionsByKeyGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .noSuchResource(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDistributionsByKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -19921,6 +21512,23 @@ public enum ListDistributionsByOriginRequestPolicyIdOutputError: Swift.Error, Sw
     case invalidArgument(InvalidArgument)
     case noSuchOriginRequestPolicy(NoSuchOriginRequestPolicy)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDistributionsByOriginRequestPolicyIdOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchOriginRequestPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDistributionsByOriginRequestPolicyIdOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -20087,6 +21695,21 @@ public enum ListDistributionsByRealtimeLogConfigOutputError: Swift.Error, Swift.
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListDistributionsByRealtimeLogConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListDistributionsByRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -20209,6 +21832,23 @@ public enum ListDistributionsByResponseHeadersPolicyIdOutputError: Swift.Error, 
     case invalidArgument(InvalidArgument)
     case noSuchResponseHeadersPolicy(NoSuchResponseHeadersPolicy)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDistributionsByResponseHeadersPolicyIdOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchResponseHeadersPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDistributionsByResponseHeadersPolicyIdOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -20334,6 +21974,22 @@ public enum ListDistributionsByWebACLIdOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListDistributionsByWebACLIdOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .invalidWebACLId(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListDistributionsByWebACLIdOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -20446,6 +22102,21 @@ extension ListDistributionsOutputError {
 public enum ListDistributionsOutputError: Swift.Error, Swift.Equatable {
     case invalidArgument(InvalidArgument)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDistributionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDistributionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -20561,6 +22232,21 @@ public enum ListFieldLevelEncryptionConfigsOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListFieldLevelEncryptionConfigsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListFieldLevelEncryptionConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -20671,6 +22357,21 @@ extension ListFieldLevelEncryptionProfilesOutputError {
 public enum ListFieldLevelEncryptionProfilesOutputError: Swift.Error, Swift.Equatable {
     case invalidArgument(InvalidArgument)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListFieldLevelEncryptionProfilesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListFieldLevelEncryptionProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -20793,6 +22494,22 @@ public enum ListFunctionsOutputError: Swift.Error, Swift.Equatable {
     case invalidArgument(InvalidArgument)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListFunctionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListFunctionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -20920,6 +22637,23 @@ public enum ListInvalidationsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListInvalidationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListInvalidationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -21033,6 +22767,21 @@ public enum ListKeyGroupsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListKeyGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListKeyGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -21143,6 +22892,21 @@ extension ListOriginAccessControlsOutputError {
 public enum ListOriginAccessControlsOutputError: Swift.Error, Swift.Equatable {
     case invalidArgument(InvalidArgument)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListOriginAccessControlsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListOriginAccessControlsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -21273,6 +23037,23 @@ public enum ListOriginRequestPoliciesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListOriginRequestPoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchOriginRequestPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListOriginRequestPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -21383,6 +23164,21 @@ extension ListPublicKeysOutputError {
 public enum ListPublicKeysOutputError: Swift.Error, Swift.Equatable {
     case invalidArgument(InvalidArgument)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPublicKeysOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListPublicKeysOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -21499,6 +23295,23 @@ public enum ListRealtimeLogConfigsOutputError: Swift.Error, Swift.Equatable {
     case invalidArgument(InvalidArgument)
     case noSuchRealtimeLogConfig(NoSuchRealtimeLogConfig)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListRealtimeLogConfigsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchRealtimeLogConfig(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListRealtimeLogConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -21629,6 +23442,23 @@ public enum ListResponseHeadersPoliciesOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListResponseHeadersPoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchResponseHeadersPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListResponseHeadersPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -21740,6 +23570,21 @@ extension ListStreamingDistributionsOutputError {
 public enum ListStreamingDistributionsOutputError: Swift.Error, Swift.Equatable {
     case invalidArgument(InvalidArgument)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListStreamingDistributionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListStreamingDistributionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -21855,6 +23700,24 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case invalidTagging(InvalidTagging)
     case noSuchResource(NoSuchResource)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidTagging(let error): return error
+        case .noSuchResource(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -22107,6 +23970,9 @@ public struct MissingBody: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MissingBody" }
+
     public var message: Swift.String?
 
     public init (
@@ -22210,6 +24076,9 @@ public struct MonitoringSubscriptionAlreadyExists: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MonitoringSubscriptionAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -22261,6 +24130,9 @@ public struct NoSuchCachePolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchCachePolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -22312,6 +24184,9 @@ public struct NoSuchCloudFrontOriginAccessIdentity: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchCloudFrontOriginAccessIdentity" }
+
     public var message: Swift.String?
 
     public init (
@@ -22363,6 +24238,9 @@ public struct NoSuchContinuousDeploymentPolicy: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchContinuousDeploymentPolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -22414,6 +24292,9 @@ public struct NoSuchDistribution: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchDistribution" }
+
     public var message: Swift.String?
 
     public init (
@@ -22465,6 +24346,9 @@ public struct NoSuchFieldLevelEncryptionConfig: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchFieldLevelEncryptionConfig" }
+
     public var message: Swift.String?
 
     public init (
@@ -22516,6 +24400,9 @@ public struct NoSuchFieldLevelEncryptionProfile: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchFieldLevelEncryptionProfile" }
+
     public var message: Swift.String?
 
     public init (
@@ -22567,6 +24454,9 @@ public struct NoSuchFunctionExists: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchFunctionExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -22618,6 +24508,9 @@ public struct NoSuchInvalidation: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchInvalidation" }
+
     public var message: Swift.String?
 
     public init (
@@ -22669,6 +24562,9 @@ public struct NoSuchMonitoringSubscription: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchMonitoringSubscription" }
+
     public var message: Swift.String?
 
     public init (
@@ -22720,6 +24616,9 @@ public struct NoSuchOrigin: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchOrigin" }
+
     public var message: Swift.String?
 
     public init (
@@ -22755,6 +24654,9 @@ public struct NoSuchOriginAccessControl: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchOriginAccessControl" }
+
     public var message: Swift.String?
 
     public init (
@@ -22822,6 +24724,9 @@ public struct NoSuchOriginRequestPolicy: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchOriginRequestPolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -22873,6 +24778,9 @@ public struct NoSuchPublicKey: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchPublicKey" }
+
     public var message: Swift.String?
 
     public init (
@@ -22924,6 +24832,9 @@ public struct NoSuchRealtimeLogConfig: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchRealtimeLogConfig" }
+
     public var message: Swift.String?
 
     public init (
@@ -22975,6 +24886,9 @@ public struct NoSuchResource: AWSClientRuntime.AWSHttpServiceError, Swift.Equata
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchResource" }
+
     public var message: Swift.String?
 
     public init (
@@ -23026,6 +24940,9 @@ public struct NoSuchResponseHeadersPolicy: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchResponseHeadersPolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -23077,6 +24994,9 @@ public struct NoSuchStreamingDistribution: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoSuchStreamingDistribution" }
+
     public var message: Swift.String?
 
     public init (
@@ -23355,6 +25275,9 @@ public struct OriginAccessControlAlreadyExists: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OriginAccessControlAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -23508,6 +25431,9 @@ public struct OriginAccessControlInUse: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OriginAccessControlInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -24431,6 +26357,9 @@ public struct OriginRequestPolicyAlreadyExists: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OriginRequestPolicyAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -24810,6 +26739,9 @@ public struct OriginRequestPolicyInUse: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OriginRequestPolicyInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -25598,6 +27530,9 @@ public struct PreconditionFailed: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PreconditionFailed" }
+
     public var message: Swift.String?
 
     public init (
@@ -25759,6 +27694,9 @@ public struct PublicKeyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PublicKeyAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -25895,6 +27833,9 @@ public struct PublicKeyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equata
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PublicKeyInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -26196,6 +28137,25 @@ public enum PublishFunctionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PublishFunctionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchFunctionExists(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PublishFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -26391,6 +28351,9 @@ public struct QueryArgProfileEmpty: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "QueryArgProfileEmpty" }
+
     public var message: Swift.String?
 
     public init (
@@ -26828,6 +28791,9 @@ public struct RealtimeLogConfigAlreadyExists: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RealtimeLogConfigAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -26879,6 +28845,9 @@ public struct RealtimeLogConfigInUse: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RealtimeLogConfigInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -26930,6 +28899,9 @@ public struct RealtimeLogConfigOwnerMismatch: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RealtimeLogConfigOwnerMismatch" }
+
     public var message: Swift.String?
 
     public init (
@@ -27231,6 +29203,9 @@ public struct ResourceInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -27761,6 +29736,9 @@ public struct ResponseHeadersPolicyAlreadyExists: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResponseHeadersPolicyAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -28381,6 +30359,9 @@ public struct ResponseHeadersPolicyInUse: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResponseHeadersPolicyInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -29636,6 +31617,9 @@ public struct StagingDistributionInUse: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StagingDistributionInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -29889,6 +31873,9 @@ public struct StreamingDistributionAlreadyExists: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StreamingDistributionAlreadyExists" }
+
     public var message: Swift.String?
 
     public init (
@@ -30257,6 +32244,9 @@ public struct StreamingDistributionNotDisabled: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StreamingDistributionNotDisabled" }
+
     public var message: Swift.String?
 
     public init (
@@ -30809,6 +32799,24 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidTagging(let error): return error
+        case .noSuchResource(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -30916,6 +32924,9 @@ public struct TestFunctionFailed: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TestFunctionFailed" }
+
     public var message: Swift.String?
 
     public init (
@@ -31082,6 +33093,25 @@ public enum TestFunctionOutputError: Swift.Error, Swift.Equatable {
     case testFunctionFailed(TestFunctionFailed)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TestFunctionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchFunctionExists(let error): return error
+        case .testFunctionFailed(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension TestFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -31269,6 +33299,9 @@ public struct TooLongCSPInResponseHeadersPolicy: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooLongCSPInResponseHeadersPolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -31320,6 +33353,9 @@ public struct TooManyCacheBehaviors: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyCacheBehaviors" }
+
     public var message: Swift.String?
 
     public init (
@@ -31371,6 +33407,9 @@ public struct TooManyCachePolicies: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyCachePolicies" }
+
     public var message: Swift.String?
 
     public init (
@@ -31422,6 +33461,9 @@ public struct TooManyCertificates: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyCertificates" }
+
     public var message: Swift.String?
 
     public init (
@@ -31473,6 +33515,9 @@ public struct TooManyCloudFrontOriginAccessIdentities: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyCloudFrontOriginAccessIdentities" }
+
     public var message: Swift.String?
 
     public init (
@@ -31524,6 +33569,9 @@ public struct TooManyContinuousDeploymentPolicies: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyContinuousDeploymentPolicies" }
+
     public var message: Swift.String?
 
     public init (
@@ -31575,6 +33623,9 @@ public struct TooManyCookieNamesInWhiteList: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyCookieNamesInWhiteList" }
+
     public var message: Swift.String?
 
     public init (
@@ -31626,6 +33677,9 @@ public struct TooManyCookiesInCachePolicy: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyCookiesInCachePolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -31677,6 +33731,9 @@ public struct TooManyCookiesInOriginRequestPolicy: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyCookiesInOriginRequestPolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -31728,6 +33785,9 @@ public struct TooManyCustomHeadersInResponseHeadersPolicy: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyCustomHeadersInResponseHeadersPolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -31779,6 +33839,9 @@ public struct TooManyDistributionCNAMEs: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyDistributionCNAMEs" }
+
     public var message: Swift.String?
 
     public init (
@@ -31830,6 +33893,9 @@ public struct TooManyDistributions: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyDistributions" }
+
     public var message: Swift.String?
 
     public init (
@@ -31865,6 +33931,9 @@ public struct TooManyDistributionsAssociatedToCachePolicy: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyDistributionsAssociatedToCachePolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -31916,6 +33985,9 @@ public struct TooManyDistributionsAssociatedToFieldLevelEncryptionConfig: AWSCli
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig" }
+
     public var message: Swift.String?
 
     public init (
@@ -31967,6 +34039,9 @@ public struct TooManyDistributionsAssociatedToKeyGroup: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyDistributionsAssociatedToKeyGroup" }
+
     public var message: Swift.String?
 
     public init (
@@ -32018,6 +34093,9 @@ public struct TooManyDistributionsAssociatedToOriginAccessControl: AWSClientRunt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyDistributionsAssociatedToOriginAccessControl" }
+
     public var message: Swift.String?
 
     public init (
@@ -32069,6 +34147,9 @@ public struct TooManyDistributionsAssociatedToOriginRequestPolicy: AWSClientRunt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyDistributionsAssociatedToOriginRequestPolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -32120,6 +34201,9 @@ public struct TooManyDistributionsAssociatedToResponseHeadersPolicy: AWSClientRu
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyDistributionsAssociatedToResponseHeadersPolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -32187,6 +34271,9 @@ public struct TooManyDistributionsWithFunctionAssociations: AWSClientRuntime.AWS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyDistributionsWithFunctionAssociations" }
+
     public var message: Swift.String?
 
     public init (
@@ -32238,6 +34325,9 @@ public struct TooManyDistributionsWithLambdaAssociations: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyDistributionsWithLambdaAssociations" }
+
     public var message: Swift.String?
 
     public init (
@@ -32289,6 +34379,9 @@ public struct TooManyDistributionsWithSingleFunctionARN: AWSClientRuntime.AWSHtt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyDistributionsWithSingleFunctionARN" }
+
     public var message: Swift.String?
 
     public init (
@@ -32340,6 +34433,9 @@ public struct TooManyFieldLevelEncryptionConfigs: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyFieldLevelEncryptionConfigs" }
+
     public var message: Swift.String?
 
     public init (
@@ -32391,6 +34487,9 @@ public struct TooManyFieldLevelEncryptionContentTypeProfiles: AWSClientRuntime.A
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyFieldLevelEncryptionContentTypeProfiles" }
+
     public var message: Swift.String?
 
     public init (
@@ -32442,6 +34541,9 @@ public struct TooManyFieldLevelEncryptionEncryptionEntities: AWSClientRuntime.AW
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyFieldLevelEncryptionEncryptionEntities" }
+
     public var message: Swift.String?
 
     public init (
@@ -32493,6 +34595,9 @@ public struct TooManyFieldLevelEncryptionFieldPatterns: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyFieldLevelEncryptionFieldPatterns" }
+
     public var message: Swift.String?
 
     public init (
@@ -32544,6 +34649,9 @@ public struct TooManyFieldLevelEncryptionProfiles: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyFieldLevelEncryptionProfiles" }
+
     public var message: Swift.String?
 
     public init (
@@ -32595,6 +34703,9 @@ public struct TooManyFieldLevelEncryptionQueryArgProfiles: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyFieldLevelEncryptionQueryArgProfiles" }
+
     public var message: Swift.String?
 
     public init (
@@ -32646,6 +34757,9 @@ public struct TooManyFunctionAssociations: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyFunctionAssociations" }
+
     public var message: Swift.String?
 
     public init (
@@ -32697,6 +34811,9 @@ public struct TooManyFunctions: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyFunctions" }
+
     public var message: Swift.String?
 
     public init (
@@ -32748,6 +34865,9 @@ public struct TooManyHeadersInCachePolicy: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyHeadersInCachePolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -32799,6 +34919,9 @@ public struct TooManyHeadersInForwardedValues: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyHeadersInForwardedValues" }
+
     public var message: Swift.String?
 
     public init (
@@ -32850,6 +34973,9 @@ public struct TooManyHeadersInOriginRequestPolicy: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyHeadersInOriginRequestPolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -32901,6 +35027,9 @@ public struct TooManyInvalidationsInProgress: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyInvalidationsInProgress" }
+
     public var message: Swift.String?
 
     public init (
@@ -32952,6 +35081,9 @@ public struct TooManyKeyGroups: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyKeyGroups" }
+
     public var message: Swift.String?
 
     public init (
@@ -32987,6 +35119,9 @@ public struct TooManyKeyGroupsAssociatedToDistribution: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyKeyGroupsAssociatedToDistribution" }
+
     public var message: Swift.String?
 
     public init (
@@ -33054,6 +35189,9 @@ public struct TooManyLambdaFunctionAssociations: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyLambdaFunctionAssociations" }
+
     public var message: Swift.String?
 
     public init (
@@ -33105,6 +35243,9 @@ public struct TooManyOriginAccessControls: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyOriginAccessControls" }
+
     public var message: Swift.String?
 
     public init (
@@ -33156,6 +35297,9 @@ public struct TooManyOriginCustomHeaders: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyOriginCustomHeaders" }
+
     public var message: Swift.String?
 
     public init (
@@ -33207,6 +35351,9 @@ public struct TooManyOriginGroupsPerDistribution: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyOriginGroupsPerDistribution" }
+
     public var message: Swift.String?
 
     public init (
@@ -33258,6 +35405,9 @@ public struct TooManyOriginRequestPolicies: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyOriginRequestPolicies" }
+
     public var message: Swift.String?
 
     public init (
@@ -33309,6 +35459,9 @@ public struct TooManyOrigins: AWSClientRuntime.AWSHttpServiceError, Swift.Equata
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyOrigins" }
+
     public var message: Swift.String?
 
     public init (
@@ -33360,6 +35513,9 @@ public struct TooManyPublicKeys: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyPublicKeys" }
+
     public var message: Swift.String?
 
     public init (
@@ -33411,6 +35567,9 @@ public struct TooManyPublicKeysInKeyGroup: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyPublicKeysInKeyGroup" }
+
     public var message: Swift.String?
 
     public init (
@@ -33462,6 +35621,9 @@ public struct TooManyQueryStringParameters: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyQueryStringParameters" }
+
     public var message: Swift.String?
 
     public init (
@@ -33513,6 +35675,9 @@ public struct TooManyQueryStringsInCachePolicy: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyQueryStringsInCachePolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -33564,6 +35729,9 @@ public struct TooManyQueryStringsInOriginRequestPolicy: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyQueryStringsInOriginRequestPolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -33615,6 +35783,9 @@ public struct TooManyRealtimeLogConfigs: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyRealtimeLogConfigs" }
+
     public var message: Swift.String?
 
     public init (
@@ -33666,6 +35837,9 @@ public struct TooManyRemoveHeadersInResponseHeadersPolicy: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyRemoveHeadersInResponseHeadersPolicy" }
+
     public var message: Swift.String?
 
     public init (
@@ -33717,6 +35891,9 @@ public struct TooManyResponseHeadersPolicies: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyResponseHeadersPolicies" }
+
     public var message: Swift.String?
 
     public init (
@@ -33768,6 +35945,9 @@ public struct TooManyStreamingDistributionCNAMEs: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyStreamingDistributionCNAMEs" }
+
     public var message: Swift.String?
 
     public init (
@@ -33819,6 +35999,9 @@ public struct TooManyStreamingDistributions: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyStreamingDistributions" }
+
     public var message: Swift.String?
 
     public init (
@@ -33870,6 +36053,9 @@ public struct TooManyTrustedSigners: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTrustedSigners" }
+
     public var message: Swift.String?
 
     public init (
@@ -33994,6 +36180,9 @@ public struct TrustedKeyGroupDoesNotExist: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TrustedKeyGroupDoesNotExist" }
+
     public var message: Swift.String?
 
     public init (
@@ -34139,6 +36328,9 @@ public struct TrustedSignerDoesNotExist: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TrustedSignerDoesNotExist" }
+
     public var message: Swift.String?
 
     public init (
@@ -34284,6 +36476,9 @@ public struct UnsupportedOperation: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedOperation" }
+
     public var message: Swift.String?
 
     public init (
@@ -34463,6 +36658,24 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidTagging(let error): return error
+        case .noSuchResource(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -34638,6 +36851,31 @@ public enum UpdateCachePolicyOutputError: Swift.Error, Swift.Equatable {
     case tooManyHeadersInCachePolicy(TooManyHeadersInCachePolicy)
     case tooManyQueryStringsInCachePolicy(TooManyQueryStringsInCachePolicy)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateCachePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cachePolicyAlreadyExists(let error): return error
+        case .illegalUpdate(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchCachePolicy(let error): return error
+        case .preconditionFailed(let error): return error
+        case .tooManyCookiesInCachePolicy(let error): return error
+        case .tooManyHeadersInCachePolicy(let error): return error
+        case .tooManyQueryStringsInCachePolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -34854,6 +37092,28 @@ public enum UpdateCloudFrontOriginAccessIdentityOutputError: Swift.Error, Swift.
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateCloudFrontOriginAccessIdentityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .illegalUpdate(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .missingBody(let error): return error
+        case .noSuchCloudFrontOriginAccessIdentity(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -35064,6 +37324,27 @@ public enum UpdateContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equa
     case preconditionFailed(PreconditionFailed)
     case stagingDistributionInUse(StagingDistributionInUse)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateContinuousDeploymentPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchContinuousDeploymentPolicy(let error): return error
+        case .preconditionFailed(let error): return error
+        case .stagingDistributionInUse(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -35394,6 +37675,85 @@ public enum UpdateDistributionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateDistributionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cNAMEAlreadyExists(let error): return error
+        case .continuousDeploymentPolicyInUse(let error): return error
+        case .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(let error): return error
+        case .illegalOriginAccessConfiguration(let error): return error
+        case .illegalUpdate(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidDefaultRootObject(let error): return error
+        case .invalidDomainNameForOriginAccessControl(let error): return error
+        case .invalidErrorCode(let error): return error
+        case .invalidForwardCookies(let error): return error
+        case .invalidFunctionAssociation(let error): return error
+        case .invalidGeoRestrictionParameter(let error): return error
+        case .invalidHeadersForS3Origin(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .invalidLambdaFunctionAssociation(let error): return error
+        case .invalidLocationCode(let error): return error
+        case .invalidMinimumProtocolVersion(let error): return error
+        case .invalidOriginAccessControl(let error): return error
+        case .invalidOriginAccessIdentity(let error): return error
+        case .invalidOriginKeepaliveTimeout(let error): return error
+        case .invalidOriginReadTimeout(let error): return error
+        case .invalidQueryStringParameters(let error): return error
+        case .invalidRelativePath(let error): return error
+        case .invalidRequiredProtocol(let error): return error
+        case .invalidResponseCode(let error): return error
+        case .invalidTTLOrder(let error): return error
+        case .invalidViewerCertificate(let error): return error
+        case .invalidWebACLId(let error): return error
+        case .missingBody(let error): return error
+        case .noSuchCachePolicy(let error): return error
+        case .noSuchContinuousDeploymentPolicy(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .noSuchFieldLevelEncryptionConfig(let error): return error
+        case .noSuchOrigin(let error): return error
+        case .noSuchOriginRequestPolicy(let error): return error
+        case .noSuchRealtimeLogConfig(let error): return error
+        case .noSuchResponseHeadersPolicy(let error): return error
+        case .preconditionFailed(let error): return error
+        case .realtimeLogConfigOwnerMismatch(let error): return error
+        case .stagingDistributionInUse(let error): return error
+        case .tooManyCacheBehaviors(let error): return error
+        case .tooManyCertificates(let error): return error
+        case .tooManyCookieNamesInWhiteList(let error): return error
+        case .tooManyDistributionCNAMEs(let error): return error
+        case .tooManyDistributionsAssociatedToCachePolicy(let error): return error
+        case .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(let error): return error
+        case .tooManyDistributionsAssociatedToKeyGroup(let error): return error
+        case .tooManyDistributionsAssociatedToOriginRequestPolicy(let error): return error
+        case .tooManyDistributionsAssociatedToResponseHeadersPolicy(let error): return error
+        case .tooManyDistributionsWithFunctionAssociations(let error): return error
+        case .tooManyDistributionsWithLambdaAssociations(let error): return error
+        case .tooManyDistributionsWithSingleFunctionARN(let error): return error
+        case .tooManyFunctionAssociations(let error): return error
+        case .tooManyHeadersInForwardedValues(let error): return error
+        case .tooManyKeyGroupsAssociatedToDistribution(let error): return error
+        case .tooManyLambdaFunctionAssociations(let error): return error
+        case .tooManyOriginCustomHeaders(let error): return error
+        case .tooManyOriginGroupsPerDistribution(let error): return error
+        case .tooManyOrigins(let error): return error
+        case .tooManyQueryStringParameters(let error): return error
+        case .tooManyTrustedSigners(let error): return error
+        case .trustedKeyGroupDoesNotExist(let error): return error
+        case .trustedSignerDoesNotExist(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -35648,6 +38008,80 @@ public enum UpdateDistributionWithStagingConfigOutputError: Swift.Error, Swift.E
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateDistributionWithStagingConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cNAMEAlreadyExists(let error): return error
+        case .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(let error): return error
+        case .illegalUpdate(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidDefaultRootObject(let error): return error
+        case .invalidErrorCode(let error): return error
+        case .invalidForwardCookies(let error): return error
+        case .invalidFunctionAssociation(let error): return error
+        case .invalidGeoRestrictionParameter(let error): return error
+        case .invalidHeadersForS3Origin(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .invalidLambdaFunctionAssociation(let error): return error
+        case .invalidLocationCode(let error): return error
+        case .invalidMinimumProtocolVersion(let error): return error
+        case .invalidOriginAccessControl(let error): return error
+        case .invalidOriginAccessIdentity(let error): return error
+        case .invalidOriginKeepaliveTimeout(let error): return error
+        case .invalidOriginReadTimeout(let error): return error
+        case .invalidQueryStringParameters(let error): return error
+        case .invalidRelativePath(let error): return error
+        case .invalidRequiredProtocol(let error): return error
+        case .invalidResponseCode(let error): return error
+        case .invalidTTLOrder(let error): return error
+        case .invalidViewerCertificate(let error): return error
+        case .invalidWebACLId(let error): return error
+        case .missingBody(let error): return error
+        case .noSuchCachePolicy(let error): return error
+        case .noSuchDistribution(let error): return error
+        case .noSuchFieldLevelEncryptionConfig(let error): return error
+        case .noSuchOrigin(let error): return error
+        case .noSuchOriginRequestPolicy(let error): return error
+        case .noSuchRealtimeLogConfig(let error): return error
+        case .noSuchResponseHeadersPolicy(let error): return error
+        case .preconditionFailed(let error): return error
+        case .realtimeLogConfigOwnerMismatch(let error): return error
+        case .tooManyCacheBehaviors(let error): return error
+        case .tooManyCertificates(let error): return error
+        case .tooManyCookieNamesInWhiteList(let error): return error
+        case .tooManyDistributionCNAMEs(let error): return error
+        case .tooManyDistributionsAssociatedToCachePolicy(let error): return error
+        case .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(let error): return error
+        case .tooManyDistributionsAssociatedToKeyGroup(let error): return error
+        case .tooManyDistributionsAssociatedToOriginRequestPolicy(let error): return error
+        case .tooManyDistributionsAssociatedToResponseHeadersPolicy(let error): return error
+        case .tooManyDistributionsWithFunctionAssociations(let error): return error
+        case .tooManyDistributionsWithLambdaAssociations(let error): return error
+        case .tooManyDistributionsWithSingleFunctionARN(let error): return error
+        case .tooManyFunctionAssociations(let error): return error
+        case .tooManyHeadersInForwardedValues(let error): return error
+        case .tooManyKeyGroupsAssociatedToDistribution(let error): return error
+        case .tooManyLambdaFunctionAssociations(let error): return error
+        case .tooManyOriginCustomHeaders(let error): return error
+        case .tooManyOriginGroupsPerDistribution(let error): return error
+        case .tooManyOrigins(let error): return error
+        case .tooManyQueryStringParameters(let error): return error
+        case .tooManyTrustedSigners(let error): return error
+        case .trustedKeyGroupDoesNotExist(let error): return error
+        case .trustedSignerDoesNotExist(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateDistributionWithStagingConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -35865,6 +38299,31 @@ public enum UpdateFieldLevelEncryptionConfigOutputError: Swift.Error, Swift.Equa
     case tooManyFieldLevelEncryptionContentTypeProfiles(TooManyFieldLevelEncryptionContentTypeProfiles)
     case tooManyFieldLevelEncryptionQueryArgProfiles(TooManyFieldLevelEncryptionQueryArgProfiles)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateFieldLevelEncryptionConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .illegalUpdate(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchFieldLevelEncryptionConfig(let error): return error
+        case .noSuchFieldLevelEncryptionProfile(let error): return error
+        case .preconditionFailed(let error): return error
+        case .queryArgProfileEmpty(let error): return error
+        case .tooManyFieldLevelEncryptionContentTypeProfiles(let error): return error
+        case .tooManyFieldLevelEncryptionQueryArgProfiles(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -36088,6 +38547,32 @@ public enum UpdateFieldLevelEncryptionProfileOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateFieldLevelEncryptionProfileOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .fieldLevelEncryptionProfileAlreadyExists(let error): return error
+        case .fieldLevelEncryptionProfileSizeExceeded(let error): return error
+        case .illegalUpdate(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchFieldLevelEncryptionProfile(let error): return error
+        case .noSuchPublicKey(let error): return error
+        case .preconditionFailed(let error): return error
+        case .tooManyFieldLevelEncryptionEncryptionEntities(let error): return error
+        case .tooManyFieldLevelEncryptionFieldPatterns(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -36283,6 +38768,26 @@ public enum UpdateFunctionOutputError: Swift.Error, Swift.Equatable {
     case preconditionFailed(PreconditionFailed)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateFunctionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .functionSizeLimitExceeded(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchFunctionExists(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -36494,6 +38999,26 @@ public enum UpdateKeyGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateKeyGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .keyGroupAlreadyExists(let error): return error
+        case .noSuchResource(let error): return error
+        case .preconditionFailed(let error): return error
+        case .tooManyPublicKeysInKeyGroup(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -36703,6 +39228,27 @@ public enum UpdateOriginAccessControlOutputError: Swift.Error, Swift.Equatable {
     case originAccessControlAlreadyExists(OriginAccessControlAlreadyExists)
     case preconditionFailed(PreconditionFailed)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateOriginAccessControlOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .illegalUpdate(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchOriginAccessControl(let error): return error
+        case .originAccessControlAlreadyExists(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -36924,6 +39470,31 @@ public enum UpdateOriginRequestPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateOriginRequestPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .illegalUpdate(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchOriginRequestPolicy(let error): return error
+        case .originRequestPolicyAlreadyExists(let error): return error
+        case .preconditionFailed(let error): return error
+        case .tooManyCookiesInOriginRequestPolicy(let error): return error
+        case .tooManyHeadersInOriginRequestPolicy(let error): return error
+        case .tooManyQueryStringsInOriginRequestPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
@@ -37133,6 +39704,27 @@ public enum UpdatePublicKeyOutputError: Swift.Error, Swift.Equatable {
     case noSuchPublicKey(NoSuchPublicKey)
     case preconditionFailed(PreconditionFailed)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdatePublicKeyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cannotChangeImmutablePublicKeyFields(let error): return error
+        case .illegalUpdate(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchPublicKey(let error): return error
+        case .preconditionFailed(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdatePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -37364,6 +39956,23 @@ public enum UpdateRealtimeLogConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateRealtimeLogConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .invalidArgument(let error): return error
+        case .noSuchRealtimeLogConfig(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -37570,6 +40179,31 @@ public enum UpdateResponseHeadersPolicyOutputError: Swift.Error, Swift.Equatable
     case tooManyCustomHeadersInResponseHeadersPolicy(TooManyCustomHeadersInResponseHeadersPolicy)
     case tooManyRemoveHeadersInResponseHeadersPolicy(TooManyRemoveHeadersInResponseHeadersPolicy)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateResponseHeadersPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .illegalUpdate(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .noSuchResponseHeadersPolicy(let error): return error
+        case .preconditionFailed(let error): return error
+        case .responseHeadersPolicyAlreadyExists(let error): return error
+        case .tooLongCSPInResponseHeadersPolicy(let error): return error
+        case .tooManyCustomHeadersInResponseHeadersPolicy(let error): return error
+        case .tooManyRemoveHeadersInResponseHeadersPolicy(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -37796,6 +40430,34 @@ public enum UpdateStreamingDistributionOutputError: Swift.Error, Swift.Equatable
     case tooManyTrustedSigners(TooManyTrustedSigners)
     case trustedSignerDoesNotExist(TrustedSignerDoesNotExist)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateStreamingDistributionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDenied(let error): return error
+        case .cNAMEAlreadyExists(let error): return error
+        case .illegalUpdate(let error): return error
+        case .inconsistentQuantities(let error): return error
+        case .invalidArgument(let error): return error
+        case .invalidIfMatchVersion(let error): return error
+        case .invalidOriginAccessControl(let error): return error
+        case .invalidOriginAccessIdentity(let error): return error
+        case .missingBody(let error): return error
+        case .noSuchStreamingDistribution(let error): return error
+        case .preconditionFailed(let error): return error
+        case .tooManyStreamingDistributionCNAMEs(let error): return error
+        case .tooManyTrustedSigners(let error): return error
+        case .trustedSignerDoesNotExist(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBinding {

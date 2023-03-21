@@ -421,6 +421,25 @@ public enum AssociateDelegateToResourceOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateDelegateToResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateDelegateToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -541,6 +560,28 @@ public enum AssociateMemberToGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateMemberToGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directoryServiceAuthenticationFailedException(let error): return error
+        case .directoryUnavailableException(let error): return error
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateMemberToGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -638,6 +679,24 @@ public enum AssumeImpersonationRoleOutputError: Swift.Error, Swift.Equatable {
     case organizationStateException(OrganizationStateException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AssumeImpersonationRoleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AssumeImpersonationRoleOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -965,6 +1024,24 @@ public enum CancelMailboxExportJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CancelMailboxExportJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CancelMailboxExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1085,6 +1162,29 @@ public enum CreateAliasOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateAliasOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .emailAddressInUseException(let error): return error
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .limitExceededException(let error): return error
+        case .mailDomainNotFoundException(let error): return error
+        case .mailDomainStateException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1224,6 +1324,25 @@ public enum CreateAvailabilityConfigurationOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateAvailabilityConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .limitExceededException(let error): return error
+        case .nameAvailabilityException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateAvailabilityConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1329,6 +1448,28 @@ public enum CreateGroupOutputError: Swift.Error, Swift.Equatable {
     case reservedNameException(ReservedNameException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directoryServiceAuthenticationFailedException(let error): return error
+        case .directoryUnavailableException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .nameAvailabilityException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .reservedNameException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1525,6 +1666,26 @@ public enum CreateImpersonationRoleOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateImpersonationRoleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .limitExceededException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateImpersonationRoleOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1886,6 +2047,24 @@ public enum CreateMobileDeviceAccessRuleOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateMobileDeviceAccessRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .limitExceededException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateMobileDeviceAccessRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2077,6 +2256,25 @@ public enum CreateOrganizationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directoryInUseException(let error): return error
+        case .directoryUnavailableException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .limitExceededException(let error): return error
+        case .nameAvailabilityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2224,6 +2422,27 @@ public enum CreateResourceOutputError: Swift.Error, Swift.Equatable {
     case organizationStateException(OrganizationStateException)
     case reservedNameException(ReservedNameException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directoryServiceAuthenticationFailedException(let error): return error
+        case .directoryUnavailableException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .nameAvailabilityException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .reservedNameException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2395,6 +2614,29 @@ public enum CreateUserOutputError: Swift.Error, Swift.Equatable {
     case reservedNameException(ReservedNameException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateUserOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directoryServiceAuthenticationFailedException(let error): return error
+        case .directoryUnavailableException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidPasswordException(let error): return error
+        case .nameAvailabilityException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .reservedNameException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateUserOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2570,6 +2812,22 @@ public enum DeleteAccessControlRuleOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteAccessControlRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteAccessControlRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2684,6 +2942,25 @@ public enum DeleteAliasOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteAliasOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2779,6 +3056,22 @@ public enum DeleteAvailabilityConfigurationOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteAvailabilityConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteAvailabilityConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2861,6 +3154,23 @@ public enum DeleteEmailMonitoringConfigurationOutputError: Swift.Error, Swift.Eq
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteEmailMonitoringConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteEmailMonitoringConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2968,6 +3278,27 @@ public enum DeleteGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directoryServiceAuthenticationFailedException(let error): return error
+        case .directoryUnavailableException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3063,6 +3394,23 @@ public enum DeleteImpersonationRoleOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteImpersonationRoleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteImpersonationRoleOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3177,6 +3525,25 @@ public enum DeleteMailboxPermissionsOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteMailboxPermissionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteMailboxPermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3297,6 +3664,24 @@ public enum DeleteMobileDeviceAccessOverrideOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteMobileDeviceAccessOverrideOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteMobileDeviceAccessOverrideOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3392,6 +3777,23 @@ public enum DeleteMobileDeviceAccessRuleOutputError: Swift.Error, Swift.Equatabl
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteMobileDeviceAccessRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteMobileDeviceAccessRuleOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3501,6 +3903,23 @@ public enum DeleteOrganizationOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3643,6 +4062,24 @@ public enum DeleteResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3738,6 +4175,23 @@ public enum DeleteRetentionPolicyOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteRetentionPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteRetentionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3845,6 +4299,27 @@ public enum DeleteUserOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteUserOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directoryServiceAuthenticationFailedException(let error): return error
+        case .directoryUnavailableException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3944,6 +4419,25 @@ public enum DeregisterFromWorkMailOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeregisterFromWorkMailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeregisterFromWorkMailOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4047,6 +4541,25 @@ public enum DeregisterMailDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeregisterMailDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidCustomSesConfigurationException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .mailDomainInUseException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeregisterMailDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4131,6 +4644,24 @@ public enum DescribeEmailMonitoringConfigurationOutputError: Swift.Error, Swift.
     case organizationStateException(OrganizationStateException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEmailMonitoringConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEmailMonitoringConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4271,6 +4802,24 @@ public enum DescribeGroupOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4436,6 +4985,22 @@ public enum DescribeInboundDmarcSettingsOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeInboundDmarcSettingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeInboundDmarcSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4564,6 +5129,24 @@ public enum DescribeMailboxExportJobOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeMailboxExportJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeMailboxExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4789,6 +5372,22 @@ public enum DescribeOrganizationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4999,6 +5598,24 @@ public enum DescribeResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5199,6 +5816,24 @@ public enum DescribeUserOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeUserOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5336,6 +5971,9 @@ public struct DirectoryInUseException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DirectoryInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5388,6 +6026,9 @@ public struct DirectoryServiceAuthenticationFailedException: AWSClientRuntime.AW
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DirectoryServiceAuthenticationFailedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5440,6 +6081,9 @@ public struct DirectoryUnavailableException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DirectoryUnavailableException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5570,6 +6214,25 @@ public enum DisassociateDelegateFromResourceOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisassociateDelegateFromResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisassociateDelegateFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -5688,6 +6351,28 @@ public enum DisassociateMemberFromGroupOutputError: Swift.Error, Swift.Equatable
     case organizationStateException(OrganizationStateException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateMemberFromGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directoryServiceAuthenticationFailedException(let error): return error
+        case .directoryUnavailableException(let error): return error
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateMemberFromGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5861,6 +6546,9 @@ public struct EmailAddressInUseException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EmailAddressInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5913,6 +6601,9 @@ public struct EntityAlreadyRegisteredException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EntityAlreadyRegisteredException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5965,6 +6656,9 @@ public struct EntityNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EntityNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6052,6 +6746,9 @@ public struct EntityStateException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EntityStateException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6367,6 +7064,25 @@ public enum GetAccessControlEffectOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetAccessControlEffectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetAccessControlEffectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6501,6 +7217,24 @@ public enum GetDefaultRetentionPolicyOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDefaultRetentionPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetDefaultRetentionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6695,6 +7429,26 @@ public enum GetImpersonationRoleEffectOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetImpersonationRoleEffectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetImpersonationRoleEffectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6852,6 +7606,24 @@ public enum GetImpersonationRoleOutputError: Swift.Error, Swift.Equatable {
     case organizationStateException(OrganizationStateException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetImpersonationRoleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetImpersonationRoleOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7053,6 +7825,24 @@ public enum GetMailDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetMailDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .mailDomainNotFoundException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetMailDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7230,6 +8020,23 @@ public enum GetMailboxDetailsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetMailboxDetailsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetMailboxDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7403,6 +8210,23 @@ public enum GetMobileDeviceAccessEffectOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetMobileDeviceAccessEffectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetMobileDeviceAccessEffectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7571,6 +8395,25 @@ public enum GetMobileDeviceAccessOverrideOutputError: Swift.Error, Swift.Equatab
     case organizationStateException(OrganizationStateException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetMobileDeviceAccessOverrideOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetMobileDeviceAccessOverrideOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8038,6 +8881,9 @@ public struct InvalidConfigurationException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidConfigurationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8090,6 +8936,9 @@ public struct InvalidCustomSesConfigurationException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCustomSesConfigurationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8142,6 +8991,9 @@ public struct InvalidParameterException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParameterException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8194,6 +9046,9 @@ public struct InvalidPasswordException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPasswordException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8282,6 +9137,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8378,6 +9236,22 @@ public enum ListAccessControlRulesOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAccessControlRulesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAccessControlRulesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8545,6 +9419,25 @@ public enum ListAliasesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListAliasesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8699,6 +9592,22 @@ public enum ListAvailabilityConfigurationsOutputError: Swift.Error, Swift.Equata
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAvailabilityConfigurationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAvailabilityConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8876,6 +9785,25 @@ public enum ListGroupMembersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListGroupMembersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListGroupMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9036,6 +9964,24 @@ public enum ListGroupsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9192,6 +10138,23 @@ public enum ListImpersonationRolesOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListImpersonationRolesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListImpersonationRolesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9352,6 +10315,23 @@ public enum ListMailDomainsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListMailDomainsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListMailDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9508,6 +10488,23 @@ public enum ListMailboxExportJobsOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListMailboxExportJobsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListMailboxExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9681,6 +10678,24 @@ public enum ListMailboxPermissionsOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListMailboxPermissionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListMailboxPermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9873,6 +10888,24 @@ public enum ListMobileDeviceAccessOverridesOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListMobileDeviceAccessOverridesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListMobileDeviceAccessOverridesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10007,6 +11040,23 @@ public enum ListMobileDeviceAccessRulesOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListMobileDeviceAccessRulesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListMobileDeviceAccessRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10136,6 +11186,21 @@ extension ListOrganizationsOutputError {
 public enum ListOrganizationsOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListOrganizationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListOrganizationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10313,6 +11378,25 @@ public enum ListResourceDelegatesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListResourceDelegatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListResourceDelegatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10471,6 +11555,23 @@ public enum ListResourcesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListResourcesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10599,6 +11700,21 @@ extension ListTagsForResourceOutputError {
 public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10749,6 +11865,23 @@ public enum ListUsersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListUsersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListUsersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10835,6 +11968,9 @@ public struct MailDomainInUseException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MailDomainInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10887,6 +12023,9 @@ public struct MailDomainNotFoundException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MailDomainNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10939,6 +12078,9 @@ public struct MailDomainStateException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MailDomainStateException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11729,6 +12871,9 @@ public struct NameAvailabilityException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NameAvailabilityException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11781,6 +12926,9 @@ public struct OrganizationNotFoundException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OrganizationNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11833,6 +12981,9 @@ public struct OrganizationStateException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OrganizationStateException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12350,6 +13501,26 @@ public enum PutAccessControlRuleOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutAccessControlRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .limitExceededException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutAccessControlRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -12462,6 +13633,24 @@ public enum PutEmailMonitoringConfigurationOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutEmailMonitoringConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutEmailMonitoringConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -12555,6 +13744,22 @@ public enum PutInboundDmarcSettingsOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutInboundDmarcSettingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutInboundDmarcSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12694,6 +13899,25 @@ public enum PutMailboxPermissionsOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutMailboxPermissionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutMailboxPermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12839,6 +14063,25 @@ public enum PutMobileDeviceAccessOverrideOutputError: Swift.Error, Swift.Equatab
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutMobileDeviceAccessOverrideOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutMobileDeviceAccessOverrideOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12992,6 +14235,24 @@ public enum PutRetentionPolicyOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutRetentionPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .limitExceededException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutRetentionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13152,6 +14413,25 @@ public enum RegisterMailDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RegisterMailDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .limitExceededException(let error): return error
+        case .mailDomainInUseException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RegisterMailDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -13278,6 +14558,31 @@ public enum RegisterToWorkMailOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RegisterToWorkMailOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directoryServiceAuthenticationFailedException(let error): return error
+        case .directoryUnavailableException(let error): return error
+        case .emailAddressInUseException(let error): return error
+        case .entityAlreadyRegisteredException(let error): return error
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .mailDomainNotFoundException(let error): return error
+        case .mailDomainStateException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RegisterToWorkMailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -13314,6 +14619,9 @@ public struct ReservedNameException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReservedNameException" }
+
     public var message: Swift.String?
 
     public init (
@@ -13457,6 +14765,29 @@ public enum ResetPasswordOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ResetPasswordOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directoryServiceAuthenticationFailedException(let error): return error
+        case .directoryUnavailableException(let error): return error
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidPasswordException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ResetPasswordOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -13588,6 +14919,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -13849,6 +15183,25 @@ public enum StartMailboxExportJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartMailboxExportJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .limitExceededException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartMailboxExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -14036,6 +15389,23 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .organizationStateException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -14158,6 +15528,24 @@ public enum TestAvailabilityConfigurationOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TestAvailabilityConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TestAvailabilityConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -14235,6 +15623,9 @@ public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTagsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -14287,6 +15678,9 @@ public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedOperationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -14406,6 +15800,21 @@ extension UntagResourceOutputError {
 public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14531,6 +15940,24 @@ public enum UpdateAvailabilityConfigurationOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateAvailabilityConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateAvailabilityConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -14630,6 +16057,25 @@ public enum UpdateDefaultMailDomainOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateDefaultMailDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterException(let error): return error
+        case .mailDomainNotFoundException(let error): return error
+        case .mailDomainStateException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateDefaultMailDomainOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14800,6 +16246,27 @@ public enum UpdateImpersonationRoleOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateImpersonationRoleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .limitExceededException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateImpersonationRoleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -14912,6 +16379,25 @@ public enum UpdateMailboxQuotaOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateMailboxQuotaOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateMailboxQuotaOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15243,6 +16729,24 @@ public enum UpdateMobileDeviceAccessRuleOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateMobileDeviceAccessRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .entityNotFoundException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateMobileDeviceAccessRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -15367,6 +16871,31 @@ public enum UpdatePrimaryEmailAddressOutputError: Swift.Error, Swift.Equatable {
     case organizationStateException(OrganizationStateException)
     case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdatePrimaryEmailAddressOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directoryServiceAuthenticationFailedException(let error): return error
+        case .directoryUnavailableException(let error): return error
+        case .emailAddressInUseException(let error): return error
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .mailDomainNotFoundException(let error): return error
+        case .mailDomainStateException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unsupportedOperationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdatePrimaryEmailAddressOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15502,6 +17031,30 @@ public enum UpdateResourceOutputError: Swift.Error, Swift.Equatable {
     case organizationNotFoundException(OrganizationNotFoundException)
     case organizationStateException(OrganizationStateException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .directoryUnavailableException(let error): return error
+        case .emailAddressInUseException(let error): return error
+        case .entityNotFoundException(let error): return error
+        case .entityStateException(let error): return error
+        case .invalidConfigurationException(let error): return error
+        case .mailDomainNotFoundException(let error): return error
+        case .mailDomainStateException(let error): return error
+        case .nameAvailabilityException(let error): return error
+        case .organizationNotFoundException(let error): return error
+        case .organizationStateException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateResourceOutputResponse: ClientRuntime.HttpResponseBinding {

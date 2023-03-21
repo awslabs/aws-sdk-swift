@@ -101,6 +101,23 @@ public enum AddTagsToResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddTagsToResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -203,6 +220,9 @@ public struct CloudHsmInternalException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmInternalException" }
+
     /// Additional information about the error.
     public var message: Swift.String?
     /// Indicates if the action can be retried.
@@ -301,6 +321,9 @@ public struct CloudHsmServiceException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmServiceException" }
+
     /// Additional information about the error.
     public var message: Swift.String?
     /// Indicates if the action can be retried.
@@ -409,6 +432,23 @@ public enum CreateHapgOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case invalidRequestException(InvalidRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateHapgOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateHapgOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -619,6 +659,23 @@ public enum CreateHsmOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateHsmOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateHsmOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -748,6 +805,23 @@ public enum CreateLunaClientOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateLunaClientOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateLunaClientOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -863,6 +937,23 @@ public enum DeleteHapgOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case invalidRequestException(InvalidRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteHapgOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteHapgOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -983,6 +1074,23 @@ public enum DeleteHsmOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteHsmOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteHsmOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1100,6 +1208,23 @@ public enum DeleteLunaClientOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteLunaClientOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteLunaClientOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1215,6 +1340,23 @@ public enum DescribeHapgOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case invalidRequestException(InvalidRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeHapgOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeHapgOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1459,6 +1601,23 @@ public enum DescribeHsmOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case invalidRequestException(InvalidRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeHsmOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeHsmOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1801,6 +1960,23 @@ public enum DescribeLunaClientOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeLunaClientOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeLunaClientOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1994,6 +2170,23 @@ public enum GetConfigOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2130,6 +2323,9 @@ public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRequestException" }
+
     /// Additional information about the error.
     public var message: Swift.String?
     /// Indicates if the action can be retried.
@@ -2218,6 +2414,23 @@ public enum ListAvailableZonesOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case invalidRequestException(InvalidRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAvailableZonesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAvailableZonesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2341,6 +2554,23 @@ public enum ListHapgsOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case invalidRequestException(InvalidRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListHapgsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListHapgsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2477,6 +2707,23 @@ public enum ListHsmsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListHsmsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListHsmsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2609,6 +2856,23 @@ public enum ListLunaClientsOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case invalidRequestException(InvalidRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListLunaClientsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListLunaClientsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2744,6 +3008,23 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case invalidRequestException(InvalidRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2905,6 +3186,23 @@ public enum ModifyHapgOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case invalidRequestException(InvalidRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyHapgOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyHapgOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3083,6 +3381,23 @@ public enum ModifyHsmOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyHsmOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyHsmOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3206,6 +3521,21 @@ extension ModifyLunaClientOutputError {
 public enum ModifyLunaClientOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyLunaClientOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmServiceException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyLunaClientOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3346,6 +3676,23 @@ public enum RemoveTagsFromResourceOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case invalidRequestException(InvalidRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RemoveTagsFromResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmInternalException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {

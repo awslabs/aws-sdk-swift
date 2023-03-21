@@ -145,6 +145,9 @@ public struct ConcurrentModificationException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConcurrentModificationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -308,6 +311,21 @@ extension DescribeAffectedAccountsForOrganizationOutputError {
 public enum DescribeAffectedAccountsForOrganizationOutputError: Swift.Error, Swift.Equatable {
     case invalidPaginationToken(InvalidPaginationToken)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAffectedAccountsForOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidPaginationToken(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAffectedAccountsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -506,6 +524,22 @@ public enum DescribeAffectedEntitiesForOrganizationOutputError: Swift.Error, Swi
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeAffectedEntitiesForOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidPaginationToken(let error): return error
+        case .unsupportedLocale(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeAffectedEntitiesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -693,6 +727,22 @@ public enum DescribeAffectedEntitiesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeAffectedEntitiesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidPaginationToken(let error): return error
+        case .unsupportedLocale(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeAffectedEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -830,6 +880,20 @@ extension DescribeEntityAggregatesOutputError {
 
 public enum DescribeEntityAggregatesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEntityAggregatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEntityAggregatesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -988,6 +1052,21 @@ public enum DescribeEventAggregatesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeEventAggregatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidPaginationToken(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeEventAggregatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1140,6 +1219,21 @@ extension DescribeEventDetailsForOrganizationOutputError {
 public enum DescribeEventDetailsForOrganizationOutputError: Swift.Error, Swift.Equatable {
     case unsupportedLocale(UnsupportedLocale)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEventDetailsForOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unsupportedLocale(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEventDetailsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1303,6 +1397,21 @@ extension DescribeEventDetailsOutputError {
 public enum DescribeEventDetailsOutputError: Swift.Error, Swift.Equatable {
     case unsupportedLocale(UnsupportedLocale)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEventDetailsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unsupportedLocale(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEventDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1481,6 +1590,22 @@ public enum DescribeEventTypesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeEventTypesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidPaginationToken(let error): return error
+        case .unsupportedLocale(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeEventTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1646,6 +1771,22 @@ public enum DescribeEventsForOrganizationOutputError: Swift.Error, Swift.Equatab
     case invalidPaginationToken(InvalidPaginationToken)
     case unsupportedLocale(UnsupportedLocale)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEventsForOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidPaginationToken(let error): return error
+        case .unsupportedLocale(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEventsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1815,6 +1956,22 @@ public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeEventsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidPaginationToken(let error): return error
+        case .unsupportedLocale(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1923,6 +2080,20 @@ public enum DescribeHealthServiceStatusForOrganizationOutputError: Swift.Error, 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeHealthServiceStatusForOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeHealthServiceStatusForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2014,6 +2185,21 @@ public enum DisableHealthServiceAccessForOrganizationOutputError: Swift.Error, S
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisableHealthServiceAccessForOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModificationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisableHealthServiceAccessForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2072,6 +2258,21 @@ extension EnableHealthServiceAccessForOrganizationOutputError {
 public enum EnableHealthServiceAccessForOrganizationOutputError: Swift.Error, Swift.Equatable {
     case concurrentModificationException(ConcurrentModificationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension EnableHealthServiceAccessForOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .concurrentModificationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension EnableHealthServiceAccessForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3362,6 +3563,9 @@ public struct InvalidPaginationToken: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidPaginationToken" }
+
     public var message: Swift.String?
 
     public init (
@@ -3996,6 +4200,9 @@ public struct UnsupportedLocale: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedLocale" }
+
     public var message: Swift.String?
 
     public init (

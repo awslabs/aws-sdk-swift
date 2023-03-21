@@ -104,6 +104,25 @@ public enum AddAttachmentsToSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddAttachmentsToSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .attachmentLimitExceeded(let error): return error
+        case .attachmentSetExpired(let error): return error
+        case .attachmentSetIdNotFound(let error): return error
+        case .attachmentSetSizeLimitExceeded(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddAttachmentsToSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -280,6 +299,24 @@ public enum AddCommunicationToCaseOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddCommunicationToCaseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .attachmentSetExpired(let error): return error
+        case .attachmentSetIdNotFound(let error): return error
+        case .caseIdNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddCommunicationToCaseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -438,6 +475,9 @@ public struct AttachmentIdNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AttachmentIdNotFound" }
+
     /// An attachment with the specified ID could not be found.
     public var message: Swift.String?
 
@@ -491,6 +531,9 @@ public struct AttachmentLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AttachmentLimitExceeded" }
+
     /// The limit for the number of attachment sets created in a short period of time has been exceeded.
     public var message: Swift.String?
 
@@ -544,6 +587,9 @@ public struct AttachmentSetExpired: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AttachmentSetExpired" }
+
     /// The expiration time of the attachment set has passed. The set expires one hour after it is created.
     public var message: Swift.String?
 
@@ -597,6 +643,9 @@ public struct AttachmentSetIdNotFound: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AttachmentSetIdNotFound" }
+
     /// An attachment set with the specified ID could not be found.
     public var message: Swift.String?
 
@@ -650,6 +699,9 @@ public struct AttachmentSetSizeLimitExceeded: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AttachmentSetSizeLimitExceeded" }
+
     /// A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
     public var message: Swift.String?
 
@@ -703,6 +755,9 @@ public struct CaseCreationLimitExceeded: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CaseCreationLimitExceeded" }
+
     /// An error message that indicates that you have exceeded the number of cases you can have open.
     public var message: Swift.String?
 
@@ -964,6 +1019,9 @@ public struct CaseIdNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equata
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CaseIdNotFound" }
+
     /// The requested CaseId could not be located.
     public var message: Swift.String?
 
@@ -1308,6 +1366,24 @@ public enum CreateCaseOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateCaseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .attachmentSetExpired(let error): return error
+        case .attachmentSetIdNotFound(let error): return error
+        case .caseCreationLimitExceeded(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateCaseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1424,6 +1500,9 @@ public struct DescribeAttachmentLimitExceeded: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DescribeAttachmentLimitExceeded" }
+
     /// The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
     public var message: Swift.String?
 
@@ -1475,6 +1554,23 @@ public enum DescribeAttachmentOutputError: Swift.Error, Swift.Equatable {
     case describeAttachmentLimitExceeded(DescribeAttachmentLimitExceeded)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAttachmentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .attachmentIdNotFound(let error): return error
+        case .describeAttachmentLimitExceeded(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1698,6 +1794,22 @@ public enum DescribeCasesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeCasesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .caseIdNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeCasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1879,6 +1991,22 @@ public enum DescribeCommunicationsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeCommunicationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .caseIdNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeCommunicationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2033,6 +2161,21 @@ public enum DescribeServicesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeServicesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeServicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2151,6 +2294,21 @@ extension DescribeSeverityLevelsOutputError {
 public enum DescribeSeverityLevelsOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeSeverityLevelsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeSeverityLevelsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2286,6 +2444,21 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesOutputError {
 public enum DescribeTrustedAdvisorCheckRefreshStatusesOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTrustedAdvisorCheckRefreshStatusesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2445,6 +2618,21 @@ public enum DescribeTrustedAdvisorCheckResultOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeTrustedAdvisorCheckResultOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeTrustedAdvisorCheckResultOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2569,6 +2757,21 @@ extension DescribeTrustedAdvisorCheckSummariesOutputError {
 public enum DescribeTrustedAdvisorCheckSummariesOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTrustedAdvisorCheckSummariesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeTrustedAdvisorCheckSummariesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2715,6 +2918,21 @@ public enum DescribeTrustedAdvisorChecksOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeTrustedAdvisorChecksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeTrustedAdvisorChecksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2793,6 +3011,9 @@ public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerError" }
+
     /// An internal server error occurred.
     public var message: Swift.String?
 
@@ -2948,6 +3169,21 @@ public enum RefreshTrustedAdvisorCheckOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RefreshTrustedAdvisorCheckOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RefreshTrustedAdvisorCheckOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3060,6 +3296,22 @@ public enum ResolveCaseOutputError: Swift.Error, Swift.Equatable {
     case caseIdNotFound(CaseIdNotFound)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ResolveCaseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .caseIdNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ResolveCaseOutputResponse: ClientRuntime.HttpResponseBinding {
