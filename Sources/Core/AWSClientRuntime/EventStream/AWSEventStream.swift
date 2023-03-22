@@ -23,7 +23,7 @@ enum AWSEventStreamError: Error {
 
 extension AsyncThrowingStream: Equatable where Element: Equatable {
     public static func == (lhs: AsyncThrowingStream, rhs: AsyncThrowingStream) -> Bool {
-        // TODO: https://github.com/awslabs/aws-sdk-swift/issues/898
+        // TODO: Remove as part of https://github.com/awslabs/aws-sdk-swift/issues/898
         return false
     }
 }
