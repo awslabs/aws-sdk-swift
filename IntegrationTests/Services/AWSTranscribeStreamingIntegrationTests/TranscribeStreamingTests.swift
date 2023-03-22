@@ -59,6 +59,6 @@ final class TranscribeStreamingTests: XCTestCase {
             }
         }
 
-        XCTAssertTrue(fullMessage.starts(with: "Good day to you transcribe streaming"))
+        XCTAssertEqual("Hello transcribed streaming from Swift S. D. K.", fullMessage)
     }
 }
