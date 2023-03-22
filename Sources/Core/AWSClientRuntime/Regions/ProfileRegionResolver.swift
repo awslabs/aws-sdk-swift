@@ -8,34 +8,33 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 
 public struct ProfileRegionProvider: RegionProvider {
-    let profileCollection: ProfileCollection?
-    let profileName: String
-    let path: String
     let logger: SwiftLogger
+    let store: FileBasedConfiguration.Store
+    let sources: FileBasedConfiguration.Sources
+    let profileName: String
 
-    init(profileCollection: ProfileCollection?, profileName: String, path: String) {
-        self.profileCollection = profileCollection
-        self.profileName = profileName
+    init(
+        sources: FileBasedConfiguration.Sources,
+        profileName: String,
+        store: FileBasedConfiguration.Store
+    ) {
         self.logger = SwiftLogger(label: "ProfileRegionResolver")
-        self.path = path
-    }
-
-    // TODO: expose these config fields up to the sdk so customer can override path and profile name
-    public init(path: String = "~/.aws/config", profileName: String = "default") {
-        self.init(profileCollection: nil, profileName: profileName, path: path)
+        self.sources = sources
+        self.profileName = profileName
+        self.store = store
     }
 
     public func resolveRegion() async throws -> String? {
-        let profileCollection = try profileCollection ??
-            AwsCommonRuntimeKit.ProfileCollection(fromFile: path, source: .config)
-        guard let profile = profileCollection.profile(for: profileName) else {
-            logger.debug("Unable to find profile: \(profileName) in \(path)")
+        guard let configuration = try await store.configuration(for: sources) else {
+            logger.debug("No configuration files found at \(sources.configPath) or \(sources.credentialPath)")
             return nil
         }
-        guard let region = profile.getProperty(name: "region") else {
-            logger.debug("Attempting to use \(profileName), but no region was found")
+        
+        guard let profile = configuration.section(for: profileName) else {
+            logger.debug("Profile with name: \(profileName) doesn not exist in configuration files at \(sources.configPath) or \(sources.credentialPath)")
             return nil
         }
-        return region
+        
+        return profile.value(for: .region)
     }
 }

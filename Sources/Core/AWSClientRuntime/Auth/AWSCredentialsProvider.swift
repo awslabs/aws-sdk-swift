@@ -22,9 +22,8 @@ public class AWSCredentialsProvider: CredentialsProvider {
     ) throws -> AWSCredentialsProvider {
         let credsProvider = try AwsCommonRuntimeKit.CredentialsProvider(source: .profile(
             bootstrap: SDKDefaultIO.shared.clientBootstrap,
-            configFileNameOverride: options.configFileNameOverride,
+            fileBasedConfiguration: FileBasedConfiguration,
             profileFileNameOverride: options.profileFileNameOverride,
-            credentialsFileNameOverride: options.credentialsFileNameOverride,
             shutdownCallback: options.shutdownCallback
         ))
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
@@ -127,4 +126,47 @@ public class AWSCredentialsProvider: CredentialsProvider {
             sessionToken: crtCredentials.getSessionToken()
         )
     }
+}
+
+
+struct EPAWSCredentialsProvider: CredentialsProvider {
+    
+    func getCredentials() async throws -> AWSCredentials {
+        fatalError("TDODO")
+    }
+}
+
+struct EPCredentialsProvider: CredentialsProvider {
+    private let _getCredentials: (AWSClient) async throws -> AWSCredentials
+    init(_ getCredentials: @escaping (AWSClient) async throws -> AWSCredentials) {
+        self._getCredentials = getCredentials
+    }
+    
+    func getCredentials(client: AWSClient) async throws -> AWSCredentials {
+        try await _getCredentials()
+    }
+}
+
+
+extension EPCredentialsProvider {
+    public static func fromProfile(
+        _ options: AWSCredentialsProviderProfileOptions = AWSCredentialsProviderProfileOptions()
+    ) throws -> EPCredentialsProvider {
+        EPCredentialsProvider {
+            let fileBasedConfiguration =
+            
+            let credsProvider = try AwsCommonRuntimeKit.CredentialsProvider(source: .profile(
+                bootstrap: SDKDefaultIO.shared.clientBootstrap,
+                fileBasedConfiguration: FileBasedConfiguration,
+                profileFileNameOverride: options.profileFileNameOverride,
+                shutdownCallback: options.shutdownCallback
+            ))
+            
+            try await credsProvider
+        }
+    }
+}
+
+protocol AWSClient {
+    var fileBasedConfigurationStore: FileBasedConfiguration.Store { get }
 }
