@@ -154,6 +154,9 @@ public struct DocumentServiceException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DocumentServiceException" }
+
     /// The description of the errors returned by the document service.
     public var message: Swift.String?
     /// The return status of a document upload request, error or success.
@@ -581,6 +584,9 @@ public struct SearchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SearchException" }
+
     /// A description of the error returned by the search service.
     public var message: Swift.String?
 
@@ -820,6 +826,21 @@ extension SearchOutputError {
 public enum SearchOutputError: Swift.Error, Swift.Equatable {
     case searchException(SearchException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SearchOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .searchException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SearchOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1111,6 +1132,21 @@ public enum SuggestOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SuggestOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .searchException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SuggestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1387,6 +1423,21 @@ extension UploadDocumentsOutputError {
 public enum UploadDocumentsOutputError: Swift.Error, Swift.Equatable {
     case documentServiceException(DocumentServiceException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UploadDocumentsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .documentServiceException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UploadDocumentsOutputResponse: ClientRuntime.HttpResponseBinding {

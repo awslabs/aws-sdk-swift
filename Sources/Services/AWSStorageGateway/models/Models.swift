@@ -188,6 +188,22 @@ public enum ActivateGatewayOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ActivateGatewayOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ActivateGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -374,6 +390,22 @@ public enum AddCacheOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddCacheOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -513,6 +545,22 @@ public enum AddTagsToResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddTagsToResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -650,6 +698,22 @@ public enum AddUploadBufferOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AddUploadBufferOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AddUploadBufferOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -793,6 +857,22 @@ public enum AddWorkingStorageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddWorkingStorageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddWorkingStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -930,6 +1010,22 @@ public enum AssignTapePoolOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AssignTapePoolOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AssignTapePoolOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1162,6 +1258,22 @@ public enum AssociateFileSystemOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateFileSystemOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1324,6 +1436,22 @@ public enum AttachVolumeOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AttachVolumeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AttachVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1937,6 +2065,22 @@ public enum CancelArchivalOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CancelArchivalOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CancelArchivalOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2063,6 +2207,22 @@ public enum CancelRetrievalOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CancelRetrievalOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CancelRetrievalOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2403,6 +2563,22 @@ public enum CreateCachediSCSIVolumeOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateCachediSCSIVolumeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateCachediSCSIVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2800,6 +2976,22 @@ public enum CreateNFSFileShareOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateNFSFileShareOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateNFSFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3268,6 +3460,22 @@ public enum CreateSMBFileShareOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateSMBFileShareOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateSMBFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3419,6 +3627,23 @@ public enum CreateSnapshotFromVolumeRecoveryPointOutputError: Swift.Error, Swift
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case serviceUnavailableError(ServiceUnavailableError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateSnapshotFromVolumeRecoveryPointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .serviceUnavailableError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateSnapshotFromVolumeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3596,6 +3821,23 @@ public enum CreateSnapshotOutputError: Swift.Error, Swift.Equatable {
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case serviceUnavailableError(ServiceUnavailableError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .serviceUnavailableError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3845,6 +4087,22 @@ public enum CreateStorediSCSIVolumeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateStorediSCSIVolumeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateStorediSCSIVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4038,6 +4296,22 @@ public enum CreateTapePoolOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateTapePoolOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateTapePoolOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4250,6 +4524,22 @@ public enum CreateTapeWithBarcodeOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateTapeWithBarcodeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateTapeWithBarcodeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4491,6 +4781,22 @@ public enum CreateTapesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateTapesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateTapesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4612,6 +4918,22 @@ public enum DeleteAutomaticTapeCreationPolicyOutputError: Swift.Error, Swift.Equ
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteAutomaticTapeCreationPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteAutomaticTapeCreationPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4741,6 +5063,22 @@ public enum DeleteBandwidthRateLimitOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteBandwidthRateLimitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteBandwidthRateLimitOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4873,6 +5211,22 @@ public enum DeleteChapCredentialsOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteChapCredentialsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteChapCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5012,6 +5366,22 @@ public enum DeleteFileShareOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteFileShareOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5127,6 +5497,22 @@ public enum DeleteGatewayOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteGatewayOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5239,6 +5625,22 @@ public enum DeleteSnapshotScheduleOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteSnapshotScheduleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5365,6 +5767,22 @@ public enum DeleteTapeArchiveOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteTapeArchiveOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteTapeArchiveOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5507,6 +5925,22 @@ public enum DeleteTapeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteTapeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteTapeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5619,6 +6053,22 @@ public enum DeleteTapePoolOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteTapePoolOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteTapePoolOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5735,6 +6185,22 @@ public enum DeleteVolumeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteVolumeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5847,6 +6313,22 @@ public enum DescribeAvailabilityMonitorTestOutputError: Swift.Error, Swift.Equat
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAvailabilityMonitorTestOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAvailabilityMonitorTestOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5983,6 +6465,22 @@ public enum DescribeBandwidthRateLimitOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeBandwidthRateLimitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeBandwidthRateLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6117,6 +6615,22 @@ public enum DescribeBandwidthRateLimitScheduleOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeBandwidthRateLimitScheduleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeBandwidthRateLimitScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6247,6 +6761,22 @@ public enum DescribeCacheOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeCacheOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeCacheOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6443,6 +6973,22 @@ public enum DescribeCachediSCSIVolumesOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeCachediSCSIVolumesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeCachediSCSIVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6565,6 +7111,22 @@ public enum DescribeChapCredentialsOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeChapCredentialsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeChapCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6710,6 +7272,22 @@ public enum DescribeFileSystemAssociationsOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeFileSystemAssociationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeFileSystemAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6831,6 +7409,22 @@ public enum DescribeGatewayInformationOutputError: Swift.Error, Swift.Equatable 
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeGatewayInformationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeGatewayInformationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7175,6 +7769,22 @@ public enum DescribeMaintenanceStartTimeOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeMaintenanceStartTimeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeMaintenanceStartTimeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7362,6 +7972,22 @@ public enum DescribeNFSFileSharesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeNFSFileSharesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeNFSFileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7498,6 +8124,22 @@ public enum DescribeSMBFileSharesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeSMBFileSharesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeSMBFileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7619,6 +8261,22 @@ public enum DescribeSMBSettingsOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeSMBSettingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeSMBSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7815,6 +8473,22 @@ public enum DescribeSnapshotScheduleOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeSnapshotScheduleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7998,6 +8672,22 @@ public enum DescribeStorediSCSIVolumesOutputError: Swift.Error, Swift.Equatable 
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeStorediSCSIVolumesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeStorediSCSIVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8190,6 +8880,22 @@ public enum DescribeTapeArchivesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeTapeArchivesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeTapeArchivesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8346,6 +9052,22 @@ public enum DescribeTapeRecoveryPointsOutputError: Swift.Error, Swift.Equatable 
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTapeRecoveryPointsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeTapeRecoveryPointsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8540,6 +9262,22 @@ public enum DescribeTapesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeTapesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeTapesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8671,6 +9409,22 @@ public enum DescribeUploadBufferOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeUploadBufferOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeUploadBufferOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8874,6 +9628,22 @@ public enum DescribeVTLDevicesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeVTLDevicesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeVTLDevicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9016,6 +9786,22 @@ public enum DescribeWorkingStorageOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeWorkingStorageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeWorkingStorageOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9182,6 +9968,22 @@ public enum DetachVolumeOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DetachVolumeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DetachVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9364,6 +10166,22 @@ public enum DisableGatewayOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisableGatewayOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisableGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9488,6 +10306,22 @@ public enum DisassociateFileSystemOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateFileSystemOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10476,6 +11310,9 @@ public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerError" }
+
     /// A [StorageGatewayError] that provides more information about the cause of the error.
     public var error: StorageGatewayClientTypes.StorageGatewayError?
     /// A human-readable message describing the error that occurred.
@@ -10539,6 +11376,9 @@ public struct InvalidGatewayRequestException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidGatewayRequestException" }
+
     /// A [StorageGatewayError] that provides more detail about the cause of the error.
     public var error: StorageGatewayClientTypes.StorageGatewayError?
     /// A human-readable message describing the error that occurred.
@@ -10739,6 +11579,22 @@ public enum JoinDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension JoinDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension JoinDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10874,6 +11730,22 @@ public enum ListAutomaticTapeCreationPoliciesOutputError: Swift.Error, Swift.Equ
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAutomaticTapeCreationPoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAutomaticTapeCreationPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11020,6 +11892,22 @@ public enum ListFileSharesOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListFileSharesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListFileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11188,6 +12076,22 @@ public enum ListFileSystemAssociationsOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListFileSystemAssociationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListFileSystemAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11346,6 +12250,22 @@ public enum ListGatewaysOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListGatewaysOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11477,6 +12397,22 @@ public enum ListLocalDisksOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListLocalDisksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListLocalDisksOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11636,6 +12572,22 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11816,6 +12768,22 @@ public enum ListTapePoolsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTapePoolsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTapePoolsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11990,6 +12958,22 @@ public enum ListTapesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTapesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTapesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12128,6 +13112,22 @@ public enum ListVolumeInitiatorsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListVolumeInitiatorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListVolumeInitiatorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12249,6 +13249,22 @@ public enum ListVolumeRecoveryPointsOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListVolumeRecoveryPointsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListVolumeRecoveryPointsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12409,6 +13425,22 @@ public enum ListVolumesOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListVolumesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12973,6 +14005,22 @@ public enum NotifyWhenUploadedOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension NotifyWhenUploadedOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension NotifyWhenUploadedOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13298,6 +14346,22 @@ public enum RefreshCacheOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RefreshCacheOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RefreshCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13448,6 +14512,22 @@ public enum RemoveTagsFromResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveTagsFromResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13560,6 +14640,22 @@ public enum ResetCacheOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ResetCacheOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ResetCacheOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13724,6 +14820,22 @@ public enum RetrieveTapeArchiveOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RetrieveTapeArchiveOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RetrieveTapeArchiveOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13850,6 +14962,22 @@ public enum RetrieveTapeRecoveryPointOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RetrieveTapeRecoveryPointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RetrieveTapeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14367,6 +15495,9 @@ public struct ServiceUnavailableError: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceUnavailableError" }
+
     /// A [StorageGatewayError] that provides more information about the cause of the error.
     public var error: StorageGatewayClientTypes.StorageGatewayError?
     /// A human-readable message describing the error that occurred.
@@ -14491,6 +15622,22 @@ public enum SetLocalConsolePasswordOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetLocalConsolePasswordOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetLocalConsolePasswordOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14625,6 +15772,22 @@ public enum SetSMBGuestPasswordOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SetSMBGuestPasswordOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SetSMBGuestPasswordOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -14737,6 +15900,22 @@ public enum ShutdownGatewayOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ShutdownGatewayOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ShutdownGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14853,6 +16032,22 @@ public enum StartAvailabilityMonitorTestOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartAvailabilityMonitorTestOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartAvailabilityMonitorTestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -14965,6 +16160,22 @@ public enum StartGatewayOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartGatewayOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15897,6 +17108,22 @@ public enum UpdateAutomaticTapeCreationPolicyOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateAutomaticTapeCreationPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateAutomaticTapeCreationPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -16039,6 +17266,22 @@ public enum UpdateBandwidthRateLimitOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateBandwidthRateLimitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateBandwidthRateLimitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -16176,6 +17419,22 @@ public enum UpdateBandwidthRateLimitScheduleOutputError: Swift.Error, Swift.Equa
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateBandwidthRateLimitScheduleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateBandwidthRateLimitScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16341,6 +17600,22 @@ public enum UpdateChapCredentialsOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateChapCredentialsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateChapCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16520,6 +17795,22 @@ public enum UpdateFileSystemAssociationOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateFileSystemAssociationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateFileSystemAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -16681,6 +17972,22 @@ public enum UpdateGatewayInformationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateGatewayInformationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateGatewayInformationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -16804,6 +18111,22 @@ public enum UpdateGatewaySoftwareNowOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateGatewaySoftwareNowOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateGatewaySoftwareNowOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16977,6 +18300,22 @@ public enum UpdateMaintenanceStartTimeOutputError: Swift.Error, Swift.Equatable 
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateMaintenanceStartTimeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateMaintenanceStartTimeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -17278,6 +18617,22 @@ public enum UpdateNFSFileShareOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateNFSFileShareOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateNFSFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -17647,6 +19002,22 @@ public enum UpdateSMBFileShareOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateSMBFileShareOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateSMBFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -17772,6 +19143,22 @@ public enum UpdateSMBFileShareVisibilityOutputError: Swift.Error, Swift.Equatabl
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateSMBFileShareVisibilityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateSMBFileShareVisibilityOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -17900,6 +19287,22 @@ public enum UpdateSMBLocalGroupsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateSMBLocalGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateSMBLocalGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -18024,6 +19427,22 @@ public enum UpdateSMBSecurityStrategyOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateSMBSecurityStrategyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateSMBSecurityStrategyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -18210,6 +19629,22 @@ public enum UpdateSnapshotScheduleOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateSnapshotScheduleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -18335,6 +19770,22 @@ public enum UpdateVTLDeviceTypeOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidGatewayRequestException(InvalidGatewayRequestException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateVTLDeviceTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .invalidGatewayRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateVTLDeviceTypeOutputResponse: ClientRuntime.HttpResponseBinding {

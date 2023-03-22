@@ -78,6 +78,24 @@ public enum AbortMultipartUploadOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AbortMultipartUploadOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AbortMultipartUploadOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -154,6 +172,24 @@ public enum AbortVaultLockOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AbortVaultLockOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AbortVaultLockOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -315,6 +351,25 @@ public enum AddTagsToVaultOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AddTagsToVaultOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .limitExceededException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AddTagsToVaultOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -631,6 +686,24 @@ public enum CompleteMultipartUploadOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CompleteMultipartUploadOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CompleteMultipartUploadOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let archiveIdHeaderValue = httpResponse.headers.value(for: "x-amz-archive-id") {
@@ -748,6 +821,24 @@ public enum CompleteVaultLockOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CompleteVaultLockOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CompleteVaultLockOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -824,6 +915,24 @@ public enum CreateVaultOutputError: Swift.Error, Swift.Equatable {
     case missingParameterValueException(MissingParameterValueException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateVaultOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .limitExceededException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateVaultOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1017,6 +1126,24 @@ public enum DeleteArchiveOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteArchiveOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteArchiveOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1093,6 +1220,24 @@ public enum DeleteVaultAccessPolicyOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteVaultAccessPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteVaultAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1213,6 +1358,24 @@ public enum DeleteVaultNotificationsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteVaultNotificationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteVaultNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1249,6 +1412,24 @@ public enum DeleteVaultOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteVaultOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteVaultOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1335,6 +1516,24 @@ public enum DescribeJobOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeJobOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1761,6 +1960,24 @@ public enum DescribeVaultOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeVaultOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeVaultOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2062,6 +2279,23 @@ public enum GetDataRetrievalPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDataRetrievalPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDataRetrievalPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2200,6 +2434,24 @@ public enum GetJobOutputOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetJobOutputOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetJobOutputOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2369,6 +2621,24 @@ public enum GetVaultAccessPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetVaultAccessPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetVaultAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let data = httpResponse.body.toBytes()?.getData() {
@@ -2479,6 +2749,24 @@ public enum GetVaultLockOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetVaultLockOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetVaultLockOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2619,6 +2907,24 @@ public enum GetVaultNotificationsOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetVaultNotificationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetVaultNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3169,6 +3475,26 @@ public enum InitiateJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension InitiateJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .insufficientCapacityException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .policyEnforcedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension InitiateJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let jobIdHeaderValue = httpResponse.headers.value(for: "x-amz-job-id") {
@@ -3297,6 +3623,24 @@ public enum InitiateMultipartUploadOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension InitiateMultipartUploadOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension InitiateMultipartUploadOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3461,6 +3805,24 @@ public enum InitiateVaultLockOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension InitiateVaultLockOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension InitiateVaultLockOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let lockIdHeaderValue = httpResponse.headers.value(for: "x-amz-lock-id") {
@@ -3549,6 +3911,9 @@ public struct InsufficientCapacityException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsufficientCapacityException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
     public var type: Swift.String?
@@ -3619,6 +3984,9 @@ public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParameterValueException" }
+
     /// 400 Bad Request
     public var code: Swift.String?
     /// Returned if a parameter of the request is incorrectly specified.
@@ -3957,6 +4325,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     /// 400 Bad Request
     public var code: Swift.String?
     /// Returned if the request results in a vault limit or tags limit being exceeded.
@@ -4107,6 +4478,24 @@ public enum ListJobsOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListJobsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListJobsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4261,6 +4650,24 @@ public enum ListMultipartUploadsOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListMultipartUploadsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListMultipartUploadsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4423,6 +4830,24 @@ public enum ListPartsOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPartsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListPartsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4593,6 +5018,23 @@ public enum ListProvisionedCapacityOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListProvisionedCapacityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListProvisionedCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4709,6 +5151,24 @@ public enum ListTagsForVaultOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForVaultOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForVaultOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4847,6 +5307,24 @@ public enum ListVaultsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListVaultsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListVaultsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4938,6 +5416,9 @@ public struct MissingParameterValueException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MissingParameterValueException" }
+
     /// 400 Bad Request
     public var code: Swift.String?
     /// Returned if no authentication data is found for the request.
@@ -5167,6 +5648,9 @@ public struct PolicyEnforcedException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PolicyEnforcedException" }
+
     /// PolicyEnforcedException
     public var code: Swift.String?
     /// InitiateJob request denied by current data retrieval policy.
@@ -5322,6 +5806,24 @@ public enum PurchaseProvisionedCapacityOutputError: Swift.Error, Swift.Equatable
     case missingParameterValueException(MissingParameterValueException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PurchaseProvisionedCapacityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .limitExceededException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PurchaseProvisionedCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5492,6 +5994,24 @@ public enum RemoveTagsFromVaultOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveTagsFromVaultOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveTagsFromVaultOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -5532,6 +6052,9 @@ public struct RequestTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RequestTimeoutException" }
+
     /// 408 Request Timeout
     public var code: Swift.String?
     /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
@@ -5605,6 +6128,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     /// 404 Not Found
     public var code: Swift.String?
     /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
@@ -5884,6 +6410,9 @@ public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceUnavailableException" }
+
     /// 500 Internal Server Error
     public var code: Swift.String?
     /// Returned if the service cannot complete the request.
@@ -6007,6 +6536,23 @@ public enum SetDataRetrievalPolicyOutputError: Swift.Error, Swift.Equatable {
     case missingParameterValueException(MissingParameterValueException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetDataRetrievalPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetDataRetrievalPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6149,6 +6695,24 @@ public enum SetVaultAccessPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SetVaultAccessPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SetVaultAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6287,6 +6851,24 @@ public enum SetVaultNotificationsOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetVaultNotificationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetVaultNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6543,6 +7125,25 @@ public enum UploadArchiveOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UploadArchiveOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .requestTimeoutException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UploadArchiveOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6808,6 +7409,25 @@ public enum UploadMultipartPartOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UploadMultipartPartOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .missingParameterValueException(let error): return error
+        case .requestTimeoutException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UploadMultipartPartOutputResponse: ClientRuntime.HttpResponseBinding {

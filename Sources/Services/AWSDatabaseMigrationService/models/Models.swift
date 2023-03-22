@@ -28,6 +28,9 @@ public struct AccessDeniedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedFault" }
+
     ///
     public var message: Swift.String?
 
@@ -206,6 +209,21 @@ public enum AddTagsToResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddTagsToResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -318,6 +336,21 @@ extension ApplyPendingMaintenanceActionOutputError {
 public enum ApplyPendingMaintenanceActionOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ApplyPendingMaintenanceActionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ApplyPendingMaintenanceActionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -464,6 +497,213 @@ extension DatabaseMigrationClientTypes {
 
 }
 
+extension DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+        case databaseId = "DatabaseId"
+        case message = "Message"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let databaseId = self.databaseId {
+            try encodeContainer.encode(databaseId, forKey: .databaseId)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseId)
+        databaseId = databaseIdDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information about the errors that occurred during the analysis of the source database.
+    public struct BatchStartRecommendationsErrorEntry: Swift.Equatable {
+        /// The code of an error that occurred during the analysis of the source database.
+        public var code: Swift.String?
+        /// The identifier of the source database.
+        public var databaseId: Swift.String?
+        /// The information about the error.
+        public var message: Swift.String?
+
+        public init (
+            code: Swift.String? = nil,
+            databaseId: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.databaseId = databaseId
+            self.message = message
+        }
+    }
+
+}
+
+extension BatchStartRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case data = "Data"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let data = data {
+            var dataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .data)
+            for startrecommendationsrequestentry0 in data {
+                try dataContainer.encode(startrecommendationsrequestentry0)
+            }
+        }
+    }
+}
+
+extension BatchStartRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchStartRecommendationsInput: Swift.Equatable {
+    /// Provides information about source databases to analyze. After this analysis, Fleet Advisor recommends target engines for each source database.
+    public var data: [DatabaseMigrationClientTypes.StartRecommendationsRequestEntry]?
+
+    public init (
+        data: [DatabaseMigrationClientTypes.StartRecommendationsRequestEntry]? = nil
+    )
+    {
+        self.data = data
+    }
+}
+
+struct BatchStartRecommendationsInputBody: Swift.Equatable {
+    let data: [DatabaseMigrationClientTypes.StartRecommendationsRequestEntry]?
+}
+
+extension BatchStartRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case data = "Data"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.StartRecommendationsRequestEntry?].self, forKey: .data)
+        var dataDecoded0:[DatabaseMigrationClientTypes.StartRecommendationsRequestEntry]? = nil
+        if let dataContainer = dataContainer {
+            dataDecoded0 = [DatabaseMigrationClientTypes.StartRecommendationsRequestEntry]()
+            for structure0 in dataContainer {
+                if let structure0 = structure0 {
+                    dataDecoded0?.append(structure0)
+                }
+            }
+        }
+        data = dataDecoded0
+    }
+}
+
+extension BatchStartRecommendationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension BatchStartRecommendationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedFault" : self = .accessDeniedFault(try AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceStateFault" : self = .invalidResourceStateFault(try InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundFault" : self = .resourceNotFoundFault(try ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum BatchStartRecommendationsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedFault(AccessDeniedFault)
+    case invalidResourceStateFault(InvalidResourceStateFault)
+    case resourceNotFoundFault(ResourceNotFoundFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchStartRecommendationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
+extension BatchStartRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: BatchStartRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.errorEntries = output.errorEntries
+        } else {
+            self.errorEntries = nil
+        }
+    }
+}
+
+public struct BatchStartRecommendationsOutputResponse: Swift.Equatable {
+    /// A list with error details about the analysis of each source database.
+    public var errorEntries: [DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry]?
+
+    public init (
+        errorEntries: [DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry]? = nil
+    )
+    {
+        self.errorEntries = errorEntries
+    }
+}
+
+struct BatchStartRecommendationsOutputResponseBody: Swift.Equatable {
+    let errorEntries: [DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry]?
+}
+
+extension BatchStartRecommendationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorEntries = "ErrorEntries"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorEntriesContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry?].self, forKey: .errorEntries)
+        var errorEntriesDecoded0:[DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry]? = nil
+        if let errorEntriesContainer = errorEntriesContainer {
+            errorEntriesDecoded0 = [DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry]()
+            for structure0 in errorEntriesContainer {
+                if let structure0 = structure0 {
+                    errorEntriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        errorEntries = errorEntriesDecoded0
+    }
+}
+
 extension CancelReplicationTaskAssessmentRunInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicationTaskAssessmentRunArn = "ReplicationTaskAssessmentRunArn"
@@ -537,6 +777,23 @@ public enum CancelReplicationTaskAssessmentRunOutputError: Swift.Error, Swift.Eq
     case invalidResourceStateFault(InvalidResourceStateFault)
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CancelReplicationTaskAssessmentRunOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CancelReplicationTaskAssessmentRunOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -882,6 +1139,9 @@ public struct CollectorNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CollectorNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -1770,6 +2030,27 @@ public enum CreateEndpointOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .resourceAlreadyExistsFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .resourceQuotaExceededFault(let error): return error
+        case .s3AccessDeniedFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2010,6 +2291,30 @@ public enum CreateEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateEventSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .kMSAccessDeniedFault(let error): return error
+        case .kMSDisabledFault(let error): return error
+        case .kMSInvalidStateFault(let error): return error
+        case .kMSNotFoundFault(let error): return error
+        case .kMSThrottlingFault(let error): return error
+        case .resourceAlreadyExistsFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .resourceQuotaExceededFault(let error): return error
+        case .sNSInvalidTopicFault(let error): return error
+        case .sNSNoAuthorizationFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2166,6 +2471,25 @@ public enum CreateFleetAdvisorCollectorOutputError: Swift.Error, Swift.Equatable
     case s3AccessDeniedFault(S3AccessDeniedFault)
     case s3ResourceNotFoundFault(S3ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateFleetAdvisorCollectorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .resourceQuotaExceededFault(let error): return error
+        case .s3AccessDeniedFault(let error): return error
+        case .s3ResourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateFleetAdvisorCollectorOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2338,7 +2662,7 @@ extension CreateReplicationInstanceInput: ClientRuntime.URLPathProvider {
 public struct CreateReplicationInstanceInput: Swift.Equatable {
     /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
     public var allocatedStorage: Swift.Int?
-    /// A value that indicates whether minor engine upgrades are applied automatically to the replication instance during the maintenance window. This parameter defaults to true. Default: true
+    /// A value that indicates whether minor engine upgrades are applied automatically to the replication instance during the maintenance window. This parameter defaults to true. Default: true When AutoMinorVersionUpgrade is enabled, DMS uses the current default engine version when you create a replication instance. For example, if you set EngineVersion to a lower version number than the current default version, DMS uses the default version. If AutoMinorVersionUpgrade isn’t enabled when you create a replication instance, DMS uses the engine version specified by the EngineVersion parameter.
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone where the replication instance will be created. The default value is a random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region, for example: us-east-1d
     public var availabilityZone: Swift.String?
@@ -2552,6 +2876,30 @@ public enum CreateReplicationInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateReplicationInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .insufficientResourceCapacityFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .replicationSubnetGroupDoesNotCoverEnoughAZs(let error): return error
+        case .resourceAlreadyExistsFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .resourceQuotaExceededFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateReplicationInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2737,6 +3085,26 @@ public enum CreateReplicationSubnetGroupOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateReplicationSubnetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .replicationSubnetGroupDoesNotCoverEnoughAZs(let error): return error
+        case .resourceAlreadyExistsFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .resourceQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateReplicationSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2855,7 +3223,7 @@ public struct CreateReplicationTaskInput: Swift.Equatable {
     public var cdcStartPosition: Swift.String?
     /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
     public var cdcStartTime: ClientRuntime.Date?
-    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
+    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
     public var cdcStopPosition: Swift.String?
     /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
     /// This member is required.
@@ -3025,6 +3393,26 @@ public enum CreateReplicationTaskOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundFault(ResourceNotFoundFault)
     case resourceQuotaExceededFault(ResourceQuotaExceededFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateReplicationTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .resourceAlreadyExistsFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .resourceQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateReplicationTaskOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3519,6 +3907,22 @@ public enum DeleteCertificateOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteCertificateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3648,6 +4052,23 @@ public enum DeleteConnectionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteConnectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3761,6 +4182,22 @@ public enum DeleteEndpointOutputError: Swift.Error, Swift.Equatable {
     case invalidResourceStateFault(InvalidResourceStateFault)
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3878,6 +4315,22 @@ public enum DeleteEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteEventSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3992,6 +4445,22 @@ public enum DeleteFleetAdvisorCollectorOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteFleetAdvisorCollectorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .collectorNotFoundFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteFleetAdvisorCollectorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4084,6 +4553,22 @@ public enum DeleteFleetAdvisorDatabasesOutputError: Swift.Error, Swift.Equatable
     case invalidOperationFault(InvalidOperationFault)
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteFleetAdvisorDatabasesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidOperationFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteFleetAdvisorDatabasesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4209,6 +4694,22 @@ public enum DeleteReplicationInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteReplicationInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteReplicationInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4324,6 +4825,22 @@ public enum DeleteReplicationSubnetGroupOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteReplicationSubnetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteReplicationSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4408,6 +4925,23 @@ public enum DeleteReplicationTaskAssessmentRunOutputError: Swift.Error, Swift.Eq
     case invalidResourceStateFault(InvalidResourceStateFault)
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteReplicationTaskAssessmentRunOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteReplicationTaskAssessmentRunOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4525,6 +5059,22 @@ public enum DeleteReplicationTaskOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteReplicationTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteReplicationTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4614,6 +5164,20 @@ extension DescribeAccountAttributesOutputError {
 
 public enum DescribeAccountAttributesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAccountAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAccountAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4823,6 +5387,23 @@ public enum DescribeApplicableIndividualAssessmentsOutputError: Swift.Error, Swi
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeApplicableIndividualAssessmentsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeApplicableIndividualAssessmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4987,6 +5568,21 @@ extension DescribeCertificatesOutputError {
 public enum DescribeCertificatesOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeCertificatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5155,6 +5751,21 @@ public enum DescribeConnectionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeConnectionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5306,6 +5917,20 @@ extension DescribeEndpointSettingsOutputError {
 
 public enum DescribeEndpointSettingsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEndpointSettingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEndpointSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5470,6 +6095,20 @@ extension DescribeEndpointTypesOutputError {
 
 public enum DescribeEndpointTypesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEndpointTypesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEndpointTypesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5651,6 +6290,21 @@ public enum DescribeEndpointsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeEndpointsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5802,6 +6456,20 @@ extension DescribeEventCategoriesOutputError {
 
 public enum DescribeEventCategoriesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEventCategoriesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEventCategoriesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5971,6 +6639,21 @@ extension DescribeEventSubscriptionsOutputError {
 public enum DescribeEventSubscriptionsOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEventSubscriptionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEventSubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6222,6 +6905,20 @@ public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeEventsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6393,6 +7090,21 @@ extension DescribeFleetAdvisorCollectorsOutputError {
 public enum DescribeFleetAdvisorCollectorsOutputError: Swift.Error, Swift.Equatable {
     case invalidResourceStateFault(InvalidResourceStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeFleetAdvisorCollectorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeFleetAdvisorCollectorsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6575,6 +7287,21 @@ public enum DescribeFleetAdvisorDatabasesOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeFleetAdvisorDatabasesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeFleetAdvisorDatabasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6714,6 +7441,21 @@ extension DescribeFleetAdvisorLsaAnalysisOutputError {
 public enum DescribeFleetAdvisorLsaAnalysisOutputError: Swift.Error, Swift.Equatable {
     case invalidResourceStateFault(InvalidResourceStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeFleetAdvisorLsaAnalysisOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeFleetAdvisorLsaAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6884,6 +7626,21 @@ extension DescribeFleetAdvisorSchemaObjectSummaryOutputError {
 public enum DescribeFleetAdvisorSchemaObjectSummaryOutputError: Swift.Error, Swift.Equatable {
     case invalidResourceStateFault(InvalidResourceStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeFleetAdvisorSchemaObjectSummaryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeFleetAdvisorSchemaObjectSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7072,6 +7829,21 @@ public enum DescribeFleetAdvisorSchemasOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeFleetAdvisorSchemasOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeFleetAdvisorSchemasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7210,6 +7982,20 @@ extension DescribeOrderableReplicationInstancesOutputError {
 
 public enum DescribeOrderableReplicationInstancesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeOrderableReplicationInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeOrderableReplicationInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7391,6 +8177,21 @@ public enum DescribePendingMaintenanceActionsOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribePendingMaintenanceActionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribePendingMaintenanceActionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7449,6 +8250,372 @@ extension DescribePendingMaintenanceActionsOutputResponseBody: Swift.Decodable {
         pendingMaintenanceActions = pendingMaintenanceActionsDecoded0
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+extension DescribeRecommendationLimitationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxRecords = "MaxRecords"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension DescribeRecommendationLimitationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeRecommendationLimitationsInput: Swift.Equatable {
+    /// Filters applied to the limitations described in the form of key-value pairs.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, Fleet Advisor includes a pagination token in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If NextToken is returned by a previous response, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
+    public var nextToken: Swift.String?
+
+    public init (
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        maxRecords: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxRecords = maxRecords
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeRecommendationLimitationsInputBody: Swift.Equatable {
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let maxRecords: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeRecommendationLimitationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxRecords = "MaxRecords"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeRecommendationLimitationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeRecommendationLimitationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedFault" : self = .accessDeniedFault(try AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceStateFault" : self = .invalidResourceStateFault(try InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeRecommendationLimitationsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedFault(AccessDeniedFault)
+    case invalidResourceStateFault(InvalidResourceStateFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeRecommendationLimitationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
+extension DescribeRecommendationLimitationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeRecommendationLimitationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.limitations = output.limitations
+            self.nextToken = output.nextToken
+        } else {
+            self.limitations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct DescribeRecommendationLimitationsOutputResponse: Swift.Equatable {
+    /// The list of limitations for recommendations of target Amazon Web Services engines.
+    public var limitations: [DatabaseMigrationClientTypes.Limitation]?
+    /// The unique pagination token returned for you to pass to a subsequent request. Fleet Advisor returns this token when the number of records in the response is greater than the MaxRecords value. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var nextToken: Swift.String?
+
+    public init (
+        limitations: [DatabaseMigrationClientTypes.Limitation]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.limitations = limitations
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeRecommendationLimitationsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let limitations: [DatabaseMigrationClientTypes.Limitation]?
+}
+
+extension DescribeRecommendationLimitationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case limitations = "Limitations"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let limitationsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Limitation?].self, forKey: .limitations)
+        var limitationsDecoded0:[DatabaseMigrationClientTypes.Limitation]? = nil
+        if let limitationsContainer = limitationsContainer {
+            limitationsDecoded0 = [DatabaseMigrationClientTypes.Limitation]()
+            for structure0 in limitationsContainer {
+                if let structure0 = structure0 {
+                    limitationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        limitations = limitationsDecoded0
+    }
+}
+
+extension DescribeRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxRecords = "MaxRecords"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension DescribeRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeRecommendationsInput: Swift.Equatable {
+    /// Filters applied to the target engine recommendations described in the form of key-value pairs.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, Fleet Advisor includes a pagination token in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If NextToken is returned by a previous response, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
+    public var nextToken: Swift.String?
+
+    public init (
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        maxRecords: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxRecords = maxRecords
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeRecommendationsInputBody: Swift.Equatable {
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let maxRecords: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxRecords = "MaxRecords"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeRecommendationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeRecommendationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedFault" : self = .accessDeniedFault(try AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceStateFault" : self = .invalidResourceStateFault(try InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeRecommendationsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedFault(AccessDeniedFault)
+    case invalidResourceStateFault(InvalidResourceStateFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeRecommendationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
+extension DescribeRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.recommendations = output.recommendations
+        } else {
+            self.nextToken = nil
+            self.recommendations = nil
+        }
+    }
+}
+
+public struct DescribeRecommendationsOutputResponse: Swift.Equatable {
+    /// The unique pagination token returned for you to pass to a subsequent request. Fleet Advisor returns this token when the number of records in the response is greater than the MaxRecords value. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var nextToken: Swift.String?
+    /// The list of recommendations of target engines that Fleet Advisor created for the source database.
+    public var recommendations: [DatabaseMigrationClientTypes.Recommendation]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        recommendations: [DatabaseMigrationClientTypes.Recommendation]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.recommendations = recommendations
+    }
+}
+
+struct DescribeRecommendationsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let recommendations: [DatabaseMigrationClientTypes.Recommendation]?
+}
+
+extension DescribeRecommendationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case recommendations = "Recommendations"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let recommendationsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Recommendation?].self, forKey: .recommendations)
+        var recommendationsDecoded0:[DatabaseMigrationClientTypes.Recommendation]? = nil
+        if let recommendationsContainer = recommendationsContainer {
+            recommendationsDecoded0 = [DatabaseMigrationClientTypes.Recommendation]()
+            for structure0 in recommendationsContainer {
+                if let structure0 = structure0 {
+                    recommendationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        recommendations = recommendationsDecoded0
     }
 }
 
@@ -7523,6 +8690,22 @@ public enum DescribeRefreshSchemasStatusOutputError: Swift.Error, Swift.Equatabl
     case invalidResourceStateFault(InvalidResourceStateFault)
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeRefreshSchemasStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeRefreshSchemasStatusOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7661,6 +8844,22 @@ public enum DescribeReplicationInstanceTaskLogsOutputError: Swift.Error, Swift.E
     case invalidResourceStateFault(InvalidResourceStateFault)
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeReplicationInstanceTaskLogsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeReplicationInstanceTaskLogsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7851,6 +9050,21 @@ public enum DescribeReplicationInstancesOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeReplicationInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeReplicationInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8018,6 +9232,21 @@ public enum DescribeReplicationSubnetGroupsOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeReplicationSubnetGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeReplicationSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8171,6 +9400,21 @@ extension DescribeReplicationTaskAssessmentResultsOutputError {
 public enum DescribeReplicationTaskAssessmentResultsOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeReplicationTaskAssessmentResultsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeReplicationTaskAssessmentResultsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8350,6 +9594,21 @@ public enum DescribeReplicationTaskAssessmentRunsOutputError: Swift.Error, Swift
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeReplicationTaskAssessmentRunsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeReplicationTaskAssessmentRunsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8515,6 +9774,21 @@ extension DescribeReplicationTaskIndividualAssessmentsOutputError {
 public enum DescribeReplicationTaskIndividualAssessmentsOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeReplicationTaskIndividualAssessmentsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeReplicationTaskIndividualAssessmentsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8708,6 +9982,21 @@ public enum DescribeReplicationTasksOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeReplicationTasksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeReplicationTasksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8864,6 +10153,22 @@ public enum DescribeSchemasOutputError: Swift.Error, Swift.Equatable {
     case invalidResourceStateFault(InvalidResourceStateFault)
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeSchemasOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeSchemasOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9046,6 +10351,22 @@ public enum DescribeTableStatisticsOutputError: Swift.Error, Swift.Equatable {
     case invalidResourceStateFault(InvalidResourceStateFault)
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTableStatisticsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeTableStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10645,7 +11966,7 @@ extension DatabaseMigrationClientTypes {
     public struct GcpMySQLSettings: Swift.Equatable {
         /// Specifies a script to run immediately after DMS connects to the endpoint. The migration task continues running regardless if the SQL statement succeeds or fails. For this parameter, provide the code of the script itself, not the name of a file containing the script.
         public var afterConnectScript: Swift.String?
-        /// Adjusts the behavior of DMS when migrating from an SQL Server source database that is hosted as part of an Always On availability group cluster. If you need DMS to poll all the nodes in the Always On cluster for transaction backups, set this attribute to false.
+        /// Cleans and recreates table metadata information on the replication instance when a mismatch occurs. For example, in a situation where running an alter DDL on the table could result in different information about the table cached in the replication instance.
         public var cleanSourceMetadataOnMismatch: Swift.Bool?
         /// Database name for the endpoint. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on either the CreateEndpoint or ModifyEndpoint API call. Specifying DatabaseName when you create or modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
         public var databaseName: Swift.String?
@@ -10657,13 +11978,13 @@ extension DatabaseMigrationClientTypes {
         public var parallelLoadThreads: Swift.Int?
         /// Endpoint connection password.
         public var password: Swift.String?
-        ///
+        /// Endpoint TCP port.
         public var port: Swift.Int?
         /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. The role must allow the iam:PassRole action. SecretsManagerSecret has the value of the Amazon Web Services Secrets Manager secret that allows access to the MySQL endpoint. You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see [Using secrets to access Database Migration Service resources](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager) in the Database Migration Service User Guide.
         public var secretsManagerAccessRoleArn: Swift.String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the MySQL endpoint connection details.
         public var secretsManagerSecretId: Swift.String?
-        /// Endpoint TCP port.
+        /// The MySQL host name.
         public var serverName: Swift.String?
         /// Specifies the time zone for the source MySQL database. Example: serverTimezone=US/Pacific; Note: Do not enclose time zones in single quotes.
         public var serverTimezone: Swift.String?
@@ -10965,6 +12286,23 @@ public enum ImportCertificateOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ImportCertificateOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidCertificateFault(let error): return error
+        case .resourceAlreadyExistsFault(let error): return error
+        case .resourceQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ImportCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11032,6 +12370,9 @@ public struct InsufficientResourceCapacityFault: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsufficientResourceCapacityFault" }
+
     ///
     public var message: Swift.String?
 
@@ -11085,6 +12426,9 @@ public struct InvalidCertificateFault: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCertificateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -11137,6 +12481,9 @@ public struct InvalidOperationFault: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidOperationFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -11189,6 +12536,9 @@ public struct InvalidResourceStateFault: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidResourceStateFault" }
+
     ///
     public var message: Swift.String?
 
@@ -11242,6 +12592,9 @@ public struct InvalidSubnet: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSubnet" }
+
     ///
     public var message: Swift.String?
 
@@ -11340,6 +12693,9 @@ public struct KMSAccessDeniedFault: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSAccessDeniedFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -11392,6 +12748,9 @@ public struct KMSDisabledFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSDisabledFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -11444,6 +12803,9 @@ public struct KMSFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -11496,6 +12858,9 @@ public struct KMSInvalidStateFault: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSInvalidStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -11548,6 +12913,9 @@ public struct KMSKeyNotAccessibleFault: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSKeyNotAccessibleFault" }
+
     ///
     public var message: Swift.String?
 
@@ -11601,6 +12969,9 @@ public struct KMSNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -11653,6 +13024,9 @@ public struct KMSThrottlingFault: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "KMSThrottlingFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -12052,6 +13426,91 @@ extension DatabaseMigrationClientTypes {
 
 }
 
+extension DatabaseMigrationClientTypes.Limitation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseId = "DatabaseId"
+        case description = "Description"
+        case engineName = "EngineName"
+        case impact = "Impact"
+        case name = "Name"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let databaseId = self.databaseId {
+            try encodeContainer.encode(databaseId, forKey: .databaseId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let engineName = self.engineName {
+            try encodeContainer.encode(engineName, forKey: .engineName)
+        }
+        if let impact = self.impact {
+            try encodeContainer.encode(impact, forKey: .impact)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseId)
+        databaseId = databaseIdDecoded
+        let engineNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineName)
+        engineName = engineNameDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let impactDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .impact)
+        impact = impactDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information about the limitations of target Amazon Web Services engines. Your source database might include features that the target Amazon Web Services engine doesn't support. Fleet Advisor lists these features as limitations. You should consider these limitations during database migration. For each limitation, Fleet Advisor recommends an action that you can take to address or avoid this limitation.
+    public struct Limitation: Swift.Equatable {
+        /// The identifier of the source database.
+        public var databaseId: Swift.String?
+        /// A description of the limitation. Provides additional information about the limitation, and includes recommended actions that you can take to address or avoid this limitation.
+        public var description: Swift.String?
+        /// The name of the target engine that Fleet Advisor should use in the target engine recommendation. Valid values include "rds-aurora-mysql", "rds-aurora-postgresql", "rds-mysql", "rds-oracle", "rds-sql-server", and "rds-postgresql".
+        public var engineName: Swift.String?
+        /// The impact of the limitation. You can use this parameter to prioritize limitations that you want to address. Valid values include "Blocker", "High", "Medium", and "Low".
+        public var impact: Swift.String?
+        /// The name of the limitation. Describes unsupported database features, migration action items, and other limitations.
+        public var name: Swift.String?
+        /// The type of the limitation, such as action required, upgrade required, and limited feature.
+        public var type: Swift.String?
+
+        public init (
+            databaseId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            engineName: Swift.String? = nil,
+            impact: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.databaseId = databaseId
+            self.description = description
+            self.engineName = engineName
+            self.impact = impact
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
 extension ListTagsForResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
@@ -12144,6 +13603,21 @@ extension ListTagsForResourceOutputError {
 public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12360,7 +13834,7 @@ extension DatabaseMigrationClientTypes {
         public var secretsManagerAccessRoleArn: Swift.String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the SQL Server endpoint connection details.
         public var secretsManagerSecretId: Swift.String?
-        /// Fully qualified domain name of the endpoint.
+        /// Fully qualified domain name of the endpoint. For an Amazon RDS SQL Server instance, this is the output of [DescribeDBInstances](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html), in the [Endpoint](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html).Address field.
         public var serverName: Swift.String?
         /// Use the TrimSpaceInChar source endpoint setting to trim data on CHAR and NCHAR data types during migration. The default value is true.
         public var trimSpaceInChar: Swift.Bool?
@@ -12926,6 +14400,25 @@ public enum ModifyEndpointOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .resourceAlreadyExistsFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13115,6 +14608,29 @@ public enum ModifyEventSubscriptionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyEventSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .kMSAccessDeniedFault(let error): return error
+        case .kMSDisabledFault(let error): return error
+        case .kMSInvalidStateFault(let error): return error
+        case .kMSNotFoundFault(let error): return error
+        case .kMSThrottlingFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .resourceQuotaExceededFault(let error): return error
+        case .sNSInvalidTopicFault(let error): return error
+        case .sNSNoAuthorizationFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyEventSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13238,6 +14754,9 @@ public struct ModifyReplicationInstanceInput: Swift.Equatable {
     /// * A newer minor version is available.
     ///
     /// * DMS has enabled automatic patching for the given engine version.
+    ///
+    ///
+    /// When AutoMinorVersionUpgrade is enabled, DMS uses the current default engine version when you modify a replication instance. For example, if you set EngineVersion to a lower version number than the current default version, DMS uses the default version. If AutoMinorVersionUpgrade isn’t enabled when you modify a replication instance, DMS uses the engine version specified by the EngineVersion parameter.
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The engine version number of the replication instance. When modifying a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
     public var engineVersion: Swift.String?
@@ -13388,6 +14907,27 @@ public enum ModifyReplicationInstanceOutputError: Swift.Error, Swift.Equatable {
     case storageQuotaExceededFault(StorageQuotaExceededFault)
     case upgradeDependencyFailureFault(UpgradeDependencyFailureFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyReplicationInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .insufficientResourceCapacityFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .resourceAlreadyExistsFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .storageQuotaExceededFault(let error): return error
+        case .upgradeDependencyFailureFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyReplicationInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13550,6 +15090,26 @@ public enum ModifyReplicationSubnetGroupOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyReplicationSubnetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .replicationSubnetGroupDoesNotCoverEnoughAZs(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .resourceQuotaExceededFault(let error): return error
+        case .subnetAlreadyInUse(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyReplicationSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13649,7 +15209,7 @@ public struct ModifyReplicationTaskInput: Swift.Equatable {
     public var cdcStartPosition: Swift.String?
     /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
     public var cdcStartTime: ClientRuntime.Date?
-    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
+    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
     public var cdcStopPosition: Swift.String?
     /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
     public var migrationType: DatabaseMigrationClientTypes.MigrationTypeValue?
@@ -13769,6 +15329,24 @@ public enum ModifyReplicationTaskOutputError: Swift.Error, Swift.Equatable {
     case resourceAlreadyExistsFault(ResourceAlreadyExistsFault)
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyReplicationTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .resourceAlreadyExistsFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyReplicationTaskOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14075,6 +15653,25 @@ public enum MoveReplicationTaskOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension MoveReplicationTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .resourceQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension MoveReplicationTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -14224,7 +15821,7 @@ extension DatabaseMigrationClientTypes {
     public struct MySQLSettings: Swift.Equatable {
         /// Specifies a script to run immediately after DMS connects to the endpoint. The migration task continues running regardless if the SQL statement succeeds or fails. For this parameter, provide the code of the script itself, not the name of a file containing the script.
         public var afterConnectScript: Swift.String?
-        /// Adjusts the behavior of DMS when migrating from an SQL Server source database that is hosted as part of an Always On availability group cluster. If you need DMS to poll all the nodes in the Always On cluster for transaction backups, set this attribute to false.
+        /// Cleans and recreates table metadata information on the replication instance when a mismatch occurs. For example, in a situation where running an alter DDL on the table could result in different information about the table cached in the replication instance.
         public var cleanSourceMetadataOnMismatch: Swift.Bool?
         /// Database name for the endpoint. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on either the CreateEndpoint or ModifyEndpoint API call. Specifying DatabaseName when you create or modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
         public var databaseName: Swift.String?
@@ -14242,7 +15839,7 @@ extension DatabaseMigrationClientTypes {
         public var secretsManagerAccessRoleArn: Swift.String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the MySQL endpoint connection details.
         public var secretsManagerSecretId: Swift.String?
-        /// Fully qualified domain name of the endpoint.
+        /// The host name of the endpoint database. For an Amazon RDS MySQL instance, this is the output of [DescribeDBInstances](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html), in the [Endpoint](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html).Address field. For an Aurora MySQL instance, this is the output of [DescribeDBClusters](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html), in the Endpoint field.
         public var serverName: Swift.String?
         /// Specifies the time zone for the source MySQL database. Example: serverTimezone=US/Pacific; Note: Do not enclose time zones in single quotes.
         public var serverTimezone: Swift.String?
@@ -14757,7 +16354,7 @@ extension DatabaseMigrationClientTypes {
         public var securityDbEncryption: Swift.String?
         /// For an Oracle source endpoint, the name of a key used for the transparent data encryption (TDE) of the columns and tablespaces in an Oracle source database that is encrypted using TDE. The key value is the value of the SecurityDbEncryption setting. For more information on setting the key name value of SecurityDbEncryptionName, see the information and example for setting the securityDbEncryptionName extra connection attribute in [ Supported encryption methods for using Oracle as a source for DMS ](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption) in the Database Migration Service User Guide.
         public var securityDbEncryptionName: Swift.String?
-        /// Fully qualified domain name of the endpoint.
+        /// Fully qualified domain name of the endpoint. For an Amazon RDS Oracle instance, this is the output of [DescribeDBInstances](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html), in the [Endpoint](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html).Address field.
         public var serverName: Swift.String?
         /// Use this attribute to convert SDO_GEOMETRY to GEOJSON format. By default, DMS calls the SDO2GEOJSON custom function if present and accessible. Or you can create your own custom function that mimics the operation of SDOGEOJSON and set SpatialDataOptionToGeoJsonFunctionName to call it instead.
         public var spatialDataOptionToGeoJsonFunctionName: Swift.String?
@@ -15312,7 +16909,7 @@ extension DatabaseMigrationClientTypes {
         public var secretsManagerAccessRoleArn: Swift.String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the PostgreSQL endpoint connection details.
         public var secretsManagerSecretId: Swift.String?
-        /// Fully qualified domain name of the endpoint.
+        /// The host name of the endpoint database. For an Amazon RDS PostgreSQL instance, this is the output of [DescribeDBInstances](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html), in the [Endpoint](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html).Address field. For an Aurora PostgreSQL instance, this is the output of [DescribeDBClusters](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html), in the Endpoint field.
         public var serverName: Swift.String?
         /// Sets the name of a previously created logical replication slot for a change data capture (CDC) load of the PostgreSQL source instance. When used with the CdcStartPosition request parameter for the DMS API , this attribute also makes it possible to use native CDC start points. DMS verifies that the specified logical replication slot exists before starting the CDC load task. It also verifies that the task was created with a valid setting of CdcStartPosition. If the specified slot doesn't exist or the task doesn't have a valid CdcStartPosition setting, DMS raises an error. For more information about setting the CdcStartPosition request parameter, see [Determining a CDC native start point] in the Database Migration Service User Guide. For more information about using CdcStartPosition, see [CreateReplicationTask](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationTask.html), [StartReplicationTask](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html), and [ModifyReplicationTask](https://docs.aws.amazon.com/dms/latest/APIReference/API_ModifyReplicationTask.html).
         public var slotName: Swift.String?
@@ -15362,6 +16959,241 @@ extension DatabaseMigrationClientTypes {
             self.slotName = slotName
             self.trimSpaceInChar = trimSpaceInChar
             self.username = username
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.RdsConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentOption = "DeploymentOption"
+        case engineEdition = "EngineEdition"
+        case instanceMemory = "InstanceMemory"
+        case instanceType = "InstanceType"
+        case instanceVcpu = "InstanceVcpu"
+        case storageIops = "StorageIops"
+        case storageSize = "StorageSize"
+        case storageType = "StorageType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deploymentOption = self.deploymentOption {
+            try encodeContainer.encode(deploymentOption, forKey: .deploymentOption)
+        }
+        if let engineEdition = self.engineEdition {
+            try encodeContainer.encode(engineEdition, forKey: .engineEdition)
+        }
+        if let instanceMemory = self.instanceMemory {
+            try encodeContainer.encode(instanceMemory, forKey: .instanceMemory)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let instanceVcpu = self.instanceVcpu {
+            try encodeContainer.encode(instanceVcpu, forKey: .instanceVcpu)
+        }
+        if let storageIops = self.storageIops {
+            try encodeContainer.encode(storageIops, forKey: .storageIops)
+        }
+        if let storageSize = self.storageSize {
+            try encodeContainer.encode(storageSize, forKey: .storageSize)
+        }
+        if let storageType = self.storageType {
+            try encodeContainer.encode(storageType, forKey: .storageType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let engineEditionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineEdition)
+        engineEdition = engineEditionDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let instanceVcpuDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .instanceVcpu)
+        instanceVcpu = instanceVcpuDecoded
+        let instanceMemoryDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .instanceMemory)
+        instanceMemory = instanceMemoryDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
+        let storageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageSize)
+        storageSize = storageSizeDecoded
+        let storageIopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageIops)
+        storageIops = storageIopsDecoded
+        let deploymentOptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentOption)
+        deploymentOption = deploymentOptionDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that describes the configuration of the recommended target engine on Amazon RDS.
+    public struct RdsConfiguration: Swift.Equatable {
+        /// Describes the deployment option for the recommended Amazon RDS DB instance. The deployment options include Multi-AZ and Single-AZ deployments. Valid values include "MULTI_AZ" and "SINGLE_AZ".
+        public var deploymentOption: Swift.String?
+        /// Describes the recommended target Amazon RDS engine edition.
+        public var engineEdition: Swift.String?
+        /// Describes the memory on the recommended Amazon RDS DB instance that meets your requirements.
+        public var instanceMemory: Swift.Double?
+        /// Describes the recommended target Amazon RDS instance type.
+        public var instanceType: Swift.String?
+        /// Describes the number of virtual CPUs (vCPU) on the recommended Amazon RDS DB instance that meets your requirements.
+        public var instanceVcpu: Swift.Double?
+        /// Describes the number of I/O operations completed each second (IOPS) on the recommended Amazon RDS DB instance that meets your requirements.
+        public var storageIops: Swift.Int?
+        /// Describes the storage size of the recommended Amazon RDS DB instance that meets your requirements.
+        public var storageSize: Swift.Int?
+        /// Describes the storage type of the recommended Amazon RDS DB instance that meets your requirements. Amazon RDS provides three storage types: General Purpose SSD (also known as gp2 and gp3), Provisioned IOPS SSD (also known as io1), and magnetic (also known as standard).
+        public var storageType: Swift.String?
+
+        public init (
+            deploymentOption: Swift.String? = nil,
+            engineEdition: Swift.String? = nil,
+            instanceMemory: Swift.Double? = nil,
+            instanceType: Swift.String? = nil,
+            instanceVcpu: Swift.Double? = nil,
+            storageIops: Swift.Int? = nil,
+            storageSize: Swift.Int? = nil,
+            storageType: Swift.String? = nil
+        )
+        {
+            self.deploymentOption = deploymentOption
+            self.engineEdition = engineEdition
+            self.instanceMemory = instanceMemory
+            self.instanceType = instanceType
+            self.instanceVcpu = instanceVcpu
+            self.storageIops = storageIops
+            self.storageSize = storageSize
+            self.storageType = storageType
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.RdsRecommendation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requirementsToTarget = "RequirementsToTarget"
+        case targetConfiguration = "TargetConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let requirementsToTarget = self.requirementsToTarget {
+            try encodeContainer.encode(requirementsToTarget, forKey: .requirementsToTarget)
+        }
+        if let targetConfiguration = self.targetConfiguration {
+            try encodeContainer.encode(targetConfiguration, forKey: .targetConfiguration)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requirementsToTargetDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.RdsRequirements.self, forKey: .requirementsToTarget)
+        requirementsToTarget = requirementsToTargetDecoded
+        let targetConfigurationDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.RdsConfiguration.self, forKey: .targetConfiguration)
+        targetConfiguration = targetConfigurationDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that describes a recommendation of a target engine on Amazon RDS.
+    public struct RdsRecommendation: Swift.Equatable {
+        /// Supplemental information about the requirements to the recommended target database on Amazon RDS.
+        public var requirementsToTarget: DatabaseMigrationClientTypes.RdsRequirements?
+        /// Supplemental information about the configuration of the recommended target database on Amazon RDS.
+        public var targetConfiguration: DatabaseMigrationClientTypes.RdsConfiguration?
+
+        public init (
+            requirementsToTarget: DatabaseMigrationClientTypes.RdsRequirements? = nil,
+            targetConfiguration: DatabaseMigrationClientTypes.RdsConfiguration? = nil
+        )
+        {
+            self.requirementsToTarget = requirementsToTarget
+            self.targetConfiguration = targetConfiguration
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.RdsRequirements: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentOption = "DeploymentOption"
+        case engineEdition = "EngineEdition"
+        case instanceMemory = "InstanceMemory"
+        case instanceVcpu = "InstanceVcpu"
+        case storageIops = "StorageIops"
+        case storageSize = "StorageSize"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deploymentOption = self.deploymentOption {
+            try encodeContainer.encode(deploymentOption, forKey: .deploymentOption)
+        }
+        if let engineEdition = self.engineEdition {
+            try encodeContainer.encode(engineEdition, forKey: .engineEdition)
+        }
+        if let instanceMemory = self.instanceMemory {
+            try encodeContainer.encode(instanceMemory, forKey: .instanceMemory)
+        }
+        if let instanceVcpu = self.instanceVcpu {
+            try encodeContainer.encode(instanceVcpu, forKey: .instanceVcpu)
+        }
+        if let storageIops = self.storageIops {
+            try encodeContainer.encode(storageIops, forKey: .storageIops)
+        }
+        if let storageSize = self.storageSize {
+            try encodeContainer.encode(storageSize, forKey: .storageSize)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let engineEditionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineEdition)
+        engineEdition = engineEditionDecoded
+        let instanceVcpuDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .instanceVcpu)
+        instanceVcpu = instanceVcpuDecoded
+        let instanceMemoryDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .instanceMemory)
+        instanceMemory = instanceMemoryDecoded
+        let storageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageSize)
+        storageSize = storageSizeDecoded
+        let storageIopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageIops)
+        storageIops = storageIopsDecoded
+        let deploymentOptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentOption)
+        deploymentOption = deploymentOptionDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that describes the requirements to the target engine on Amazon RDS.
+    public struct RdsRequirements: Swift.Equatable {
+        /// The required deployment option for the Amazon RDS DB instance. Valid values include "MULTI_AZ" for Multi-AZ deployments and "SINGLE_AZ" for Single-AZ deployments.
+        public var deploymentOption: Swift.String?
+        /// The required target Amazon RDS engine edition.
+        public var engineEdition: Swift.String?
+        /// The required memory on the Amazon RDS DB instance.
+        public var instanceMemory: Swift.Double?
+        /// The required number of virtual CPUs (vCPU) on the Amazon RDS DB instance.
+        public var instanceVcpu: Swift.Double?
+        /// The required number of I/O operations completed each second (IOPS) on your Amazon RDS DB instance.
+        public var storageIops: Swift.Int?
+        /// The required Amazon RDS DB instance storage size.
+        public var storageSize: Swift.Int?
+
+        public init (
+            deploymentOption: Swift.String? = nil,
+            engineEdition: Swift.String? = nil,
+            instanceMemory: Swift.Double? = nil,
+            instanceVcpu: Swift.Double? = nil,
+            storageIops: Swift.Int? = nil,
+            storageSize: Swift.Int? = nil
+        )
+        {
+            self.deploymentOption = deploymentOption
+            self.engineEdition = engineEdition
+            self.instanceMemory = instanceMemory
+            self.instanceVcpu = instanceVcpu
+            self.storageIops = storageIops
+            self.storageSize = storageSize
         }
     }
 
@@ -15463,6 +17295,22 @@ public enum RebootReplicationInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RebootReplicationInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RebootReplicationInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -15502,6 +17350,183 @@ extension RebootReplicationInstanceOutputResponseBody: Swift.Decodable {
         let replicationInstanceDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ReplicationInstance.self, forKey: .replicationInstance)
         replicationInstance = replicationInstanceDecoded
     }
+}
+
+extension DatabaseMigrationClientTypes.Recommendation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdDate = "CreatedDate"
+        case data = "Data"
+        case databaseId = "DatabaseId"
+        case engineName = "EngineName"
+        case preferred = "Preferred"
+        case settings = "Settings"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdDate = self.createdDate {
+            try encodeContainer.encode(createdDate, forKey: .createdDate)
+        }
+        if let data = self.data {
+            try encodeContainer.encode(data, forKey: .data)
+        }
+        if let databaseId = self.databaseId {
+            try encodeContainer.encode(databaseId, forKey: .databaseId)
+        }
+        if let engineName = self.engineName {
+            try encodeContainer.encode(engineName, forKey: .engineName)
+        }
+        if let preferred = self.preferred {
+            try encodeContainer.encode(preferred, forKey: .preferred)
+        }
+        if let settings = self.settings {
+            try encodeContainer.encode(settings, forKey: .settings)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseId)
+        databaseId = databaseIdDecoded
+        let engineNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineName)
+        engineName = engineNameDecoded
+        let createdDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdDate)
+        createdDate = createdDateDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let preferredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .preferred)
+        preferred = preferredDecoded
+        let settingsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.RecommendationSettings.self, forKey: .settings)
+        settings = settingsDecoded
+        let dataDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.RecommendationData.self, forKey: .data)
+        data = dataDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that describes a recommendation of a target engine. A recommendation is a set of possible Amazon Web Services target engines that you can choose to migrate your source on-premises database. In this set, Fleet Advisor suggests a single target engine as the right sized migration destination. To determine this rightsized migration destination, Fleet Advisor uses the inventory metadata and metrics from data collector. You can use recommendations before the start of migration to save costs and reduce risks. With recommendations, you can explore different target options and compare metrics, so you can make an informed decision when you choose the migration target.
+    public struct Recommendation: Swift.Equatable {
+        /// The date when Fleet Advisor created the target engine recommendation.
+        public var createdDate: Swift.String?
+        /// The recommendation of a target engine for the specified source database.
+        public var data: DatabaseMigrationClientTypes.RecommendationData?
+        /// The identifier of the source database for which Fleet Advisor provided this recommendation.
+        public var databaseId: Swift.String?
+        /// The name of the target engine. Valid values include "rds-aurora-mysql", "rds-aurora-postgresql", "rds-mysql", "rds-oracle", "rds-sql-server", and "rds-postgresql".
+        public var engineName: Swift.String?
+        /// Indicates that this target is the rightsized migration destination.
+        public var preferred: Swift.Bool?
+        /// The settings in JSON format for the preferred target engine parameters. These parameters include capacity, resource utilization, and the usage type (production, development, or testing).
+        public var settings: DatabaseMigrationClientTypes.RecommendationSettings?
+        /// The status of the target engine recommendation. Valid values include "alternate", "in-progress", "not-viable", and "recommended".
+        public var status: Swift.String?
+
+        public init (
+            createdDate: Swift.String? = nil,
+            data: DatabaseMigrationClientTypes.RecommendationData? = nil,
+            databaseId: Swift.String? = nil,
+            engineName: Swift.String? = nil,
+            preferred: Swift.Bool? = nil,
+            settings: DatabaseMigrationClientTypes.RecommendationSettings? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.createdDate = createdDate
+            self.data = data
+            self.databaseId = databaseId
+            self.engineName = engineName
+            self.preferred = preferred
+            self.settings = settings
+            self.status = status
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.RecommendationData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rdsEngine = "RdsEngine"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rdsEngine = self.rdsEngine {
+            try encodeContainer.encode(rdsEngine, forKey: .rdsEngine)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rdsEngineDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.RdsRecommendation.self, forKey: .rdsEngine)
+        rdsEngine = rdsEngineDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information about the target engine for the specified source database.
+    public struct RecommendationData: Swift.Equatable {
+        /// The recommendation of a target Amazon RDS database engine.
+        public var rdsEngine: DatabaseMigrationClientTypes.RdsRecommendation?
+
+        public init (
+            rdsEngine: DatabaseMigrationClientTypes.RdsRecommendation? = nil
+        )
+        {
+            self.rdsEngine = rdsEngine
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.RecommendationSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceSizingType = "InstanceSizingType"
+        case workloadType = "WorkloadType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceSizingType = self.instanceSizingType {
+            try encodeContainer.encode(instanceSizingType, forKey: .instanceSizingType)
+        }
+        if let workloadType = self.workloadType {
+            try encodeContainer.encode(workloadType, forKey: .workloadType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceSizingTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceSizingType)
+        instanceSizingType = instanceSizingTypeDecoded
+        let workloadTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadType)
+        workloadType = workloadTypeDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information about the required target engine settings.
+    public struct RecommendationSettings: Swift.Equatable {
+        /// The size of your target instance. Fleet Advisor calculates this value based on your data collection type, such as total capacity and resource utilization. Valid values include "total-capacity" and "utilization".
+        /// This member is required.
+        public var instanceSizingType: Swift.String?
+        /// The deployment option for your target engine. For production databases, Fleet Advisor chooses Multi-AZ deployment. For development or test databases, Fleet Advisor chooses Single-AZ deployment. Valid values include "development" and "production".
+        /// This member is required.
+        public var workloadType: Swift.String?
+
+        public init (
+            instanceSizingType: Swift.String? = nil,
+            workloadType: Swift.String? = nil
+        )
+        {
+            self.instanceSizingType = instanceSizingType
+            self.workloadType = workloadType
+        }
+    }
+
 }
 
 extension DatabaseMigrationClientTypes {
@@ -16061,6 +18086,24 @@ public enum RefreshSchemasOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RefreshSchemasOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .resourceQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RefreshSchemasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -16216,11 +18259,13 @@ extension DatabaseMigrationClientTypes {
 extension DatabaseMigrationClientTypes {
     public enum ReleaseStatusValues: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case beta
+        case prod
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ReleaseStatusValues] {
             return [
                 .beta,
+                .prod,
                 .sdkUnknown("")
             ]
         }
@@ -16231,6 +18276,7 @@ extension DatabaseMigrationClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .beta: return "beta"
+            case .prod: return "prod"
             case let .sdkUnknown(s): return s
             }
         }
@@ -16383,6 +18429,22 @@ public enum ReloadTablesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ReloadTablesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ReloadTablesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -16518,6 +18580,21 @@ extension RemoveTagsFromResourceOutputError {
 public enum RemoveTagsFromResourceOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RemoveTagsFromResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -17188,6 +19265,9 @@ public struct ReplicationSubnetGroupDoesNotCoverEnoughAZs: AWSClientRuntime.AWSH
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReplicationSubnetGroupDoesNotCoverEnoughAZs" }
+
     ///
     public var message: Swift.String?
 
@@ -17347,7 +19427,7 @@ extension DatabaseMigrationClientTypes {
     public struct ReplicationTask: Swift.Equatable {
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want the CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
         public var cdcStartPosition: Swift.String?
-        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
         public var cdcStopPosition: Swift.String?
         /// The last error (failure) message generated for the replication task.
         public var lastFailureMessage: Swift.String?
@@ -18043,6 +20123,9 @@ public struct ResourceAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceAlreadyExistsFault" }
+
     ///
     public var message: Swift.String?
     public var resourceArn: Swift.String?
@@ -18103,6 +20186,9 @@ public struct ResourceNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundFault" }
+
     ///
     public var message: Swift.String?
 
@@ -18213,6 +20299,9 @@ public struct ResourceQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceQuotaExceededFault" }
+
     ///
     public var message: Swift.String?
 
@@ -18292,6 +20381,22 @@ public enum RunFleetAdvisorLsaAnalysisOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RunFleetAdvisorLsaAnalysisOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RunFleetAdvisorLsaAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -18369,6 +20474,9 @@ public struct S3AccessDeniedFault: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "S3AccessDeniedFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -18421,6 +20529,9 @@ public struct S3ResourceNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "S3ResourceNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -18930,6 +21041,9 @@ public struct SNSInvalidTopicFault: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SNSInvalidTopicFault" }
+
     ///
     public var message: Swift.String?
 
@@ -18983,6 +21097,9 @@ public struct SNSNoAuthorizationFault: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SNSNoAuthorizationFault" }
+
     ///
     public var message: Swift.String?
 
@@ -19351,6 +21468,167 @@ extension DatabaseMigrationClientTypes {
     }
 }
 
+extension StartRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseId = "DatabaseId"
+        case settings = "Settings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let databaseId = self.databaseId {
+            try encodeContainer.encode(databaseId, forKey: .databaseId)
+        }
+        if let settings = self.settings {
+            try encodeContainer.encode(settings, forKey: .settings)
+        }
+    }
+}
+
+extension StartRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartRecommendationsInput: Swift.Equatable {
+    /// The identifier of the source database to analyze and provide recommendations for.
+    /// This member is required.
+    public var databaseId: Swift.String?
+    /// The settings in JSON format that Fleet Advisor uses to determine target engine recommendations. These parameters include target instance sizing and availability and durability settings. For target instance sizing, Fleet Advisor supports the following two options: total capacity and resource utilization. For availability and durability, Fleet Advisor supports the following two options: production (Multi-AZ deployments) and Dev/Test (Single-AZ deployments).
+    /// This member is required.
+    public var settings: DatabaseMigrationClientTypes.RecommendationSettings?
+
+    public init (
+        databaseId: Swift.String? = nil,
+        settings: DatabaseMigrationClientTypes.RecommendationSettings? = nil
+    )
+    {
+        self.databaseId = databaseId
+        self.settings = settings
+    }
+}
+
+struct StartRecommendationsInputBody: Swift.Equatable {
+    let databaseId: Swift.String?
+    let settings: DatabaseMigrationClientTypes.RecommendationSettings?
+}
+
+extension StartRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseId = "DatabaseId"
+        case settings = "Settings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseId)
+        databaseId = databaseIdDecoded
+        let settingsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.RecommendationSettings.self, forKey: .settings)
+        settings = settingsDecoded
+    }
+}
+
+extension StartRecommendationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartRecommendationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedFault" : self = .accessDeniedFault(try AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceStateFault" : self = .invalidResourceStateFault(try InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundFault" : self = .resourceNotFoundFault(try ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartRecommendationsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedFault(AccessDeniedFault)
+    case invalidResourceStateFault(InvalidResourceStateFault)
+    case resourceNotFoundFault(ResourceNotFoundFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartRecommendationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
+extension StartRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct StartRecommendationsOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DatabaseMigrationClientTypes.StartRecommendationsRequestEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseId = "DatabaseId"
+        case settings = "Settings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let databaseId = self.databaseId {
+            try encodeContainer.encode(databaseId, forKey: .databaseId)
+        }
+        if let settings = self.settings {
+            try encodeContainer.encode(settings, forKey: .settings)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseId)
+        databaseId = databaseIdDecoded
+        let settingsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.RecommendationSettings.self, forKey: .settings)
+        settings = settingsDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information about the source database to analyze and provide target recommendations according to the specified requirements.
+    public struct StartRecommendationsRequestEntry: Swift.Equatable {
+        /// The identifier of the source database.
+        /// This member is required.
+        public var databaseId: Swift.String?
+        /// The required target engine settings.
+        /// This member is required.
+        public var settings: DatabaseMigrationClientTypes.RecommendationSettings?
+
+        public init (
+            databaseId: Swift.String? = nil,
+            settings: DatabaseMigrationClientTypes.RecommendationSettings? = nil
+        )
+        {
+            self.databaseId = databaseId
+            self.settings = settings
+        }
+    }
+
+}
+
 extension StartReplicationTaskAssessmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicationTaskArn = "ReplicationTaskArn"
@@ -19422,6 +21700,22 @@ public enum StartReplicationTaskAssessmentOutputError: Swift.Error, Swift.Equata
     case invalidResourceStateFault(InvalidResourceStateFault)
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartReplicationTaskAssessmentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartReplicationTaskAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -19686,6 +21980,32 @@ public enum StartReplicationTaskAssessmentRunOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartReplicationTaskAssessmentRunOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .kMSAccessDeniedFault(let error): return error
+        case .kMSDisabledFault(let error): return error
+        case .kMSFault(let error): return error
+        case .kMSInvalidStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .kMSNotFoundFault(let error): return error
+        case .resourceAlreadyExistsFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .s3AccessDeniedFault(let error): return error
+        case .s3ResourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartReplicationTaskAssessmentRunOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -19769,12 +22089,12 @@ public struct StartReplicationTaskInput: Swift.Equatable {
     public var cdcStartPosition: Swift.String?
     /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
     public var cdcStartTime: ClientRuntime.Date?
-    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
+    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
     public var cdcStopPosition: Swift.String?
     /// The Amazon Resource Name (ARN) of the replication task to be started.
     /// This member is required.
     public var replicationTaskArn: Swift.String?
-    /// The type of replication task to start. When the migration type is full-load or full-load-and-cdc, the only valid value for the first run of the task is start-replication. You use reload-target to restart the task and resume-processing to resume the task. When the migration type is cdc, you use start-replication to start or restart the task, and resume-processing to resume the task. reload-target is not a valid value for a task with migration type of cdc.
+    /// The type of replication task to start. When the migration type is full-load or full-load-and-cdc, the only valid value for the first run of the task is start-replication. This option will start the migration. You can also use [ReloadTables] to reload specific tables that failed during migration instead of restarting the task. The resume-processing option isn't applicable for a full-load task, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target. Otherwise use resume-processing, to replicate the changes from the last stop position.
     /// This member is required.
     public var startReplicationTaskType: DatabaseMigrationClientTypes.StartReplicationTaskTypeValue?
 
@@ -19850,6 +22170,23 @@ public enum StartReplicationTaskOutputError: Swift.Error, Swift.Equatable {
     case invalidResourceStateFault(InvalidResourceStateFault)
     case resourceNotFoundFault(ResourceNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartReplicationTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartReplicationTaskOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -20002,6 +22339,22 @@ public enum StopReplicationTaskOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StopReplicationTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidResourceStateFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StopReplicationTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -20070,6 +22423,9 @@ public struct StorageQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "StorageQuotaExceededFault" }
+
     ///
     public var message: Swift.String?
 
@@ -20178,6 +22534,9 @@ public struct SubnetAlreadyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SubnetAlreadyInUse" }
+
     ///
     public var message: Swift.String?
 
@@ -20889,6 +23248,25 @@ public enum TestConnectionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TestConnectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .kMSKeyNotAccessibleFault(let error): return error
+        case .resourceNotFoundFault(let error): return error
+        case .resourceQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TestConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -21003,6 +23381,22 @@ public enum UpdateSubscriptionsToEventBridgeOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateSubscriptionsToEventBridgeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedFault(let error): return error
+        case .invalidResourceStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateSubscriptionsToEventBridgeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -21071,6 +23465,9 @@ public struct UpgradeDependencyFailureFault: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UpgradeDependencyFailureFault" }
+
     ///
     public var message: Swift.String?
 

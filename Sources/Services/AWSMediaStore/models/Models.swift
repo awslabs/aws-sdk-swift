@@ -113,6 +113,9 @@ public struct ContainerInUseException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ContainerInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -197,6 +200,9 @@ public struct ContainerNotFoundException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ContainerNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -284,6 +290,9 @@ public struct CorsPolicyNotFoundException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CorsPolicyNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -533,6 +542,23 @@ public enum CreateContainerOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateContainerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .internalServerError(let error): return error
+        case .limitExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateContainerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -649,6 +675,23 @@ public enum DeleteContainerOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteContainerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteContainerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -733,6 +776,24 @@ public enum DeleteContainerPolicyOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case policyNotFoundException(PolicyNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteContainerPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteContainerPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -821,6 +882,24 @@ public enum DeleteCorsPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteCorsPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .corsPolicyNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteCorsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -905,6 +984,24 @@ public enum DeleteLifecyclePolicyOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case policyNotFoundException(PolicyNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteLifecyclePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteLifecyclePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -993,6 +1090,24 @@ public enum DeleteMetricPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteMetricPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteMetricPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1072,6 +1187,22 @@ public enum DescribeContainerOutputError: Swift.Error, Swift.Equatable {
     case containerNotFoundException(ContainerNotFoundException)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeContainerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeContainerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1191,6 +1322,24 @@ public enum GetContainerPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetContainerPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetContainerPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1307,6 +1456,24 @@ public enum GetCorsPolicyOutputError: Swift.Error, Swift.Equatable {
     case corsPolicyNotFoundException(CorsPolicyNotFoundException)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCorsPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .corsPolicyNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetCorsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1436,6 +1603,24 @@ public enum GetLifecyclePolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetLifecyclePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetLifecyclePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1554,6 +1739,24 @@ public enum GetMetricPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetMetricPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetMetricPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1622,6 +1825,9 @@ public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerError" }
+
     public var message: Swift.String?
 
     public init (
@@ -1674,6 +1880,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1779,6 +1988,21 @@ extension ListContainersOutputError {
 public enum ListContainersOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListContainersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListContainersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1914,6 +2138,23 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case containerNotFoundException(ContainerNotFoundException)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2135,6 +2376,9 @@ public struct PolicyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PolicyNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2252,6 +2496,23 @@ public enum PutContainerPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutContainerPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutContainerPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2361,6 +2622,23 @@ public enum PutCorsPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutCorsPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutCorsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2456,6 +2734,23 @@ public enum PutLifecyclePolicyOutputError: Swift.Error, Swift.Equatable {
     case containerNotFoundException(ContainerNotFoundException)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutLifecyclePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutLifecyclePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2559,6 +2854,23 @@ public enum PutMetricPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutMetricPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutMetricPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2643,6 +2955,23 @@ public enum StartAccessLoggingOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartAccessLoggingOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartAccessLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2725,6 +3054,23 @@ public enum StopAccessLoggingOutputError: Swift.Error, Swift.Equatable {
     case containerNotFoundException(ContainerNotFoundException)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopAccessLoggingOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StopAccessLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2882,6 +3228,23 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2989,6 +3352,23 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case containerNotFoundException(ContainerNotFoundException)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .containerInUseException(let error): return error
+        case .containerNotFoundException(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {

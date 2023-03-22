@@ -85,6 +85,9 @@ public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BadRequestException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -144,6 +147,9 @@ public struct CapacityExceededException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CapacityExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -636,6 +642,9 @@ public struct InvalidSessionException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSessionException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -695,6 +704,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -747,6 +759,9 @@ public struct OccConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OccConflictException" }
+
     public var message: Swift.String?
 
     public init (
@@ -856,6 +871,9 @@ public struct RateExceededException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RateExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1043,6 +1061,26 @@ public enum SendCommandOutputError: Swift.Error, Swift.Equatable {
     case occConflictException(OccConflictException)
     case rateExceededException(RateExceededException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SendCommandOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .capacityExceededException(let error): return error
+        case .invalidSessionException(let error): return error
+        case .limitExceededException(let error): return error
+        case .occConflictException(let error): return error
+        case .rateExceededException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SendCommandOutputResponse: ClientRuntime.HttpResponseBinding {

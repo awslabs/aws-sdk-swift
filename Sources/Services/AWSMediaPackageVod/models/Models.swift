@@ -413,6 +413,26 @@ public enum ConfigureLogsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ConfigureLogsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ConfigureLogsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -421,6 +441,7 @@ extension ConfigureLogsOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: ConfigureLogsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.authorization = output.authorization
+            self.createdAt = output.createdAt
             self.domainName = output.domainName
             self.egressAccessLogs = output.egressAccessLogs
             self.id = output.id
@@ -428,6 +449,7 @@ extension ConfigureLogsOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.arn = nil
             self.authorization = nil
+            self.createdAt = nil
             self.domainName = nil
             self.egressAccessLogs = nil
             self.id = nil
@@ -441,6 +463,8 @@ public struct ConfigureLogsOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// CDN Authorization credentials
     public var authorization: MediaPackageVodClientTypes.Authorization?
+    /// The time the PackagingGroup was created.
+    public var createdAt: Swift.String?
     /// The fully qualified domain name for Assets in the PackagingGroup.
     public var domainName: Swift.String?
     /// Configure egress access logging.
@@ -453,6 +477,7 @@ public struct ConfigureLogsOutputResponse: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         authorization: MediaPackageVodClientTypes.Authorization? = nil,
+        createdAt: Swift.String? = nil,
         domainName: Swift.String? = nil,
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
@@ -461,6 +486,7 @@ public struct ConfigureLogsOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.authorization = authorization
+        self.createdAt = createdAt
         self.domainName = domainName
         self.egressAccessLogs = egressAccessLogs
         self.id = id
@@ -471,6 +497,7 @@ public struct ConfigureLogsOutputResponse: Swift.Equatable {
 struct ConfigureLogsOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
     let authorization: MediaPackageVodClientTypes.Authorization?
+    let createdAt: Swift.String?
     let domainName: Swift.String?
     let egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs?
     let id: Swift.String?
@@ -481,6 +508,7 @@ extension ConfigureLogsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
         case authorization = "authorization"
+        case createdAt = "createdAt"
         case domainName = "domainName"
         case egressAccessLogs = "egressAccessLogs"
         case id = "id"
@@ -493,6 +521,8 @@ extension ConfigureLogsOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)
         authorization = authorizationDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -667,6 +697,26 @@ public enum CreateAssetOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case unprocessableEntityException(UnprocessableEntityException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateAssetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateAssetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -974,6 +1024,26 @@ public enum CreatePackagingConfigurationOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreatePackagingConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreatePackagingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -982,6 +1052,7 @@ extension CreatePackagingConfigurationOutputResponse: ClientRuntime.HttpResponse
             let output: CreatePackagingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.cmafPackage = output.cmafPackage
+            self.createdAt = output.createdAt
             self.dashPackage = output.dashPackage
             self.hlsPackage = output.hlsPackage
             self.id = output.id
@@ -991,6 +1062,7 @@ extension CreatePackagingConfigurationOutputResponse: ClientRuntime.HttpResponse
         } else {
             self.arn = nil
             self.cmafPackage = nil
+            self.createdAt = nil
             self.dashPackage = nil
             self.hlsPackage = nil
             self.id = nil
@@ -1006,6 +1078,8 @@ public struct CreatePackagingConfigurationOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// A CMAF packaging configuration.
     public var cmafPackage: MediaPackageVodClientTypes.CmafPackage?
+    /// The time the PackagingConfiguration was created.
+    public var createdAt: Swift.String?
     /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
     public var dashPackage: MediaPackageVodClientTypes.DashPackage?
     /// An HTTP Live Streaming (HLS) packaging configuration.
@@ -1022,6 +1096,7 @@ public struct CreatePackagingConfigurationOutputResponse: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         cmafPackage: MediaPackageVodClientTypes.CmafPackage? = nil,
+        createdAt: Swift.String? = nil,
         dashPackage: MediaPackageVodClientTypes.DashPackage? = nil,
         hlsPackage: MediaPackageVodClientTypes.HlsPackage? = nil,
         id: Swift.String? = nil,
@@ -1032,6 +1107,7 @@ public struct CreatePackagingConfigurationOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.cmafPackage = cmafPackage
+        self.createdAt = createdAt
         self.dashPackage = dashPackage
         self.hlsPackage = hlsPackage
         self.id = id
@@ -1044,6 +1120,7 @@ public struct CreatePackagingConfigurationOutputResponse: Swift.Equatable {
 struct CreatePackagingConfigurationOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
     let cmafPackage: MediaPackageVodClientTypes.CmafPackage?
+    let createdAt: Swift.String?
     let dashPackage: MediaPackageVodClientTypes.DashPackage?
     let hlsPackage: MediaPackageVodClientTypes.HlsPackage?
     let id: Swift.String?
@@ -1056,6 +1133,7 @@ extension CreatePackagingConfigurationOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
         case cmafPackage = "cmafPackage"
+        case createdAt = "createdAt"
         case dashPackage = "dashPackage"
         case hlsPackage = "hlsPackage"
         case id = "id"
@@ -1070,6 +1148,8 @@ extension CreatePackagingConfigurationOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let cmafPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.CmafPackage.self, forKey: .cmafPackage)
         cmafPackage = cmafPackageDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let dashPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.DashPackage.self, forKey: .dashPackage)
         dashPackage = dashPackageDecoded
         let hlsPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.HlsPackage.self, forKey: .hlsPackage)
@@ -1223,6 +1303,26 @@ public enum CreatePackagingGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreatePackagingGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1231,6 +1331,7 @@ extension CreatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding 
             let output: CreatePackagingGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.authorization = output.authorization
+            self.createdAt = output.createdAt
             self.domainName = output.domainName
             self.egressAccessLogs = output.egressAccessLogs
             self.id = output.id
@@ -1238,6 +1339,7 @@ extension CreatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding 
         } else {
             self.arn = nil
             self.authorization = nil
+            self.createdAt = nil
             self.domainName = nil
             self.egressAccessLogs = nil
             self.id = nil
@@ -1251,6 +1353,8 @@ public struct CreatePackagingGroupOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// CDN Authorization credentials
     public var authorization: MediaPackageVodClientTypes.Authorization?
+    /// The time the PackagingGroup was created.
+    public var createdAt: Swift.String?
     /// The fully qualified domain name for Assets in the PackagingGroup.
     public var domainName: Swift.String?
     /// Configure egress access logging.
@@ -1263,6 +1367,7 @@ public struct CreatePackagingGroupOutputResponse: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         authorization: MediaPackageVodClientTypes.Authorization? = nil,
+        createdAt: Swift.String? = nil,
         domainName: Swift.String? = nil,
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
@@ -1271,6 +1376,7 @@ public struct CreatePackagingGroupOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.authorization = authorization
+        self.createdAt = createdAt
         self.domainName = domainName
         self.egressAccessLogs = egressAccessLogs
         self.id = id
@@ -1281,6 +1387,7 @@ public struct CreatePackagingGroupOutputResponse: Swift.Equatable {
 struct CreatePackagingGroupOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
     let authorization: MediaPackageVodClientTypes.Authorization?
+    let createdAt: Swift.String?
     let domainName: Swift.String?
     let egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs?
     let id: Swift.String?
@@ -1291,6 +1398,7 @@ extension CreatePackagingGroupOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
         case authorization = "authorization"
+        case createdAt = "createdAt"
         case domainName = "domainName"
         case egressAccessLogs = "egressAccessLogs"
         case id = "id"
@@ -1303,6 +1411,8 @@ extension CreatePackagingGroupOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)
         authorization = authorizationDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -1419,7 +1529,7 @@ extension MediaPackageVodClientTypes {
         public var minBufferTimeSeconds: Swift.Int?
         /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type. When set to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
         public var profile: MediaPackageVodClientTypes.Profile?
-        /// The source of scte markers used. When set to SEGMENTS, the scte markers are sourced from the segments of the ingested content. When set to MANIFEST, the scte markers are sourced from the manifest of the ingested content. The MANIFEST value is compatible with source HLS playlists using the SCTE-35 Enhanced syntax (#EXT-OATCLS-SCTE35 tags). SCTE-35 Elemental and SCTE-35 Daterange syntaxes are not supported with this option.
+        /// The source of scte markers used. When set to SEGMENTS, the scte markers are sourced from the segments of the ingested content. When set to MANIFEST, the scte markers are sourced from the manifest of the ingested content.
         public var scteMarkersSource: MediaPackageVodClientTypes.ScteMarkersSource?
         /// A StreamSelection configuration.
         public var streamSelection: MediaPackageVodClientTypes.StreamSelection?
@@ -1627,6 +1737,26 @@ public enum DeleteAssetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteAssetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteAssetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1698,6 +1828,26 @@ public enum DeletePackagingConfigurationOutputError: Swift.Error, Swift.Equatabl
     case tooManyRequestsException(TooManyRequestsException)
     case unprocessableEntityException(UnprocessableEntityException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeletePackagingConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeletePackagingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1773,6 +1923,26 @@ public enum DeletePackagingGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeletePackagingGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeletePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1844,6 +2014,26 @@ public enum DescribeAssetOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case unprocessableEntityException(UnprocessableEntityException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAssetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAssetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2048,6 +2238,26 @@ public enum DescribePackagingConfigurationOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribePackagingConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribePackagingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2056,6 +2266,7 @@ extension DescribePackagingConfigurationOutputResponse: ClientRuntime.HttpRespon
             let output: DescribePackagingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.cmafPackage = output.cmafPackage
+            self.createdAt = output.createdAt
             self.dashPackage = output.dashPackage
             self.hlsPackage = output.hlsPackage
             self.id = output.id
@@ -2065,6 +2276,7 @@ extension DescribePackagingConfigurationOutputResponse: ClientRuntime.HttpRespon
         } else {
             self.arn = nil
             self.cmafPackage = nil
+            self.createdAt = nil
             self.dashPackage = nil
             self.hlsPackage = nil
             self.id = nil
@@ -2080,6 +2292,8 @@ public struct DescribePackagingConfigurationOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// A CMAF packaging configuration.
     public var cmafPackage: MediaPackageVodClientTypes.CmafPackage?
+    /// The time the PackagingConfiguration was created.
+    public var createdAt: Swift.String?
     /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
     public var dashPackage: MediaPackageVodClientTypes.DashPackage?
     /// An HTTP Live Streaming (HLS) packaging configuration.
@@ -2096,6 +2310,7 @@ public struct DescribePackagingConfigurationOutputResponse: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         cmafPackage: MediaPackageVodClientTypes.CmafPackage? = nil,
+        createdAt: Swift.String? = nil,
         dashPackage: MediaPackageVodClientTypes.DashPackage? = nil,
         hlsPackage: MediaPackageVodClientTypes.HlsPackage? = nil,
         id: Swift.String? = nil,
@@ -2106,6 +2321,7 @@ public struct DescribePackagingConfigurationOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.cmafPackage = cmafPackage
+        self.createdAt = createdAt
         self.dashPackage = dashPackage
         self.hlsPackage = hlsPackage
         self.id = id
@@ -2118,6 +2334,7 @@ public struct DescribePackagingConfigurationOutputResponse: Swift.Equatable {
 struct DescribePackagingConfigurationOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
     let cmafPackage: MediaPackageVodClientTypes.CmafPackage?
+    let createdAt: Swift.String?
     let dashPackage: MediaPackageVodClientTypes.DashPackage?
     let hlsPackage: MediaPackageVodClientTypes.HlsPackage?
     let id: Swift.String?
@@ -2130,6 +2347,7 @@ extension DescribePackagingConfigurationOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
         case cmafPackage = "cmafPackage"
+        case createdAt = "createdAt"
         case dashPackage = "dashPackage"
         case hlsPackage = "hlsPackage"
         case id = "id"
@@ -2144,6 +2362,8 @@ extension DescribePackagingConfigurationOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let cmafPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.CmafPackage.self, forKey: .cmafPackage)
         cmafPackage = cmafPackageDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let dashPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.DashPackage.self, forKey: .dashPackage)
         dashPackage = dashPackageDecoded
         let hlsPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.HlsPackage.self, forKey: .hlsPackage)
@@ -2231,6 +2451,26 @@ public enum DescribePackagingGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribePackagingGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2240,6 +2480,7 @@ extension DescribePackagingGroupOutputResponse: ClientRuntime.HttpResponseBindin
             self.approximateAssetCount = output.approximateAssetCount
             self.arn = output.arn
             self.authorization = output.authorization
+            self.createdAt = output.createdAt
             self.domainName = output.domainName
             self.egressAccessLogs = output.egressAccessLogs
             self.id = output.id
@@ -2248,6 +2489,7 @@ extension DescribePackagingGroupOutputResponse: ClientRuntime.HttpResponseBindin
             self.approximateAssetCount = nil
             self.arn = nil
             self.authorization = nil
+            self.createdAt = nil
             self.domainName = nil
             self.egressAccessLogs = nil
             self.id = nil
@@ -2263,6 +2505,8 @@ public struct DescribePackagingGroupOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// CDN Authorization credentials
     public var authorization: MediaPackageVodClientTypes.Authorization?
+    /// The time the PackagingGroup was created.
+    public var createdAt: Swift.String?
     /// The fully qualified domain name for Assets in the PackagingGroup.
     public var domainName: Swift.String?
     /// Configure egress access logging.
@@ -2276,6 +2520,7 @@ public struct DescribePackagingGroupOutputResponse: Swift.Equatable {
         approximateAssetCount: Swift.Int? = nil,
         arn: Swift.String? = nil,
         authorization: MediaPackageVodClientTypes.Authorization? = nil,
+        createdAt: Swift.String? = nil,
         domainName: Swift.String? = nil,
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
@@ -2285,6 +2530,7 @@ public struct DescribePackagingGroupOutputResponse: Swift.Equatable {
         self.approximateAssetCount = approximateAssetCount
         self.arn = arn
         self.authorization = authorization
+        self.createdAt = createdAt
         self.domainName = domainName
         self.egressAccessLogs = egressAccessLogs
         self.id = id
@@ -2296,6 +2542,7 @@ struct DescribePackagingGroupOutputResponseBody: Swift.Equatable {
     let approximateAssetCount: Swift.Int?
     let arn: Swift.String?
     let authorization: MediaPackageVodClientTypes.Authorization?
+    let createdAt: Swift.String?
     let domainName: Swift.String?
     let egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs?
     let id: Swift.String?
@@ -2307,6 +2554,7 @@ extension DescribePackagingGroupOutputResponseBody: Swift.Decodable {
         case approximateAssetCount = "approximateAssetCount"
         case arn = "arn"
         case authorization = "authorization"
+        case createdAt = "createdAt"
         case domainName = "domainName"
         case egressAccessLogs = "egressAccessLogs"
         case id = "id"
@@ -2321,6 +2569,8 @@ extension DescribePackagingGroupOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)
         authorization = authorizationDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -2536,6 +2786,9 @@ public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ForbiddenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2817,6 +3070,9 @@ public struct InternalServerErrorException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerErrorException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2929,6 +3185,26 @@ public enum ListAssetsOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case unprocessableEntityException(UnprocessableEntityException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAssetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAssetsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3079,6 +3355,26 @@ public enum ListPackagingConfigurationsOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListPackagingConfigurationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListPackagingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3219,6 +3515,26 @@ public enum ListPackagingGroupsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListPackagingGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListPackagingGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3328,6 +3644,20 @@ extension ListTagsForResourceOutputError {
 
 public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3587,6 +3917,9 @@ public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3617,6 +3950,7 @@ extension MediaPackageVodClientTypes.PackagingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
         case cmafPackage = "cmafPackage"
+        case createdAt = "createdAt"
         case dashPackage = "dashPackage"
         case hlsPackage = "hlsPackage"
         case id = "id"
@@ -3632,6 +3966,9 @@ extension MediaPackageVodClientTypes.PackagingConfiguration: Swift.Codable {
         }
         if let cmafPackage = self.cmafPackage {
             try encodeContainer.encode(cmafPackage, forKey: .cmafPackage)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encode(createdAt, forKey: .createdAt)
         }
         if let dashPackage = self.dashPackage {
             try encodeContainer.encode(dashPackage, forKey: .dashPackage)
@@ -3662,6 +3999,8 @@ extension MediaPackageVodClientTypes.PackagingConfiguration: Swift.Codable {
         arn = arnDecoded
         let cmafPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.CmafPackage.self, forKey: .cmafPackage)
         cmafPackage = cmafPackageDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let dashPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.DashPackage.self, forKey: .dashPackage)
         dashPackage = dashPackageDecoded
         let hlsPackageDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.HlsPackage.self, forKey: .hlsPackage)
@@ -3693,6 +4032,8 @@ extension MediaPackageVodClientTypes {
         public var arn: Swift.String?
         /// A CMAF packaging configuration.
         public var cmafPackage: MediaPackageVodClientTypes.CmafPackage?
+        /// The time the PackagingConfiguration was created.
+        public var createdAt: Swift.String?
         /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
         public var dashPackage: MediaPackageVodClientTypes.DashPackage?
         /// An HTTP Live Streaming (HLS) packaging configuration.
@@ -3709,6 +4050,7 @@ extension MediaPackageVodClientTypes {
         public init (
             arn: Swift.String? = nil,
             cmafPackage: MediaPackageVodClientTypes.CmafPackage? = nil,
+            createdAt: Swift.String? = nil,
             dashPackage: MediaPackageVodClientTypes.DashPackage? = nil,
             hlsPackage: MediaPackageVodClientTypes.HlsPackage? = nil,
             id: Swift.String? = nil,
@@ -3719,6 +4061,7 @@ extension MediaPackageVodClientTypes {
         {
             self.arn = arn
             self.cmafPackage = cmafPackage
+            self.createdAt = createdAt
             self.dashPackage = dashPackage
             self.hlsPackage = hlsPackage
             self.id = id
@@ -3735,6 +4078,7 @@ extension MediaPackageVodClientTypes.PackagingGroup: Swift.Codable {
         case approximateAssetCount = "approximateAssetCount"
         case arn = "arn"
         case authorization = "authorization"
+        case createdAt = "createdAt"
         case domainName = "domainName"
         case egressAccessLogs = "egressAccessLogs"
         case id = "id"
@@ -3751,6 +4095,9 @@ extension MediaPackageVodClientTypes.PackagingGroup: Swift.Codable {
         }
         if let authorization = self.authorization {
             try encodeContainer.encode(authorization, forKey: .authorization)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encode(createdAt, forKey: .createdAt)
         }
         if let domainName = self.domainName {
             try encodeContainer.encode(domainName, forKey: .domainName)
@@ -3777,6 +4124,8 @@ extension MediaPackageVodClientTypes.PackagingGroup: Swift.Codable {
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)
         authorization = authorizationDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -3806,6 +4155,8 @@ extension MediaPackageVodClientTypes {
         public var arn: Swift.String?
         /// CDN Authorization credentials
         public var authorization: MediaPackageVodClientTypes.Authorization?
+        /// The time the PackagingGroup was created.
+        public var createdAt: Swift.String?
         /// The fully qualified domain name for Assets in the PackagingGroup.
         public var domainName: Swift.String?
         /// Configure egress access logging.
@@ -3819,6 +4170,7 @@ extension MediaPackageVodClientTypes {
             approximateAssetCount: Swift.Int? = nil,
             arn: Swift.String? = nil,
             authorization: MediaPackageVodClientTypes.Authorization? = nil,
+            createdAt: Swift.String? = nil,
             domainName: Swift.String? = nil,
             egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
             id: Swift.String? = nil,
@@ -3828,6 +4180,7 @@ extension MediaPackageVodClientTypes {
             self.approximateAssetCount = approximateAssetCount
             self.arn = arn
             self.authorization = authorization
+            self.createdAt = createdAt
             self.domainName = domainName
             self.egressAccessLogs = egressAccessLogs
             self.id = id
@@ -4059,6 +4412,9 @@ public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceUnavailableException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4343,6 +4699,20 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4379,6 +4749,9 @@ public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyRequestsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4431,6 +4804,9 @@ public struct UnprocessableEntityException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnprocessableEntityException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4528,6 +4904,20 @@ extension UntagResourceOutputError {
 
 public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4628,6 +5018,26 @@ public enum UpdatePackagingGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdatePackagingGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4637,6 +5047,7 @@ extension UpdatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding 
             self.approximateAssetCount = output.approximateAssetCount
             self.arn = output.arn
             self.authorization = output.authorization
+            self.createdAt = output.createdAt
             self.domainName = output.domainName
             self.egressAccessLogs = output.egressAccessLogs
             self.id = output.id
@@ -4645,6 +5056,7 @@ extension UpdatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding 
             self.approximateAssetCount = nil
             self.arn = nil
             self.authorization = nil
+            self.createdAt = nil
             self.domainName = nil
             self.egressAccessLogs = nil
             self.id = nil
@@ -4660,6 +5072,8 @@ public struct UpdatePackagingGroupOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// CDN Authorization credentials
     public var authorization: MediaPackageVodClientTypes.Authorization?
+    /// The time the PackagingGroup was created.
+    public var createdAt: Swift.String?
     /// The fully qualified domain name for Assets in the PackagingGroup.
     public var domainName: Swift.String?
     /// Configure egress access logging.
@@ -4673,6 +5087,7 @@ public struct UpdatePackagingGroupOutputResponse: Swift.Equatable {
         approximateAssetCount: Swift.Int? = nil,
         arn: Swift.String? = nil,
         authorization: MediaPackageVodClientTypes.Authorization? = nil,
+        createdAt: Swift.String? = nil,
         domainName: Swift.String? = nil,
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
@@ -4682,6 +5097,7 @@ public struct UpdatePackagingGroupOutputResponse: Swift.Equatable {
         self.approximateAssetCount = approximateAssetCount
         self.arn = arn
         self.authorization = authorization
+        self.createdAt = createdAt
         self.domainName = domainName
         self.egressAccessLogs = egressAccessLogs
         self.id = id
@@ -4693,6 +5109,7 @@ struct UpdatePackagingGroupOutputResponseBody: Swift.Equatable {
     let approximateAssetCount: Swift.Int?
     let arn: Swift.String?
     let authorization: MediaPackageVodClientTypes.Authorization?
+    let createdAt: Swift.String?
     let domainName: Swift.String?
     let egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs?
     let id: Swift.String?
@@ -4704,6 +5121,7 @@ extension UpdatePackagingGroupOutputResponseBody: Swift.Decodable {
         case approximateAssetCount = "approximateAssetCount"
         case arn = "arn"
         case authorization = "authorization"
+        case createdAt = "createdAt"
         case domainName = "domainName"
         case egressAccessLogs = "egressAccessLogs"
         case id = "id"
@@ -4718,6 +5136,8 @@ extension UpdatePackagingGroupOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)
         authorization = authorizationDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)

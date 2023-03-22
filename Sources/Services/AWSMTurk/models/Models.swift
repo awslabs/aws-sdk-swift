@@ -86,6 +86,22 @@ public enum AcceptQualificationRequestOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AcceptQualificationRequestOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AcceptQualificationRequestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -190,6 +206,22 @@ public enum ApproveAssignmentOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ApproveAssignmentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ApproveAssignmentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -491,6 +523,22 @@ public enum AssociateQualificationWithWorkerOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateQualificationWithWorkerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateQualificationWithWorkerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -727,6 +775,22 @@ public enum CreateAdditionalAssignmentsForHITOutputError: Swift.Error, Swift.Equ
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateAdditionalAssignmentsForHITOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateAdditionalAssignmentsForHITOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1019,6 +1083,22 @@ public enum CreateHITOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateHITOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateHITOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1217,6 +1297,22 @@ public enum CreateHITTypeOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateHITTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateHITTypeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1453,6 +1549,22 @@ public enum CreateHITWithHITTypeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateHITWithHITTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateHITWithHITTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1676,6 +1788,22 @@ public enum CreateQualificationTypeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateQualificationTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateQualificationTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1802,6 +1930,22 @@ public enum CreateWorkerBlockOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateWorkerBlockOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateWorkerBlockOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1884,6 +2028,22 @@ public enum DeleteHITOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteHITOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteHITOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1964,6 +2124,22 @@ public enum DeleteQualificationTypeOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteQualificationTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteQualificationTypeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2058,6 +2234,22 @@ public enum DeleteWorkerBlockOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteWorkerBlockOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteWorkerBlockOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2165,6 +2357,22 @@ public enum DisassociateQualificationFromWorkerOutputError: Swift.Error, Swift.E
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateQualificationFromWorkerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateQualificationFromWorkerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2291,6 +2499,22 @@ public enum GetAccountBalanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetAccountBalanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetAccountBalanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2412,6 +2636,22 @@ public enum GetAssignmentOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetAssignmentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetAssignmentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2550,6 +2790,22 @@ public enum GetFileUploadURLOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetFileUploadURLOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetFileUploadURLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2661,6 +2917,22 @@ public enum GetHITOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetHITOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetHITOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2789,6 +3061,22 @@ public enum GetQualificationScoreOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetQualificationScoreOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetQualificationScoreOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2900,6 +3188,22 @@ public enum GetQualificationTypeOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetQualificationTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetQualificationTypeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3470,6 +3774,22 @@ public enum ListAssignmentsForHITOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListAssignmentsForHITOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListAssignmentsForHITOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3646,6 +3966,22 @@ public enum ListBonusPaymentsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListBonusPaymentsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListBonusPaymentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3812,6 +4148,22 @@ public enum ListHITsForQualificationTypeOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListHITsForQualificationTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListHITsForQualificationTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3962,6 +4314,22 @@ public enum ListHITsOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListHITsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListHITsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4127,6 +4495,22 @@ public enum ListQualificationRequestsOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListQualificationRequestsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListQualificationRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4317,6 +4701,22 @@ public enum ListQualificationTypesOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListQualificationTypesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListQualificationTypesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4533,6 +4933,22 @@ public enum ListReviewPolicyResultsForHITOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListReviewPolicyResultsForHITOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListReviewPolicyResultsForHITOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4731,6 +5147,22 @@ public enum ListReviewableHITsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListReviewableHITsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListReviewableHITsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4881,6 +5313,22 @@ public enum ListWorkerBlocksOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListWorkerBlocksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListWorkerBlocksOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5059,6 +5507,22 @@ public enum ListWorkersWithQualificationTypeOutputError: Swift.Error, Swift.Equa
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListWorkersWithQualificationTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListWorkersWithQualificationTypeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5494,6 +5958,22 @@ public enum NotifyWorkersOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension NotifyWorkersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension NotifyWorkersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6268,6 +6748,22 @@ public enum RejectAssignmentOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RejectAssignmentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RejectAssignmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6362,6 +6858,22 @@ public enum RejectQualificationRequestOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RejectQualificationRequestOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RejectQualificationRequestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6400,6 +6912,9 @@ public struct RequestError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RequestError" }
+
     public var message: Swift.String?
     public var turkErrorCode: Swift.String?
 
@@ -6975,6 +7490,22 @@ public enum SendBonusOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SendBonusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SendBonusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -7070,6 +7601,22 @@ public enum SendTestEventNotificationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SendTestEventNotificationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SendTestEventNotificationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -7108,6 +7655,9 @@ public struct ServiceFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceFault" }
+
     public var message: Swift.String?
     public var turkErrorCode: Swift.String?
 
@@ -7226,6 +7776,22 @@ public enum UpdateExpirationForHITOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateExpirationForHITOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateExpirationForHITOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -7324,6 +7890,22 @@ public enum UpdateHITReviewStatusOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateHITReviewStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateHITReviewStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -7417,6 +7999,22 @@ public enum UpdateHITTypeOfHITOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateHITTypeOfHITOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateHITTypeOfHITOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7523,6 +8121,22 @@ public enum UpdateNotificationSettingsOutputError: Swift.Error, Swift.Equatable 
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateNotificationSettingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateNotificationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7701,6 +8315,22 @@ public enum UpdateQualificationTypeOutputError: Swift.Error, Swift.Equatable {
     case requestError(RequestError)
     case serviceFault(ServiceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateQualificationTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .requestError(let error): return error
+        case .serviceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateQualificationTypeOutputResponse: ClientRuntime.HttpResponseBinding {

@@ -28,6 +28,9 @@ public struct InternalDependencyException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalDependencyException" }
+
     public var message: Swift.String?
 
     public init (
@@ -80,6 +83,9 @@ public struct InternalFailure: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalFailure" }
+
     public var message: Swift.String?
 
     public init (
@@ -223,6 +229,23 @@ public enum InvokeEndpointAsyncOutputError: Swift.Error, Swift.Equatable {
     case serviceUnavailable(ServiceUnavailable)
     case validationError(ValidationError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension InvokeEndpointAsyncOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalFailure(let error): return error
+        case .serviceUnavailable(let error): return error
+        case .validationError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension InvokeEndpointAsyncOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -457,6 +480,26 @@ public enum InvokeEndpointOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension InvokeEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalDependencyException(let error): return error
+        case .internalFailure(let error): return error
+        case .modelError(let error): return error
+        case .modelNotReadyException(let error): return error
+        case .serviceUnavailable(let error): return error
+        case .validationError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension InvokeEndpointOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InvokeEndpointOutputResponse(contentType: \(Swift.String(describing: contentType)), invokedProductionVariant: \(Swift.String(describing: invokedProductionVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
@@ -560,6 +603,9 @@ public struct ModelError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ModelError" }
+
     /// The Amazon Resource Name (ARN) of the log stream.
     public var logStreamArn: Swift.String?
     public var message: Swift.String?
@@ -636,6 +682,9 @@ public struct ModelNotReadyException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ModelNotReadyException" }
+
     public var message: Swift.String?
 
     public init (
@@ -688,6 +737,9 @@ public struct ServiceUnavailable: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceUnavailable" }
+
     public var message: Swift.String?
 
     public init (
@@ -740,6 +792,9 @@ public struct ValidationError: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ValidationError" }
+
     public var message: Swift.String?
 
     public init (

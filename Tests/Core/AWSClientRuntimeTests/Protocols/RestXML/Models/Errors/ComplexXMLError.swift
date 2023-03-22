@@ -16,6 +16,7 @@ public struct ComplexXMLError: ClientRuntime.ServiceError, Equatable {
     public var _requestID: String?
     public var _retryable: Bool = false
     public var _type: ErrorType = .client
+    public static var _modelName: String { "ComplexXMLError" }
     public var header: String?
     public var nested: ComplexXMLNestedErrorData?
     public var topLevel: String?

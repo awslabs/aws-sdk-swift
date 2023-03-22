@@ -156,6 +156,21 @@ public enum AddPermissionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddPermissionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .overLimit(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddPermissionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -184,6 +199,8 @@ public struct BatchEntryIdsNotDistinct: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BatchEntryIdsNotDistinct" }
 
     public init () { }
 }
@@ -206,6 +223,8 @@ public struct BatchRequestTooLong: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BatchRequestTooLong" }
 
     public init () { }
 }
@@ -387,6 +406,24 @@ public enum ChangeMessageVisibilityBatchOutputError: Swift.Error, Swift.Equatabl
     case invalidBatchEntryId(InvalidBatchEntryId)
     case tooManyEntriesInBatchRequest(TooManyEntriesInBatchRequest)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ChangeMessageVisibilityBatchOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .batchEntryIdsNotDistinct(let error): return error
+        case .emptyBatchRequest(let error): return error
+        case .invalidBatchEntryId(let error): return error
+        case .tooManyEntriesInBatchRequest(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ChangeMessageVisibilityBatchOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -666,6 +703,22 @@ public enum ChangeMessageVisibilityOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ChangeMessageVisibilityOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .messageNotInflight(let error): return error
+        case .receiptHandleIsInvalid(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ChangeMessageVisibilityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -916,6 +969,22 @@ public enum CreateQueueOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateQueueOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .queueDeletedRecently(let error): return error
+        case .queueNameExists(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateQueueOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1068,6 +1137,24 @@ public enum DeleteMessageBatchOutputError: Swift.Error, Swift.Equatable {
     case invalidBatchEntryId(InvalidBatchEntryId)
     case tooManyEntriesInBatchRequest(TooManyEntriesInBatchRequest)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteMessageBatchOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .batchEntryIdsNotDistinct(let error): return error
+        case .emptyBatchRequest(let error): return error
+        case .invalidBatchEntryId(let error): return error
+        case .tooManyEntriesInBatchRequest(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteMessageBatchOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1322,6 +1409,22 @@ public enum DeleteMessageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteMessageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidIdFormat(let error): return error
+        case .receiptHandleIsInvalid(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1398,6 +1501,20 @@ public enum DeleteQueueOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteQueueOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteQueueOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1426,6 +1543,8 @@ public struct EmptyBatchRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EmptyBatchRequest" }
 
     public init () { }
 }
@@ -1602,6 +1721,21 @@ public enum GetQueueAttributesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetQueueAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidAttributeName(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetQueueAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1741,6 +1875,21 @@ public enum GetQueueUrlOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetQueueUrlOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .queueDoesNotExist(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetQueueUrlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1802,6 +1951,8 @@ public struct InvalidAttributeName: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidAttributeName" }
 
     public init () { }
 }
@@ -1824,6 +1975,8 @@ public struct InvalidBatchEntryId: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidBatchEntryId" }
 
     public init () { }
 }
@@ -1846,6 +1999,8 @@ public struct InvalidIdFormat: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidIdFormat" }
 
     public init () { }
 }
@@ -1868,6 +2023,8 @@ public struct InvalidMessageContents: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidMessageContents" }
 
     public init () { }
 }
@@ -1960,6 +2117,21 @@ extension ListDeadLetterSourceQueuesOutputError {
 public enum ListDeadLetterSourceQueuesOutputError: Swift.Error, Swift.Equatable {
     case queueDoesNotExist(QueueDoesNotExist)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDeadLetterSourceQueuesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .queueDoesNotExist(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDeadLetterSourceQueuesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2095,6 +2267,20 @@ extension ListQueueTagsOutputError {
 
 public enum ListQueueTagsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListQueueTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListQueueTagsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2241,6 +2427,20 @@ extension ListQueuesOutputError {
 
 public enum ListQueuesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListQueuesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListQueuesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2629,6 +2829,8 @@ public struct MessageNotInflight: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MessageNotInflight" }
 
     public init () { }
 }
@@ -2863,6 +3065,8 @@ public struct OverLimit: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OverLimit" }
 
     public init () { }
 }
@@ -2885,6 +3089,8 @@ public struct PurgeQueueInProgress: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PurgeQueueInProgress" }
 
     public init () { }
 }
@@ -2957,6 +3163,22 @@ public enum PurgeQueueOutputError: Swift.Error, Swift.Equatable {
     case purgeQueueInProgress(PurgeQueueInProgress)
     case queueDoesNotExist(QueueDoesNotExist)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PurgeQueueOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .purgeQueueInProgress(let error): return error
+        case .queueDoesNotExist(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PurgeQueueOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3079,6 +3301,8 @@ public struct QueueDeletedRecently: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "QueueDeletedRecently" }
 
     public init () { }
 }
@@ -3101,6 +3325,8 @@ public struct QueueDoesNotExist: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "QueueDoesNotExist" }
 
     public init () { }
 }
@@ -3123,6 +3349,8 @@ public struct QueueNameExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "QueueNameExists" }
 
     public init () { }
 }
@@ -3145,6 +3373,8 @@ public struct ReceiptHandleIsInvalid: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReceiptHandleIsInvalid" }
 
     public init () { }
 }
@@ -3390,6 +3620,21 @@ public enum ReceiveMessageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ReceiveMessageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .overLimit(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ReceiveMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3527,6 +3772,20 @@ public enum RemovePermissionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemovePermissionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemovePermissionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3650,6 +3909,26 @@ public enum SendMessageBatchOutputError: Swift.Error, Swift.Equatable {
     case tooManyEntriesInBatchRequest(TooManyEntriesInBatchRequest)
     case unsupportedOperation(UnsupportedOperation)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SendMessageBatchOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .batchEntryIdsNotDistinct(let error): return error
+        case .batchRequestTooLong(let error): return error
+        case .emptyBatchRequest(let error): return error
+        case .invalidBatchEntryId(let error): return error
+        case .tooManyEntriesInBatchRequest(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SendMessageBatchOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4231,6 +4510,22 @@ public enum SendMessageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SendMessageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidMessageContents(let error): return error
+        case .unsupportedOperation(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SendMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4499,6 +4794,21 @@ public enum SetQueueAttributesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SetQueueAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidAttributeName(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SetQueueAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4613,6 +4923,20 @@ public enum TagQueueOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagQueueOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagQueueOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4641,6 +4965,8 @@ public struct TooManyEntriesInBatchRequest: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyEntriesInBatchRequest" }
 
     public init () { }
 }
@@ -4663,6 +4989,8 @@ public struct UnsupportedOperation: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedOperation" }
 
     public init () { }
 }
@@ -4767,6 +5095,20 @@ extension UntagQueueOutputError {
 
 public enum UntagQueueOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagQueueOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UntagQueueOutputResponse: ClientRuntime.HttpResponseBinding {

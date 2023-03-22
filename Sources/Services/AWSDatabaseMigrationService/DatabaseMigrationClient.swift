@@ -205,7 +205,7 @@ public struct DatabaseMigrationClientLogHandlerFactory: ClientRuntime.SDKLogHand
 }
 
 extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
-    /// Adds metadata tags to an DMS resource, including replication instance, endpoint, security group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
+    /// Adds metadata tags to an DMS resource, including replication instance, endpoint, subnet group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
     public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -273,6 +273,42 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Starts the analysis of up to 20 source databases to recommend target engines for each source database. This is a batch version of [StartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartRecommendations.html). The result of analysis of each source database is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    public func batchStartRecommendations(input: BatchStartRecommendationsInput) async throws -> BatchStartRecommendationsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchStartRecommendations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "dms")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<BatchStartRecommendationsInput, BatchStartRecommendationsOutputResponse, BatchStartRecommendationsOutputError>(id: "batchStartRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchStartRecommendationsInput, BatchStartRecommendationsOutputResponse, BatchStartRecommendationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchStartRecommendationsInput, BatchStartRecommendationsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchStartRecommendationsOutputResponse, BatchStartRecommendationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchStartRecommendationsInput, BatchStartRecommendationsOutputResponse>(xAmzTarget: "AmazonDMSv20160101.BatchStartRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchStartRecommendationsInput, BatchStartRecommendationsOutputResponse>(xmlName: "BatchStartRecommendationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchStartRecommendationsInput, BatchStartRecommendationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<BatchStartRecommendationsOutputResponse, BatchStartRecommendationsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchStartRecommendationsOutputResponse, BatchStartRecommendationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchStartRecommendationsOutputResponse, BatchStartRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchStartRecommendationsOutputResponse, BatchStartRecommendationsOutputError>())
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1501,6 +1537,78 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         return result
     }
 
+    /// Returns a paginated list of limitations for recommendations of target Amazon Web Services engines.
+    public func describeRecommendationLimitations(input: DescribeRecommendationLimitationsInput) async throws -> DescribeRecommendationLimitationsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeRecommendationLimitations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "dms")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<DescribeRecommendationLimitationsInput, DescribeRecommendationLimitationsOutputResponse, DescribeRecommendationLimitationsOutputError>(id: "describeRecommendationLimitations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRecommendationLimitationsInput, DescribeRecommendationLimitationsOutputResponse, DescribeRecommendationLimitationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRecommendationLimitationsInput, DescribeRecommendationLimitationsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRecommendationLimitationsOutputResponse, DescribeRecommendationLimitationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRecommendationLimitationsInput, DescribeRecommendationLimitationsOutputResponse>(xAmzTarget: "AmazonDMSv20160101.DescribeRecommendationLimitations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRecommendationLimitationsInput, DescribeRecommendationLimitationsOutputResponse>(xmlName: "DescribeRecommendationLimitationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRecommendationLimitationsInput, DescribeRecommendationLimitationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeRecommendationLimitationsOutputResponse, DescribeRecommendationLimitationsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRecommendationLimitationsOutputResponse, DescribeRecommendationLimitationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeRecommendationLimitationsOutputResponse, DescribeRecommendationLimitationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRecommendationLimitationsOutputResponse, DescribeRecommendationLimitationsOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Returns a paginated list of target engine recommendations for your source databases.
+    public func describeRecommendations(input: DescribeRecommendationsInput) async throws -> DescribeRecommendationsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeRecommendations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "dms")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<DescribeRecommendationsInput, DescribeRecommendationsOutputResponse, DescribeRecommendationsOutputError>(id: "describeRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRecommendationsInput, DescribeRecommendationsOutputResponse, DescribeRecommendationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRecommendationsInput, DescribeRecommendationsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRecommendationsOutputResponse, DescribeRecommendationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRecommendationsInput, DescribeRecommendationsOutputResponse>(xAmzTarget: "AmazonDMSv20160101.DescribeRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRecommendationsInput, DescribeRecommendationsOutputResponse>(xmlName: "DescribeRecommendationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRecommendationsInput, DescribeRecommendationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeRecommendationsOutputResponse, DescribeRecommendationsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRecommendationsOutputResponse, DescribeRecommendationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeRecommendationsOutputResponse, DescribeRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRecommendationsOutputResponse, DescribeRecommendationsOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
     /// Returns the status of the RefreshSchemas operation.
     public func describeRefreshSchemasStatus(input: DescribeRefreshSchemasStatusInput) async throws -> DescribeRefreshSchemasStatusOutputResponse
     {
@@ -1897,7 +2005,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         return result
     }
 
-    /// Lists all metadata tags attached to an DMS resource, including replication instance, endpoint, security group, and migration task. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
+    /// Lists all metadata tags attached to an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2257,7 +2365,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         return result
     }
 
-    /// Removes metadata tags from an DMS resource, including replication instance, endpoint, security group, and migration task. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
+    /// Removes metadata tags from an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
     public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2325,6 +2433,42 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RunFleetAdvisorLsaAnalysisOutputResponse, RunFleetAdvisorLsaAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RunFleetAdvisorLsaAnalysisOutputResponse, RunFleetAdvisorLsaAnalysisOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RunFleetAdvisorLsaAnalysisOutputResponse, RunFleetAdvisorLsaAnalysisOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using [BatchStartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_BatchStartRecommendations.html).
+    public func startRecommendations(input: StartRecommendationsInput) async throws -> StartRecommendationsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startRecommendations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "dms")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<StartRecommendationsInput, StartRecommendationsOutputResponse, StartRecommendationsOutputError>(id: "startRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartRecommendationsInput, StartRecommendationsOutputResponse, StartRecommendationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartRecommendationsInput, StartRecommendationsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartRecommendationsOutputResponse, StartRecommendationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartRecommendationsInput, StartRecommendationsOutputResponse>(xAmzTarget: "AmazonDMSv20160101.StartRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartRecommendationsInput, StartRecommendationsOutputResponse>(xmlName: "StartRecommendationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartRecommendationsInput, StartRecommendationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartRecommendationsOutputResponse, StartRecommendationsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRecommendationsOutputResponse, StartRecommendationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartRecommendationsOutputResponse, StartRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRecommendationsOutputResponse, StartRecommendationsOutputError>())
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }

@@ -28,6 +28,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -65,7 +68,7 @@ extension CancelSolNetworkOperationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CancelSolNetworkOperationInput: Swift.Equatable {
-    /// The ID of a network operation occurrence.
+    /// The identifier of the network operation.
     /// This member is required.
     public var nsLcmOpOccId: Swift.String?
 
@@ -114,6 +117,25 @@ public enum CancelSolNetworkOperationOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CancelSolNetworkOperationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CancelSolNetworkOperationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -218,6 +240,25 @@ public enum CreateSolFunctionPackageOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateSolFunctionPackageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateSolFunctionPackageOutputResponse: Swift.CustomDebugStringConvertible {
@@ -464,6 +505,26 @@ public enum CreateSolNetworkInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateSolNetworkInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateSolNetworkInstanceOutputResponse(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), nsInstanceName: \(Swift.String(describing: nsInstanceName)), nsdInfoId: \(Swift.String(describing: nsdInfoId)), tags: \"CONTENT_REDACTED\")"}
@@ -657,6 +718,25 @@ public enum CreateSolNetworkPackageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateSolNetworkPackageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateSolNetworkPackageOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateSolNetworkPackageOutputResponse(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), nsdOnboardingState: \(Swift.String(describing: nsdOnboardingState)), nsdOperationalState: \(Swift.String(describing: nsdOperationalState)), nsdUsageState: \(Swift.String(describing: nsdUsageState)), tags: \"CONTENT_REDACTED\")"}
@@ -828,6 +908,25 @@ public enum DeleteSolFunctionPackageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteSolFunctionPackageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteSolFunctionPackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -899,6 +998,25 @@ public enum DeleteSolNetworkInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteSolNetworkInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -968,6 +1086,25 @@ public enum DeleteSolNetworkPackageOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteSolNetworkPackageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteSolNetworkPackageOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1207,6 +1344,25 @@ public enum GetSolFunctionInstanceOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSolFunctionInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetSolFunctionInstanceOutputResponse: Swift.CustomDebugStringConvertible {
@@ -1457,6 +1613,25 @@ public enum GetSolFunctionPackageContentOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetSolFunctionPackageContentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetSolFunctionPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
@@ -1578,6 +1753,25 @@ public enum GetSolFunctionPackageDescriptorOutputError: Swift.Error, Swift.Equat
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSolFunctionPackageDescriptorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetSolFunctionPackageDescriptorOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1743,6 +1937,25 @@ public enum GetSolFunctionPackageOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSolFunctionPackageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetSolFunctionPackageOutputResponse: Swift.CustomDebugStringConvertible {
@@ -2048,6 +2261,25 @@ public enum GetSolNetworkInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetSolNetworkInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetSolNetworkInstanceOutputResponse(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), lcmOpInfo: \(Swift.String(describing: lcmOpInfo)), metadata: \(Swift.String(describing: metadata)), nsInstanceDescription: \(Swift.String(describing: nsInstanceDescription)), nsInstanceName: \(Swift.String(describing: nsInstanceName)), nsState: \(Swift.String(describing: nsState)), nsdId: \(Swift.String(describing: nsdId)), nsdInfoId: \(Swift.String(describing: nsdInfoId)), tags: \"CONTENT_REDACTED\")"}
@@ -2210,7 +2442,7 @@ extension GetSolNetworkOperationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetSolNetworkOperationInput: Swift.Equatable {
-    /// The identifier of the operation occurrence.
+    /// The identifier of the network operation.
     /// This member is required.
     public var nsLcmOpOccId: Swift.String?
 
@@ -2257,7 +2489,7 @@ extension TnbClientTypes.GetSolNetworkOperationMetadata: Swift.Codable {
 }
 
 extension TnbClientTypes {
-    /// Metadata related to a network operation occurence. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
+    /// Metadata related to a network operation occurrence. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
     public struct GetSolNetworkOperationMetadata: Swift.Equatable {
         /// The date that the resource was created.
         /// This member is required.
@@ -2308,6 +2540,25 @@ public enum GetSolNetworkOperationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetSolNetworkOperationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetSolNetworkOperationOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetSolNetworkOperationOutputResponse(arn: \(Swift.String(describing: arn)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lcmOperationType: \(Swift.String(describing: lcmOperationType)), metadata: \(Swift.String(describing: metadata)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), operationState: \(Swift.String(describing: operationState)), tasks: \(Swift.String(describing: tasks)), tags: \"CONTENT_REDACTED\")"}
@@ -2346,7 +2597,7 @@ public struct GetSolNetworkOperationOutputResponse: Swift.Equatable {
     /// Network operation ARN.
     /// This member is required.
     public var arn: Swift.String?
-    /// Error related to this specific network operation occurence.
+    /// Error related to this specific network operation occurrence.
     public var error: TnbClientTypes.ProblemDetails?
     /// ID of this network operation occurrence.
     public var id: Swift.String?
@@ -2626,6 +2877,25 @@ public enum GetSolNetworkPackageContentOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetSolNetworkPackageContentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetSolNetworkPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
@@ -2732,6 +3002,25 @@ public enum GetSolNetworkPackageDescriptorOutputError: Swift.Error, Swift.Equata
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSolNetworkPackageDescriptorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetSolNetworkPackageDescriptorOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2897,6 +3186,25 @@ public enum GetSolNetworkPackageOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSolNetworkPackageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetSolNetworkPackageOutputResponse: Swift.CustomDebugStringConvertible {
@@ -3220,15 +3528,27 @@ extension TnbClientTypes {
 
 }
 
+extension InstantiateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InstantiateSolNetworkInstanceInput(additionalParamsForNs: \(Swift.String(describing: additionalParamsForNs)), dryRun: \(Swift.String(describing: dryRun)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), tags: \"CONTENT_REDACTED\")"}
+}
+
 extension InstantiateSolNetworkInstanceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalParamsForNs
+        case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalParamsForNs = self.additionalParamsForNs {
             try encodeContainer.encode(additionalParamsForNs, forKey: .additionalParamsForNs)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -3263,32 +3583,49 @@ public struct InstantiateSolNetworkInstanceInput: Swift.Equatable {
     /// ID of the network instance.
     /// This member is required.
     public var nsInstanceId: Swift.String?
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
         additionalParamsForNs: ClientRuntime.Document? = nil,
         dryRun: Swift.Bool? = nil,
-        nsInstanceId: Swift.String? = nil
+        nsInstanceId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.additionalParamsForNs = additionalParamsForNs
         self.dryRun = dryRun
         self.nsInstanceId = nsInstanceId
+        self.tags = tags
     }
 }
 
 struct InstantiateSolNetworkInstanceInputBody: Swift.Equatable {
     let additionalParamsForNs: ClientRuntime.Document?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension InstantiateSolNetworkInstanceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalParamsForNs
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let additionalParamsForNsDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .additionalParamsForNs)
         additionalParamsForNs = additionalParamsForNsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -3324,6 +3661,31 @@ public enum InstantiateSolNetworkInstanceOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension InstantiateSolNetworkInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
+extension InstantiateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InstantiateSolNetworkInstanceOutputResponse(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
+}
+
 extension InstantiateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3331,38 +3693,57 @@ extension InstantiateSolNetworkInstanceOutputResponse: ClientRuntime.HttpRespons
             let data = reader.toBytes().getData()
             let output: InstantiateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nsLcmOpOccId = output.nsLcmOpOccId
+            self.tags = output.tags
         } else {
             self.nsLcmOpOccId = nil
+            self.tags = nil
         }
     }
 }
 
 public struct InstantiateSolNetworkInstanceOutputResponse: Swift.Equatable {
-    /// The identifier of the network instance.
+    /// The identifier of the network operation.
     /// This member is required.
     public var nsLcmOpOccId: Swift.String?
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
-        nsLcmOpOccId: Swift.String? = nil
+        nsLcmOpOccId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.nsLcmOpOccId = nsLcmOpOccId
+        self.tags = tags
     }
 }
 
 struct InstantiateSolNetworkInstanceOutputResponseBody: Swift.Equatable {
     let nsLcmOpOccId: Swift.String?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension InstantiateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nsLcmOpOccId
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nsLcmOpOccIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nsLcmOpOccId)
         nsLcmOpOccId = nsLcmOpOccIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -3392,6 +3773,9 @@ public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -3441,7 +3825,7 @@ extension TnbClientTypes.LcmOperationInfo: Swift.Codable {
 extension TnbClientTypes {
     /// Lifecycle management operation details on the network instance. Lifecycle management operations are deploy, update, or delete operations.
     public struct LcmOperationInfo: Swift.Equatable {
-        /// The identifier of the latest network lifecycle management operation occurrence.
+        /// The identifier of the network operation.
         /// This member is required.
         public var nsLcmOpOccId: Swift.String?
 
@@ -3722,6 +4106,24 @@ public enum ListSolFunctionInstancesOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSolFunctionInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListSolFunctionInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4037,6 +4439,24 @@ public enum ListSolFunctionPackagesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListSolFunctionPackagesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListSolFunctionPackagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4334,6 +4754,24 @@ public enum ListSolNetworkInstancesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListSolNetworkInstancesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListSolNetworkInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4615,6 +5053,24 @@ public enum ListSolNetworkOperationsOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSolNetworkOperationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListSolNetworkOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4963,6 +5419,24 @@ public enum ListSolNetworkPackagesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListSolNetworkPackagesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListSolNetworkPackagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5083,6 +5557,25 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: Swift.CustomDebugStringConvertible {
@@ -5681,6 +6174,25 @@ public enum PutSolFunctionPackageContentOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutSolFunctionPackageContentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutSolFunctionPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5939,6 +6451,25 @@ public enum PutSolNetworkPackageContentOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutSolNetworkPackageContentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutSolNetworkPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6082,6 +6613,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -6135,6 +6669,9 @@ public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceQuotaExceededException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -6265,6 +6802,25 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6322,6 +6878,27 @@ extension TnbClientTypes {
     }
 }
 
+extension TerminateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TerminateSolNetworkInstanceInput(nsInstanceId: \(Swift.String(describing: nsInstanceId)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension TerminateSolNetworkInstanceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
 extension TerminateSolNetworkInstanceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let nsInstanceId = nsInstanceId else {
@@ -6335,21 +6912,41 @@ public struct TerminateSolNetworkInstanceInput: Swift.Equatable {
     /// ID of the network instance.
     /// This member is required.
     public var nsInstanceId: Swift.String?
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
-        nsInstanceId: Swift.String? = nil
+        nsInstanceId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.nsInstanceId = nsInstanceId
+        self.tags = tags
     }
 }
 
 struct TerminateSolNetworkInstanceInputBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension TerminateSolNetworkInstanceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
 
     public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -6385,6 +6982,31 @@ public enum TerminateSolNetworkInstanceOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TerminateSolNetworkInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
+extension TerminateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TerminateSolNetworkInstanceOutputResponse(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
+}
+
 extension TerminateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6392,37 +7014,56 @@ extension TerminateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseB
             let data = reader.toBytes().getData()
             let output: TerminateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nsLcmOpOccId = output.nsLcmOpOccId
+            self.tags = output.tags
         } else {
             self.nsLcmOpOccId = nil
+            self.tags = nil
         }
     }
 }
 
 public struct TerminateSolNetworkInstanceOutputResponse: Swift.Equatable {
-    /// The identifier of the operation occurrence.
+    /// The identifier of the network operation.
     public var nsLcmOpOccId: Swift.String?
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
-        nsLcmOpOccId: Swift.String? = nil
+        nsLcmOpOccId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.nsLcmOpOccId = nsLcmOpOccId
+        self.tags = tags
     }
 }
 
 struct TerminateSolNetworkInstanceOutputResponseBody: Swift.Equatable {
     let nsLcmOpOccId: Swift.String?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension TerminateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nsLcmOpOccId
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nsLcmOpOccIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nsLcmOpOccId)
         nsLcmOpOccId = nsLcmOpOccIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -6452,6 +7093,9 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottlingException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -6607,6 +7251,25 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6703,6 +7366,25 @@ public enum UpdateSolFunctionPackageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateSolFunctionPackageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateSolFunctionPackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6745,9 +7427,15 @@ extension UpdateSolFunctionPackageOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateSolNetworkInstanceInput(modifyVnfInfoData: \(Swift.String(describing: modifyVnfInfoData)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), updateType: \(Swift.String(describing: updateType)), tags: \"CONTENT_REDACTED\")"}
+}
+
 extension UpdateSolNetworkInstanceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case modifyVnfInfoData
+        case tags
         case updateType
     }
 
@@ -6755,6 +7443,12 @@ extension UpdateSolNetworkInstanceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let modifyVnfInfoData = self.modifyVnfInfoData {
             try encodeContainer.encode(modifyVnfInfoData, forKey: .modifyVnfInfoData)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let updateType = self.updateType {
             try encodeContainer.encode(updateType.rawValue, forKey: .updateType)
@@ -6777,6 +7471,8 @@ public struct UpdateSolNetworkInstanceInput: Swift.Equatable {
     /// ID of the network instance.
     /// This member is required.
     public var nsInstanceId: Swift.String?
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    public var tags: [Swift.String:Swift.String]?
     /// The type of update.
     /// This member is required.
     public var updateType: TnbClientTypes.UpdateSolNetworkType?
@@ -6784,11 +7480,13 @@ public struct UpdateSolNetworkInstanceInput: Swift.Equatable {
     public init (
         modifyVnfInfoData: TnbClientTypes.UpdateSolNetworkModify? = nil,
         nsInstanceId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
         updateType: TnbClientTypes.UpdateSolNetworkType? = nil
     )
     {
         self.modifyVnfInfoData = modifyVnfInfoData
         self.nsInstanceId = nsInstanceId
+        self.tags = tags
         self.updateType = updateType
     }
 }
@@ -6796,11 +7494,13 @@ public struct UpdateSolNetworkInstanceInput: Swift.Equatable {
 struct UpdateSolNetworkInstanceInputBody: Swift.Equatable {
     let updateType: TnbClientTypes.UpdateSolNetworkType?
     let modifyVnfInfoData: TnbClientTypes.UpdateSolNetworkModify?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension UpdateSolNetworkInstanceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case modifyVnfInfoData
+        case tags
         case updateType
     }
 
@@ -6810,6 +7510,17 @@ extension UpdateSolNetworkInstanceInputBody: Swift.Decodable {
         updateType = updateTypeDecoded
         let modifyVnfInfoDataDecoded = try containerValues.decodeIfPresent(TnbClientTypes.UpdateSolNetworkModify.self, forKey: .modifyVnfInfoData)
         modifyVnfInfoData = modifyVnfInfoDataDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -6845,6 +7556,31 @@ public enum UpdateSolNetworkInstanceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateSolNetworkInstanceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
+extension UpdateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateSolNetworkInstanceOutputResponse(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
+}
+
 extension UpdateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6852,37 +7588,56 @@ extension UpdateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBind
             let data = reader.toBytes().getData()
             let output: UpdateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nsLcmOpOccId = output.nsLcmOpOccId
+            self.tags = output.tags
         } else {
             self.nsLcmOpOccId = nil
+            self.tags = nil
         }
     }
 }
 
 public struct UpdateSolNetworkInstanceOutputResponse: Swift.Equatable {
-    /// The identifier of the network instance operation occurrence.
+    /// The identifier of the network operation.
     public var nsLcmOpOccId: Swift.String?
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
-        nsLcmOpOccId: Swift.String? = nil
+        nsLcmOpOccId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.nsLcmOpOccId = nsLcmOpOccId
+        self.tags = tags
     }
 }
 
 struct UpdateSolNetworkInstanceOutputResponseBody: Swift.Equatable {
     let nsLcmOpOccId: Swift.String?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension UpdateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nsLcmOpOccId
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nsLcmOpOccIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nsLcmOpOccId)
         nsLcmOpOccId = nsLcmOpOccIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -7017,6 +7772,25 @@ public enum UpdateSolNetworkPackageOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateSolNetworkPackageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateSolNetworkPackageOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7283,6 +8057,25 @@ public enum ValidateSolFunctionPackageContentOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ValidateSolFunctionPackageContentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ValidateSolFunctionPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7541,6 +8334,25 @@ public enum ValidateSolNetworkPackageContentOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ValidateSolNetworkPackageContentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ValidateSolNetworkPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7684,6 +8496,9 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ValidationException" }
+
     /// This member is required.
     public var message: Swift.String?
 

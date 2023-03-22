@@ -28,6 +28,9 @@ public struct ActiveStatementsExceededException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ActiveStatementsExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -82,6 +85,9 @@ public struct BatchExecuteStatementException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BatchExecuteStatementException" }
+
     /// This member is required.
     public var message: Swift.String?
     /// Statement identifier of the exception.
@@ -191,7 +197,7 @@ public struct BatchExecuteStatementInput: Swift.Equatable {
     public var statementName: Swift.String?
     /// A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statements run.
     public var withEvent: Swift.Bool?
-    /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
     public var workgroupName: Swift.String?
 
     public init (
@@ -301,6 +307,23 @@ public enum BatchExecuteStatementOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BatchExecuteStatementOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .activeStatementsExceededException(let error): return error
+        case .batchExecuteStatementException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BatchExecuteStatementOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -339,7 +362,7 @@ public struct BatchExecuteStatementOutputResponse: Swift.Equatable {
     public var id: Swift.String?
     /// The name or ARN of the secret that enables access to the database.
     public var secretArn: Swift.String?
-    /// The serverless workgroup name. This element is not returned when connecting to a provisioned cluster.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This element is not returned when connecting to a provisioned cluster.
     public var workgroupName: Swift.String?
 
     public init (
@@ -476,6 +499,24 @@ public enum CancelStatementOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CancelStatementOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .databaseConnectionException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CancelStatementOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -700,6 +741,9 @@ public struct DatabaseConnectionException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DatabaseConnectionException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -799,6 +843,23 @@ public enum DescribeStatementOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeStatementOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeStatementOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -902,7 +963,7 @@ public struct DescribeStatementOutputResponse: Swift.Equatable {
     public var subStatements: [RedshiftDataClientTypes.SubStatementData]?
     /// The date and time (UTC) that the metadata for the SQL statement was last updated. An example is the time the status last changed.
     public var updatedAt: ClientRuntime.Date?
-    /// The serverless workgroup name.
+    /// The serverless workgroup name or Amazon Resource Name (ARN).
     public var workgroupName: Swift.String?
 
     public init (
@@ -1130,7 +1191,7 @@ public struct DescribeTableInput: Swift.Equatable {
     public var secretArn: Swift.String?
     /// The table name. If no table is specified, then all tables for all matching schemas are returned. If no table and no schema is specified, then all tables for all schemas in the database are returned
     public var table: Swift.String?
-    /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
     public var workgroupName: Swift.String?
 
     public init (
@@ -1237,6 +1298,23 @@ public enum DescribeTableOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeTableOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .databaseConnectionException(let error): return error
+        case .internalServerException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeTableOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1335,6 +1413,9 @@ public struct ExecuteStatementException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ExecuteStatementException" }
+
     /// The exception message.
     /// This member is required.
     public var message: Swift.String?
@@ -1451,7 +1532,7 @@ public struct ExecuteStatementInput: Swift.Equatable {
     public var statementName: Swift.String?
     /// A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statement runs.
     public var withEvent: Swift.Bool?
-    /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
     public var workgroupName: Swift.String?
 
     public init (
@@ -1567,6 +1648,23 @@ public enum ExecuteStatementOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ExecuteStatementOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .activeStatementsExceededException(let error): return error
+        case .executeStatementException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ExecuteStatementOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1605,7 +1703,7 @@ public struct ExecuteStatementOutputResponse: Swift.Equatable {
     public var id: Swift.String?
     /// The name or ARN of the secret that enables access to the database.
     public var secretArn: Swift.String?
-    /// The serverless workgroup name. This element is not returned when connecting to a provisioned cluster.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This element is not returned when connecting to a provisioned cluster.
     public var workgroupName: Swift.String?
 
     public init (
@@ -1841,6 +1939,23 @@ public enum GetStatementResultOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetStatementResultOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetStatementResultOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1966,6 +2081,9 @@ public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerException" }
+
     /// The exception message.
     /// This member is required.
     public var message: Swift.String?
@@ -2051,7 +2169,7 @@ public struct ListDatabasesInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
     public var secretArn: Swift.String?
-    /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
     public var workgroupName: Swift.String?
 
     public init (
@@ -2138,6 +2256,23 @@ public enum ListDatabasesOutputError: Swift.Error, Swift.Equatable {
     case internalServerException(InternalServerException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDatabasesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .databaseConnectionException(let error): return error
+        case .internalServerException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDatabasesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2269,7 +2404,7 @@ public struct ListSchemasInput: Swift.Equatable {
     public var schemaPattern: Swift.String?
     /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
     public var secretArn: Swift.String?
-    /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
     public var workgroupName: Swift.String?
 
     public init (
@@ -2368,6 +2503,23 @@ public enum ListSchemasOutputError: Swift.Error, Swift.Equatable {
     case internalServerException(InternalServerException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSchemasOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .databaseConnectionException(let error): return error
+        case .internalServerException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListSchemasOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2563,6 +2715,22 @@ public enum ListStatementsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListStatementsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListStatementsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2699,7 +2867,7 @@ public struct ListTablesInput: Swift.Equatable {
     public var secretArn: Swift.String?
     /// A pattern to filter results by table name. Within a table pattern, "%" means match any substring of 0 or more characters and "_" means match any one character. Only table name entries matching the search pattern are returned. If TablePattern is not specified, then all tables that match SchemaPatternare returned. If neither SchemaPattern or TablePattern are specified, then all tables are returned.
     public var tablePattern: Swift.String?
-    /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
     public var workgroupName: Swift.String?
 
     public init (
@@ -2806,6 +2974,23 @@ public enum ListTablesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTablesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .databaseConnectionException(let error): return error
+        case .internalServerException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTablesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2894,6 +3079,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     /// The exception message.
     /// This member is required.
     public var message: Swift.String?
@@ -3436,6 +3624,9 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ValidationException" }
+
     /// The exception message.
     public var message: Swift.String?
 

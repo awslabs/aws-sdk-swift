@@ -3,6 +3,29 @@
 import ClientRuntime
 
 extension ComprehendClient {
+    /// Paginate over `[ListDatasetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDatasetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutputResponse`
+    public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutputResponse.nextToken, paginationFunction: self.listDatasets(input:))
+    }
+}
+
+extension ListDatasetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDatasetsInput {
+        return ListDatasetsInput(
+            filter: self.filter,
+            flywheelArn: self.flywheelArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension ComprehendClient {
     /// Paginate over `[ListDocumentClassificationJobsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -202,6 +225,51 @@ extension ComprehendClient {
 extension ListEventsDetectionJobsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListEventsDetectionJobsInput {
         return ListEventsDetectionJobsInput(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension ComprehendClient {
+    /// Paginate over `[ListFlywheelIterationHistoryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFlywheelIterationHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFlywheelIterationHistoryOutputResponse`
+    public func listFlywheelIterationHistoryPaginated(input: ListFlywheelIterationHistoryInput) -> ClientRuntime.PaginatorSequence<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutputResponse>(input: input, inputKey: \ListFlywheelIterationHistoryInput.nextToken, outputKey: \ListFlywheelIterationHistoryOutputResponse.nextToken, paginationFunction: self.listFlywheelIterationHistory(input:))
+    }
+}
+
+extension ListFlywheelIterationHistoryInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFlywheelIterationHistoryInput {
+        return ListFlywheelIterationHistoryInput(
+            filter: self.filter,
+            flywheelArn: self.flywheelArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension ComprehendClient {
+    /// Paginate over `[ListFlywheelsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFlywheelsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFlywheelsOutputResponse`
+    public func listFlywheelsPaginated(input: ListFlywheelsInput) -> ClientRuntime.PaginatorSequence<ListFlywheelsInput, ListFlywheelsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListFlywheelsInput, ListFlywheelsOutputResponse>(input: input, inputKey: \ListFlywheelsInput.nextToken, outputKey: \ListFlywheelsOutputResponse.nextToken, paginationFunction: self.listFlywheels(input:))
+    }
+}
+
+extension ListFlywheelsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFlywheelsInput {
+        return ListFlywheelsInput(
             filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token

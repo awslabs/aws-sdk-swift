@@ -28,6 +28,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -80,6 +83,9 @@ public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConflictException" }
+
     public var message: Swift.String?
 
     public init (
@@ -219,6 +225,7 @@ extension CreateEndpointOutputError {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -230,8 +237,29 @@ public enum CreateEndpointOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -343,6 +371,7 @@ extension DeleteEndpointOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -353,8 +382,28 @@ public enum DeleteEndpointOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -607,6 +656,9 @@ public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerException" }
+
     public var message: Swift.String?
 
     public init (
@@ -641,7 +693,7 @@ extension ListEndpointsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -658,12 +710,12 @@ extension ListEndpointsInput: ClientRuntime.URLPathProvider {
 
 public struct ListEndpointsInput: Swift.Equatable {
     /// The maximum number of endpoints that will be returned in the response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If a previous response from this operation included a NextToken value, provide that value here to retrieve the next page of results.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -695,6 +747,7 @@ extension ListEndpointsOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -705,8 +758,28 @@ public enum ListEndpointsOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListEndpointsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -769,6 +842,166 @@ extension ListEndpointsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListOutpostsWithS3Input: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListOutpostsWithS3Input: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/S3Outposts/ListOutpostsWithS3"
+    }
+}
+
+public struct ListOutpostsWithS3Input: Swift.Equatable {
+    /// The maximum number of Outposts to return. The limit is 100.
+    public var maxResults: Swift.Int?
+    /// When you can get additional results from the ListOutpostsWithS3 call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional Outposts.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListOutpostsWithS3InputBody: Swift.Equatable {
+}
+
+extension ListOutpostsWithS3InputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListOutpostsWithS3OutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListOutpostsWithS3OutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListOutpostsWithS3OutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListOutpostsWithS3OutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
+extension ListOutpostsWithS3OutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListOutpostsWithS3OutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.outposts = output.outposts
+        } else {
+            self.nextToken = nil
+            self.outposts = nil
+        }
+    }
+}
+
+public struct ListOutpostsWithS3OutputResponse: Swift.Equatable {
+    /// Returns a token that you can use to call ListOutpostsWithS3 again and receive additional results, if there are any.
+    public var nextToken: Swift.String?
+    /// Returns the list of Outposts that have the following characteristics:
+    ///
+    /// * outposts that have S3 provisioned
+    ///
+    /// * outposts that are Active (not pending any provisioning nor decommissioned)
+    ///
+    /// * outposts to which the the calling Amazon Web Services account has access
+    public var outposts: [S3OutpostsClientTypes.Outpost]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        outposts: [S3OutpostsClientTypes.Outpost]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.outposts = outposts
+    }
+}
+
+struct ListOutpostsWithS3OutputResponseBody: Swift.Equatable {
+    let outposts: [S3OutpostsClientTypes.Outpost]?
+    let nextToken: Swift.String?
+}
+
+extension ListOutpostsWithS3OutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case outposts = "Outposts"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outpostsContainer = try containerValues.decodeIfPresent([S3OutpostsClientTypes.Outpost?].self, forKey: .outposts)
+        var outpostsDecoded0:[S3OutpostsClientTypes.Outpost]? = nil
+        if let outpostsContainer = outpostsContainer {
+            outpostsDecoded0 = [S3OutpostsClientTypes.Outpost]()
+            for structure0 in outpostsContainer {
+                if let structure0 = structure0 {
+                    outpostsDecoded0?.append(structure0)
+                }
+            }
+        }
+        outposts = outpostsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListSharedEndpointsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -783,7 +1016,7 @@ extension ListSharedEndpointsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -800,7 +1033,7 @@ extension ListSharedEndpointsInput: ClientRuntime.URLPathProvider {
 
 public struct ListSharedEndpointsInput: Swift.Equatable {
     /// The maximum number of endpoints that will be returned in the response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If a previous response from this operation included a NextToken value, you can provide that value here to retrieve the next page of results.
     public var nextToken: Swift.String?
     /// The ID of the Amazon Web Services Outpost.
@@ -808,7 +1041,7 @@ public struct ListSharedEndpointsInput: Swift.Equatable {
     public var outpostId: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         outpostId: Swift.String? = nil
     )
@@ -842,6 +1075,7 @@ extension ListSharedEndpointsOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -852,8 +1086,28 @@ public enum ListSharedEndpointsOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSharedEndpointsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListSharedEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -951,6 +1205,71 @@ extension S3OutpostsClientTypes {
 
 }
 
+extension S3OutpostsClientTypes.Outpost: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityInBytes = "CapacityInBytes"
+        case outpostArn = "OutpostArn"
+        case outpostId = "OutpostId"
+        case ownerId = "OwnerId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if capacityInBytes != 0 {
+            try encodeContainer.encode(capacityInBytes, forKey: .capacityInBytes)
+        }
+        if let outpostArn = self.outpostArn {
+            try encodeContainer.encode(outpostArn, forKey: .outpostArn)
+        }
+        if let outpostId = self.outpostId {
+            try encodeContainer.encode(outpostId, forKey: .outpostId)
+        }
+        if let ownerId = self.ownerId {
+            try encodeContainer.encode(ownerId, forKey: .ownerId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostArn)
+        outpostArn = outpostArnDecoded
+        let outpostIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostId)
+        outpostId = outpostIdDecoded
+        let ownerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerId)
+        ownerId = ownerIdDecoded
+        let capacityInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacityInBytes) ?? 0
+        capacityInBytes = capacityInBytesDecoded
+    }
+}
+
+extension S3OutpostsClientTypes {
+    /// Contains the details for the Outpost object.
+    public struct Outpost: Swift.Equatable {
+        /// The Amazon S3 capacity of the outpost in bytes.
+        public var capacityInBytes: Swift.Int
+        /// Specifies the unique Amazon Resource Name (ARN) for the outpost.
+        public var outpostArn: Swift.String?
+        /// Specifies the unique identifier for the outpost.
+        public var outpostId: Swift.String?
+        /// Returns the Amazon Web Services account ID of the outpost owner. Useful for comparing owned versus shared outposts.
+        public var ownerId: Swift.String?
+
+        public init (
+            capacityInBytes: Swift.Int = 0,
+            outpostArn: Swift.String? = nil,
+            outpostId: Swift.String? = nil,
+            ownerId: Swift.String? = nil
+        )
+        {
+            self.capacityInBytes = capacityInBytes
+            self.outpostArn = outpostArn
+            self.outpostId = outpostId
+            self.ownerId = ownerId
+        }
+    }
+
+}
+
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -977,6 +1296,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -992,6 +1314,61 @@ struct ResourceNotFoundExceptionBody: Swift.Equatable {
 }
 
 extension ResourceNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ThrottlingException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request was denied due to request throttling.
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottlingException" }
+
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ThrottlingExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ThrottlingExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message = "Message"
     }
@@ -1029,6 +1406,9 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ValidationException" }
+
     public var message: Swift.String?
 
     public init (

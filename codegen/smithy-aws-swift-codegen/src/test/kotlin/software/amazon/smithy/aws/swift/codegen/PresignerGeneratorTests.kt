@@ -53,8 +53,8 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetFooOutputResponse, GetFooOutputError>(retryStrategy: config.retryStrategy))
                     let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
                     operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFooOutputResponse, GetFooOutputError>(config: sigv4Config))
-                    operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetFooOutputResponse, GetFooOutputError>(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFooOutputResponse, GetFooOutputError>())
+                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFooOutputResponse, GetFooOutputError>(clientLogMode: config.clientLogMode))
                     let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
@@ -113,8 +113,8 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PostFooOutputResponse, PostFooOutputError>(retryStrategy: config.retryStrategy))
                     let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
                     operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostFooOutputResponse, PostFooOutputError>(config: sigv4Config))
-                    operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PostFooOutputResponse, PostFooOutputError>(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostFooOutputResponse, PostFooOutputError>())
+                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostFooOutputResponse, PostFooOutputError>(clientLogMode: config.clientLogMode))
                     let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
@@ -173,8 +173,8 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutFooOutputResponse, PutFooOutputError>(retryStrategy: config.retryStrategy))
                     let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
                     operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFooOutputResponse, PutFooOutputError>(config: sigv4Config))
-                    operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutFooOutputResponse, PutFooOutputError>(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFooOutputResponse, PutFooOutputError>())
+                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFooOutputResponse, PutFooOutputError>(clientLogMode: config.clientLogMode))
                     let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
@@ -235,8 +235,8 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(retryStrategy: config.retryStrategy))
                     let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
                     operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
-                    operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutputResponse, PutObjectOutputError>())
+                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(clientLogMode: config.clientLogMode))
                     let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil

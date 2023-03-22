@@ -129,6 +129,7 @@ extension MediaPackageClientTypes {
 extension MediaPackageClientTypes.Channel: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case createdAt = "createdAt"
         case description = "description"
         case egressAccessLogs = "egressAccessLogs"
         case hlsIngest = "hlsIngest"
@@ -141,6 +142,9 @@ extension MediaPackageClientTypes.Channel: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encode(createdAt, forKey: .createdAt)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -169,6 +173,8 @@ extension MediaPackageClientTypes.Channel: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -198,6 +204,8 @@ extension MediaPackageClientTypes {
     public struct Channel: Swift.Equatable {
         /// The Amazon Resource Name (ARN) assigned to the Channel.
         public var arn: Swift.String?
+        /// The date and time the Channel was created.
+        public var createdAt: Swift.String?
         /// A short text description of the Channel.
         public var description: Swift.String?
         /// Configure egress access logging.
@@ -213,6 +221,7 @@ extension MediaPackageClientTypes {
 
         public init (
             arn: Swift.String? = nil,
+            createdAt: Swift.String? = nil,
             description: Swift.String? = nil,
             egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs? = nil,
             hlsIngest: MediaPackageClientTypes.HlsIngest? = nil,
@@ -222,6 +231,7 @@ extension MediaPackageClientTypes {
         )
         {
             self.arn = arn
+            self.createdAt = createdAt
             self.description = description
             self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
@@ -606,6 +616,26 @@ public enum ConfigureLogsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ConfigureLogsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ConfigureLogsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -613,6 +643,7 @@ extension ConfigureLogsOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: ConfigureLogsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.createdAt = output.createdAt
             self.description = output.description
             self.egressAccessLogs = output.egressAccessLogs
             self.hlsIngest = output.hlsIngest
@@ -621,6 +652,7 @@ extension ConfigureLogsOutputResponse: ClientRuntime.HttpResponseBinding {
             self.tags = output.tags
         } else {
             self.arn = nil
+            self.createdAt = nil
             self.description = nil
             self.egressAccessLogs = nil
             self.hlsIngest = nil
@@ -634,6 +666,8 @@ extension ConfigureLogsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ConfigureLogsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) assigned to the Channel.
     public var arn: Swift.String?
+    /// The date and time the Channel was created.
+    public var createdAt: Swift.String?
     /// A short text description of the Channel.
     public var description: Swift.String?
     /// Configure egress access logging.
@@ -649,6 +683,7 @@ public struct ConfigureLogsOutputResponse: Swift.Equatable {
 
     public init (
         arn: Swift.String? = nil,
+        createdAt: Swift.String? = nil,
         description: Swift.String? = nil,
         egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs? = nil,
         hlsIngest: MediaPackageClientTypes.HlsIngest? = nil,
@@ -658,6 +693,7 @@ public struct ConfigureLogsOutputResponse: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.createdAt = createdAt
         self.description = description
         self.egressAccessLogs = egressAccessLogs
         self.hlsIngest = hlsIngest
@@ -669,6 +705,7 @@ public struct ConfigureLogsOutputResponse: Swift.Equatable {
 
 struct ConfigureLogsOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
+    let createdAt: Swift.String?
     let description: Swift.String?
     let egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs?
     let hlsIngest: MediaPackageClientTypes.HlsIngest?
@@ -680,6 +717,7 @@ struct ConfigureLogsOutputResponseBody: Swift.Equatable {
 extension ConfigureLogsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case createdAt = "createdAt"
         case description = "description"
         case egressAccessLogs = "egressAccessLogs"
         case hlsIngest = "hlsIngest"
@@ -692,6 +730,8 @@ extension ConfigureLogsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -833,6 +873,26 @@ public enum CreateChannelOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateChannelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -840,6 +900,7 @@ extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: CreateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.createdAt = output.createdAt
             self.description = output.description
             self.egressAccessLogs = output.egressAccessLogs
             self.hlsIngest = output.hlsIngest
@@ -848,6 +909,7 @@ extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
             self.tags = output.tags
         } else {
             self.arn = nil
+            self.createdAt = nil
             self.description = nil
             self.egressAccessLogs = nil
             self.hlsIngest = nil
@@ -861,6 +923,8 @@ extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateChannelOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) assigned to the Channel.
     public var arn: Swift.String?
+    /// The date and time the Channel was created.
+    public var createdAt: Swift.String?
     /// A short text description of the Channel.
     public var description: Swift.String?
     /// Configure egress access logging.
@@ -876,6 +940,7 @@ public struct CreateChannelOutputResponse: Swift.Equatable {
 
     public init (
         arn: Swift.String? = nil,
+        createdAt: Swift.String? = nil,
         description: Swift.String? = nil,
         egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs? = nil,
         hlsIngest: MediaPackageClientTypes.HlsIngest? = nil,
@@ -885,6 +950,7 @@ public struct CreateChannelOutputResponse: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.createdAt = createdAt
         self.description = description
         self.egressAccessLogs = egressAccessLogs
         self.hlsIngest = hlsIngest
@@ -896,6 +962,7 @@ public struct CreateChannelOutputResponse: Swift.Equatable {
 
 struct CreateChannelOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
+    let createdAt: Swift.String?
     let description: Swift.String?
     let egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs?
     let hlsIngest: MediaPackageClientTypes.HlsIngest?
@@ -907,6 +974,7 @@ struct CreateChannelOutputResponseBody: Swift.Equatable {
 extension CreateChannelOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case createdAt = "createdAt"
         case description = "description"
         case egressAccessLogs = "egressAccessLogs"
         case hlsIngest = "hlsIngest"
@@ -919,6 +987,8 @@ extension CreateChannelOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -1076,6 +1146,26 @@ public enum CreateHarvestJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateHarvestJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateHarvestJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1110,7 +1200,7 @@ public struct CreateHarvestJobOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// The ID of the Channel that the HarvestJob will harvest from.
     public var channelId: Swift.String?
-    /// The time the HarvestJob was submitted
+    /// The date and time the HarvestJob was submitted.
     public var createdAt: Swift.String?
     /// The end of the time-window which will be harvested.
     public var endTime: Swift.String?
@@ -1459,6 +1549,26 @@ public enum CreateOriginEndpointOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateOriginEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateOriginEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1469,6 +1579,7 @@ extension CreateOriginEndpointOutputResponse: ClientRuntime.HttpResponseBinding 
             self.authorization = output.authorization
             self.channelId = output.channelId
             self.cmafPackage = output.cmafPackage
+            self.createdAt = output.createdAt
             self.dashPackage = output.dashPackage
             self.description = output.description
             self.hlsPackage = output.hlsPackage
@@ -1486,6 +1597,7 @@ extension CreateOriginEndpointOutputResponse: ClientRuntime.HttpResponseBinding 
             self.authorization = nil
             self.channelId = nil
             self.cmafPackage = nil
+            self.createdAt = nil
             self.dashPackage = nil
             self.description = nil
             self.hlsPackage = nil
@@ -1511,6 +1623,8 @@ public struct CreateOriginEndpointOutputResponse: Swift.Equatable {
     public var channelId: Swift.String?
     /// A Common Media Application Format (CMAF) packaging configuration.
     public var cmafPackage: MediaPackageClientTypes.CmafPackage?
+    /// The date and time the OriginEndpoint was created.
+    public var createdAt: Swift.String?
     /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
     public var dashPackage: MediaPackageClientTypes.DashPackage?
     /// A short text description of the OriginEndpoint.
@@ -1541,6 +1655,7 @@ public struct CreateOriginEndpointOutputResponse: Swift.Equatable {
         authorization: MediaPackageClientTypes.Authorization? = nil,
         channelId: Swift.String? = nil,
         cmafPackage: MediaPackageClientTypes.CmafPackage? = nil,
+        createdAt: Swift.String? = nil,
         dashPackage: MediaPackageClientTypes.DashPackage? = nil,
         description: Swift.String? = nil,
         hlsPackage: MediaPackageClientTypes.HlsPackage? = nil,
@@ -1559,6 +1674,7 @@ public struct CreateOriginEndpointOutputResponse: Swift.Equatable {
         self.authorization = authorization
         self.channelId = channelId
         self.cmafPackage = cmafPackage
+        self.createdAt = createdAt
         self.dashPackage = dashPackage
         self.description = description
         self.hlsPackage = hlsPackage
@@ -1579,6 +1695,7 @@ struct CreateOriginEndpointOutputResponseBody: Swift.Equatable {
     let authorization: MediaPackageClientTypes.Authorization?
     let channelId: Swift.String?
     let cmafPackage: MediaPackageClientTypes.CmafPackage?
+    let createdAt: Swift.String?
     let dashPackage: MediaPackageClientTypes.DashPackage?
     let description: Swift.String?
     let hlsPackage: MediaPackageClientTypes.HlsPackage?
@@ -1599,6 +1716,7 @@ extension CreateOriginEndpointOutputResponseBody: Swift.Decodable {
         case authorization = "authorization"
         case channelId = "channelId"
         case cmafPackage = "cmafPackage"
+        case createdAt = "createdAt"
         case dashPackage = "dashPackage"
         case description = "description"
         case hlsPackage = "hlsPackage"
@@ -1623,6 +1741,8 @@ extension CreateOriginEndpointOutputResponseBody: Swift.Decodable {
         channelId = channelIdDecoded
         let cmafPackageDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.CmafPackage.self, forKey: .cmafPackage)
         cmafPackage = cmafPackageDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let dashPackageDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.DashPackage.self, forKey: .dashPackage)
         dashPackage = dashPackageDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
@@ -1798,9 +1918,9 @@ extension MediaPackageClientTypes.DashPackage: Swift.Codable {
         var adTriggersDecoded0:[MediaPackageClientTypes.__AdTriggersElement]? = nil
         if let adTriggersContainer = adTriggersContainer {
             adTriggersDecoded0 = [MediaPackageClientTypes.__AdTriggersElement]()
-            for string0 in adTriggersContainer {
-                if let string0 = string0 {
-                    adTriggersDecoded0?.append(string0)
+            for enum0 in adTriggersContainer {
+                if let enum0 = enum0 {
+                    adTriggersDecoded0?.append(enum0)
                 }
             }
         }
@@ -1823,9 +1943,9 @@ extension MediaPackageClientTypes.DashPackage: Swift.Codable {
         var periodTriggersDecoded0:[MediaPackageClientTypes.__PeriodTriggersElement]? = nil
         if let periodTriggersContainer = periodTriggersContainer {
             periodTriggersDecoded0 = [MediaPackageClientTypes.__PeriodTriggersElement]()
-            for string0 in periodTriggersContainer {
-                if let string0 = string0 {
-                    periodTriggersDecoded0?.append(string0)
+            for enum0 in periodTriggersContainer {
+                if let enum0 = enum0 {
+                    periodTriggersDecoded0?.append(enum0)
                 }
             }
         }
@@ -1986,6 +2106,26 @@ public enum DeleteChannelOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteChannelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2057,6 +2197,26 @@ public enum DeleteOriginEndpointOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case unprocessableEntityException(UnprocessableEntityException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteOriginEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteOriginEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2132,6 +2292,26 @@ public enum DescribeChannelOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeChannelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2139,6 +2319,7 @@ extension DescribeChannelOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: DescribeChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.createdAt = output.createdAt
             self.description = output.description
             self.egressAccessLogs = output.egressAccessLogs
             self.hlsIngest = output.hlsIngest
@@ -2147,6 +2328,7 @@ extension DescribeChannelOutputResponse: ClientRuntime.HttpResponseBinding {
             self.tags = output.tags
         } else {
             self.arn = nil
+            self.createdAt = nil
             self.description = nil
             self.egressAccessLogs = nil
             self.hlsIngest = nil
@@ -2160,6 +2342,8 @@ extension DescribeChannelOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeChannelOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) assigned to the Channel.
     public var arn: Swift.String?
+    /// The date and time the Channel was created.
+    public var createdAt: Swift.String?
     /// A short text description of the Channel.
     public var description: Swift.String?
     /// Configure egress access logging.
@@ -2175,6 +2359,7 @@ public struct DescribeChannelOutputResponse: Swift.Equatable {
 
     public init (
         arn: Swift.String? = nil,
+        createdAt: Swift.String? = nil,
         description: Swift.String? = nil,
         egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs? = nil,
         hlsIngest: MediaPackageClientTypes.HlsIngest? = nil,
@@ -2184,6 +2369,7 @@ public struct DescribeChannelOutputResponse: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.createdAt = createdAt
         self.description = description
         self.egressAccessLogs = egressAccessLogs
         self.hlsIngest = hlsIngest
@@ -2195,6 +2381,7 @@ public struct DescribeChannelOutputResponse: Swift.Equatable {
 
 struct DescribeChannelOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
+    let createdAt: Swift.String?
     let description: Swift.String?
     let egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs?
     let hlsIngest: MediaPackageClientTypes.HlsIngest?
@@ -2206,6 +2393,7 @@ struct DescribeChannelOutputResponseBody: Swift.Equatable {
 extension DescribeChannelOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case createdAt = "createdAt"
         case description = "description"
         case egressAccessLogs = "egressAccessLogs"
         case hlsIngest = "hlsIngest"
@@ -2218,6 +2406,8 @@ extension DescribeChannelOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -2305,6 +2495,26 @@ public enum DescribeHarvestJobOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeHarvestJobOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeHarvestJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2339,7 +2549,7 @@ public struct DescribeHarvestJobOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// The ID of the Channel that the HarvestJob will harvest from.
     public var channelId: Swift.String?
-    /// The time the HarvestJob was submitted
+    /// The date and time the HarvestJob was submitted.
     public var createdAt: Swift.String?
     /// The end of the time-window which will be harvested.
     public var endTime: Swift.String?
@@ -2489,6 +2699,26 @@ public enum DescribeOriginEndpointOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeOriginEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeOriginEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2499,6 +2729,7 @@ extension DescribeOriginEndpointOutputResponse: ClientRuntime.HttpResponseBindin
             self.authorization = output.authorization
             self.channelId = output.channelId
             self.cmafPackage = output.cmafPackage
+            self.createdAt = output.createdAt
             self.dashPackage = output.dashPackage
             self.description = output.description
             self.hlsPackage = output.hlsPackage
@@ -2516,6 +2747,7 @@ extension DescribeOriginEndpointOutputResponse: ClientRuntime.HttpResponseBindin
             self.authorization = nil
             self.channelId = nil
             self.cmafPackage = nil
+            self.createdAt = nil
             self.dashPackage = nil
             self.description = nil
             self.hlsPackage = nil
@@ -2541,6 +2773,8 @@ public struct DescribeOriginEndpointOutputResponse: Swift.Equatable {
     public var channelId: Swift.String?
     /// A Common Media Application Format (CMAF) packaging configuration.
     public var cmafPackage: MediaPackageClientTypes.CmafPackage?
+    /// The date and time the OriginEndpoint was created.
+    public var createdAt: Swift.String?
     /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
     public var dashPackage: MediaPackageClientTypes.DashPackage?
     /// A short text description of the OriginEndpoint.
@@ -2571,6 +2805,7 @@ public struct DescribeOriginEndpointOutputResponse: Swift.Equatable {
         authorization: MediaPackageClientTypes.Authorization? = nil,
         channelId: Swift.String? = nil,
         cmafPackage: MediaPackageClientTypes.CmafPackage? = nil,
+        createdAt: Swift.String? = nil,
         dashPackage: MediaPackageClientTypes.DashPackage? = nil,
         description: Swift.String? = nil,
         hlsPackage: MediaPackageClientTypes.HlsPackage? = nil,
@@ -2589,6 +2824,7 @@ public struct DescribeOriginEndpointOutputResponse: Swift.Equatable {
         self.authorization = authorization
         self.channelId = channelId
         self.cmafPackage = cmafPackage
+        self.createdAt = createdAt
         self.dashPackage = dashPackage
         self.description = description
         self.hlsPackage = hlsPackage
@@ -2609,6 +2845,7 @@ struct DescribeOriginEndpointOutputResponseBody: Swift.Equatable {
     let authorization: MediaPackageClientTypes.Authorization?
     let channelId: Swift.String?
     let cmafPackage: MediaPackageClientTypes.CmafPackage?
+    let createdAt: Swift.String?
     let dashPackage: MediaPackageClientTypes.DashPackage?
     let description: Swift.String?
     let hlsPackage: MediaPackageClientTypes.HlsPackage?
@@ -2629,6 +2866,7 @@ extension DescribeOriginEndpointOutputResponseBody: Swift.Decodable {
         case authorization = "authorization"
         case channelId = "channelId"
         case cmafPackage = "cmafPackage"
+        case createdAt = "createdAt"
         case dashPackage = "dashPackage"
         case description = "description"
         case hlsPackage = "hlsPackage"
@@ -2653,6 +2891,8 @@ extension DescribeOriginEndpointOutputResponseBody: Swift.Decodable {
         channelId = channelIdDecoded
         let cmafPackageDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.CmafPackage.self, forKey: .cmafPackage)
         cmafPackage = cmafPackageDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let dashPackageDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.DashPackage.self, forKey: .dashPackage)
         dashPackage = dashPackageDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
@@ -2838,6 +3078,9 @@ public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ForbiddenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2938,7 +3181,7 @@ extension MediaPackageClientTypes {
         public var arn: Swift.String?
         /// The ID of the Channel that the HarvestJob will harvest from.
         public var channelId: Swift.String?
-        /// The time the HarvestJob was submitted
+        /// The date and time the HarvestJob was submitted.
         public var createdAt: Swift.String?
         /// The end of the time-window which will be harvested.
         public var endTime: Swift.String?
@@ -3175,9 +3418,9 @@ extension MediaPackageClientTypes.HlsManifest: Swift.Codable {
         var adTriggersDecoded0:[MediaPackageClientTypes.__AdTriggersElement]? = nil
         if let adTriggersContainer = adTriggersContainer {
             adTriggersDecoded0 = [MediaPackageClientTypes.__AdTriggersElement]()
-            for string0 in adTriggersContainer {
-                if let string0 = string0 {
-                    adTriggersDecoded0?.append(string0)
+            for enum0 in adTriggersContainer {
+                if let enum0 = enum0 {
+                    adTriggersDecoded0?.append(enum0)
                 }
             }
         }
@@ -3295,9 +3538,9 @@ extension MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters: Swift.Cod
         var adTriggersDecoded0:[MediaPackageClientTypes.__AdTriggersElement]? = nil
         if let adTriggersContainer = adTriggersContainer {
             adTriggersDecoded0 = [MediaPackageClientTypes.__AdTriggersElement]()
-            for string0 in adTriggersContainer {
-                if let string0 = string0 {
-                    adTriggersDecoded0?.append(string0)
+            for enum0 in adTriggersContainer {
+                if let enum0 = enum0 {
+                    adTriggersDecoded0?.append(enum0)
                 }
             }
         }
@@ -3435,9 +3678,9 @@ extension MediaPackageClientTypes.HlsPackage: Swift.Codable {
         var adTriggersDecoded0:[MediaPackageClientTypes.__AdTriggersElement]? = nil
         if let adTriggersContainer = adTriggersContainer {
             adTriggersDecoded0 = [MediaPackageClientTypes.__AdTriggersElement]()
-            for string0 in adTriggersContainer {
-                if let string0 = string0 {
-                    adTriggersDecoded0?.append(string0)
+            for enum0 in adTriggersContainer {
+                if let enum0 = enum0 {
+                    adTriggersDecoded0?.append(enum0)
                 }
             }
         }
@@ -3651,6 +3894,9 @@ public struct InternalServerErrorException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerErrorException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3755,6 +4001,26 @@ public enum ListChannelsOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case unprocessableEntityException(UnprocessableEntityException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListChannelsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3913,6 +4179,26 @@ public enum ListHarvestJobsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListHarvestJobsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListHarvestJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4061,6 +4347,26 @@ public enum ListOriginEndpointsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListOriginEndpointsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListOriginEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4169,6 +4475,20 @@ extension ListTagsForResourceOutputError {
 
 public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4379,6 +4699,9 @@ public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4411,6 +4734,7 @@ extension MediaPackageClientTypes.OriginEndpoint: Swift.Codable {
         case authorization = "authorization"
         case channelId = "channelId"
         case cmafPackage = "cmafPackage"
+        case createdAt = "createdAt"
         case dashPackage = "dashPackage"
         case description = "description"
         case hlsPackage = "hlsPackage"
@@ -4438,6 +4762,9 @@ extension MediaPackageClientTypes.OriginEndpoint: Swift.Codable {
         }
         if let cmafPackage = self.cmafPackage {
             try encodeContainer.encode(cmafPackage, forKey: .cmafPackage)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encode(createdAt, forKey: .createdAt)
         }
         if let dashPackage = self.dashPackage {
             try encodeContainer.encode(dashPackage, forKey: .dashPackage)
@@ -4493,6 +4820,8 @@ extension MediaPackageClientTypes.OriginEndpoint: Swift.Codable {
         channelId = channelIdDecoded
         let cmafPackageDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.CmafPackage.self, forKey: .cmafPackage)
         cmafPackage = cmafPackageDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let dashPackageDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.DashPackage.self, forKey: .dashPackage)
         dashPackage = dashPackageDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
@@ -4549,6 +4878,8 @@ extension MediaPackageClientTypes {
         public var channelId: Swift.String?
         /// A Common Media Application Format (CMAF) packaging configuration.
         public var cmafPackage: MediaPackageClientTypes.CmafPackage?
+        /// The date and time the OriginEndpoint was created.
+        public var createdAt: Swift.String?
         /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
         public var dashPackage: MediaPackageClientTypes.DashPackage?
         /// A short text description of the OriginEndpoint.
@@ -4579,6 +4910,7 @@ extension MediaPackageClientTypes {
             authorization: MediaPackageClientTypes.Authorization? = nil,
             channelId: Swift.String? = nil,
             cmafPackage: MediaPackageClientTypes.CmafPackage? = nil,
+            createdAt: Swift.String? = nil,
             dashPackage: MediaPackageClientTypes.DashPackage? = nil,
             description: Swift.String? = nil,
             hlsPackage: MediaPackageClientTypes.HlsPackage? = nil,
@@ -4597,6 +4929,7 @@ extension MediaPackageClientTypes {
             self.authorization = authorization
             self.channelId = channelId
             self.cmafPackage = cmafPackage
+            self.createdAt = createdAt
             self.dashPackage = dashPackage
             self.description = description
             self.hlsPackage = hlsPackage
@@ -4880,6 +5213,26 @@ public enum RotateChannelCredentialsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RotateChannelCredentialsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RotateChannelCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4887,6 +5240,7 @@ extension RotateChannelCredentialsOutputResponse: ClientRuntime.HttpResponseBind
             let data = reader.toBytes().getData()
             let output: RotateChannelCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.createdAt = output.createdAt
             self.description = output.description
             self.egressAccessLogs = output.egressAccessLogs
             self.hlsIngest = output.hlsIngest
@@ -4895,6 +5249,7 @@ extension RotateChannelCredentialsOutputResponse: ClientRuntime.HttpResponseBind
             self.tags = output.tags
         } else {
             self.arn = nil
+            self.createdAt = nil
             self.description = nil
             self.egressAccessLogs = nil
             self.hlsIngest = nil
@@ -4909,6 +5264,8 @@ extension RotateChannelCredentialsOutputResponse: ClientRuntime.HttpResponseBind
 public struct RotateChannelCredentialsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) assigned to the Channel.
     public var arn: Swift.String?
+    /// The date and time the Channel was created.
+    public var createdAt: Swift.String?
     /// A short text description of the Channel.
     public var description: Swift.String?
     /// Configure egress access logging.
@@ -4924,6 +5281,7 @@ public struct RotateChannelCredentialsOutputResponse: Swift.Equatable {
 
     public init (
         arn: Swift.String? = nil,
+        createdAt: Swift.String? = nil,
         description: Swift.String? = nil,
         egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs? = nil,
         hlsIngest: MediaPackageClientTypes.HlsIngest? = nil,
@@ -4933,6 +5291,7 @@ public struct RotateChannelCredentialsOutputResponse: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.createdAt = createdAt
         self.description = description
         self.egressAccessLogs = egressAccessLogs
         self.hlsIngest = hlsIngest
@@ -4944,6 +5303,7 @@ public struct RotateChannelCredentialsOutputResponse: Swift.Equatable {
 
 struct RotateChannelCredentialsOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
+    let createdAt: Swift.String?
     let description: Swift.String?
     let egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs?
     let hlsIngest: MediaPackageClientTypes.HlsIngest?
@@ -4955,6 +5315,7 @@ struct RotateChannelCredentialsOutputResponseBody: Swift.Equatable {
 extension RotateChannelCredentialsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case createdAt = "createdAt"
         case description = "description"
         case egressAccessLogs = "egressAccessLogs"
         case hlsIngest = "hlsIngest"
@@ -4967,6 +5328,8 @@ extension RotateChannelCredentialsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -5062,6 +5425,26 @@ public enum RotateIngestEndpointCredentialsOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RotateIngestEndpointCredentialsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RotateIngestEndpointCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5069,6 +5452,7 @@ extension RotateIngestEndpointCredentialsOutputResponse: ClientRuntime.HttpRespo
             let data = reader.toBytes().getData()
             let output: RotateIngestEndpointCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.createdAt = output.createdAt
             self.description = output.description
             self.egressAccessLogs = output.egressAccessLogs
             self.hlsIngest = output.hlsIngest
@@ -5077,6 +5461,7 @@ extension RotateIngestEndpointCredentialsOutputResponse: ClientRuntime.HttpRespo
             self.tags = output.tags
         } else {
             self.arn = nil
+            self.createdAt = nil
             self.description = nil
             self.egressAccessLogs = nil
             self.hlsIngest = nil
@@ -5090,6 +5475,8 @@ extension RotateIngestEndpointCredentialsOutputResponse: ClientRuntime.HttpRespo
 public struct RotateIngestEndpointCredentialsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) assigned to the Channel.
     public var arn: Swift.String?
+    /// The date and time the Channel was created.
+    public var createdAt: Swift.String?
     /// A short text description of the Channel.
     public var description: Swift.String?
     /// Configure egress access logging.
@@ -5105,6 +5492,7 @@ public struct RotateIngestEndpointCredentialsOutputResponse: Swift.Equatable {
 
     public init (
         arn: Swift.String? = nil,
+        createdAt: Swift.String? = nil,
         description: Swift.String? = nil,
         egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs? = nil,
         hlsIngest: MediaPackageClientTypes.HlsIngest? = nil,
@@ -5114,6 +5502,7 @@ public struct RotateIngestEndpointCredentialsOutputResponse: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.createdAt = createdAt
         self.description = description
         self.egressAccessLogs = egressAccessLogs
         self.hlsIngest = hlsIngest
@@ -5125,6 +5514,7 @@ public struct RotateIngestEndpointCredentialsOutputResponse: Swift.Equatable {
 
 struct RotateIngestEndpointCredentialsOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
+    let createdAt: Swift.String?
     let description: Swift.String?
     let egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs?
     let hlsIngest: MediaPackageClientTypes.HlsIngest?
@@ -5136,6 +5526,7 @@ struct RotateIngestEndpointCredentialsOutputResponseBody: Swift.Equatable {
 extension RotateIngestEndpointCredentialsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case createdAt = "createdAt"
         case description = "description"
         case egressAccessLogs = "egressAccessLogs"
         case hlsIngest = "hlsIngest"
@@ -5148,6 +5539,8 @@ extension RotateIngestEndpointCredentialsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -5291,6 +5684,9 @@ public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceUnavailableException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5629,6 +6025,20 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -5665,6 +6075,9 @@ public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyRequestsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5717,6 +6130,9 @@ public struct UnprocessableEntityException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnprocessableEntityException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5813,6 +6229,20 @@ extension UntagResourceOutputError {
 
 public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5913,6 +6343,26 @@ public enum UpdateChannelOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateChannelOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5920,6 +6370,7 @@ extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: UpdateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.createdAt = output.createdAt
             self.description = output.description
             self.egressAccessLogs = output.egressAccessLogs
             self.hlsIngest = output.hlsIngest
@@ -5928,6 +6379,7 @@ extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
             self.tags = output.tags
         } else {
             self.arn = nil
+            self.createdAt = nil
             self.description = nil
             self.egressAccessLogs = nil
             self.hlsIngest = nil
@@ -5941,6 +6393,8 @@ extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateChannelOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) assigned to the Channel.
     public var arn: Swift.String?
+    /// The date and time the Channel was created.
+    public var createdAt: Swift.String?
     /// A short text description of the Channel.
     public var description: Swift.String?
     /// Configure egress access logging.
@@ -5956,6 +6410,7 @@ public struct UpdateChannelOutputResponse: Swift.Equatable {
 
     public init (
         arn: Swift.String? = nil,
+        createdAt: Swift.String? = nil,
         description: Swift.String? = nil,
         egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs? = nil,
         hlsIngest: MediaPackageClientTypes.HlsIngest? = nil,
@@ -5965,6 +6420,7 @@ public struct UpdateChannelOutputResponse: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.createdAt = createdAt
         self.description = description
         self.egressAccessLogs = egressAccessLogs
         self.hlsIngest = hlsIngest
@@ -5976,6 +6432,7 @@ public struct UpdateChannelOutputResponse: Swift.Equatable {
 
 struct UpdateChannelOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
+    let createdAt: Swift.String?
     let description: Swift.String?
     let egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs?
     let hlsIngest: MediaPackageClientTypes.HlsIngest?
@@ -5987,6 +6444,7 @@ struct UpdateChannelOutputResponseBody: Swift.Equatable {
 extension UpdateChannelOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case createdAt = "createdAt"
         case description = "description"
         case egressAccessLogs = "egressAccessLogs"
         case hlsIngest = "hlsIngest"
@@ -5999,6 +6457,8 @@ extension UpdateChannelOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let egressAccessLogsDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.EgressAccessLogs.self, forKey: .egressAccessLogs)
@@ -6243,6 +6703,26 @@ public enum UpdateOriginEndpointOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateOriginEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .forbiddenException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .notFoundException(let error): return error
+        case .serviceUnavailableException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unprocessableEntityException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateOriginEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6253,6 +6733,7 @@ extension UpdateOriginEndpointOutputResponse: ClientRuntime.HttpResponseBinding 
             self.authorization = output.authorization
             self.channelId = output.channelId
             self.cmafPackage = output.cmafPackage
+            self.createdAt = output.createdAt
             self.dashPackage = output.dashPackage
             self.description = output.description
             self.hlsPackage = output.hlsPackage
@@ -6270,6 +6751,7 @@ extension UpdateOriginEndpointOutputResponse: ClientRuntime.HttpResponseBinding 
             self.authorization = nil
             self.channelId = nil
             self.cmafPackage = nil
+            self.createdAt = nil
             self.dashPackage = nil
             self.description = nil
             self.hlsPackage = nil
@@ -6295,6 +6777,8 @@ public struct UpdateOriginEndpointOutputResponse: Swift.Equatable {
     public var channelId: Swift.String?
     /// A Common Media Application Format (CMAF) packaging configuration.
     public var cmafPackage: MediaPackageClientTypes.CmafPackage?
+    /// The date and time the OriginEndpoint was created.
+    public var createdAt: Swift.String?
     /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
     public var dashPackage: MediaPackageClientTypes.DashPackage?
     /// A short text description of the OriginEndpoint.
@@ -6325,6 +6809,7 @@ public struct UpdateOriginEndpointOutputResponse: Swift.Equatable {
         authorization: MediaPackageClientTypes.Authorization? = nil,
         channelId: Swift.String? = nil,
         cmafPackage: MediaPackageClientTypes.CmafPackage? = nil,
+        createdAt: Swift.String? = nil,
         dashPackage: MediaPackageClientTypes.DashPackage? = nil,
         description: Swift.String? = nil,
         hlsPackage: MediaPackageClientTypes.HlsPackage? = nil,
@@ -6343,6 +6828,7 @@ public struct UpdateOriginEndpointOutputResponse: Swift.Equatable {
         self.authorization = authorization
         self.channelId = channelId
         self.cmafPackage = cmafPackage
+        self.createdAt = createdAt
         self.dashPackage = dashPackage
         self.description = description
         self.hlsPackage = hlsPackage
@@ -6363,6 +6849,7 @@ struct UpdateOriginEndpointOutputResponseBody: Swift.Equatable {
     let authorization: MediaPackageClientTypes.Authorization?
     let channelId: Swift.String?
     let cmafPackage: MediaPackageClientTypes.CmafPackage?
+    let createdAt: Swift.String?
     let dashPackage: MediaPackageClientTypes.DashPackage?
     let description: Swift.String?
     let hlsPackage: MediaPackageClientTypes.HlsPackage?
@@ -6383,6 +6870,7 @@ extension UpdateOriginEndpointOutputResponseBody: Swift.Decodable {
         case authorization = "authorization"
         case channelId = "channelId"
         case cmafPackage = "cmafPackage"
+        case createdAt = "createdAt"
         case dashPackage = "dashPackage"
         case description = "description"
         case hlsPackage = "hlsPackage"
@@ -6407,6 +6895,8 @@ extension UpdateOriginEndpointOutputResponseBody: Swift.Decodable {
         channelId = channelIdDecoded
         let cmafPackageDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.CmafPackage.self, forKey: .cmafPackage)
         cmafPackage = cmafPackageDecoded
+        let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
+        createdAt = createdAtDecoded
         let dashPackageDecoded = try containerValues.decodeIfPresent(MediaPackageClientTypes.DashPackage.self, forKey: .dashPackage)
         dashPackage = dashPackageDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)

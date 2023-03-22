@@ -2089,6 +2089,22 @@ public enum CountClosedWorkflowExecutionsOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CountClosedWorkflowExecutionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CountClosedWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2263,6 +2279,22 @@ public enum CountOpenWorkflowExecutionsOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CountOpenWorkflowExecutionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CountOpenWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2401,6 +2433,22 @@ public enum CountPendingActivityTasksOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CountPendingActivityTasksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CountPendingActivityTasksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2537,6 +2585,22 @@ public enum CountPendingDecisionTasksOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CountPendingDecisionTasksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CountPendingDecisionTasksOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3180,6 +3244,9 @@ public struct DefaultUndefinedFault: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DefaultUndefinedFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -3293,6 +3360,23 @@ public enum DeprecateActivityTypeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeprecateActivityTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .typeDeprecatedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeprecateActivityTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3375,6 +3459,23 @@ public enum DeprecateDomainOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeprecateDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .domainDeprecatedFault(let error): return error
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeprecateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3474,6 +3575,23 @@ public enum DeprecateWorkflowTypeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeprecateWorkflowTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .typeDeprecatedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeprecateWorkflowTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3567,6 +3685,22 @@ public enum DescribeActivityTypeOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeActivityTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeActivityTypeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3697,6 +3831,22 @@ public enum DescribeDomainOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeDomainOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3836,6 +3986,22 @@ public enum DescribeWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeWorkflowExecutionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4008,6 +4174,22 @@ public enum DescribeWorkflowTypeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeWorkflowTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeWorkflowTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4092,6 +4274,9 @@ public struct DomainAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DomainAlreadyExistsFault" }
+
     /// A description that may help with diagnosing the cause of the fault.
     public var message: Swift.String?
 
@@ -4181,6 +4366,9 @@ public struct DomainDeprecatedFault: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DomainDeprecatedFault" }
+
     /// A description that may help with diagnosing the cause of the fault.
     public var message: Swift.String?
 
@@ -4891,6 +5079,22 @@ public enum GetWorkflowExecutionHistoryOutputError: Swift.Error, Swift.Equatable
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetWorkflowExecutionHistoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetWorkflowExecutionHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6009,6 +6213,9 @@ public struct LimitExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededFault" }
+
     /// A description that may help with diagnosing the cause of the fault.
     public var message: Swift.String?
 
@@ -6167,6 +6374,22 @@ public enum ListActivityTypesOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListActivityTypesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListActivityTypesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6411,6 +6634,22 @@ public enum ListClosedWorkflowExecutionsOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListClosedWorkflowExecutionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListClosedWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6577,6 +6816,21 @@ extension ListDomainsOutputError {
 public enum ListDomainsOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDomainsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6798,6 +7052,22 @@ public enum ListOpenWorkflowExecutionsOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListOpenWorkflowExecutionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListOpenWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6932,6 +7202,23 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .limitExceededFault(let error): return error
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7117,6 +7404,22 @@ public enum ListWorkflowTypesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListWorkflowTypesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListWorkflowTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7262,6 +7565,9 @@ public struct OperationNotPermittedFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OperationNotPermittedFault" }
+
     /// A description that may help with diagnosing the cause of the fault.
     public var message: Swift.String?
 
@@ -7386,6 +7692,23 @@ public enum PollForActivityTaskOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PollForActivityTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .limitExceededFault(let error): return error
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PollForActivityTaskOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7620,6 +7943,23 @@ public enum PollForDecisionTaskOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PollForDecisionTaskOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .limitExceededFault(let error): return error
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PollForDecisionTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7818,6 +8158,22 @@ public enum RecordActivityTaskHeartbeatOutputError: Swift.Error, Swift.Equatable
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RecordActivityTaskHeartbeatOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RecordActivityTaskHeartbeatOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8191,6 +8547,24 @@ public enum RegisterActivityTypeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RegisterActivityTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .limitExceededFault(let error): return error
+        case .operationNotPermittedFault(let error): return error
+        case .typeAlreadyExistsFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RegisterActivityTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8324,6 +8698,24 @@ public enum RegisterDomainOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case tooManyTagsFault(TooManyTagsFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RegisterDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .domainAlreadyExistsFault(let error): return error
+        case .limitExceededFault(let error): return error
+        case .operationNotPermittedFault(let error): return error
+        case .tooManyTagsFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RegisterDomainOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8526,6 +8918,24 @@ public enum RegisterWorkflowTypeOutputError: Swift.Error, Swift.Equatable {
     case typeAlreadyExistsFault(TypeAlreadyExistsFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RegisterWorkflowTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .limitExceededFault(let error): return error
+        case .operationNotPermittedFault(let error): return error
+        case .typeAlreadyExistsFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RegisterWorkflowTypeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9058,6 +9468,22 @@ public enum RequestCancelWorkflowExecutionOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RequestCancelWorkflowExecutionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RequestCancelWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -9198,6 +9624,22 @@ public enum RespondActivityTaskCanceledOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RespondActivityTaskCanceledOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RespondActivityTaskCanceledOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -9290,6 +9732,22 @@ public enum RespondActivityTaskCompletedOutputError: Swift.Error, Swift.Equatabl
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RespondActivityTaskCompletedOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RespondActivityTaskCompletedOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9396,6 +9854,22 @@ public enum RespondActivityTaskFailedOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RespondActivityTaskFailedOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RespondActivityTaskFailedOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9515,6 +9989,22 @@ public enum RespondDecisionTaskCompletedOutputError: Swift.Error, Swift.Equatabl
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RespondDecisionTaskCompletedOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RespondDecisionTaskCompletedOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10402,6 +10892,22 @@ public enum SignalWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SignalWorkflowExecutionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SignalWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11378,6 +11884,26 @@ public enum StartWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartWorkflowExecutionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .defaultUndefinedFault(let error): return error
+        case .limitExceededFault(let error): return error
+        case .operationNotPermittedFault(let error): return error
+        case .typeDeprecatedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .workflowExecutionAlreadyStartedFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11555,6 +12081,24 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case tooManyTagsFault(TooManyTagsFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .limitExceededFault(let error): return error
+        case .operationNotPermittedFault(let error): return error
+        case .tooManyTagsFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11743,6 +12287,22 @@ public enum TerminateWorkflowExecutionOutputError: Swift.Error, Swift.Equatable 
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TerminateWorkflowExecutionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension TerminateWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11954,6 +12514,9 @@ public struct TooManyTagsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTagsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -12006,6 +12569,9 @@ public struct TypeAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TypeAlreadyExistsFault" }
+
     /// A description that may help with diagnosing the cause of the fault.
     public var message: Swift.String?
 
@@ -12059,6 +12625,9 @@ public struct TypeDeprecatedFault: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TypeDeprecatedFault" }
+
     /// A description that may help with diagnosing the cause of the fault.
     public var message: Swift.String?
 
@@ -12173,6 +12742,23 @@ public enum UndeprecateActivityTypeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UndeprecateActivityTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .typeAlreadyExistsFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UndeprecateActivityTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -12255,6 +12841,23 @@ public enum UndeprecateDomainOutputError: Swift.Error, Swift.Equatable {
     case operationNotPermittedFault(OperationNotPermittedFault)
     case unknownResourceFault(UnknownResourceFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UndeprecateDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .domainAlreadyExistsFault(let error): return error
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UndeprecateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12354,6 +12957,23 @@ public enum UndeprecateWorkflowTypeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UndeprecateWorkflowTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedFault(let error): return error
+        case .typeAlreadyExistsFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UndeprecateWorkflowTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -12390,6 +13010,9 @@ public struct UnknownResourceFault: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnknownResourceFault" }
+
     /// A description that may help with diagnosing the cause of the fault.
     public var message: Swift.String?
 
@@ -12516,6 +13139,23 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .limitExceededFault(let error): return error
+        case .operationNotPermittedFault(let error): return error
+        case .unknownResourceFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -12599,6 +13239,9 @@ public struct WorkflowExecutionAlreadyStartedFault: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "WorkflowExecutionAlreadyStartedFault" }
+
     /// A description that may help with diagnosing the cause of the fault.
     public var message: Swift.String?
 

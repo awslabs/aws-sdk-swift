@@ -11,6 +11,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -161,6 +164,9 @@ public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConflictException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -252,9 +258,23 @@ public enum CreateAccessTokenOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateAccessTokenOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateAccessTokenOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAccessTokenOutputResponse(expiresTime: \(Swift.String(describing: expiresTime)), name: \(Swift.String(describing: name)), secret: \"CONTENT_REDACTED\")"}
+        "CreateAccessTokenOutputResponse(accessTokenId: \(Swift.String(describing: accessTokenId)), expiresTime: \(Swift.String(describing: expiresTime)), name: \(Swift.String(describing: name)), secret: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -263,10 +283,12 @@ extension CreateAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: CreateAccessTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accessTokenId = output.accessTokenId
             self.expiresTime = output.expiresTime
             self.name = output.name
             self.secret = output.secret
         } else {
+            self.accessTokenId = nil
             self.expiresTime = nil
             self.name = nil
             self.secret = nil
@@ -275,20 +297,27 @@ extension CreateAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateAccessTokenOutputResponse: Swift.Equatable {
+    /// The system-generated unique ID of the access token.
+    /// This member is required.
+    public var accessTokenId: Swift.String?
     /// The date and time the personal access token expires, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6). If not specified, the default is one year from creation.
+    /// This member is required.
     public var expiresTime: ClientRuntime.Date?
     /// The friendly name of the personal access token.
+    /// This member is required.
     public var name: Swift.String?
     /// The secret value of the personal access token.
     /// This member is required.
     public var secret: Swift.String?
 
     public init (
+        accessTokenId: Swift.String? = nil,
         expiresTime: ClientRuntime.Date? = nil,
         name: Swift.String? = nil,
         secret: Swift.String? = nil
     )
     {
+        self.accessTokenId = accessTokenId
         self.expiresTime = expiresTime
         self.name = name
         self.secret = secret
@@ -299,10 +328,12 @@ struct CreateAccessTokenOutputResponseBody: Swift.Equatable {
     let secret: Swift.String?
     let name: Swift.String?
     let expiresTime: ClientRuntime.Date?
+    let accessTokenId: Swift.String?
 }
 
 extension CreateAccessTokenOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessTokenId
         case expiresTime
         case name
         case secret
@@ -316,6 +347,8 @@ extension CreateAccessTokenOutputResponseBody: Swift.Decodable {
         name = nameDecoded
         let expiresTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expiresTime)
         expiresTime = expiresTimeDecoded
+        let accessTokenIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessTokenId)
+        accessTokenId = accessTokenIdDecoded
     }
 }
 
@@ -386,7 +419,7 @@ public struct CreateDevEnvironmentInput: Swift.Equatable {
     /// The Amazon EC2 instace type to use for the Dev Environment.
     /// This member is required.
     public var instanceType: CodeCatalystClientTypes.InstanceType?
-    /// Information about the amount of storage allocated to the Dev Environment. By default, a Dev Environment is configured to have 16GB of persistent storage. Valid values for persistent storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
+    /// Information about the amount of storage allocated to the Dev Environment. By default, a Dev Environment is configured to have 16GB of persistent storage when created from the Amazon CodeCatalyst console, but there is no default when programmatically creating a Dev Environment. Valid values for persistent storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
     /// This member is required.
     public var persistentStorage: CodeCatalystClientTypes.PersistentStorageConfiguration?
     /// The name of the project in the space.
@@ -498,6 +531,20 @@ extension CreateDevEnvironmentOutputError {
 
 public enum CreateDevEnvironmentOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDevEnvironmentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -650,6 +697,20 @@ extension CreateProjectOutputError {
 
 public enum CreateProjectOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateProjectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateProjectOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -823,6 +884,20 @@ public enum CreateSourceRepositoryBranchOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateSourceRepositoryBranchOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateSourceRepositoryBranchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -945,6 +1020,20 @@ public enum DeleteAccessTokenOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteAccessTokenOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1020,6 +1109,20 @@ extension DeleteDevEnvironmentOutputError {
 
 public enum DeleteDevEnvironmentOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDevEnvironmentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1996,6 +2099,20 @@ public enum GetDevEnvironmentOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDevEnvironmentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2244,6 +2361,20 @@ public enum GetProjectOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetProjectOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetProjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2383,6 +2514,20 @@ public enum GetSourceRepositoryCloneUrlsOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetSourceRepositoryCloneUrlsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetSourceRepositoryCloneUrlsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2474,6 +2619,20 @@ extension GetSpaceOutputError {
 
 public enum GetSpaceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSpaceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetSpaceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2600,6 +2759,20 @@ public enum GetSubscriptionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetSubscriptionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2717,6 +2890,20 @@ extension GetUserDetailsOutputError {
 
 public enum GetUserDetailsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetUserDetailsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetUserDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2873,9 +3060,9 @@ extension CodeCatalystClientTypes.IdeConfiguration: Swift.Codable {
 extension CodeCatalystClientTypes {
     /// Information about the configuration of an integrated development environment (IDE) for a Dev Environment.
     public struct IdeConfiguration: Swift.Equatable {
-        /// The name of the IDE.
+        /// The name of the IDE. Valid values include Cloud9, IntelliJ, PyCharm, GoLand, and VSCode.
         public var name: Swift.String?
-        /// A link to the IDE runtime image.
+        /// A link to the IDE runtime image. This parameter is not required for VSCode.
         public var runtime: Swift.String?
 
         public init (
@@ -3005,6 +3192,20 @@ extension ListAccessTokensOutputError {
 
 public enum ListAccessTokensOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAccessTokensOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAccessTokensOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3185,6 +3386,20 @@ extension ListDevEnvironmentsOutputError {
 
 public enum ListDevEnvironmentsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDevEnvironmentsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDevEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3373,6 +3588,20 @@ public enum ListEventLogsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListEventLogsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListEventLogsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3543,6 +3772,20 @@ extension ListProjectsOutputError {
 
 public enum ListProjectsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListProjectsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListProjectsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3779,6 +4022,20 @@ public enum ListSourceRepositoriesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListSourceRepositoriesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListSourceRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4007,6 +4264,20 @@ public enum ListSourceRepositoryBranchesOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListSourceRepositoryBranchesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListSourceRepositoryBranchesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4024,6 +4295,7 @@ extension ListSourceRepositoryBranchesOutputResponse: ClientRuntime.HttpResponse
 
 public struct ListSourceRepositoryBranchesOutputResponse: Swift.Equatable {
     /// Information about the source branches.
+    /// This member is required.
     public var items: [CodeCatalystClientTypes.ListSourceRepositoryBranchesItem]?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
     public var nextToken: Swift.String?
@@ -4132,6 +4404,20 @@ extension ListSpacesOutputError {
 
 public enum ListSpacesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSpacesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListSpacesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4523,6 +4809,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -4543,6 +4832,9 @@ public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceQuotaExceededException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -4598,7 +4890,7 @@ extension CodeCatalystClientTypes {
         public var description: Swift.String?
         /// The friendly name of the space displayed to users.
         public var displayName: Swift.String?
-        /// We need to know what this is and the basic usage information so that third-party developers know how to use this data type.
+        /// The name of the space.
         /// This member is required.
         public var name: Swift.String?
         /// The Amazon Web Services Region where the space exists.
@@ -4746,6 +5038,20 @@ extension StartDevEnvironmentOutputError {
 
 public enum StartDevEnvironmentOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartDevEnvironmentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4915,6 +5221,20 @@ public enum StartDevEnvironmentSessionOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartDevEnvironmentSessionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartDevEnvironmentSessionOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "StartDevEnvironmentSessionOutputResponse(id: \(Swift.String(describing: id)), projectName: \(Swift.String(describing: projectName)), sessionId: \(Swift.String(describing: sessionId)), spaceName: \(Swift.String(describing: spaceName)), accessDetails: \"CONTENT_REDACTED\")"}
@@ -5072,6 +5392,20 @@ public enum StopDevEnvironmentOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StopDevEnvironmentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StopDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5147,6 +5481,170 @@ extension StopDevEnvironmentOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension StopDevEnvironmentSessionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let spaceName = spaceName else {
+            return nil
+        }
+        guard let projectName = projectName else {
+            return nil
+        }
+        guard let id = id else {
+            return nil
+        }
+        guard let sessionId = sessionId else {
+            return nil
+        }
+        return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/devEnvironments/\(id.urlPercentEncoding())/session/\(sessionId.urlPercentEncoding())"
+    }
+}
+
+public struct StopDevEnvironmentSessionInput: Swift.Equatable {
+    /// The system-generated unique ID of the Dev Environment. To obtain this ID, use [ListDevEnvironments].
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the project in the space.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The system-generated unique ID of the Dev Environment session. This ID is returned by [StartDevEnvironmentSession].
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init (
+        id: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.id = id
+        self.projectName = projectName
+        self.sessionId = sessionId
+        self.spaceName = spaceName
+    }
+}
+
+struct StopDevEnvironmentSessionInputBody: Swift.Equatable {
+}
+
+extension StopDevEnvironmentSessionInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension StopDevEnvironmentSessionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StopDevEnvironmentSessionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StopDevEnvironmentSessionOutputError: Swift.Error, Swift.Equatable {
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopDevEnvironmentSessionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
+extension StopDevEnvironmentSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: StopDevEnvironmentSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.id = output.id
+            self.projectName = output.projectName
+            self.sessionId = output.sessionId
+            self.spaceName = output.spaceName
+        } else {
+            self.id = nil
+            self.projectName = nil
+            self.sessionId = nil
+            self.spaceName = nil
+        }
+    }
+}
+
+public struct StopDevEnvironmentSessionOutputResponse: Swift.Equatable {
+    /// The system-generated unique ID of the Dev Environment.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the project in the space.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The system-generated unique ID of the Dev Environment session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init (
+        id: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.id = id
+        self.projectName = projectName
+        self.sessionId = sessionId
+        self.spaceName = spaceName
+    }
+}
+
+struct StopDevEnvironmentSessionOutputResponseBody: Swift.Equatable {
+    let spaceName: Swift.String?
+    let projectName: Swift.String?
+    let id: Swift.String?
+    let sessionId: Swift.String?
+}
+
+extension StopDevEnvironmentSessionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id
+        case projectName
+        case sessionId
+        case spaceName
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let spaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spaceName)
+        spaceName = spaceNameDecoded
+        let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
+        projectName = projectNameDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+    }
+}
+
 /// The request was denied due to request throttling.
 public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
@@ -5156,6 +5654,9 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = true
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottlingException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -5316,6 +5817,20 @@ extension UpdateDevEnvironmentOutputError {
 
 public enum UpdateDevEnvironmentOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateDevEnvironmentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5552,6 +6067,9 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ValidationException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -5601,6 +6119,20 @@ extension VerifySessionOutputError {
 
 public enum VerifySessionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension VerifySessionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension VerifySessionOutputResponse: ClientRuntime.HttpResponseBinding {

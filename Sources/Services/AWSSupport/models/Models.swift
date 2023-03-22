@@ -104,6 +104,25 @@ public enum AddAttachmentsToSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddAttachmentsToSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .attachmentLimitExceeded(let error): return error
+        case .attachmentSetExpired(let error): return error
+        case .attachmentSetIdNotFound(let error): return error
+        case .attachmentSetSizeLimitExceeded(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddAttachmentsToSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -280,6 +299,24 @@ public enum AddCommunicationToCaseOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddCommunicationToCaseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .attachmentSetExpired(let error): return error
+        case .attachmentSetIdNotFound(let error): return error
+        case .caseIdNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddCommunicationToCaseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -438,6 +475,9 @@ public struct AttachmentIdNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AttachmentIdNotFound" }
+
     /// An attachment with the specified ID could not be found.
     public var message: Swift.String?
 
@@ -491,6 +531,9 @@ public struct AttachmentLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AttachmentLimitExceeded" }
+
     /// The limit for the number of attachment sets created in a short period of time has been exceeded.
     public var message: Swift.String?
 
@@ -544,6 +587,9 @@ public struct AttachmentSetExpired: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AttachmentSetExpired" }
+
     /// The expiration time of the attachment set has passed. The set expires one hour after it is created.
     public var message: Swift.String?
 
@@ -597,6 +643,9 @@ public struct AttachmentSetIdNotFound: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AttachmentSetIdNotFound" }
+
     /// An attachment set with the specified ID could not be found.
     public var message: Swift.String?
 
@@ -650,6 +699,9 @@ public struct AttachmentSetSizeLimitExceeded: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AttachmentSetSizeLimitExceeded" }
+
     /// A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
     public var message: Swift.String?
 
@@ -703,6 +755,9 @@ public struct CaseCreationLimitExceeded: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CaseCreationLimitExceeded" }
+
     /// An error message that indicates that you have exceeded the number of cases you can have open.
     public var message: Swift.String?
 
@@ -964,6 +1019,9 @@ public struct CaseIdNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equata
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CaseIdNotFound" }
+
     /// The requested CaseId could not be located.
     public var message: Swift.String?
 
@@ -1308,6 +1366,24 @@ public enum CreateCaseOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateCaseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .attachmentSetExpired(let error): return error
+        case .attachmentSetIdNotFound(let error): return error
+        case .caseCreationLimitExceeded(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateCaseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1424,6 +1500,9 @@ public struct DescribeAttachmentLimitExceeded: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DescribeAttachmentLimitExceeded" }
+
     /// The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
     public var message: Swift.String?
 
@@ -1475,6 +1554,23 @@ public enum DescribeAttachmentOutputError: Swift.Error, Swift.Equatable {
     case describeAttachmentLimitExceeded(DescribeAttachmentLimitExceeded)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAttachmentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .attachmentIdNotFound(let error): return error
+        case .describeAttachmentLimitExceeded(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1698,6 +1794,22 @@ public enum DescribeCasesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeCasesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .caseIdNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeCasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1879,6 +1991,22 @@ public enum DescribeCommunicationsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeCommunicationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .caseIdNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeCommunicationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2033,6 +2161,21 @@ public enum DescribeServicesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeServicesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeServicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2153,6 +2296,21 @@ public enum DescribeSeverityLevelsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeSeverityLevelsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeSeverityLevelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2214,6 +2372,10 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesInput: Swift.Encodable {
         if let checkIds = checkIds {
             var checkIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .checkIds)
             for string0 in checkIds {
+                guard let string0 = string0 else {
+                    try checkIdsContainer.encodeNil()
+                    continue
+                }
                 try checkIdsContainer.encode(string0)
             }
         }
@@ -2229,10 +2391,10 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesInput: ClientRuntime.URLPath
 public struct DescribeTrustedAdvisorCheckRefreshStatusesInput: Swift.Equatable {
     /// The IDs of the Trusted Advisor checks to get the status. If you specify the check ID of a check that is automatically refreshed, you might see an InvalidParameterValue error.
     /// This member is required.
-    public var checkIds: [Swift.String]?
+    public var checkIds: [Swift.String?]?
 
     public init (
-        checkIds: [Swift.String]? = nil
+        checkIds: [Swift.String?]? = nil
     )
     {
         self.checkIds = checkIds
@@ -2240,7 +2402,7 @@ public struct DescribeTrustedAdvisorCheckRefreshStatusesInput: Swift.Equatable {
 }
 
 struct DescribeTrustedAdvisorCheckRefreshStatusesInputBody: Swift.Equatable {
-    let checkIds: [Swift.String]?
+    let checkIds: [Swift.String?]?
 }
 
 extension DescribeTrustedAdvisorCheckRefreshStatusesInputBody: Swift.Decodable {
@@ -2251,13 +2413,11 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesInputBody: Swift.Decodable {
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .checkIds)
-        var checkIdsDecoded0:[Swift.String]? = nil
+        var checkIdsDecoded0:[Swift.String?]? = nil
         if let checkIdsContainer = checkIdsContainer {
-            checkIdsDecoded0 = [Swift.String]()
+            checkIdsDecoded0 = [Swift.String?]()
             for string0 in checkIdsContainer {
-                if let string0 = string0 {
-                    checkIdsDecoded0?.append(string0)
-                }
+                checkIdsDecoded0?.append(string0)
             }
         }
         checkIds = checkIdsDecoded0
@@ -2284,6 +2444,21 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesOutputError {
 public enum DescribeTrustedAdvisorCheckRefreshStatusesOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTrustedAdvisorCheckRefreshStatusesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2443,6 +2618,21 @@ public enum DescribeTrustedAdvisorCheckResultOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeTrustedAdvisorCheckResultOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeTrustedAdvisorCheckResultOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2495,6 +2685,10 @@ extension DescribeTrustedAdvisorCheckSummariesInput: Swift.Encodable {
         if let checkIds = checkIds {
             var checkIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .checkIds)
             for string0 in checkIds {
+                guard let string0 = string0 else {
+                    try checkIdsContainer.encodeNil()
+                    continue
+                }
                 try checkIdsContainer.encode(string0)
             }
         }
@@ -2510,10 +2704,10 @@ extension DescribeTrustedAdvisorCheckSummariesInput: ClientRuntime.URLPathProvid
 public struct DescribeTrustedAdvisorCheckSummariesInput: Swift.Equatable {
     /// The IDs of the Trusted Advisor checks.
     /// This member is required.
-    public var checkIds: [Swift.String]?
+    public var checkIds: [Swift.String?]?
 
     public init (
-        checkIds: [Swift.String]? = nil
+        checkIds: [Swift.String?]? = nil
     )
     {
         self.checkIds = checkIds
@@ -2521,7 +2715,7 @@ public struct DescribeTrustedAdvisorCheckSummariesInput: Swift.Equatable {
 }
 
 struct DescribeTrustedAdvisorCheckSummariesInputBody: Swift.Equatable {
-    let checkIds: [Swift.String]?
+    let checkIds: [Swift.String?]?
 }
 
 extension DescribeTrustedAdvisorCheckSummariesInputBody: Swift.Decodable {
@@ -2532,13 +2726,11 @@ extension DescribeTrustedAdvisorCheckSummariesInputBody: Swift.Decodable {
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .checkIds)
-        var checkIdsDecoded0:[Swift.String]? = nil
+        var checkIdsDecoded0:[Swift.String?]? = nil
         if let checkIdsContainer = checkIdsContainer {
-            checkIdsDecoded0 = [Swift.String]()
+            checkIdsDecoded0 = [Swift.String?]()
             for string0 in checkIdsContainer {
-                if let string0 = string0 {
-                    checkIdsDecoded0?.append(string0)
-                }
+                checkIdsDecoded0?.append(string0)
             }
         }
         checkIds = checkIdsDecoded0
@@ -2565,6 +2757,21 @@ extension DescribeTrustedAdvisorCheckSummariesOutputError {
 public enum DescribeTrustedAdvisorCheckSummariesOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTrustedAdvisorCheckSummariesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeTrustedAdvisorCheckSummariesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2711,6 +2918,21 @@ public enum DescribeTrustedAdvisorChecksOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeTrustedAdvisorChecksOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeTrustedAdvisorChecksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2789,6 +3011,9 @@ public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerError" }
+
     /// An internal server error occurred.
     public var message: Swift.String?
 
@@ -2944,6 +3169,21 @@ public enum RefreshTrustedAdvisorCheckOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RefreshTrustedAdvisorCheckOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RefreshTrustedAdvisorCheckOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3056,6 +3296,22 @@ public enum ResolveCaseOutputError: Swift.Error, Swift.Equatable {
     case caseIdNotFound(CaseIdNotFound)
     case internalServerError(InternalServerError)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ResolveCaseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .caseIdNotFound(let error): return error
+        case .internalServerError(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ResolveCaseOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3293,6 +3549,10 @@ extension SupportClientTypes.TrustedAdvisorCheckDescription: Swift.Codable {
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metadata)
             for string0 in metadata {
+                guard let string0 = string0 else {
+                    try metadataContainer.encodeNil()
+                    continue
+                }
                 try metadataContainer.encode(string0)
             }
         }
@@ -3312,13 +3572,11 @@ extension SupportClientTypes.TrustedAdvisorCheckDescription: Swift.Codable {
         let categoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .category)
         category = categoryDecoded
         let metadataContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .metadata)
-        var metadataDecoded0:[Swift.String]? = nil
+        var metadataDecoded0:[Swift.String?]? = nil
         if let metadataContainer = metadataContainer {
-            metadataDecoded0 = [Swift.String]()
+            metadataDecoded0 = [Swift.String?]()
             for string0 in metadataContainer {
-                if let string0 = string0 {
-                    metadataDecoded0?.append(string0)
-                }
+                metadataDecoded0?.append(string0)
             }
         }
         metadata = metadataDecoded0
@@ -3339,7 +3597,7 @@ extension SupportClientTypes {
         public var id: Swift.String?
         /// The column headings for the data returned by the Trusted Advisor check. The order of the headings corresponds to the order of the data in the Metadata element of the [TrustedAdvisorResourceDetail] for the check. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data.
         /// This member is required.
-        public var metadata: [Swift.String]?
+        public var metadata: [Swift.String?]?
         /// The display name for the Trusted Advisor check.
         /// This member is required.
         public var name: Swift.String?
@@ -3348,7 +3606,7 @@ extension SupportClientTypes {
             category: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
-            metadata: [Swift.String]? = nil,
+            metadata: [Swift.String?]? = nil,
             name: Swift.String? = nil
         )
         {
@@ -3687,6 +3945,10 @@ extension SupportClientTypes.TrustedAdvisorResourceDetail: Swift.Codable {
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metadata)
             for string0 in metadata {
+                guard let string0 = string0 else {
+                    try metadataContainer.encodeNil()
+                    continue
+                }
                 try metadataContainer.encode(string0)
             }
         }
@@ -3712,13 +3974,11 @@ extension SupportClientTypes.TrustedAdvisorResourceDetail: Swift.Codable {
         let isSuppressedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isSuppressed) ?? false
         isSuppressed = isSuppressedDecoded
         let metadataContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .metadata)
-        var metadataDecoded0:[Swift.String]? = nil
+        var metadataDecoded0:[Swift.String?]? = nil
         if let metadataContainer = metadataContainer {
-            metadataDecoded0 = [Swift.String]()
+            metadataDecoded0 = [Swift.String?]()
             for string0 in metadataContainer {
-                if let string0 = string0 {
-                    metadataDecoded0?.append(string0)
-                }
+                metadataDecoded0?.append(string0)
             }
         }
         metadata = metadataDecoded0
@@ -3732,7 +3992,7 @@ extension SupportClientTypes {
         public var isSuppressed: Swift.Bool
         /// Additional information about the identified resource. The exact metadata and its order can be obtained by inspecting the [TrustedAdvisorCheckDescription] object returned by the call to [DescribeTrustedAdvisorChecks]. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data.
         /// This member is required.
-        public var metadata: [Swift.String]?
+        public var metadata: [Swift.String?]?
         /// The Amazon Web Services Region in which the identified resource is located.
         public var region: Swift.String?
         /// The unique identifier for the identified resource.
@@ -3744,7 +4004,7 @@ extension SupportClientTypes {
 
         public init (
             isSuppressed: Swift.Bool = false,
-            metadata: [Swift.String]? = nil,
+            metadata: [Swift.String?]? = nil,
             region: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             status: Swift.String? = nil

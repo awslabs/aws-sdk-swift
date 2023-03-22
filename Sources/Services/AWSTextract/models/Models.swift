@@ -30,6 +30,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -200,6 +203,30 @@ public enum AnalyzeDocumentOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AnalyzeDocumentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .badDocumentException(let error): return error
+        case .documentTooLargeException(let error): return error
+        case .humanLoopQuotaExceededException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unsupportedDocumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AnalyzeDocumentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -364,6 +391,29 @@ public enum AnalyzeExpenseOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case unsupportedDocumentException(UnsupportedDocumentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AnalyzeExpenseOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .badDocumentException(let error): return error
+        case .documentTooLargeException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unsupportedDocumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AnalyzeExpenseOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -580,6 +630,29 @@ public enum AnalyzeIDOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AnalyzeIDOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .badDocumentException(let error): return error
+        case .documentTooLargeException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unsupportedDocumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AnalyzeIDOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -678,6 +751,9 @@ public struct BadDocumentException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BadDocumentException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -1195,6 +1271,29 @@ public enum DetectDocumentTextOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DetectDocumentTextOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .badDocumentException(let error): return error
+        case .documentTooLargeException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unsupportedDocumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DetectDocumentTextOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1544,6 +1643,9 @@ public struct DocumentTooLargeException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DocumentTooLargeException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -2294,6 +2396,28 @@ public enum GetDocumentAnalysisOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDocumentAnalysisOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidJobIdException(let error): return error
+        case .invalidKMSKeyException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDocumentAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2519,6 +2643,28 @@ public enum GetDocumentTextDetectionOutputError: Swift.Error, Swift.Equatable {
     case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
     case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDocumentTextDetectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidJobIdException(let error): return error
+        case .invalidKMSKeyException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetDocumentTextDetectionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2748,6 +2894,28 @@ public enum GetExpenseAnalysisOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetExpenseAnalysisOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidJobIdException(let error): return error
+        case .invalidKMSKeyException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetExpenseAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2975,6 +3143,28 @@ public enum GetLendingAnalysisOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetLendingAnalysisOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidJobIdException(let error): return error
+        case .invalidKMSKeyException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetLendingAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3176,6 +3366,28 @@ public enum GetLendingAnalysisSummaryOutputError: Swift.Error, Swift.Equatable {
     case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
     case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetLendingAnalysisSummaryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidJobIdException(let error): return error
+        case .invalidKMSKeyException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetLendingAnalysisSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3483,6 +3695,9 @@ public struct HumanLoopQuotaExceededException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HumanLoopQuotaExceededException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
     /// The quota code.
@@ -3568,6 +3783,9 @@ public struct IdempotentParameterMismatchException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IdempotentParameterMismatchException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -3753,6 +3971,9 @@ public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerError" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -3814,6 +4035,9 @@ public struct InvalidJobIdException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidJobIdException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -3875,6 +4099,9 @@ public struct InvalidKMSKeyException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidKMSKeyException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -3936,6 +4163,9 @@ public struct InvalidParameterException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParameterException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -3997,6 +4227,9 @@ public struct InvalidS3ObjectException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidS3ObjectException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -4433,6 +4666,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -4897,6 +5133,9 @@ public struct ProvisionedThroughputExceededException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ProvisionedThroughputExceededException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -5535,6 +5774,32 @@ public enum StartDocumentAnalysisOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartDocumentAnalysisOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .badDocumentException(let error): return error
+        case .documentTooLargeException(let error): return error
+        case .idempotentParameterMismatchException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidKMSKeyException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .limitExceededException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unsupportedDocumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartDocumentAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5726,6 +5991,32 @@ public enum StartDocumentTextDetectionOutputError: Swift.Error, Swift.Equatable 
     case throttlingException(ThrottlingException)
     case unsupportedDocumentException(UnsupportedDocumentException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartDocumentTextDetectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .badDocumentException(let error): return error
+        case .documentTooLargeException(let error): return error
+        case .idempotentParameterMismatchException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidKMSKeyException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .limitExceededException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unsupportedDocumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StartDocumentTextDetectionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5921,6 +6212,32 @@ public enum StartExpenseAnalysisOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartExpenseAnalysisOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .badDocumentException(let error): return error
+        case .documentTooLargeException(let error): return error
+        case .idempotentParameterMismatchException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidKMSKeyException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .limitExceededException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unsupportedDocumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartExpenseAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6114,6 +6431,32 @@ public enum StartLendingAnalysisOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartLendingAnalysisOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .badDocumentException(let error): return error
+        case .documentTooLargeException(let error): return error
+        case .idempotentParameterMismatchException(let error): return error
+        case .internalServerError(let error): return error
+        case .invalidKMSKeyException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidS3ObjectException(let error): return error
+        case .limitExceededException(let error): return error
+        case .provisionedThroughputExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unsupportedDocumentException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartLendingAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6215,6 +6558,9 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottlingException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 
@@ -6311,6 +6657,9 @@ public struct UnsupportedDocumentException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedDocumentException" }
+
     public var code: Swift.String?
     public var message: Swift.String?
 

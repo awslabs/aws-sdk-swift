@@ -78,6 +78,24 @@ public enum CancelRotateSecretOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CancelRotateSecretOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CancelRotateSecretOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -171,7 +189,7 @@ extension CreateSecretInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if forceOverwriteReplicaSecret != false {
+        if let forceOverwriteReplicaSecret = self.forceOverwriteReplicaSecret {
             try encodeContainer.encode(forceOverwriteReplicaSecret, forKey: .forceOverwriteReplicaSecret)
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -218,7 +236,7 @@ public struct CreateSecretInput: Swift.Equatable {
     /// The description of the secret.
     public var description: Swift.String?
     /// Specifies whether to overwrite a secret with the same name in the destination Region.
-    public var forceOverwriteReplicaSecret: Swift.Bool
+    public var forceOverwriteReplicaSecret: Swift.Bool?
     /// The ARN, key ID, or alias of the KMS key that Secrets Manager uses to encrypt the secret value in the secret. An alias is always prefixed by alias/, for example alias/aws/secretsmanager. For more information, see [About aliases](https://docs.aws.amazon.com/kms/latest/developerguide/alias-about.html). To use a KMS key in a different account, use the key ARN or the alias ARN. If you don't specify this value, then Secrets Manager uses the key aws/secretsmanager. If that key doesn't yet exist, then Secrets Manager creates it for you automatically the first time it encrypts the secret value. If the secret is in a different Amazon Web Services account from the credentials calling the API, then you can't use aws/secretsmanager to encrypt the secret, and you must create and use a customer managed KMS key.
     public var kmsKeyId: Swift.String?
     /// The name of the new secret. The secret name can contain ASCII letters, numbers, and the following characters: /_+=.@- Do not end your secret name with a hyphen followed by six characters. If you do so, you risk confusion and unexpected results when searching for a secret by partial ARN. Secrets Manager automatically adds a hyphen and six random characters after the secret name at the end of the ARN.
@@ -247,7 +265,7 @@ public struct CreateSecretInput: Swift.Equatable {
         addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]? = nil,
         clientRequestToken: Swift.String? = nil,
         description: Swift.String? = nil,
-        forceOverwriteReplicaSecret: Swift.Bool = false,
+        forceOverwriteReplicaSecret: Swift.Bool? = nil,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         secretBinary: ClientRuntime.Data? = nil,
@@ -276,7 +294,7 @@ struct CreateSecretInputBody: Swift.Equatable {
     let secretString: Swift.String?
     let tags: [SecretsManagerClientTypes.Tag]?
     let addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]?
-    let forceOverwriteReplicaSecret: Swift.Bool
+    let forceOverwriteReplicaSecret: Swift.Bool?
 }
 
 extension CreateSecretInputBody: Swift.Decodable {
@@ -328,7 +346,7 @@ extension CreateSecretInputBody: Swift.Decodable {
             }
         }
         addReplicaRegions = addReplicaRegionsDecoded0
-        let forceOverwriteReplicaSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceOverwriteReplicaSecret) ?? false
+        let forceOverwriteReplicaSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceOverwriteReplicaSecret)
         forceOverwriteReplicaSecret = forceOverwriteReplicaSecretDecoded
     }
 }
@@ -371,6 +389,30 @@ public enum CreateSecretOutputError: Swift.Error, Swift.Equatable {
     case resourceExistsException(ResourceExistsException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateSecretOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .decryptionFailure(let error): return error
+        case .encryptionFailure(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .limitExceededException(let error): return error
+        case .malformedPolicyDocumentException(let error): return error
+        case .preconditionNotMetException(let error): return error
+        case .resourceExistsException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateSecretOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -485,6 +527,9 @@ public struct DecryptionFailure: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DecryptionFailure" }
+
     public var message: Swift.String?
 
     public init (
@@ -585,6 +630,24 @@ public enum DeleteResourcePolicyOutputError: Swift.Error, Swift.Equatable {
     case invalidRequestException(InvalidRequestException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteResourcePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -738,6 +801,24 @@ public enum DeleteSecretOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteSecretOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteSecretOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -871,6 +952,23 @@ public enum DescribeSecretOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeSecretOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeSecretOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1159,6 +1257,9 @@ public struct EncryptionFailure: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EncryptionFailure" }
+
     public var message: Swift.String?
 
     public init (
@@ -1460,6 +1561,23 @@ public enum GetRandomPasswordOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetRandomPasswordOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetRandomPasswordOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetRandomPasswordOutputResponse(randomPassword: \"CONTENT_REDACTED\")"}
@@ -1580,6 +1698,24 @@ public enum GetResourcePolicyOutputError: Swift.Error, Swift.Equatable {
     case invalidRequestException(InvalidRequestException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetResourcePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1745,6 +1881,25 @@ public enum GetSecretValueOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetSecretValueOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .decryptionFailure(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetSecretValueOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetSecretValueOutputResponse(arn: \(Swift.String(describing: arn)), createdDate: \(Swift.String(describing: createdDate)), name: \(Swift.String(describing: name)), versionId: \(Swift.String(describing: versionId)), versionStages: \(Swift.String(describing: versionStages)), secretBinary: \"CONTENT_REDACTED\", secretString: \"CONTENT_REDACTED\")"}
@@ -1886,6 +2041,9 @@ public struct InternalServiceError: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServiceError" }
+
     public var message: Swift.String?
 
     public init (
@@ -1938,6 +2096,9 @@ public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidNextTokenException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1990,6 +2151,9 @@ public struct InvalidParameterException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParameterException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2048,6 +2212,9 @@ public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRequestException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2100,6 +2267,9 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2236,6 +2406,24 @@ public enum ListSecretVersionIdsOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSecretVersionIdsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListSecretVersionIdsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2451,6 +2639,23 @@ public enum ListSecretsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListSecretsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidNextTokenException(let error): return error
+        case .invalidParameterException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListSecretsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2537,6 +2742,9 @@ public struct MalformedPolicyDocumentException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MalformedPolicyDocumentException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2589,6 +2797,9 @@ public struct PreconditionNotMetException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PreconditionNotMetException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2641,6 +2852,9 @@ public struct PublicPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PublicPolicyException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2770,6 +2984,26 @@ public enum PutResourcePolicyOutputError: Swift.Error, Swift.Equatable {
     case publicPolicyException(PublicPolicyException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutResourcePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .malformedPolicyDocumentException(let error): return error
+        case .publicPolicyException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2981,6 +3215,28 @@ public enum PutSecretValueOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutSecretValueOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .decryptionFailure(let error): return error
+        case .encryptionFailure(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .limitExceededException(let error): return error
+        case .resourceExistsException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutSecretValueOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3162,6 +3418,24 @@ public enum RemoveRegionsFromReplicationOutputError: Swift.Error, Swift.Equatabl
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveRegionsFromReplicationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveRegionsFromReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3282,7 +3556,7 @@ extension ReplicateSecretToRegionsInput: Swift.Encodable {
                 try addReplicaRegionsContainer.encode(replicaregiontype0)
             }
         }
-        if forceOverwriteReplicaSecret != false {
+        if let forceOverwriteReplicaSecret = self.forceOverwriteReplicaSecret {
             try encodeContainer.encode(forceOverwriteReplicaSecret, forKey: .forceOverwriteReplicaSecret)
         }
         if let secretId = self.secretId {
@@ -3302,14 +3576,14 @@ public struct ReplicateSecretToRegionsInput: Swift.Equatable {
     /// This member is required.
     public var addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]?
     /// Specifies whether to overwrite a secret with the same name in the destination Region.
-    public var forceOverwriteReplicaSecret: Swift.Bool
+    public var forceOverwriteReplicaSecret: Swift.Bool?
     /// The ARN or name of the secret to replicate.
     /// This member is required.
     public var secretId: Swift.String?
 
     public init (
         addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]? = nil,
-        forceOverwriteReplicaSecret: Swift.Bool = false,
+        forceOverwriteReplicaSecret: Swift.Bool? = nil,
         secretId: Swift.String? = nil
     )
     {
@@ -3322,7 +3596,7 @@ public struct ReplicateSecretToRegionsInput: Swift.Equatable {
 struct ReplicateSecretToRegionsInputBody: Swift.Equatable {
     let secretId: Swift.String?
     let addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]?
-    let forceOverwriteReplicaSecret: Swift.Bool
+    let forceOverwriteReplicaSecret: Swift.Bool?
 }
 
 extension ReplicateSecretToRegionsInputBody: Swift.Decodable {
@@ -3347,7 +3621,7 @@ extension ReplicateSecretToRegionsInputBody: Swift.Decodable {
             }
         }
         addReplicaRegions = addReplicaRegionsDecoded0
-        let forceOverwriteReplicaSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceOverwriteReplicaSecret) ?? false
+        let forceOverwriteReplicaSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceOverwriteReplicaSecret)
         forceOverwriteReplicaSecret = forceOverwriteReplicaSecretDecoded
     }
 }
@@ -3378,6 +3652,24 @@ public enum ReplicateSecretToRegionsOutputError: Swift.Error, Swift.Equatable {
     case invalidRequestException(InvalidRequestException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ReplicateSecretToRegionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ReplicateSecretToRegionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3541,6 +3833,9 @@ public struct ResourceExistsException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceExistsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3593,6 +3888,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -3693,6 +3991,24 @@ public enum RestoreSecretOutputError: Swift.Error, Swift.Equatable {
     case invalidRequestException(InvalidRequestException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RestoreSecretOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RestoreSecretOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3868,6 +4184,24 @@ public enum RotateSecretOutputError: Swift.Error, Swift.Equatable {
     case invalidRequestException(InvalidRequestException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RotateSecretOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RotateSecretOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4457,6 +4791,24 @@ public enum StopReplicationToReplicaOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StopReplicationToReplicaOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StopReplicationToReplicaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4644,6 +4996,24 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4753,6 +5123,24 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case invalidRequestException(InvalidRequestException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4916,6 +5304,30 @@ public enum UpdateSecretOutputError: Swift.Error, Swift.Equatable {
     case resourceExistsException(ResourceExistsException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateSecretOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .decryptionFailure(let error): return error
+        case .encryptionFailure(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .limitExceededException(let error): return error
+        case .malformedPolicyDocumentException(let error): return error
+        case .preconditionNotMetException(let error): return error
+        case .resourceExistsException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateSecretOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5094,6 +5506,25 @@ public enum UpdateSecretVersionStageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateSecretVersionStageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .limitExceededException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateSecretVersionStageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5233,6 +5664,25 @@ public enum ValidateResourcePolicyOutputError: Swift.Error, Swift.Equatable {
     case malformedPolicyDocumentException(MalformedPolicyDocumentException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ValidateResourcePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidParameterException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .malformedPolicyDocumentException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ValidateResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {

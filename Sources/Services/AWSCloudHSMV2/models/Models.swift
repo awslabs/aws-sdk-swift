@@ -392,6 +392,9 @@ public struct CloudHsmAccessDeniedException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmAccessDeniedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -444,6 +447,9 @@ public struct CloudHsmInternalFailureException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmInternalFailureException" }
+
     public var message: Swift.String?
 
     public init (
@@ -496,6 +502,9 @@ public struct CloudHsmInvalidRequestException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmInvalidRequestException" }
+
     public var message: Swift.String?
 
     public init (
@@ -548,6 +557,9 @@ public struct CloudHsmResourceNotFoundException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmResourceNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -600,6 +612,9 @@ public struct CloudHsmServiceException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmServiceException" }
+
     public var message: Swift.String?
 
     public init (
@@ -652,6 +667,9 @@ public struct CloudHsmTagException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CloudHsmTagException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1059,6 +1077,26 @@ public enum CopyBackupToRegionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CopyBackupToRegionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .cloudHsmTagException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CopyBackupToRegionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1257,6 +1295,26 @@ public enum CreateClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .cloudHsmTagException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1401,6 +1459,25 @@ public enum CreateHsmOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateHsmOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateHsmOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1518,6 +1595,25 @@ public enum DeleteBackupOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmResourceNotFoundException(CloudHsmResourceNotFoundException)
     case cloudHsmServiceException(CloudHsmServiceException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteBackupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteBackupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1639,6 +1735,26 @@ public enum DeleteClusterOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case cloudHsmTagException(CloudHsmTagException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .cloudHsmTagException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteClusterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1794,6 +1910,25 @@ public enum DeleteHsmOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmResourceNotFoundException(CloudHsmResourceNotFoundException)
     case cloudHsmServiceException(CloudHsmServiceException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteHsmOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteHsmOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1972,6 +2107,26 @@ public enum DescribeBackupsOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case cloudHsmTagException(CloudHsmTagException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeBackupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .cloudHsmTagException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2155,6 +2310,25 @@ public enum DescribeClustersOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case cloudHsmTagException(CloudHsmTagException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeClustersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .cloudHsmTagException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeClustersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2533,6 +2707,25 @@ public enum InitializeClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension InitializeClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension InitializeClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2688,6 +2881,26 @@ public enum ListTagsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .cloudHsmTagException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2840,6 +3053,25 @@ public enum ModifyBackupAttributesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyBackupAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyBackupAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2972,6 +3204,25 @@ public enum ModifyClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3089,6 +3340,25 @@ public enum RestoreBackupOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmResourceNotFoundException(CloudHsmResourceNotFoundException)
     case cloudHsmServiceException(CloudHsmServiceException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RestoreBackupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RestoreBackupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3284,6 +3554,26 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .cloudHsmTagException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3397,6 +3687,26 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case cloudHsmServiceException(CloudHsmServiceException)
     case cloudHsmTagException(CloudHsmTagException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cloudHsmAccessDeniedException(let error): return error
+        case .cloudHsmInternalFailureException(let error): return error
+        case .cloudHsmInvalidRequestException(let error): return error
+        case .cloudHsmResourceNotFoundException(let error): return error
+        case .cloudHsmServiceException(let error): return error
+        case .cloudHsmTagException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {

@@ -28,6 +28,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -308,6 +311,27 @@ public enum AssociateExternalConnectionOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AssociateExternalConnectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AssociateExternalConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -379,6 +403,9 @@ public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConflictException" }
+
     /// This member is required.
     public var message: Swift.String?
     /// The ID of the resource.
@@ -529,6 +556,8 @@ public struct CopyPackageVersionsInput: Swift.Equatable {
     /// * The namespace of an npm package version is its scope.
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is it’s namespace.
     public var namespace: Swift.String?
     /// The name of the package that contains the versions to be copied.
     /// This member is required.
@@ -647,6 +676,27 @@ public enum CopyPackageVersionsOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CopyPackageVersionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CopyPackageVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -853,6 +903,27 @@ public enum CreateDomainOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1064,6 +1135,27 @@ public enum CreateRepositoryOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateRepositoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1184,6 +1276,25 @@ public enum DeleteDomainOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteDomainOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1316,6 +1427,26 @@ public enum DeleteDomainPermissionsPolicyOutputError: Swift.Error, Swift.Equatab
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDomainPermissionsPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteDomainPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1489,6 +1620,26 @@ public enum DeletePackageOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeletePackageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeletePackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1615,6 +1766,8 @@ public struct DeletePackageVersionsInput: Swift.Equatable {
     /// * The namespace of an npm package version is its scope.
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is it’s namespace.
     public var namespace: Swift.String?
     /// The name of the package with the versions to delete.
     /// This member is required.
@@ -1707,6 +1860,26 @@ public enum DeletePackageVersionsOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeletePackageVersionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeletePackageVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1884,6 +2057,26 @@ public enum DeleteRepositoryOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteRepositoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2027,6 +2220,26 @@ public enum DeleteRepositoryPermissionsPolicyOutputError: Swift.Error, Swift.Equ
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteRepositoryPermissionsPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteRepositoryPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2149,6 +2362,25 @@ public enum DescribeDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2253,6 +2485,8 @@ public struct DescribePackageInput: Swift.Equatable {
     /// * The namespace of an npm package is its scope.
     ///
     /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is it’s namespace.
     public var namespace: Swift.String?
     /// The name of the requested package.
     /// This member is required.
@@ -2316,6 +2550,25 @@ public enum DescribePackageOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribePackageOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribePackageOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2429,6 +2682,8 @@ public struct DescribePackageVersionInput: Swift.Equatable {
     /// * The namespace of an npm package version is its scope.
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is it’s namespace.
     public var namespace: Swift.String?
     /// The name of the requested package version.
     /// This member is required.
@@ -2499,6 +2754,26 @@ public enum DescribePackageVersionOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribePackageVersionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribePackageVersionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2633,6 +2908,25 @@ public enum DescribeRepositoryOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeRepositoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2783,6 +3077,27 @@ public enum DisassociateExternalConnectionOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisassociateExternalConnectionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisassociateExternalConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2916,6 +3231,8 @@ public struct DisposePackageVersionsInput: Swift.Equatable {
     /// * The namespace of an npm package version is its scope.
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is it’s namespace.
     public var namespace: Swift.String?
     /// The name of the package with the versions you want to dispose.
     /// This member is required.
@@ -3025,6 +3342,26 @@ public enum DisposePackageVersionsOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisposePackageVersionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisposePackageVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3503,6 +3840,25 @@ public enum GetAuthorizationTokenOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetAuthorizationTokenOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetAuthorizationTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3635,6 +3991,25 @@ public enum GetDomainPermissionsPolicyOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDomainPermissionsPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDomainPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3758,6 +4133,8 @@ public struct GetPackageVersionAssetInput: Swift.Equatable {
     /// * The namespace of an npm package version is its scope.
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is it’s namespace.
     public var namespace: Swift.String?
     /// The name of the package that contains the requested asset.
     /// This member is required.
@@ -3834,6 +4211,26 @@ public enum GetPackageVersionAssetOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetPackageVersionAssetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetPackageVersionAssetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3960,7 +4357,7 @@ public struct GetPackageVersionReadmeInput: Swift.Equatable {
     public var domain: Swift.String?
     /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
     public var domainOwner: Swift.String?
-    /// A format that specifies the type of the package version with the requested readme file. Although maven is listed as a valid value, CodeArtifact does not support displaying readme files for Maven packages.
+    /// A format that specifies the type of the package version with the requested readme file.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The namespace of the package version with the requested readme file. The package version component that specifies its namespace depends on its type. For example:
@@ -4038,6 +4435,25 @@ public enum GetPackageVersionReadmeOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetPackageVersionReadmeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetPackageVersionReadmeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4240,6 +4656,25 @@ public enum GetRepositoryEndpointOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetRepositoryEndpointOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetRepositoryEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4373,6 +4808,25 @@ public enum GetRepositoryPermissionsPolicyOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetRepositoryPermissionsPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetRepositoryPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4478,6 +4932,9 @@ public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerException" }
+
     /// This member is required.
     public var message: Swift.String?
 
@@ -4637,6 +5094,24 @@ public enum ListDomainsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListDomainsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4776,6 +5251,8 @@ public struct ListPackageVersionAssetsInput: Swift.Equatable {
     /// * The namespace of an npm package version is its scope.
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is it’s namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -4850,6 +5327,25 @@ public enum ListPackageVersionAssetsOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPackageVersionAssetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListPackageVersionAssetsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5041,6 +5537,8 @@ public struct ListPackageVersionDependenciesInput: Swift.Equatable {
     /// * The namespace of an npm package version is its scope.
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is it’s namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -5113,6 +5611,25 @@ public enum ListPackageVersionDependenciesOutputError: Swift.Error, Swift.Equata
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPackageVersionDependenciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListPackageVersionDependenciesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5304,7 +5821,7 @@ public struct ListPackageVersionsInput: Swift.Equatable {
     public var domain: Swift.String?
     /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
     public var domainOwner: Swift.String?
-    /// The format of the returned package versions.
+    /// The format of the package versions you want to list.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The maximum number of results to return per page.
@@ -5316,6 +5833,8 @@ public struct ListPackageVersionsInput: Swift.Equatable {
     /// * The namespace of an npm package is its scope.
     ///
     /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is it’s namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -5397,6 +5916,25 @@ public enum ListPackageVersionsOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPackageVersionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListPackageVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5578,13 +6116,15 @@ public struct ListPackagesInput: Swift.Equatable {
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The namespace used to filter requested packages. Only packages with the provided namespace will be returned. The package component that specifies its namespace depends on its type. For example:
+    /// The namespace prefix used to filter requested packages. Only packages with a namespace that starts with the provided string value are returned. Note that although this option is called --namespace and not --namespace-prefix, it has prefix-matching behavior. Each package format uses namespace as follows:
     ///
     /// * The namespace of a Maven package is its groupId.
     ///
     /// * The namespace of an npm package is its scope.
     ///
     /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is it’s namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -5661,6 +6201,25 @@ public enum ListPackagesOutputError: Swift.Error, Swift.Equatable {
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPackagesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListPackagesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5836,6 +6395,25 @@ public enum ListRepositoriesInDomainOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListRepositoriesInDomainOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListRepositoriesInDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5980,6 +6558,24 @@ public enum ListRepositoriesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListRepositoriesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6111,6 +6707,24 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6201,7 +6815,15 @@ extension CodeartifactClientTypes.PackageDependency: Swift.Codable {
 extension CodeartifactClientTypes {
     /// Details about a package dependency.
     public struct PackageDependency: Swift.Equatable {
-        /// The type of a package dependency. The possible values depend on the package type. Example types are compile, runtime, and test for Maven packages, and dev, prod, and optional for npm packages.
+        /// The type of a package dependency. The possible values depend on the package type.
+        ///
+        /// * npm: regular, dev, peer, optional
+        ///
+        /// * maven: optional, parent, compile, runtime, test, system, provided. Note that parent is not a regular Maven dependency type; instead this is extracted from the  element if one is defined in the package version's POM file.
+        ///
+        /// * nuget: The dependencyType field is never set for NuGet packages.
+        ///
+        /// * pypi: Requires-Dist
         public var dependencyType: Swift.String?
         /// The namespace of the package that this package depends on. The package component that specifies its namespace depends on its type. For example:
         ///
@@ -6283,6 +6905,8 @@ extension CodeartifactClientTypes {
         /// * The namespace of an npm package is its scope.
         ///
         /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+        ///
+        /// * The namespace of a generic package is it’s namespace.
         public var namespace: Swift.String?
         /// The package origin configuration for the package.
         public var originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
@@ -6305,6 +6929,7 @@ extension CodeartifactClientTypes {
 
 extension CodeartifactClientTypes {
     public enum PackageFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case generic
         case maven
         case npm
         case nuget
@@ -6313,6 +6938,7 @@ extension CodeartifactClientTypes {
 
         public static var allCases: [PackageFormat] {
             return [
+                .generic,
                 .maven,
                 .npm,
                 .nuget,
@@ -6326,6 +6952,7 @@ extension CodeartifactClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .generic: return "generic"
             case .maven: return "maven"
             case .npm: return "npm"
             case .nuget: return "nuget"
@@ -6472,6 +7099,8 @@ extension CodeartifactClientTypes {
         /// * The namespace of an npm package is its scope.
         ///
         /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+        ///
+        /// * The namespace of a generic package is it’s namespace.
         public var namespace: Swift.String?
         /// A [PackageOriginConfiguration](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginConfiguration.html) object that contains a [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html) object that contains information about the upstream and publish package origin restrictions.
         public var originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
@@ -6615,6 +7244,8 @@ extension CodeartifactClientTypes {
         /// * The namespace of an npm package version is its scope.
         ///
         /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+        ///
+        /// * The namespace of a generic package is it’s namespace.
         public var namespace: Swift.String?
         /// A [PackageVersionOrigin](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionOrigin.html) object that contains information about how the package version was added to the repository.
         public var origin: CodeartifactClientTypes.PackageVersionOrigin?
@@ -6988,6 +7619,350 @@ extension CodeartifactClientTypes {
 
 }
 
+public struct PublishPackageVersionInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "PublishPackageVersionInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<PublishPackageVersionInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<PublishPackageVersionOutputResponse>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let assetContent = input.operationInput.assetContent {
+            let assetContentdata = assetContent
+            let assetContentbody = ClientRuntime.HttpBody.stream(assetContentdata)
+            input.builder.withBody(assetContentbody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<PublishPackageVersionInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<PublishPackageVersionOutputResponse>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
+extension PublishPackageVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assetContent
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let assetContent = self.assetContent {
+            try encodeContainer.encode(assetContent.toBytes().getData(), forKey: .assetContent)
+        }
+    }
+}
+
+extension PublishPackageVersionInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let assetSHA256 = assetSHA256 {
+            items.add(Header(name: "x-amz-content-sha256", value: Swift.String(assetSHA256)))
+        }
+        return items
+    }
+}
+
+extension PublishPackageVersionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let package = package else {
+                let message = "Creating a URL Query Item failed. package is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+            items.append(packageQueryItem)
+            guard let domain = domain else {
+                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+            items.append(domainQueryItem)
+            if let domainOwner = domainOwner {
+                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+                items.append(domainOwnerQueryItem)
+            }
+            guard let format = format else {
+                let message = "Creating a URL Query Item failed. format is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+            items.append(formatQueryItem)
+            if let namespace = namespace {
+                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+                items.append(namespaceQueryItem)
+            }
+            guard let assetName = assetName else {
+                let message = "Creating a URL Query Item failed. assetName is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let assetNameQueryItem = ClientRuntime.URLQueryItem(name: "asset".urlPercentEncoding(), value: Swift.String(assetName).urlPercentEncoding())
+            items.append(assetNameQueryItem)
+            guard let packageVersion = packageVersion else {
+                let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let packageVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+            items.append(packageVersionQueryItem)
+            if let unfinished = unfinished {
+                let unfinishedQueryItem = ClientRuntime.URLQueryItem(name: "unfinished".urlPercentEncoding(), value: Swift.String(unfinished).urlPercentEncoding())
+                items.append(unfinishedQueryItem)
+            }
+            guard let repository = repository else {
+                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+            items.append(repositoryQueryItem)
+            return items
+        }
+    }
+}
+
+extension PublishPackageVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/package/version/publish"
+    }
+}
+
+public struct PublishPackageVersionInput: Swift.Equatable {
+    /// The content of the asset to publish.
+    /// This member is required.
+    public var assetContent: ClientRuntime.ByteStream?
+    /// The name of the asset to publish. Asset names can include Unicode letters and numbers, and the following special characters: ~ ! @ ^ & ( ) - ` _ + [ ] { } ; , . `
+    /// This member is required.
+    public var assetName: Swift.String?
+    /// The SHA256 hash of the assetContent to publish. This value must be calculated by the caller and provided with the request. This value is used as an integrity check to verify that the assetContent has not changed after it was originally sent.
+    /// This member is required.
+    public var assetSHA256: Swift.String?
+    /// The name of the domain that contains the repository that contains the package version to publish.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+    public var domainOwner: Swift.String?
+    /// A format that specifies the type of the package version with the requested asset file.
+    /// This member is required.
+    public var format: CodeartifactClientTypes.PackageFormat?
+    /// The namespace of the package version to publish.
+    public var namespace: Swift.String?
+    /// The name of the package version to publish.
+    /// This member is required.
+    public var package: Swift.String?
+    /// The package version to publish (for example, 3.5.2).
+    /// This member is required.
+    public var packageVersion: Swift.String?
+    /// The name of the repository that the package version will be published to.
+    /// This member is required.
+    public var repository: Swift.String?
+    /// Specifies whether the package version should remain in the unfinished state. If omitted, the package version status will be set to Published (see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status.html#package-version-status) in the CodeArtifact User Guide). Valid values: unfinished
+    public var unfinished: Swift.Bool?
+
+    public init (
+        assetContent: ClientRuntime.ByteStream? = nil,
+        assetName: Swift.String? = nil,
+        assetSHA256: Swift.String? = nil,
+        domain: Swift.String? = nil,
+        domainOwner: Swift.String? = nil,
+        format: CodeartifactClientTypes.PackageFormat? = nil,
+        namespace: Swift.String? = nil,
+        package: Swift.String? = nil,
+        packageVersion: Swift.String? = nil,
+        repository: Swift.String? = nil,
+        unfinished: Swift.Bool? = nil
+    )
+    {
+        self.assetContent = assetContent
+        self.assetName = assetName
+        self.assetSHA256 = assetSHA256
+        self.domain = domain
+        self.domainOwner = domainOwner
+        self.format = format
+        self.namespace = namespace
+        self.package = package
+        self.packageVersion = packageVersion
+        self.repository = repository
+        self.unfinished = unfinished
+    }
+}
+
+struct PublishPackageVersionInputBody: Swift.Equatable {
+    let assetContent: ClientRuntime.ByteStream?
+}
+
+extension PublishPackageVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assetContent
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let assetContentDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .assetContent)
+        assetContent = assetContentDecoded
+    }
+}
+
+extension PublishPackageVersionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PublishPackageVersionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PublishPackageVersionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PublishPackageVersionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
+extension PublishPackageVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: PublishPackageVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.asset = output.asset
+            self.format = output.format
+            self.namespace = output.namespace
+            self.package = output.package
+            self.status = output.status
+            self.version = output.version
+            self.versionRevision = output.versionRevision
+        } else {
+            self.asset = nil
+            self.format = nil
+            self.namespace = nil
+            self.package = nil
+            self.status = nil
+            self.version = nil
+            self.versionRevision = nil
+        }
+    }
+}
+
+public struct PublishPackageVersionOutputResponse: Swift.Equatable {
+    /// An [AssetSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html) for the published asset.
+    public var asset: CodeartifactClientTypes.AssetSummary?
+    /// The format of the package version.
+    public var format: CodeartifactClientTypes.PackageFormat?
+    /// The namespace of the package version.
+    public var namespace: Swift.String?
+    /// The name of the package.
+    public var package: Swift.String?
+    /// A string that contains the status of the package version. For more information, see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status.html#package-version-status) in the CodeArtifact User Guide.
+    public var status: CodeartifactClientTypes.PackageVersionStatus?
+    /// The version of the package.
+    public var version: Swift.String?
+    /// The revision of the package version.
+    public var versionRevision: Swift.String?
+
+    public init (
+        asset: CodeartifactClientTypes.AssetSummary? = nil,
+        format: CodeartifactClientTypes.PackageFormat? = nil,
+        namespace: Swift.String? = nil,
+        package: Swift.String? = nil,
+        status: CodeartifactClientTypes.PackageVersionStatus? = nil,
+        version: Swift.String? = nil,
+        versionRevision: Swift.String? = nil
+    )
+    {
+        self.asset = asset
+        self.format = format
+        self.namespace = namespace
+        self.package = package
+        self.status = status
+        self.version = version
+        self.versionRevision = versionRevision
+    }
+}
+
+struct PublishPackageVersionOutputResponseBody: Swift.Equatable {
+    let format: CodeartifactClientTypes.PackageFormat?
+    let namespace: Swift.String?
+    let package: Swift.String?
+    let version: Swift.String?
+    let versionRevision: Swift.String?
+    let status: CodeartifactClientTypes.PackageVersionStatus?
+    let asset: CodeartifactClientTypes.AssetSummary?
+}
+
+extension PublishPackageVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case asset
+        case format
+        case namespace
+        case package
+        case status
+        case version
+        case versionRevision
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let formatDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageFormat.self, forKey: .format)
+        format = formatDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+        let packageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .package)
+        package = packageDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let versionRevisionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionRevision)
+        versionRevision = versionRevisionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageVersionStatus.self, forKey: .status)
+        status = statusDecoded
+        let assetDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.AssetSummary.self, forKey: .asset)
+        asset = assetDecoded
+    }
+}
+
 extension PutDomainPermissionsPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domain
@@ -7107,6 +8082,27 @@ public enum PutDomainPermissionsPolicyOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PutDomainPermissionsPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PutDomainPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7224,6 +8220,8 @@ public struct PutPackageOriginConfigurationInput: Swift.Equatable {
     /// * The namespace of an npm package is its scope.
     ///
     /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is it’s namespace.
     public var namespace: Swift.String?
     /// The name of the package to be updated.
     /// This member is required.
@@ -7299,6 +8297,25 @@ public enum PutPackageOriginConfigurationOutputError: Swift.Error, Swift.Equatab
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutPackageOriginConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutPackageOriginConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7473,6 +8490,27 @@ public enum PutRepositoryPermissionsPolicyOutputError: Swift.Error, Swift.Equata
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutRepositoryPermissionsPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutRepositoryPermissionsPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7823,6 +8861,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     /// This member is required.
     public var message: Swift.String?
     /// The ID of the resource.
@@ -7992,6 +9033,9 @@ public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceQuotaExceededException" }
+
     /// This member is required.
     public var message: Swift.String?
     /// The ID of the resource.
@@ -8237,6 +9281,25 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8278,6 +9341,9 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottlingException" }
+
     /// This member is required.
     public var message: Swift.String?
     /// The time period, in seconds, to wait before retrying the request.
@@ -8417,6 +9483,24 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8523,6 +9607,8 @@ public struct UpdatePackageVersionsStatusInput: Swift.Equatable {
     /// * The namespace of an npm package version is its scope.
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is it’s namespace.
     public var namespace: Swift.String?
     /// The name of the package with the version statuses to update.
     /// This member is required.
@@ -8641,6 +9727,26 @@ public enum UpdatePackageVersionsStatusOutputError: Swift.Error, Swift.Equatable
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdatePackageVersionsStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdatePackageVersionsStatusOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8856,6 +9962,27 @@ public enum UpdateRepositoryOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateRepositoryOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .conflictException(let error): return error
+        case .internalServerException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .serviceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .validationException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8996,6 +10123,9 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ValidationException" }
+
     /// This member is required.
     public var message: Swift.String?
     ///

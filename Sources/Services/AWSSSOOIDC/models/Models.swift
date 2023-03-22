@@ -30,6 +30,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     public var error: Swift.String?
     public var error_description: Swift.String?
 
@@ -91,6 +94,9 @@ public struct AuthorizationPendingException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AuthorizationPendingException" }
+
     public var error: Swift.String?
     public var error_description: Swift.String?
 
@@ -312,6 +318,31 @@ public enum CreateTokenOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateTokenOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .authorizationPendingException(let error): return error
+        case .expiredTokenException(let error): return error
+        case .internalServerException(let error): return error
+        case .invalidClientException(let error): return error
+        case .invalidGrantException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .invalidScopeException(let error): return error
+        case .slowDownException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unsupportedGrantTypeException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -421,6 +452,9 @@ public struct ExpiredTokenException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ExpiredTokenException" }
+
     public var error: Swift.String?
     public var error_description: Swift.String?
 
@@ -482,6 +516,9 @@ public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerException" }
+
     public var error: Swift.String?
     public var error_description: Swift.String?
 
@@ -543,6 +580,9 @@ public struct InvalidClientException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidClientException" }
+
     public var error: Swift.String?
     public var error_description: Swift.String?
 
@@ -604,6 +644,9 @@ public struct InvalidClientMetadataException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidClientMetadataException" }
+
     public var error: Swift.String?
     public var error_description: Swift.String?
 
@@ -665,6 +708,9 @@ public struct InvalidGrantException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidGrantException" }
+
     public var error: Swift.String?
     public var error_description: Swift.String?
 
@@ -726,6 +772,9 @@ public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRequestException" }
+
     public var error: Swift.String?
     public var error_description: Swift.String?
 
@@ -787,6 +836,9 @@ public struct InvalidScopeException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidScopeException" }
+
     public var error: Swift.String?
     public var error_description: Swift.String?
 
@@ -933,6 +985,24 @@ public enum RegisterClientOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RegisterClientOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidClientMetadataException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .invalidScopeException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RegisterClientOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1052,6 +1122,9 @@ public struct SlowDownException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SlowDownException" }
+
     public var error: Swift.String?
     public var error_description: Swift.String?
 
@@ -1189,6 +1262,25 @@ public enum StartDeviceAuthorizationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartDeviceAuthorizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServerException(let error): return error
+        case .invalidClientException(let error): return error
+        case .invalidRequestException(let error): return error
+        case .slowDownException(let error): return error
+        case .unauthorizedClientException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartDeviceAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1308,6 +1400,9 @@ public struct UnauthorizedClientException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnauthorizedClientException" }
+
     public var error: Swift.String?
     public var error_description: Swift.String?
 
@@ -1369,6 +1464,9 @@ public struct UnsupportedGrantTypeException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedGrantTypeException" }
+
     public var error: Swift.String?
     public var error_description: Swift.String?
 

@@ -27,6 +27,9 @@ public struct APICallRateForCustomerExceededFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "APICallRateForCustomerExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -211,6 +214,32 @@ public enum AddTagsToResourceOutputError: Swift.Error, Swift.Equatable {
     case userGroupNotFoundFault(UserGroupNotFoundFault)
     case userNotFoundFault(UserNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AddTagsToResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterNotFoundFault(let error): return error
+        case .cacheParameterGroupNotFoundFault(let error): return error
+        case .cacheSecurityGroupNotFoundFault(let error): return error
+        case .cacheSubnetGroupNotFoundFault(let error): return error
+        case .invalidARNFault(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .reservedCacheNodeNotFoundFault(let error): return error
+        case .snapshotNotFoundFault(let error): return error
+        case .tagQuotaPerResourceExceeded(let error): return error
+        case .userGroupNotFoundFault(let error): return error
+        case .userNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -516,6 +545,9 @@ public struct AuthorizationAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AuthorizationAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -567,6 +599,9 @@ public struct AuthorizationNotFoundFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AuthorizationNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -691,6 +726,25 @@ public enum AuthorizeCacheSecurityGroupIngressOutputError: Swift.Error, Swift.Eq
     case invalidParameterCombinationException(InvalidParameterCombinationException)
     case invalidParameterValueException(InvalidParameterValueException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AuthorizeCacheSecurityGroupIngressOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationAlreadyExistsFault(let error): return error
+        case .cacheSecurityGroupNotFoundFault(let error): return error
+        case .invalidCacheSecurityGroupStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AuthorizeCacheSecurityGroupIngressOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -957,6 +1011,22 @@ public enum BatchApplyUpdateActionOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension BatchApplyUpdateActionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .serviceUpdateNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension BatchApplyUpdateActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1184,6 +1254,22 @@ public enum BatchStopUpdateActionOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterValueException(InvalidParameterValueException)
     case serviceUpdateNotFoundFault(ServiceUpdateNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchStopUpdateActionOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .serviceUpdateNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension BatchStopUpdateActionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1812,6 +1898,9 @@ public struct CacheClusterAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheClusterAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -1863,6 +1952,9 @@ public struct CacheClusterNotFoundFault: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheClusterNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -2499,6 +2591,9 @@ public struct CacheParameterGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheParameterGroupAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -2550,6 +2645,9 @@ public struct CacheParameterGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheParameterGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -2601,6 +2699,9 @@ public struct CacheParameterGroupQuotaExceededFault: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheParameterGroupQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -2840,6 +2941,9 @@ public struct CacheSecurityGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheSecurityGroupAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -2936,6 +3040,9 @@ public struct CacheSecurityGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheSecurityGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -2987,6 +3094,9 @@ public struct CacheSecurityGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheSecurityGroupQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -3179,6 +3289,9 @@ public struct CacheSubnetGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheSubnetGroupAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -3230,6 +3343,9 @@ public struct CacheSubnetGroupInUse: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheSubnetGroupInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -3281,6 +3397,9 @@ public struct CacheSubnetGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheSubnetGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -3332,6 +3451,9 @@ public struct CacheSubnetGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheSubnetGroupQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -3383,6 +3505,9 @@ public struct CacheSubnetQuotaExceededFault: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CacheSubnetQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -3501,6 +3626,9 @@ public struct ClusterQuotaForCustomerExceededFault: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ClusterQuotaForCustomerExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -3607,6 +3735,23 @@ public enum CompleteMigrationOutputError: Swift.Error, Swift.Equatable {
     case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
     case replicationGroupNotUnderMigrationFault(ReplicationGroupNotUnderMigrationFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CompleteMigrationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .replicationGroupNotUnderMigrationFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CompleteMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3930,6 +4075,27 @@ public enum CopySnapshotOutputError: Swift.Error, Swift.Equatable {
     case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
     case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CopySnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidSnapshotStateFault(let error): return error
+        case .snapshotAlreadyExistsFault(let error): return error
+        case .snapshotNotFoundFault(let error): return error
+        case .snapshotQuotaExceededFault(let error): return error
+        case .tagQuotaPerResourceExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CopySnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4623,6 +4789,34 @@ public enum CreateCacheClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateCacheClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterAlreadyExistsFault(let error): return error
+        case .cacheParameterGroupNotFoundFault(let error): return error
+        case .cacheSecurityGroupNotFoundFault(let error): return error
+        case .cacheSubnetGroupNotFoundFault(let error): return error
+        case .clusterQuotaForCustomerExceededFault(let error): return error
+        case .insufficientCacheClusterCapacityFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .nodeQuotaForClusterExceededFault(let error): return error
+        case .nodeQuotaForCustomerExceededFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .tagQuotaPerResourceExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4804,6 +4998,26 @@ public enum CreateCacheParameterGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateCacheParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheParameterGroupAlreadyExistsFault(let error): return error
+        case .cacheParameterGroupQuotaExceededFault(let error): return error
+        case .invalidCacheParameterGroupStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .tagQuotaPerResourceExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4969,6 +5183,25 @@ public enum CreateCacheSecurityGroupOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterValueException(InvalidParameterValueException)
     case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateCacheSecurityGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheSecurityGroupAlreadyExistsFault(let error): return error
+        case .cacheSecurityGroupQuotaExceededFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .tagQuotaPerResourceExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateCacheSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5184,6 +5417,26 @@ public enum CreateCacheSubnetGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateCacheSubnetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheSubnetGroupAlreadyExistsFault(let error): return error
+        case .cacheSubnetGroupQuotaExceededFault(let error): return error
+        case .cacheSubnetQuotaExceededFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .subnetNotAllowedFault(let error): return error
+        case .tagQuotaPerResourceExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5326,6 +5579,25 @@ public enum CreateGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatabl
     case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
     case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateGlobalReplicationGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .globalReplicationGroupAlreadyExistsFault(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .serviceLinkedRoleNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6156,6 +6428,39 @@ public enum CreateReplicationGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateReplicationGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterNotFoundFault(let error): return error
+        case .cacheParameterGroupNotFoundFault(let error): return error
+        case .cacheSecurityGroupNotFoundFault(let error): return error
+        case .cacheSubnetGroupNotFoundFault(let error): return error
+        case .clusterQuotaForCustomerExceededFault(let error): return error
+        case .globalReplicationGroupNotFoundFault(let error): return error
+        case .insufficientCacheClusterCapacityFault(let error): return error
+        case .invalidCacheClusterStateFault(let error): return error
+        case .invalidGlobalReplicationGroupStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidUserGroupStateFault(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .nodeGroupsPerReplicationGroupQuotaExceededFault(let error): return error
+        case .nodeQuotaForClusterExceededFault(let error): return error
+        case .nodeQuotaForCustomerExceededFault(let error): return error
+        case .replicationGroupAlreadyExistsFault(let error): return error
+        case .tagQuotaPerResourceExceeded(let error): return error
+        case .userGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6352,6 +6657,30 @@ public enum CreateSnapshotOutputError: Swift.Error, Swift.Equatable {
     case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
     case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterNotFoundFault(let error): return error
+        case .invalidCacheClusterStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .snapshotAlreadyExistsFault(let error): return error
+        case .snapshotFeatureNotSupportedFault(let error): return error
+        case .snapshotQuotaExceededFault(let error): return error
+        case .tagQuotaPerResourceExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6561,6 +6890,28 @@ public enum CreateUserGroupOutputError: Swift.Error, Swift.Equatable {
     case userGroupQuotaExceededFault(UserGroupQuotaExceededFault)
     case userNotFoundFault(UserNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateUserGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .defaultUserRequired(let error): return error
+        case .duplicateUserNameFault(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .serviceLinkedRoleNotFoundFault(let error): return error
+        case .tagQuotaPerResourceExceeded(let error): return error
+        case .userGroupAlreadyExistsFault(let error): return error
+        case .userGroupQuotaExceededFault(let error): return error
+        case .userNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6918,6 +7269,27 @@ public enum CreateUserOutputError: Swift.Error, Swift.Equatable {
     case userAlreadyExistsFault(UserAlreadyExistsFault)
     case userQuotaExceededFault(UserQuotaExceededFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateUserOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .duplicateUserNameFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .serviceLinkedRoleNotFoundFault(let error): return error
+        case .tagQuotaPerResourceExceeded(let error): return error
+        case .userAlreadyExistsFault(let error): return error
+        case .userQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateUserOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7307,6 +7679,24 @@ public enum DecreaseNodeGroupsInGlobalReplicationGroupOutputError: Swift.Error, 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DecreaseNodeGroupsInGlobalReplicationGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .globalReplicationGroupNotFoundFault(let error): return error
+        case .invalidGlobalReplicationGroupStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7548,6 +7938,32 @@ public enum DecreaseReplicaCountOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DecreaseReplicaCountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clusterQuotaForCustomerExceededFault(let error): return error
+        case .insufficientCacheClusterCapacityFault(let error): return error
+        case .invalidCacheClusterStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .nodeGroupsPerReplicationGroupQuotaExceededFault(let error): return error
+        case .nodeQuotaForCustomerExceededFault(let error): return error
+        case .noOperationFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .serviceLinkedRoleNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DecreaseReplicaCountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7615,6 +8031,9 @@ public struct DefaultUserAssociatedToUserGroupFault: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DefaultUserAssociatedToUserGroupFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -7666,6 +8085,9 @@ public struct DefaultUserRequired: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DefaultUserRequired" }
+
     public var message: Swift.String?
 
     public init (
@@ -7781,6 +8203,27 @@ public enum DeleteCacheClusterOutputError: Swift.Error, Swift.Equatable {
     case snapshotFeatureNotSupportedFault(SnapshotFeatureNotSupportedFault)
     case snapshotQuotaExceededFault(SnapshotQuotaExceededFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteCacheClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterNotFoundFault(let error): return error
+        case .invalidCacheClusterStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .snapshotAlreadyExistsFault(let error): return error
+        case .snapshotFeatureNotSupportedFault(let error): return error
+        case .snapshotQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7899,6 +8342,24 @@ public enum DeleteCacheParameterGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteCacheParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheParameterGroupNotFoundFault(let error): return error
+        case .invalidCacheParameterGroupStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -7983,6 +8444,24 @@ public enum DeleteCacheSecurityGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteCacheSecurityGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheSecurityGroupNotFoundFault(let error): return error
+        case .invalidCacheSecurityGroupStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteCacheSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8061,6 +8540,22 @@ public enum DeleteCacheSubnetGroupOutputError: Swift.Error, Swift.Equatable {
     case cacheSubnetGroupInUse(CacheSubnetGroupInUse)
     case cacheSubnetGroupNotFoundFault(CacheSubnetGroupNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteCacheSubnetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheSubnetGroupInUse(let error): return error
+        case .cacheSubnetGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8154,6 +8649,23 @@ public enum DeleteGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatabl
     case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
     case invalidParameterValueException(InvalidParameterValueException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteGlobalReplicationGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .globalReplicationGroupNotFoundFault(let error): return error
+        case .invalidGlobalReplicationGroupStateFault(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8302,6 +8814,27 @@ public enum DeleteReplicationGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteReplicationGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .snapshotAlreadyExistsFault(let error): return error
+        case .snapshotFeatureNotSupportedFault(let error): return error
+        case .snapshotQuotaExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8418,6 +8951,24 @@ public enum DeleteSnapshotOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteSnapshotOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidSnapshotStateFault(let error): return error
+        case .snapshotNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8531,6 +9082,24 @@ public enum DeleteUserGroupOutputError: Swift.Error, Swift.Equatable {
     case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
     case userGroupNotFoundFault(UserGroupNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteUserGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .invalidUserGroupStateFault(let error): return error
+        case .serviceLinkedRoleNotFoundFault(let error): return error
+        case .userGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8752,6 +9321,25 @@ public enum DeleteUserOutputError: Swift.Error, Swift.Equatable {
     case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
     case userNotFoundFault(UserNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteUserOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .defaultUserAssociatedToUserGroupFault(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidUserStateFault(let error): return error
+        case .serviceLinkedRoleNotFoundFault(let error): return error
+        case .userNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteUserOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9022,6 +9610,23 @@ public enum DescribeCacheClustersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeCacheClustersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterNotFoundFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeCacheClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9218,6 +9823,20 @@ public enum DescribeCacheEngineVersionsOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeCacheEngineVersionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeCacheEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9379,6 +9998,23 @@ public enum DescribeCacheParameterGroupsOutputError: Swift.Error, Swift.Equatabl
     case invalidParameterCombinationException(InvalidParameterCombinationException)
     case invalidParameterValueException(InvalidParameterValueException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeCacheParameterGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheParameterGroupNotFoundFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeCacheParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9554,6 +10190,23 @@ public enum DescribeCacheParametersOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterCombinationException(InvalidParameterCombinationException)
     case invalidParameterValueException(InvalidParameterValueException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeCacheParametersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheParameterGroupNotFoundFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeCacheParametersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9746,6 +10399,23 @@ public enum DescribeCacheSecurityGroupsOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeCacheSecurityGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheSecurityGroupNotFoundFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeCacheSecurityGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9903,6 +10573,21 @@ extension DescribeCacheSubnetGroupsOutputError {
 public enum DescribeCacheSubnetGroupsOutputError: Swift.Error, Swift.Equatable {
     case cacheSubnetGroupNotFoundFault(CacheSubnetGroupNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeCacheSubnetGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheSubnetGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeCacheSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10065,6 +10750,22 @@ public enum DescribeEngineDefaultParametersOutputError: Swift.Error, Swift.Equat
     case invalidParameterCombinationException(InvalidParameterCombinationException)
     case invalidParameterValueException(InvalidParameterValueException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEngineDefaultParametersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeEngineDefaultParametersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10244,6 +10945,22 @@ public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeEventsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10415,6 +11132,23 @@ public enum DescribeGlobalReplicationGroupsOutputError: Swift.Error, Swift.Equat
     case invalidParameterCombinationException(InvalidParameterCombinationException)
     case invalidParameterValueException(InvalidParameterValueException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeGlobalReplicationGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .globalReplicationGroupNotFoundFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeGlobalReplicationGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10591,6 +11325,23 @@ public enum DescribeReplicationGroupsOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterValueException(InvalidParameterValueException)
     case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeReplicationGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeReplicationGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11001,6 +11752,23 @@ public enum DescribeReservedCacheNodesOfferingsOutputError: Swift.Error, Swift.E
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeReservedCacheNodesOfferingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .reservedCacheNodesOfferingNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeReservedCacheNodesOfferingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11094,6 +11862,23 @@ public enum DescribeReservedCacheNodesOutputError: Swift.Error, Swift.Equatable 
     case invalidParameterValueException(InvalidParameterValueException)
     case reservedCacheNodeNotFoundFault(ReservedCacheNodeNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeReservedCacheNodesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .reservedCacheNodeNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeReservedCacheNodesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11293,6 +12078,23 @@ public enum DescribeServiceUpdatesOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterValueException(InvalidParameterValueException)
     case serviceUpdateNotFoundFault(ServiceUpdateNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeServiceUpdatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .serviceUpdateNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeServiceUpdatesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11501,6 +12303,24 @@ public enum DescribeSnapshotsOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterValueException(InvalidParameterValueException)
     case snapshotNotFoundFault(SnapshotNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeSnapshotsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterNotFoundFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .snapshotNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11844,6 +12664,22 @@ public enum DescribeUpdateActionsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeUpdateActionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeUpdateActionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12003,6 +12839,23 @@ public enum DescribeUserGroupsOutputError: Swift.Error, Swift.Equatable {
     case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
     case userGroupNotFoundFault(UserGroupNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeUserGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .serviceLinkedRoleNotFoundFault(let error): return error
+        case .userGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeUserGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12212,6 +13065,23 @@ public enum DescribeUsersOutputError: Swift.Error, Swift.Equatable {
     case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
     case userNotFoundFault(UserNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeUsersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .serviceLinkedRoleNotFoundFault(let error): return error
+        case .userNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeUsersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12457,6 +13327,24 @@ public enum DisassociateGlobalReplicationGroupOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisassociateGlobalReplicationGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .globalReplicationGroupNotFoundFault(let error): return error
+        case .invalidGlobalReplicationGroupStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisassociateGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -12526,6 +13414,9 @@ public struct DuplicateUserNameFault: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateUserNameFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -12931,6 +13822,24 @@ public enum FailoverGlobalReplicationGroupOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension FailoverGlobalReplicationGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .globalReplicationGroupNotFoundFault(let error): return error
+        case .invalidGlobalReplicationGroupStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension FailoverGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13327,6 +14236,9 @@ public struct GlobalReplicationGroupAlreadyExistsFault: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "GlobalReplicationGroupAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -13498,6 +14410,9 @@ public struct GlobalReplicationGroupNotFoundFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "GlobalReplicationGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -13654,6 +14569,23 @@ public enum IncreaseNodeGroupsInGlobalReplicationGroupOutputError: Swift.Error, 
     case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
     case invalidParameterValueException(InvalidParameterValueException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension IncreaseNodeGroupsInGlobalReplicationGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .globalReplicationGroupNotFoundFault(let error): return error
+        case .invalidGlobalReplicationGroupStateFault(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13849,6 +14781,32 @@ public enum IncreaseReplicaCountOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension IncreaseReplicaCountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clusterQuotaForCustomerExceededFault(let error): return error
+        case .insufficientCacheClusterCapacityFault(let error): return error
+        case .invalidCacheClusterStateFault(let error): return error
+        case .invalidKMSKeyFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .nodeGroupsPerReplicationGroupQuotaExceededFault(let error): return error
+        case .nodeQuotaForCustomerExceededFault(let error): return error
+        case .noOperationFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension IncreaseReplicaCountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13951,6 +14909,9 @@ public struct InsufficientCacheClusterCapacityFault: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InsufficientCacheClusterCapacityFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -14002,6 +14963,9 @@ public struct InvalidARNFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equat
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidARNFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -14053,6 +15017,9 @@ public struct InvalidCacheClusterStateFault: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCacheClusterStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -14104,6 +15071,9 @@ public struct InvalidCacheParameterGroupStateFault: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCacheParameterGroupStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -14155,6 +15125,9 @@ public struct InvalidCacheSecurityGroupStateFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidCacheSecurityGroupStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -14206,6 +15179,9 @@ public struct InvalidGlobalReplicationGroupStateFault: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidGlobalReplicationGroupStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -14257,6 +15233,9 @@ public struct InvalidKMSKeyFault: AWSClientRuntime.AWSHttpServiceError, Swift.Eq
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidKMSKeyFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -14308,6 +15287,9 @@ public struct InvalidParameterCombinationException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParameterCombinationException" }
+
     /// Two or more parameters that must not be used together were used together.
     public var message: Swift.String?
 
@@ -14360,6 +15342,9 @@ public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidParameterValueException" }
+
     /// A parameter value is invalid.
     public var message: Swift.String?
 
@@ -14412,6 +15397,9 @@ public struct InvalidReplicationGroupStateFault: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidReplicationGroupStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -14463,6 +15451,9 @@ public struct InvalidSnapshotStateFault: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSnapshotStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -14514,6 +15505,9 @@ public struct InvalidSubnet: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSubnet" }
+
     public var message: Swift.String?
 
     public init (
@@ -14565,6 +15559,9 @@ public struct InvalidUserGroupStateFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidUserGroupStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -14616,6 +15613,9 @@ public struct InvalidUserStateFault: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidUserStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -14667,6 +15667,9 @@ public struct InvalidVPCNetworkStateFault: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidVPCNetworkStateFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -14844,6 +15847,24 @@ public enum ListAllowedNodeTypeModificationsOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListAllowedNodeTypeModificationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterNotFoundFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListAllowedNodeTypeModificationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -15017,6 +16038,31 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case userGroupNotFoundFault(UserGroupNotFoundFault)
     case userNotFoundFault(UserNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterNotFoundFault(let error): return error
+        case .cacheParameterGroupNotFoundFault(let error): return error
+        case .cacheSecurityGroupNotFoundFault(let error): return error
+        case .cacheSubnetGroupNotFoundFault(let error): return error
+        case .invalidARNFault(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .reservedCacheNodeNotFoundFault(let error): return error
+        case .snapshotNotFoundFault(let error): return error
+        case .userGroupNotFoundFault(let error): return error
+        case .userNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15865,6 +16911,31 @@ public enum ModifyCacheClusterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyCacheClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterNotFoundFault(let error): return error
+        case .cacheParameterGroupNotFoundFault(let error): return error
+        case .cacheSecurityGroupNotFoundFault(let error): return error
+        case .insufficientCacheClusterCapacityFault(let error): return error
+        case .invalidCacheClusterStateFault(let error): return error
+        case .invalidCacheSecurityGroupStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .nodeQuotaForClusterExceededFault(let error): return error
+        case .nodeQuotaForCustomerExceededFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -16019,6 +17090,25 @@ public enum ModifyCacheParameterGroupOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterCombinationException(InvalidParameterCombinationException)
     case invalidParameterValueException(InvalidParameterValueException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyCacheParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheParameterGroupNotFoundFault(let error): return error
+        case .invalidCacheParameterGroupStateFault(let error): return error
+        case .invalidGlobalReplicationGroupStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16190,6 +17280,25 @@ public enum ModifyCacheSubnetGroupOutputError: Swift.Error, Swift.Equatable {
     case subnetInUse(SubnetInUse)
     case subnetNotAllowedFault(SubnetNotAllowedFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyCacheSubnetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheSubnetGroupNotFoundFault(let error): return error
+        case .cacheSubnetQuotaExceededFault(let error): return error
+        case .invalidSubnet(let error): return error
+        case .subnetInUse(let error): return error
+        case .subnetNotAllowedFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16374,6 +17483,23 @@ public enum ModifyGlobalReplicationGroupOutputError: Swift.Error, Swift.Equatabl
     case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
     case invalidParameterValueException(InvalidParameterValueException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyGlobalReplicationGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .globalReplicationGroupNotFoundFault(let error): return error
+        case .invalidGlobalReplicationGroupStateFault(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16979,6 +18105,36 @@ public enum ModifyReplicationGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyReplicationGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterNotFoundFault(let error): return error
+        case .cacheParameterGroupNotFoundFault(let error): return error
+        case .cacheSecurityGroupNotFoundFault(let error): return error
+        case .insufficientCacheClusterCapacityFault(let error): return error
+        case .invalidCacheClusterStateFault(let error): return error
+        case .invalidCacheSecurityGroupStateFault(let error): return error
+        case .invalidKMSKeyFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .invalidUserGroupStateFault(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .nodeQuotaForClusterExceededFault(let error): return error
+        case .nodeQuotaForCustomerExceededFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .userGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -17242,6 +18398,30 @@ public enum ModifyReplicationGroupShardConfigurationOutputError: Swift.Error, Sw
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyReplicationGroupShardConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .insufficientCacheClusterCapacityFault(let error): return error
+        case .invalidCacheClusterStateFault(let error): return error
+        case .invalidKMSKeyFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .invalidVPCNetworkStateFault(let error): return error
+        case .nodeGroupsPerReplicationGroupQuotaExceededFault(let error): return error
+        case .nodeQuotaForCustomerExceededFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyReplicationGroupShardConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -17437,6 +18617,28 @@ public enum ModifyUserGroupOutputError: Swift.Error, Swift.Equatable {
     case userGroupNotFoundFault(UserGroupNotFoundFault)
     case userNotFoundFault(UserNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyUserGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .defaultUserRequired(let error): return error
+        case .duplicateUserNameFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidUserGroupStateFault(let error): return error
+        case .serviceLinkedRoleNotFoundFault(let error): return error
+        case .userGroupNotFoundFault(let error): return error
+        case .userNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -17741,6 +18943,25 @@ public enum ModifyUserOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyUserOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidUserStateFault(let error): return error
+        case .serviceLinkedRoleNotFoundFault(let error): return error
+        case .userNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -17972,6 +19193,9 @@ public struct NoOperationFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NoOperationFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -18481,6 +19705,9 @@ public struct NodeGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NodeGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -18603,6 +19830,9 @@ public struct NodeGroupsPerReplicationGroupQuotaExceededFault: AWSClientRuntime.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NodeGroupsPerReplicationGroupQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -18654,6 +19884,9 @@ public struct NodeQuotaForClusterExceededFault: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NodeQuotaForClusterExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -18705,6 +19938,9 @@ public struct NodeQuotaForCustomerExceededFault: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NodeQuotaForCustomerExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -19595,6 +20831,26 @@ public enum PurchaseReservedCacheNodesOfferingOutputError: Swift.Error, Swift.Eq
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension PurchaseReservedCacheNodesOfferingOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .reservedCacheNodeAlreadyExistsFault(let error): return error
+        case .reservedCacheNodeQuotaExceededFault(let error): return error
+        case .reservedCacheNodesOfferingNotFoundFault(let error): return error
+        case .tagQuotaPerResourceExceeded(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension PurchaseReservedCacheNodesOfferingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -19718,6 +20974,23 @@ public enum RebalanceSlotsInGlobalReplicationGroupOutputError: Swift.Error, Swif
     case invalidGlobalReplicationGroupStateFault(InvalidGlobalReplicationGroupStateFault)
     case invalidParameterValueException(InvalidParameterValueException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RebalanceSlotsInGlobalReplicationGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .globalReplicationGroupNotFoundFault(let error): return error
+        case .invalidGlobalReplicationGroupStateFault(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RebalanceSlotsInGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -19870,6 +21143,22 @@ public enum RebootCacheClusterOutputError: Swift.Error, Swift.Equatable {
     case cacheClusterNotFoundFault(CacheClusterNotFoundFault)
     case invalidCacheClusterStateFault(InvalidCacheClusterStateFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RebootCacheClusterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterNotFoundFault(let error): return error
+        case .invalidCacheClusterStateFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RebootCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -20169,6 +21458,32 @@ public enum RemoveTagsFromResourceOutputError: Swift.Error, Swift.Equatable {
     case userGroupNotFoundFault(UserGroupNotFoundFault)
     case userNotFoundFault(UserNotFoundFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RemoveTagsFromResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheClusterNotFoundFault(let error): return error
+        case .cacheParameterGroupNotFoundFault(let error): return error
+        case .cacheSecurityGroupNotFoundFault(let error): return error
+        case .cacheSubnetGroupNotFoundFault(let error): return error
+        case .invalidARNFault(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .reservedCacheNodeNotFoundFault(let error): return error
+        case .snapshotNotFoundFault(let error): return error
+        case .tagNotFoundFault(let error): return error
+        case .userGroupNotFoundFault(let error): return error
+        case .userNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -20711,6 +22026,9 @@ public struct ReplicationGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReplicationGroupAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -20762,6 +22080,9 @@ public struct ReplicationGroupAlreadyUnderMigrationFault: AWSClientRuntime.AWSHt
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReplicationGroupAlreadyUnderMigrationFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -20813,6 +22134,9 @@ public struct ReplicationGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReplicationGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -20864,6 +22188,9 @@ public struct ReplicationGroupNotUnderMigrationFault: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReplicationGroupNotUnderMigrationFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -21266,6 +22593,9 @@ public struct ReservedCacheNodeAlreadyExistsFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReservedCacheNodeAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -21317,6 +22647,9 @@ public struct ReservedCacheNodeNotFoundFault: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReservedCacheNodeNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -21368,6 +22701,9 @@ public struct ReservedCacheNodeQuotaExceededFault: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReservedCacheNodeQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -21589,6 +22925,9 @@ public struct ReservedCacheNodesOfferingNotFoundFault: AWSClientRuntime.AWSHttpS
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ReservedCacheNodesOfferingNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -21737,6 +23076,25 @@ public enum ResetCacheParameterGroupOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterCombinationException(InvalidParameterCombinationException)
     case invalidParameterValueException(InvalidParameterValueException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ResetCacheParameterGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .cacheParameterGroupNotFoundFault(let error): return error
+        case .invalidCacheParameterGroupStateFault(let error): return error
+        case .invalidGlobalReplicationGroupStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ResetCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -21992,6 +23350,25 @@ public enum RevokeCacheSecurityGroupIngressOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RevokeCacheSecurityGroupIngressOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .authorizationNotFoundFault(let error): return error
+        case .cacheSecurityGroupNotFoundFault(let error): return error
+        case .invalidCacheSecurityGroupStateFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RevokeCacheSecurityGroupIngressOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -22110,6 +23487,9 @@ public struct ServiceLinkedRoleNotFoundFault: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceLinkedRoleNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -22306,6 +23686,9 @@ public struct ServiceUpdateNotFoundFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceUpdateNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -22916,6 +24299,9 @@ public struct SnapshotAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SnapshotAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -22974,6 +24360,9 @@ public struct SnapshotFeatureNotSupportedFault: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SnapshotFeatureNotSupportedFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -23025,6 +24414,9 @@ public struct SnapshotNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SnapshotNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -23076,6 +24468,9 @@ public struct SnapshotQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SnapshotQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -23260,6 +24655,24 @@ public enum StartMigrationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartMigrationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidParameterValueException(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .replicationGroupAlreadyUnderMigrationFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -23418,6 +24831,9 @@ public struct SubnetInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SubnetInUse" }
+
     public var message: Swift.String?
 
     public init (
@@ -23469,6 +24885,9 @@ public struct SubnetNotAllowedFault: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SubnetNotAllowedFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -23600,6 +25019,9 @@ public struct TagNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -23651,6 +25073,9 @@ public struct TagQuotaPerResourceExceeded: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TagQuotaPerResourceExceeded" }
+
     public var message: Swift.String?
 
     public init (
@@ -23760,6 +25185,9 @@ public struct TestFailoverNotAvailableFault: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TestFailoverNotAvailableFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -23821,6 +25249,29 @@ public enum TestFailoverOutputError: Swift.Error, Swift.Equatable {
     case replicationGroupNotFoundFault(ReplicationGroupNotFoundFault)
     case testFailoverNotAvailableFault(TestFailoverNotAvailableFault)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TestFailoverOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .aPICallRateForCustomerExceededFault(let error): return error
+        case .invalidCacheClusterStateFault(let error): return error
+        case .invalidKMSKeyFault(let error): return error
+        case .invalidParameterCombinationException(let error): return error
+        case .invalidParameterValueException(let error): return error
+        case .invalidReplicationGroupStateFault(let error): return error
+        case .nodeGroupNotFoundFault(let error): return error
+        case .replicationGroupNotFoundFault(let error): return error
+        case .testFailoverNotAvailableFault(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension TestFailoverOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -24482,6 +25933,9 @@ public struct UserAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UserAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -24689,6 +26143,9 @@ public struct UserGroupAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UserGroupAlreadyExistsFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -24740,6 +26197,9 @@ public struct UserGroupNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UserGroupNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -24888,6 +26348,9 @@ public struct UserGroupQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UserGroupQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -25036,6 +26499,9 @@ public struct UserNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UserNotFoundFault" }
+
     public var message: Swift.String?
 
     public init (
@@ -25087,6 +26553,9 @@ public struct UserQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UserQuotaExceededFault" }
+
     public var message: Swift.String?
 
     public init (

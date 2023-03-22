@@ -28,6 +28,9 @@ public struct ClientLimitExceededException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ClientLimitExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -168,6 +171,26 @@ public enum GetIceServerConfigOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case sessionExpiredException(SessionExpiredException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetIceServerConfigOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientLimitExceededException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .invalidClientException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .sessionExpiredException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetIceServerConfigOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -323,6 +346,9 @@ public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidArgumentException" }
+
     public var message: Swift.String?
 
     public init (
@@ -375,6 +401,9 @@ public struct InvalidClientException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidClientException" }
+
     public var message: Swift.String?
 
     public init (
@@ -427,6 +456,9 @@ public struct NotAuthorizedException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotAuthorizedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -479,6 +511,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -607,6 +642,24 @@ public enum SendAlexaOfferToMasterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension SendAlexaOfferToMasterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .clientLimitExceededException(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension SendAlexaOfferToMasterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -703,6 +756,9 @@ public struct SessionExpiredException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SessionExpiredException" }
+
     public var message: Swift.String?
 
     public init (

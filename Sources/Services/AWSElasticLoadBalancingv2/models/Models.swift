@@ -27,6 +27,9 @@ public struct ALPNPolicyNotSupportedException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ALPNPolicyNotSupportedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -309,6 +312,23 @@ public enum AddListenerCertificatesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddListenerCertificatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .certificateNotFoundException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .tooManyCertificatesException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddListenerCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -509,6 +529,26 @@ public enum AddTagsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AddTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .duplicateTagKeysException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .loadBalancerNotFoundException(let error): return error
+        case .ruleNotFoundException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AddTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -544,6 +584,9 @@ public struct AllocationIdNotFoundException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AllocationIdNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1078,6 +1121,9 @@ public struct AvailabilityZoneNotSupportedException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AvailabilityZoneNotSupportedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1174,6 +1220,9 @@ public struct CertificateNotFoundException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CertificateNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1541,6 +1590,38 @@ public enum CreateListenerOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateListenerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .aLPNPolicyNotSupportedException(let error): return error
+        case .certificateNotFoundException(let error): return error
+        case .duplicateListenerException(let error): return error
+        case .incompatibleProtocolsException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .invalidLoadBalancerActionException(let error): return error
+        case .loadBalancerNotFoundException(let error): return error
+        case .sSLPolicyNotFoundException(let error): return error
+        case .targetGroupAssociationLimitException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .tooManyActionsException(let error): return error
+        case .tooManyCertificatesException(let error): return error
+        case .tooManyListenersException(let error): return error
+        case .tooManyRegistrationsForTargetIdException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .tooManyTargetsException(let error): return error
+        case .tooManyUniqueTargetGroupsPerLoadBalancerException(let error): return error
+        case .unsupportedProtocolException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1883,6 +1964,33 @@ public enum CreateLoadBalancerOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateLoadBalancerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .allocationIdNotFoundException(let error): return error
+        case .availabilityZoneNotSupportedException(let error): return error
+        case .duplicateLoadBalancerNameException(let error): return error
+        case .duplicateTagKeysException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .invalidSchemeException(let error): return error
+        case .invalidSecurityGroupException(let error): return error
+        case .invalidSubnetException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .subnetNotFoundException(let error): return error
+        case .tooManyLoadBalancersException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2160,6 +2268,35 @@ public enum CreateRuleOutputError: Swift.Error, Swift.Equatable {
     case tooManyUniqueTargetGroupsPerLoadBalancerException(TooManyUniqueTargetGroupsPerLoadBalancerException)
     case unsupportedProtocolException(UnsupportedProtocolException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .incompatibleProtocolsException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .invalidLoadBalancerActionException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .priorityInUseException(let error): return error
+        case .targetGroupAssociationLimitException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .tooManyActionsException(let error): return error
+        case .tooManyRegistrationsForTargetIdException(let error): return error
+        case .tooManyRulesException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .tooManyTargetGroupsException(let error): return error
+        case .tooManyTargetsException(let error): return error
+        case .tooManyUniqueTargetGroupsPerLoadBalancerException(let error): return error
+        case .unsupportedProtocolException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2504,6 +2641,24 @@ public enum CreateTargetGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateTargetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .duplicateTargetGroupNameException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .tooManyTargetGroupsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateTargetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2632,6 +2787,22 @@ public enum DeleteListenerOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteListenerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .listenerNotFoundException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2713,6 +2884,23 @@ public enum DeleteLoadBalancerOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteLoadBalancerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .loadBalancerNotFoundException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .resourceInUseException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2792,6 +2980,22 @@ public enum DeleteRuleOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedException(let error): return error
+        case .ruleNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2867,6 +3071,21 @@ extension DeleteTargetGroupOutputError {
 public enum DeleteTargetGroupOutputError: Swift.Error, Swift.Equatable {
     case resourceInUseException(ResourceInUseException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteTargetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .resourceInUseException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteTargetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2986,6 +3205,22 @@ public enum DeregisterTargetsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeregisterTargetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidTargetException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeregisterTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3069,6 +3304,20 @@ extension DescribeAccountLimitsOutputError {
 
 public enum DescribeAccountLimitsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAccountLimitsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3227,6 +3476,21 @@ extension DescribeListenerCertificatesOutputError {
 public enum DescribeListenerCertificatesOutputError: Swift.Error, Swift.Equatable {
     case listenerNotFoundException(ListenerNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeListenerCertificatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .listenerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeListenerCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3427,6 +3691,23 @@ public enum DescribeListenersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeListenersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .listenerNotFoundException(let error): return error
+        case .loadBalancerNotFoundException(let error): return error
+        case .unsupportedProtocolException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeListenersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3561,6 +3842,21 @@ extension DescribeLoadBalancerAttributesOutputError {
 public enum DescribeLoadBalancerAttributesOutputError: Swift.Error, Swift.Equatable {
     case loadBalancerNotFoundException(LoadBalancerNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeLoadBalancerAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .loadBalancerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeLoadBalancerAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3785,6 +4081,21 @@ public enum DescribeLoadBalancersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeLoadBalancersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .loadBalancerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3983,6 +4294,23 @@ public enum DescribeRulesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeRulesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .listenerNotFoundException(let error): return error
+        case .ruleNotFoundException(let error): return error
+        case .unsupportedProtocolException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4177,6 +4505,21 @@ public enum DescribeSSLPoliciesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeSSLPoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .sSLPolicyNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeSSLPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4345,6 +4688,24 @@ public enum DescribeTagsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .listenerNotFoundException(let error): return error
+        case .loadBalancerNotFoundException(let error): return error
+        case .ruleNotFoundException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4469,6 +4830,21 @@ extension DescribeTargetGroupAttributesOutputError {
 public enum DescribeTargetGroupAttributesOutputError: Swift.Error, Swift.Equatable {
     case targetGroupNotFoundException(TargetGroupNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTargetGroupAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .targetGroupNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeTargetGroupAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4694,6 +5070,22 @@ public enum DescribeTargetGroupsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeTargetGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .loadBalancerNotFoundException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeTargetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4885,6 +5277,23 @@ public enum DescribeTargetHealthOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeTargetHealthOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .healthUnavailableException(let error): return error
+        case .invalidTargetException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeTargetHealthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4969,6 +5378,9 @@ public struct DuplicateListenerException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateListenerException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5020,6 +5432,9 @@ public struct DuplicateLoadBalancerNameException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateLoadBalancerNameException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5071,6 +5486,9 @@ public struct DuplicateTagKeysException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateTagKeysException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5122,6 +5540,9 @@ public struct DuplicateTargetGroupNameException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateTargetGroupNameException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5300,6 +5721,9 @@ public struct HealthUnavailableException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HealthUnavailableException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5544,6 +5968,9 @@ public struct IncompatibleProtocolsException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "IncompatibleProtocolsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5595,6 +6022,9 @@ public struct InvalidConfigurationRequestException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidConfigurationRequestException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5646,6 +6076,9 @@ public struct InvalidLoadBalancerActionException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidLoadBalancerActionException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5697,6 +6130,9 @@ public struct InvalidSchemeException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSchemeException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5748,6 +6184,9 @@ public struct InvalidSecurityGroupException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSecurityGroupException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5799,6 +6238,9 @@ public struct InvalidSubnetException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidSubnetException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5850,6 +6292,9 @@ public struct InvalidTargetException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidTargetException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6197,6 +6642,9 @@ public struct ListenerNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ListenerNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6610,6 +7058,9 @@ public struct LoadBalancerNotFoundException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "LoadBalancerNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -7087,6 +7538,37 @@ public enum ModifyListenerOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyListenerOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .aLPNPolicyNotSupportedException(let error): return error
+        case .certificateNotFoundException(let error): return error
+        case .duplicateListenerException(let error): return error
+        case .incompatibleProtocolsException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .invalidLoadBalancerActionException(let error): return error
+        case .listenerNotFoundException(let error): return error
+        case .sSLPolicyNotFoundException(let error): return error
+        case .targetGroupAssociationLimitException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .tooManyActionsException(let error): return error
+        case .tooManyCertificatesException(let error): return error
+        case .tooManyListenersException(let error): return error
+        case .tooManyRegistrationsForTargetIdException(let error): return error
+        case .tooManyTargetsException(let error): return error
+        case .tooManyUniqueTargetGroupsPerLoadBalancerException(let error): return error
+        case .unsupportedProtocolException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7251,6 +7733,22 @@ public enum ModifyLoadBalancerAttributesOutputError: Swift.Error, Swift.Equatabl
     case invalidConfigurationRequestException(InvalidConfigurationRequestException)
     case loadBalancerNotFoundException(LoadBalancerNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyLoadBalancerAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidConfigurationRequestException(let error): return error
+        case .loadBalancerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyLoadBalancerAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7473,6 +7971,31 @@ public enum ModifyRuleOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyRuleOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .incompatibleProtocolsException(let error): return error
+        case .invalidLoadBalancerActionException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .ruleNotFoundException(let error): return error
+        case .targetGroupAssociationLimitException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .tooManyActionsException(let error): return error
+        case .tooManyRegistrationsForTargetIdException(let error): return error
+        case .tooManyTargetsException(let error): return error
+        case .tooManyUniqueTargetGroupsPerLoadBalancerException(let error): return error
+        case .unsupportedProtocolException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7637,6 +8160,22 @@ public enum ModifyTargetGroupAttributesOutputError: Swift.Error, Swift.Equatable
     case invalidConfigurationRequestException(InvalidConfigurationRequestException)
     case targetGroupNotFoundException(TargetGroupNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyTargetGroupAttributesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidConfigurationRequestException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ModifyTargetGroupAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7866,6 +8405,22 @@ public enum ModifyTargetGroupOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ModifyTargetGroupOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidConfigurationRequestException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ModifyTargetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7950,6 +8505,9 @@ public struct OperationNotPermittedException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OperationNotPermittedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8062,6 +8620,9 @@ public struct PriorityInUseException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PriorityInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -8483,6 +9044,24 @@ public enum RegisterTargetsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RegisterTargetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidTargetException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .tooManyRegistrationsForTargetIdException(let error): return error
+        case .tooManyTargetsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RegisterTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8598,6 +9177,22 @@ public enum RemoveListenerCertificatesOutputError: Swift.Error, Swift.Equatable 
     case listenerNotFoundException(ListenerNotFoundException)
     case operationNotPermittedException(OperationNotPermittedException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RemoveListenerCertificatesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .listenerNotFoundException(let error): return error
+        case .operationNotPermittedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension RemoveListenerCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8749,6 +9344,25 @@ public enum RemoveTagsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveTagsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .listenerNotFoundException(let error): return error
+        case .loadBalancerNotFoundException(let error): return error
+        case .ruleNotFoundException(let error): return error
+        case .targetGroupNotFoundException(let error): return error
+        case .tooManyTagsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -8784,6 +9398,9 @@ public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -9126,6 +9743,9 @@ public struct RuleNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RuleNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -9222,6 +9842,9 @@ public struct SSLPolicyNotFoundException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SSLPolicyNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -9329,6 +9952,23 @@ public enum SetIpAddressTypeOutputError: Swift.Error, Swift.Equatable {
     case invalidSubnetException(InvalidSubnetException)
     case loadBalancerNotFoundException(LoadBalancerNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetIpAddressTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidConfigurationRequestException(let error): return error
+        case .invalidSubnetException(let error): return error
+        case .loadBalancerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetIpAddressTypeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9468,6 +10108,23 @@ public enum SetRulePrioritiesOutputError: Swift.Error, Swift.Equatable {
     case priorityInUseException(PriorityInUseException)
     case ruleNotFoundException(RuleNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetRulePrioritiesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .operationNotPermittedException(let error): return error
+        case .priorityInUseException(let error): return error
+        case .ruleNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetRulePrioritiesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9636,6 +10293,23 @@ public enum SetSecurityGroupsOutputError: Swift.Error, Swift.Equatable {
     case invalidSecurityGroupException(InvalidSecurityGroupException)
     case loadBalancerNotFoundException(LoadBalancerNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetSecurityGroupsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .invalidConfigurationRequestException(let error): return error
+        case .invalidSecurityGroupException(let error): return error
+        case .loadBalancerNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetSecurityGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9857,6 +10531,26 @@ public enum SetSubnetsOutputError: Swift.Error, Swift.Equatable {
     case loadBalancerNotFoundException(LoadBalancerNotFoundException)
     case subnetNotFoundException(SubnetNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetSubnetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .allocationIdNotFoundException(let error): return error
+        case .availabilityZoneNotSupportedException(let error): return error
+        case .invalidConfigurationRequestException(let error): return error
+        case .invalidSubnetException(let error): return error
+        case .loadBalancerNotFoundException(let error): return error
+        case .subnetNotFoundException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension SetSubnetsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10222,6 +10916,9 @@ public struct SubnetNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SubnetNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10677,6 +11374,9 @@ public struct TargetGroupAssociationLimitException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TargetGroupAssociationLimitException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10867,6 +11567,9 @@ public struct TargetGroupNotFoundException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TargetGroupNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11300,6 +12003,9 @@ public struct TooManyActionsException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyActionsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11351,6 +12057,9 @@ public struct TooManyCertificatesException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyCertificatesException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11402,6 +12111,9 @@ public struct TooManyListenersException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyListenersException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11453,6 +12165,9 @@ public struct TooManyLoadBalancersException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyLoadBalancersException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11504,6 +12219,9 @@ public struct TooManyRegistrationsForTargetIdException: AWSClientRuntime.AWSHttp
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyRegistrationsForTargetIdException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11555,6 +12273,9 @@ public struct TooManyRulesException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyRulesException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11606,6 +12327,9 @@ public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTagsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11657,6 +12381,9 @@ public struct TooManyTargetGroupsException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTargetGroupsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11708,6 +12435,9 @@ public struct TooManyTargetsException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyTargetsException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11759,6 +12489,9 @@ public struct TooManyUniqueTargetGroupsPerLoadBalancerException: AWSClientRuntim
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyUniqueTargetGroupsPerLoadBalancerException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11810,6 +12543,9 @@ public struct UnsupportedProtocolException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedProtocolException" }
+
     public var message: Swift.String?
 
     public init (

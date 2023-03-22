@@ -224,10 +224,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<AllocateStaticIpInput, AllocateStaticIpOutputResponse, AllocateStaticIpOutputError>(id: "allocateStaticIp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AllocateStaticIpInput, AllocateStaticIpOutputResponse, AllocateStaticIpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AllocateStaticIpInput, AllocateStaticIpOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AllocateStaticIpOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AllocateStaticIpOutputResponse, AllocateStaticIpOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -263,10 +260,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutputResponse, AttachCertificateToDistributionOutputError>(id: "attachCertificateToDistribution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutputResponse, AttachCertificateToDistributionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AttachCertificateToDistributionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachCertificateToDistributionOutputResponse, AttachCertificateToDistributionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -302,10 +296,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<AttachDiskInput, AttachDiskOutputResponse, AttachDiskOutputError>(id: "attachDisk")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachDiskInput, AttachDiskOutputResponse, AttachDiskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachDiskInput, AttachDiskOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AttachDiskOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachDiskOutputResponse, AttachDiskOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -341,10 +332,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutputResponse, AttachInstancesToLoadBalancerOutputError>(id: "attachInstancesToLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutputResponse, AttachInstancesToLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AttachInstancesToLoadBalancerOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachInstancesToLoadBalancerOutputResponse, AttachInstancesToLoadBalancerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -380,10 +368,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutputResponse, AttachLoadBalancerTlsCertificateOutputError>(id: "attachLoadBalancerTlsCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutputResponse, AttachLoadBalancerTlsCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AttachLoadBalancerTlsCertificateOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachLoadBalancerTlsCertificateOutputResponse, AttachLoadBalancerTlsCertificateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -419,10 +404,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<AttachStaticIpInput, AttachStaticIpOutputResponse, AttachStaticIpOutputError>(id: "attachStaticIp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachStaticIpInput, AttachStaticIpOutputResponse, AttachStaticIpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachStaticIpInput, AttachStaticIpOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AttachStaticIpOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachStaticIpOutputResponse, AttachStaticIpOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -458,10 +440,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutputResponse, CloseInstancePublicPortsOutputError>(id: "closeInstancePublicPorts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutputResponse, CloseInstancePublicPortsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CloseInstancePublicPortsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CloseInstancePublicPortsOutputResponse, CloseInstancePublicPortsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -497,10 +476,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CopySnapshotInput, CopySnapshotOutputResponse, CopySnapshotOutputError>(id: "copySnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopySnapshotInput, CopySnapshotOutputResponse, CopySnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopySnapshotInput, CopySnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CopySnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CopySnapshotOutputResponse, CopySnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -536,10 +512,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateBucketInput, CreateBucketOutputResponse, CreateBucketOutputError>(id: "createBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBucketInput, CreateBucketOutputResponse, CreateBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBucketInput, CreateBucketOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateBucketOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBucketOutputResponse, CreateBucketOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -575,10 +548,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutputResponse, CreateBucketAccessKeyOutputError>(id: "createBucketAccessKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutputResponse, CreateBucketAccessKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateBucketAccessKeyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBucketAccessKeyOutputResponse, CreateBucketAccessKeyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -614,10 +584,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateCertificateInput, CreateCertificateOutputResponse, CreateCertificateOutputError>(id: "createCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCertificateInput, CreateCertificateOutputResponse, CreateCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCertificateInput, CreateCertificateOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateCertificateOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCertificateOutputResponse, CreateCertificateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -653,10 +620,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateCloudFormationStackInput, CreateCloudFormationStackOutputResponse, CreateCloudFormationStackOutputError>(id: "createCloudFormationStack")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCloudFormationStackInput, CreateCloudFormationStackOutputResponse, CreateCloudFormationStackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCloudFormationStackInput, CreateCloudFormationStackOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateCloudFormationStackOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCloudFormationStackOutputResponse, CreateCloudFormationStackOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -692,10 +656,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateContactMethodInput, CreateContactMethodOutputResponse, CreateContactMethodOutputError>(id: "createContactMethod")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContactMethodInput, CreateContactMethodOutputResponse, CreateContactMethodOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContactMethodInput, CreateContactMethodOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateContactMethodOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateContactMethodOutputResponse, CreateContactMethodOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -731,10 +692,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateContainerServiceInput, CreateContainerServiceOutputResponse, CreateContainerServiceOutputError>(id: "createContainerService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContainerServiceInput, CreateContainerServiceOutputResponse, CreateContainerServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContainerServiceInput, CreateContainerServiceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateContainerServiceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateContainerServiceOutputResponse, CreateContainerServiceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -770,10 +728,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutputResponse, CreateContainerServiceDeploymentOutputError>(id: "createContainerServiceDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutputResponse, CreateContainerServiceDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateContainerServiceDeploymentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateContainerServiceDeploymentOutputResponse, CreateContainerServiceDeploymentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -809,10 +764,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutputResponse, CreateContainerServiceRegistryLoginOutputError>(id: "createContainerServiceRegistryLogin")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutputResponse, CreateContainerServiceRegistryLoginOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateContainerServiceRegistryLoginOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateContainerServiceRegistryLoginOutputResponse, CreateContainerServiceRegistryLoginOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -848,10 +800,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateDiskInput, CreateDiskOutputResponse, CreateDiskOutputError>(id: "createDisk")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDiskInput, CreateDiskOutputResponse, CreateDiskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDiskInput, CreateDiskOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateDiskOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDiskOutputResponse, CreateDiskOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -887,10 +836,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutputResponse, CreateDiskFromSnapshotOutputError>(id: "createDiskFromSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutputResponse, CreateDiskFromSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateDiskFromSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDiskFromSnapshotOutputResponse, CreateDiskFromSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -926,10 +872,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateDiskSnapshotInput, CreateDiskSnapshotOutputResponse, CreateDiskSnapshotOutputError>(id: "createDiskSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDiskSnapshotInput, CreateDiskSnapshotOutputResponse, CreateDiskSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDiskSnapshotInput, CreateDiskSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateDiskSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDiskSnapshotOutputResponse, CreateDiskSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -965,10 +908,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateDistributionInput, CreateDistributionOutputResponse, CreateDistributionOutputError>(id: "createDistribution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDistributionInput, CreateDistributionOutputResponse, CreateDistributionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDistributionInput, CreateDistributionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateDistributionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDistributionOutputResponse, CreateDistributionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1004,10 +944,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>(id: "createDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDomainInput, CreateDomainOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateDomainOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1043,10 +980,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateDomainEntryInput, CreateDomainEntryOutputResponse, CreateDomainEntryOutputError>(id: "createDomainEntry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDomainEntryInput, CreateDomainEntryOutputResponse, CreateDomainEntryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDomainEntryInput, CreateDomainEntryOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateDomainEntryOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDomainEntryOutputResponse, CreateDomainEntryOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1059,6 +993,42 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDomainEntryOutputResponse, CreateDomainEntryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDomainEntryOutputResponse, CreateDomainEntryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDomainEntryOutputResponse, CreateDomainEntryOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Creates two URLs that are used to access a virtual computer’s graphical user interface (GUI) session. The primary URL initiates a web-based NICE DCV session to the virtual computer's application. The secondary URL initiates a web-based NICE DCV session to the virtual computer's operating session. Use StartGUISession to open the session.
+    public func createGUISessionAccessDetails(input: CreateGUISessionAccessDetailsInput) async throws -> CreateGUISessionAccessDetailsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createGUISessionAccessDetails")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lightsail")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutputResponse, CreateGUISessionAccessDetailsOutputError>(id: "createGUISessionAccessDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutputResponse, CreateGUISessionAccessDetailsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGUISessionAccessDetailsOutputResponse, CreateGUISessionAccessDetailsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutputResponse>(xAmzTarget: "Lightsail_20161128.CreateGUISessionAccessDetails"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutputResponse>(xmlName: "CreateGUISessionAccessDetailsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateGUISessionAccessDetailsOutputResponse, CreateGUISessionAccessDetailsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGUISessionAccessDetailsOutputResponse, CreateGUISessionAccessDetailsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateGUISessionAccessDetailsOutputResponse, CreateGUISessionAccessDetailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGUISessionAccessDetailsOutputResponse, CreateGUISessionAccessDetailsOutputError>())
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1082,10 +1052,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutputResponse, CreateInstanceSnapshotOutputError>(id: "createInstanceSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutputResponse, CreateInstanceSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateInstanceSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInstanceSnapshotOutputResponse, CreateInstanceSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1121,10 +1088,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateInstancesInput, CreateInstancesOutputResponse, CreateInstancesOutputError>(id: "createInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstancesInput, CreateInstancesOutputResponse, CreateInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstancesInput, CreateInstancesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateInstancesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInstancesOutputResponse, CreateInstancesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1160,10 +1124,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutputResponse, CreateInstancesFromSnapshotOutputError>(id: "createInstancesFromSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutputResponse, CreateInstancesFromSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateInstancesFromSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInstancesFromSnapshotOutputResponse, CreateInstancesFromSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1199,10 +1160,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateKeyPairInput, CreateKeyPairOutputResponse, CreateKeyPairOutputError>(id: "createKeyPair")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateKeyPairInput, CreateKeyPairOutputResponse, CreateKeyPairOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateKeyPairInput, CreateKeyPairOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateKeyPairOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateKeyPairOutputResponse, CreateKeyPairOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1238,10 +1196,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateLoadBalancerInput, CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>(id: "createLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateLoadBalancerOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1277,10 +1232,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutputResponse, CreateLoadBalancerTlsCertificateOutputError>(id: "createLoadBalancerTlsCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutputResponse, CreateLoadBalancerTlsCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateLoadBalancerTlsCertificateOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLoadBalancerTlsCertificateOutputResponse, CreateLoadBalancerTlsCertificateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1316,10 +1268,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutputResponse, CreateRelationalDatabaseOutputError>(id: "createRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutputResponse, CreateRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateRelationalDatabaseOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRelationalDatabaseOutputResponse, CreateRelationalDatabaseOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1355,10 +1304,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutputResponse, CreateRelationalDatabaseFromSnapshotOutputError>(id: "createRelationalDatabaseFromSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutputResponse, CreateRelationalDatabaseFromSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateRelationalDatabaseFromSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRelationalDatabaseFromSnapshotOutputResponse, CreateRelationalDatabaseFromSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1394,10 +1340,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutputResponse, CreateRelationalDatabaseSnapshotOutputError>(id: "createRelationalDatabaseSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutputResponse, CreateRelationalDatabaseSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateRelationalDatabaseSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRelationalDatabaseSnapshotOutputResponse, CreateRelationalDatabaseSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1433,10 +1376,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteAlarmInput, DeleteAlarmOutputResponse, DeleteAlarmOutputError>(id: "deleteAlarm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAlarmInput, DeleteAlarmOutputResponse, DeleteAlarmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAlarmInput, DeleteAlarmOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteAlarmOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAlarmOutputResponse, DeleteAlarmOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1472,10 +1412,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutputResponse, DeleteAutoSnapshotOutputError>(id: "deleteAutoSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutputResponse, DeleteAutoSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteAutoSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAutoSnapshotOutputResponse, DeleteAutoSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1511,10 +1448,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteBucketInput, DeleteBucketOutputResponse, DeleteBucketOutputError>(id: "deleteBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketInput, DeleteBucketOutputResponse, DeleteBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketInput, DeleteBucketOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteBucketOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketOutputResponse, DeleteBucketOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1550,10 +1484,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutputResponse, DeleteBucketAccessKeyOutputError>(id: "deleteBucketAccessKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutputResponse, DeleteBucketAccessKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteBucketAccessKeyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketAccessKeyOutputResponse, DeleteBucketAccessKeyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1589,10 +1520,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteCertificateInput, DeleteCertificateOutputResponse, DeleteCertificateOutputError>(id: "deleteCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCertificateInput, DeleteCertificateOutputResponse, DeleteCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCertificateInput, DeleteCertificateOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteCertificateOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCertificateOutputResponse, DeleteCertificateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1628,10 +1556,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteContactMethodInput, DeleteContactMethodOutputResponse, DeleteContactMethodOutputError>(id: "deleteContactMethod")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContactMethodInput, DeleteContactMethodOutputResponse, DeleteContactMethodOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContactMethodInput, DeleteContactMethodOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteContactMethodOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteContactMethodOutputResponse, DeleteContactMethodOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1667,10 +1592,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteContainerImageInput, DeleteContainerImageOutputResponse, DeleteContainerImageOutputError>(id: "deleteContainerImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContainerImageInput, DeleteContainerImageOutputResponse, DeleteContainerImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContainerImageInput, DeleteContainerImageOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteContainerImageOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteContainerImageOutputResponse, DeleteContainerImageOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1706,10 +1628,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteContainerServiceInput, DeleteContainerServiceOutputResponse, DeleteContainerServiceOutputError>(id: "deleteContainerService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContainerServiceInput, DeleteContainerServiceOutputResponse, DeleteContainerServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContainerServiceInput, DeleteContainerServiceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteContainerServiceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteContainerServiceOutputResponse, DeleteContainerServiceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1745,10 +1664,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteDiskInput, DeleteDiskOutputResponse, DeleteDiskOutputError>(id: "deleteDisk")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDiskInput, DeleteDiskOutputResponse, DeleteDiskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDiskInput, DeleteDiskOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteDiskOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDiskOutputResponse, DeleteDiskOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1784,10 +1700,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutputResponse, DeleteDiskSnapshotOutputError>(id: "deleteDiskSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutputResponse, DeleteDiskSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteDiskSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDiskSnapshotOutputResponse, DeleteDiskSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1823,10 +1736,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteDistributionInput, DeleteDistributionOutputResponse, DeleteDistributionOutputError>(id: "deleteDistribution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDistributionInput, DeleteDistributionOutputResponse, DeleteDistributionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDistributionInput, DeleteDistributionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteDistributionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDistributionOutputResponse, DeleteDistributionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1862,10 +1772,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>(id: "deleteDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteDomainOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1901,10 +1808,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteDomainEntryInput, DeleteDomainEntryOutputResponse, DeleteDomainEntryOutputError>(id: "deleteDomainEntry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDomainEntryInput, DeleteDomainEntryOutputResponse, DeleteDomainEntryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDomainEntryInput, DeleteDomainEntryOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteDomainEntryOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDomainEntryOutputResponse, DeleteDomainEntryOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1940,10 +1844,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteInstanceInput, DeleteInstanceOutputResponse, DeleteInstanceOutputError>(id: "deleteInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceInput, DeleteInstanceOutputResponse, DeleteInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceInput, DeleteInstanceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteInstanceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInstanceOutputResponse, DeleteInstanceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1979,10 +1880,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutputResponse, DeleteInstanceSnapshotOutputError>(id: "deleteInstanceSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutputResponse, DeleteInstanceSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteInstanceSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInstanceSnapshotOutputResponse, DeleteInstanceSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2018,10 +1916,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteKeyPairInput, DeleteKeyPairOutputResponse, DeleteKeyPairOutputError>(id: "deleteKeyPair")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteKeyPairInput, DeleteKeyPairOutputResponse, DeleteKeyPairOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteKeyPairInput, DeleteKeyPairOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteKeyPairOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteKeyPairOutputResponse, DeleteKeyPairOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2057,10 +1952,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutputResponse, DeleteKnownHostKeysOutputError>(id: "deleteKnownHostKeys")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutputResponse, DeleteKnownHostKeysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteKnownHostKeysOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteKnownHostKeysOutputResponse, DeleteKnownHostKeysOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2096,10 +1988,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteLoadBalancerInput, DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>(id: "deleteLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteLoadBalancerOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2135,10 +2024,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutputResponse, DeleteLoadBalancerTlsCertificateOutputError>(id: "deleteLoadBalancerTlsCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutputResponse, DeleteLoadBalancerTlsCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteLoadBalancerTlsCertificateOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLoadBalancerTlsCertificateOutputResponse, DeleteLoadBalancerTlsCertificateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2174,10 +2060,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutputResponse, DeleteRelationalDatabaseOutputError>(id: "deleteRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutputResponse, DeleteRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteRelationalDatabaseOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRelationalDatabaseOutputResponse, DeleteRelationalDatabaseOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2213,10 +2096,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutputResponse, DeleteRelationalDatabaseSnapshotOutputError>(id: "deleteRelationalDatabaseSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutputResponse, DeleteRelationalDatabaseSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteRelationalDatabaseSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRelationalDatabaseSnapshotOutputResponse, DeleteRelationalDatabaseSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2252,10 +2132,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutputResponse, DetachCertificateFromDistributionOutputError>(id: "detachCertificateFromDistribution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutputResponse, DetachCertificateFromDistributionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DetachCertificateFromDistributionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachCertificateFromDistributionOutputResponse, DetachCertificateFromDistributionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2291,10 +2168,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DetachDiskInput, DetachDiskOutputResponse, DetachDiskOutputError>(id: "detachDisk")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachDiskInput, DetachDiskOutputResponse, DetachDiskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachDiskInput, DetachDiskOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DetachDiskOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachDiskOutputResponse, DetachDiskOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2330,10 +2204,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutputResponse, DetachInstancesFromLoadBalancerOutputError>(id: "detachInstancesFromLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutputResponse, DetachInstancesFromLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DetachInstancesFromLoadBalancerOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachInstancesFromLoadBalancerOutputResponse, DetachInstancesFromLoadBalancerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2369,10 +2240,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DetachStaticIpInput, DetachStaticIpOutputResponse, DetachStaticIpOutputError>(id: "detachStaticIp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachStaticIpInput, DetachStaticIpOutputResponse, DetachStaticIpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachStaticIpInput, DetachStaticIpOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DetachStaticIpOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachStaticIpOutputResponse, DetachStaticIpOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2408,10 +2276,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DisableAddOnInput, DisableAddOnOutputResponse, DisableAddOnOutputError>(id: "disableAddOn")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableAddOnInput, DisableAddOnOutputResponse, DisableAddOnOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableAddOnInput, DisableAddOnOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DisableAddOnOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableAddOnOutputResponse, DisableAddOnOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2447,10 +2312,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutputResponse, DownloadDefaultKeyPairOutputError>(id: "downloadDefaultKeyPair")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutputResponse, DownloadDefaultKeyPairOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DownloadDefaultKeyPairOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DownloadDefaultKeyPairOutputResponse, DownloadDefaultKeyPairOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2486,10 +2348,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<EnableAddOnInput, EnableAddOnOutputResponse, EnableAddOnOutputError>(id: "enableAddOn")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableAddOnInput, EnableAddOnOutputResponse, EnableAddOnOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableAddOnInput, EnableAddOnOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<EnableAddOnOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableAddOnOutputResponse, EnableAddOnOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2525,10 +2384,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<ExportSnapshotInput, ExportSnapshotOutputResponse, ExportSnapshotOutputError>(id: "exportSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportSnapshotInput, ExportSnapshotOutputResponse, ExportSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportSnapshotInput, ExportSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ExportSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExportSnapshotOutputResponse, ExportSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2564,10 +2420,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetActiveNamesInput, GetActiveNamesOutputResponse, GetActiveNamesOutputError>(id: "getActiveNames")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetActiveNamesInput, GetActiveNamesOutputResponse, GetActiveNamesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetActiveNamesInput, GetActiveNamesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetActiveNamesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetActiveNamesOutputResponse, GetActiveNamesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2603,10 +2456,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetAlarmsInput, GetAlarmsOutputResponse, GetAlarmsOutputError>(id: "getAlarms")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAlarmsInput, GetAlarmsOutputResponse, GetAlarmsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAlarmsInput, GetAlarmsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetAlarmsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAlarmsOutputResponse, GetAlarmsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2642,10 +2492,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetAutoSnapshotsInput, GetAutoSnapshotsOutputResponse, GetAutoSnapshotsOutputError>(id: "getAutoSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAutoSnapshotsInput, GetAutoSnapshotsOutputResponse, GetAutoSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAutoSnapshotsInput, GetAutoSnapshotsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetAutoSnapshotsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAutoSnapshotsOutputResponse, GetAutoSnapshotsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2681,10 +2528,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetBlueprintsInput, GetBlueprintsOutputResponse, GetBlueprintsOutputError>(id: "getBlueprints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBlueprintsInput, GetBlueprintsOutputResponse, GetBlueprintsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBlueprintsInput, GetBlueprintsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetBlueprintsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBlueprintsOutputResponse, GetBlueprintsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2720,10 +2564,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetBucketAccessKeysInput, GetBucketAccessKeysOutputResponse, GetBucketAccessKeysOutputError>(id: "getBucketAccessKeys")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketAccessKeysInput, GetBucketAccessKeysOutputResponse, GetBucketAccessKeysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketAccessKeysInput, GetBucketAccessKeysOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetBucketAccessKeysOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketAccessKeysOutputResponse, GetBucketAccessKeysOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2759,10 +2600,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetBucketBundlesInput, GetBucketBundlesOutputResponse, GetBucketBundlesOutputError>(id: "getBucketBundles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketBundlesInput, GetBucketBundlesOutputResponse, GetBucketBundlesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketBundlesInput, GetBucketBundlesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetBucketBundlesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketBundlesOutputResponse, GetBucketBundlesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2798,10 +2636,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetBucketMetricDataInput, GetBucketMetricDataOutputResponse, GetBucketMetricDataOutputError>(id: "getBucketMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketMetricDataInput, GetBucketMetricDataOutputResponse, GetBucketMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketMetricDataInput, GetBucketMetricDataOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetBucketMetricDataOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketMetricDataOutputResponse, GetBucketMetricDataOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2837,10 +2672,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetBucketsInput, GetBucketsOutputResponse, GetBucketsOutputError>(id: "getBuckets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketsInput, GetBucketsOutputResponse, GetBucketsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketsInput, GetBucketsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetBucketsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketsOutputResponse, GetBucketsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2876,10 +2708,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetBundlesInput, GetBundlesOutputResponse, GetBundlesOutputError>(id: "getBundles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBundlesInput, GetBundlesOutputResponse, GetBundlesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBundlesInput, GetBundlesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetBundlesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBundlesOutputResponse, GetBundlesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2915,10 +2744,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetCertificatesInput, GetCertificatesOutputResponse, GetCertificatesOutputError>(id: "getCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCertificatesInput, GetCertificatesOutputResponse, GetCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCertificatesInput, GetCertificatesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetCertificatesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCertificatesOutputResponse, GetCertificatesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2954,10 +2780,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutputResponse, GetCloudFormationStackRecordsOutputError>(id: "getCloudFormationStackRecords")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutputResponse, GetCloudFormationStackRecordsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetCloudFormationStackRecordsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCloudFormationStackRecordsOutputResponse, GetCloudFormationStackRecordsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2993,10 +2816,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetContactMethodsInput, GetContactMethodsOutputResponse, GetContactMethodsOutputError>(id: "getContactMethods")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContactMethodsInput, GetContactMethodsOutputResponse, GetContactMethodsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContactMethodsInput, GetContactMethodsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetContactMethodsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContactMethodsOutputResponse, GetContactMethodsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3032,10 +2852,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutputResponse, GetContainerAPIMetadataOutputError>(id: "getContainerAPIMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutputResponse, GetContainerAPIMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetContainerAPIMetadataOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContainerAPIMetadataOutputResponse, GetContainerAPIMetadataOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3071,10 +2888,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetContainerImagesInput, GetContainerImagesOutputResponse, GetContainerImagesOutputError>(id: "getContainerImages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerImagesInput, GetContainerImagesOutputResponse, GetContainerImagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerImagesInput, GetContainerImagesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetContainerImagesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContainerImagesOutputResponse, GetContainerImagesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3110,10 +2924,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetContainerLogInput, GetContainerLogOutputResponse, GetContainerLogOutputError>(id: "getContainerLog")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerLogInput, GetContainerLogOutputResponse, GetContainerLogOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerLogInput, GetContainerLogOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetContainerLogOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContainerLogOutputResponse, GetContainerLogOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3150,10 +2961,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutputResponse, GetContainerServiceDeploymentsOutputError>(id: "getContainerServiceDeployments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutputResponse, GetContainerServiceDeploymentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetContainerServiceDeploymentsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContainerServiceDeploymentsOutputResponse, GetContainerServiceDeploymentsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3189,10 +2997,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutputResponse, GetContainerServiceMetricDataOutputError>(id: "getContainerServiceMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutputResponse, GetContainerServiceMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetContainerServiceMetricDataOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContainerServiceMetricDataOutputResponse, GetContainerServiceMetricDataOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3229,10 +3034,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetContainerServicePowersInput, GetContainerServicePowersOutputResponse, GetContainerServicePowersOutputError>(id: "getContainerServicePowers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerServicePowersInput, GetContainerServicePowersOutputResponse, GetContainerServicePowersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerServicePowersInput, GetContainerServicePowersOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetContainerServicePowersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContainerServicePowersOutputResponse, GetContainerServicePowersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3268,10 +3070,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetContainerServicesInput, GetContainerServicesOutputResponse, GetContainerServicesOutputError>(id: "getContainerServices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerServicesInput, GetContainerServicesOutputResponse, GetContainerServicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerServicesInput, GetContainerServicesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetContainerServicesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContainerServicesOutputResponse, GetContainerServicesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3285,6 +3084,42 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContainerServicesOutputResponse, GetContainerServicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContainerServicesOutputResponse, GetContainerServicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContainerServicesOutputResponse, GetContainerServicesOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Retrieves information about the cost estimate for a specified resource. A cost estimate will not generate for a resource that has been deleted.
+    public func getCostEstimate(input: GetCostEstimateInput) async throws -> GetCostEstimateOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCostEstimate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lightsail")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<GetCostEstimateInput, GetCostEstimateOutputResponse, GetCostEstimateOutputError>(id: "getCostEstimate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCostEstimateInput, GetCostEstimateOutputResponse, GetCostEstimateOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCostEstimateInput, GetCostEstimateOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCostEstimateOutputResponse, GetCostEstimateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCostEstimateInput, GetCostEstimateOutputResponse>(xAmzTarget: "Lightsail_20161128.GetCostEstimate"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCostEstimateInput, GetCostEstimateOutputResponse>(xmlName: "GetCostEstimateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCostEstimateInput, GetCostEstimateOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetCostEstimateOutputResponse, GetCostEstimateOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCostEstimateOutputResponse, GetCostEstimateOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCostEstimateOutputResponse, GetCostEstimateOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCostEstimateOutputResponse, GetCostEstimateOutputError>())
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -3308,10 +3143,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDiskInput, GetDiskOutputResponse, GetDiskOutputError>(id: "getDisk")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDiskInput, GetDiskOutputResponse, GetDiskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDiskInput, GetDiskOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDiskOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDiskOutputResponse, GetDiskOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3347,10 +3179,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDiskSnapshotInput, GetDiskSnapshotOutputResponse, GetDiskSnapshotOutputError>(id: "getDiskSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDiskSnapshotInput, GetDiskSnapshotOutputResponse, GetDiskSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDiskSnapshotInput, GetDiskSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDiskSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDiskSnapshotOutputResponse, GetDiskSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3386,10 +3215,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDiskSnapshotsInput, GetDiskSnapshotsOutputResponse, GetDiskSnapshotsOutputError>(id: "getDiskSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDiskSnapshotsInput, GetDiskSnapshotsOutputResponse, GetDiskSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDiskSnapshotsInput, GetDiskSnapshotsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDiskSnapshotsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDiskSnapshotsOutputResponse, GetDiskSnapshotsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3425,10 +3251,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDisksInput, GetDisksOutputResponse, GetDisksOutputError>(id: "getDisks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDisksInput, GetDisksOutputResponse, GetDisksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDisksInput, GetDisksOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDisksOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDisksOutputResponse, GetDisksOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3464,10 +3287,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDistributionBundlesInput, GetDistributionBundlesOutputResponse, GetDistributionBundlesOutputError>(id: "getDistributionBundles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionBundlesInput, GetDistributionBundlesOutputResponse, GetDistributionBundlesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionBundlesInput, GetDistributionBundlesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDistributionBundlesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDistributionBundlesOutputResponse, GetDistributionBundlesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3503,10 +3323,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutputResponse, GetDistributionLatestCacheResetOutputError>(id: "getDistributionLatestCacheReset")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutputResponse, GetDistributionLatestCacheResetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDistributionLatestCacheResetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDistributionLatestCacheResetOutputResponse, GetDistributionLatestCacheResetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3542,10 +3359,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDistributionMetricDataInput, GetDistributionMetricDataOutputResponse, GetDistributionMetricDataOutputError>(id: "getDistributionMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionMetricDataInput, GetDistributionMetricDataOutputResponse, GetDistributionMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionMetricDataInput, GetDistributionMetricDataOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDistributionMetricDataOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDistributionMetricDataOutputResponse, GetDistributionMetricDataOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3581,10 +3395,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDistributionsInput, GetDistributionsOutputResponse, GetDistributionsOutputError>(id: "getDistributions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionsInput, GetDistributionsOutputResponse, GetDistributionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionsInput, GetDistributionsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDistributionsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDistributionsOutputResponse, GetDistributionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3620,10 +3431,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDomainInput, GetDomainOutputResponse, GetDomainOutputError>(id: "getDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDomainInput, GetDomainOutputResponse, GetDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDomainInput, GetDomainOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDomainOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDomainOutputResponse, GetDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3659,10 +3467,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDomainsInput, GetDomainsOutputResponse, GetDomainsOutputError>(id: "getDomains")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDomainsInput, GetDomainsOutputResponse, GetDomainsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDomainsInput, GetDomainsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDomainsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDomainsOutputResponse, GetDomainsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3698,10 +3503,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutputResponse, GetExportSnapshotRecordsOutputError>(id: "getExportSnapshotRecords")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutputResponse, GetExportSnapshotRecordsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetExportSnapshotRecordsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetExportSnapshotRecordsOutputResponse, GetExportSnapshotRecordsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3737,10 +3539,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetInstanceInput, GetInstanceOutputResponse, GetInstanceOutputError>(id: "getInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceInput, GetInstanceOutputResponse, GetInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceInput, GetInstanceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetInstanceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstanceOutputResponse, GetInstanceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3776,10 +3575,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutputResponse, GetInstanceAccessDetailsOutputError>(id: "getInstanceAccessDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutputResponse, GetInstanceAccessDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetInstanceAccessDetailsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstanceAccessDetailsOutputResponse, GetInstanceAccessDetailsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3815,10 +3611,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetInstanceMetricDataInput, GetInstanceMetricDataOutputResponse, GetInstanceMetricDataOutputError>(id: "getInstanceMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceMetricDataInput, GetInstanceMetricDataOutputResponse, GetInstanceMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceMetricDataInput, GetInstanceMetricDataOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetInstanceMetricDataOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstanceMetricDataOutputResponse, GetInstanceMetricDataOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3854,10 +3647,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetInstancePortStatesInput, GetInstancePortStatesOutputResponse, GetInstancePortStatesOutputError>(id: "getInstancePortStates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstancePortStatesInput, GetInstancePortStatesOutputResponse, GetInstancePortStatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstancePortStatesInput, GetInstancePortStatesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetInstancePortStatesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstancePortStatesOutputResponse, GetInstancePortStatesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3893,10 +3683,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetInstanceSnapshotInput, GetInstanceSnapshotOutputResponse, GetInstanceSnapshotOutputError>(id: "getInstanceSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceSnapshotInput, GetInstanceSnapshotOutputResponse, GetInstanceSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceSnapshotInput, GetInstanceSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetInstanceSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstanceSnapshotOutputResponse, GetInstanceSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3932,10 +3719,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutputResponse, GetInstanceSnapshotsOutputError>(id: "getInstanceSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutputResponse, GetInstanceSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetInstanceSnapshotsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstanceSnapshotsOutputResponse, GetInstanceSnapshotsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3971,10 +3755,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetInstanceStateInput, GetInstanceStateOutputResponse, GetInstanceStateOutputError>(id: "getInstanceState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceStateInput, GetInstanceStateOutputResponse, GetInstanceStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceStateInput, GetInstanceStateOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetInstanceStateOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstanceStateOutputResponse, GetInstanceStateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4010,10 +3791,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetInstancesInput, GetInstancesOutputResponse, GetInstancesOutputError>(id: "getInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstancesInput, GetInstancesOutputResponse, GetInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstancesInput, GetInstancesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetInstancesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstancesOutputResponse, GetInstancesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4049,10 +3827,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetKeyPairInput, GetKeyPairOutputResponse, GetKeyPairOutputError>(id: "getKeyPair")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyPairInput, GetKeyPairOutputResponse, GetKeyPairOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyPairInput, GetKeyPairOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetKeyPairOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetKeyPairOutputResponse, GetKeyPairOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4088,10 +3863,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetKeyPairsInput, GetKeyPairsOutputResponse, GetKeyPairsOutputError>(id: "getKeyPairs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyPairsInput, GetKeyPairsOutputResponse, GetKeyPairsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyPairsInput, GetKeyPairsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetKeyPairsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetKeyPairsOutputResponse, GetKeyPairsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4127,10 +3899,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetLoadBalancerInput, GetLoadBalancerOutputResponse, GetLoadBalancerOutputError>(id: "getLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoadBalancerInput, GetLoadBalancerOutputResponse, GetLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoadBalancerInput, GetLoadBalancerOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetLoadBalancerOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLoadBalancerOutputResponse, GetLoadBalancerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4166,10 +3935,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutputResponse, GetLoadBalancerMetricDataOutputError>(id: "getLoadBalancerMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutputResponse, GetLoadBalancerMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetLoadBalancerMetricDataOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLoadBalancerMetricDataOutputResponse, GetLoadBalancerMetricDataOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4205,10 +3971,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutputResponse, GetLoadBalancerTlsCertificatesOutputError>(id: "getLoadBalancerTlsCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutputResponse, GetLoadBalancerTlsCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetLoadBalancerTlsCertificatesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLoadBalancerTlsCertificatesOutputResponse, GetLoadBalancerTlsCertificatesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4244,10 +4007,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutputResponse, GetLoadBalancerTlsPoliciesOutputError>(id: "getLoadBalancerTlsPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutputResponse, GetLoadBalancerTlsPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetLoadBalancerTlsPoliciesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLoadBalancerTlsPoliciesOutputResponse, GetLoadBalancerTlsPoliciesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4283,10 +4043,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetLoadBalancersInput, GetLoadBalancersOutputResponse, GetLoadBalancersOutputError>(id: "getLoadBalancers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoadBalancersInput, GetLoadBalancersOutputResponse, GetLoadBalancersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoadBalancersInput, GetLoadBalancersOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetLoadBalancersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLoadBalancersOutputResponse, GetLoadBalancersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4322,10 +4079,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetOperationInput, GetOperationOutputResponse, GetOperationOutputError>(id: "getOperation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOperationInput, GetOperationOutputResponse, GetOperationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOperationInput, GetOperationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetOperationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOperationOutputResponse, GetOperationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4361,10 +4115,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetOperationsInput, GetOperationsOutputResponse, GetOperationsOutputError>(id: "getOperations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOperationsInput, GetOperationsOutputResponse, GetOperationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOperationsInput, GetOperationsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetOperationsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOperationsOutputResponse, GetOperationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4400,10 +4151,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetOperationsForResourceInput, GetOperationsForResourceOutputResponse, GetOperationsForResourceOutputError>(id: "getOperationsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOperationsForResourceInput, GetOperationsForResourceOutputResponse, GetOperationsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOperationsForResourceInput, GetOperationsForResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetOperationsForResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOperationsForResourceOutputResponse, GetOperationsForResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4439,10 +4187,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRegionsInput, GetRegionsOutputResponse, GetRegionsOutputError>(id: "getRegions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRegionsInput, GetRegionsOutputResponse, GetRegionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRegionsInput, GetRegionsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRegionsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRegionsOutputResponse, GetRegionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4478,10 +4223,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseInput, GetRelationalDatabaseOutputResponse, GetRelationalDatabaseOutputError>(id: "getRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseInput, GetRelationalDatabaseOutputResponse, GetRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseInput, GetRelationalDatabaseOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRelationalDatabaseOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRelationalDatabaseOutputResponse, GetRelationalDatabaseOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4517,10 +4259,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutputResponse, GetRelationalDatabaseBlueprintsOutputError>(id: "getRelationalDatabaseBlueprints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutputResponse, GetRelationalDatabaseBlueprintsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRelationalDatabaseBlueprintsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRelationalDatabaseBlueprintsOutputResponse, GetRelationalDatabaseBlueprintsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4556,10 +4295,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutputResponse, GetRelationalDatabaseBundlesOutputError>(id: "getRelationalDatabaseBundles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutputResponse, GetRelationalDatabaseBundlesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRelationalDatabaseBundlesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRelationalDatabaseBundlesOutputResponse, GetRelationalDatabaseBundlesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4595,10 +4331,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutputResponse, GetRelationalDatabaseEventsOutputError>(id: "getRelationalDatabaseEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutputResponse, GetRelationalDatabaseEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRelationalDatabaseEventsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRelationalDatabaseEventsOutputResponse, GetRelationalDatabaseEventsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4634,10 +4367,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutputResponse, GetRelationalDatabaseLogEventsOutputError>(id: "getRelationalDatabaseLogEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutputResponse, GetRelationalDatabaseLogEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRelationalDatabaseLogEventsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRelationalDatabaseLogEventsOutputResponse, GetRelationalDatabaseLogEventsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4673,10 +4403,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutputResponse, GetRelationalDatabaseLogStreamsOutputError>(id: "getRelationalDatabaseLogStreams")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutputResponse, GetRelationalDatabaseLogStreamsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRelationalDatabaseLogStreamsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRelationalDatabaseLogStreamsOutputResponse, GetRelationalDatabaseLogStreamsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4712,10 +4439,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutputResponse, GetRelationalDatabaseMasterUserPasswordOutputError>(id: "getRelationalDatabaseMasterUserPassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutputResponse, GetRelationalDatabaseMasterUserPasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRelationalDatabaseMasterUserPasswordOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRelationalDatabaseMasterUserPasswordOutputResponse, GetRelationalDatabaseMasterUserPasswordOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4751,10 +4475,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutputResponse, GetRelationalDatabaseMetricDataOutputError>(id: "getRelationalDatabaseMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutputResponse, GetRelationalDatabaseMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRelationalDatabaseMetricDataOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRelationalDatabaseMetricDataOutputResponse, GetRelationalDatabaseMetricDataOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4790,10 +4511,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutputResponse, GetRelationalDatabaseParametersOutputError>(id: "getRelationalDatabaseParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutputResponse, GetRelationalDatabaseParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRelationalDatabaseParametersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRelationalDatabaseParametersOutputResponse, GetRelationalDatabaseParametersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4829,10 +4547,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutputResponse, GetRelationalDatabaseSnapshotOutputError>(id: "getRelationalDatabaseSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutputResponse, GetRelationalDatabaseSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRelationalDatabaseSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRelationalDatabaseSnapshotOutputResponse, GetRelationalDatabaseSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4868,10 +4583,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutputResponse, GetRelationalDatabaseSnapshotsOutputError>(id: "getRelationalDatabaseSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutputResponse, GetRelationalDatabaseSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRelationalDatabaseSnapshotsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRelationalDatabaseSnapshotsOutputResponse, GetRelationalDatabaseSnapshotsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4907,10 +4619,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetRelationalDatabasesInput, GetRelationalDatabasesOutputResponse, GetRelationalDatabasesOutputError>(id: "getRelationalDatabases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabasesInput, GetRelationalDatabasesOutputResponse, GetRelationalDatabasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabasesInput, GetRelationalDatabasesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRelationalDatabasesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRelationalDatabasesOutputResponse, GetRelationalDatabasesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4946,10 +4655,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetStaticIpInput, GetStaticIpOutputResponse, GetStaticIpOutputError>(id: "getStaticIp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStaticIpInput, GetStaticIpOutputResponse, GetStaticIpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStaticIpInput, GetStaticIpOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetStaticIpOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStaticIpOutputResponse, GetStaticIpOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4985,10 +4691,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<GetStaticIpsInput, GetStaticIpsOutputResponse, GetStaticIpsOutputError>(id: "getStaticIps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStaticIpsInput, GetStaticIpsOutputResponse, GetStaticIpsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStaticIpsInput, GetStaticIpsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetStaticIpsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStaticIpsOutputResponse, GetStaticIpsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5024,10 +4727,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<ImportKeyPairInput, ImportKeyPairOutputResponse, ImportKeyPairOutputError>(id: "importKeyPair")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportKeyPairInput, ImportKeyPairOutputResponse, ImportKeyPairOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportKeyPairInput, ImportKeyPairOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ImportKeyPairOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportKeyPairOutputResponse, ImportKeyPairOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5063,10 +4763,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<IsVpcPeeredInput, IsVpcPeeredOutputResponse, IsVpcPeeredOutputError>(id: "isVpcPeered")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IsVpcPeeredInput, IsVpcPeeredOutputResponse, IsVpcPeeredOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IsVpcPeeredInput, IsVpcPeeredOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<IsVpcPeeredOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<IsVpcPeeredOutputResponse, IsVpcPeeredOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5102,10 +4799,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutputResponse, OpenInstancePublicPortsOutputError>(id: "openInstancePublicPorts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutputResponse, OpenInstancePublicPortsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<OpenInstancePublicPortsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<OpenInstancePublicPortsOutputResponse, OpenInstancePublicPortsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5141,10 +4835,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<PeerVpcInput, PeerVpcOutputResponse, PeerVpcOutputError>(id: "peerVpc")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PeerVpcInput, PeerVpcOutputResponse, PeerVpcOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PeerVpcInput, PeerVpcOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<PeerVpcOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PeerVpcOutputResponse, PeerVpcOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5180,10 +4871,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<PutAlarmInput, PutAlarmOutputResponse, PutAlarmOutputError>(id: "putAlarm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAlarmInput, PutAlarmOutputResponse, PutAlarmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAlarmInput, PutAlarmOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<PutAlarmOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAlarmOutputResponse, PutAlarmOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5219,10 +4907,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<PutInstancePublicPortsInput, PutInstancePublicPortsOutputResponse, PutInstancePublicPortsOutputError>(id: "putInstancePublicPorts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInstancePublicPortsInput, PutInstancePublicPortsOutputResponse, PutInstancePublicPortsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInstancePublicPortsInput, PutInstancePublicPortsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<PutInstancePublicPortsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutInstancePublicPortsOutputResponse, PutInstancePublicPortsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5258,10 +4943,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<RebootInstanceInput, RebootInstanceOutputResponse, RebootInstanceOutputError>(id: "rebootInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootInstanceInput, RebootInstanceOutputResponse, RebootInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootInstanceInput, RebootInstanceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RebootInstanceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RebootInstanceOutputResponse, RebootInstanceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5297,10 +4979,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutputResponse, RebootRelationalDatabaseOutputError>(id: "rebootRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutputResponse, RebootRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RebootRelationalDatabaseOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RebootRelationalDatabaseOutputResponse, RebootRelationalDatabaseOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5336,10 +5015,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<RegisterContainerImageInput, RegisterContainerImageOutputResponse, RegisterContainerImageOutputError>(id: "registerContainerImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterContainerImageInput, RegisterContainerImageOutputResponse, RegisterContainerImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterContainerImageInput, RegisterContainerImageOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RegisterContainerImageOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterContainerImageOutputResponse, RegisterContainerImageOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5375,10 +5051,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<ReleaseStaticIpInput, ReleaseStaticIpOutputResponse, ReleaseStaticIpOutputError>(id: "releaseStaticIp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReleaseStaticIpInput, ReleaseStaticIpOutputResponse, ReleaseStaticIpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReleaseStaticIpInput, ReleaseStaticIpOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ReleaseStaticIpOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReleaseStaticIpOutputResponse, ReleaseStaticIpOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5414,10 +5087,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<ResetDistributionCacheInput, ResetDistributionCacheOutputResponse, ResetDistributionCacheOutputError>(id: "resetDistributionCache")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetDistributionCacheInput, ResetDistributionCacheOutputResponse, ResetDistributionCacheOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetDistributionCacheInput, ResetDistributionCacheOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ResetDistributionCacheOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetDistributionCacheOutputResponse, ResetDistributionCacheOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5453,10 +5123,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<SendContactMethodVerificationInput, SendContactMethodVerificationOutputResponse, SendContactMethodVerificationOutputError>(id: "sendContactMethodVerification")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendContactMethodVerificationInput, SendContactMethodVerificationOutputResponse, SendContactMethodVerificationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendContactMethodVerificationInput, SendContactMethodVerificationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<SendContactMethodVerificationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendContactMethodVerificationOutputResponse, SendContactMethodVerificationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5492,10 +5159,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<SetIpAddressTypeInput, SetIpAddressTypeOutputResponse, SetIpAddressTypeOutputError>(id: "setIpAddressType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetIpAddressTypeInput, SetIpAddressTypeOutputResponse, SetIpAddressTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetIpAddressTypeInput, SetIpAddressTypeOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<SetIpAddressTypeOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetIpAddressTypeOutputResponse, SetIpAddressTypeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5531,10 +5195,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutputResponse, SetResourceAccessForBucketOutputError>(id: "setResourceAccessForBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutputResponse, SetResourceAccessForBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<SetResourceAccessForBucketOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetResourceAccessForBucketOutputResponse, SetResourceAccessForBucketOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5547,6 +5208,42 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetResourceAccessForBucketOutputResponse, SetResourceAccessForBucketOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetResourceAccessForBucketOutputResponse, SetResourceAccessForBucketOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetResourceAccessForBucketOutputResponse, SetResourceAccessForBucketOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Initiates a graphical user interface (GUI) session that’s used to access a virtual computer’s operating system and application. The session will be active for 1 hour. Use this action to resume the session after it expires.
+    public func startGUISession(input: StartGUISessionInput) async throws -> StartGUISessionOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startGUISession")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lightsail")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<StartGUISessionInput, StartGUISessionOutputResponse, StartGUISessionOutputError>(id: "startGUISession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartGUISessionInput, StartGUISessionOutputResponse, StartGUISessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartGUISessionInput, StartGUISessionOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartGUISessionOutputResponse, StartGUISessionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartGUISessionInput, StartGUISessionOutputResponse>(xAmzTarget: "Lightsail_20161128.StartGUISession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartGUISessionInput, StartGUISessionOutputResponse>(xmlName: "StartGUISessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartGUISessionInput, StartGUISessionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartGUISessionOutputResponse, StartGUISessionOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartGUISessionOutputResponse, StartGUISessionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartGUISessionOutputResponse, StartGUISessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartGUISessionOutputResponse, StartGUISessionOutputError>())
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -5570,10 +5267,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<StartInstanceInput, StartInstanceOutputResponse, StartInstanceOutputError>(id: "startInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartInstanceInput, StartInstanceOutputResponse, StartInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartInstanceInput, StartInstanceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<StartInstanceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartInstanceOutputResponse, StartInstanceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5609,10 +5303,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<StartRelationalDatabaseInput, StartRelationalDatabaseOutputResponse, StartRelationalDatabaseOutputError>(id: "startRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartRelationalDatabaseInput, StartRelationalDatabaseOutputResponse, StartRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartRelationalDatabaseInput, StartRelationalDatabaseOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<StartRelationalDatabaseOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartRelationalDatabaseOutputResponse, StartRelationalDatabaseOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5625,6 +5316,42 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRelationalDatabaseOutputResponse, StartRelationalDatabaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartRelationalDatabaseOutputResponse, StartRelationalDatabaseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRelationalDatabaseOutputResponse, StartRelationalDatabaseOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Terminates a web-based NICE DCV session that’s used to access a virtual computer’s operating system or application. The session will close and any unsaved data will be lost.
+    public func stopGUISession(input: StopGUISessionInput) async throws -> StopGUISessionOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopGUISession")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lightsail")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<StopGUISessionInput, StopGUISessionOutputResponse, StopGUISessionOutputError>(id: "stopGUISession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopGUISessionInput, StopGUISessionOutputResponse, StopGUISessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopGUISessionInput, StopGUISessionOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopGUISessionOutputResponse, StopGUISessionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopGUISessionInput, StopGUISessionOutputResponse>(xAmzTarget: "Lightsail_20161128.StopGUISession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopGUISessionInput, StopGUISessionOutputResponse>(xmlName: "StopGUISessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopGUISessionInput, StopGUISessionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StopGUISessionOutputResponse, StopGUISessionOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopGUISessionOutputResponse, StopGUISessionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopGUISessionOutputResponse, StopGUISessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopGUISessionOutputResponse, StopGUISessionOutputError>())
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -5648,10 +5375,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<StopInstanceInput, StopInstanceOutputResponse, StopInstanceOutputError>(id: "stopInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopInstanceInput, StopInstanceOutputResponse, StopInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopInstanceInput, StopInstanceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<StopInstanceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopInstanceOutputResponse, StopInstanceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5687,10 +5411,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<StopRelationalDatabaseInput, StopRelationalDatabaseOutputResponse, StopRelationalDatabaseOutputError>(id: "stopRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRelationalDatabaseInput, StopRelationalDatabaseOutputResponse, StopRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRelationalDatabaseInput, StopRelationalDatabaseOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<StopRelationalDatabaseOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopRelationalDatabaseOutputResponse, StopRelationalDatabaseOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5726,10 +5447,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<TagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5765,10 +5483,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<TestAlarmInput, TestAlarmOutputResponse, TestAlarmOutputError>(id: "testAlarm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestAlarmInput, TestAlarmOutputResponse, TestAlarmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestAlarmInput, TestAlarmOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<TestAlarmOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestAlarmOutputResponse, TestAlarmOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5804,10 +5519,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<UnpeerVpcInput, UnpeerVpcOutputResponse, UnpeerVpcOutputError>(id: "unpeerVpc")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnpeerVpcInput, UnpeerVpcOutputResponse, UnpeerVpcOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnpeerVpcInput, UnpeerVpcOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UnpeerVpcOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UnpeerVpcOutputResponse, UnpeerVpcOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5843,10 +5555,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UntagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5882,10 +5591,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateBucketInput, UpdateBucketOutputResponse, UpdateBucketOutputError>(id: "updateBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBucketInput, UpdateBucketOutputResponse, UpdateBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBucketInput, UpdateBucketOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateBucketOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBucketOutputResponse, UpdateBucketOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5921,10 +5627,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateBucketBundleInput, UpdateBucketBundleOutputResponse, UpdateBucketBundleOutputError>(id: "updateBucketBundle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBucketBundleInput, UpdateBucketBundleOutputResponse, UpdateBucketBundleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBucketBundleInput, UpdateBucketBundleOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateBucketBundleOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBucketBundleOutputResponse, UpdateBucketBundleOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5960,10 +5663,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateContainerServiceInput, UpdateContainerServiceOutputResponse, UpdateContainerServiceOutputError>(id: "updateContainerService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateContainerServiceInput, UpdateContainerServiceOutputResponse, UpdateContainerServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateContainerServiceInput, UpdateContainerServiceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateContainerServiceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateContainerServiceOutputResponse, UpdateContainerServiceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -5999,10 +5699,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateDistributionInput, UpdateDistributionOutputResponse, UpdateDistributionOutputError>(id: "updateDistribution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDistributionInput, UpdateDistributionOutputResponse, UpdateDistributionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDistributionInput, UpdateDistributionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateDistributionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDistributionOutputResponse, UpdateDistributionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -6038,10 +5735,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateDistributionBundleInput, UpdateDistributionBundleOutputResponse, UpdateDistributionBundleOutputError>(id: "updateDistributionBundle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDistributionBundleInput, UpdateDistributionBundleOutputResponse, UpdateDistributionBundleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDistributionBundleInput, UpdateDistributionBundleOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateDistributionBundleOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDistributionBundleOutputResponse, UpdateDistributionBundleOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -6077,10 +5771,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateDomainEntryInput, UpdateDomainEntryOutputResponse, UpdateDomainEntryOutputError>(id: "updateDomainEntry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDomainEntryInput, UpdateDomainEntryOutputResponse, UpdateDomainEntryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDomainEntryInput, UpdateDomainEntryOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateDomainEntryOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDomainEntryOutputResponse, UpdateDomainEntryOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -6116,10 +5807,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutputResponse, UpdateInstanceMetadataOptionsOutputError>(id: "updateInstanceMetadataOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutputResponse, UpdateInstanceMetadataOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateInstanceMetadataOptionsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInstanceMetadataOptionsOutputResponse, UpdateInstanceMetadataOptionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -6155,10 +5843,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutputResponse, UpdateLoadBalancerAttributeOutputError>(id: "updateLoadBalancerAttribute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutputResponse, UpdateLoadBalancerAttributeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateLoadBalancerAttributeOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLoadBalancerAttributeOutputResponse, UpdateLoadBalancerAttributeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -6194,10 +5879,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutputResponse, UpdateRelationalDatabaseOutputError>(id: "updateRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutputResponse, UpdateRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateRelationalDatabaseOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRelationalDatabaseOutputResponse, UpdateRelationalDatabaseOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -6233,10 +5915,7 @@ extension LightsailClient: LightsailClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutputResponse, UpdateRelationalDatabaseParametersOutputError>(id: "updateRelationalDatabaseParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutputResponse, UpdateRelationalDatabaseParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateRelationalDatabaseParametersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRelationalDatabaseParametersOutputResponse, UpdateRelationalDatabaseParametersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

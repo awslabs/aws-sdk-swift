@@ -312,6 +312,23 @@ public enum DescribeDimensionKeysOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeDimensionKeysOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeDimensionKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1149,6 +1166,23 @@ public enum GetDimensionKeyDetailsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDimensionKeyDetailsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDimensionKeyDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1286,6 +1320,23 @@ public enum GetResourceMetadataOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetResourceMetadataOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetResourceMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1353,6 +1404,7 @@ extension GetResourceMetricsInput: Swift.Encodable {
         case maxResults = "MaxResults"
         case metricQueries = "MetricQueries"
         case nextToken = "NextToken"
+        case periodAlignment = "PeriodAlignment"
         case periodInSeconds = "PeriodInSeconds"
         case serviceType = "ServiceType"
         case startTime = "StartTime"
@@ -1377,6 +1429,9 @@ extension GetResourceMetricsInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let periodAlignment = self.periodAlignment {
+            try encodeContainer.encode(periodAlignment.rawValue, forKey: .periodAlignment)
         }
         if let periodInSeconds = self.periodInSeconds {
             try encodeContainer.encode(periodInSeconds, forKey: .periodInSeconds)
@@ -1410,6 +1465,8 @@ public struct GetResourceMetricsInput: Swift.Equatable {
     public var metricQueries: [PIClientTypes.MetricQuery]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
     public var nextToken: Swift.String?
+    /// The returned timestamp which is the start or end time of the time periods. The default value is END_TIME.
+    public var periodAlignment: PIClientTypes.PeriodAlignment?
     /// The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as one second, or as long as one day (86400 seconds). Valid values are:
     ///
     /// * 1 (one second)
@@ -1442,6 +1499,7 @@ public struct GetResourceMetricsInput: Swift.Equatable {
         maxResults: Swift.Int? = nil,
         metricQueries: [PIClientTypes.MetricQuery]? = nil,
         nextToken: Swift.String? = nil,
+        periodAlignment: PIClientTypes.PeriodAlignment? = nil,
         periodInSeconds: Swift.Int? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
         startTime: ClientRuntime.Date? = nil
@@ -1452,6 +1510,7 @@ public struct GetResourceMetricsInput: Swift.Equatable {
         self.maxResults = maxResults
         self.metricQueries = metricQueries
         self.nextToken = nextToken
+        self.periodAlignment = periodAlignment
         self.periodInSeconds = periodInSeconds
         self.serviceType = serviceType
         self.startTime = startTime
@@ -1467,6 +1526,7 @@ struct GetResourceMetricsInputBody: Swift.Equatable {
     let periodInSeconds: Swift.Int?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
+    let periodAlignment: PIClientTypes.PeriodAlignment?
 }
 
 extension GetResourceMetricsInputBody: Swift.Decodable {
@@ -1476,6 +1536,7 @@ extension GetResourceMetricsInputBody: Swift.Decodable {
         case maxResults = "MaxResults"
         case metricQueries = "MetricQueries"
         case nextToken = "NextToken"
+        case periodAlignment = "PeriodAlignment"
         case periodInSeconds = "PeriodInSeconds"
         case serviceType = "ServiceType"
         case startTime = "StartTime"
@@ -1508,6 +1569,8 @@ extension GetResourceMetricsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let periodAlignmentDecoded = try containerValues.decodeIfPresent(PIClientTypes.PeriodAlignment.self, forKey: .periodAlignment)
+        periodAlignment = periodAlignmentDecoded
     }
 }
 
@@ -1535,6 +1598,23 @@ public enum GetResourceMetricsOutputError: Swift.Error, Swift.Equatable {
     case invalidArgumentException(InvalidArgumentException)
     case notAuthorizedException(NotAuthorizedException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetResourceMetricsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetResourceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1653,6 +1733,9 @@ public struct InternalServiceError: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServiceError" }
+
     public var message: Swift.String?
 
     public init (
@@ -1705,6 +1788,9 @@ public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidArgumentException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1865,6 +1951,23 @@ public enum ListAvailableResourceDimensionsOutputError: Swift.Error, Swift.Equat
     case invalidArgumentException(InvalidArgumentException)
     case notAuthorizedException(NotAuthorizedException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAvailableResourceDimensionsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAvailableResourceDimensionsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2069,6 +2172,23 @@ public enum ListAvailableResourceMetricsOutputError: Swift.Error, Swift.Equatabl
     case invalidArgumentException(InvalidArgumentException)
     case notAuthorizedException(NotAuthorizedException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAvailableResourceMetricsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidArgumentException(let error): return error
+        case .notAuthorizedException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAvailableResourceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2352,6 +2472,9 @@ public struct NotAuthorizedException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "NotAuthorizedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2375,6 +2498,38 @@ extension NotAuthorizedExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension PIClientTypes {
+    public enum PeriodAlignment: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case endTime
+        case startTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PeriodAlignment] {
+            return [
+                .endTime,
+                .startTime,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .endTime: return "END_TIME"
+            case .startTime: return "START_TIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PeriodAlignment(rawValue: rawValue) ?? PeriodAlignment.sdkUnknown(rawValue)
+        }
     }
 }
 

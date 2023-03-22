@@ -28,6 +28,9 @@ public struct AWSOrganizationsNotInUseException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AWSOrganizationsNotInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -144,6 +147,31 @@ public enum AcceptHandshakeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AcceptHandshakeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .accessDeniedForDependencyException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .handshakeAlreadyInStateException(let error): return error
+        case .handshakeConstraintViolationException(let error): return error
+        case .handshakeNotFoundException(let error): return error
+        case .invalidHandshakeTransitionException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AcceptHandshakeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -211,6 +239,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -265,6 +296,9 @@ public struct AccessDeniedForDependencyException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedForDependencyException" }
+
     public var message: Swift.String?
     public var reason: OrganizationsClientTypes.AccessDeniedForDependencyExceptionReason?
 
@@ -453,6 +487,9 @@ public struct AccountAlreadyClosedException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccountAlreadyClosedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -505,6 +542,9 @@ public struct AccountAlreadyRegisteredException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccountAlreadyRegisteredException" }
+
     public var message: Swift.String?
 
     public init (
@@ -589,6 +629,9 @@ public struct AccountNotFoundException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccountNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -641,6 +684,9 @@ public struct AccountNotRegisteredException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccountNotRegisteredException" }
+
     public var message: Swift.String?
 
     public init (
@@ -693,6 +739,9 @@ public struct AccountOwnerNotVerifiedException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccountOwnerNotVerifiedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -818,6 +867,9 @@ public struct AlreadyInOrganizationException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AlreadyInOrganizationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -957,6 +1009,33 @@ public enum AttachPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AttachPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .duplicatePolicyAttachmentException(let error): return error
+        case .invalidInputException(let error): return error
+        case .policyChangesInProgressException(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .policyTypeNotEnabledException(let error): return error
+        case .serviceException(let error): return error
+        case .targetNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AttachPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1049,6 +1128,28 @@ public enum CancelHandshakeOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CancelHandshakeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .handshakeAlreadyInStateException(let error): return error
+        case .handshakeNotFoundException(let error): return error
+        case .invalidHandshakeTransitionException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CancelHandshakeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1167,6 +1268,9 @@ public struct ChildNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swif
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ChildNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1315,6 +1419,31 @@ public enum CloseAccountOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CloseAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .accountAlreadyClosedException(let error): return error
+        case .accountNotFoundException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .conflictException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CloseAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -1351,6 +1480,9 @@ public struct ConcurrentModificationException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConcurrentModificationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1403,6 +1535,9 @@ public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConflictException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1455,6 +1590,8 @@ extension ConstraintViolationException {
 /// * ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account from the organization that doesn't yet have enough information to exist as a standalone account. This account requires you to first complete phone verification. Follow the steps at [Removing a member account from your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#orgs_manage_accounts_remove-from-master) in the Organizations User Guide.
 ///
 /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
+///
+/// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
 ///
 /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://docs.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://docs.aws.amazon.com/support/home#/).
 ///
@@ -1521,6 +1658,9 @@ public struct ConstraintViolationException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ConstraintViolationException" }
+
     public var message: Swift.String?
     public var reason: OrganizationsClientTypes.ConstraintViolationExceptionReason?
 
@@ -1559,6 +1699,7 @@ extension OrganizationsClientTypes {
         case accountCannotLeaveOrganization
         case accountCannotLeaveWithoutEula
         case accountCannotLeaveWithoutPhoneVerification
+        case accountCreationNotComplete
         case accountCreationRateLimitExceeded
         case accountNumberLimitExceeded
         case cannotCloseManagementAccount
@@ -1596,6 +1737,7 @@ extension OrganizationsClientTypes {
                 .accountCannotLeaveOrganization,
                 .accountCannotLeaveWithoutEula,
                 .accountCannotLeaveWithoutPhoneVerification,
+                .accountCreationNotComplete,
                 .accountCreationRateLimitExceeded,
                 .accountNumberLimitExceeded,
                 .cannotCloseManagementAccount,
@@ -1638,6 +1780,7 @@ extension OrganizationsClientTypes {
             case .accountCannotLeaveOrganization: return "ACCOUNT_CANNOT_LEAVE_ORGANIZATION"
             case .accountCannotLeaveWithoutEula: return "ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA"
             case .accountCannotLeaveWithoutPhoneVerification: return "ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION"
+            case .accountCreationNotComplete: return "ACCOUNT_CREATION_NOT_COMPLETE"
             case .accountCreationRateLimitExceeded: return "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
             case .accountNumberLimitExceeded: return "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
             case .cannotCloseManagementAccount: return "CANNOT_CLOSE_MANAGEMENT_ACCOUNT"
@@ -1830,7 +1973,7 @@ public struct CreateAccountInput: Swift.Equatable {
     ///
     /// The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
     public var roleName: Swift.String?
-    /// A list of tags that you want to attach to the newly created account. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. If any one of the tags is invalid or if you exceed the maximum allowed number of tags for an account, then the entire request fails and the account is not created.
+    /// A list of tags that you want to attach to the newly created account. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. If any one of the tags is not valid or if you exceed the maximum allowed number of tags for an account, then the entire request fails and the account is not created.
     public var tags: [OrganizationsClientTypes.Tag]?
 
     public init (
@@ -1926,6 +2069,29 @@ public enum CreateAccountOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .finalizingOrganizationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateAccountOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2168,6 +2334,9 @@ public struct CreateAccountStatusNotFoundException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "CreateAccountStatusNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2267,7 +2436,7 @@ public struct CreateGovCloudAccountInput: Swift.Equatable {
     public var iamUserAccessToBilling: OrganizationsClientTypes.IAMUserAccessToBilling?
     /// (Optional) The name of an IAM role that Organizations automatically preconfigures in the new member accounts in both the Amazon Web Services GovCloud (US) Region and in the commercial Region. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see [Accessing and Administering the Member Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role) in the Organizations User Guide and steps 2 and 3 in [Tutorial: Delegate Access Across Amazon Web Services accounts Using IAM Roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the IAM User Guide. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
     public var roleName: Swift.String?
-    /// A list of tags that you want to attach to the newly created account. These tags are attached to the commercial account associated with the GovCloud account, and not to the GovCloud account itself. To add tags to the actual GovCloud account, call the [TagResource] operation in the GovCloud region after the new GovCloud account exists. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. If any one of the tags is invalid or if you exceed the maximum allowed number of tags for an account, then the entire request fails and the account is not created.
+    /// A list of tags that you want to attach to the newly created account. These tags are attached to the commercial account associated with the GovCloud account, and not to the GovCloud account itself. To add tags to the actual GovCloud account, call the [TagResource] operation in the GovCloud region after the new GovCloud account exists. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. If any one of the tags is not valid or if you exceed the maximum allowed number of tags for an account, then the entire request fails and the account is not created.
     public var tags: [OrganizationsClientTypes.Tag]?
 
     public init (
@@ -2363,6 +2532,29 @@ public enum CreateGovCloudAccountOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateGovCloudAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .finalizingOrganizationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateGovCloudAccountOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2493,6 +2685,28 @@ public enum CreateOrganizationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .accessDeniedForDependencyException(let error): return error
+        case .alreadyInOrganizationException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2575,7 +2789,7 @@ public struct CreateOrganizationalUnitInput: Swift.Equatable {
     /// * Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
     /// This member is required.
     public var parentId: Swift.String?
-    /// A list of tags that you want to attach to the newly created OU. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. If any one of the tags is invalid or if you exceed the allowed number of tags for an OU, then the entire request fails and the OU is not created.
+    /// A list of tags that you want to attach to the newly created OU. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. If any one of the tags is not valid or if you exceed the allowed number of tags for an OU, then the entire request fails and the OU is not created.
     public var tags: [OrganizationsClientTypes.Tag]?
 
     public init (
@@ -2659,6 +2873,29 @@ public enum CreateOrganizationalUnitOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateOrganizationalUnitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .duplicateOrganizationalUnitException(let error): return error
+        case .invalidInputException(let error): return error
+        case .parentNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateOrganizationalUnitOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2750,7 +2987,7 @@ public struct CreatePolicyInput: Swift.Equatable {
     /// The friendly name to assign to the policy. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of any of the characters in the ASCII character range.
     /// This member is required.
     public var name: Swift.String?
-    /// A list of tags that you want to attach to the newly created policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. If any one of the tags is invalid or if you exceed the allowed number of tags for a policy, then the entire request fails and the policy is not created.
+    /// A list of tags that you want to attach to the newly created policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. If any one of the tags is not valid or if you exceed the allowed number of tags for a policy, then the entire request fails and the policy is not created.
     public var tags: [OrganizationsClientTypes.Tag]?
     /// The type of policy to create. You can specify one of the following values:
     ///
@@ -2861,6 +3098,31 @@ public enum CreatePolicyOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreatePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .duplicatePolicyException(let error): return error
+        case .invalidInputException(let error): return error
+        case .malformedPolicyDocumentException(let error): return error
+        case .policyTypeNotAvailableForOrganizationException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreatePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2986,6 +3248,28 @@ public enum DeclineHandshakeOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeclineHandshakeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .handshakeAlreadyInStateException(let error): return error
+        case .handshakeNotFoundException(let error): return error
+        case .invalidHandshakeTransitionException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeclineHandshakeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3246,6 +3530,27 @@ public enum DeleteOrganizationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .organizationNotEmptyException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3338,6 +3643,28 @@ public enum DeleteOrganizationalUnitOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteOrganizationalUnitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .organizationalUnitNotEmptyException(let error): return error
+        case .organizationalUnitNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteOrganizationalUnitOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3436,6 +3763,29 @@ public enum DeletePolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeletePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .policyInUseException(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeletePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3508,6 +3858,28 @@ public enum DeleteResourcePolicyOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteResourcePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .resourcePolicyNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3621,6 +3993,30 @@ public enum DeregisterDelegatedAdministratorOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeregisterDelegatedAdministratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .accountNotFoundException(let error): return error
+        case .accountNotRegisteredException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeregisterDelegatedAdministratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3709,6 +4105,26 @@ public enum DescribeAccountOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .accountNotFoundException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeAccountOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3832,6 +4248,27 @@ public enum DescribeCreateAccountStatusOutputError: Swift.Error, Swift.Equatable
     case tooManyRequestsException(TooManyRequestsException)
     case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeCreateAccountStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .createAccountStatusNotFoundException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeCreateAccountStatusOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3979,6 +4416,29 @@ public enum DescribeEffectivePolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeEffectivePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .effectivePolicyNotFoundException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .targetNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeEffectivePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4100,6 +4560,26 @@ public enum DescribeHandshakeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeHandshakeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .handshakeNotFoundException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeHandshakeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4197,6 +4677,25 @@ public enum DescribeOrganizationOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4318,6 +4817,26 @@ public enum DescribeOrganizationalUnitOutputError: Swift.Error, Swift.Equatable 
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeOrganizationalUnitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .organizationalUnitNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeOrganizationalUnitOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4443,6 +4962,27 @@ public enum DescribePolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4546,6 +5086,27 @@ public enum DescribeResourcePolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeResourcePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .resourcePolicyNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4613,6 +5174,9 @@ public struct DestinationParentNotFoundException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DestinationParentNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -4750,6 +5314,32 @@ public enum DetachPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DetachPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .policyChangesInProgressException(let error): return error
+        case .policyNotAttachedException(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .targetNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DetachPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4842,6 +5432,28 @@ public enum DisableAWSServiceAccessOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisableAWSServiceAccessOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisableAWSServiceAccessOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4965,6 +5577,31 @@ public enum DisablePolicyTypeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisablePolicyTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .policyChangesInProgressException(let error): return error
+        case .policyTypeNotEnabledException(let error): return error
+        case .rootNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisablePolicyTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5032,6 +5669,9 @@ public struct DuplicateAccountException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateAccountException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5084,6 +5724,9 @@ public struct DuplicateHandshakeException: AWSClientRuntime.AWSHttpServiceError,
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateHandshakeException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5136,6 +5779,9 @@ public struct DuplicateOrganizationalUnitException: AWSClientRuntime.AWSHttpServ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateOrganizationalUnitException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5188,6 +5834,9 @@ public struct DuplicatePolicyAttachmentException: AWSClientRuntime.AWSHttpServic
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicatePolicyAttachmentException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5240,6 +5889,9 @@ public struct DuplicatePolicyException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicatePolicyException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5357,6 +6009,9 @@ public struct EffectivePolicyNotFoundException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "EffectivePolicyNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -5502,6 +6157,28 @@ public enum EnableAWSServiceAccessOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension EnableAWSServiceAccessOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension EnableAWSServiceAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -5572,6 +6249,27 @@ public enum EnableAllFeaturesOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension EnableAllFeaturesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .handshakeConstraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension EnableAllFeaturesOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5728,6 +6426,32 @@ public enum EnablePolicyTypeOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension EnablePolicyTypeOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .policyChangesInProgressException(let error): return error
+        case .policyTypeAlreadyEnabledException(let error): return error
+        case .policyTypeNotAvailableForOrganizationException(let error): return error
+        case .rootNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension EnablePolicyTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5840,6 +6564,9 @@ public struct FinalizingOrganizationException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "FinalizingOrganizationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6039,6 +6766,9 @@ public struct HandshakeAlreadyInStateException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HandshakeAlreadyInStateException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6111,6 +6841,9 @@ public struct HandshakeConstraintViolationException: AWSClientRuntime.AWSHttpSer
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HandshakeConstraintViolationException" }
+
     public var message: Swift.String?
     public var reason: OrganizationsClientTypes.HandshakeConstraintViolationExceptionReason?
 
@@ -6271,6 +7004,9 @@ public struct HandshakeNotFoundException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "HandshakeNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6620,6 +7356,9 @@ public struct InvalidHandshakeTransitionException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidHandshakeTransitionException" }
+
     public var message: Swift.String?
 
     public init (
@@ -6722,6 +7461,9 @@ public struct InvalidInputException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidInputException" }
+
     public var message: Swift.String?
     public var reason: OrganizationsClientTypes.InvalidInputExceptionReason?
 
@@ -6903,7 +7645,7 @@ extension InviteAccountToOrganizationInput: ClientRuntime.URLPathProvider {
 public struct InviteAccountToOrganizationInput: Swift.Equatable {
     /// Additional information that you want to include in the generated email to the recipient account owner.
     public var notes: Swift.String?
-    /// A list of tags that you want to attach to the account when it becomes a member of the organization. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. Any tags in the request are checked for compliance with any applicable tag policies when the request is made. The request is rejected if the tags in the request don't match the requirements of the policy at that time. Tag policy compliance is not checked again when the invitation is accepted and the tags are actually attached to the account. That means that if the tag policy changes between the invitation and the acceptance, then that tags could potentially be non-compliant. If any one of the tags is invalid or if you exceed the allowed number of tags for an account, then the entire request fails and invitations are not sent.
+    /// A list of tags that you want to attach to the account when it becomes a member of the organization. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. Any tags in the request are checked for compliance with any applicable tag policies when the request is made. The request is rejected if the tags in the request don't match the requirements of the policy at that time. Tag policy compliance is not checked again when the invitation is accepted and the tags are actually attached to the account. That means that if the tag policy changes between the invitation and the acceptance, then that tags could potentially be non-compliant. If any one of the tags is not valid or if you exceed the allowed number of tags for an account, then the entire request fails and invitations are not sent.
     public var tags: [OrganizationsClientTypes.Tag]?
     /// The identifier (ID) of the Amazon Web Services account that you want to invite to join your organization. This is a JSON object that contains the following elements: { "Type": "ACCOUNT", "Id": "< account id number >" } If you use the CLI, you can submit this as a single string, similar to the following example: --target Id=123456789012,Type=ACCOUNT If you specify "Type": "ACCOUNT", you must provide the Amazon Web Services account ID number as the Id. If you specify "Type": "EMAIL", you must specify the email address that is associated with the account. --target Id=diego@example.com,Type=EMAIL
     /// This member is required.
@@ -6994,6 +7736,31 @@ public enum InviteAccountToOrganizationOutputError: Swift.Error, Swift.Equatable
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension InviteAccountToOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .accountOwnerNotVerifiedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .duplicateHandshakeException(let error): return error
+        case .finalizingOrganizationException(let error): return error
+        case .handshakeConstraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension InviteAccountToOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7103,6 +7870,29 @@ public enum LeaveOrganizationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension LeaveOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .accountNotFoundException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .masterCannotLeaveOrganizationException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension LeaveOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -7204,6 +7994,27 @@ public enum ListAWSServiceAccessForOrganizationOutputError: Swift.Error, Swift.E
     case tooManyRequestsException(TooManyRequestsException)
     case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAWSServiceAccessForOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAWSServiceAccessForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7370,6 +8181,26 @@ public enum ListAccountsForParentOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListAccountsForParentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .parentNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListAccountsForParentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7517,6 +8348,25 @@ public enum ListAccountsOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAccountsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7700,6 +8550,26 @@ public enum ListChildrenOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListChildrenOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .parentNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListChildrenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7875,6 +8745,26 @@ public enum ListCreateAccountStatusOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListCreateAccountStatusOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListCreateAccountStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8038,6 +8928,27 @@ public enum ListDelegatedAdministratorsOutputError: Swift.Error, Swift.Equatable
     case tooManyRequestsException(TooManyRequestsException)
     case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDelegatedAdministratorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDelegatedAdministratorsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8210,6 +9121,29 @@ public enum ListDelegatedServicesForAccountOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListDelegatedServicesForAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .accountNotFoundException(let error): return error
+        case .accountNotRegisteredException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListDelegatedServicesForAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8369,6 +9303,25 @@ public enum ListHandshakesForAccountOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListHandshakesForAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListHandshakesForAccountOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8532,6 +9485,26 @@ public enum ListHandshakesForOrganizationOutputError: Swift.Error, Swift.Equatab
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListHandshakesForOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListHandshakesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8702,6 +9675,26 @@ public enum ListOrganizationalUnitsForParentOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListOrganizationalUnitsForParentOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .parentNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListOrganizationalUnitsForParentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8868,6 +9861,26 @@ public enum ListParentsOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListParentsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .childNotFoundException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListParentsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9063,6 +10076,27 @@ public enum ListPoliciesForTargetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListPoliciesForTargetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .targetNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListPoliciesForTargetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9235,6 +10269,26 @@ public enum ListPoliciesOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListPoliciesOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9382,6 +10436,25 @@ public enum ListRootsOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListRootsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListRootsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9542,6 +10615,26 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case targetNotFoundException(TargetNotFoundException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .targetNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9710,6 +10803,27 @@ public enum ListTargetsForPolicyOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTargetsForPolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .invalidInputException(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTargetsForPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9796,6 +10910,9 @@ public struct MalformedPolicyDocumentException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MalformedPolicyDocumentException" }
+
     public var message: Swift.String?
 
     public init (
@@ -9848,6 +10965,9 @@ public struct MasterCannotLeaveOrganizationException: AWSClientRuntime.AWSHttpSe
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "MasterCannotLeaveOrganizationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -9994,6 +11114,30 @@ public enum MoveAccountOutputError: Swift.Error, Swift.Equatable {
     case sourceParentNotFoundException(SourceParentNotFoundException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension MoveAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .accountNotFoundException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .destinationParentNotFoundException(let error): return error
+        case .duplicateAccountException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .sourceParentNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension MoveAccountOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10176,6 +11320,9 @@ public struct OrganizationNotEmptyException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OrganizationNotEmptyException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10283,6 +11430,9 @@ public struct OrganizationalUnitNotEmptyException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OrganizationalUnitNotEmptyException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10335,6 +11485,9 @@ public struct OrganizationalUnitNotFoundException: AWSClientRuntime.AWSHttpServi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "OrganizationalUnitNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10436,6 +11589,9 @@ public struct ParentNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ParentNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10565,6 +11721,9 @@ public struct PolicyChangesInProgressException: AWSClientRuntime.AWSHttpServiceE
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PolicyChangesInProgressException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10617,6 +11776,9 @@ public struct PolicyInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PolicyInUseException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10669,6 +11831,9 @@ public struct PolicyNotAttachedException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PolicyNotAttachedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10721,6 +11886,9 @@ public struct PolicyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PolicyNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -10967,6 +12135,9 @@ public struct PolicyTypeAlreadyEnabledException: AWSClientRuntime.AWSHttpService
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PolicyTypeAlreadyEnabledException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11019,6 +12190,9 @@ public struct PolicyTypeNotAvailableForOrganizationException: AWSClientRuntime.A
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PolicyTypeNotAvailableForOrganizationException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11071,6 +12245,9 @@ public struct PolicyTypeNotEnabledException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "PolicyTypeNotEnabledException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11207,7 +12384,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     /// If provided, the new content for the resource policy. The text must be correctly formatted JSON that complies with the syntax for the resource policy's type. For more information, see [Service Control Policy Syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html) in the Organizations User Guide.
     /// This member is required.
     public var content: Swift.String?
-    /// Updates the list of tags that you want to attach to the newly-created resource policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. Calls with tags apply to the initial creation of the resource policy, otherwise an exception is thrown. If any one of the tags is invalid or if you exceed the allowed number of tags for the resource policy, then the entire request fails and the resource policy is not created.
+    /// A list of tags that you want to attach to the newly created resource policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. Calls with tags apply to the initial creation of the resource policy, otherwise an exception is thrown. If any one of the tags is not valid or if you exceed the allowed number of tags for the resource policy, then the entire request fails and the resource policy is not created.
     public var tags: [OrganizationsClientTypes.Tag]?
 
     public init (
@@ -11283,6 +12460,28 @@ public enum PutResourcePolicyOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutResourcePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11427,6 +12626,30 @@ public enum RegisterDelegatedAdministratorOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RegisterDelegatedAdministratorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .accountAlreadyRegisteredException(let error): return error
+        case .accountNotFoundException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RegisterDelegatedAdministratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -11523,6 +12746,29 @@ public enum RemoveAccountFromOrganizationOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension RemoveAccountFromOrganizationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .accountNotFoundException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .masterCannotLeaveOrganizationException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension RemoveAccountFromOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -11604,6 +12850,9 @@ public struct ResourcePolicyNotFoundException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourcePolicyNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11778,6 +13027,9 @@ public struct RootNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "RootNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11830,6 +13082,9 @@ public struct ServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ServiceException" }
+
     public var message: Swift.String?
 
     public init (
@@ -11882,6 +13137,9 @@ public struct SourceParentNotFoundException: AWSClientRuntime.AWSHttpServiceErro
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "SourceParentNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12001,7 +13259,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// * Policy – specify the policy ID that begins with p- andlooks similar to: p-12abcdefg3
     /// This member is required.
     public var resourceId: Swift.String?
-    /// A list of tags to add to the specified resource. For each tag in the list, you must specify both a tag key and a value. The value can be an empty string, but you can't set it to null. If any one of the tags is invalid or if you exceed the maximum allowed number of tags for a resource, then the entire request fails.
+    /// A list of tags to add to the specified resource. For each tag in the list, you must specify both a tag key and a value. The value can be an empty string, but you can't set it to null. If any one of the tags is not valid or if you exceed the maximum allowed number of tags for a resource, then the entire request fails.
     /// This member is required.
     public var tags: [OrganizationsClientTypes.Tag]?
 
@@ -12080,6 +13338,28 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .targetNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -12116,6 +13396,9 @@ public struct TargetNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TargetNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12205,6 +13488,9 @@ public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "TooManyRequestsException" }
+
     public var message: Swift.String?
     public var type: Swift.String?
 
@@ -12264,6 +13550,9 @@ public struct UnsupportedAPIEndpointException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "UnsupportedAPIEndpointException" }
+
     public var message: Swift.String?
 
     public init (
@@ -12407,6 +13696,28 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .invalidInputException(let error): return error
+        case .serviceException(let error): return error
+        case .targetNotFoundException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -12511,6 +13822,28 @@ public enum UpdateOrganizationalUnitOutputError: Swift.Error, Swift.Equatable {
     case serviceException(ServiceException)
     case tooManyRequestsException(TooManyRequestsException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateOrganizationalUnitOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .duplicateOrganizationalUnitException(let error): return error
+        case .invalidInputException(let error): return error
+        case .organizationalUnitNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateOrganizationalUnitOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12680,6 +14013,32 @@ public enum UpdatePolicyOutputError: Swift.Error, Swift.Equatable {
     case tooManyRequestsException(TooManyRequestsException)
     case unsupportedAPIEndpointException(UnsupportedAPIEndpointException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdatePolicyOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .aWSOrganizationsNotInUseException(let error): return error
+        case .concurrentModificationException(let error): return error
+        case .constraintViolationException(let error): return error
+        case .duplicatePolicyException(let error): return error
+        case .invalidInputException(let error): return error
+        case .malformedPolicyDocumentException(let error): return error
+        case .policyChangesInProgressException(let error): return error
+        case .policyNotFoundException(let error): return error
+        case .serviceException(let error): return error
+        case .tooManyRequestsException(let error): return error
+        case .unsupportedAPIEndpointException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdatePolicyOutputResponse: ClientRuntime.HttpResponseBinding {

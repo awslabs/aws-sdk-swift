@@ -28,6 +28,9 @@ public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "AccessDeniedException" }
+
     public var message: Swift.String?
 
     public init (
@@ -58,8 +61,10 @@ extension CreateDataIntegrationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
         case description = "Description"
+        case fileConfiguration = "FileConfiguration"
         case kmsKey = "KmsKey"
         case name = "Name"
+        case objectConfiguration = "ObjectConfiguration"
         case scheduleConfig = "ScheduleConfig"
         case sourceURI = "SourceURI"
         case tags = "Tags"
@@ -73,11 +78,26 @@ extension CreateDataIntegrationInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
+        if let fileConfiguration = self.fileConfiguration {
+            try encodeContainer.encode(fileConfiguration, forKey: .fileConfiguration)
+        }
         if let kmsKey = self.kmsKey {
             try encodeContainer.encode(kmsKey, forKey: .kmsKey)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let objectConfiguration = objectConfiguration {
+            var objectConfigurationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .objectConfiguration)
+            for (dictKey0, objectConfiguration0) in objectConfiguration {
+                var objectConfiguration0Container = objectConfigurationContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, fieldsMap1) in objectConfiguration0 {
+                    var fieldsMap1Container = objectConfiguration0Container.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey1))
+                    for fields2 in fieldsMap1 {
+                        try fieldsMap1Container.encode(fields2)
+                    }
+                }
+            }
         }
         if let scheduleConfig = self.scheduleConfig {
             try encodeContainer.encode(scheduleConfig, forKey: .scheduleConfig)
@@ -101,27 +121,36 @@ extension CreateDataIntegrationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateDataIntegrationInput: Swift.Equatable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// A description of the DataIntegration.
     public var description: Swift.String?
+    /// The configuration for what files should be pulled from the source.
+    public var fileConfiguration: AppIntegrationsClientTypes.FileConfiguration?
     /// The KMS key for the DataIntegration.
+    /// This member is required.
     public var kmsKey: Swift.String?
     /// The name of the DataIntegration.
     /// This member is required.
     public var name: Swift.String?
+    /// The configuration for what data should be pulled from the source.
+    public var objectConfiguration: [Swift.String:[Swift.String:[Swift.String]]]?
     /// The name of the data and how often it should be pulled from the source.
+    /// This member is required.
     public var scheduleConfig: AppIntegrationsClientTypes.ScheduleConfiguration?
     /// The URI of the data source.
+    /// This member is required.
     public var sourceURI: Swift.String?
-    /// One or more tags.
+    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        fileConfiguration: AppIntegrationsClientTypes.FileConfiguration? = nil,
         kmsKey: Swift.String? = nil,
         name: Swift.String? = nil,
+        objectConfiguration: [Swift.String:[Swift.String:[Swift.String]]]? = nil,
         scheduleConfig: AppIntegrationsClientTypes.ScheduleConfiguration? = nil,
         sourceURI: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -129,8 +158,10 @@ public struct CreateDataIntegrationInput: Swift.Equatable {
     {
         self.clientToken = clientToken
         self.description = description
+        self.fileConfiguration = fileConfiguration
         self.kmsKey = kmsKey
         self.name = name
+        self.objectConfiguration = objectConfiguration
         self.scheduleConfig = scheduleConfig
         self.sourceURI = sourceURI
         self.tags = tags
@@ -145,14 +176,18 @@ struct CreateDataIntegrationInputBody: Swift.Equatable {
     let scheduleConfig: AppIntegrationsClientTypes.ScheduleConfiguration?
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
+    let fileConfiguration: AppIntegrationsClientTypes.FileConfiguration?
+    let objectConfiguration: [Swift.String:[Swift.String:[Swift.String]]]?
 }
 
 extension CreateDataIntegrationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
         case description = "Description"
+        case fileConfiguration = "FileConfiguration"
         case kmsKey = "KmsKey"
         case name = "Name"
+        case objectConfiguration = "ObjectConfiguration"
         case scheduleConfig = "ScheduleConfig"
         case sourceURI = "SourceURI"
         case tags = "Tags"
@@ -183,6 +218,33 @@ extension CreateDataIntegrationInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let fileConfigurationDecoded = try containerValues.decodeIfPresent(AppIntegrationsClientTypes.FileConfiguration.self, forKey: .fileConfiguration)
+        fileConfiguration = fileConfigurationDecoded
+        let objectConfigurationContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: [Swift.String?]?]?].self, forKey: .objectConfiguration)
+        var objectConfigurationDecoded0: [Swift.String:[Swift.String:[Swift.String]]]? = nil
+        if let objectConfigurationContainer = objectConfigurationContainer {
+            objectConfigurationDecoded0 = [Swift.String:[Swift.String:[Swift.String]]]()
+            for (key0, fieldsmap0) in objectConfigurationContainer {
+                var fieldsmap0Decoded0: [Swift.String: [Swift.String]]? = nil
+                if let fieldsmap0 = fieldsmap0 {
+                    fieldsmap0Decoded0 = [Swift.String: [Swift.String]]()
+                    for (key1, fieldslist1) in fieldsmap0 {
+                        var fieldslist1Decoded1: [Swift.String]? = nil
+                        if let fieldslist1 = fieldslist1 {
+                            fieldslist1Decoded1 = [Swift.String]()
+                            for string2 in fieldslist1 {
+                                if let string2 = string2 {
+                                    fieldslist1Decoded1?.append(string2)
+                                }
+                            }
+                        }
+                        fieldsmap0Decoded0?[key1] = fieldslist1Decoded1
+                    }
+                }
+                objectConfigurationDecoded0?[key0] = fieldsmap0Decoded0
+            }
+        }
+        objectConfiguration = objectConfigurationDecoded0
     }
 }
 
@@ -218,6 +280,26 @@ public enum CreateDataIntegrationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateDataIntegrationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .duplicateResourceException(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateDataIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -227,9 +309,11 @@ extension CreateDataIntegrationOutputResponse: ClientRuntime.HttpResponseBinding
             self.arn = output.arn
             self.clientToken = output.clientToken
             self.description = output.description
+            self.fileConfiguration = output.fileConfiguration
             self.id = output.id
             self.kmsKey = output.kmsKey
             self.name = output.name
+            self.objectConfiguration = output.objectConfiguration
             self.scheduleConfiguration = output.scheduleConfiguration
             self.sourceURI = output.sourceURI
             self.tags = output.tags
@@ -237,9 +321,11 @@ extension CreateDataIntegrationOutputResponse: ClientRuntime.HttpResponseBinding
             self.arn = nil
             self.clientToken = nil
             self.description = nil
+            self.fileConfiguration = nil
             self.id = nil
             self.kmsKey = nil
             self.name = nil
+            self.objectConfiguration = nil
             self.scheduleConfiguration = nil
             self.sourceURI = nil
             self.tags = nil
@@ -250,30 +336,36 @@ extension CreateDataIntegrationOutputResponse: ClientRuntime.HttpResponseBinding
 public struct CreateDataIntegrationOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN)
     public var arn: Swift.String?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// A description of the DataIntegration.
     public var description: Swift.String?
+    /// The configuration for what files should be pulled from the source.
+    public var fileConfiguration: AppIntegrationsClientTypes.FileConfiguration?
     /// A unique identifier.
     public var id: Swift.String?
     /// The KMS key for the DataIntegration.
     public var kmsKey: Swift.String?
     /// The name of the DataIntegration.
     public var name: Swift.String?
+    /// The configuration for what data should be pulled from the source.
+    public var objectConfiguration: [Swift.String:[Swift.String:[Swift.String]]]?
     /// The name of the data and how often it should be pulled from the source.
     public var scheduleConfiguration: AppIntegrationsClientTypes.ScheduleConfiguration?
     /// The URI of the data source.
     public var sourceURI: Swift.String?
-    /// One or more tags.
+    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
         arn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        fileConfiguration: AppIntegrationsClientTypes.FileConfiguration? = nil,
         id: Swift.String? = nil,
         kmsKey: Swift.String? = nil,
         name: Swift.String? = nil,
+        objectConfiguration: [Swift.String:[Swift.String:[Swift.String]]]? = nil,
         scheduleConfiguration: AppIntegrationsClientTypes.ScheduleConfiguration? = nil,
         sourceURI: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -282,9 +374,11 @@ public struct CreateDataIntegrationOutputResponse: Swift.Equatable {
         self.arn = arn
         self.clientToken = clientToken
         self.description = description
+        self.fileConfiguration = fileConfiguration
         self.id = id
         self.kmsKey = kmsKey
         self.name = name
+        self.objectConfiguration = objectConfiguration
         self.scheduleConfiguration = scheduleConfiguration
         self.sourceURI = sourceURI
         self.tags = tags
@@ -301,6 +395,8 @@ struct CreateDataIntegrationOutputResponseBody: Swift.Equatable {
     let scheduleConfiguration: AppIntegrationsClientTypes.ScheduleConfiguration?
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
+    let fileConfiguration: AppIntegrationsClientTypes.FileConfiguration?
+    let objectConfiguration: [Swift.String:[Swift.String:[Swift.String]]]?
 }
 
 extension CreateDataIntegrationOutputResponseBody: Swift.Decodable {
@@ -308,9 +404,11 @@ extension CreateDataIntegrationOutputResponseBody: Swift.Decodable {
         case arn = "Arn"
         case clientToken = "ClientToken"
         case description = "Description"
+        case fileConfiguration = "FileConfiguration"
         case id = "Id"
         case kmsKey = "KmsKey"
         case name = "Name"
+        case objectConfiguration = "ObjectConfiguration"
         case scheduleConfiguration = "ScheduleConfiguration"
         case sourceURI = "SourceURI"
         case tags = "Tags"
@@ -345,6 +443,33 @@ extension CreateDataIntegrationOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let fileConfigurationDecoded = try containerValues.decodeIfPresent(AppIntegrationsClientTypes.FileConfiguration.self, forKey: .fileConfiguration)
+        fileConfiguration = fileConfigurationDecoded
+        let objectConfigurationContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: [Swift.String?]?]?].self, forKey: .objectConfiguration)
+        var objectConfigurationDecoded0: [Swift.String:[Swift.String:[Swift.String]]]? = nil
+        if let objectConfigurationContainer = objectConfigurationContainer {
+            objectConfigurationDecoded0 = [Swift.String:[Swift.String:[Swift.String]]]()
+            for (key0, fieldsmap0) in objectConfigurationContainer {
+                var fieldsmap0Decoded0: [Swift.String: [Swift.String]]? = nil
+                if let fieldsmap0 = fieldsmap0 {
+                    fieldsmap0Decoded0 = [Swift.String: [Swift.String]]()
+                    for (key1, fieldslist1) in fieldsmap0 {
+                        var fieldslist1Decoded1: [Swift.String]? = nil
+                        if let fieldslist1 = fieldslist1 {
+                            fieldslist1Decoded1 = [Swift.String]()
+                            for string2 in fieldslist1 {
+                                if let string2 = string2 {
+                                    fieldslist1Decoded1?.append(string2)
+                                }
+                            }
+                        }
+                        fieldsmap0Decoded0?[key1] = fieldslist1Decoded1
+                    }
+                }
+                objectConfigurationDecoded0?[key0] = fieldsmap0Decoded0
+            }
+        }
+        objectConfiguration = objectConfigurationDecoded0
     }
 }
 
@@ -391,7 +516,7 @@ extension CreateEventIntegrationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateEventIntegrationInput: Swift.Equatable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description of the event integration.
     public var description: Swift.String?
@@ -404,7 +529,7 @@ public struct CreateEventIntegrationInput: Swift.Equatable {
     /// The name of the event integration.
     /// This member is required.
     public var name: Swift.String?
-    /// One or more tags.
+    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -502,6 +627,26 @@ public enum CreateEventIntegrationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateEventIntegrationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .duplicateResourceException(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceQuotaExceededException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateEventIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -577,9 +722,9 @@ extension AppIntegrationsClientTypes.DataIntegrationAssociationSummary: Swift.Co
 extension AppIntegrationsClientTypes {
     /// Summary information about the DataIntegration association.
     public struct DataIntegrationAssociationSummary: Swift.Equatable {
-        /// The identifier for teh client that is associated with the DataIntegration association.
+        /// The identifier for the client that is associated with the DataIntegration association.
         public var clientId: Swift.String?
-        /// The Amazon Resource Name (ARN)of the DataIntegration.
+        /// The Amazon Resource Name (ARN) of the DataIntegration.
         public var dataIntegrationArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the DataIntegration association.
         public var dataIntegrationAssociationArn: Swift.String?
@@ -714,6 +859,25 @@ public enum DeleteDataIntegrationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDataIntegrationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDataIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -785,6 +949,25 @@ public enum DeleteEventIntegrationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteEventIntegrationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteEventIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -821,6 +1004,9 @@ public struct DuplicateResourceException: AWSClientRuntime.AWSHttpServiceError, 
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "DuplicateResourceException" }
+
     public var message: Swift.String?
 
     public init (
@@ -957,7 +1143,7 @@ extension AppIntegrationsClientTypes {
         public var eventIntegrationArn: Swift.String?
         /// The name of the event integration.
         public var name: Swift.String?
-        /// The tags.
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init (
@@ -1077,6 +1263,86 @@ extension AppIntegrationsClientTypes {
 
 }
 
+extension AppIntegrationsClientTypes.FileConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case folders = "Folders"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filters)
+            for (dictKey0, fieldsMap0) in filters {
+                var fieldsMap0Container = filtersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for fields1 in fieldsMap0 {
+                    try fieldsMap0Container.encode(fields1)
+                }
+            }
+        }
+        if let folders = folders {
+            var foldersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .folders)
+            for nonblanklongstring0 in folders {
+                try foldersContainer.encode(nonblanklongstring0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let foldersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .folders)
+        var foldersDecoded0:[Swift.String]? = nil
+        if let foldersContainer = foldersContainer {
+            foldersDecoded0 = [Swift.String]()
+            for string0 in foldersContainer {
+                if let string0 = string0 {
+                    foldersDecoded0?.append(string0)
+                }
+            }
+        }
+        folders = foldersDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .filters)
+        var filtersDecoded0: [Swift.String:[Swift.String]]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [Swift.String:[Swift.String]]()
+            for (key0, fieldslist0) in filtersContainer {
+                var fieldslist0Decoded0: [Swift.String]? = nil
+                if let fieldslist0 = fieldslist0 {
+                    fieldslist0Decoded0 = [Swift.String]()
+                    for string1 in fieldslist0 {
+                        if let string1 = string1 {
+                            fieldslist0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                filtersDecoded0?[key0] = fieldslist0Decoded0
+            }
+        }
+        filters = filtersDecoded0
+    }
+}
+
+extension AppIntegrationsClientTypes {
+    /// The configuration for what files should be pulled from the source.
+    public struct FileConfiguration: Swift.Equatable {
+        /// Restrictions for what files should be pulled from the source.
+        public var filters: [Swift.String:[Swift.String]]?
+        /// Identifiers for the source folders to pull all files from recursively.
+        /// This member is required.
+        public var folders: [Swift.String]?
+
+        public init (
+            filters: [Swift.String:[Swift.String]]? = nil,
+            folders: [Swift.String]? = nil
+        )
+        {
+            self.filters = filters
+            self.folders = folders
+        }
+    }
+
+}
+
 extension GetDataIntegrationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let identifier = identifier else {
@@ -1138,6 +1404,25 @@ public enum GetDataIntegrationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetDataIntegrationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetDataIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1146,18 +1431,22 @@ extension GetDataIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: GetDataIntegrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.description = output.description
+            self.fileConfiguration = output.fileConfiguration
             self.id = output.id
             self.kmsKey = output.kmsKey
             self.name = output.name
+            self.objectConfiguration = output.objectConfiguration
             self.scheduleConfiguration = output.scheduleConfiguration
             self.sourceURI = output.sourceURI
             self.tags = output.tags
         } else {
             self.arn = nil
             self.description = nil
+            self.fileConfiguration = nil
             self.id = nil
             self.kmsKey = nil
             self.name = nil
+            self.objectConfiguration = nil
             self.scheduleConfiguration = nil
             self.sourceURI = nil
             self.tags = nil
@@ -1170,25 +1459,31 @@ public struct GetDataIntegrationOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// The KMS key for the DataIntegration.
     public var description: Swift.String?
+    /// The configuration for what files should be pulled from the source.
+    public var fileConfiguration: AppIntegrationsClientTypes.FileConfiguration?
     /// A unique identifier.
     public var id: Swift.String?
     /// The KMS key for the DataIntegration.
     public var kmsKey: Swift.String?
     /// The name of the DataIntegration.
     public var name: Swift.String?
+    /// The configuration for what data should be pulled from the source.
+    public var objectConfiguration: [Swift.String:[Swift.String:[Swift.String]]]?
     /// The name of the data and how often it should be pulled from the source.
     public var scheduleConfiguration: AppIntegrationsClientTypes.ScheduleConfiguration?
     /// The URI of the data source.
     public var sourceURI: Swift.String?
-    /// One or more tags.
+    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
         arn: Swift.String? = nil,
         description: Swift.String? = nil,
+        fileConfiguration: AppIntegrationsClientTypes.FileConfiguration? = nil,
         id: Swift.String? = nil,
         kmsKey: Swift.String? = nil,
         name: Swift.String? = nil,
+        objectConfiguration: [Swift.String:[Swift.String:[Swift.String]]]? = nil,
         scheduleConfiguration: AppIntegrationsClientTypes.ScheduleConfiguration? = nil,
         sourceURI: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -1196,9 +1491,11 @@ public struct GetDataIntegrationOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.description = description
+        self.fileConfiguration = fileConfiguration
         self.id = id
         self.kmsKey = kmsKey
         self.name = name
+        self.objectConfiguration = objectConfiguration
         self.scheduleConfiguration = scheduleConfiguration
         self.sourceURI = sourceURI
         self.tags = tags
@@ -1214,15 +1511,19 @@ struct GetDataIntegrationOutputResponseBody: Swift.Equatable {
     let sourceURI: Swift.String?
     let scheduleConfiguration: AppIntegrationsClientTypes.ScheduleConfiguration?
     let tags: [Swift.String:Swift.String]?
+    let fileConfiguration: AppIntegrationsClientTypes.FileConfiguration?
+    let objectConfiguration: [Swift.String:[Swift.String:[Swift.String]]]?
 }
 
 extension GetDataIntegrationOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case description = "Description"
+        case fileConfiguration = "FileConfiguration"
         case id = "Id"
         case kmsKey = "KmsKey"
         case name = "Name"
+        case objectConfiguration = "ObjectConfiguration"
         case scheduleConfiguration = "ScheduleConfiguration"
         case sourceURI = "SourceURI"
         case tags = "Tags"
@@ -1255,6 +1556,33 @@ extension GetDataIntegrationOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let fileConfigurationDecoded = try containerValues.decodeIfPresent(AppIntegrationsClientTypes.FileConfiguration.self, forKey: .fileConfiguration)
+        fileConfiguration = fileConfigurationDecoded
+        let objectConfigurationContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: [Swift.String?]?]?].self, forKey: .objectConfiguration)
+        var objectConfigurationDecoded0: [Swift.String:[Swift.String:[Swift.String]]]? = nil
+        if let objectConfigurationContainer = objectConfigurationContainer {
+            objectConfigurationDecoded0 = [Swift.String:[Swift.String:[Swift.String]]]()
+            for (key0, fieldsmap0) in objectConfigurationContainer {
+                var fieldsmap0Decoded0: [Swift.String: [Swift.String]]? = nil
+                if let fieldsmap0 = fieldsmap0 {
+                    fieldsmap0Decoded0 = [Swift.String: [Swift.String]]()
+                    for (key1, fieldslist1) in fieldsmap0 {
+                        var fieldslist1Decoded1: [Swift.String]? = nil
+                        if let fieldslist1 = fieldslist1 {
+                            fieldslist1Decoded1 = [Swift.String]()
+                            for string2 in fieldslist1 {
+                                if let string2 = string2 {
+                                    fieldslist1Decoded1?.append(string2)
+                                }
+                            }
+                        }
+                        fieldsmap0Decoded0?[key1] = fieldslist1Decoded1
+                    }
+                }
+                objectConfigurationDecoded0?[key0] = fieldsmap0Decoded0
+            }
+        }
+        objectConfiguration = objectConfigurationDecoded0
     }
 }
 
@@ -1319,6 +1647,25 @@ public enum GetEventIntegrationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetEventIntegrationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetEventIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1353,7 +1700,7 @@ public struct GetEventIntegrationOutputResponse: Swift.Equatable {
     public var eventIntegrationArn: Swift.String?
     /// The name of the event integration.
     public var name: Swift.String?
-    /// One or more tags.
+    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -1445,6 +1792,9 @@ public struct InternalServiceError: AWSClientRuntime.AWSHttpServiceError, Swift.
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServiceError" }
+
     public var message: Swift.String?
 
     public init (
@@ -1497,6 +1847,9 @@ public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InvalidRequestException" }
+
     public var message: Swift.String?
 
     public init (
@@ -1607,6 +1960,25 @@ public enum ListDataIntegrationAssociationsOutputError: Swift.Error, Swift.Equat
     case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDataIntegrationAssociationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDataIntegrationAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1743,6 +2115,24 @@ public enum ListDataIntegrationsOutputError: Swift.Error, Swift.Equatable {
     case invalidRequestException(InvalidRequestException)
     case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDataIntegrationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListDataIntegrationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1891,6 +2281,25 @@ public enum ListEventIntegrationAssociationsOutputError: Swift.Error, Swift.Equa
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListEventIntegrationAssociationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListEventIntegrationAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2027,6 +2436,24 @@ public enum ListEventIntegrationsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListEventIntegrationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListEventIntegrationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2146,6 +2573,24 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2222,6 +2667,9 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceNotFoundException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2274,6 +2722,9 @@ public struct ResourceQuotaExceededException: AWSClientRuntime.AWSHttpServiceErr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ResourceQuotaExceededException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2334,11 +2785,12 @@ extension AppIntegrationsClientTypes.ScheduleConfiguration: Swift.Codable {
 extension AppIntegrationsClientTypes {
     /// The name of the data and how often it should be pulled from the source.
     public struct ScheduleConfiguration: Swift.Equatable {
-        /// The start date for objects to import in the first flow run.
+        /// The start date for objects to import in the first flow run as an Unix/epoch timestamp in milliseconds or in ISO-8601 format.
         public var firstExecutionFrom: Swift.String?
         /// The name of the object to pull from the data source.
         public var object: Swift.String?
         /// How often the data should be pulled from data source.
+        /// This member is required.
         public var scheduleExpression: Swift.String?
 
         public init (
@@ -2384,7 +2836,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// One or more tags.
+    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2451,6 +2903,24 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2487,6 +2957,9 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "ThrottlingException" }
+
     public var message: Swift.String?
 
     public init (
@@ -2592,6 +3065,24 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2701,6 +3192,25 @@ public enum UpdateDataIntegrationOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateDataIntegrationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateDataIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -2794,6 +3304,25 @@ public enum UpdateEventIntegrationOutputError: Swift.Error, Swift.Equatable {
     case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateEventIntegrationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .accessDeniedException(let error): return error
+        case .internalServiceError(let error): return error
+        case .invalidRequestException(let error): return error
+        case .resourceNotFoundException(let error): return error
+        case .throttlingException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateEventIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {

@@ -41,6 +41,8 @@ import ClientRuntime
 ///
 /// * [StopDevEnvironment], which stops a specified Dev Environment and puts it into an stopped state.
 ///
+/// * [StopDevEnvironmentSession], which stops a session for a specified Dev Environment.
+///
 /// * [UpdateDevEnvironment], which changes one or more values for a Dev Environment.
 ///
 /// * [VerifySession], which verifies whether the calling user has a valid Amazon CodeCatalyst login and session.
@@ -56,7 +58,7 @@ import ClientRuntime
 public protocol CodeCatalystClientProtocol {
     /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user account. You use PATs to access Amazon CodeCatalyst resources such as source repositories from third-party applications like Git and integrated development environments (IDEs). For more information, see [Managing personal access tokens in Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-tokens-keys.html).
     func createAccessToken(input: CreateAccessTokenInput) async throws -> CreateAccessTokenOutputResponse
-    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development Dev Environment that you can use to quickly work on the code stored in the source repositories of your project. By default, a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage.
+    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development Dev Environment that you can use to quickly work on the code stored in the source repositories of your project. When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically.
     func createDevEnvironment(input: CreateDevEnvironmentInput) async throws -> CreateDevEnvironmentOutputResponse
     /// Creates a project in a specified space.
     func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
@@ -98,6 +100,8 @@ public protocol CodeCatalystClientProtocol {
     func startDevEnvironmentSession(input: StartDevEnvironmentSessionInput) async throws -> StartDevEnvironmentSessionOutputResponse
     /// Pauses a specified Dev Environment and places it in a non-running state. Stopped Dev Environments do not consume compute minutes.
     func stopDevEnvironment(input: StopDevEnvironmentInput) async throws -> StopDevEnvironmentOutputResponse
+    /// Stops a session for a specified Dev Environment.
+    func stopDevEnvironmentSession(input: StopDevEnvironmentSessionInput) async throws -> StopDevEnvironmentSessionOutputResponse
     /// Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.
     func updateDevEnvironment(input: UpdateDevEnvironmentInput) async throws -> UpdateDevEnvironmentOutputResponse
     /// Verifies whether the calling user has a valid Amazon CodeCatalyst login and session. If successful, this returns the ID of the user in Amazon CodeCatalyst.

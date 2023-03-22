@@ -95,6 +95,22 @@ public enum AcceptAdministratorInvitationOutputError: Swift.Error, Swift.Equatab
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension AcceptAdministratorInvitationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension AcceptAdministratorInvitationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -197,6 +213,22 @@ public enum AcceptInvitationOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AcceptInvitationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension AcceptInvitationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -766,6 +798,22 @@ public enum ArchiveFindingsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ArchiveFindingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ArchiveFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -931,6 +979,9 @@ public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "BadRequestException" }
+
     /// The error message.
     public var message: Swift.String?
     /// The error type.
@@ -1685,6 +1736,22 @@ public enum CreateDetectorOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateDetectorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2011,6 +2078,22 @@ public enum CreateFilterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateFilterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateFilterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2208,6 +2291,22 @@ public enum CreateIPSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreateIPSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2340,6 +2439,22 @@ public enum CreateMembersOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateMembersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateMembersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2498,6 +2613,22 @@ public enum CreatePublishingDestinationOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension CreatePublishingDestinationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension CreatePublishingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2629,6 +2760,22 @@ public enum CreateSampleFindingsOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateSampleFindingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateSampleFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2794,6 +2941,22 @@ public enum CreateThreatIntelSetOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateThreatIntelSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension CreateThreatIntelSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3342,6 +3505,22 @@ public enum DeclineInvitationsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeclineInvitationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeclineInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3493,6 +3672,22 @@ public enum DeleteDetectorOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteDetectorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3566,6 +3761,22 @@ public enum DeleteFilterOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteFilterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteFilterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -3637,6 +3848,22 @@ public enum DeleteIPSetOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteIPSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3731,6 +3958,22 @@ public enum DeleteInvitationsOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteInvitationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3876,6 +4119,22 @@ public enum DeleteMembersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeleteMembersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeleteMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3990,6 +4249,22 @@ public enum DeletePublishingDestinationOutputError: Swift.Error, Swift.Equatable
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DeletePublishingDestinationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DeletePublishingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4061,6 +4336,22 @@ public enum DeleteThreatIntelSetOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteThreatIntelSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DeleteThreatIntelSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4188,6 +4479,22 @@ public enum DescribeMalwareScansOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DescribeMalwareScansOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DescribeMalwareScansOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4302,6 +4609,22 @@ public enum DescribeOrganizationConfigurationOutputError: Swift.Error, Swift.Equ
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeOrganizationConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribeOrganizationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4428,6 +4751,22 @@ public enum DescribePublishingDestinationOutputError: Swift.Error, Swift.Equatab
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribePublishingDestinationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DescribePublishingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4752,6 +5091,22 @@ public enum DisableOrganizationAdminAccountOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension DisableOrganizationAdminAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension DisableOrganizationAdminAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -4815,6 +5170,22 @@ public enum DisassociateFromAdministratorAccountOutputError: Swift.Error, Swift.
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateFromAdministratorAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateFromAdministratorAccountOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4881,6 +5252,22 @@ public enum DisassociateFromMasterAccountOutputError: Swift.Error, Swift.Equatab
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateFromMasterAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateFromMasterAccountOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4984,6 +5371,22 @@ public enum DisassociateMembersOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateMembersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension DisassociateMembersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5817,6 +6220,22 @@ public enum EnableOrganizationAdminAccountOutputError: Swift.Error, Swift.Equata
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension EnableOrganizationAdminAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension EnableOrganizationAdminAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -6564,6 +6983,22 @@ public enum GetAdministratorAccountOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetAdministratorAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetAdministratorAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6659,6 +7094,22 @@ public enum GetDetectorOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDetectorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6834,6 +7285,22 @@ public enum GetFilterOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetFilterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetFilterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7043,6 +7510,22 @@ public enum GetFindingsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetFindingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7198,6 +7681,22 @@ public enum GetFindingsStatisticsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetFindingsStatisticsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetFindingsStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7301,6 +7800,22 @@ public enum GetIPSetOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetIPSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7441,6 +7956,22 @@ public enum GetInvitationsCountOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetInvitationsCountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetInvitationsCountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7535,6 +8066,22 @@ public enum GetMalwareScanSettingsOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetMalwareScanSettingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetMalwareScanSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7642,6 +8189,22 @@ public enum GetMasterAccountOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetMasterAccountOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetMasterAccountOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7777,6 +8340,22 @@ public enum GetMemberDetectorsOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetMemberDetectorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetMemberDetectorsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7942,6 +8521,22 @@ public enum GetMembersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetMembersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8104,6 +8699,22 @@ public enum GetRemainingFreeTrialDaysOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension GetRemainingFreeTrialDaysOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension GetRemainingFreeTrialDaysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8234,6 +8845,22 @@ public enum GetThreatIntelSetOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetThreatIntelSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetThreatIntelSetOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8457,6 +9084,22 @@ public enum GetUsageStatisticsOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetUsageStatisticsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension GetUsageStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8864,6 +9507,9 @@ public struct InternalServerErrorException: AWSClientRuntime.AWSHttpServiceError
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .server
+    /// The name (without namespace) of the model this error is based upon.
+    public static var _modelName: Swift.String { "InternalServerErrorException" }
+
     /// The error message.
     public var message: Swift.String?
     /// The error type.
@@ -9078,6 +9724,22 @@ public enum InviteMembersOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension InviteMembersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension InviteMembersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9811,6 +10473,22 @@ public enum ListDetectorsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListDetectorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListDetectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -9950,6 +10628,22 @@ public enum ListFiltersOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListFiltersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListFiltersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10224,6 +10918,22 @@ public enum ListFindingsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListFindingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10365,6 +11075,22 @@ public enum ListIPSetsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListIPSetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListIPSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10496,6 +11222,22 @@ public enum ListInvitationsOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListInvitationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10646,6 +11388,22 @@ public enum ListMembersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListMembersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10776,6 +11534,22 @@ public enum ListOrganizationAdminAccountsOutputError: Swift.Error, Swift.Equatab
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListOrganizationAdminAccountsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListOrganizationAdminAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10918,6 +11692,22 @@ public enum ListPublishingDestinationsOutputError: Swift.Error, Swift.Equatable 
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension ListPublishingDestinationsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension ListPublishingDestinationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11032,6 +11822,22 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11162,6 +11968,22 @@ public enum ListThreatIntelSetsOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListThreatIntelSetsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension ListThreatIntelSetsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14634,6 +15456,22 @@ public enum StartMonitoringMembersOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension StartMonitoringMembersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension StartMonitoringMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -14775,6 +15613,22 @@ public enum StopMonitoringMembersOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopMonitoringMembersOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension StopMonitoringMembersOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14963,6 +15817,22 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15417,6 +16287,22 @@ public enum UnarchiveFindingsOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UnarchiveFindingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UnarchiveFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -15586,6 +16472,22 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UntagResourceOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -15697,6 +16599,22 @@ public enum UpdateDetectorOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateDetectorOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15830,6 +16748,22 @@ public enum UpdateFilterOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateFilterOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateFilterOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -15991,6 +16925,22 @@ public enum UpdateFindingsFeedbackOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateFindingsFeedbackOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateFindingsFeedbackOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -16112,6 +17062,22 @@ public enum UpdateIPSetOutputError: Swift.Error, Swift.Equatable {
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateIPSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -16211,6 +17177,22 @@ public enum UpdateMalwareScanSettingsOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateMalwareScanSettingsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateMalwareScanSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16325,6 +17307,22 @@ public enum UpdateMemberDetectorsOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateMemberDetectorsOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateMemberDetectorsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16470,6 +17468,22 @@ public enum UpdateOrganizationConfigurationOutputError: Swift.Error, Swift.Equat
     case unknown(UnknownAWSHttpServiceError)
 }
 
+extension UpdateOrganizationConfigurationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
+}
+
 extension UpdateOrganizationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
     }
@@ -16565,6 +17579,22 @@ public enum UpdatePublishingDestinationOutputError: Swift.Error, Swift.Equatable
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdatePublishingDestinationOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdatePublishingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16686,6 +17716,22 @@ public enum UpdateThreatIntelSetOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateThreatIntelSetOutputError {
+
+    /// Returns the underlying service error enclosed by this enumeration.
+    ///
+    /// Will return either one of this operation's predefined service errors,
+    /// or a value representing an unknown error if no predefined type could
+    /// be matched.
+    public var serviceError: ServiceError {
+        switch self {
+        case .badRequestException(let error): return error
+        case .internalServerErrorException(let error): return error
+        case .unknown(let error): return error
+        }
+    }
 }
 
 extension UpdateThreatIntelSetOutputResponse: ClientRuntime.HttpResponseBinding {
