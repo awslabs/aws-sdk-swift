@@ -1055,7 +1055,7 @@ let package = Package(
         // .testTarget(name: "AWSWorkSpacesWebTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSWorkSpacesWeb", smithyTestUtil], path: "./Tests/Services/AWSWorkSpacesWebTests"),
         // .testTarget(name: "AWSXRayTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSXRay", smithyTestUtil], path: "./Tests/Services/AWSXRayTests"),
 
-        // MARK: Integration Tests
+        // MARK: - Service Integration Test Targets
         .testTarget(name: "AWSTranscribeStreamingIntegrationTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSTranscribeStreaming", smithyTestUtil], path: "./IntegrationTests/Services/AWSTranscribeStreamingIntegrationTests", resources: [.process("Resources")]),
         .testTarget(name: "AWSS3IntegrationTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSS3", smithyTestUtil], path: "./IntegrationTests/Services/AWSS3IntegrationTests", resources: [.process("Resources")]),
     ]
