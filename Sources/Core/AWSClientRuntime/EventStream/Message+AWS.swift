@@ -57,18 +57,39 @@ extension EventStream {
         /// This is used when the message type is not recognized.
         case unknown(messageType: String)
 
+        /// Represents associated type parameter for `event` message type.
         public struct EventParams {
+            /// Event type name defined in the event stream union.
+            /// eg. `MyStruct`
             public let eventType: String
+
+            /// Content type of the event payload.
+            /// This can be used to deserialize the payload.
+            /// eg. `application/json`
             public let contentType: String?
         }
 
+        /// Represents associated type parameter for `exception` message type.
         public struct ExceptionParams {
+            /// Exception type name defined in the event stream union.
+            /// eg. `FooException`
             public let exceptionType: String
+
+            /// Content type of the exception payload.
+            /// This can be used to deserialize the payload.
+            /// eg. `application/json`
             public let contentType: String?
         }
 
+        /// Represents associated type parameter for `error` message type.
         public struct ErrorParams {
+            /// Error code which identifies the error.
+            /// This may not be defined in the service model.
+            /// eg. `InternalServerError`
             public let errorCode: String
+
+            /// Human readable error message.
+            /// eg. `An internal server error occurred`
             public let message: String?
         }
     }
