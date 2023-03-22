@@ -89,6 +89,14 @@ class MessageMarshallableGenerator(
         }
     }
 
+    /**
+     *      extension TestServiceClientTypes.TestStream: ClientRuntime.MessageMarshallable {
+     *          public func marshall(encoder: ClientRuntime.RequestEncoder) throws -> ClientRuntime.EventStream.Message {
+     *              fatalError("not implemented")
+     *          }
+     *      }
+     *
+     */
     internal fun renderNotImplemented(streamShape: UnionShape) {
         val symbol: Symbol = ctx.symbolProvider.toSymbol(streamShape)
         val rootNamespace = ctx.settings.moduleName
@@ -113,6 +121,9 @@ class MessageMarshallableGenerator(
         }
     }
 
+    /**
+     *      headers.append(.init(name: ":event-type", value: .string("MessageWithBlob")))
+     */
     private fun SwiftWriter.addStringHeader(name: String, value: String) {
         write("headers.append(.init(name: \$S, value: .string(\$S)))", name, value)
     }
@@ -137,6 +148,33 @@ class MessageMarshallableGenerator(
         }
     }
 
+/**
+ *
+ *     if let headerValue = value.blob {
+ *         headers.append(.init(name: "blob", value: .byteArray(headerValue)))
+ *     }
+ *     if let headerValue = value.boolean {
+ *         headers.append(.init(name: "boolean", value: .bool(headerValue)))
+ *     }
+ *     if let headerValue = value.byte {
+ *         headers.append(.init(name: "byte", value: .byte(headerValue)))
+ *     }
+ *     if let headerValue = value.int {
+ *         headers.append(.init(name: "int", value: .int32(Int32(headerValue))))
+ *     }
+ *     if let headerValue = value.long {
+ *         headers.append(.init(name: "long", value: .int64(Int64(headerValue))))
+ *     }
+ *     if let headerValue = value.short {
+ *         headers.append(.init(name: "short", value: .int16(headerValue)))
+ *     }
+ *     if let headerValue = value.string {
+ *         headers.append(.init(name: "string", value: .string(headerValue)))
+ *     }
+ *     if let headerValue = value.timestamp {
+ *         headers.append(.init(name: "timestamp", value: .timestamp(headerValue)))
+ *     }
+*/
     private fun renderSerializeEventHeader(ctx: ProtocolGenerator.GenerationContext, member: MemberShape, writer: SwiftWriter) {
         val target = ctx.model.expectShape(member.target)
         val headerValue = when (target.type) {
@@ -153,7 +191,17 @@ class MessageMarshallableGenerator(
 
         val memberName = ctx.symbolProvider.toMemberName(member)
         writer.openBlock("if let headerValue = value.\$L {", "}", memberName) {
-            writer.write("headers.append(.init(name: \"${member.memberName}\", value: .\$L(headerValue)))", headerValue)
+            when (target.type) {
+                ShapeType.INTEGER -> {
+                    writer.write("headers.append(.init(name: \"${member.memberName}\", value: .\$L(Int32(headerValue))))", headerValue)
+                }
+                ShapeType.LONG -> {
+                    writer.write("headers.append(.init(name: \"${member.memberName}\", value: .\$L(Int64(headerValue))))", headerValue)
+                }
+                else -> {
+                    writer.write("headers.append(.init(name: \"${member.memberName}\", value: .\$L(headerValue)))", headerValue)
+                }
+            }
         }
     }
 }

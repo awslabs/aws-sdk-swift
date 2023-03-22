@@ -1,13 +1,13 @@
 namespace aws.protocoltests.restjson
 
-use aws.protocols#restXml
+use aws.protocols#restJson1
 use aws.api#service
 use aws.auth#sigv4
 
-@restXml
+@restJson1
 @sigv4(name: "event-stream-test")
 @service(sdkId: "EventStreamTest")
-service EventStream { version: "123", operations: [TestStreamOp] }
+service TestService { version: "123", operations: [TestStreamOp] }
 
 @http(method: "POST", uri: "/test")
 operation TestStreamOp {

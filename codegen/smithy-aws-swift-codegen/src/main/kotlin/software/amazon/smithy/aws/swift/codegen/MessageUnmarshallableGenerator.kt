@@ -164,14 +164,13 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
             eventHeaderBindings.forEach { hdrBinding ->
                 val target = ctx.model.expectShape(hdrBinding.target)
 
-                // :test(boolean, byte, short, integer, long, blob, string, timestamp))
                 val conversionFn = when (target.type) {
                     ShapeType.BOOLEAN -> "bool"
                     ShapeType.BYTE -> "byte"
                     ShapeType.SHORT -> "int16"
                     ShapeType.INTEGER -> "int32"
                     ShapeType.LONG -> "int64"
-                    ShapeType.BLOB -> "data"
+                    ShapeType.BLOB -> "byteArray"
                     ShapeType.STRING -> "string"
                     ShapeType.TIMESTAMP -> "timestamp"
                     else -> throw CodegenException("unsupported eventHeader shape: member=$hdrBinding; targetShape=$target")
@@ -179,7 +178,14 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
 
                 writer.openBlock("if case let .\$L(value) = message.headers.value(name: \$S) {", "}", conversionFn, hdrBinding.memberName) {
                     val memberName = ctx.symbolProvider.toMemberName(hdrBinding)
-                    writer.write("event.\$L = value", memberName)
+                    when (target.type) {
+                        ShapeType.INTEGER, ShapeType.LONG -> {
+                            writer.write("event.\$L = Int(value)", memberName)
+                        }
+                        else -> {
+                            writer.write("event.\$L = value", memberName)
+                        }
+                    }
                 }
             }
 
@@ -206,8 +212,6 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
         member: MemberShape,
         writer: SwiftWriter,
     ) {
-        // TODO - check content type for blob and string
-        // structure > :test(member > :test(blob, string, structure, union))
         val target = ctx.model.expectShape(member.target)
         val memberName = ctx.symbolProvider.toMemberName(member)
         when (target.type) {
